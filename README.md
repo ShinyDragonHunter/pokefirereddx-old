@@ -1,36 +1,33 @@
-# Pokémon Emerald
+# Pokémon FireRed & LeafGreen DX
 
-[![Build Status][travis-badge]][travis]
-
-[travis]: https://travis-ci.org/pret/pokeemerald
-[travis-badge]: https://travis-ci.org/pret/pokeemerald.svg?branch=master
-
-This is a decompilation of Pokémon Emerald.
+An enhanced port of Pokémon FireRed and LeafGreen using Pokémon Emerald's engine as the base.
 
 It builds the following ROM:
 
-* [**pokeemerald.gba**](https://datomatic.no-intro.org/index.php?page=show_record&s=23&n=1961) `sha1: f3ae088181bf583e55daf962a92bb46f4f1d07b7`
+* [**pokeemerald.gba**] `sha1: f3ae088181bf583e55daf962a92bb46f4f1d07b7`
 
 To set up the repository, see [INSTALL.md](INSTALL.md).
 
 
-## See also
+## What to expect
+Do you really think I'm THAT lazy to make this a direct port? New content will be added in to help keep things fresh!
 
-Other disassembly and/or decompilation projects:
-* [**Pokémon Red and Blue**](https://github.com/pret/pokered)
-* [**Pokémon Gold and Silver (Space World '97 demo)**](https://github.com/pret/pokegold-spaceworld)
-* [**Pokémon Yellow**](https://github.com/pret/pokeyellow)
-* [**Pokémon Trading Card Game**](https://github.com/pret/poketcg)
-* [**Pokémon Pinball**](https://github.com/pret/pokepinball)
-* [**Pokémon Stadium**](https://github.com/pret/pokestadium)
-* [**Pokémon Gold and Silver**](https://github.com/pret/pokegold)
-* [**Pokémon Crystal**](https://github.com/pret/pokecrystal)
-* [**Pokémon Ruby and Sapphire**](https://github.com/pret/pokeruby)
-* [**Pokémon Pinball: Ruby & Sapphire**](https://github.com/pret/pokepinballrs)
-* [**Pokémon FireRed and LeafGreen**](https://github.com/pret/pokefirered)
-* [**Pokémon Mystery Dungeon: Red Rescue Team**](https://github.com/pret/pmd-red)
+Features:
+* Animated Pokémon (With Pokémon FireRed and LeafGreen styled animations)
+* Compatiblility with official games (Because why not?)
+* Battle Frontier (Untouched to maintain compatiblility with official games)
+* Mythical events will be available (Including Mew)
+* Generation 5+ Repels (Because it's annoying to have to go into your bag each time a repel wears off)
+* Nature stat colours (So you know which stat is being raised or lowered accordingly by nature)
+* Real-Time Clock and Berry Growth (Both untouched from Pokémon Emerald)
+* Johto evolutions to Kanto Pokémon added to Kanto Pokédex (Baby Pokémon are a possibility)
 
+And many more!
 
-## Contacts
+Ideas:
+* EV Training area available after the main story (Will be useful for team building for the Battle Frontier)
+* Backstory for Mr. Fuji and the birth of Mewtwo (To tie in with Mew being available)
 
-You can find us on [Discord](https://discord.gg/d5dubZ3) and [IRC](https://kiwiirc.com/client/irc.freenode.net/?#pret).
+## Support the project
+
+Join the Pokémon FireRed & LeafGreen DX [Discord](https://discord.gg/uHPsMgY) to keep up to date with progress and show your support!
