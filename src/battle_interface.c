@@ -1078,10 +1078,10 @@ void InitBattlerHealthboxCoords(u8 battler)
         switch (GetBattlerPosition(battler))
         {
         case B_POSITION_PLAYER_LEFT:
-            x = 159, y = 76;
+            x = 159, y = 75;
             break;
         case B_POSITION_PLAYER_RIGHT:
-            x = 171, y = 101;
+            x = 171, y = 100;
             break;
         case B_POSITION_OPPONENT_LEFT:
             x = 44, y = 19;
