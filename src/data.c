@@ -46,22 +46,6 @@ const struct SpriteFrameImage gUnknown_082FF408[] =
     gHeap + 0xF800, 0x800,
 };
 
-const struct SpriteFrameImage gTrainerBackPicTable_Brendan[] =
-{
-    gTrainerBackPic_Brendan, 0x0800,
-    gTrainerBackPic_Brendan + 0x0800, 0x0800,
-    gTrainerBackPic_Brendan + 0x1000, 0x0800,
-    gTrainerBackPic_Brendan + 0x1800, 0x0800,
-};
-
-const struct SpriteFrameImage gTrainerBackPicTable_May[] =
-{
-    gTrainerBackPic_May, 0x0800,
-    gTrainerBackPic_May + 0x0800, 0x0800,
-    gTrainerBackPic_May + 0x1000, 0x0800,
-    gTrainerBackPic_May + 0x1800, 0x0800,
-};
-
 const struct SpriteFrameImage gTrainerBackPicTable_Red[] =
 {
     gTrainerBackPic_Red, 0x0800,
@@ -80,22 +64,6 @@ const struct SpriteFrameImage gTrainerBackPicTable_Leaf[] =
     gTrainerBackPic_Leaf + 0x2000, 0x0800,
 };
 
-const struct SpriteFrameImage gTrainerBackPicTable_RubySapphireBrendan[] =
-{
-    gTrainerBackPic_RubySapphireBrendan, 0x0800,
-    gTrainerBackPic_RubySapphireBrendan + 0x0800, 0x0800,
-    gTrainerBackPic_RubySapphireBrendan + 0x1000, 0x0800,
-    gTrainerBackPic_RubySapphireBrendan + 0x1800, 0x0800,
-};
-
-const struct SpriteFrameImage gTrainerBackPicTable_RubySapphireMay[] =
-{
-    gTrainerBackPic_RubySapphireMay, 0x0800,
-    gTrainerBackPic_RubySapphireMay + 0x0800, 0x0800,
-    gTrainerBackPic_RubySapphireMay + 0x1000, 0x0800,
-    gTrainerBackPic_RubySapphireMay + 0x1800, 0x0800,
-};
-
 const struct SpriteFrameImage gTrainerBackPicTable_Wally[] =
 {
     gTrainerBackPic_Wally, 0x0800,
@@ -110,6 +78,38 @@ const struct SpriteFrameImage gTrainerBackPicTable_Steven[] =
     gTrainerBackPic_Steven + 0x0800, 0x0800,
     gTrainerBackPic_Steven + 0x1000, 0x0800,
     gTrainerBackPic_Steven + 0x1800, 0x0800,
+};
+
+const struct SpriteFrameImage gTrainerBackPicTable_Brendan[] =
+{
+    gTrainerBackPic_Brendan, 0x0800,
+    gTrainerBackPic_Brendan + 0x0800, 0x0800,
+    gTrainerBackPic_Brendan + 0x1000, 0x0800,
+    gTrainerBackPic_Brendan + 0x1800, 0x0800,
+};
+
+const struct SpriteFrameImage gTrainerBackPicTable_May[] =
+{
+    gTrainerBackPic_May, 0x0800,
+    gTrainerBackPic_May + 0x0800, 0x0800,
+    gTrainerBackPic_May + 0x1000, 0x0800,
+    gTrainerBackPic_May + 0x1800, 0x0800,
+};
+
+const struct SpriteFrameImage gTrainerBackPicTable_RubySapphireBrendan[] =
+{
+    gTrainerBackPic_RubySapphireBrendan, 0x0800,
+    gTrainerBackPic_RubySapphireBrendan + 0x0800, 0x0800,
+    gTrainerBackPic_RubySapphireBrendan + 0x1000, 0x0800,
+    gTrainerBackPic_RubySapphireBrendan + 0x1800, 0x0800,
+};
+
+const struct SpriteFrameImage gTrainerBackPicTable_RubySapphireMay[] =
+{
+    gTrainerBackPic_RubySapphireMay, 0x0800,
+    gTrainerBackPic_RubySapphireMay + 0x0800, 0x0800,
+    gTrainerBackPic_RubySapphireMay + 0x1000, 0x0800,
+    gTrainerBackPic_RubySapphireMay + 0x1800, 0x0800,
 };
 
 static const union AnimCmd sAnim_GeneralFrame0[] =
@@ -260,12 +260,6 @@ const union AffineAnimCmd *const gUnknown_082FF6C0[] =
     gUnknown_082FF684,
 };
 
-static const union AnimCmd gUnknown_082FF6EC[] =
-{
-    ANIMCMD_FRAME(0, 0),
-    ANIMCMD_END,
-};
-
 static const union AnimCmd gUnknown_082FF6F4[] =
 {
     ANIMCMD_FRAME(1, 0),
@@ -278,18 +272,12 @@ static const union AnimCmd gUnknown_082FF6FC[] =
     ANIMCMD_END,
 };
 
-static const union AnimCmd gUnknown_082FF704[] =
-{
-    ANIMCMD_FRAME(3, 0),
-    ANIMCMD_END,
-};
-
 const union AnimCmd *const gUnknown_082FF70C[] =
 {
-    gUnknown_082FF6EC,
+    sAnim_GeneralFrame0,
     gUnknown_082FF6F4,
     gUnknown_082FF6FC,
-    gUnknown_082FF704,
+    sAnim_GeneralFrame3,
 };
 
 #define SPECIES_SPRITE(species, sprite) [SPECIES_##species] = {sprite, 0x800, SPECIES_##species}
@@ -301,9 +289,8 @@ const union AnimCmd *const gUnknown_082FF70C[] =
 
 #define TRAINER_BACK_PAL(trainerPic, pal) [TRAINER_BACK_PIC_##trainerPic] = {pal, TRAINER_BACK_PIC_##trainerPic}
 
-#include "data/pokemon_graphics/unknown_anims.h"
 #include "data/pokemon_graphics/front_pic_coordinates.h"
-#include "data/pokemon_graphics/still_front_pic_table.h"
+#include "data/pokemon_graphics/front_pic_anims.h"
 #include "data/pokemon_graphics/back_pic_coordinates.h"
 
 #include "data/pokemon_graphics/back_pic_table.h"
@@ -316,123 +303,7 @@ const union AnimCmd *const gUnknown_082FF70C[] =
 #include "data/trainer_graphics/back_pic_tables.h"
 
 #include "data/pokemon_graphics/enemy_mon_elevation.h"
-#include "data/pokemon_graphics/front_pic_anims.h"
 #include "data/pokemon_graphics/front_pic_table.h"
-
-// unused
-const u32 gUnknown830AF4C[] =
-{
-    0x00000888, 0x00000888, 0x00000888, 0x00000888,
-    0x00000088, 0x00000888, 0x00000888, 0x00000886,
-    0x00000888, 0x00000886, 0x00000888, 0x00000888,
-    0x00000888, 0x00000888, 0x00000888, 0x00000888,
-    0x00000886, 0x00000888, 0x00000888, 0x00000888,
-    0x00000888, 0x00000888, 0x00000886, 0x00000886,
-    0x00000888, 0x00000088, 0x00000088, 0x00000088,
-    0x00000088, 0x00000888, 0x00000886, 0x00000888,
-    0x00000888, 0x00000888, 0x00000886, 0x00000886,
-    0x00000888, 0x00000088, 0x00000088, 0x00000088,
-    0x00000088, 0x00000886, 0x00000886, 0x00000088,
-    0x00000886, 0x00000886, 0x00000888, 0x00000888,
-    0x00000888, 0x00000888, 0x00000888, 0x00000888,
-    0x00000886, 0x00000888, 0x00000088, 0x00000088,
-    0x00000888, 0x00000888, 0x00000888, 0x00000886,
-    0x00000888, 0x00000888, 0x00000888, 0x00000886,
-    0x00000886, 0x00000886, 0x00000886, 0x00000886,
-    0x00000886, 0x00000886, 0x00000888, 0x00000888,
-    0x00000886, 0x00000886, 0x00000886, 0x00000886,
-    0x00000886, 0x00000888, 0x00000888, 0x00000888,
-    0x00000888, 0x00000886, 0x00000886, 0x00000888,
-    0x00000886, 0x00000886, 0x00000888, 0x00000888,
-    0x00000088, 0x00000088, 0x00000888, 0x00000888,
-    0x00000888, 0x00000888, 0x00000888, 0x00000888,
-    0x00000888, 0x00000888, 0x00000888, 0x00000888,
-    0x00000886, 0x00000886, 0x00000888, 0x00000888,
-    0x00000888, 0x00000888, 0x00000088, 0x00000886,
-    0x00000888, 0x00000088, 0x00000088, 0x00000088,
-    0x00000088, 0x00000888, 0x00000886, 0x00000888,
-    0x00000088, 0x00000088, 0x00000886, 0x00000886,
-    0x00000088, 0x00000088, 0x00000888, 0x00000886,
-    0x00000886, 0x00000888, 0x00000888, 0x00000088,
-    0x00000888, 0x00000886, 0x00000886, 0x00000888,
-    0x00000886, 0x00000888, 0x00000888, 0x00000886,
-    0x00000888, 0x00000888, 0x00000888, 0x00000888,
-    0x00000888, 0x00000888, 0x00000888, 0x00000888,
-    0x00000888, 0x00000888, 0x00000888, 0x00000888,
-    0x00000888, 0x00000888, 0x00000088, 0x00000888,
-    0x00000888, 0x00000888, 0x00000888, 0x00000888,
-    0x00000088, 0x00000888, 0x00000888, 0x00000886,
-    0x00000886, 0x00000888, 0x00000888, 0x00000888,
-    0x00000888, 0x00000888, 0x00000888, 0x00000886,
-    0x00000888, 0x00000886, 0x00000088, 0x00000088,
-    0x00000088, 0x00000888, 0x00000088, 0x00000888,
-    0x00000888, 0x00000088, 0x00000088, 0x00000888,
-    0x00000886, 0x00000888, 0x00000886, 0x00000886,
-    0x00000886, 0x00000888, 0x00000888, 0x00000888,
-    0x00000088, 0x00000888, 0x00000888, 0x00000888,
-    0x00000088, 0x00000888, 0x00000888, 0x00000888,
-    0x00000888, 0x00000888, 0x00000888, 0x00000888,
-    0x00000888, 0x00000888, 0x00000088, 0x00000088,
-    0x00000886, 0x00000888, 0x00000888, 0x00000888,
-    0x00000888, 0x00000888, 0x00000888, 0x00000888,
-    0x00000888, 0x00000888, 0x00000088, 0x00000888,
-    0x00000886, 0x00000888, 0x00000088, 0x00000088,
-    0x00000888, 0x00000888, 0x00000088, 0x00000888,
-    0x00000888, 0x00000888, 0x00000888, 0x00000088,
-    0x00000888, 0x00000888, 0x00000088, 0x00000088,
-    0x00000088, 0x00000888, 0x00000088, 0x00000888,
-    0x00000888, 0x00000888, 0x00000888, 0x00000888,
-    0x00000888, 0x00000888, 0x00000888, 0x00000888,
-    0x00000888, 0x00000888, 0x00000888, 0x00000888,
-    0x00000888, 0x00000886, 0x00000888, 0x00000888,
-    0x00000888, 0x00000888, 0x00000888, 0x00000888,
-    0x00000888, 0x00000888, 0x00000888, 0x00000888,
-    0x00000888, 0x00000888, 0x00000888, 0x00000888,
-    0x00000888, 0x00000888, 0x00000888, 0x00000888,
-    0x00000888, 0x00000888, 0x00000888, 0x00000888,
-    0x00000888, 0x00000888, 0x00000888, 0x00000888,
-    0x00000888, 0x00000886, 0x00000886, 0x00000886,
-    0x00000088, 0x00000088, 0x00000088, 0x00000886,
-    0x00000088, 0x00000886, 0x00000886, 0x00000886,
-    0x00000088, 0x00000886, 0x00000088, 0x00000088,
-    0x00000088, 0x00000088, 0x00000088, 0x00000886,
-    0x00000886, 0x00000886, 0x00000888, 0x00000888,
-    0x00000886, 0x00000886, 0x00000886, 0x00000886,
-    0x00000088, 0x00000088, 0x00000886, 0x00000886,
-    0x00001882, 0x00000088, 0x00000088, 0x00000088,
-    0x00000088, 0x00000886, 0x00000886, 0x00000886,
-    0x00000088, 0x00000088, 0x00000088, 0x00000088,
-    0x00000886, 0x00000088, 0x00000886, 0x00000088,
-    0x00000088, 0x00000088, 0x00000088, 0x00000088,
-    0x00000088, 0x00000088, 0x00000886, 0x00000886,
-    0x00000088, 0x00000088, 0x00000088, 0x00000886,
-    0x00000886, 0x00000088, 0x00000088, 0x00000088,
-    0x00000088, 0x00000088, 0x00000088, 0x00000088,
-    0x00000088, 0x00000088, 0x00000088, 0x00000088,
-    0x00000088, 0x00000088, 0x00000886, 0x00000088,
-    0x00000088, 0x00000886, 0x00000886, 0x00000886,
-    0x00000886, 0x00000886, 0x00000088, 0x00000088,
-    0x00000088, 0x00000088, 0x00000088, 0x00000886,
-    0x00000886, 0x00000886, 0x00000886, 0x00000088,
-    0x00000886, 0x00000088, 0x00000886, 0x00000886,
-    0x00000886, 0x00000088, 0x00000088, 0x00000088,
-    0x00000088, 0x00000088, 0x00000088, 0x00000088,
-    0x00000088, 0x00000088, 0x00000886, 0x00000886,
-    0x00000886, 0x00000888, 0x00000886, 0x00000886,
-    0x00000088, 0x00000088, 0x00000088, 0x00000088,
-    0x00000886, 0x00000886, 0x00000088, 0x00000088,
-    0x00000088, 0x00000088, 0x00000088, 0x00000088,
-    0x00000088, 0x00000088, 0x00000088, 0x00000088,
-    0x00000088, 0x00000088, 0x00000088, 0x00000088,
-    0x00000088, 0x00000088, 0x00000088, 0x00000088,
-    0x00000088, 0x00000888, 0x00000888, 0x00000888,
-    0x00000888, 0x00000888, 0x00000888, 0x00000888,
-    0x00000888, 0x00000888, 0x00000888, 0x00000888,
-    0x00000888, 0x00000888, 0x00000888, 0x00000888,
-    0x00000888, 0x00000888, 0x00000888, 0x00000888,
-    0x00000888, 0x00000888, 0x00000888, 0x00000888,
-    0x00000888, 0x00000888, 0x00000888, 0x00000888,
-};
 
 #include "data/trainer_parties.h"
 #include "data/text/trainer_class_names.h"
