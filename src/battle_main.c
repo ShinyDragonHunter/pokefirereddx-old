@@ -1854,7 +1854,7 @@ void BattleMainCB2(void)
     UpdatePaletteFade();
     RunTasks();
 
-    if (gMain.heldKeys & B_BUTTON && gBattleTypeFlags & BATTLE_TYPE_RECORDED && sub_8186450())
+    if (JOY_HELD(B_BUTTON) && gBattleTypeFlags & BATTLE_TYPE_RECORDED && sub_8186450())
     {
         gSpecialVar_Result = gBattleOutcome = B_OUTCOME_PLAYER_TELEPORTED;
         ResetPaletteFadeControl();
@@ -2510,7 +2510,7 @@ static void sub_803939C(void)
         }
         break;
     case 5:
-        if (gMain.newKeys & DPAD_UP)
+        if (JOY_NEW(DPAD_UP))
         {
             if (gBattleCommunication[CURSOR_POSITION] != 0)
             {
@@ -2520,7 +2520,7 @@ static void sub_803939C(void)
                 BattleCreateYesNoCursorAt(0);
             }
         }
-        else if (gMain.newKeys & DPAD_DOWN)
+        else if (JOY_NEW(DPAD_DOWN))
         {
             if (gBattleCommunication[CURSOR_POSITION] == 0)
             {
@@ -2530,7 +2530,7 @@ static void sub_803939C(void)
                 BattleCreateYesNoCursorAt(1);
             }
         }
-        else if (gMain.newKeys & A_BUTTON)
+        else if (JOY_NEW(A_BUTTON))
         {
             PlaySE(SE_SELECT);
             if (gBattleCommunication[CURSOR_POSITION] == 0)
@@ -2544,7 +2544,7 @@ static void sub_803939C(void)
                 gBattleCommunication[MULTIUSE_STATE]++;
             }
         }
-        else if (gMain.newKeys & B_BUTTON)
+        else if (JOY_NEW(B_BUTTON))
         {
             PlaySE(SE_SELECT);
             gBattleCommunication[MULTIUSE_STATE]++;
@@ -2978,7 +2978,7 @@ void sub_8039E60(struct Sprite *sprite)
         sprite->callback = SpriteCallbackDummy_3;
 }
 
-void sub_8039E84(struct Sprite *sprite)
+void SpriteCB_TrainerThrowObject(struct Sprite *sprite)
 {
     StartSpriteAnim(sprite, 1);
     sprite->callback = sub_8039E60;
@@ -3649,8 +3649,8 @@ static void BattleIntroOpponent1SendsOutMonAnimation(void)
 NAKED
 static void BattleIntroOpponent1SendsOutMonAnimation(void)
 {
-    asm(".syntax unified\n\
-            push {r4-r6,lr}\n\
+    asm_unified(
+    "push {r4-r6,lr}\n\
     ldr r0, =gBattleTypeFlags\n\
     ldr r2, [r0]\n\
     movs r0, 0x80\n\
@@ -3728,8 +3728,7 @@ _0803B2F2:\n\
     pop {r4-r6}\n\
     pop {r0}\n\
     bx r0\n\
-    .pool\n\
-        .syntax divided");
+    .pool");
 }
 #endif // NONMATCHING
 
