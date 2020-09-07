@@ -48,21 +48,13 @@ BirthIsland_Exterior_EventScript_Triangle:: @ 8267F83
 	special DoDeoxysRockInteraction
 	waitstate
 	switch VAR_RESULT
-	case 0, BirthIsland_Exterior_EventScript_NotSolved1
-	case 1, BirthIsland_Exterior_EventScript_NotSolved2
+	case 0, BirthIsland_Exterior_EventScript_NotSolved
+	case 1, BirthIsland_Exterior_EventScript_NotSolved
 	case 2, BirthIsland_Exterior_EventScript_Deoxys
-	case 3, BirthIsland_Exterior_EventScript_NotSolved3
+	case 3, BirthIsland_Exterior_EventScript_NotSolved
 	end
 
-BirthIsland_Exterior_EventScript_NotSolved1:: @ 8267FBB
-	release
-	end
-
-BirthIsland_Exterior_EventScript_NotSolved2:: @ 8267FBD
-	release
-	end
-
-BirthIsland_Exterior_EventScript_NotSolved3:: @ 8267FBF
+BirthIsland_Exterior_EventScript_NotSolved:: @ 8267FBB
 	release
 	end
 
@@ -82,12 +74,10 @@ BirthIsland_Exterior_EventScript_Deoxys:: @ 8267FC1
 	delay 40
 	waitmoncry
 	setvar VAR_LAST_TALKED, LOCALID_DEOXYS
-	setvar VAR_0x8004, SPECIES_DEOXYS
-	setvar VAR_0x8005, 30 @ level
-	setvar VAR_0x8006, ITEM_NONE
+	setwildbattle SPECIES_DEOXYS, 30, ITEM_NONE
 	special CreateObedientEnemyMon
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
-	special BattleSetup_StartLegendaryBattle
+	dowildbattle
 	waitstate
 	clearflag FLAG_SYS_CTRL_OBJ_DELETE
 	specialvar VAR_RESULT, GetBattleOutcome

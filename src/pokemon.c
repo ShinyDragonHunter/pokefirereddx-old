@@ -6249,11 +6249,7 @@ void ClearBattleMonForms(void)
 
 u16 GetBattleBGM(void)
 {
-    if (gBattleTypeFlags & BATTLE_TYPE_KYOGRE_GROUDON)
-        return MUS_VS_KYOGRE_GROUDON;
-    else if (gBattleTypeFlags & BATTLE_TYPE_REGI)
-        return MUS_VS_REGI;
-    else if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_x2000000))
+    if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_x2000000))
         return MUS_VS_TRAINER;
     else if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
     {
@@ -6277,17 +6273,14 @@ u16 GetBattleBGM(void)
         case TRAINER_CLASS_MAGMA_ADMIN:
             return MUS_VS_AQUA_MAGMA;
         case TRAINER_CLASS_LEADER:
-            return MUS_VS_GYM_LEADER;
-        case TRAINER_CLASS_CHAMPION:
-            return MUS_VS_CHAMPION;
-        case TRAINER_CLASS_PKMN_TRAINER_3:
-            if (gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
-                return MUS_VS_RIVAL;
-            if (!StringCompare(gTrainers[gTrainerBattleOpponent_A].trainerName, gText_BattleWallyName))
-                return MUS_VS_TRAINER;
-            return MUS_VS_RIVAL;
         case TRAINER_CLASS_ELITE_FOUR:
-            return MUS_VS_ELITE_FOUR;
+            return MUS_RG_VS_GYM_LEADER;
+        case TRAINER_CLASS_CHAMPION:
+            return MUS_RG_VS_CHAMPION;
+        case TRAINER_CLASS_PKMN_TRAINER_3:
+            if (!StringCompare(gTrainers[gTrainerBattleOpponent_A].trainerName, gText_BattleWallyName))
+                return MUS_RG_VS_TRAINER;
+            return MUS_VS_RIVAL;
         case TRAINER_CLASS_SALON_MAIDEN:
         case TRAINER_CLASS_DOME_ACE:
         case TRAINER_CLASS_PALACE_MAVEN:
@@ -6297,11 +6290,30 @@ u16 GetBattleBGM(void)
         case TRAINER_CLASS_PYRAMID_KING:
             return MUS_VS_FRONTIER_BRAIN;
         default:
-            return MUS_VS_TRAINER;
+            return MUS_RG_VS_TRAINER;
         }
     }
     else
-        return MUS_VS_WILD;
+    switch (GetMonData(&gEnemyParty[0], MON_DATA_SPECIES, NULL))
+    {
+    case SPECIES_ARTICUNO:
+    case SPECIES_ZAPDOS:
+    case SPECIES_MOLTRES:
+    case SPECIES_RAIKOU:
+    case SPECIES_ENTEI:
+    case SPECIES_SUICUNE:
+    case SPECIES_LUGIA:
+    case SPECIES_HO_OH:
+        return MUS_RG_VS_LEGEND;
+    case SPECIES_MEWTWO:
+        return MUS_RG_VS_MEWTWO;
+    case SPECIES_MEW:
+        return MUS_VS_MEW;
+    case SPECIES_DEOXYS:
+        return MUS_RG_VS_DEOXYS;
+	default:
+        return MUS_RG_VS_WILD;
+    }
 }
 
 void PlayBattleBGM(void)
@@ -6786,10 +6798,7 @@ const u8 *GetTrainerNameFromId(u16 trainerId)
 
 bool8 HasTwoFramesAnimation(u16 species)
 {
-    return (species != SPECIES_CASTFORM
-            && species != SPECIES_DEOXYS
-            && species != SPECIES_SPINDA
-            && species != SPECIES_UNOWN);
+    return (species != SPECIES_CASTFORM);
 }
 
 static bool8 ShouldSkipFriendshipChange(void)

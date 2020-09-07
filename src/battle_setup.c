@@ -495,107 +495,6 @@ void BattleSetup_StartScriptedWildBattle(void)
     TryUpdateGymLeaderRematchFromWild();
 }
 
-void BattleSetup_StartLatiBattle(void)
-{
-    ScriptContext2_Enable();
-    gMain.savedCallback = CB2_EndScriptedWildBattle;
-    gBattleTypeFlags = BATTLE_TYPE_LEGENDARY;
-    CreateBattleStartTask(GetWildBattleTransition(), 0);
-    IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
-    IncrementGameStat(GAME_STAT_WILD_BATTLES);
-    IncrementDailyWildBattles();
-    TryUpdateGymLeaderRematchFromWild();
-}
-
-void BattleSetup_StartLegendaryBattle(void)
-{
-    ScriptContext2_Enable();
-    gMain.savedCallback = CB2_EndScriptedWildBattle;
-    gBattleTypeFlags = BATTLE_TYPE_LEGENDARY;
-
-    switch (GetMonData(&gEnemyParty[0], MON_DATA_SPECIES, NULL))
-    {
-    default:
-    case SPECIES_GROUDON:
-        gBattleTypeFlags |= BATTLE_TYPE_GROUDON;
-        CreateBattleStartTask(B_TRANSITION_GROUDON, MUS_VS_KYOGRE_GROUDON);
-        break;
-    case SPECIES_KYOGRE:
-        gBattleTypeFlags |= BATTLE_TYPE_KYOGRE;
-        CreateBattleStartTask(B_TRANSITION_KYOGRE, MUS_VS_KYOGRE_GROUDON);
-        break;
-    case SPECIES_RAYQUAZA:
-        gBattleTypeFlags |= BATTLE_TYPE_RAYQUAZA;
-        CreateBattleStartTask(B_TRANSITION_RAYQUAZA, MUS_VS_RAYQUAZA);
-        break;
-    case SPECIES_DEOXYS:
-        CreateBattleStartTask(B_TRANSITION_BLUR, MUS_RG_VS_DEOXYS);
-        break;
-    case SPECIES_LUGIA:
-    case SPECIES_HO_OH:
-        CreateBattleStartTask(B_TRANSITION_BLUR, MUS_RG_VS_LEGEND);
-        break;
-    case SPECIES_MEW:
-        CreateBattleStartTask(B_TRANSITION_GRID_SQUARES, MUS_VS_MEW);
-        break;
-    }
-
-    IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
-    IncrementGameStat(GAME_STAT_WILD_BATTLES);
-    IncrementDailyWildBattles();
-    TryUpdateGymLeaderRematchFromWild();
-}
-
-void StartGroudonKyogreBattle(void)
-{
-    ScriptContext2_Enable();
-    gMain.savedCallback = CB2_EndScriptedWildBattle;
-    gBattleTypeFlags = BATTLE_TYPE_LEGENDARY | BATTLE_TYPE_KYOGRE_GROUDON;
-
-    if (gGameVersion == VERSION_RUBY)
-        CreateBattleStartTask(B_TRANSITION_SHARDS, MUS_VS_KYOGRE_GROUDON); // GROUDON
-    else
-        CreateBattleStartTask(B_TRANSITION_RIPPLE, MUS_VS_KYOGRE_GROUDON); // KYOGRE
-
-    IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
-    IncrementGameStat(GAME_STAT_WILD_BATTLES);
-    IncrementDailyWildBattles();
-    TryUpdateGymLeaderRematchFromWild();
-}
-
-void StartRegiBattle(void)
-{
-    u8 transitionId;
-    u16 species;
-
-    ScriptContext2_Enable();
-    gMain.savedCallback = CB2_EndScriptedWildBattle;
-    gBattleTypeFlags = BATTLE_TYPE_LEGENDARY | BATTLE_TYPE_REGI;
-
-    species = GetMonData(&gEnemyParty[0], MON_DATA_SPECIES);
-    switch (species)
-    {
-    case SPECIES_REGIROCK:
-        transitionId = B_TRANSITION_REGIROCK;
-        break;
-    case SPECIES_REGICE:
-        transitionId = B_TRANSITION_REGICE;
-        break;
-    case SPECIES_REGISTEEL:
-        transitionId = B_TRANSITION_REGISTEEL;
-        break;
-    default:
-        transitionId = B_TRANSITION_GRID_SQUARES;
-        break;
-    }
-    CreateBattleStartTask(transitionId, MUS_VS_REGI);
-
-    IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
-    IncrementGameStat(GAME_STAT_WILD_BATTLES);
-    IncrementDailyWildBattles();
-    TryUpdateGymLeaderRematchFromWild();
-}
-
 static void CB2_EndWildBattle(void)
 {
     CpuFill16(0, (void*)(BG_PLTT), BG_PLTT_SIZE);
@@ -787,19 +686,33 @@ static u8 GetWildBattleTransition(void)
     u8 enemyLevel = GetMonData(&gEnemyParty[0], MON_DATA_LEVEL);
     u8 playerLevel = GetSumOfPlayerPartyLevel(1);
 
-    if (enemyLevel < playerLevel)
+    switch (GetMonData(&gEnemyParty[0], MON_DATA_SPECIES, NULL))
     {
-        if (InBattlePyramid())
+    case SPECIES_ARTICUNO:
+    case SPECIES_ZAPDOS:
+    case SPECIES_MOLTRES:
+    case SPECIES_MEWTWO:
+    case SPECIES_LUGIA:
+    case SPECIES_HO_OH:
+    case SPECIES_DEOXYS:
             return B_TRANSITION_BLUR;
-        else
-            return sBattleTransitionTable_Wild[transitionType][0];
-    }
-    else
-    {
-        if (InBattlePyramid())
+    case SPECIES_MEW:
             return B_TRANSITION_GRID_SQUARES;
+    default:
+        if (enemyLevel < playerLevel)
+        {
+            if (InBattlePyramid())
+                return B_TRANSITION_BLUR;
+            else
+                return sBattleTransitionTable_Wild[transitionType][0];
+        }
         else
-            return sBattleTransitionTable_Wild[transitionType][1];
+        {
+            if (InBattlePyramid())
+                return B_TRANSITION_GRID_SQUARES;
+            else
+                return sBattleTransitionTable_Wild[transitionType][1];
+        }
     }
 }
 

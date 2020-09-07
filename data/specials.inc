@@ -321,9 +321,6 @@ gSpecials:: @ 81DBA64
 	def_special IsPokerusInParty
 	def_special SetSootopolisGymCrackedIceMetatiles
 	def_special ShakeCamera
-	def_special StartGroudonKyogreBattle
-	def_special BattleSetup_StartLegendaryBattle
-	def_special StartRegiBattle
 	def_special SetUpTrainerMovement
 	def_special DoSealedChamberShakingEffect2
 	def_special FoundBlackGlasses
@@ -333,7 +330,6 @@ gSpecials:: @ 81DBA64
 	def_special ShowContestEntryMonPic
 	def_special HideContestEntryMonPic
 	def_special SetEReaderTrainerGfxId
-	def_special BattleSetup_StartLatiBattle
 	def_special SetRoute119Weather
 	def_special SetRoute123Weather
 	def_special GetContestMultiplayerId

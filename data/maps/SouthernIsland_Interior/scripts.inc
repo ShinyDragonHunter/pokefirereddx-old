@@ -83,8 +83,9 @@ SouthernIsland_Interior_EventScript_Lati:: @ 8242AD0
 	call_if_eq SouthernIsland_Interior_EventScript_SetLatiosBattleVars
 	compare VAR_ROAMER_POKEMON, 0
 	call_if_ne SouthernIsland_Interior_EventScript_SetLatiasBattleVars
+	special CreateObedientEnemyMon
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
-	special BattleSetup_StartLatiBattle
+	dowildbattle
 	waitstate
 	clearflag FLAG_SYS_CTRL_OBJ_DELETE
 	specialvar VAR_RESULT, GetBattleOutcome
@@ -115,17 +116,11 @@ SouthernIsland_Interior_EventScript_Sign:: @ 8242B9A
 	end
 
 SouthernIsland_Interior_EventScript_SetLatiosBattleVars:: @ 8242BA4
-	setvar VAR_0x8004, SPECIES_LATIOS
-	setvar VAR_0x8005, 50 @ level
-	setvar VAR_0x8006, ITEM_SOUL_DEW
-	special CreateObedientEnemyMon
+	setwildbattle SPECIES_LATIOS, 50, ITEM_SOUL_DEW
 	return
 
 SouthernIsland_Interior_EventScript_SetLatiasBattleVars:: @ 8242BB7
-	setvar VAR_0x8004, SPECIES_LATIAS
-	setvar VAR_0x8005, 50 @ level
-	setvar VAR_0x8006, ITEM_SOUL_DEW
-	special CreateObedientEnemyMon
+	setwildbattle SPECIES_LATIAS, 50, ITEM_SOUL_DEW
 	return
 
 SouthernIsland_Interior_Movement_CameraPanUp: @ 8242BCA
