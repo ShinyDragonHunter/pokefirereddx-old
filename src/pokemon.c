@@ -1381,7 +1381,6 @@ const s8 gNatureStatTable[NUM_NATURES][NUM_NATURE_STATS] =
 
 #include "data/pokemon/tmhm_learnsets.h"
 #include "data/pokemon/trainer_class_lookups.h"
-#include "data/pokemon/cry_ids.h"
 #include "data/pokemon/experience_tables.h"
 #include "data/pokemon/base_stats.h"
 #include "data/pokemon/level_up_learnsets.h"
@@ -5578,13 +5577,12 @@ u16 HoennToNationalOrder(u16 hoennNum)
 
 u16 SpeciesToCryId(u16 species)
 {
-    if (species <= SPECIES_CELEBI - 1)
-        return species;
-
-    if (species < SPECIES_TREECKO - 1)
+    if ((species > SPECIES_CELEBI - 1) && (species < SPECIES_TREECKO - 1))
         return SPECIES_UNOWN - 1;
 
-    return gSpeciesIdToCryId[species - (SPECIES_TREECKO - 1)];
+    if (species > SPECIES_OLD_UNOWN_B - 1)
+        return species - (26 - 1);
+    return species;
 }
 
 void sub_806D544(u16 species, u32 personality, u8 *dest)
