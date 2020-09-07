@@ -18,7 +18,7 @@ const struct MonCoords gMonBackPicCoords[] =
     [SPECIES_VENUSAUR] =
     {
         .size = 0x86,
-        .y_offset = 4,
+        .y_offset = 10,
     },
     [SPECIES_CHARMANDER] =
     {

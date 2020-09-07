@@ -284,7 +284,7 @@ const struct CompressedSpritePalette gTrainerFrontPicPaletteTable[] =
     TRAINER_PAL(PIKE_QUEEN_LUCY, gTrainerPalette_PikeQueenLucy),
     TRAINER_PAL(PYRAMID_KING_BRANDON, gTrainerPalette_PyramidKingBrandon),
     TRAINER_PAL(RED, gTrainerPalette_Red),
-    TRAINER_PAL(LEAF, gTrainerPalette_Leaf),
+    TRAINER_PAL(LEAF, gTrainerPalette_Red),
     TRAINER_PAL(RS_BRENDAN, gTrainerPalette_RubySapphireBrendan),
     TRAINER_PAL(RS_MAY, gTrainerPalette_RubySapphireMay),
 };
