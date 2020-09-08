@@ -1753,7 +1753,7 @@ const struct MonCoords gMonBackPicCoords[] =
     [SPECIES_AZURILL] =
     {
         .size = 0x86,
-        .y_offset = 10,
+        .y_offset = 8,
     },
     [SPECIES_SPOINK] =
     {
