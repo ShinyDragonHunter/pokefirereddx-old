@@ -88,7 +88,7 @@ const struct MonCoords gMonFrontPicCoords[] =
     [SPECIES_PIDGEOTTO] =
     {
         .size = 0x67,
-        .y_offset = 11,
+        .y_offset = 7,
     },
     [SPECIES_PIDGEOT] =
     {
@@ -123,7 +123,7 @@ const struct MonCoords gMonFrontPicCoords[] =
     [SPECIES_ARBOK] =
     {
         .size = 0x78,
-        .y_offset = 2,
+        .y_offset = 3,
     },
     [SPECIES_PIKACHU] =
     {
@@ -183,7 +183,7 @@ const struct MonCoords gMonFrontPicCoords[] =
     [SPECIES_CLEFABLE] =
     {
         .size = 0x66,
-        .y_offset = 8,
+        .y_offset = 7,
     },
     [SPECIES_VULPIX] =
     {
@@ -523,12 +523,12 @@ const struct MonCoords gMonFrontPicCoords[] =
     [SPECIES_CUBONE] =
     {
         .size = 0x55,
-        .y_offset = 15,
+        .y_offset = 13,
     },
     [SPECIES_MAROWAK] =
     {
         .size = 0x76,
-        .y_offset = 11,
+        .y_offset = 10,
     },
     [SPECIES_HITMONLEE] =
     {
@@ -1388,7 +1388,7 @@ const struct MonCoords gMonFrontPicCoords[] =
     [SPECIES_TREECKO] =
     {
         .size = 0x66,
-        .y_offset = 8,
+        .y_offset = 9,
     },
     [SPECIES_GROVYLE] =
     {
@@ -1403,7 +1403,7 @@ const struct MonCoords gMonFrontPicCoords[] =
     [SPECIES_TORCHIC] =
     {
         .size = 0x56,
-        .y_offset = 8,
+        .y_offset = 12,
     },
     [SPECIES_COMBUSKEN] =
     {
