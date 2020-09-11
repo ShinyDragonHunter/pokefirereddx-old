@@ -295,7 +295,6 @@ static const union AnimCmd sAnim_NIDOQUEEN_1[] =
 
 static const union AnimCmd sAnim_NIDORAN_M_1[] =
 {
-    ANIMCMD_FRAME(0, 15),
     ANIMCMD_FRAME(1, 15),
     ANIMCMD_FRAME(0, 5),
     ANIMCMD_END,
@@ -392,13 +391,6 @@ static const union AnimCmd sAnim_ODDISH_1[] =
     ANIMCMD_FRAME(0, 11),
     ANIMCMD_FRAME(1, 11),
     ANIMCMD_FRAME(0, 6),
-    ANIMCMD_END,
-};
-
-static const union AnimCmd sAnim_GLOOM_1[] =
-{
-    ANIMCMD_FRAME(1, 15),
-    ANIMCMD_FRAME(0, 15),
     ANIMCMD_END,
 };
 
@@ -4117,11 +4109,6 @@ static const union AnimCmd *const sAnims_ODDISH[] ={
     sAnim_ODDISH_1,
 };
 
-static const union AnimCmd *const sAnims_GLOOM[] ={
-    sAnim_GeneralFrame0,
-    sAnim_GLOOM_1,
-};
-
 static const union AnimCmd *const sAnims_VILEPLUME[] ={
     sAnim_GeneralFrame0,
     sAnim_VILEPLUME_1,
@@ -5868,7 +5855,7 @@ const union AnimCmd *const *const gMonFrontAnimsPtrTable[] =
     ANIM_CMD(ZUBAT),
     ANIM_CMD(GOLBAT),
     ANIM_CMD(ODDISH),
-    ANIM_CMD(GLOOM),
+    ANIM_CMD_FULL(GLOOM, sAnims_NIDORAN_M),
     ANIM_CMD(VILEPLUME),
     ANIM_CMD(PARAS),
     ANIM_CMD(PARASECT),
@@ -5977,7 +5964,7 @@ const union AnimCmd *const *const gMonFrontAnimsPtrTable[] =
     ANIM_CMD(MEWTWO),
     ANIM_CMD(MEW),
     ANIM_CMD(CHIKORITA),
-    ANIM_CMD_FULL(BAYLEEF, sAnims_GLOOM),
+    ANIM_CMD_FULL(BAYLEEF, sAnims_NIDORAN_M),
     ANIM_CMD(MEGANIUM),
     ANIM_CMD(CYNDAQUIL),
     ANIM_CMD(QUILAVA),

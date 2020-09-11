@@ -258,7 +258,7 @@ const struct MonCoords gMonBackPicCoords[] =
     [SPECIES_DUGTRIO] =
     {
         .size = 0x66,
-        .y_offset = 11,
+        .y_offset = 10,
     },
     [SPECIES_MEOWTH] =
     {
