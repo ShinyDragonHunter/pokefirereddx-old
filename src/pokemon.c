@@ -35,6 +35,7 @@
 #include "text.h"
 #include "trainer_hill.h"
 #include "util.h"
+#include "constants/region_map_sections.h"
 #include "constants/abilities.h"
 #include "constants/battle_frontier.h"
 #include "constants/battle_move_effects.h"
@@ -6261,8 +6262,6 @@ u16 GetBattleBGM(void)
 
         if (gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
             trainerClass = GetFrontierOpponentClass(gTrainerBattleOpponent_A);
-        else if (gBattleTypeFlags & BATTLE_TYPE_TRAINER_HILL)
-            trainerClass = TRAINER_CLASS_EXPERT;
         else
             trainerClass = gTrainers[gTrainerBattleOpponent_A].trainerClass;
 
@@ -6294,7 +6293,10 @@ u16 GetBattleBGM(void)
         case TRAINER_CLASS_PYRAMID_KING:
             return MUS_VS_FRONTIER_BRAIN;
         default:
-            return MUS_RG_VS_TRAINER;
+            if (gMapHeader.regionMapSectionId == MAPSEC_BATTLE_FRONTIER)
+                return MUS_VS_TRAINER;
+            else
+                return MUS_RG_VS_TRAINER;
         }
     }
     else
@@ -6316,7 +6318,11 @@ u16 GetBattleBGM(void)
     case SPECIES_DEOXYS:
         return MUS_RG_VS_DEOXYS;
 	default:
-        return MUS_RG_VS_WILD;
+        if (gMapHeader.regionMapSectionId == MAPSEC_BATTLE_FRONTIER 
+		 || gMapHeader.regionMapSectionId == MAPSEC_ARTISAN_CAVE)
+            return MUS_VS_WILD;
+        else
+            return MUS_RG_VS_WILD;
     }
 }
 
