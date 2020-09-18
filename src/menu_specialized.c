@@ -205,7 +205,7 @@ static const struct ListMenuTemplate sMoveRelearnerMovesListTemplate =
     .lettersSpacing = 0,
     .itemVerticalPadding = 0,
     .scrollMultiple = LIST_NO_MULTIPLE_SCROLL,
-    .fontId = 1,
+    .fontId = 2,
     .cursorKind = 0
 };
 
@@ -296,7 +296,7 @@ u8 sub_81D1DC0(struct PlayerPCItemPageStruct *page)
     gMultiuseListMenuTemplate.cursorShadowPal = 3;
     gMultiuseListMenuTemplate.moveCursorFunc = sub_81D1E7C;
     gMultiuseListMenuTemplate.itemPrintFunc = sub_81D1D44;
-    gMultiuseListMenuTemplate.fontId = 1;
+    gMultiuseListMenuTemplate.fontId = 2;
     gMultiuseListMenuTemplate.cursorKind = 0;
     gMultiuseListMenuTemplate.lettersSpacing = 0;
     gMultiuseListMenuTemplate.itemVerticalPadding = 0;
