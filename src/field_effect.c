@@ -26,6 +26,7 @@
 #include "trainer_pokemon_sprites.h"
 #include "trig.h"
 #include "util.h"
+#include "constants/region_map_sections.h"
 #include "constants/field_effects.h"
 #include "constants/event_object_movement.h"
 #include "constants/metatile_behaviors.h"
@@ -2974,7 +2975,14 @@ u8 FldEff_UseSurf(void)
     u8 taskId = CreateTask(Task_SurfFieldEffect, 0xff);
     gTasks[taskId].tMonId = gFieldEffectArguments[0];
     Overworld_ClearSavedMusic();
-    Overworld_ChangeMusicTo(MUS_SURF);
+        if (gMapHeader.regionMapSectionId == MAPSEC_BATTLE_FRONTIER)
+        {
+            Overworld_ChangeMusicTo(MUS_SURF);
+        }
+        else
+        {
+            Overworld_ChangeMusicTo(MUS_RG_SURF);
+        }
     return FALSE;
 }
 

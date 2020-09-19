@@ -1400,7 +1400,6 @@ static const u8 sDummyWeirdStatusString[] = {EOS, EOS, EOS, EOS, EOS, EOS, EOS, 
 
 static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
 {
-// The corresponding WindowTemplate is gStandardBattleWindowTemplates[] within src/battle_bg.c
     { // 0 Standard battle message
         .fillValue = PIXEL_FILL(0xF),
         .fontId = 2,
@@ -1441,7 +1440,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
         .fillValue = PIXEL_FILL(0xE),
         .fontId = 7,
         .x = 0,
-        .y = 2,
+        .y = 1,
         .letterSpacing = 0,
         .lineSpacing = 0,
         .speed = 0,
@@ -1453,7 +1452,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
         .fillValue = PIXEL_FILL(0xE),
         .fontId = 7,
         .x = 0,
-        .y = 2,
+        .y = 1,
         .letterSpacing = 0,
         .lineSpacing = 0,
         .speed = 0,
@@ -1465,7 +1464,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
         .fillValue = PIXEL_FILL(0xE),
         .fontId = 7,
         .x = 0,
-        .y = 2,
+        .y = 1,
         .letterSpacing = 0,
         .lineSpacing = 0,
         .speed = 0,
@@ -1477,7 +1476,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
         .fillValue = PIXEL_FILL(0xE),
         .fontId = 7,
         .x = 0,
-        .y = 2,
+        .y = 1,
         .letterSpacing = 0,
         .lineSpacing = 0,
         .speed = 0,
@@ -1489,7 +1488,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
         .fillValue = PIXEL_FILL(0xE),
         .fontId = 7,
         .x = 0,
-        .y = 2,
+        .y = 1,
         .letterSpacing = 0,
         .lineSpacing = 0,
         .speed = 0,
@@ -1537,7 +1536,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
         .fillValue = PIXEL_FILL(0xE),
         .fontId = 7,
         .x = 0,
-        .y = 2,
+        .y = 1,
         .letterSpacing = 0,
         .lineSpacing = 2,
         .speed = 0,
@@ -1561,9 +1560,9 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
         .fillValue = PIXEL_FILL(0xE),
         .fontId = 2,
         .x = 0,
-        .y = 0,
+        .y = 2,
         .letterSpacing = 0,
-        .lineSpacing = 0,
+        .lineSpacing = 2,
         .speed = 0,
         .fgColor = 13,
         .bgColor = 14,
@@ -1573,9 +1572,9 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
         .fillValue = PIXEL_FILL(0),
         .fontId = 2,
         .x = 32,
-        .y = 0,
+        .y = 2,
         .letterSpacing = 0,
-        .lineSpacing = 0,
+        .lineSpacing = 2,
         .speed = 0,
         .fgColor = 1,
         .bgColor = 0,
@@ -1587,9 +1586,9 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
         .x = -1,
         .y = 2,
         .letterSpacing = 0,
-        .lineSpacing = 0,
+        .lineSpacing = 2,
         .speed = 0,
-        .fgColor = 13,
+        .fgColor = 1,
         .bgColor = 14,
         .shadowColor = 15,
     },
@@ -1599,7 +1598,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
         .x = -1,
         .y = 2,
         .letterSpacing = 0,
-        .lineSpacing = 0,
+        .lineSpacing = 2,
         .speed = 0,
         .fgColor = 13,
         .bgColor = 14,
@@ -1611,7 +1610,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
         .x = -1,
         .y = 2,
         .letterSpacing = 0,
-        .lineSpacing = 0,
+        .lineSpacing = 2,
         .speed = 0,
         .fgColor = 13,
         .bgColor = 14,
@@ -1623,7 +1622,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
         .x = -1,
         .y = 2,
         .letterSpacing = 0,
-        .lineSpacing = 0,
+        .lineSpacing = 2,
         .speed = 0,
         .fgColor = 13,
         .bgColor = 14,
@@ -1635,7 +1634,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
         .x = -1,
         .y = 2,
         .letterSpacing = 0,
-        .lineSpacing = 0,
+        .lineSpacing = 2,
         .speed = 0,
         .fgColor = 13,
         .bgColor = 14,
@@ -1647,299 +1646,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
         .x = -1,
         .y = 2,
         .letterSpacing = 0,
-        .lineSpacing = 0,
-        .speed = 0,
-        .fgColor = 13,
-        .bgColor = 14,
-        .shadowColor = 15,
-    },
-    { // 21
-        .fillValue = PIXEL_FILL(0),
-        .fontId = 2,
-        .x = -1,
-        .y = 2,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .speed = 0,
-        .fgColor = 1,
-        .bgColor = 0,
-        .shadowColor = 6,
-    },
-    { // 22
-        .fillValue = PIXEL_FILL(0),
-        .fontId = 2,
-        .x = -1,
-        .y = 2,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .speed = 0,
-        .fgColor = 1,
-        .bgColor = 0,
-        .shadowColor = 6,
-    },
-    { // 23
-        .fillValue = PIXEL_FILL(0x0),
-        .fontId = 2,
-        .x = -1,
-        .y = 2,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .speed = 0,
-        .fgColor = 1,
-        .bgColor = 0,
-        .shadowColor = 6,
-    },
-};
-
-static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
-{
-    { // 0
-        .fillValue = PIXEL_FILL(0xF),
-        .fontId = 1,
-        .x = 0,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 1,
-        .speed = 1,
-        .fgColor = 1,
-        .bgColor = 15,
-        .shadowColor = 6,
-    },
-    { // 1
-        .fillValue = PIXEL_FILL(0xF),
-        .fontId = 1,
-        .x = 1,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .speed = 0,
-        .fgColor = 1,
-        .bgColor = 15,
-        .shadowColor = 6,
-    },
-    { // 2
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = 1,
-        .x = 0,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .speed = 0,
-        .fgColor = 13,
-        .bgColor = 14,
-        .shadowColor = 15,
-    },
-    { // 3
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = 7,
-        .x = 0,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .speed = 0,
-        .fgColor = 13,
-        .bgColor = 14,
-        .shadowColor = 15,
-    },
-    { // 4
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = 7,
-        .x = 0,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .speed = 0,
-        .fgColor = 13,
-        .bgColor = 14,
-        .shadowColor = 15,
-    },
-    { // 5
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = 7,
-        .x = 0,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .speed = 0,
-        .fgColor = 13,
-        .bgColor = 14,
-        .shadowColor = 15,
-    },
-    { // 6
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = 7,
-        .x = 0,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .speed = 0,
-        .fgColor = 13,
-        .bgColor = 14,
-        .shadowColor = 15,
-    },
-    { // 7
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = 7,
-        .x = 0,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .speed = 0,
-        .fgColor = 12,
-        .bgColor = 14,
-        .shadowColor = 11,
-    },
-    { // 8
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = 1,
-        .x = 0,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .speed = 0,
-        .fgColor = 13,
-        .bgColor = 14,
-        .shadowColor = 15,
-    },
-    { // 9
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = 1,
-        .x = 2,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .speed = 0,
-        .fgColor = 12,
-        .bgColor = 14,
-        .shadowColor = 11,
-    },
-    { // 10
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = 7,
-        .x = 0,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .speed = 0,
-        .fgColor = 13,
-        .bgColor = 14,
-        .shadowColor = 15,
-    },
-    { // 11
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = 7,
-        .x = 0,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .speed = 0,
-        .fgColor = 13,
-        .bgColor = 14,
-        .shadowColor = 15,
-    },
-    { // 12
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = 1,
-        .x = 0,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .speed = 0,
-        .fgColor = 13,
-        .bgColor = 14,
-        .shadowColor = 15,
-    },
-    { // 13
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = 1,
-        .x = 0,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .speed = 0,
-        .fgColor = 13,
-        .bgColor = 14,
-        .shadowColor = 15,
-    },
-    { // 14
-        .fillValue = PIXEL_FILL(0),
-        .fontId = 1,
-        .x = 32,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .speed = 0,
-        .fgColor = 1,
-        .bgColor = 0,
-        .shadowColor = 2,
-    },
-    { // 15
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = 1,
-        .x = -1,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .speed = 0,
-        .fgColor = 1,
-        .bgColor = 14,
-        .shadowColor = 15,
-    },
-    { // 16
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = 1,
-        .x = -1,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .speed = 0,
-        .fgColor = 13,
-        .bgColor = 14,
-        .shadowColor = 15,
-    },
-    { // 17
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = 1,
-        .x = -1,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .speed = 0,
-        .fgColor = 13,
-        .bgColor = 14,
-        .shadowColor = 15,
-    },
-    { // 18
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = 1,
-        .x = -1,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .speed = 0,
-        .fgColor = 13,
-        .bgColor = 14,
-        .shadowColor = 15,
-    },
-    { // 19
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = 1,
-        .x = -1,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .speed = 0,
-        .fgColor = 13,
-        .bgColor = 14,
-        .shadowColor = 15,
-    },
-    { // 20
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = 1,
-        .x = -1,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
+        .lineSpacing = 2,
         .speed = 0,
         .fgColor = 13,
         .bgColor = 14,
@@ -1947,11 +1654,11 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
     },
     { // 21
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = 1,
+        .fontId = 2,
         .x = -1,
-        .y = 1,
+        .y = 2,
         .letterSpacing = 0,
-        .lineSpacing = 0,
+        .lineSpacing = 2,
         .speed = 0,
         .fgColor = 13,
         .bgColor = 14,
@@ -1959,9 +1666,9 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
     },
     { // 22
         .fillValue = PIXEL_FILL(0x1),
-        .fontId = 1,
+        .fontId = 2,
         .x = 0,
-        .y = 1,
+        .y = 2,
         .letterSpacing = 0,
         .lineSpacing = 0,
         .speed = 1,
@@ -1971,10 +1678,10 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
     },
 };
 
-static const struct BattleWindowText *const sBattleTextOnWindowsInfo[] =
-{
-    sTextOnWindowsInfo_Normal, sTextOnWindowsInfo_Arena
-};
+//static const struct BattleWindowText *const sBattleTextOnWindowsInfo[] =
+//{
+//    sTextOnWindowsInfo_Normal, sTextOnWindowsInfo_Arena
+//};
 
 static const u8 sRecordedBattleTextSpeeds[] = {8, 4, 1, 0};
 
@@ -2970,7 +2677,6 @@ static void ChooseTypeOfMoveUsedString(u8* dst)
 
 void BattlePutTextOnWindow(const u8 *text, u8 windowId)
 {
-    const struct BattleWindowText *textInfo = sBattleTextOnWindowsInfo[gBattleScripting.windowsType];
     bool32 copyToVram;
     struct TextPrinterTemplate printerTemplate;
     u8 speed;
@@ -2982,27 +2688,27 @@ void BattlePutTextOnWindow(const u8 *text, u8 windowId)
     }
     else
     {
-        FillWindowPixelBuffer(windowId, textInfo[windowId].fillValue);
+        FillWindowPixelBuffer(windowId, sTextOnWindowsInfo_Normal[windowId].fillValue);
         copyToVram = TRUE;
     }
 
     printerTemplate.currentChar = text;
     printerTemplate.windowId = windowId;
-    printerTemplate.fontId = textInfo[windowId].fontId;
-    printerTemplate.x = textInfo[windowId].x;
-    printerTemplate.y = textInfo[windowId].y;
+    printerTemplate.fontId = sTextOnWindowsInfo_Normal[windowId].fontId;
+    printerTemplate.x = sTextOnWindowsInfo_Normal[windowId].x;
+    printerTemplate.y = sTextOnWindowsInfo_Normal[windowId].y;
     printerTemplate.currentX = printerTemplate.x;
     printerTemplate.currentY = printerTemplate.y;
-    printerTemplate.letterSpacing = textInfo[windowId].letterSpacing;
-    printerTemplate.lineSpacing = textInfo[windowId].lineSpacing;
+    printerTemplate.letterSpacing = sTextOnWindowsInfo_Normal[windowId].letterSpacing;
+    printerTemplate.lineSpacing = sTextOnWindowsInfo_Normal[windowId].lineSpacing;
     printerTemplate.style = 0;
-    printerTemplate.fgColor = textInfo[windowId].fgColor;
-    printerTemplate.bgColor = textInfo[windowId].bgColor;
-    printerTemplate.shadowColor = textInfo[windowId].shadowColor;
+    printerTemplate.fgColor = sTextOnWindowsInfo_Normal[windowId].fgColor;
+    printerTemplate.bgColor = sTextOnWindowsInfo_Normal[windowId].bgColor;
+    printerTemplate.shadowColor = sTextOnWindowsInfo_Normal[windowId].shadowColor;
 
     if (printerTemplate.x == 0xFF)
     {
-        u32 width = sub_80397C4(gBattleScripting.windowsType, windowId);
+        u32 width = sub_80397C4(windowId);
         s32 alignX = GetStringCenterAlignXOffsetWithLetterSpacing(printerTemplate.fontId, printerTemplate.currentChar, width, printerTemplate.letterSpacing);
         printerTemplate.x = printerTemplate.currentX = alignX;
     }
@@ -3030,7 +2736,7 @@ void BattlePutTextOnWindow(const u8 *text, u8 windowId)
     }
     else
     {
-        speed = textInfo[windowId].speed;
+        speed = sTextOnWindowsInfo_Normal[windowId].speed;
         gTextFlags.canABSpeedUpPrint = 0;
     }
 

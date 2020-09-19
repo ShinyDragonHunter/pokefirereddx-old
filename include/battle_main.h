@@ -53,7 +53,7 @@ void nullsub_17(struct Sprite *sprite);
 void sub_8038B74(struct Sprite *sprite);
 void sub_8038D64(void);
 u32 sub_80391E0(u8 arrayId, u8 caseId);
-u32 sub_80397C4(u32 setId, u32 tableId);
+u32 sub_80397C4(u8 windowId);
 void SpriteCb_WildMon(struct Sprite *sprite);
 void SpriteCallbackDummy_2(struct Sprite *sprite);
 void SpriteCB_FaintOpponentMon(struct Sprite *sprite);

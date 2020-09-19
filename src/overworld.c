@@ -1167,10 +1167,12 @@ static void TransitionMapMusic(void)
         u16 currentMusic = GetCurrentMapMusic();
         if (newMusic != MUS_ABNORMAL_WEATHER && newMusic != 0xFFFF)
         {
-            if (currentMusic == MUS_UNDERWATER || currentMusic == MUS_SURF)
+            if (currentMusic == MUS_UNDERWATER || currentMusic == MUS_SURF || currentMusic == MUS_RG_SURF)
                 return;
             if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
-                newMusic = MUS_SURF;
+                newMusic = MUS_RG_SURF;
+//            else if (gMapHeader.regionMapSectionId == MAPSEC_BATTLE_FRONTIER)
+//                newMusic = MUS_SURF;
         }
         if (newMusic != currentMusic)
         {

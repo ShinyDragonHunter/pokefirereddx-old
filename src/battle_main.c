@@ -66,7 +66,7 @@ extern struct MusicPlayerInfo gMPlayInfo_SE1;
 extern struct MusicPlayerInfo gMPlayInfo_SE2;
 
 extern const struct BgTemplate gBattleBgTemplates[];
-extern const struct WindowTemplate *const gBattleWindowTemplates[];
+extern const struct WindowTemplate gStandardBattleWindowTemplates[];
 
 // this file's functions
 #if !defined(NONMATCHING) && MODERN
@@ -2625,9 +2625,9 @@ static void TryCorrectShedinjaLanguage(struct Pokemon *mon)
     }
 }
 
-u32 sub_80397C4(u32 setId, u32 tableId)
+u32 sub_80397C4(u8 windowId)
 {
-    return gBattleWindowTemplates[setId][tableId].width * 8;
+    return gStandardBattleWindowTemplates[windowId].width * 8;
 }
 
 #define sBattler            data[0]

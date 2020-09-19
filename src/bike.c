@@ -7,6 +7,7 @@
 #include "metatile_behavior.h"
 #include "overworld.h"
 #include "sound.h"
+#include "constants/region_map_sections.h"
 #include "constants/map_types.h"
 #include "constants/songs.h"
 
@@ -984,8 +985,17 @@ void GetOnOffBike(u8 transitionFlags)
     else
     {
         SetPlayerAvatarTransitionFlags(transitionFlags);
-        Overworld_SetSavedMusic(MUS_CYCLING);
-        Overworld_ChangeMusicTo(MUS_CYCLING);
+        if (gMapHeader.regionMapSectionId == MAPSEC_BATTLE_FRONTIER 
+         || gMapHeader.regionMapSectionId == MAPSEC_ARTISAN_CAVE)
+        {
+            Overworld_SetSavedMusic(MUS_CYCLING);
+            Overworld_ChangeMusicTo(MUS_CYCLING);
+        }
+        else
+        {
+            Overworld_SetSavedMusic(MUS_RG_CYCLING);
+            Overworld_ChangeMusicTo(MUS_RG_CYCLING);
+        }
     }
 }
 
