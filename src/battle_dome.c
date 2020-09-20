@@ -4304,7 +4304,7 @@ static void DisplayTrainerInfoOnCard(u8 flags, u8 trainerTourneyId)
     textPrinter.currentX = textPrinter.x;
     textPrinter.currentY = textPrinter.y;
     textPrinter.letterSpacing = 2;
-    textPrinter.lineSpacing = 0;
+    textPrinter.lineSpacing = 2;
     textPrinter.style = 0;
     textPrinter.fgColor = TEXT_DYNAMIC_COLOR_5;
     textPrinter.bgColor = TEXT_COLOR_TRANSPARENT;
@@ -4313,7 +4313,7 @@ static void DisplayTrainerInfoOnCard(u8 flags, u8 trainerTourneyId)
     // Get class and trainer name
     i = 0;
     if (trainerId == TRAINER_PLAYER)
-        j = gFacilityClassToTrainerClass[FACILITY_CLASS_BRENDAN];
+        j = gFacilityClassToTrainerClass[FACILITY_CLASS_RED];
     else if (trainerId == TRAINER_FRONTIER_BRAIN)
         j = GetDomeBrainTrainerClass();
     else
@@ -4379,7 +4379,7 @@ static void DisplayTrainerInfoOnCard(u8 flags, u8 trainerTourneyId)
     else
         textPrinter.currentChar = sBattleDomePotentialTexts[trainerTourneyId];
 
-    textPrinter.fontId = 1;
+    textPrinter.fontId = 2;
     textPrinter.windowId = windowId + 4;
     textPrinter.currentX = 0;
     textPrinter.y = 4;
@@ -4837,7 +4837,7 @@ static void DisplayMatchInfoOnCard(u8 flags, u8 matchNo)
     textPrinter.currentX = textPrinter.x;
     textPrinter.currentY = textPrinter.y;
     textPrinter.letterSpacing = 0;
-    textPrinter.lineSpacing = 0;
+    textPrinter.lineSpacing = 2;
     textPrinter.style = 0;
     textPrinter.fgColor = TEXT_DYNAMIC_COLOR_5;
     textPrinter.bgColor = TEXT_COLOR_TRANSPARENT;
@@ -4845,7 +4845,7 @@ static void DisplayMatchInfoOnCard(u8 flags, u8 matchNo)
     StringExpandPlaceholders(gStringVar4, sBattleDomeWinTexts[winStringId]);
     textPrinter.currentChar = gStringVar4;
     textPrinter.windowId = windowId + 8;
-    textPrinter.fontId = 1;
+    textPrinter.fontId = 2;
     PutWindowTilemap(windowId + 8);
     CopyWindowToVram(windowId + 8, 3);
     textPrinter.currentX = 0;
@@ -5333,7 +5333,7 @@ static void Task_ShowTourneyTree(u8 taskId)
         textPrinter.x = 0;
         textPrinter.y = 0;
         textPrinter.letterSpacing = 2;
-        textPrinter.lineSpacing = 0;
+        textPrinter.lineSpacing = 2;
         textPrinter.currentX = GetStringCenterAlignXOffsetWithLetterSpacing(textPrinter.fontId, textPrinter.currentChar, 0x70, textPrinter.letterSpacing);
         textPrinter.currentY = 1;
         textPrinter.style = 0;
@@ -5516,7 +5516,7 @@ static void Task_HandleStaticTourneyTreeInput(u8 taskId)
             textPrinter.x = 0;
             textPrinter.y = 0;
             textPrinter.letterSpacing = 2;
-            textPrinter.lineSpacing = 0;
+            textPrinter.lineSpacing = 2;
             textPrinter.style = 0;
             textPrinter.fgColor = TEXT_DYNAMIC_COLOR_2;
             textPrinter.bgColor = TEXT_COLOR_TRANSPARENT;

@@ -67,17 +67,17 @@ static const struct ListMenuTemplate sDaycareListMenuLevelTemplate =
     .totalItems = 3,
     .maxShowed = 3,
     .windowId = 0,
-    .header_X = 0,
+    .header_X = 2,
     .item_X = 8,
     .cursor_X = 0,
-    .upText_Y = 1,
+    .upText_Y = 0,
     .cursorPal = 2,
     .fillValue = 1,
     .cursorShadowPal = 3,
     .lettersSpacing = 1,
     .itemVerticalPadding = 0,
     .scrollMultiple = LIST_NO_MULTIPLE_SCROLL,
-    .fontId = 1,
+    .fontId = 3,
     .cursorKind = 0
 };
 
@@ -1181,14 +1181,14 @@ static void DaycareAddTextPrinter(u8 windowId, const u8 *text, u32 x, u32 y)
 
     printer.currentChar = text;
     printer.windowId = windowId;
-    printer.fontId = 1;
+    printer.fontId = 3;
     printer.x = x;
     printer.y = y;
     printer.currentX = x;
     printer.currentY = y;
     printer.style = 0;
     gTextFlags.useAlternateDownArrow = 0;
-    printer.letterSpacing = 0;
+    printer.letterSpacing = 1;
     printer.lineSpacing = 1;
     printer.fgColor = 2;
     printer.bgColor = 1;

@@ -699,16 +699,16 @@ static const struct ListMenuTemplate sListMenuTemplate_PossibleGroupMembers = {
     .maxShowed = 5,
     .windowId = 0,
     .header_X = 0,
-    .item_X = 0,
+    .item_X = 1,
     .cursor_X = 0,
-    .upText_Y = 1,
+    .upText_Y = 0,
     .cursorPal = 2,
     .fillValue = 1,
     .cursorShadowPal = 3,
     .lettersSpacing = 0,
-    .itemVerticalPadding = 0,
+    .itemVerticalPadding = 2,
     .scrollMultiple = 0,
-    .fontId = 1,
+    .fontId = 2,
     .cursorKind = 1
 };
 
@@ -761,14 +761,14 @@ static const struct ListMenuTemplate sListMenuTemplate_UnionRoomGroups = {
     .header_X = 0,
     .item_X = 8,
     .cursor_X = 0,
-    .upText_Y = 1,
+    .upText_Y = 0,
     .cursorPal = 2,
     .fillValue = 1,
     .cursorShadowPal = 3,
     .lettersSpacing = 0,
-    .itemVerticalPadding = 0,
+    .itemVerticalPadding = 2,
     .scrollMultiple = 1,
-    .fontId = 1,
+    .fontId = 2,
     .cursorKind = 0
 };
 
@@ -799,14 +799,14 @@ static const struct ListMenuTemplate sListMenuTemplate_InviteToActivity = {
     .header_X = 0,
     .item_X = 8,
     .cursor_X = 0,
-    .upText_Y = 1,
+    .upText_Y = 0,
     .cursorPal = 2,
     .fillValue = 1,
     .cursorShadowPal = 3,
-    .lettersSpacing = 0,
+    .lettersSpacing = 1,
     .itemVerticalPadding = 0,
     .scrollMultiple = 0,
-    .fontId = 1,
+    .fontId = 2,
     .cursorKind = 0
 };
 
@@ -836,14 +836,14 @@ static const struct ListMenuTemplate sListMenuTemplate_RegisterForTrade = {
     .header_X = 0,
     .item_X = 8,
     .cursor_X = 0,
-    .upText_Y = 1,
+    .upText_Y = 0,
     .cursorPal = 2,
     .fillValue = 1,
     .cursorShadowPal = 3,
-    .lettersSpacing = 0,
+    .lettersSpacing = 1,
     .itemVerticalPadding = 0,
     .scrollMultiple = 0,
-    .fontId = 1,
+    .fontId = 2,
     .cursorKind = 0
 };
 
@@ -888,14 +888,14 @@ static const struct ListMenuTemplate sMenuTemplate_TradingBoardRequestType = {
     .header_X = 0,
     .item_X = 8,
     .cursor_X = 0,
-    .upText_Y = 1,
+    .upText_Y = 2,
     .cursorPal = 2,
     .fillValue = 1,
     .cursorShadowPal = 3,
-    .lettersSpacing = 0,
+    .lettersSpacing = 1,
     .itemVerticalPadding = 0,
     .scrollMultiple = 0,
-    .fontId = 1,
+    .fontId = 2,
     .cursorKind = 0
 };
 
@@ -940,16 +940,16 @@ static const struct ListMenuTemplate sTradeBoardListMenuTemplate = {
     .maxShowed = 6,
     .windowId = 0,
     .header_X = 0,
-    .item_X = 8,
+    .item_X = 12,
     .cursor_X = 0,
-    .upText_Y = 1,
+    .upText_Y = 2,
     .cursorPal = 14,
     .fillValue = 15,
     .cursorShadowPal = 13,
-    .lettersSpacing = 0,
-    .itemVerticalPadding = 0,
+    .lettersSpacing = 1,
+    .itemVerticalPadding = 1,
     .scrollMultiple = 0,
-    .fontId = 1,
+    .fontId = 2,
     .cursorKind = 0
 };
 

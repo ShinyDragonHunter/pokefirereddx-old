@@ -1171,8 +1171,6 @@ static void TransitionMapMusic(void)
                 return;
             if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
                 newMusic = MUS_RG_SURF;
-//            else if (gMapHeader.regionMapSectionId == MAPSEC_BATTLE_FRONTIER)
-//                newMusic = MUS_SURF;
         }
         if (newMusic != currentMusic)
         {

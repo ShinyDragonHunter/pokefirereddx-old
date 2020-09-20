@@ -1631,7 +1631,7 @@ u8 InitMenuInUpperLeftCorner(u8 windowId, u8 itemCount, u8 initialCursorPos, boo
     sMenu.minCursorPos = 0;
     sMenu.maxCursorPos = itemCount - 1;
     sMenu.windowId = windowId;
-    sMenu.fontId = 1;
+    sMenu.fontId = 2;
     sMenu.optionHeight = 16;
     sMenu.APressMuted = APressMuted;
 
@@ -1668,7 +1668,7 @@ void sub_81995E4(u8 windowId, u8 itemCount, const struct MenuAction *strs, const
     struct TextPrinterTemplate printer;
 
     printer.windowId = windowId;
-    printer.fontId = 1;
+    printer.fontId = 2;
     printer.fgColor = GetFontAttribute(1, FONTATTR_COLOR_FOREGROUND);
     printer.bgColor = GetFontAttribute(1, FONTATTR_COLOR_BACKGROUND);
     printer.shadowColor = GetFontAttribute(1, FONTATTR_COLOR_SHADOW);
@@ -1698,7 +1698,7 @@ void CreateYesNoMenu(const struct WindowTemplate *window, u16 baseTileNum, u8 pa
 
     printer.currentChar = gText_YesNo;
     printer.windowId = sYesNoWindowId;
-    printer.fontId = 1;
+    printer.fontId = 2;
     printer.x = 8;
     printer.y = 1;
     printer.currentX = printer.x;
@@ -1733,7 +1733,7 @@ void sub_819983C(u8 windowId, u8 a4, u8 itemCount, u8 itemCount2, const struct M
     struct TextPrinterTemplate printer;
 
     printer.windowId = windowId;
-    printer.fontId = 1;
+    printer.fontId = 2;
     printer.fgColor = GetFontAttribute(1, FONTATTR_COLOR_FOREGROUND);
     printer.bgColor = GetFontAttribute(1, FONTATTR_COLOR_BACKGROUND);
     printer.shadowColor = GetFontAttribute(1, FONTATTR_COLOR_SHADOW);
@@ -1766,7 +1766,7 @@ u8 sub_8199944(u8 windowId, u8 optionWidth, u8 columns, u8 rows, u8 initialCurso
     sMenu.minCursorPos = 0;
     sMenu.maxCursorPos = (columns * rows) - 1;
     sMenu.windowId = windowId;
-    sMenu.fontId = 1;
+    sMenu.fontId = 2;
     sMenu.optionWidth = optionWidth;
     sMenu.optionHeight = 16;
     sMenu.columns = columns;

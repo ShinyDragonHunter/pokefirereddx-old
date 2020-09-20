@@ -226,14 +226,14 @@ static const struct ListMenuTemplate sListMenuTemplate_ThreeOptions = {
     .header_X = 0,
     .item_X = 8,
     .cursor_X = 0,
-    .upText_Y = 1,
+    .upText_Y = 0,
     .cursorPal = 2,
     .fillValue = 1,
     .cursorShadowPal = 3,
     .lettersSpacing = 0,
     .itemVerticalPadding = 0,
     .scrollMultiple = 0,
-    .fontId = 1,
+    .fontId = 2,
     .cursorKind = 0
 };
 
@@ -271,14 +271,14 @@ static const struct ListMenuTemplate sListMenu_ReceiveSendToss = {
     .header_X = 0,
     .item_X = 8,
     .cursor_X = 0,
-    .upText_Y = 1,
+    .upText_Y = 2,
     .cursorPal = 2,
     .fillValue = 1,
     .cursorShadowPal = 3,
     .lettersSpacing = 0,
     .itemVerticalPadding = 0,
     .scrollMultiple = 0,
-    .fontId = 1,
+    .fontId = 2,
     .cursorKind = 0
 };
 
@@ -292,14 +292,14 @@ static const struct ListMenuTemplate sListMenu_ReceiveToss = {
     .header_X = 0,
     .item_X = 8,
     .cursor_X = 0,
-    .upText_Y = 1,
+    .upText_Y = 0,
     .cursorPal = 2,
     .fillValue = 1,
     .cursorShadowPal = 3,
     .lettersSpacing = 0,
     .itemVerticalPadding = 0,
     .scrollMultiple = 0,
-    .fontId = 1,
+    .fontId = 2,
     .cursorKind = 0
 };
 
@@ -313,14 +313,14 @@ static const struct ListMenuTemplate sListMenu_ReceiveSend = {
     .header_X = 0,
     .item_X = 8,
     .cursor_X = 0,
-    .upText_Y = 1,
+    .upText_Y = 0,
     .cursorPal = 2,
     .fillValue = 1,
     .cursorShadowPal = 3,
     .lettersSpacing = 0,
     .itemVerticalPadding = 0,
     .scrollMultiple = 0,
-    .fontId = 1,
+    .fontId = 2,
     .cursorKind = 0
 };
 
@@ -334,14 +334,14 @@ static const struct ListMenuTemplate sListMenu_Receive = {
     .header_X = 0,
     .item_X = 8,
     .cursor_X = 0,
-    .upText_Y = 1,
+    .upText_Y = 0,
     .cursorPal = 2,
     .fillValue = 1,
     .cursorShadowPal = 3,
     .lettersSpacing = 0,
-    .itemVerticalPadding = 0,
+    .itemVerticalPadding = 2,
     .scrollMultiple = 0,
-    .fontId = 1,
+    .fontId = 2,
     .cursorKind = 0
 };
 
