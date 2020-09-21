@@ -24,9 +24,6 @@ gFieldEffectScriptPointers:: @ 82DB9D4
 	.4byte gFieldEffectScript_JumpSmallSplash           @ FLDEFF_JUMP_SMALL_SPLASH
 	.4byte gFieldEffectScript_LongGrass                 @ FLDEFF_LONG_GRASS
 	.4byte gFieldEffectScript_JumpLongGrass             @ FLDEFF_JUMP_LONG_GRASS
-	.4byte gFieldEffectScript_UnusedGrass               @ FLDEFF_UNUSED_GRASS
-	.4byte gFieldEffectScript_UnusedGrass2              @ FLDEFF_UNUSED_GRASS_2
-	.4byte gFieldEffectScript_UnusedSand                @ FLDEFF_UNUSED_SAND
 	.4byte gFieldEffectScript_WaterSurfacing            @ FLDEFF_WATER_SURFACING
 	.4byte gFieldEffectScript_BerryTreeGrowthSparkle    @ FLDEFF_BERRY_TREE_GROWTH_SPARKLE
 	.4byte gFieldEffectScript_DeepSandFootprints        @ FLDEFF_DEEP_SAND_FOOTPRINTS
@@ -147,18 +144,6 @@ gFieldEffectScript_LongGrass:: @ 82DBB6A
 
 gFieldEffectScript_JumpLongGrass:: @ 82DBB74
 	field_eff_loadfadedpal_callnative gSpritePalette_GeneralFieldEffect1, FldEff_JumpLongGrass
-	field_eff_end
-
-gFieldEffectScript_UnusedGrass:: @ 82DBB7E
-	field_eff_loadfadedpal_callnative gSpritePalette_GeneralFieldEffect1, FldEff_UnusedGrass
-	field_eff_end
-
-gFieldEffectScript_UnusedGrass2:: @ 82DBB88
-	field_eff_loadfadedpal_callnative gSpritePalette_GeneralFieldEffect1, FldEff_UnusedGrass2
-	field_eff_end
-
-gFieldEffectScript_UnusedSand:: @ 82DBB92
-	field_eff_loadfadedpal_callnative gSpritePalette_GeneralFieldEffect0, FldEff_UnusedSand
 	field_eff_end
 
 gFieldEffectScript_WaterSurfacing:: @ 82DBB9C

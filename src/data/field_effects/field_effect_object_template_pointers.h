@@ -15,9 +15,6 @@ const struct SpriteTemplate gFieldEffectObjectTemplate_Splash;
 const struct SpriteTemplate gFieldEffectObjectTemplate_JumpSmallSplash;
 const struct SpriteTemplate gFieldEffectObjectTemplate_LongGrass;
 const struct SpriteTemplate gFieldEffectObjectTemplate_JumpLongGrass;
-const struct SpriteTemplate gFieldEffectObjectTemplate_UnusedGrass;
-const struct SpriteTemplate gFieldEffectObjectTemplate_UnusedGrass2;
-const struct SpriteTemplate gFieldEffectObjectTemplate_UnusedSand;
 const struct SpriteTemplate gFieldEffectObjectTemplate_WaterSurfacing;
 const struct SpriteTemplate gFieldEffectObjectTemplate_ReflectionDistortion;
 const struct SpriteTemplate gFieldEffectObjectTemplate_Sparkle;
@@ -54,9 +51,6 @@ const struct SpriteTemplate *const gFieldEffectObjectTemplatePointers[] = {
     [FLDEFFOBJ_JUMP_SMALL_SPLASH]     = &gFieldEffectObjectTemplate_JumpSmallSplash,
     [FLDEFFOBJ_LONG_GRASS]            = &gFieldEffectObjectTemplate_LongGrass,
     [FLDEFFOBJ_JUMP_LONG_GRASS]       = &gFieldEffectObjectTemplate_JumpLongGrass,
-    [FLDEFFOBJ_UNUSED_GRASS]          = &gFieldEffectObjectTemplate_UnusedGrass,
-    [FLDEFFOBJ_UNUSED_GRASS_2]        = &gFieldEffectObjectTemplate_UnusedGrass2,
-    [FLDEFFOBJ_UNUSED_SAND]           = &gFieldEffectObjectTemplate_UnusedSand,
     [FLDEFFOBJ_WATER_SURFACING]       = &gFieldEffectObjectTemplate_WaterSurfacing,
     [FLDEFFOBJ_REFLECTION_DISTORTION] = &gFieldEffectObjectTemplate_ReflectionDistortion,
     [FLDEFFOBJ_SPARKLE]               = &gFieldEffectObjectTemplate_Sparkle,

@@ -63,28 +63,16 @@ const struct SpriteFrameImage gObjectEventPicTable_BrendanAcroBike[] = {
 
 const struct SpriteFrameImage gObjectEventPicTable_BrendanSurfing[] = {
     overworld_frame(gObjectEventPic_BrendanSurfing, 4, 4, 0),
-    overworld_frame(gObjectEventPic_BrendanSurfing, 4, 4, 2),
-    overworld_frame(gObjectEventPic_BrendanSurfing, 4, 4, 4),
-    overworld_frame(gObjectEventPic_BrendanSurfing, 4, 4, 0),
-    overworld_frame(gObjectEventPic_BrendanSurfing, 4, 4, 0),
-    overworld_frame(gObjectEventPic_BrendanSurfing, 4, 4, 2),
-    overworld_frame(gObjectEventPic_BrendanSurfing, 4, 4, 2),
-    overworld_frame(gObjectEventPic_BrendanSurfing, 4, 4, 4),
-    overworld_frame(gObjectEventPic_BrendanSurfing, 4, 4, 4),
     overworld_frame(gObjectEventPic_BrendanSurfing, 4, 4, 1),
+    overworld_frame(gObjectEventPic_BrendanSurfing, 4, 4, 2),
     overworld_frame(gObjectEventPic_BrendanSurfing, 4, 4, 3),
+    overworld_frame(gObjectEventPic_BrendanSurfing, 4, 4, 4),
     overworld_frame(gObjectEventPic_BrendanSurfing, 4, 4, 5),
 };
 
 const struct SpriteFrameImage gObjectEventPicTable_BrendanUnderwater[] = {
     overworld_frame(gObjectEventPic_BrendanUnderwater, 4, 4, 0),
     overworld_frame(gObjectEventPic_BrendanUnderwater, 4, 4, 1),
-    overworld_frame(gObjectEventPic_BrendanUnderwater, 4, 4, 2),
-    overworld_frame(gObjectEventPic_BrendanUnderwater, 4, 4, 0),
-    overworld_frame(gObjectEventPic_BrendanUnderwater, 4, 4, 0),
-    overworld_frame(gObjectEventPic_BrendanUnderwater, 4, 4, 1),
-    overworld_frame(gObjectEventPic_BrendanUnderwater, 4, 4, 1),
-    overworld_frame(gObjectEventPic_BrendanUnderwater, 4, 4, 2),
     overworld_frame(gObjectEventPic_BrendanUnderwater, 4, 4, 2),
 };
 
@@ -1054,28 +1042,16 @@ const struct SpriteFrameImage gObjectEventPicTable_MayAcroBike[] = {
 
 const struct SpriteFrameImage gObjectEventPicTable_MaySurfing[] = {
     overworld_frame(gObjectEventPic_MaySurfing, 4, 4, 0),
-    overworld_frame(gObjectEventPic_MaySurfing, 4, 4, 2),
-    overworld_frame(gObjectEventPic_MaySurfing, 4, 4, 4),
-    overworld_frame(gObjectEventPic_MaySurfing, 4, 4, 0),
-    overworld_frame(gObjectEventPic_MaySurfing, 4, 4, 0),
-    overworld_frame(gObjectEventPic_MaySurfing, 4, 4, 2),
-    overworld_frame(gObjectEventPic_MaySurfing, 4, 4, 2),
-    overworld_frame(gObjectEventPic_MaySurfing, 4, 4, 4),
-    overworld_frame(gObjectEventPic_MaySurfing, 4, 4, 4),
     overworld_frame(gObjectEventPic_MaySurfing, 4, 4, 1),
+    overworld_frame(gObjectEventPic_MaySurfing, 4, 4, 2),
     overworld_frame(gObjectEventPic_MaySurfing, 4, 4, 3),
+    overworld_frame(gObjectEventPic_MaySurfing, 4, 4, 4),
     overworld_frame(gObjectEventPic_MaySurfing, 4, 4, 5),
 };
 
 const struct SpriteFrameImage gObjectEventPicTable_MayUnderwater[] = {
     overworld_frame(gObjectEventPic_MayUnderwater, 4, 4, 0),
     overworld_frame(gObjectEventPic_MayUnderwater, 4, 4, 1),
-    overworld_frame(gObjectEventPic_MayUnderwater, 4, 4, 2),
-    overworld_frame(gObjectEventPic_MayUnderwater, 4, 4, 0),
-    overworld_frame(gObjectEventPic_MayUnderwater, 4, 4, 0),
-    overworld_frame(gObjectEventPic_MayUnderwater, 4, 4, 1),
-    overworld_frame(gObjectEventPic_MayUnderwater, 4, 4, 1),
-    overworld_frame(gObjectEventPic_MayUnderwater, 4, 4, 2),
     overworld_frame(gObjectEventPic_MayUnderwater, 4, 4, 2),
 };
 
@@ -2126,15 +2102,7 @@ const struct SpriteFrameImage gObjectEventPicTable_Brandon[] = {
 };
 
 const struct SpriteFrameImage gObjectEventPicTable_Lugia[] = {
-    overworld_frame(gObjectEventPic_Lugia, 4, 4, 0),
-    overworld_frame(gObjectEventPic_Lugia, 4, 4, 0),
-    overworld_frame(gObjectEventPic_Lugia, 4, 4, 0),
-    overworld_frame(gObjectEventPic_Lugia, 4, 4, 0),
-    overworld_frame(gObjectEventPic_Lugia, 4, 4, 1),
-    overworld_frame(gObjectEventPic_Lugia, 4, 4, 0),
-    overworld_frame(gObjectEventPic_Lugia, 4, 4, 1),
-    overworld_frame(gObjectEventPic_Lugia, 4, 4, 0),
-    overworld_frame(gObjectEventPic_Lugia, 4, 4, 1),
+    obj_frame_tiles(gObjectEventPic_Lugia),
 };
 
 const struct SpriteFrameImage gObjectEventPicTable_HoOh[] = {

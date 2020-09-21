@@ -439,7 +439,7 @@ $(OBJEVENTGFXDIR)/pokemon/latias_latios.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
 $(OBJEVENTGFXDIR)/pokemon/lugia.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 4 -mheight 4
+	$(GFX) $< $@ -mwidth 4 -mheight 1
 
 $(OBJEVENTGFXDIR)/pokemon/mew.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
@@ -642,12 +642,6 @@ $(FLDEFFGFXDIR)/unknown_16.4bpp: %.4bpp: %.png
 $(FLDEFFGFXDIR)/unknown_17.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 2
 
-$(FLDEFFGFXDIR)/unused_grass_2.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 2 -mheight 2
-
-$(FLDEFFGFXDIR)/unused_sand.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 2 -mheight 2
-
 $(FLDEFFGFXDIR)/water_surfacing.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 2
 
@@ -658,9 +652,6 @@ $(FLDEFFGFXDIR)/ash_launch.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 2
 
 $(FLDEFFGFXDIR)/small_sparkle.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 2 -mheight 2
-
-$(FLDEFFGFXDIR)/unused_grass_3.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 2
 
 $(FLDEFFGFXDIR)/secret_power_cave.4bpp: %.4bpp: %.png
