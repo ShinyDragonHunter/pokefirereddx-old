@@ -2679,7 +2679,7 @@ static void sub_8027BEC(u8 windowId, s32 width)
     results[1] = gSaveBlock2Ptr->berryPick.bestScore;
     results[2] = gSaveBlock2Ptr->berryPick.berriesPickedInRow;
 
-    LoadUserWindowBorderGfx_(windowId, 0x21D, 0xD0);
+    SetStdFrame(windowId, 0x21D, 0xD0);
     DrawTextBorderOuter(windowId, 0x21D, 0xD);
     FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
     AddTextPrinterParameterized(windowId, 1, gText_BerryPickingRecords, GetStringCenterAlignXOffset(1, gText_BerryPickingRecords, width * 8), 1, TEXT_SPEED_FF, NULL);

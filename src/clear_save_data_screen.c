@@ -80,7 +80,7 @@ void CB2_InitClearSaveDataScreen(void)
 static void Task_DoClearSaveDataScreenYesNo(u8 taskId)
 {
     DrawStdFrameWithCustomTileAndPalette(0, 0, 2, 14);
-    AddTextPrinterParameterized(0, 1, gText_ClearAllSaveData, 0, 1, 0, 0);
+    AddTextPrinterParameterized(0, 2, gText_ClearAllSaveData, 0, 1, 0, 0);
     CreateYesNoMenu(sClearSaveYesNo, 2, 14, 1);
     gTasks[taskId].func = Task_ClearSaveDataScreenYesNoChoice;
 }

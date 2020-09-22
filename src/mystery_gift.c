@@ -413,7 +413,7 @@ bool32 HandleMysteryGiftOrEReaderSetup(s32 mg_or_ereader)
         LoadPalette(GetTextWindowPalette(2), 0xd0, 0x20);
         Menu_LoadStdPalAt(0xC0);
         LoadUserWindowBorderGfx(0, 0xA, 0xE0);
-        LoadUserWindowBorderGfx_(0, 0x1, 0xF0);
+        SetStdFrame(0, 0x1, 0xF0);
         FillBgTilemapBufferRect(0, 0x000, 0, 0, 32, 32, 0x11);
         FillBgTilemapBufferRect(1, 0x000, 0, 0, 32, 32, 0x11);
         FillBgTilemapBufferRect(2, 0x000, 0, 0, 32, 32, 0x11);
