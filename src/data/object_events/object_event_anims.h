@@ -232,7 +232,7 @@ const union AnimCmd gObjectEventImageAnim_GetOnOffSurfBlobWest[] =
 
 const union AnimCmd gObjectEventImageAnim_GetOnOffSurfBlobEast[] =
 {
-    ANIMCMD_FRAME(5, 32, .hFlip = TRUE),
+    ANIMCMD_FRAME(5, 1, .hFlip = TRUE),
     ANIMCMD_JUMP(0),
 };
 

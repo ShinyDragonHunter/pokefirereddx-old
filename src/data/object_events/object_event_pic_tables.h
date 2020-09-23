@@ -2107,13 +2107,6 @@ const struct SpriteFrameImage gObjectEventPicTable_Lugia[] = {
 
 const struct SpriteFrameImage gObjectEventPicTable_HoOh[] = {
     overworld_frame(gObjectEventPic_HoOh, 4, 4, 0),
-    overworld_frame(gObjectEventPic_HoOh, 4, 4, 0),
-    overworld_frame(gObjectEventPic_HoOh, 4, 4, 0),
-    overworld_frame(gObjectEventPic_HoOh, 4, 4, 0),
-    overworld_frame(gObjectEventPic_HoOh, 4, 4, 1),
-    overworld_frame(gObjectEventPic_HoOh, 4, 4, 0),
-    overworld_frame(gObjectEventPic_HoOh, 4, 4, 1),
-    overworld_frame(gObjectEventPic_HoOh, 4, 4, 0),
     overworld_frame(gObjectEventPic_HoOh, 4, 4, 1),
 };
 

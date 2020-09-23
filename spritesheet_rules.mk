@@ -438,9 +438,6 @@ $(OBJEVENTGFXDIR)/pokemon/kyogre.4bpp: %.4bpp: %.png
 $(OBJEVENTGFXDIR)/pokemon/latias_latios.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
-$(OBJEVENTGFXDIR)/pokemon/lugia.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -mwidth 4 -mheight 1
-
 $(OBJEVENTGFXDIR)/pokemon/mew.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
