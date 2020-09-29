@@ -32,9 +32,14 @@ EXE :=
 endif
 
 TITLE       := POKEMON EMER
+ifeq ($(UK),1)
+GAME_CODE   := BPEP
+else
 GAME_CODE   := BPEE
+endif
 MAKER_CODE  := 01
 REVISION    := 0
+UK          ?= 0
 MODERN      ?= 0
 
 SHELL := /bin/bash -o pipefail
@@ -59,7 +64,7 @@ DATA_ASM_BUILDDIR = $(OBJ_DIR)/$(DATA_ASM_SUBDIR)
 SONG_BUILDDIR = $(OBJ_DIR)/$(SONG_SUBDIR)
 MID_BUILDDIR = $(OBJ_DIR)/$(MID_SUBDIR)
 
-ASFLAGS := -mcpu=arm7tdmi --defsym MODERN=$(MODERN)
+ASFLAGS := -mcpu=arm7tdmi --defsym MODERN=$(MODERN) --defsym UK=$(UK)
 
 ifeq ($(MODERN),0)
 CC1             := tools/agbcc/bin/agbcc$(EXE)
@@ -75,7 +80,15 @@ OBJ_DIR := build/modern
 LIBPATH := -L "$(dir $(shell $(CC) -mthumb -print-file-name=libgcc.a))" -L "$(dir $(shell $(CC) -mthumb -print-file-name=libc.a))"
 endif
 
-CPPFLAGS := -iquote include -iquote $(GFLIB_SUBDIR) -Wno-trigraphs -DMODERN=$(MODERN)
+ifeq ($(UK),1)
+CC1             := tools/agbcc/bin/agbcc$(EXE)
+override CFLAGS += -mthumb-interwork -Wimplicit -Wparentheses -Werror -O2 -fhex-asm
+ROM := pokeemerald_uk.gba
+OBJ_DIR := build/emerald_uk
+LIBPATH := -L ../../tools/agbcc/lib
+endif
+
+CPPFLAGS := -iquote include -iquote $(GFLIB_SUBDIR) -Wno-trigraphs -DMODERN=$(MODERN) -DUK=$(UK)
 ifeq ($(MODERN),0)
 CPPFLAGS += -I tools/agbcc/include -I tools/agbcc
 endif
@@ -305,6 +318,11 @@ $(OBJ_DIR)/sym_common.ld: sym_common.txt $(C_OBJS) $(wildcard common_syms/*.txt)
 $(OBJ_DIR)/sym_ewram.ld: sym_ewram.txt
 	$(RAMSCRGEN) ewram_data $< ENGLISH > $@
 
+ifeq ($(UK),1)
+LD_SCRIPT := ld_script.txt
+LD_SCRIPT_DEPS := $(OBJ_DIR)/sym_bss.ld $(OBJ_DIR)/sym_common.ld $(OBJ_DIR)/sym_ewram.ld
+endif
+
 ifeq ($(MODERN),0)
 LD_SCRIPT := ld_script.txt
 LD_SCRIPT_DEPS := $(OBJ_DIR)/sym_bss.ld $(OBJ_DIR)/sym_common.ld $(OBJ_DIR)/sym_ewram.ld
@@ -325,6 +343,7 @@ $(ROM): $(ELF)
 	$(FIX) $@ -p --silent
 
 modern: ; @$(MAKE) MODERN=1
+uk:     ; @$(MAKE) UK=1
 
 berry_fix/berry_fix.gba: berry_fix
 

@@ -12,7 +12,11 @@ static const u8 sTimidNatureName[] = _("TIMID");
 static const u8 sHastyNatureName[] = _("HASTY");
 static const u8 sSeriousNatureName[] = _("SERIOUS");
 static const u8 sJollyNatureName[] = _("JOLLY");
+#if UK
+static const u8 sNaiveNatureName[] = _("NAÏVE");
+#else
 static const u8 sNaiveNatureName[] = _("NAIVE");
+#endif
 static const u8 sModestNatureName[] = _("MODEST");
 static const u8 sMildNatureName[] = _("MILD");
 static const u8 sQuietNatureName[] = _("QUIET");

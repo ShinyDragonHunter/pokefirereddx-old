@@ -179,7 +179,7 @@ u16 AddTextPrinterParameterized2(u8 windowId, u8 fontId, const u8 *str, u8 speed
     printer.currentX = 0;
     printer.currentY = 1;
     printer.letterSpacing = 0;
-    printer.lineSpacing = 0;
+    printer.lineSpacing = 1;
     printer.style = 0;
     printer.fgColor = fgColor;
     printer.bgColor = bgColor;
@@ -193,7 +193,7 @@ void AddTextPrinterForMessage(bool8 allowSkippingDelayWithButtonPress)
 {
     void (*callback)(struct TextPrinterTemplate *, u16) = NULL;
     gTextFlags.canABSpeedUpPrint = allowSkippingDelayWithButtonPress;
-    AddTextPrinterParameterized2(0, 1, gStringVar4, GetPlayerTextSpeedDelay(), callback, 2, 1, 3);
+    AddTextPrinterParameterized2(0, 2, gStringVar4, GetPlayerTextSpeedDelay(), callback, 2, 1, 3);
 }
 
 void AddTextPrinterForMessage_2(bool8 allowSkippingDelayWithButtonPress)

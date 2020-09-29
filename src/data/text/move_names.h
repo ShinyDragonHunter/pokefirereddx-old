@@ -107,11 +107,19 @@ const u8 gMoveNames[MOVES_COUNT][MOVE_NAME_LENGTH + 1] =
     [MOVE_DOUBLE_TEAM] = _("DOUBLE TEAM"),
     [MOVE_RECOVER] = _("RECOVER"),
     [MOVE_HARDEN] = _("HARDEN"),
+#if UK
+    [MOVE_MINIMIZE] = _("MINIMISE"),
+#else
     [MOVE_MINIMIZE] = _("MINIMIZE"),
+#endif
     [MOVE_SMOKESCREEN] = _("SMOKESCREEN"),
     [MOVE_CONFUSE_RAY] = _("CONFUSE RAY"),
     [MOVE_WITHDRAW] = _("WITHDRAW"),
+#if UK
+    [MOVE_DEFENSE_CURL] = _("DEFENCE CURL"),
+#else
     [MOVE_DEFENSE_CURL] = _("DEFENSE CURL"),
+#endif
     [MOVE_BARRIER] = _("BARRIER"),
     [MOVE_LIGHT_SCREEN] = _("LIGHT SCREEN"),
     [MOVE_HAZE] = _("HAZE"),
@@ -151,7 +159,11 @@ const u8 gMoveNames[MOVES_COUNT][MOVE_NAME_LENGTH + 1] =
     [MOVE_FLASH] = _("FLASH"),
     [MOVE_PSYWAVE] = _("PSYWAVE"),
     [MOVE_SPLASH] = _("SPLASH"),
+#if UK
+    [MOVE_ACID_ARMOR] = _("ACID ARMOUR"),
+#else
     [MOVE_ACID_ARMOR] = _("ACID ARMOR"),
+#endif
     [MOVE_CRABHAMMER] = _("CRABHAMMER"),
     [MOVE_EXPLOSION] = _("EXPLOSION"),
     [MOVE_FURY_SWIPES] = _("FURY SWIPES"),
@@ -263,7 +275,11 @@ const u8 gMoveNames[MOVES_COUNT][MOVE_NAME_LENGTH + 1] =
     [MOVE_FLATTER] = _("FLATTER"),
     [MOVE_WILL_O_WISP] = _("WILL-O-WISP"),
     [MOVE_MEMENTO] = _("MEMENTO"),
+#if UK
+    [MOVE_FACADE] = _("FAÇADE"),
+#else
     [MOVE_FACADE] = _("FACADE"),
+#endif
     [MOVE_FOCUS_PUNCH] = _("FOCUS PUNCH"),
     [MOVE_SMELLING_SALT] = _("SMELLINGSALT"),
     [MOVE_FOLLOW_ME] = _("FOLLOW ME"),
@@ -334,7 +350,11 @@ const u8 gMoveNames[MOVES_COUNT][MOVE_NAME_LENGTH + 1] =
     [MOVE_BULLET_SEED] = _("BULLET SEED"),
     [MOVE_AERIAL_ACE] = _("AERIAL ACE"),
     [MOVE_ICICLE_SPEAR] = _("ICICLE SPEAR"),
+#if UK
+    [MOVE_IRON_DEFENSE] = _("IRON DEFENCE"),
+#else
     [MOVE_IRON_DEFENSE] = _("IRON DEFENSE"),
+#endif
     [MOVE_BLOCK] = _("BLOCK"),
     [MOVE_HOWL] = _("HOWL"),
     [MOVE_DRAGON_CLAW] = _("DRAGON CLAW"),
