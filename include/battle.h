@@ -521,7 +521,9 @@ struct BattleAnimationInfo
     u8 field_5;
     u8 field_6;
     u8 field_7;
-    u8 ballThrowCaseId;
+    u8 ballThrowCaseId:6;
+    u8 isCriticalCapture:1;
+    u8 criticalCaptureSuccess:1;
     u8 field_9_x1:1;
     u8 wildMonInvisible:1;
     u8 field_9_x1C:3;

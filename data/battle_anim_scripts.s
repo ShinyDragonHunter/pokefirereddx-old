@@ -417,6 +417,7 @@ gBattleAnims_Special::
 	.4byte Special_SwitchOutOpponentMon     @ B_ANIM_SWITCH_OUT_OPPONENT_MON
 	.4byte Special_BallThrow                @ B_ANIM_BALL_THROW
 	.4byte Special_BallThrowWithTrainer     @ B_ANIM_BALL_THROW_WITH_TRAINER
+	.4byte Special_CriticalCaptureBallThrow @ B_ANIM_CRITICAL_CAPTURE_THROW
 	.4byte Special_SubstituteToMon          @ B_ANIM_SUBSTITUTE_TO_MON
 	.4byte Special_MonToSubstitute          @ B_ANIM_MON_TO_SUBSTITUTE
 
@@ -10736,6 +10737,15 @@ BallThrowTrainerBlock:
 	waitforvisualfinish
 	clearmonbg ANIM_DEF_PARTNER
 	blendoff
+	goto BallThrowEnd
+
+Special_CriticalCaptureBallThrow:
+	createvisualtask AnimTask_LoadBallGfx, 2
+	delay 0
+	playsewithpan SE_FALL, 0
+	createvisualtask AnimTask_ThrowBall, 2
+	createvisualtask AnimTask_IsBallBlockedByTrainer, 2
+	jumpreteq -1, BallThrowTrainerBlock
 	goto BallThrowEnd
 
 Special_BallThrowWithTrainer:
