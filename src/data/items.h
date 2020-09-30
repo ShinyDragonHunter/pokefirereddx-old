@@ -4884,4 +4884,17 @@ const struct Item gItems[] =
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
         .secondaryId = 0,
     },
+    [ITEM_SHINY_CHARM] =
+    {
+        .name = _("SHINY CHARM"),
+        .itemId = ITEM_SHINY_CHARM,
+        .price = 0,
+        .description = sShinyCharmDesc,
+        .importance = 1,
+        .unk19 = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = 4,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .secondaryId = 0,
+    },
 };
