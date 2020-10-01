@@ -59,6 +59,7 @@ static void SpriteCB_Ball_Block(struct Sprite *);
 static void SpriteCB_Ball_MonShrink(struct Sprite *);
 static void SpriteCB_Ball_MonShrink_Step(struct Sprite *);
 static void SpriteCB_Ball_Bounce(struct Sprite *);
+static void CB_CriticalCaptureThrownBallMovement(struct Sprite *sprite);
 static void SpriteCB_Ball_Bounce_Step(struct Sprite *);
 static void SpriteCB_Ball_Release(struct Sprite *);
 static void SpriteCB_Ball_Wobble(struct Sprite *);
@@ -98,7 +99,6 @@ static void DiveBallOpenParticleAnimation(u8);
 static void RepeatBallOpenParticleAnimation(u8);
 static void TimerBallOpenParticleAnimation(u8);
 static void PremierBallOpenParticleAnimation(u8);
-static void CB_CriticalCaptureThrownBallMovement(struct Sprite *sprite);
 static void SpriteCB_PokeBlock_Throw(struct Sprite *);
 
 struct CaptureStar
@@ -1006,6 +1006,52 @@ static void SpriteCB_Ball_Bounce(struct Sprite *sprite)
 #undef sState
 #undef sAmplitude
 #undef sPhase
+
+bool8 IsCriticalCapture(void)
+{
+    return gBattleSpritesDataPtr->animationData->isCriticalCapture;
+}
+
+static void CB_CriticalCaptureThrownBallMovement(struct Sprite *sprite)
+{
+    bool8 lastBounce = FALSE;
+    u8 maxBounces = 6;
+    int bounceCount = sprite->data[3] >> 8;
+
+    switch (sprite->data[3] & 0xFF)
+    {
+    case 0:
+        if (bounceCount < 3)
+            sprite->pos2.x++;
+
+        if (++sprite->data[5] >= 3)
+            sprite->data[3] += 257;
+
+        break;
+    case 1:
+        if (bounceCount < 3 || sprite->pos2.x != 0)
+            sprite->pos2.x--;
+
+        if (--sprite->data[5] <= 0)
+        {
+            sprite->data[5] = 0;
+            sprite->data[3] &= -0x100;
+        }
+
+        if (bounceCount >= maxBounces)
+            lastBounce = TRUE;
+
+        break;
+    }
+
+    if (lastBounce)
+    {
+        sprite->data[3] = 0;
+        sprite->data[4] = 40;   //starting max height
+        sprite->data[5] = 0;
+        sprite->callback = SpriteCB_Ball_Bounce_Step;
+    }
+}
 
 #define DIRECTION(state)   (state & 0xFF)
 #define PHASE_DELTA(state) (state >> 8)
@@ -2508,53 +2554,4 @@ void AnimTask_GetBattlersFromArg(u8 taskId)
     gBattleAnimAttacker = gBattleSpritesDataPtr->animationData->animArg;
     gBattleAnimTarget = gBattleSpritesDataPtr->animationData->animArg >> 8;
     DestroyAnimVisualTask(taskId);
-}
-
-bool8 IsCriticalCapture(void)
-{
-    return gBattleSpritesDataPtr->animationData->isCriticalCapture;
-}
-
-static void CB_CriticalCaptureThrownBallMovement(struct Sprite *sprite)
-{
-    bool8 lastBounce = FALSE;
-    u8 maxBounces = 6;
-    int bounceCount = sprite->data[3] >> 8;
-
-    if (bounceCount == 0)
-        PlaySE(SE_BALL);
-
-    switch (sprite->data[3] & 0xFF)
-    {
-    case 0:
-        if (bounceCount < 3)
-            sprite->pos2.x++;
-
-        if (++sprite->data[5] >= 3)
-            sprite->data[3] += 257;
-
-        break;
-    case 1:
-        if (bounceCount < 3 || sprite->pos2.x != 0)
-            sprite->pos2.x--;
-
-        if (--sprite->data[5] <= 0)
-        {
-            sprite->data[5] = 0;
-            sprite->data[3] &= -0x100;
-        }
-
-        if (bounceCount >= maxBounces)
-            lastBounce = TRUE;
-
-        break;
-    }
-
-    if (lastBounce)
-    {
-        sprite->data[3] = 0;
-        sprite->data[4] = 40;   //starting max height
-        sprite->data[5] = 0;
-        sprite->callback = SpriteCB_Ball_Bounce_Step;
-    }
 }

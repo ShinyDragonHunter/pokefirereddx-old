@@ -375,9 +375,9 @@
 #define B_ANIM_LVL_UP                   0x0
 #define B_ANIM_SWITCH_OUT_PLAYER_MON    0x1
 #define B_ANIM_SWITCH_OUT_OPPONENT_MON  0x2
-#define B_ANIM_BALL_THROW               0x3
-#define B_ANIM_BALL_THROW_WITH_TRAINER  0x4
-#define B_ANIM_CRITICAL_CAPTURE_THROW   0x5
+#define B_ANIM_CRITICAL_CAPTURE_THROW   0x3
+#define B_ANIM_BALL_THROW               0x4
+#define B_ANIM_BALL_THROW_WITH_TRAINER  0x5
 #define B_ANIM_SUBSTITUTE_TO_MON        0x6
 #define B_ANIM_MON_TO_SUBSTITUTE        0x7
 

@@ -9919,6 +9919,30 @@ static void Cmd_handleballthrow(void)
     }
 }
 
+static bool32 CriticalCapture(u32 odds)
+{
+    u16 numCaught = GetNationalPokedexCount(FLAG_GET_CAUGHT);
+
+    if (numCaught <= 15)
+        odds = 0;
+    else if (numCaught <= 75)
+        odds /= 2;
+    else if (numCaught <= 150)
+        ;
+    else if (numCaught <= 225)
+        odds = (odds * 150) / 100;
+    else if (numCaught <= 300)
+        odds *= 2;
+    else
+        odds = (odds * 250) / 100;
+
+    odds /= 6;
+    if ((Random() % 255) < odds)
+        return TRUE;
+
+    return FALSE;
+}
+
 static void Cmd_givecaughtmon(void)
 {
     if (GiveMonToPlayer(&gEnemyParty[gBattlerPartyIndexes[gBattlerAttacker ^ BIT_SIDE]]) != MON_GIVEN_TO_PARTY)
@@ -10189,28 +10213,4 @@ static void Cmd_trainerslideout(void)
     MarkBattlerForControllerExec(gActiveBattler);
 
     gBattlescriptCurrInstr += 2;
-}
-
-static bool32 CriticalCapture(u32 odds)
-{
-    u16 numCaught = GetNationalPokedexCount(FLAG_GET_CAUGHT);
-
-    if (numCaught <= 15)
-        odds = 0;
-    else if (numCaught <= 75)
-        odds /= 2;
-    else if (numCaught <= 150)
-        ;
-    else if (numCaught <= 225)
-        odds = (odds * 150) / 100;
-    else if (numCaught <= 300)
-        odds *= 2;
-    else
-        odds = (odds * 250) / 100;
-
-    odds /= 6;
-    if ((Random() % 255) < odds)
-        return TRUE;
-
-    return FALSE;
 }
