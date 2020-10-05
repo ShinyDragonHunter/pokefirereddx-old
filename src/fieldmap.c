@@ -14,6 +14,7 @@
 #include "secret_base.h"
 #include "trainer_hill.h"
 #include "tv.h"
+#include "wild_encounters.h"
 #include "constants/rgb.h"
 
 struct ConnectionFlags
@@ -51,6 +52,7 @@ struct MapHeader const *const GetMapHeaderFromConnection(struct MapConnection *c
 
 void InitMap(void)
 {
+    gChainFishingStreak = 0;
     InitMapLayoutData(&gMapHeader);
     SetOccupiedSecretBaseEntranceMetatiles(gMapHeader.events);
     RunOnLoadMapScript();

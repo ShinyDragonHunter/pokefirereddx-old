@@ -40,5 +40,7 @@ void FishingWildEncounter(u8 rod);
 u16 GetLocalWildMon(bool8 *isWaterMon);
 u16 GetLocalWaterMon(void);
 bool8 UpdateRepelCounter(void);
+extern u8 gChainFishingStreak;
+extern bool8 gIsFishingEncounter;
 
 #endif // GUARD_WILD_ENCOUNTER_H

@@ -227,13 +227,6 @@ void EnableVCountIntrAtLine150(void)
     EnableInterrupts(INTR_FLAG_VCOUNT);
 }
 
-static void SeedRngWithRtc(void)
-{
-    u32 seed = RtcGetMinuteCount();
-    seed = (seed >> 16) ^ (seed & 0xFFFF);
-    SeedRng(seed);
-}
-
 void InitKeys(void)
 {
     gKeyRepeatContinueDelay = 5;

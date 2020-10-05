@@ -5,7 +5,6 @@
 #include "bg.h"
 #include "data.h"
 #include "decompress.h"
-#include "event_data.h"
 #include "evolution_scene.h"
 #include "evolution_graphics.h"
 #include "gpu_regs.h"
