@@ -2046,7 +2046,7 @@ u8 sub_80A8394(u16 species, bool8 isBackpic, u8 a3, s16 x, s16 y, u8 subpriority
                                                 personality,
                                                 TRUE);
         else
-            LoadSpecialPokePic_2(&gMonFrontPicTable[species],
+            LoadSpecialPokePic(&gMonFrontPicTable[species],
                                  gMonSpritesGfxPtr->buffer,
                                  species,
                                  personality,
@@ -2062,7 +2062,7 @@ u8 sub_80A8394(u16 species, bool8 isBackpic, u8 a3, s16 x, s16 y, u8 subpriority
                                                 personality,
                                                 FALSE);
         else
-            LoadSpecialPokePic_2(&gMonBackPicTable[species],
+            LoadSpecialPokePic(&gMonBackPicTable[species],
                                  gMonSpritesGfxPtr->buffer,
                                  species,
                                  personality,

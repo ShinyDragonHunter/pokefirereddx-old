@@ -670,7 +670,7 @@ void nullsub_24(u16 species)
 void DecompressTrainerFrontPic(u16 frontPicId, u8 battlerId)
 {
     u8 position = GetBattlerPosition(battlerId);
-    DecompressPicFromTable_2(&gTrainerFrontPicTable[frontPicId],
+    DecompressPicFromTable(&gTrainerFrontPicTable[frontPicId],
                              gMonSpritesGfxPtr->sprites[position],
                              SPECIES_NONE);
     LoadCompressedSpritePalette(&gTrainerFrontPicPaletteTable[frontPicId]);
