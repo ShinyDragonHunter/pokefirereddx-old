@@ -566,7 +566,7 @@ void BattleLoadOpponentMonSpriteGfx(struct Pokemon *mon, u8 battlerId)
 
     otId = GetMonData(mon, MON_DATA_OT_ID);
     position = GetBattlerPosition(battlerId);
-    HandleLoadSpecialPokePic_DontHandleDeoxys(&gMonFrontPicTable[species],
+    HandleLoadSpecialPokePic(&gMonFrontPicTable[species],
                                               gMonSpritesGfxPtr->sprites[position],
                                               species, currentPersonality);
 
@@ -622,7 +622,7 @@ void BattleLoadPlayerMonSpriteGfx(struct Pokemon *mon, u8 battlerId)
 
     if (sub_80688F8(1, battlerId) == 1 || gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies != SPECIES_NONE)
     {
-        HandleLoadSpecialPokePic_DontHandleDeoxys(&gMonBackPicTable[species],
+        HandleLoadSpecialPokePic(&gMonBackPicTable[species],
                                                   gMonSpritesGfxPtr->sprites[position],
                                                   species, currentPersonality);
     }
@@ -690,32 +690,6 @@ void nullsub_25(u8 arg0)
 void FreeTrainerFrontPicPalette(u16 frontPicId)
 {
     FreeSpritePaletteByTag(gTrainerFrontPicPaletteTable[frontPicId].tag);
-}
-
-// Unused.
-void BattleLoadAllHealthBoxesGfxAtOnce(void)
-{
-    u8 numberOfBattlers = 0;
-    u8 i;
-
-    LoadSpritePalette(&sSpritePalettes_HealthBoxHealthBar[0]);
-    LoadSpritePalette(&sSpritePalettes_HealthBoxHealthBar[1]);
-    if (!IsDoubleBattle())
-    {
-        LoadCompressedSpriteSheet(&sSpriteSheet_SinglesPlayerHealthbox);
-        LoadCompressedSpriteSheet(&sSpriteSheet_SinglesOpponentHealthbox);
-        numberOfBattlers = 2;
-    }
-    else
-    {
-        LoadCompressedSpriteSheet(&sSpriteSheets_DoublesPlayerHealthbox[0]);
-        LoadCompressedSpriteSheet(&sSpriteSheets_DoublesPlayerHealthbox[1]);
-        LoadCompressedSpriteSheet(&sSpriteSheets_DoublesOpponentHealthbox[0]);
-        LoadCompressedSpriteSheet(&sSpriteSheets_DoublesOpponentHealthbox[1]);
-        numberOfBattlers = MAX_BATTLERS_COUNT;
-    }
-    for (i = 0; i < numberOfBattlers; i++)
-        LoadCompressedSpriteSheet(&sSpriteSheets_HealthBar[gBattlerPositions[i]]);
 }
 
 bool8 BattleLoadAllHealthBoxesGfx(u8 state)
@@ -916,7 +890,7 @@ void HandleSpeciesGfxDataChange(u8 battlerAtk, u8 battlerDef, bool8 notTransform
             personalityValue = gContestResources->moveAnim->personality;
             otId = gContestResources->moveAnim->otId;
 
-            HandleLoadSpecialPokePic_DontHandleDeoxys(&gMonBackPicTable[targetSpecies],
+            HandleLoadSpecialPokePic(&gMonBackPicTable[targetSpecies],
                                                       gMonSpritesGfxPtr->sprites[0],
                                                       targetSpecies,
                                                       gContestResources->moveAnim->targetPersonality);
@@ -935,7 +909,7 @@ void HandleSpeciesGfxDataChange(u8 battlerAtk, u8 battlerDef, bool8 notTransform
                 personalityValue = GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerAtk]], MON_DATA_PERSONALITY);
                 otId = GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerAtk]], MON_DATA_OT_ID);
 
-                HandleLoadSpecialPokePic_DontHandleDeoxys(&gMonBackPicTable[targetSpecies],
+                HandleLoadSpecialPokePic(&gMonBackPicTable[targetSpecies],
                                                           gMonSpritesGfxPtr->sprites[position],
                                                           targetSpecies,
                                                           gTransformedPersonalities[battlerAtk]);
@@ -945,7 +919,7 @@ void HandleSpeciesGfxDataChange(u8 battlerAtk, u8 battlerDef, bool8 notTransform
                 personalityValue = GetMonData(&gEnemyParty[gBattlerPartyIndexes[battlerAtk]], MON_DATA_PERSONALITY);
                 otId = GetMonData(&gEnemyParty[gBattlerPartyIndexes[battlerAtk]], MON_DATA_OT_ID);
 
-                HandleLoadSpecialPokePic_DontHandleDeoxys(&gMonFrontPicTable[targetSpecies],
+                HandleLoadSpecialPokePic(&gMonFrontPicTable[targetSpecies],
                                                           gMonSpritesGfxPtr->sprites[position],
                                                           targetSpecies,
                                                           gTransformedPersonalities[battlerAtk]);

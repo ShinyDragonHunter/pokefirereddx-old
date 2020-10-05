@@ -876,22 +876,12 @@ static void Task_ShowWinnerMonBanner(u8 taskId)
         species = gContestMons[i].species;
         personality = gContestMons[i].personality;
         otId = gContestMons[i].otId;
-        if (i == gContestPlayerMonIndex)
-        {
-            HandleLoadSpecialPokePic(
-                &gMonFrontPicTable[species],
-                gMonSpritesGfxPtr->sprites[1],
-                species,
-                personality);
-        }
-        else
-        {
-            HandleLoadSpecialPokePic_DontHandleDeoxys(
-                &gMonFrontPicTable[species],
-                gMonSpritesGfxPtr->sprites[1],
-                species,
-                personality);
-        }
+
+        HandleLoadSpecialPokePic(
+            &gMonFrontPicTable[species],
+            gMonSpritesGfxPtr->sprites[1],
+            species,
+            personality);
 
         pokePal = GetMonSpritePalStructFromOtIdPersonality(species, otId, personality);
         LoadCompressedSpritePalette(pokePal);
@@ -2551,10 +2541,7 @@ void ShowContestEntryMonPic(void)
         taskId = CreateTask(Task_ShowContestEntryMonPic, 0x50);
         gTasks[taskId].data[0] = 0;
         gTasks[taskId].data[1] = species;
-        if (gSpecialVar_0x8006 == gContestPlayerMonIndex)
-            HandleLoadSpecialPokePic(&gMonFrontPicTable[species], gMonSpritesGfxPtr->sprites[1], species, personality);
-        else
-            HandleLoadSpecialPokePic_DontHandleDeoxys(&gMonFrontPicTable[species], gMonSpritesGfxPtr->sprites[1], species, personality);
+        HandleLoadSpecialPokePic(&gMonFrontPicTable[species], gMonSpritesGfxPtr->sprites[1], species, personality);
 
         palette = GetMonSpritePalStructFromOtIdPersonality(species, otId, personality);
         LoadCompressedSpritePalette(palette);

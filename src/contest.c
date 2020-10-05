@@ -3117,10 +3117,7 @@ static u8 CreateContestantSprite(u16 species, u32 otId, u32 personality, u32 ind
     u8 spriteId;
     species = SanitizeSpecies(species);
 
-    if (index == gContestPlayerMonIndex)
-        HandleLoadSpecialPokePic(&gMonBackPicTable[species], gMonSpritesGfxPtr->sprites[0], species, personality);
-    else
-        HandleLoadSpecialPokePic_DontHandleDeoxys(&gMonBackPicTable[species], gMonSpritesGfxPtr->sprites[0], species, personality);
+    HandleLoadSpecialPokePic(&gMonBackPicTable[species], gMonSpritesGfxPtr->sprites[0], species, personality);
 
     LoadCompressedPalette(GetMonSpritePalFromSpeciesAndPersonality(species, otId, personality), 0x120, 0x20);
     SetMultiuseSpriteTemplateToPokemon(species, 0);
@@ -3246,15 +3243,6 @@ static void DrawMoveEffectSymbol(u16 move, u8 contestant)
     {
         ContestBG_FillBoxWithTile(0, 0, 20, contestantOffset, 2, 2, 17);
     }
-}
-
-// Unused
-static void DrawMoveEffectSymbols(void)
-{
-    s32 i;
-
-    for (i = 0; i < CONTESTANT_COUNT; i++)
-        DrawMoveEffectSymbol(eContestantStatus[i].currMove, i);
 }
 
 static u16 GetStarTileOffset(void)
@@ -3714,7 +3702,6 @@ static u8 UpdateAppealHearts(s16 startAppeal, s16 appealDelta, u8 contestant)
     taskId = CreateTask(Task_UpdateAppealHearts, 20);
     startHearts = GetNumHeartsFromAppealPoints(startAppeal);
     heartsDelta = GetNumHeartsFromAppealPoints(startAppeal + appealDelta) - startHearts;
-    GetAppealHeartTileOffset(contestant);  // unused return value
     gTasks[taskId].tNumHearts = abs(startHearts);
     gTasks[taskId].tHeartsDelta = heartsDelta;
     if (startHearts > 0 || (startHearts == 0 && heartsDelta > 0))

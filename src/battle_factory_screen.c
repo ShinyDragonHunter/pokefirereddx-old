@@ -1940,7 +1940,7 @@ static void Summary_ShowMonSprite(void)
     u32 personality = GetMonData(mon, MON_DATA_PERSONALITY, NULL);
     u32 otId = GetMonData(mon, MON_DATA_OT_ID, NULL);
 
-    sFactorySelectScreen->unk294[1].field0 = CreateMonPicSprite_HandleDeoxys(species, otId, personality, TRUE, 88, 32, 15, 0xFFFF);
+    sFactorySelectScreen->unk294[1].field0 = CreateMonPicSprite(species, otId, personality, TRUE, 88, 32, 15, 0xFFFF);
     gSprites[sFactorySelectScreen->unk294[1].field0].centerToCornerVecX = 0;
     gSprites[sFactorySelectScreen->unk294[1].field0].centerToCornerVecY = 0;
 
@@ -1966,7 +1966,7 @@ static void Select_ShowSummaryMonSprite(void)
     personality = GetMonData(mon, MON_DATA_PERSONALITY, NULL);
     otId = GetMonData(mon, MON_DATA_OT_ID, NULL);
 
-    sFactorySelectScreen->unk294[1].field0 = CreateMonPicSprite_HandleDeoxys(species, otId, personality, TRUE, 88, 32, 15, 0xFFFF);
+    sFactorySelectScreen->unk294[1].field0 = CreateMonPicSprite(species, otId, personality, TRUE, 88, 32, 15, 0xFFFF);
     gSprites[sFactorySelectScreen->unk294[1].field0].centerToCornerVecX = 0;
     gSprites[sFactorySelectScreen->unk294[1].field0].centerToCornerVecY = 0;
 
@@ -1988,7 +1988,7 @@ static void Select_ShowChosenMonsSprites(void)
                 u32 personality = GetMonData(mon, MON_DATA_PERSONALITY, NULL);
                 u32 otId = GetMonData(mon, MON_DATA_OT_ID, NULL);
 
-                sFactorySelectScreen->unk294[i].field0 = CreateMonPicSprite_HandleDeoxys(species, otId, personality, TRUE, (i * 72) + 16, 32, i + 13, 0xFFFF);
+                sFactorySelectScreen->unk294[i].field0 = CreateMonPicSprite(species, otId, personality, TRUE, (i * 72) + 16, 32, i + 13, 0xFFFF);
                 gSprites[sFactorySelectScreen->unk294[i].field0].centerToCornerVecX = 0;
                 gSprites[sFactorySelectScreen->unk294[i].field0].centerToCornerVecY = 0;
                 break;
@@ -3889,7 +3889,7 @@ static void Swap_ShowSummaryMonSprite(void)
     personality = GetMonData(mon, MON_DATA_PERSONALITY, NULL);
     otId = GetMonData(mon, MON_DATA_OT_ID, NULL);
 
-    sFactorySwapScreen->unk2C.field0 = CreateMonPicSprite_HandleDeoxys(species, personality, otId, TRUE, 88, 32, 15, 0xFFFF); // BUG: otId and personality should be switched.
+    sFactorySwapScreen->unk2C.field0 = CreateMonPicSprite(species, personality, otId, TRUE, 88, 32, 15, 0xFFFF); // BUG: otId and personality should be switched.
     gSprites[sFactorySwapScreen->unk2C.field0].centerToCornerVecX = 0;
     gSprites[sFactorySwapScreen->unk2C.field0].centerToCornerVecY = 0;
 
@@ -4099,7 +4099,7 @@ static void Swap_ShowMonSprite(void)
     personality = GetMonData(mon, MON_DATA_PERSONALITY, NULL);
     otId = GetMonData(mon, MON_DATA_OT_ID, NULL);
 
-    sFactorySwapScreen->unk2C.field0 = CreateMonPicSprite_HandleDeoxys(species, otId, personality, TRUE, 88, 32, 15, 0xFFFF);
+    sFactorySwapScreen->unk2C.field0 = CreateMonPicSprite(species, otId, personality, TRUE, 88, 32, 15, 0xFFFF);
     gSprites[sFactorySwapScreen->unk2C.field0].centerToCornerVecX = 0;
     gSprites[sFactorySwapScreen->unk2C.field0].centerToCornerVecY = 0;
 

@@ -146,51 +146,6 @@ bool8 LoadCompressedSpritePaletteUsingHeap(const struct CompressedSpritePalette 
     return FALSE;
 }
 
-void DecompressPicFromTable_DontHandleDeoxys(const struct CompressedSpriteSheet *src, void* buffer, s32 species)
-{
-    if (species > NUM_SPECIES)
-        LZ77UnCompWram(gMonFrontPicTable[0].data, buffer);
-    else
-        LZ77UnCompWram(src->data, buffer);
-}
-
-void HandleLoadSpecialPokePic_DontHandleDeoxys(const struct CompressedSpriteSheet *src, void *dest, s32 species, u32 personality)
-{
-    bool8 isFrontPic;
-
-    if (src == &gMonFrontPicTable[species])
-        isFrontPic = TRUE; // frontPic
-    else
-        isFrontPic = FALSE; // backPic
-
-    LoadSpecialPokePic_DontHandleDeoxys(src, dest, species, personality, isFrontPic);
-}
-
-void LoadSpecialPokePic_DontHandleDeoxys(const struct CompressedSpriteSheet *src, void *dest, s32 species, u32 personality, bool8 isFrontPic)
-{
-    if (species == SPECIES_UNOWN)
-    {
-        u16 i = (((personality & 0x3000000) >> 18) | ((personality & 0x30000) >> 12) | ((personality & 0x300) >> 6) | (personality & 3)) % 0x1C;
-
-        // The other Unowns are separate from Unown A.
-        if (i == 0)
-            i = SPECIES_UNOWN;
-        else
-            i += SPECIES_UNOWN_B - 1;
-
-        if (!isFrontPic)
-            LZ77UnCompWram(gMonBackPicTable[i].data, dest);
-        else
-            LZ77UnCompWram(gMonFrontPicTable[i].data, dest);
-    }
-    else if (species > NUM_SPECIES) // is species unknown? draw the ? icon
-        LZ77UnCompWram(gMonFrontPicTable[0].data, dest);
-    else
-        LZ77UnCompWram(src->data, dest);
-
-    DrawSpindaSpots(species, personality, dest, isFrontPic);
-}
-
 static void DuplicateDeoxysTiles(void *pointer, s32 species)
 {
     if (species == SPECIES_DEOXYS)
