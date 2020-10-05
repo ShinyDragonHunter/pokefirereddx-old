@@ -593,7 +593,7 @@ const struct MonCoords gMonBackPicCoords[] =
     [SPECIES_GOLDEEN] =
     {
         .size = 0x66,
-        .y_offset = 8,
+        .y_offset = 12,
     },
     [SPECIES_SEAKING] =
     {
@@ -1428,7 +1428,7 @@ const struct MonCoords gMonBackPicCoords[] =
     [SPECIES_SWAMPERT] =
     {
         .size = 0x87,
-        .y_offset = 5,
+        .y_offset = 4,
     },
     [SPECIES_POOCHYENA] =
     {
@@ -1648,7 +1648,7 @@ const struct MonCoords gMonBackPicCoords[] =
     [SPECIES_MILOTIC] =
     {
         .size = 0x68,
-        .y_offset = 2,
+        .y_offset = 1,
     },
     [SPECIES_CARVANHA] =
     {
@@ -1973,7 +1973,7 @@ const struct MonCoords gMonBackPicCoords[] =
     [SPECIES_GARDEVOIR] =
     {
         .size = 0x77,
-        .y_offset = 4,
+        .y_offset = 5,
     },
     [SPECIES_BAGON] =
     {
@@ -1988,7 +1988,7 @@ const struct MonCoords gMonBackPicCoords[] =
     [SPECIES_SALAMENCE] =
     {
         .size = 0x77,
-        .y_offset = 6,
+        .y_offset = 4,
     },
     [SPECIES_BELDUM] =
     {
@@ -2003,17 +2003,17 @@ const struct MonCoords gMonBackPicCoords[] =
     [SPECIES_METAGROSS] =
     {
         .size = 0x83,
-        .y_offset = 20,
+        .y_offset = 6,
     },
     [SPECIES_REGIROCK] =
     {
         .size = 0x86,
-        .y_offset = 10,
+        .y_offset = 7,
     },
     [SPECIES_REGICE] =
     {
         .size = 0x85,
-        .y_offset = 14,
+        .y_offset = 13,
     },
     [SPECIES_REGISTEEL] =
     {
@@ -2048,7 +2048,7 @@ const struct MonCoords gMonBackPicCoords[] =
     [SPECIES_JIRACHI] =
     {
         .size = 0x87,
-        .y_offset = 5,
+        .y_offset = 6,
     },
     [SPECIES_DEOXYS] =
     {
