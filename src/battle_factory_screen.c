@@ -3889,7 +3889,7 @@ static void Swap_ShowSummaryMonSprite(void)
     personality = GetMonData(mon, MON_DATA_PERSONALITY, NULL);
     otId = GetMonData(mon, MON_DATA_OT_ID, NULL);
 
-    sFactorySwapScreen->unk2C.field0 = CreateMonPicSprite(species, personality, otId, TRUE, 88, 32, 15, 0xFFFF); // BUG: otId and personality should be switched.
+    sFactorySwapScreen->unk2C.field0 = CreateMonPicSprite(species, otId, personality, TRUE, 88, 32, 15, 0xFFFF);
     gSprites[sFactorySwapScreen->unk2C.field0].centerToCornerVecX = 0;
     gSprites[sFactorySwapScreen->unk2C.field0].centerToCornerVecY = 0;
 

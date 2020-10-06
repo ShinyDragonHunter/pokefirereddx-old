@@ -30,6 +30,10 @@ const u8 gWeatherAshTiles[] = INCBIN_U8("graphics/weather/ash.4bpp");
 const u8 gWeatherRainTiles[] = INCBIN_U8("graphics/weather/rain.4bpp");
 const u8 gWeatherSandstormTiles[] = INCBIN_U8("graphics/weather/sandstorm.4bpp");
 
+const struct SpritePalette sSpritePalette_Weather0 = {gUnknown_083970E8, 0x1201};
+const struct SpritePalette sCloudsSpritePalette = {gCloudsWeatherPalette, 0x1201};
+const struct SpritePalette sSandstormSpritePalette = {gSandstormWeatherPalette, 0x1201};
+
 //------------------------------------------------------------------------------
 // WEATHER_SUNNY_CLOUDS
 //------------------------------------------------------------------------------
@@ -181,7 +185,7 @@ static void CreateCloudSprites(void)
         return;
 
     LoadSpriteSheet(&sCloudSpriteSheet);
-    LoadCustomWeatherSpritePalette(gCloudsWeatherPalette);
+    LoadCustomWeatherSpritePalette(&sCloudsSpritePalette);
     for (i = 0; i < NUM_CLOUD_SPRITES; i++)
     {
         spriteId = CreateSprite(&sCloudSpriteTemplate, 0, 0, 0xFF);
@@ -858,12 +862,6 @@ static const struct SpriteFrameImage sSnowflakeSpriteImages[] =
     {gWeatherSnow2Tiles, sizeof(gWeatherSnow2Tiles)},
 };
 
-static const union AnimCmd sSnowflakeAnimCmd0[] =
-{
-    ANIMCMD_FRAME(0, 16),
-    ANIMCMD_END,
-};
-
 static const union AnimCmd sSnowflakeAnimCmd1[] =
 {
     ANIMCMD_FRAME(1, 16),
@@ -872,7 +870,7 @@ static const union AnimCmd sSnowflakeAnimCmd1[] =
 
 static const union AnimCmd *const sSnowflakeAnimCmds[] =
 {
-    sSnowflakeAnimCmd0,
+    sCloudSpriteAnimCmd,
     sSnowflakeAnimCmd1,
 };
 
@@ -1257,12 +1255,6 @@ static const struct OamData gOamData_839AB2C =
     .affineParam = 0,
 };
 
-static const union AnimCmd gSpriteAnim_839AB34[] =
-{
-    ANIMCMD_FRAME(0, 16),
-    ANIMCMD_END,
-};
-
 static const union AnimCmd gSpriteAnim_839AB3C[] =
 {
     ANIMCMD_FRAME(32, 16),
@@ -1295,7 +1287,7 @@ static const union AnimCmd gSpriteAnim_839AB5C[] =
 
 static const union AnimCmd *const gSpriteAnimTable_839AB64[] =
 {
-    gSpriteAnim_839AB34,
+    sCloudSpriteAnimCmd,
     gSpriteAnim_839AB3C,
     gSpriteAnim_839AB44,
     gSpriteAnim_839AB4C,
@@ -1446,6 +1438,7 @@ static void CreateFogHorizontalSprites(void)
                 sprite->pos1.x = (i % 5) * 64 + 32;
                 sprite->pos1.y = (i / 5) * 64 + 32;
                 gWeatherPtr->sprites.s2.fogHSprites[i] = sprite;
+                sprite->oam.paletteNum = gWeatherPtr->altGammaSpritePalIndex;
             }
             else
             {
@@ -1604,7 +1597,7 @@ static const union AnimCmd *const sAshSpriteAnimCmds[] =
 static const struct SpriteTemplate sAshSpriteTemplate =
 {
     .tileTag = 4610,
-    .paletteTag = 0x1200,
+    .paletteTag = 0x1201,
     .oam = &sAshSpriteOamData,
     .anims = sAshSpriteAnimCmds,
     .images = NULL,
@@ -1625,6 +1618,7 @@ static void CreateAshSprites(void)
 
     if (!gWeatherPtr->ashSpritesCreated)
     {
+        LoadCustomWeatherSpritePalette(&sSpritePalette_Weather0);
         for (i = 0; i < NUM_ASH_SPRITES; i++)
         {
             spriteId = CreateSpriteAtEnd(&sAshSpriteTemplate, 0, 0, 0x4E);
@@ -1807,23 +1801,12 @@ static const struct OamData sFogDiagonalSpriteOamData =
     .paletteNum = 0,
 };
 
-static const union AnimCmd sFogDiagonalSpriteAnimCmd0[] =
-{
-    ANIMCMD_FRAME(0, 16),
-    ANIMCMD_END,
-};
-
-static const union AnimCmd *const sFogDiagonalSpriteAnimCmds[] =
-{
-    sFogDiagonalSpriteAnimCmd0,
-};
-
 static const struct SpriteTemplate sFogDiagonalSpriteTemplate =
 {
     .tileTag = 0x1203,
-    .paletteTag = 0x1200,
+    .paletteTag = 0x1201,
     .oam = &sFogDiagonalSpriteOamData,
-    .anims = sFogDiagonalSpriteAnimCmds,
+    .anims = sCloudSpriteAnimCmds,
     .images = NULL,
     .affineAnims = gDummySpriteAffineAnimTable,
     .callback = UpdateFogDiagonalSprite,
@@ -1843,6 +1826,7 @@ static void CreateFogDiagonalSprites(void)
     {
         fogDiagonalSpriteSheet = gFogDiagonalSpriteSheet;
         LoadSpriteSheet(&fogDiagonalSpriteSheet);
+        LoadCustomWeatherSpritePalette(&sSpritePalette_Weather0);
         for (i = 0; i < NUM_FOG_DIAGONAL_SPRITES; i++)
         {
             spriteId = CreateSpriteAtEnd(&sFogDiagonalSpriteTemplate, 0, (i / 5) * 64, 0xFF);
@@ -2101,7 +2085,7 @@ static void CreateSandstormSprites(void)
     if (!gWeatherPtr->sandstormSpritesCreated)
     {
         LoadSpriteSheet(&sSandstormSpriteSheet);
-        LoadCustomWeatherSpritePalette(gSandstormWeatherPalette);
+        LoadCustomWeatherSpritePalette(&sSandstormSpritePalette);
         for (i = 0; i < NUM_SANDSTORM_SPRITES; i++)
         {
             spriteId = CreateSpriteAtEnd(&sSandstormSpriteTemplate, 0, (i / 5) * 64, 1);
