@@ -10,11 +10,11 @@ static const union AnimCmd gAnimCmd_5Frames[] =
 
 static const union AnimCmd gAnimCmd_4Frames[] =
 {
-    ANIMCMD_FRAME(0, 24),
-    ANIMCMD_FRAME(1, 9),
-    ANIMCMD_FRAME(2, 24),
+    ANIMCMD_FRAME(1, 24),
+    ANIMCMD_FRAME(2, 9),
+    ANIMCMD_FRAME(3, 24),
     ANIMCMD_FRAME(0, 9),
-    ANIMCMD_END,
+    ANIMCMD_END
 };
 
 static const union AnimCmd *const sBackAnims_5Frames[] =

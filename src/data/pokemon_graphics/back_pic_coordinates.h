@@ -598,7 +598,7 @@ const struct MonCoords gMonBackPicCoords[] =
     [SPECIES_SEAKING] =
     {
         .size = 0x76,
-        .y_offset = 11,
+        .y_offset = 6,
     },
     [SPECIES_STARYU] =
     {
@@ -2018,7 +2018,7 @@ const struct MonCoords gMonBackPicCoords[] =
     [SPECIES_REGISTEEL] =
     {
         .size = 0x85,
-        .y_offset = 14,
+        .y_offset = 11,
     },
     [SPECIES_KYOGRE] =
     {

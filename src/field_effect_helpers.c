@@ -68,7 +68,7 @@ void LoadObjectReflectionPalette(struct ObjectEvent *objectEvent, struct Sprite 
 {
     u8 bridgeType;
     u16 bridgeReflectionVerticalOffsets[] = { 12, 28, 44 };
-    // When walking on a bridge high above water (Route 120), the reflection solid blue colour.
+    // When walking on a bridge high above water (Route 120), the reflection is a solid blue colour.
     // This is so the sprite blends in with the dark water metatile underneath the bridge.
     sprite->data[2] = 0;
     if (!GetObjectEventGraphicsInfo(objectEvent->graphicsId)->disableReflectionPaletteLoad && ((bridgeType = MetatileBehavior_GetBridgeType(objectEvent->previousMetatileBehavior)) || (bridgeType = MetatileBehavior_GetBridgeType(objectEvent->currentMetatileBehavior))))
