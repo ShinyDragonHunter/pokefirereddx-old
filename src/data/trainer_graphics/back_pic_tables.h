@@ -10,7 +10,7 @@ const struct MonCoords gTrainerBackPicCoords[] =
     [TRAINER_BACK_PIC_RUBY_SAPPHIRE_MAY] = {.size = 8, .y_offset = 4},
 };
 
-const struct CompressedSpritePalette gTrainerBackPicPaletteTable[] =
+const struct SpritePalette gTrainerBackPicPaletteTable[] =
 {
     TRAINER_BACK_PAL(RED, gTrainerBackPicPalette_Red),
     TRAINER_BACK_PAL(LEAF, gTrainerBackPicPalette_Red),

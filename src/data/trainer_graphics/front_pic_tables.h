@@ -192,7 +192,7 @@ const struct CompressedSpriteSheet gTrainerFrontPicTable[] =
     TRAINER_SPRITE(RS_MAY, gTrainerFrontPic_RubySapphireMay, 0x800),
 };
 
-const struct CompressedSpritePalette gTrainerFrontPicPaletteTable[] =
+const struct SpritePalette gTrainerFrontPicPaletteTable[] =
 {
     TRAINER_PAL(HIKER, gTrainerPalette_Hiker),
     TRAINER_PAL(AQUA_GRUNT_M, gTrainerPalette_AquaGruntM),

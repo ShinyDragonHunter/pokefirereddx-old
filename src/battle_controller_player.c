@@ -2174,6 +2174,8 @@ static void PlayerHandleDrawTrainerPic(void)
 {
     s16 xPos, yPos;
     u32 trainerPicId;
+    u16 backPicId;
+    u8 position;
 
     if (gBattleTypeFlags & BATTLE_TYPE_LINK)
     {
@@ -2239,7 +2241,9 @@ static void PlayerHandleDrawTrainerPic(void)
     // Use the back pic in any other scenario.
     else
     {
-        DecompressTrainerBackPic(trainerPicId, gActiveBattler);
+        position = GetBattlerPosition(gActiveBattler);
+//        DecompressTrainerBackPic(trainerPicId, gActiveBattler);
+        LoadPalette(gTrainerBackPicPaletteTable[2].data, 0x100 + 16 * gActiveBattler, 0x20);
         SetMultiuseSpriteTemplateToTrainerBack(trainerPicId, GetBattlerPosition(gActiveBattler));
         gBattlerSpriteIds[gActiveBattler] = CreateSprite(&gMultiuseSpriteTemplate, xPos, yPos, GetBattlerSpriteSubpriority(gActiveBattler));
 
@@ -2255,6 +2259,8 @@ static void PlayerHandleDrawTrainerPic(void)
 static void PlayerHandleTrainerSlide(void)
 {
     u32 trainerPicId;
+    u16 backPicId;
+    u8 position;
 
     if (gBattleTypeFlags & BATTLE_TYPE_LINK)
     {
@@ -2276,8 +2282,9 @@ static void PlayerHandleTrainerSlide(void)
     {
         trainerPicId = gSaveBlock2Ptr->playerGender + TRAINER_BACK_PIC_RED;
     }
-
-    DecompressTrainerBackPic(trainerPicId, gActiveBattler);
+    position = GetBattlerPosition(gActiveBattler);
+//    DecompressTrainerBackPic(trainerPicId, gActiveBattler);
+    LoadPalette(gTrainerBackPicPaletteTable[2].data, 0x100 + 16 * gActiveBattler, 0x20);
     SetMultiuseSpriteTemplateToTrainerBack(trainerPicId, GetBattlerPosition(gActiveBattler));
     gBattlerSpriteIds[gActiveBattler] = CreateSprite(&gMultiuseSpriteTemplate, 80, (8 - gTrainerBackPicCoords[trainerPicId].size) * 4 + 80, 30);
 
@@ -2810,7 +2817,7 @@ static void PlayerHandleIntroTrainerBallThrow(void)
     StartSpriteAnim(&gSprites[gBattlerSpriteIds[gActiveBattler]], 1);
 
     paletteNum = AllocSpritePalette(0xD6F8);
-    LoadCompressedPalette(gTrainerBackPicPaletteTable[gSaveBlock2Ptr->playerGender].data, 0x100 + paletteNum * 16, 32);
+    LoadPalette(gTrainerBackPicPaletteTable[gSaveBlock2Ptr->playerGender].data, 0x100 + paletteNum * 16, 32);
     gSprites[gBattlerSpriteIds[gActiveBattler]].oam.paletteNum = paletteNum;
 
     taskId = CreateTask(task05_08033660, 5);

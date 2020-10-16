@@ -639,7 +639,7 @@ static bool8 LoadMonAndSceneGfx(struct Pokemon *mon)
 {
     u16 species;
     u32 personality, trainerId;
-    const struct CompressedSpritePalette *palette;
+    const struct SpritePalette *palette;
 
     switch (sPokeblockFeed->loadGfxState)
     {
@@ -655,7 +655,7 @@ static bool8 LoadMonAndSceneGfx(struct Pokemon *mon)
         trainerId = GetMonData(mon, MON_DATA_OT_ID);
         palette = GetMonSpritePalStructFromOtIdPersonality(species, trainerId, personality);
 
-        LoadCompressedSpritePalette(palette);
+        LoadSpritePalette(palette);
         SetMultiuseSpriteTemplateToPokemon(palette->tag, 1);
         sPokeblockFeed->loadGfxState++;
         break;
@@ -664,7 +664,7 @@ static bool8 LoadMonAndSceneGfx(struct Pokemon *mon)
         sPokeblockFeed->loadGfxState++;
         break;
     case 3:
-        LoadCompressedSpritePalette(&gPokeblockCase_SpritePal);
+//        LoadCompressedSpritePalette(&gPokeblockCase_SpritePal);
         sPokeblockFeed->loadGfxState++;
         break;
     case 4:
@@ -673,7 +673,7 @@ static bool8 LoadMonAndSceneGfx(struct Pokemon *mon)
         break;
     case 5:
         SetPokeblockSpritePal(gSpecialVar_ItemId);
-        LoadCompressedSpritePalette(&sPokeblockSpritePal);
+//        LoadCompressedSpritePalette(&sPokeblockSpritePal);
         sPokeblockFeed->loadGfxState++;
         break;
     case 6:
@@ -689,7 +689,7 @@ static bool8 LoadMonAndSceneGfx(struct Pokemon *mon)
         }
         break;
     case 8:
-        LoadCompressedPalette(gBattleTerrainPalette_Frontier, 0x20, 0x60);
+//        LoadCompressedPalette(gBattleTerrainPalette_Frontier, 0x20, 0x60);
         sPokeblockFeed->loadGfxState = 0;
         return TRUE;
     }

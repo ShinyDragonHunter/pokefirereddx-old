@@ -1225,7 +1225,7 @@ static void LoadCheckPageTrainerPic(struct Pokenav4Struct *state)
     if (trainerPic >= 0)
     {
         DecompressPicFromTable(&gTrainerFrontPicTable[trainerPic], state->unk1828, SPECIES_NONE);
-        LZ77UnCompWram(gTrainerFrontPicPaletteTable[trainerPic].data, state->unk2028);
+//        LZ77UnCompWram(gTrainerFrontPicPaletteTable[trainerPic].data, state->unk2028);
         cursor = RequestDma3Copy(state->unk1828, state->unk1824, 0x800, 1);
         LoadPalette(state->unk2028, state->unk1A, 0x20);
         state->trainerPicSprite->data[0] = 0;

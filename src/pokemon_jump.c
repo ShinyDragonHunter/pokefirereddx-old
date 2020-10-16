@@ -2520,7 +2520,7 @@ static void sub_802C9D4(struct PokemonJump2 *arg0, struct PokemonJump1_MonInfo *
 {
     struct SpriteTemplate spriteTemplate;
     struct SpriteSheet spriteSheet;
-    struct CompressedSpritePalette spritePalette;
+    struct SpritePalette spritePalette;
     u8 *buffer;
     u8 *unusedBuffer;
     u8 subpriority;
@@ -2549,7 +2549,7 @@ static void sub_802C9D4(struct PokemonJump2 *arg0, struct PokemonJump1_MonInfo *
 
         spritePalette.data = GetMonSpritePalFromSpeciesAndPersonality(jumpMon->species, jumpMon->otId, jumpMon->personality);
         spritePalette.tag = multiplayerId;
-        LoadCompressedSpritePalette(&spritePalette);
+        LoadSpritePalette(&spritePalette);
 
         Free(buffer);
         Free(unusedBuffer);

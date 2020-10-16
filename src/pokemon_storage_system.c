@@ -211,7 +211,7 @@ struct PokemonStorageSystemData
     u8 field_CD6;
     u8 field_CD7;
     u8 field_CD8[2];
-    const u32 *cursorMonPalette;
+    const u16 *cursorMonPalette;
     u32 cursorMonPersonality;
     u16 cursorMonSpecies;
     u16 cursorMonItem;
@@ -4094,9 +4094,9 @@ static void LoadCursorMonGfx(u16 species, u32 pid)
     if (species != SPECIES_NONE)
     {
         LoadSpecialPokePic(&gMonFrontPicTable[species], sPSSData->field_22C4, species, pid, TRUE);
-        LZ77UnCompWram(sPSSData->cursorMonPalette, sPSSData->field_2244);
+//        LZ77UnCompWram(sPSSData->cursorMonPalette, sPSSData->field_2244);
         CpuCopy32(sPSSData->field_22C4, sPSSData->field_223C, 0x800);
-        LoadPalette(sPSSData->field_2244, sPSSData->field_223A, 0x20);
+        LoadPalette(sPSSData->cursorMonPalette, sPSSData->field_223A, 0x20);
         sPSSData->cursorMonSprite->invisible = FALSE;
     }
     else
