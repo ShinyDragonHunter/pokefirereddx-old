@@ -549,7 +549,6 @@ void BattleLoadOpponentMonSpriteGfx(struct Pokemon *mon, u8 battlerId)
     u16 species;
     u8 position;
     u16 paletteOffset;
-//    const void *lzPaletteData;
 
     monsPersonality = GetMonData(mon, MON_DATA_PERSONALITY);
 
@@ -572,20 +571,11 @@ void BattleLoadOpponentMonSpriteGfx(struct Pokemon *mon, u8 battlerId)
 
     paletteOffset = 0x100 + battlerId * 16;
 
-//    if (gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies == SPECIES_NONE)
-//        lzPaletteData = GetMonFrontSpritePal(mon);
-//    else
-//        lzPaletteData = GetMonSpritePalFromSpeciesAndPersonality(species, otId, monsPersonality);
-
-//    LZDecompressWram(lzPaletteData, gDecompressionBuffer);
     LoadPalette(GetMonSpritePalFromSpeciesAndPersonality(species, otId, monsPersonality), paletteOffset, 0x20);
-//    LoadPalette(gDecompressionBuffer, paletteOffset, 0x20);
-//    LoadPalette(gDecompressionBuffer, 0x80 + battlerId * 16, 0x20);
 
     if (species == SPECIES_CASTFORM)
     {
         paletteOffset = 0x100 + battlerId * 16;
-//        LZDecompressWram(lzPaletteData, gBattleStruct->castformPalette[0]);
         LoadPalette(gBattleStruct->castformPalette[gBattleMonForms[battlerId]], paletteOffset, 0x20);
     }
 
@@ -603,7 +593,6 @@ void BattleLoadPlayerMonSpriteGfx(struct Pokemon *mon, u8 battlerId)
     u16 species;
     u8 position;
     u16 paletteOffset;
-//    const void *lzPaletteData;
 
     monsPersonality = GetMonData(mon, MON_DATA_PERSONALITY);
 
@@ -636,21 +625,11 @@ void BattleLoadPlayerMonSpriteGfx(struct Pokemon *mon, u8 battlerId)
 
     paletteOffset = 0x100 + battlerId * 16;
 
-//    if (gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies == SPECIES_NONE)
-//        lzPaletteData = GetMonFrontSpritePal(mon);
-//    else
-//        lzPaletteData = GetMonSpritePalFromSpeciesAndPersonality(species, otId, monsPersonality);
-
-//    LZDecompressWram(lzPaletteData, gDecompressionBuffer);
     LoadPalette(GetMonSpritePalFromSpeciesAndPersonality(species, otId, monsPersonality), paletteOffset, 0x20);
-//    LoadPalette(gDecompressionBuffer, paletteOffset, 0x20);
-
-//    LoadPalette(gDecompressionBuffer, 0x80 + battlerId * 16, 0x20);
 
     if (species == SPECIES_CASTFORM)
     {
         paletteOffset = 0x100 + battlerId * 16;
-//        LZDecompressWram(lzPaletteData, gBattleStruct->castformPalette[0]);
         LoadPalette(gBattleStruct->castformPalette[gBattleMonForms[battlerId]], paletteOffset, 0x20);
     }
 
@@ -676,15 +655,8 @@ void DecompressTrainerFrontPic(u16 frontPicId, u8 battlerId)
     DecompressPicFromTable(&gTrainerFrontPicTable[frontPicId],
                              gMonSpritesGfxPtr->sprites[position],
                              SPECIES_NONE);
-    LoadSpritePalette(gTrainerFrontPicPaletteTable);
+    LoadSpritePalette(&gTrainerFrontPicPaletteTable[frontPicId]);
 }
-
-//void DecompressTrainerBackPic(u16 backPicId, u8 battlerId)
-//{
-//    u8 position = GetBattlerPosition(battlerId);
-//    LoadCompressedPalette(gTrainerBackPicPaletteTable[backPicId].data,
-//                          0x100 + 16 * battlerId, 0x20);
-//}
 
 void nullsub_25(u8 arg0)
 {
@@ -934,13 +906,11 @@ void HandleSpeciesGfxDataChange(u8 battlerAtk, u8 battlerDef, bool8 notTransform
         DmaCopy32(3, src, dst, 0x800);
         paletteOffset = 0x100 + battlerAtk * 16;
 //        pokePal = GetMonSpritePalStructFromOtIdPersonality(targetSpecies, otId, personalityValue);
-//        LZDecompressWram(lzPaletteData, gDecompressionBuffer);
         LoadPalette(GetMonSpritePalFromSpeciesAndPersonality(targetSpecies, otId, personalityValue), paletteOffset, 32);
 
         if (targetSpecies == SPECIES_CASTFORM)
         {
             gSprites[gBattlerSpriteIds[battlerAtk]].anims = gMonFrontAnimsPtrTable[targetSpecies];
-//            LZDecompressWram(lzPaletteData, gBattleStruct->castformPalette[0]);
             LoadPalette(gBattleStruct->castformPalette[0] + gBattleMonForms[battlerDef] * 16, paletteOffset, 32);
         }
 
@@ -1159,9 +1129,6 @@ void SpriteCB_SetInvisible(struct Sprite *sprite)
 
 void SetBattlerShadowSpriteCallback(u8 battlerId, u16 species)
 {
-    // The player's shadow is never seen.
-    if (GetBattlerSide(battlerId) == B_SIDE_PLAYER)
-        return;
 
     if (gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies != SPECIES_NONE)
         species = gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies;

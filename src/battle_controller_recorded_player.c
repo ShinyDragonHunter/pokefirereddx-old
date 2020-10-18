@@ -29,48 +29,24 @@ extern struct MusicPlayerInfo gMPlayInfo_BGM;
 
 // this file's functions
 static void RecordedPlayerHandleGetMonData(void);
-static void RecordedPlayerHandleGetRawMonData(void);
+static void RecordedPlayerEndExecution(void);
 static void RecordedPlayerHandleSetMonData(void);
 static void RecordedPlayerHandleSetRawMonData(void);
 static void RecordedPlayerHandleLoadMonSprite(void);
 static void RecordedPlayerHandleSwitchInAnim(void);
 static void RecordedPlayerHandleReturnMonToBall(void);
 static void RecordedPlayerHandleDrawTrainerPic(void);
-static void RecordedPlayerHandleTrainerSlide(void);
 static void RecordedPlayerHandleTrainerSlideBack(void);
 static void RecordedPlayerHandleFaintAnimation(void);
-static void RecordedPlayerHandlePaletteFade(void);
-static void RecordedPlayerHandleSuccessBallThrowAnim(void);
-static void RecordedPlayerHandleBallThrowAnim(void);
-static void RecordedPlayerHandlePause(void);
 static void RecordedPlayerHandleMoveAnimation(void);
 static void RecordedPlayerHandlePrintString(void);
-static void RecordedPlayerHandlePrintSelectionString(void);
 static void RecordedPlayerHandleChooseAction(void);
-static void RecordedPlayerHandleUnknownYesNoBox(void);
 static void RecordedPlayerHandleChooseMove(void);
-static void RecordedPlayerHandleChooseItem(void);
 static void RecordedPlayerHandleChoosePokemon(void);
-static void RecordedPlayerHandleCmd23(void);
 static void RecordedPlayerHandleHealthBarUpdate(void);
-static void RecordedPlayerHandleExpUpdate(void);
 static void RecordedPlayerHandleStatusIconUpdate(void);
 static void RecordedPlayerHandleStatusAnimation(void);
-static void RecordedPlayerHandleStatusXor(void);
-static void RecordedPlayerHandleDataTransfer(void);
-static void RecordedPlayerHandleDMA3Transfer(void);
-static void RecordedPlayerHandlePlayBGM(void);
-static void RecordedPlayerHandleCmd32(void);
-static void RecordedPlayerHandleTwoReturnValues(void);
-static void RecordedPlayerHandleChosenMonReturnValue(void);
-static void RecordedPlayerHandleOneReturnValue(void);
-static void RecordedPlayerHandleOneReturnValue_Duplicate(void);
-static void RecordedPlayerHandleCmd37(void);
-static void RecordedPlayerHandleCmd38(void);
-static void RecordedPlayerHandleCmd39(void);
-static void RecordedPlayerHandleCmd40(void);
 static void RecordedPlayerHandleHitAnimation(void);
-static void RecordedPlayerHandleCmd42(void);
 static void RecordedPlayerHandlePlaySE(void);
 static void RecordedPlayerHandlePlayFanfareOrBGM(void);
 static void RecordedPlayerHandleFaintingCry(void);
@@ -78,13 +54,9 @@ static void RecordedPlayerHandleIntroSlide(void);
 static void RecordedPlayerHandleIntroTrainerBallThrow(void);
 static void RecordedPlayerHandleDrawPartyStatusSummary(void);
 static void RecordedPlayerHandleHidePartyStatusSummary(void);
-static void RecordedPlayerHandleEndBounceEffect(void);
 static void RecordedPlayerHandleSpriteInvisibility(void);
 static void RecordedPlayerHandleBattleAnimation(void);
-static void RecordedPlayerHandleLinkStandbyMsg(void);
-static void RecordedPlayerHandleResetActionMoveSelection(void);
 static void RecordedPlayerHandleCmd55(void);
-static void RecordedPlayerCmdEnd(void);
 
 static void RecordedPlayerBufferRunCommand(void);
 static void RecordedPlayerBufferExecCompleted(void);
@@ -100,48 +72,48 @@ static void sub_818CDF4(void);
 static void (*const sRecordedPlayerBufferCommands[CONTROLLER_CMDS_COUNT])(void) =
 {
     RecordedPlayerHandleGetMonData,
-    RecordedPlayerHandleGetRawMonData,
+    RecordedPlayerEndExecution,
     RecordedPlayerHandleSetMonData,
     RecordedPlayerHandleSetRawMonData,
     RecordedPlayerHandleLoadMonSprite,
     RecordedPlayerHandleSwitchInAnim,
     RecordedPlayerHandleReturnMonToBall,
     RecordedPlayerHandleDrawTrainerPic,
-    RecordedPlayerHandleTrainerSlide,
+    RecordedPlayerEndExecution,
     RecordedPlayerHandleTrainerSlideBack,
     RecordedPlayerHandleFaintAnimation,
-    RecordedPlayerHandlePaletteFade,
-    RecordedPlayerHandleSuccessBallThrowAnim,
-    RecordedPlayerHandleBallThrowAnim,
-    RecordedPlayerHandlePause,
+    RecordedPlayerEndExecution,
+    RecordedPlayerEndExecution,
+    RecordedPlayerEndExecution,
+    RecordedPlayerEndExecution,
     RecordedPlayerHandleMoveAnimation,
     RecordedPlayerHandlePrintString,
-    RecordedPlayerHandlePrintSelectionString,
+    RecordedPlayerEndExecution,
     RecordedPlayerHandleChooseAction,
-    RecordedPlayerHandleUnknownYesNoBox,
+    RecordedPlayerEndExecution,
     RecordedPlayerHandleChooseMove,
-    RecordedPlayerHandleChooseItem,
+    RecordedPlayerEndExecution,
     RecordedPlayerHandleChoosePokemon,
-    RecordedPlayerHandleCmd23,
+    RecordedPlayerEndExecution,
     RecordedPlayerHandleHealthBarUpdate,
-    RecordedPlayerHandleExpUpdate,
+    RecordedPlayerEndExecution,
     RecordedPlayerHandleStatusIconUpdate,
     RecordedPlayerHandleStatusAnimation,
-    RecordedPlayerHandleStatusXor,
-    RecordedPlayerHandleDataTransfer,
-    RecordedPlayerHandleDMA3Transfer,
-    RecordedPlayerHandlePlayBGM,
-    RecordedPlayerHandleCmd32,
-    RecordedPlayerHandleTwoReturnValues,
-    RecordedPlayerHandleChosenMonReturnValue,
-    RecordedPlayerHandleOneReturnValue,
-    RecordedPlayerHandleOneReturnValue_Duplicate,
-    RecordedPlayerHandleCmd37,
-    RecordedPlayerHandleCmd38,
-    RecordedPlayerHandleCmd39,
-    RecordedPlayerHandleCmd40,
+    RecordedPlayerEndExecution,
+    RecordedPlayerEndExecution,
+    RecordedPlayerEndExecution,
+    RecordedPlayerEndExecution,
+    RecordedPlayerEndExecution,
+    RecordedPlayerEndExecution,
+    RecordedPlayerEndExecution,
+    RecordedPlayerEndExecution,
+    RecordedPlayerEndExecution,
+    RecordedPlayerEndExecution,
+    RecordedPlayerEndExecution,
+    RecordedPlayerEndExecution,
+    RecordedPlayerEndExecution,
     RecordedPlayerHandleHitAnimation,
-    RecordedPlayerHandleCmd42,
+    RecordedPlayerEndExecution,
     RecordedPlayerHandlePlaySE,
     RecordedPlayerHandlePlayFanfareOrBGM,
     RecordedPlayerHandleFaintingCry,
@@ -149,18 +121,14 @@ static void (*const sRecordedPlayerBufferCommands[CONTROLLER_CMDS_COUNT])(void) 
     RecordedPlayerHandleIntroTrainerBallThrow,
     RecordedPlayerHandleDrawPartyStatusSummary,
     RecordedPlayerHandleHidePartyStatusSummary,
-    RecordedPlayerHandleEndBounceEffect,
+    RecordedPlayerEndExecution,
     RecordedPlayerHandleSpriteInvisibility,
     RecordedPlayerHandleBattleAnimation,
-    RecordedPlayerHandleLinkStandbyMsg,
-    RecordedPlayerHandleResetActionMoveSelection,
+    RecordedPlayerEndExecution,
+    RecordedPlayerEndExecution,
     RecordedPlayerHandleCmd55,
-    RecordedPlayerCmdEnd
+    nullsub_21
 };
-
-static void nullsub_120(void)
-{
-}
 
 void SetControllerToRecordedPlayer(void)
 {
@@ -188,7 +156,6 @@ static void sub_81899F0(void)
 {
     if (gSprites[gBattlerSpriteIds[gActiveBattler]].callback == SpriteCallbackDummy)
     {
-        nullsub_25(0);
         FreeSpriteOamMatrix(&gSprites[gBattlerSpriteIds[gActiveBattler]]);
         DestroySprite(&gSprites[gBattlerSpriteIds[gActiveBattler]]);
         RecordedPlayerBufferExecCompleted();
@@ -369,7 +336,6 @@ static void sub_818A114(void)
     {
         u16 species = GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPECIES);
 
-        nullsub_24(species);
         FreeOamMatrix(gSprites[gBattlerSpriteIds[gActiveBattler]].oam.matrixNum);
         DestroySprite(&gSprites[gBattlerSpriteIds[gActiveBattler]]);
         SetHealthboxSpriteInvisible(gHealthboxSpriteIds[gActiveBattler]);
@@ -830,7 +796,7 @@ static u32 CopyRecordedPlayerMonData(u8 monId, u8 *dst)
     return size;
 }
 
-static void RecordedPlayerHandleGetRawMonData(void)
+static void RecordedPlayerEndExecution(void)
 {
     RecordedPlayerBufferExecCompleted();
 }
@@ -1240,7 +1206,6 @@ static void RecordedPlayerHandleDrawTrainerPic(void)
     }
     else
     {
-//        DecompressTrainerBackPic(trainerPicId, gActiveBattler);
         LoadPalette(gTrainerBackPicPaletteTable[trainerPicId].data, 0x100 + gActiveBattler * 16, 32);
         SetMultiuseSpriteTemplateToTrainerBack(trainerPicId, GetBattlerPosition(gActiveBattler));
         gBattlerSpriteIds[gActiveBattler] = CreateSprite(&gMultiuseSpriteTemplate, xPos, yPos, GetBattlerSpriteSubpriority(gActiveBattler));
@@ -1252,11 +1217,6 @@ static void RecordedPlayerHandleDrawTrainerPic(void)
     }
 
     gBattlerControllerFuncs[gActiveBattler] = CompleteOnBattlerSpriteCallbackDummy;
-}
-
-static void RecordedPlayerHandleTrainerSlide(void)
-{
-    RecordedPlayerBufferExecCompleted();
 }
 
 static void RecordedPlayerHandleTrainerSlideBack(void)
@@ -1291,26 +1251,6 @@ static void RecordedPlayerHandleFaintAnimation(void)
             gBattlerControllerFuncs[gActiveBattler] = sub_818A114;
         }
     }
-}
-
-static void RecordedPlayerHandlePaletteFade(void)
-{
-    RecordedPlayerBufferExecCompleted();
-}
-
-static void RecordedPlayerHandleSuccessBallThrowAnim(void)
-{
-    RecordedPlayerBufferExecCompleted();
-}
-
-static void RecordedPlayerHandleBallThrowAnim(void)
-{
-    RecordedPlayerBufferExecCompleted();
-}
-
-static void RecordedPlayerHandlePause(void)
-{
-    RecordedPlayerBufferExecCompleted();
 }
 
 static void RecordedPlayerHandleMoveAnimation(void)
@@ -1399,11 +1339,6 @@ static void RecordedPlayerHandlePrintString(void)
     gBattlerControllerFuncs[gActiveBattler] = CompleteOnInactiveTextPrinter;
 }
 
-static void RecordedPlayerHandlePrintSelectionString(void)
-{
-    RecordedPlayerBufferExecCompleted();
-}
-
 static void ChooseActionInBattlePalace(void)
 {
     if (gBattleCommunication[4] >= gBattlersCount / 2)
@@ -1426,11 +1361,6 @@ static void RecordedPlayerHandleChooseAction(void)
     }
 }
 
-static void RecordedPlayerHandleUnknownYesNoBox(void)
-{
-    RecordedPlayerBufferExecCompleted();
-}
-
 static void RecordedPlayerHandleChooseMove(void)
 {
     if (gBattleTypeFlags & BATTLE_TYPE_PALACE)
@@ -1447,20 +1377,10 @@ static void RecordedPlayerHandleChooseMove(void)
     RecordedPlayerBufferExecCompleted();
 }
 
-static void RecordedPlayerHandleChooseItem(void)
-{
-    RecordedPlayerBufferExecCompleted();
-}
-
 static void RecordedPlayerHandleChoosePokemon(void)
 {
     *(gBattleStruct->monToSwitchIntoId + gActiveBattler) = RecordedBattle_GetBattlerAction(gActiveBattler);
     BtlController_EmitChosenMonReturnValue(1, *(gBattleStruct->monToSwitchIntoId + gActiveBattler), NULL);
-    RecordedPlayerBufferExecCompleted();
-}
-
-static void RecordedPlayerHandleCmd23(void)
-{
     RecordedPlayerBufferExecCompleted();
 }
 
@@ -1489,11 +1409,6 @@ static void RecordedPlayerHandleHealthBarUpdate(void)
     gBattlerControllerFuncs[gActiveBattler] = CompleteOnHealthbarDone;
 }
 
-static void RecordedPlayerHandleExpUpdate(void)
-{
-    RecordedPlayerBufferExecCompleted();
-}
-
 static void RecordedPlayerHandleStatusIconUpdate(void)
 {
     if (!mplay_80342A4(gActiveBattler))
@@ -1517,75 +1432,6 @@ static void RecordedPlayerHandleStatusAnimation(void)
     }
 }
 
-static void RecordedPlayerHandleStatusXor(void)
-{
-    RecordedPlayerBufferExecCompleted();
-}
-
-static void RecordedPlayerHandleDataTransfer(void)
-{
-    RecordedPlayerBufferExecCompleted();
-}
-
-static void RecordedPlayerHandleDMA3Transfer(void)
-{
-    RecordedPlayerBufferExecCompleted();
-}
-
-static void RecordedPlayerHandlePlayBGM(void)
-{
-    RecordedPlayerBufferExecCompleted();
-}
-
-static void RecordedPlayerHandleCmd32(void)
-{
-    RecordedPlayerBufferExecCompleted();
-}
-
-static void RecordedPlayerHandleTwoReturnValues(void)
-{
-    RecordedPlayerBufferExecCompleted();
-}
-
-static void RecordedPlayerHandleChosenMonReturnValue(void)
-{
-    RecordedPlayerBufferExecCompleted();
-}
-
-static void RecordedPlayerHandleOneReturnValue(void)
-{
-    RecordedPlayerBufferExecCompleted();
-}
-
-static void RecordedPlayerHandleOneReturnValue_Duplicate(void)
-{
-    RecordedPlayerBufferExecCompleted();
-}
-
-static void RecordedPlayerHandleCmd37(void)
-{
-    gUnknown_02022D0C.field_0 = 0;
-    RecordedPlayerBufferExecCompleted();
-}
-
-static void RecordedPlayerHandleCmd38(void)
-{
-    gUnknown_02022D0C.field_0 = gBattleBufferA[gActiveBattler][1];
-    RecordedPlayerBufferExecCompleted();
-}
-
-static void RecordedPlayerHandleCmd39(void)
-{
-    gUnknown_02022D0C.flag_x80 = 0;
-    RecordedPlayerBufferExecCompleted();
-}
-
-static void RecordedPlayerHandleCmd40(void)
-{
-    gUnknown_02022D0C.flag_x80 ^= 1;
-    RecordedPlayerBufferExecCompleted();
-}
-
 static void RecordedPlayerHandleHitAnimation(void)
 {
     if (gSprites[gBattlerSpriteIds[gActiveBattler]].invisible == TRUE)
@@ -1599,11 +1445,6 @@ static void RecordedPlayerHandleHitAnimation(void)
         DoHitAnimHealthboxEffect(gActiveBattler);
         gBattlerControllerFuncs[gActiveBattler] = DoHitAnimBlinkSpriteEffect;
     }
-}
-
-static void RecordedPlayerHandleCmd42(void)
-{
-    RecordedPlayerBufferExecCompleted();
 }
 
 static void RecordedPlayerHandlePlaySE(void)
@@ -1667,10 +1508,6 @@ static void RecordedPlayerHandleIntroTrainerBallThrow(void)
     StartSpriteAnim(&gSprites[gBattlerSpriteIds[gActiveBattler]], 1);
 
     paletteNum = AllocSpritePalette(0xD6F9);
-    if (gBattleTypeFlags & BATTLE_TYPE_x2000000)
-        trainerPicId = gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender;
-    else
-        trainerPicId = gSaveBlock2Ptr->playerGender;
 
     LoadPalette(gTrainerBackPicPaletteTable[trainerPicId].data, 0x100 + paletteNum * 16, 32);
 
@@ -1683,7 +1520,7 @@ static void RecordedPlayerHandleIntroTrainerBallThrow(void)
         gTasks[gBattlerStatusSummaryTaskId[gActiveBattler]].func = Task_HidePartyStatusSummary;
 
     gBattleSpritesDataPtr->animationData->field_9_x1 = 1;
-    gBattlerControllerFuncs[gActiveBattler] = nullsub_120;
+    gBattlerControllerFuncs[gActiveBattler] = nullsub_21;
 }
 
 static void sub_818CC24(u8 taskId)
@@ -1753,11 +1590,6 @@ static void RecordedPlayerHandleHidePartyStatusSummary(void)
     RecordedPlayerBufferExecCompleted();
 }
 
-static void RecordedPlayerHandleEndBounceEffect(void)
-{
-    RecordedPlayerBufferExecCompleted();
-}
-
 static void RecordedPlayerHandleSpriteInvisibility(void)
 {
     if (IsBattlerSpritePresent(gActiveBattler))
@@ -1782,16 +1614,6 @@ static void RecordedPlayerHandleBattleAnimation(void)
     }
 }
 
-static void RecordedPlayerHandleLinkStandbyMsg(void)
-{
-    RecordedPlayerBufferExecCompleted();
-}
-
-static void RecordedPlayerHandleResetActionMoveSelection(void)
-{
-    RecordedPlayerBufferExecCompleted();
-}
-
 static void RecordedPlayerHandleCmd55(void)
 {
     gBattleOutcome = gBattleBufferA[gActiveBattler][1];
@@ -1799,8 +1621,4 @@ static void RecordedPlayerHandleCmd55(void)
     BeginFastPaletteFade(3);
     RecordedPlayerBufferExecCompleted();
     gBattlerControllerFuncs[gActiveBattler] = sub_80587B0;
-}
-
-static void RecordedPlayerCmdEnd(void)
-{
 }

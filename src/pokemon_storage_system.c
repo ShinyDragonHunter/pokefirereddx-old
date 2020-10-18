@@ -4094,7 +4094,6 @@ static void LoadCursorMonGfx(u16 species, u32 pid)
     if (species != SPECIES_NONE)
     {
         LoadSpecialPokePic(&gMonFrontPicTable[species], sPSSData->field_22C4, species, pid, TRUE);
-//        LZ77UnCompWram(sPSSData->cursorMonPalette, sPSSData->field_2244);
         CpuCopy32(sPSSData->field_22C4, sPSSData->field_223C, 0x800);
         LoadPalette(sPSSData->cursorMonPalette, sPSSData->field_223A, 0x20);
         sPSSData->cursorMonSprite->invisible = FALSE;

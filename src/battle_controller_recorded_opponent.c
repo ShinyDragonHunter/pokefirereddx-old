@@ -33,48 +33,24 @@ extern struct MusicPlayerInfo gMPlayInfo_BGM;
 
 // this file's functions
 static void RecordedOpponentHandleGetMonData(void);
-static void RecordedOpponentHandleGetRawMonData(void);
+static void RecordedOpponentEndExecution(void);
 static void RecordedOpponentHandleSetMonData(void);
 static void RecordedOpponentHandleSetRawMonData(void);
 static void RecordedOpponentHandleLoadMonSprite(void);
 static void RecordedOpponentHandleSwitchInAnim(void);
 static void RecordedOpponentHandleReturnMonToBall(void);
 static void RecordedOpponentHandleDrawTrainerPic(void);
-static void RecordedOpponentHandleTrainerSlide(void);
 static void RecordedOpponentHandleTrainerSlideBack(void);
 static void RecordedOpponentHandleFaintAnimation(void);
-static void RecordedOpponentHandlePaletteFade(void);
-static void RecordedOpponentHandleSuccessBallThrowAnim(void);
-static void RecordedOpponentHandleBallThrowAnim(void);
-static void RecordedOpponentHandlePause(void);
 static void RecordedOpponentHandleMoveAnimation(void);
 static void RecordedOpponentHandlePrintString(void);
-static void RecordedOpponentHandlePrintSelectionString(void);
 static void RecordedOpponentHandleChooseAction(void);
-static void RecordedOpponentHandleUnknownYesNoBox(void);
 static void RecordedOpponentHandleChooseMove(void);
-static void RecordedOpponentHandleChooseItem(void);
 static void RecordedOpponentHandleChoosePokemon(void);
-static void RecordedOpponentHandleCmd23(void);
 static void RecordedOpponentHandleHealthBarUpdate(void);
-static void RecordedOpponentHandleExpUpdate(void);
 static void RecordedOpponentHandleStatusIconUpdate(void);
 static void RecordedOpponentHandleStatusAnimation(void);
-static void RecordedOpponentHandleStatusXor(void);
-static void RecordedOpponentHandleDataTransfer(void);
-static void RecordedOpponentHandleDMA3Transfer(void);
-static void RecordedOpponentHandlePlayBGM(void);
-static void RecordedOpponentHandleCmd32(void);
-static void RecordedOpponentHandleTwoReturnValues(void);
-static void RecordedOpponentHandleChosenMonReturnValue(void);
-static void RecordedOpponentHandleOneReturnValue(void);
-static void RecordedOpponentHandleOneReturnValue_Duplicate(void);
-static void RecordedOpponentHandleCmd37(void);
-static void RecordedOpponentHandleCmd38(void);
-static void RecordedOpponentHandleCmd39(void);
-static void RecordedOpponentHandleCmd40(void);
 static void RecordedOpponentHandleHitAnimation(void);
-static void RecordedOpponentHandleCmd42(void);
 static void RecordedOpponentHandlePlaySE(void);
 static void RecordedOpponentHandlePlayFanfareOrBGM(void);
 static void RecordedOpponentHandleFaintingCry(void);
@@ -85,10 +61,7 @@ static void RecordedOpponentHandleHidePartyStatusSummary(void);
 static void RecordedOpponentHandleEndBounceEffect(void);
 static void RecordedOpponentHandleSpriteInvisibility(void);
 static void RecordedOpponentHandleBattleAnimation(void);
-static void RecordedOpponentHandleLinkStandbyMsg(void);
-static void RecordedOpponentHandleResetActionMoveSelection(void);
 static void RecordedOpponentHandleCmd55(void);
-static void RecordedOpponentCmdEnd(void);
 
 static void RecordedOpponentBufferRunCommand(void);
 static void RecordedOpponentBufferExecCompleted(void);
@@ -105,48 +78,48 @@ static void sub_818975C(void);
 static void (*const sRecordedOpponentBufferCommands[CONTROLLER_CMDS_COUNT])(void) =
 {
     RecordedOpponentHandleGetMonData,
-    RecordedOpponentHandleGetRawMonData,
+    RecordedOpponentEndExecution,
     RecordedOpponentHandleSetMonData,
     RecordedOpponentHandleSetRawMonData,
     RecordedOpponentHandleLoadMonSprite,
     RecordedOpponentHandleSwitchInAnim,
     RecordedOpponentHandleReturnMonToBall,
     RecordedOpponentHandleDrawTrainerPic,
-    RecordedOpponentHandleTrainerSlide,
+    RecordedOpponentEndExecution,
     RecordedOpponentHandleTrainerSlideBack,
     RecordedOpponentHandleFaintAnimation,
-    RecordedOpponentHandlePaletteFade,
-    RecordedOpponentHandleSuccessBallThrowAnim,
-    RecordedOpponentHandleBallThrowAnim,
-    RecordedOpponentHandlePause,
+    RecordedOpponentEndExecution,
+    RecordedOpponentEndExecution,
+    RecordedOpponentEndExecution,
+    RecordedOpponentEndExecution,
     RecordedOpponentHandleMoveAnimation,
     RecordedOpponentHandlePrintString,
-    RecordedOpponentHandlePrintSelectionString,
+    RecordedOpponentEndExecution,
     RecordedOpponentHandleChooseAction,
-    RecordedOpponentHandleUnknownYesNoBox,
+    RecordedOpponentEndExecution,
     RecordedOpponentHandleChooseMove,
-    RecordedOpponentHandleChooseItem,
+    RecordedOpponentEndExecution,
     RecordedOpponentHandleChoosePokemon,
-    RecordedOpponentHandleCmd23,
+    RecordedOpponentEndExecution,
     RecordedOpponentHandleHealthBarUpdate,
-    RecordedOpponentHandleExpUpdate,
+    RecordedOpponentEndExecution,
     RecordedOpponentHandleStatusIconUpdate,
     RecordedOpponentHandleStatusAnimation,
-    RecordedOpponentHandleStatusXor,
-    RecordedOpponentHandleDataTransfer,
-    RecordedOpponentHandleDMA3Transfer,
-    RecordedOpponentHandlePlayBGM,
-    RecordedOpponentHandleCmd32,
-    RecordedOpponentHandleTwoReturnValues,
-    RecordedOpponentHandleChosenMonReturnValue,
-    RecordedOpponentHandleOneReturnValue,
-    RecordedOpponentHandleOneReturnValue_Duplicate,
-    RecordedOpponentHandleCmd37,
-    RecordedOpponentHandleCmd38,
-    RecordedOpponentHandleCmd39,
-    RecordedOpponentHandleCmd40,
+    RecordedOpponentEndExecution,
+    RecordedOpponentEndExecution,
+    RecordedOpponentEndExecution,
+    RecordedOpponentEndExecution,
+    RecordedOpponentEndExecution,
+    RecordedOpponentEndExecution,
+    RecordedOpponentEndExecution,
+    RecordedOpponentEndExecution,
+    RecordedOpponentEndExecution,
+    RecordedOpponentEndExecution,
+    RecordedOpponentEndExecution,
+    RecordedOpponentEndExecution,
+    RecordedOpponentEndExecution,
     RecordedOpponentHandleHitAnimation,
-    RecordedOpponentHandleCmd42,
+    RecordedOpponentEndExecution,
     RecordedOpponentHandlePlaySE,
     RecordedOpponentHandlePlayFanfareOrBGM,
     RecordedOpponentHandleFaintingCry,
@@ -154,18 +127,14 @@ static void (*const sRecordedOpponentBufferCommands[CONTROLLER_CMDS_COUNT])(void
     RecordedOpponentHandleIntroTrainerBallThrow,
     RecordedOpponentHandleDrawPartyStatusSummary,
     RecordedOpponentHandleHidePartyStatusSummary,
-    RecordedOpponentHandleEndBounceEffect,
+    RecordedOpponentEndExecution,
     RecordedOpponentHandleSpriteInvisibility,
     RecordedOpponentHandleBattleAnimation,
-    RecordedOpponentHandleLinkStandbyMsg,
-    RecordedOpponentHandleResetActionMoveSelection,
+    RecordedOpponentEndExecution,
+    RecordedOpponentEndExecution,
     RecordedOpponentHandleCmd55,
-    RecordedOpponentCmdEnd
+    nullsub_21
 };
-
-static void nullsub_70(void)
-{
-}
 
 void SetControllerToRecordedOpponent(void)
 {
@@ -851,7 +820,7 @@ static u32 CopyRecordedOpponentMonData(u8 monId, u8 *dst)
     return size;
 }
 
-static void RecordedOpponentHandleGetRawMonData(void)
+static void RecordedOpponentEndExecution(void)
 {
     RecordedOpponentBufferExecCompleted();
 }
@@ -1256,11 +1225,6 @@ static void RecordedOpponentHandleDrawTrainerPic(void)
     gBattlerControllerFuncs[gActiveBattler] = CompleteOnBattlerSpriteCallbackDummy;
 }
 
-static void RecordedOpponentHandleTrainerSlide(void)
-{
-    RecordedOpponentBufferExecCompleted();
-}
-
 static void RecordedOpponentHandleTrainerSlideBack(void)
 {
     SetSpritePrimaryCoordsFromSecondaryCoords(&gSprites[gBattlerSpriteIds[gActiveBattler]]);
@@ -1290,26 +1254,6 @@ static void RecordedOpponentHandleFaintAnimation(void)
             gBattlerControllerFuncs[gActiveBattler] = sub_8186D58;
         }
     }
-}
-
-static void RecordedOpponentHandlePaletteFade(void)
-{
-    RecordedOpponentBufferExecCompleted();
-}
-
-static void RecordedOpponentHandleSuccessBallThrowAnim(void)
-{
-    RecordedOpponentBufferExecCompleted();
-}
-
-static void RecordedOpponentHandleBallThrowAnim(void)
-{
-    RecordedOpponentBufferExecCompleted();
-}
-
-static void RecordedOpponentHandlePause(void)
-{
-    RecordedOpponentBufferExecCompleted();
 }
 
 static void RecordedOpponentHandleMoveAnimation(void)
@@ -1398,19 +1342,9 @@ static void RecordedOpponentHandlePrintString(void)
     gBattlerControllerFuncs[gActiveBattler] = CompleteOnInactiveTextPrinter;
 }
 
-static void RecordedOpponentHandlePrintSelectionString(void)
-{
-    RecordedOpponentBufferExecCompleted();
-}
-
 static void RecordedOpponentHandleChooseAction(void)
 {
     BtlController_EmitTwoReturnValues(1, RecordedBattle_GetBattlerAction(gActiveBattler), 0);
-    RecordedOpponentBufferExecCompleted();
-}
-
-static void RecordedOpponentHandleUnknownYesNoBox(void)
-{
     RecordedOpponentBufferExecCompleted();
 }
 
@@ -1430,20 +1364,10 @@ static void RecordedOpponentHandleChooseMove(void)
     RecordedOpponentBufferExecCompleted();
 }
 
-static void RecordedOpponentHandleChooseItem(void)
-{
-    RecordedOpponentBufferExecCompleted();
-}
-
 static void RecordedOpponentHandleChoosePokemon(void)
 {
     *(gBattleStruct->monToSwitchIntoId + gActiveBattler) = RecordedBattle_GetBattlerAction(gActiveBattler);
     BtlController_EmitChosenMonReturnValue(1, *(gBattleStruct->monToSwitchIntoId + gActiveBattler), NULL);
-    RecordedOpponentBufferExecCompleted();
-}
-
-static void RecordedOpponentHandleCmd23(void)
-{
     RecordedOpponentBufferExecCompleted();
 }
 
@@ -1471,11 +1395,6 @@ static void RecordedOpponentHandleHealthBarUpdate(void)
     gBattlerControllerFuncs[gActiveBattler] = CompleteOnHealthbarDone;
 }
 
-static void RecordedOpponentHandleExpUpdate(void)
-{
-    RecordedOpponentBufferExecCompleted();
-}
-
 static void RecordedOpponentHandleStatusIconUpdate(void)
 {
     if (!mplay_80342A4(gActiveBattler))
@@ -1499,75 +1418,6 @@ static void RecordedOpponentHandleStatusAnimation(void)
     }
 }
 
-static void RecordedOpponentHandleStatusXor(void)
-{
-    RecordedOpponentBufferExecCompleted();
-}
-
-static void RecordedOpponentHandleDataTransfer(void)
-{
-    RecordedOpponentBufferExecCompleted();
-}
-
-static void RecordedOpponentHandleDMA3Transfer(void)
-{
-    RecordedOpponentBufferExecCompleted();
-}
-
-static void RecordedOpponentHandlePlayBGM(void)
-{
-    RecordedOpponentBufferExecCompleted();
-}
-
-static void RecordedOpponentHandleCmd32(void)
-{
-    RecordedOpponentBufferExecCompleted();
-}
-
-static void RecordedOpponentHandleTwoReturnValues(void)
-{
-    RecordedOpponentBufferExecCompleted();
-}
-
-static void RecordedOpponentHandleChosenMonReturnValue(void)
-{
-    RecordedOpponentBufferExecCompleted();
-}
-
-static void RecordedOpponentHandleOneReturnValue(void)
-{
-    RecordedOpponentBufferExecCompleted();
-}
-
-static void RecordedOpponentHandleOneReturnValue_Duplicate(void)
-{
-    RecordedOpponentBufferExecCompleted();
-}
-
-static void RecordedOpponentHandleCmd37(void)
-{
-    gUnknown_02022D0C.field_0 = 0;
-    RecordedOpponentBufferExecCompleted();
-}
-
-static void RecordedOpponentHandleCmd38(void)
-{
-    gUnknown_02022D0C.field_0 = gBattleBufferA[gActiveBattler][1];
-    RecordedOpponentBufferExecCompleted();
-}
-
-static void RecordedOpponentHandleCmd39(void)
-{
-    gUnknown_02022D0C.flag_x80 = 0;
-    RecordedOpponentBufferExecCompleted();
-}
-
-static void RecordedOpponentHandleCmd40(void)
-{
-    gUnknown_02022D0C.flag_x80 ^= 1;
-    RecordedOpponentBufferExecCompleted();
-}
-
 static void RecordedOpponentHandleHitAnimation(void)
 {
     if (gSprites[gBattlerSpriteIds[gActiveBattler]].invisible == TRUE)
@@ -1581,11 +1431,6 @@ static void RecordedOpponentHandleHitAnimation(void)
         DoHitAnimHealthboxEffect(gActiveBattler);
         gBattlerControllerFuncs[gActiveBattler] = DoHitAnimBlinkSpriteEffect;
     }
-}
-
-static void RecordedOpponentHandleCmd42(void)
-{
-    RecordedOpponentBufferExecCompleted();
 }
 
 static void RecordedOpponentHandlePlaySE(void)
@@ -1652,7 +1497,7 @@ static void RecordedOpponentHandleIntroTrainerBallThrow(void)
         gTasks[gBattlerStatusSummaryTaskId[gActiveBattler]].func = Task_HidePartyStatusSummary;
 
     gBattleSpritesDataPtr->animationData->field_9_x1 = 1;
-    gBattlerControllerFuncs[gActiveBattler] = nullsub_70;
+    gBattlerControllerFuncs[gActiveBattler] = nullsub_21;
 }
 
 static void sub_8189548(u8 taskId)
@@ -1735,11 +1580,6 @@ static void RecordedOpponentHandleHidePartyStatusSummary(void)
     RecordedOpponentBufferExecCompleted();
 }
 
-static void RecordedOpponentHandleEndBounceEffect(void)
-{
-    RecordedOpponentBufferExecCompleted();
-}
-
 static void RecordedOpponentHandleSpriteInvisibility(void)
 {
     if (IsBattlerSpritePresent(gActiveBattler))
@@ -1764,16 +1604,6 @@ static void RecordedOpponentHandleBattleAnimation(void)
     }
 }
 
-static void RecordedOpponentHandleLinkStandbyMsg(void)
-{
-    RecordedOpponentBufferExecCompleted();
-}
-
-static void RecordedOpponentHandleResetActionMoveSelection(void)
-{
-    RecordedOpponentBufferExecCompleted();
-}
-
 static void RecordedOpponentHandleCmd55(void)
 {
     if (gBattleBufferA[gActiveBattler][1] == B_OUTCOME_DREW)
@@ -1785,8 +1615,4 @@ static void RecordedOpponentHandleCmd55(void)
     BeginFastPaletteFade(3);
     RecordedOpponentBufferExecCompleted();
     gBattlerControllerFuncs[gActiveBattler] = sub_80587B0;
-}
-
-static void RecordedOpponentCmdEnd(void)
-{
 }

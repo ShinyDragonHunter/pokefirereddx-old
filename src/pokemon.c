@@ -6447,9 +6447,6 @@ const struct SpritePalette *GetMonSpritePalStructFromOtIdPersonality(u16 species
 {
     u32 shinyValue;
 
-//    if (species > NUM_SPECIES)
-//        return &gMonPaletteTable[0].data;
-
     shinyValue = HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality);
     if (shinyValue < SHINY_ODDS)
         return &gMonShinyPaletteTable[species];

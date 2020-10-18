@@ -45,11 +45,8 @@ void SetUpBattleVarsAndBirchZigzagoon(void)
 {
     s32 i;
 
-    gBattleMainFunc = nullsub_20;
-
     for (i = 0; i < MAX_BATTLERS_COUNT; i++)
     {
-        gBattlerControllerFuncs[i] = nullsub_21;
         gBattlerPositions[i] = 0xFF;
         gActionSelectionCursor[i] = 0;
         gMoveSelectionCursor[i] = 0;

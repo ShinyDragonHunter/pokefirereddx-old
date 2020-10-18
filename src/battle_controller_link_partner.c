@@ -31,48 +31,24 @@
 
 // this file's functions
 static void LinkPartnerHandleGetMonData(void);
-static void LinkPartnerHandleGetRawMonData(void);
+static void LinkPartnerEndExecution(void);
 static void LinkPartnerHandleSetMonData(void);
 static void LinkPartnerHandleSetRawMonData(void);
 static void LinkPartnerHandleLoadMonSprite(void);
 static void LinkPartnerHandleSwitchInAnim(void);
 static void LinkPartnerHandleReturnMonToBall(void);
 static void LinkPartnerHandleDrawTrainerPic(void);
-static void LinkPartnerHandleTrainerSlide(void);
 static void LinkPartnerHandleTrainerSlideBack(void);
 static void LinkPartnerHandleFaintAnimation(void);
-static void LinkPartnerHandlePaletteFade(void);
 static void LinkPartnerHandleSuccessBallThrowAnim(void);
 static void LinkPartnerHandleBallThrowAnim(void);
 static void LinkPartnerHandlePause(void);
 static void LinkPartnerHandleMoveAnimation(void);
 static void LinkPartnerHandlePrintString(void);
-static void LinkPartnerHandlePrintSelectionString(void);
-static void LinkPartnerHandleChooseAction(void);
-static void LinkPartnerHandleUnknownYesNoBox(void);
-static void LinkPartnerHandleChooseMove(void);
-static void LinkPartnerHandleChooseItem(void);
-static void LinkPartnerHandleChoosePokemon(void);
-static void LinkPartnerHandleCmd23(void);
-static void LinkPartnerHandleHealthBarUpdate(void);
-static void LinkPartnerHandleExpUpdate(void);
+static void LinkPartnerHandleHealthBarUpdate(void);;
 static void LinkPartnerHandleStatusIconUpdate(void);
 static void LinkPartnerHandleStatusAnimation(void);
-static void LinkPartnerHandleStatusXor(void);
-static void LinkPartnerHandleDataTransfer(void);
-static void LinkPartnerHandleDMA3Transfer(void);
-static void LinkPartnerHandlePlayBGM(void);
-static void LinkPartnerHandleCmd32(void);
-static void LinkPartnerHandleTwoReturnValues(void);
-static void LinkPartnerHandleChosenMonReturnValue(void);
-static void LinkPartnerHandleOneReturnValue(void);
-static void LinkPartnerHandleOneReturnValue_Duplicate(void);
-static void LinkPartnerHandleCmd37(void);
-static void LinkPartnerHandleCmd38(void);
-static void LinkPartnerHandleCmd39(void);
-static void LinkPartnerHandleCmd40(void);
 static void LinkPartnerHandleHitAnimation(void);
-static void LinkPartnerHandleCmd42(void);
 static void LinkPartnerHandlePlaySE(void);
 static void LinkPartnerHandlePlayFanfareOrBGM(void);
 static void LinkPartnerHandleFaintingCry(void);
@@ -80,13 +56,10 @@ static void LinkPartnerHandleIntroSlide(void);
 static void LinkPartnerHandleIntroTrainerBallThrow(void);
 static void LinkPartnerHandleDrawPartyStatusSummary(void);
 static void LinkPartnerHandleHidePartyStatusSummary(void);
-static void LinkPartnerHandleEndBounceEffect(void);
 static void LinkPartnerHandleSpriteInvisibility(void);
 static void LinkPartnerHandleBattleAnimation(void);
 static void LinkPartnerHandleLinkStandbyMsg(void);
-static void LinkPartnerHandleResetActionMoveSelection(void);
 static void LinkPartnerHandleCmd55(void);
-static void LinkPartnerCmdEnd(void);
 
 static void LinkPartnerBufferRunCommand(void);
 static void LinkPartnerBufferExecCompleted(void);
@@ -102,48 +75,48 @@ static void sub_814DE9C(void);
 static void (*const sLinkPartnerBufferCommands[CONTROLLER_CMDS_COUNT])(void) =
 {
     LinkPartnerHandleGetMonData,
-    LinkPartnerHandleGetRawMonData,
+    LinkPartnerEndExecution,
     LinkPartnerHandleSetMonData,
     LinkPartnerHandleSetRawMonData,
     LinkPartnerHandleLoadMonSprite,
     LinkPartnerHandleSwitchInAnim,
     LinkPartnerHandleReturnMonToBall,
     LinkPartnerHandleDrawTrainerPic,
-    LinkPartnerHandleTrainerSlide,
+    LinkPartnerEndExecution,
     LinkPartnerHandleTrainerSlideBack,
     LinkPartnerHandleFaintAnimation,
-    LinkPartnerHandlePaletteFade,
-    LinkPartnerHandleSuccessBallThrowAnim,
-    LinkPartnerHandleBallThrowAnim,
-    LinkPartnerHandlePause,
+    LinkPartnerEndExecution,
+    LinkPartnerEndExecution,
+    LinkPartnerEndExecution,
+    LinkPartnerEndExecution,
     LinkPartnerHandleMoveAnimation,
     LinkPartnerHandlePrintString,
-    LinkPartnerHandlePrintSelectionString,
-    LinkPartnerHandleChooseAction,
-    LinkPartnerHandleUnknownYesNoBox,
-    LinkPartnerHandleChooseMove,
-    LinkPartnerHandleChooseItem,
-    LinkPartnerHandleChoosePokemon,
-    LinkPartnerHandleCmd23,
+    LinkPartnerEndExecution,
+    LinkPartnerEndExecution,
+    LinkPartnerEndExecution,
+    LinkPartnerEndExecution,
+    LinkPartnerEndExecution,
+    LinkPartnerEndExecution,
+    LinkPartnerEndExecution,
     LinkPartnerHandleHealthBarUpdate,
-    LinkPartnerHandleExpUpdate,
+    LinkPartnerEndExecution,
     LinkPartnerHandleStatusIconUpdate,
     LinkPartnerHandleStatusAnimation,
-    LinkPartnerHandleStatusXor,
-    LinkPartnerHandleDataTransfer,
-    LinkPartnerHandleDMA3Transfer,
-    LinkPartnerHandlePlayBGM,
-    LinkPartnerHandleCmd32,
-    LinkPartnerHandleTwoReturnValues,
-    LinkPartnerHandleChosenMonReturnValue,
-    LinkPartnerHandleOneReturnValue,
-    LinkPartnerHandleOneReturnValue_Duplicate,
-    LinkPartnerHandleCmd37,
-    LinkPartnerHandleCmd38,
-    LinkPartnerHandleCmd39,
-    LinkPartnerHandleCmd40,
+    LinkPartnerEndExecution,
+    LinkPartnerEndExecution,
+    LinkPartnerEndExecution,
+    LinkPartnerEndExecution,
+    LinkPartnerEndExecution,
+    LinkPartnerEndExecution,
+    LinkPartnerEndExecution,
+    LinkPartnerEndExecution,
+    LinkPartnerEndExecution,
+    LinkPartnerEndExecution,
+    LinkPartnerEndExecution,
+    LinkPartnerEndExecution,
+    LinkPartnerEndExecution,
     LinkPartnerHandleHitAnimation,
-    LinkPartnerHandleCmd42,
+    LinkPartnerEndExecution,
     LinkPartnerHandlePlaySE,
     LinkPartnerHandlePlayFanfareOrBGM,
     LinkPartnerHandleFaintingCry,
@@ -151,18 +124,14 @@ static void (*const sLinkPartnerBufferCommands[CONTROLLER_CMDS_COUNT])(void) =
     LinkPartnerHandleIntroTrainerBallThrow,
     LinkPartnerHandleDrawPartyStatusSummary,
     LinkPartnerHandleHidePartyStatusSummary,
-    LinkPartnerHandleEndBounceEffect,
+    LinkPartnerEndExecution,
     LinkPartnerHandleSpriteInvisibility,
     LinkPartnerHandleBattleAnimation,
     LinkPartnerHandleLinkStandbyMsg,
-    LinkPartnerHandleResetActionMoveSelection,
+    LinkPartnerEndExecution,
     LinkPartnerHandleCmd55,
-    LinkPartnerCmdEnd
+    0
 };
-
-static void SpriteCB_Null2(void)
-{
-}
 
 void SetControllerToLinkPartner(void)
 {
@@ -190,7 +159,6 @@ static void sub_814AF54(void)
 {
     if (gSprites[gBattlerSpriteIds[gActiveBattler]].callback == SpriteCallbackDummy)
     {
-        nullsub_25(0);
         FreeSpriteOamMatrix(&gSprites[gBattlerSpriteIds[gActiveBattler]]);
         DestroySprite(&gSprites[gBattlerSpriteIds[gActiveBattler]]);
         LinkPartnerBufferExecCompleted();
@@ -292,7 +260,6 @@ static void sub_814B340(void)
     {
         u16 species = GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPECIES);
 
-        nullsub_24(species);
         FreeOamMatrix(gSprites[gBattlerSpriteIds[gActiveBattler]].oam.matrixNum);
         DestroySprite(&gSprites[gBattlerSpriteIds[gActiveBattler]]);
         SetHealthboxSpriteInvisible(gHealthboxSpriteIds[gActiveBattler]);
@@ -753,7 +720,7 @@ static u32 CopyLinkPartnerMonData(u8 monId, u8 *dst)
     return size;
 }
 
-static void LinkPartnerHandleGetRawMonData(void)
+static void LinkPartnerEndExecution(void)
 {
     LinkPartnerBufferExecCompleted();
 }
@@ -1110,18 +1077,6 @@ static void LinkPartnerHandleDrawTrainerPic(void)
     s16 xPos;
     u32 trainerPicId;
 
-    if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
-    {
-        if ((GetBattlerPosition(gActiveBattler) & BIT_FLANK) != 0) // second mon
-            xPos = 90;
-        else // first mon
-            xPos = 32;
-    }
-    else
-    {
-        xPos = 80;
-    }
-
     if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_FIRE_RED
         || (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_LEAF_GREEN)
     {
@@ -1137,7 +1092,19 @@ static void LinkPartnerHandleDrawTrainerPic(void)
         trainerPicId = gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender;
     }
 
-//    DecompressTrainerBackPic(trainerPicId, gActiveBattler);
+    if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
+    {
+        if ((GetBattlerPosition(gActiveBattler) & BIT_FLANK) != 0) // second mon
+            xPos = 90;
+        else // first mon
+            xPos = 32;
+    }
+    else
+    {
+        xPos = 80;
+    }
+
+    LoadPalette(gTrainerBackPicPaletteTable[trainerPicId].data, 0x100 + 16 * gActiveBattler, 32);
     SetMultiuseSpriteTemplateToTrainerBack(trainerPicId, GetBattlerPosition(gActiveBattler));
     gBattlerSpriteIds[gActiveBattler] = CreateSprite(&gMultiuseSpriteTemplate, xPos, (8 - gTrainerBackPicCoords[trainerPicId].size) * 4 + 80, GetBattlerSpriteSubpriority(gActiveBattler));
 
@@ -1147,11 +1114,6 @@ static void LinkPartnerHandleDrawTrainerPic(void)
     gSprites[gBattlerSpriteIds[gActiveBattler]].callback = sub_805D7AC;
 
     gBattlerControllerFuncs[gActiveBattler] = CompleteOnBattlerSpriteCallbackDummy;
-}
-
-static void LinkPartnerHandleTrainerSlide(void)
-{
-    LinkPartnerBufferExecCompleted();
 }
 
 static void LinkPartnerHandleTrainerSlideBack(void)
@@ -1186,26 +1148,6 @@ static void LinkPartnerHandleFaintAnimation(void)
             gBattlerControllerFuncs[gActiveBattler] = sub_814B340;
         }
     }
-}
-
-static void LinkPartnerHandlePaletteFade(void)
-{
-    LinkPartnerBufferExecCompleted();
-}
-
-static void LinkPartnerHandleSuccessBallThrowAnim(void)
-{
-    LinkPartnerBufferExecCompleted();
-}
-
-static void LinkPartnerHandleBallThrowAnim(void)
-{
-    LinkPartnerBufferExecCompleted();
-}
-
-static void LinkPartnerHandlePause(void)
-{
-    LinkPartnerBufferExecCompleted();
 }
 
 static void LinkPartnerHandleMoveAnimation(void)
@@ -1296,41 +1238,6 @@ static void LinkPartnerHandlePrintString(void)
     BattleTv_SetDataBasedOnString(*stringId);
 }
 
-static void LinkPartnerHandlePrintSelectionString(void)
-{
-    LinkPartnerBufferExecCompleted();
-}
-
-static void LinkPartnerHandleChooseAction(void)
-{
-    LinkPartnerBufferExecCompleted();
-}
-
-static void LinkPartnerHandleUnknownYesNoBox(void)
-{
-    LinkPartnerBufferExecCompleted();
-}
-
-static void LinkPartnerHandleChooseMove(void)
-{
-    LinkPartnerBufferExecCompleted();
-}
-
-static void LinkPartnerHandleChooseItem(void)
-{
-    LinkPartnerBufferExecCompleted();
-}
-
-static void LinkPartnerHandleChoosePokemon(void)
-{
-    LinkPartnerBufferExecCompleted();
-}
-
-static void LinkPartnerHandleCmd23(void)
-{
-    LinkPartnerBufferExecCompleted();
-}
-
 static void LinkPartnerHandleHealthBarUpdate(void)
 {
     s16 hpVal;
@@ -1353,11 +1260,6 @@ static void LinkPartnerHandleHealthBarUpdate(void)
     }
 
     gBattlerControllerFuncs[gActiveBattler] = CompleteOnHealthbarDone;
-}
-
-static void LinkPartnerHandleExpUpdate(void)
-{
-    LinkPartnerBufferExecCompleted();
 }
 
 static void LinkPartnerHandleStatusIconUpdate(void)
@@ -1383,75 +1285,6 @@ static void LinkPartnerHandleStatusAnimation(void)
     }
 }
 
-static void LinkPartnerHandleStatusXor(void)
-{
-    LinkPartnerBufferExecCompleted();
-}
-
-static void LinkPartnerHandleDataTransfer(void)
-{
-    LinkPartnerBufferExecCompleted();
-}
-
-static void LinkPartnerHandleDMA3Transfer(void)
-{
-    LinkPartnerBufferExecCompleted();
-}
-
-static void LinkPartnerHandlePlayBGM(void)
-{
-    LinkPartnerBufferExecCompleted();
-}
-
-static void LinkPartnerHandleCmd32(void)
-{
-    LinkPartnerBufferExecCompleted();
-}
-
-static void LinkPartnerHandleTwoReturnValues(void)
-{
-    LinkPartnerBufferExecCompleted();
-}
-
-static void LinkPartnerHandleChosenMonReturnValue(void)
-{
-    LinkPartnerBufferExecCompleted();
-}
-
-static void LinkPartnerHandleOneReturnValue(void)
-{
-    LinkPartnerBufferExecCompleted();
-}
-
-static void LinkPartnerHandleOneReturnValue_Duplicate(void)
-{
-    LinkPartnerBufferExecCompleted();
-}
-
-static void LinkPartnerHandleCmd37(void)
-{
-    gUnknown_02022D0C.field_0 = 0;
-    LinkPartnerBufferExecCompleted();
-}
-
-static void LinkPartnerHandleCmd38(void)
-{
-    gUnknown_02022D0C.field_0 = gBattleBufferA[gActiveBattler][1];
-    LinkPartnerBufferExecCompleted();
-}
-
-static void LinkPartnerHandleCmd39(void)
-{
-    gUnknown_02022D0C.flag_x80 = 0;
-    LinkPartnerBufferExecCompleted();
-}
-
-static void LinkPartnerHandleCmd40(void)
-{
-    gUnknown_02022D0C.flag_x80 ^= 1;
-    LinkPartnerBufferExecCompleted();
-}
-
 static void LinkPartnerHandleHitAnimation(void)
 {
     if (gSprites[gBattlerSpriteIds[gActiveBattler]].invisible == TRUE)
@@ -1465,11 +1298,6 @@ static void LinkPartnerHandleHitAnimation(void)
         DoHitAnimHealthboxEffect(gActiveBattler);
         gBattlerControllerFuncs[gActiveBattler] = DoHitAnimBlinkSpriteEffect;
     }
-}
-
-static void LinkPartnerHandleCmd42(void)
-{
-    LinkPartnerBufferExecCompleted();
 }
 
 static void LinkPartnerHandlePlaySE(void)
@@ -1533,22 +1361,6 @@ static void LinkPartnerHandleIntroTrainerBallThrow(void)
     StartSpriteAnim(&gSprites[gBattlerSpriteIds[gActiveBattler]], 1);
 
     paletteNum = AllocSpritePalette(0xD6F9);
-
-    if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_FIRE_RED
-        || (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_LEAF_GREEN)
-    {
-        trainerPicId = gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender + TRAINER_BACK_PIC_RED;
-    }
-    else if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_RUBY
-             || (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_SAPPHIRE)
-    {
-        trainerPicId = gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender + TRAINER_BACK_PIC_RUBY_SAPPHIRE_BRENDAN;
-    }
-    else
-    {
-        trainerPicId = gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender;
-    }
-
     LoadPalette(gTrainerBackPicPaletteTable[trainerPicId].data, 0x100 + paletteNum * 16, 32);
 
     gSprites[gBattlerSpriteIds[gActiveBattler]].oam.paletteNum = paletteNum;
@@ -1560,7 +1372,7 @@ static void LinkPartnerHandleIntroTrainerBallThrow(void)
         gTasks[gBattlerStatusSummaryTaskId[gActiveBattler]].func = Task_HidePartyStatusSummary;
 
     gBattleSpritesDataPtr->animationData->field_9_x1 = 1;
-    gBattlerControllerFuncs[gActiveBattler] = SpriteCB_Null2;
+    gBattlerControllerFuncs[gActiveBattler] = nullsub_21;
 }
 
 static void sub_814DCCC(u8 taskId)
@@ -1630,11 +1442,6 @@ static void LinkPartnerHandleHidePartyStatusSummary(void)
     LinkPartnerBufferExecCompleted();
 }
 
-static void LinkPartnerHandleEndBounceEffect(void)
-{
-    LinkPartnerBufferExecCompleted();
-}
-
 static void LinkPartnerHandleSpriteInvisibility(void)
 {
     if (IsBattlerSpritePresent(gActiveBattler))
@@ -1667,11 +1474,6 @@ static void LinkPartnerHandleLinkStandbyMsg(void)
     LinkPartnerBufferExecCompleted();
 }
 
-static void LinkPartnerHandleResetActionMoveSelection(void)
-{
-    LinkPartnerBufferExecCompleted();
-}
-
 static void LinkPartnerHandleCmd55(void)
 {
     sub_81851A8(&gBattleBufferA[gActiveBattler][4]);
@@ -1681,8 +1483,4 @@ static void LinkPartnerHandleCmd55(void)
     BeginFastPaletteFade(3);
     LinkPartnerBufferExecCompleted();
     gBattlerControllerFuncs[gActiveBattler] = sub_80587B0;
-}
-
-static void LinkPartnerCmdEnd(void)
-{
 }

@@ -52,7 +52,7 @@ static void PlayerHandleFaintAnimation(void);
 static void PlayerHandlePaletteFade(void);
 static void PlayerHandleSuccessBallThrowAnim(void);
 static void PlayerHandleBallThrowAnim(void);
-static void PlayerHandlePause(void);
+static void PlayerEndExecution(void);
 static void PlayerHandleMoveAnimation(void);
 static void PlayerHandlePrintString(void);
 static void PlayerHandlePrintSelectionString(void);
@@ -67,13 +67,11 @@ static void PlayerHandleExpUpdate(void);
 static void PlayerHandleStatusIconUpdate(void);
 static void PlayerHandleStatusAnimation(void);
 static void PlayerHandleStatusXor(void);
-static void PlayerDoNothing(void);
 static void PlayerHandleDMA3Transfer(void);
 static void PlayerHandlePlayBGM(void);
 static void PlayerHandleTwoReturnValues(void);
 static void PlayerHandleChosenMonReturnValue(void);
 static void PlayerHandleOneReturnValue(void);
-static void PlayerHandleOneReturnValue_Duplicate(void);
 static void PlayerHandleHitAnimation(void);
 static void PlayerHandlePlaySE(void);
 static void PlayerHandlePlayFanfareOrBGM(void);
@@ -132,7 +130,7 @@ static void (*const sPlayerBufferCommands[CONTROLLER_CMDS_COUNT])(void) =
     PlayerHandlePaletteFade,
     PlayerHandleSuccessBallThrowAnim,
     PlayerHandleBallThrowAnim,
-    PlayerHandlePause,
+    PlayerEndExecution,
     PlayerHandleMoveAnimation,
     PlayerHandlePrintString,
     PlayerHandlePrintSelectionString,
@@ -147,20 +145,20 @@ static void (*const sPlayerBufferCommands[CONTROLLER_CMDS_COUNT])(void) =
     PlayerHandleStatusIconUpdate,
     PlayerHandleStatusAnimation,
     PlayerHandleStatusXor,
-    PlayerDoNothing,
+    PlayerEndExecution,
     PlayerHandleDMA3Transfer,
     PlayerHandlePlayBGM,
-    PlayerDoNothing,
+    PlayerEndExecution,
     PlayerHandleTwoReturnValues,
     PlayerHandleChosenMonReturnValue,
     PlayerHandleOneReturnValue,
-    PlayerHandleOneReturnValue_Duplicate,
-    PlayerDoNothing,
-    PlayerDoNothing,
-    PlayerDoNothing,
-    PlayerDoNothing,
+    PlayerHandleOneReturnValue,
+    PlayerEndExecution,
+    PlayerEndExecution,
+    PlayerEndExecution,
+    PlayerEndExecution,
     PlayerHandleHitAnimation,
-    PlayerDoNothing,
+    PlayerEndExecution,
     PlayerHandlePlaySE,
     PlayerHandlePlayFanfareOrBGM,
     PlayerHandleFaintingCry,
@@ -174,7 +172,7 @@ static void (*const sPlayerBufferCommands[CONTROLLER_CMDS_COUNT])(void) =
     PlayerHandleLinkStandbyMsg,
     PlayerHandleResetActionMoveSelection,
     PlayerHandleCmd55,
-    nullsub_21
+    0
 };
 
 static const u8 sTargetIdentities[] = {B_POSITION_PLAYER_LEFT, B_POSITION_PLAYER_RIGHT, B_POSITION_OPPONENT_RIGHT, B_POSITION_OPPONENT_LEFT};
@@ -846,7 +844,6 @@ static void sub_80588B4(void)
 {
     if (gSprites[gBattlerSpriteIds[gActiveBattler]].callback == SpriteCallbackDummy)
     {
-        nullsub_25(gSaveBlock2Ptr->playerGender);
         FreeSpriteOamMatrix(&gSprites[gBattlerSpriteIds[gActiveBattler]]);
         DestroySprite(&gSprites[gBattlerSpriteIds[gActiveBattler]]);
         PlayerBufferExecCompleted();
@@ -1223,8 +1220,6 @@ static void sub_80596A8(void)
     if (gSprites[gBattlerSpriteIds[gActiveBattler]].pos1.y + gSprites[gBattlerSpriteIds[gActiveBattler]].pos2.y > DISPLAY_HEIGHT)
     {
         u16 species = GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPECIES);
-
-        nullsub_24(species);
         FreeOamMatrix(gSprites[gBattlerSpriteIds[gActiveBattler]].oam.matrixNum);
         DestroySprite(&gSprites[gBattlerSpriteIds[gActiveBattler]]);
         SetHealthboxSpriteInvisible(gHealthboxSpriteIds[gActiveBattler]);
@@ -1284,7 +1279,6 @@ static void OpenBagAndChooseItem(void)
     if (!gPaletteFade.active)
     {
         gBattlerControllerFuncs[gActiveBattler] = CompleteWhenChoseItem;
-        nullsub_35();
         FreeAllWindowBuffers();
         CB2_BagMenuFromBattle();
     }
@@ -2174,29 +2168,8 @@ static void PlayerHandleDrawTrainerPic(void)
 {
     s16 xPos, yPos;
     u32 trainerPicId;
-    u16 backPicId;
-    u8 position;
 
-    if (gBattleTypeFlags & BATTLE_TYPE_LINK)
-    {
-        if ((gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_SAPPHIRE
-            || (gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_RUBY)
-        {
-            trainerPicId = gLinkPlayers[GetMultiplayerId()].gender + TRAINER_BACK_PIC_RUBY_SAPPHIRE_BRENDAN;
-        }
-        else if ((gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_EMERALD)
-        {
-            trainerPicId = gLinkPlayers[GetMultiplayerId()].gender + TRAINER_BACK_PIC_BRENDAN;
-        }
-        else
-        {
-            trainerPicId = gLinkPlayers[GetMultiplayerId()].gender + TRAINER_BACK_PIC_RED;
-        }
-    }
-    else
-    {
-        trainerPicId = gSaveBlock2Ptr->playerGender;
-    }
+    trainerPicId = gSaveBlock2Ptr->playerGender;
 
     if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
     {
@@ -2241,9 +2214,7 @@ static void PlayerHandleDrawTrainerPic(void)
     // Use the back pic in any other scenario.
     else
     {
-        position = GetBattlerPosition(gActiveBattler);
-//        DecompressTrainerBackPic(trainerPicId, gActiveBattler);
-        LoadPalette(gTrainerBackPicPaletteTable[2].data, 0x100 + 16 * gActiveBattler, 0x20);
+        LoadPalette(gTrainerBackPicPaletteTable[trainerPicId].data, 0x100 + 16 * gActiveBattler, 32);
         SetMultiuseSpriteTemplateToTrainerBack(trainerPicId, GetBattlerPosition(gActiveBattler));
         gBattlerSpriteIds[gActiveBattler] = CreateSprite(&gMultiuseSpriteTemplate, xPos, yPos, GetBattlerSpriteSubpriority(gActiveBattler));
 
@@ -2258,36 +2229,6 @@ static void PlayerHandleDrawTrainerPic(void)
 
 static void PlayerHandleTrainerSlide(void)
 {
-    u32 trainerPicId;
-    u16 backPicId;
-    u8 position;
-
-    if (gBattleTypeFlags & BATTLE_TYPE_LINK)
-    {
-        if ((gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_SAPPHIRE
-            || (gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_RUBY)
-        {
-            trainerPicId = gLinkPlayers[GetMultiplayerId()].gender + TRAINER_BACK_PIC_RUBY_SAPPHIRE_BRENDAN;
-        }
-        else if ((gLinkPlayers[GetMultiplayerId()].version & 0xFF) == VERSION_EMERALD)
-        {
-            trainerPicId = gLinkPlayers[GetMultiplayerId()].gender + TRAINER_BACK_PIC_BRENDAN;
-        }
-        else
-        {
-            trainerPicId = gLinkPlayers[GetMultiplayerId()].gender + TRAINER_BACK_PIC_RED;
-        }
-    }
-    else
-    {
-        trainerPicId = gSaveBlock2Ptr->playerGender + TRAINER_BACK_PIC_RED;
-    }
-    position = GetBattlerPosition(gActiveBattler);
-//    DecompressTrainerBackPic(trainerPicId, gActiveBattler);
-    LoadPalette(gTrainerBackPicPaletteTable[2].data, 0x100 + 16 * gActiveBattler, 0x20);
-    SetMultiuseSpriteTemplateToTrainerBack(trainerPicId, GetBattlerPosition(gActiveBattler));
-    gBattlerSpriteIds[gActiveBattler] = CreateSprite(&gMultiuseSpriteTemplate, 80, (8 - gTrainerBackPicCoords[trainerPicId].size) * 4 + 80, 30);
-
     gSprites[gBattlerSpriteIds[gActiveBattler]].oam.paletteNum = gActiveBattler;
     gSprites[gBattlerSpriteIds[gActiveBattler]].pos2.x = -96;
     gSprites[gBattlerSpriteIds[gActiveBattler]].data[0] = 2;
@@ -2359,14 +2300,8 @@ static void PlayerHandleBallThrowAnim(void)
     gBattlerControllerFuncs[gActiveBattler] = CompleteOnSpecialAnimDone;
 }
 
-static void PlayerHandlePause(void)
+static void PlayerEndExecution(void)
 {
-    u8 var = gBattleBufferA[gActiveBattler][1];
-
-    // WTF is this??
-    while (var != 0)
-        var--;
-
     PlayerBufferExecCompleted();
 }
 
@@ -2647,6 +2582,7 @@ static void PlayerHandleExpUpdate(void)
 #undef tExpTask_monId
 #undef tExpTask_gainedExp
 #undef tExpTask_battler
+
 #undef tExpTask_frames
 
 static void PlayerHandleStatusIconUpdate(void)
@@ -2677,11 +2613,6 @@ static void PlayerHandleStatusXor(void)
     u8 val = GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_STATUS) ^ gBattleBufferA[gActiveBattler][1];
 
     SetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_STATUS, &val);
-    PlayerBufferExecCompleted();
-}
-
-static void PlayerDoNothing(void)
-{
     PlayerBufferExecCompleted();
 }
 
@@ -2733,12 +2664,6 @@ static void PlayerHandleChosenMonReturnValue(void)
 static void PlayerHandleOneReturnValue(void)
 {
     BtlController_EmitOneReturnValue(1, 0);
-    PlayerBufferExecCompleted();
-}
-
-static void PlayerHandleOneReturnValue_Duplicate(void)
-{
-    BtlController_EmitOneReturnValue_Duplicate(1, 0);
     PlayerBufferExecCompleted();
 }
 
@@ -2818,6 +2743,7 @@ static void PlayerHandleIntroTrainerBallThrow(void)
 
     paletteNum = AllocSpritePalette(0xD6F8);
     LoadPalette(gTrainerBackPicPaletteTable[gSaveBlock2Ptr->playerGender].data, 0x100 + paletteNum * 16, 32);
+
     gSprites[gBattlerSpriteIds[gActiveBattler]].oam.paletteNum = paletteNum;
 
     taskId = CreateTask(task05_08033660, 5);

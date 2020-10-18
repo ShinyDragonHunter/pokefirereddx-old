@@ -89,7 +89,6 @@ static void WallyHandleBattleAnimation(void);
 static void WallyHandleLinkStandbyMsg(void);
 static void WallyHandleResetActionMoveSelection(void);
 static void WallyHandleCmd55(void);
-static void WallyCmdEnd(void);
 
 static void WallyBufferRunCommand(void);
 static void WallyBufferExecCompleted(void);
@@ -158,12 +157,8 @@ static void (*const sWallyBufferCommands[CONTROLLER_CMDS_COUNT])(void) =
     WallyHandleLinkStandbyMsg,
     WallyHandleResetActionMoveSelection,
     WallyHandleCmd55,
-    WallyCmdEnd
+    nullsub_21
 };
-
-static void SpriteCB_Null7(void)
-{
-}
 
 void SetControllerToWally(void)
 {
@@ -268,7 +263,6 @@ static void OpenBagAfterPaletteFade(void)
     if (!gPaletteFade.active)
     {
         gBattlerControllerFuncs[gActiveBattler] = CompleteOnChosenItem;
-        nullsub_35();
         FreeAllWindowBuffers();
         DoWallyTutorialBagMenu();
     }
@@ -387,12 +381,6 @@ static void sub_8168A20(void)
         SetHealthboxSpriteInvisible(gHealthboxSpriteIds[gActiveBattler]);
         WallyBufferExecCompleted();
     }
-}
-
-static void CompleteOnBankSpriteCallbackDummy2(void)
-{
-    if (gSprites[gBattlerSpriteIds[gActiveBattler]].callback == SpriteCallbackDummy)
-        WallyBufferExecCompleted();
 }
 
 static void CompleteOnFinishedBattleAnimation(void)
@@ -1057,7 +1045,7 @@ static void WallyHandleTrainerSlide(void)
     gSprites[gBattlerSpriteIds[gActiveBattler]].pos2.x = -96;
     gSprites[gBattlerSpriteIds[gActiveBattler]].data[0] = 2;
     gSprites[gBattlerSpriteIds[gActiveBattler]].callback = sub_805D7AC;
-    gBattlerControllerFuncs[gActiveBattler] = CompleteOnBankSpriteCallbackDummy2;
+    gBattlerControllerFuncs[gActiveBattler] = CompleteOnBattlerSpriteCallbackDummy;
 }
 
 static void WallyHandleTrainerSlideBack(void)
@@ -1557,8 +1545,4 @@ static void WallyHandleCmd55(void)
 
     if (!(gBattleTypeFlags & BATTLE_TYPE_IS_MASTER) && gBattleTypeFlags & BATTLE_TYPE_LINK)
         gBattlerControllerFuncs[gActiveBattler] = sub_80587B0;
-}
-
-static void WallyCmdEnd(void)
-{
 }
