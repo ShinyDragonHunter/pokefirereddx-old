@@ -571,7 +571,10 @@ void BattleLoadOpponentMonSpriteGfx(struct Pokemon *mon, u8 battlerId)
 
     paletteOffset = 0x100 + battlerId * 16;
 
-    LoadPalette(GetMonSpritePalFromSpeciesAndPersonality(species, otId, monsPersonality), paletteOffset, 0x20);
+    if (gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies == SPECIES_NONE)
+        LoadPalette(GetMonFrontSpritePal(mon), paletteOffset, 0x20);
+    else
+        LoadPalette(GetMonSpritePalFromSpeciesAndPersonality(species, otId, monsPersonality), paletteOffset, 0x20);
 
     if (species == SPECIES_CASTFORM)
     {
@@ -625,7 +628,10 @@ void BattleLoadPlayerMonSpriteGfx(struct Pokemon *mon, u8 battlerId)
 
     paletteOffset = 0x100 + battlerId * 16;
 
-    LoadPalette(GetMonSpritePalFromSpeciesAndPersonality(species, otId, monsPersonality), paletteOffset, 0x20);
+    if (gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies == SPECIES_NONE)
+        LoadPalette(GetMonFrontSpritePal(mon), paletteOffset, 0x20);
+    else
+        LoadPalette(GetMonSpritePalFromSpeciesAndPersonality(species, otId, monsPersonality), paletteOffset, 0x20);
 
     if (species == SPECIES_CASTFORM)
     {
@@ -837,7 +843,6 @@ void HandleSpeciesGfxDataChange(u8 battlerAtk, u8 battlerDef, bool8 notTransform
     u32 personalityValue;
     u32 otId;
     u8 position;
-    const struct SpritePalette* pokePal;
 
     if (notTransform)
     {
@@ -905,7 +910,6 @@ void HandleSpeciesGfxDataChange(u8 battlerAtk, u8 battlerDef, bool8 notTransform
         dst = (void *)(OBJ_VRAM0 + gSprites[gBattlerSpriteIds[battlerAtk]].oam.tileNum * 32);
         DmaCopy32(3, src, dst, 0x800);
         paletteOffset = 0x100 + battlerAtk * 16;
-//        pokePal = GetMonSpritePalStructFromOtIdPersonality(targetSpecies, otId, personalityValue);
         LoadPalette(GetMonSpritePalFromSpeciesAndPersonality(targetSpecies, otId, personalityValue), paletteOffset, 32);
 
         if (targetSpecies == SPECIES_CASTFORM)
@@ -949,7 +953,6 @@ void BattleLoadSubstituteOrMonSpriteGfx(u8 battlerId, bool8 loadMonSprite)
         for (i = 1; i < 4; i++)
         {
             u8 (*ptr)[4][0x800] = gMonSpritesGfxPtr->sprites[position];
-            ptr++;ptr--; // Needed to match.
 
             DmaCopy32Defvars(3, (*ptr)[0], (*ptr)[i], 0x800);
         }
