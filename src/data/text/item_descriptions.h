@@ -1557,5 +1557,5 @@ static const u8 sShinyCharmDesc[] = _(
 
 static const u8 sOvalCharmDesc[] = _(
     "Increases the chance\n"
-    "chance of finding\n"
-    "eggs at the DAY CARE.");
+    "of finding eggs at\n"
+    "the DAY CARE.");
