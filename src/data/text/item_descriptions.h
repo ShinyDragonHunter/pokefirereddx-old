@@ -1554,3 +1554,8 @@ static const u8 sShinyCharmDesc[] = _(
     "A charm that will\n"
     "raise the chance\n"
     "for shiny POKéMON.");
+
+static const u8 sOvalCharmDesc[] = _(
+    "Increases the chance\n"
+    "chance of finding\n"
+    "eggs at the DAY CARE.");

@@ -4897,4 +4897,17 @@ const struct Item gItems[] =
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
         .secondaryId = 0,
     },
+    [ITEM_OVAL_CHARM] =
+    {
+        .name = _("OVAL CHARM"),
+        .itemId = ITEM_OVAL_CHARM,
+        .price = 0,
+        .description = sOvalCharmDesc,
+        .importance = 1,
+        .unk19 = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = 4,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .secondaryId = 0,
+    },
 };
