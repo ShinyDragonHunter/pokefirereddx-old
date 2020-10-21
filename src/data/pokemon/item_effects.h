@@ -1,25 +1,25 @@
-const u8 gItemEffect_Potion[7] = {
+const u8 gItemEffect_Heal20HP[7] = {
     [4] = ITEM4_HEAL_HP,
     [6] = 20,
 };
 
-const u8 gItemEffect_Antidote[6] = {
+const u8 gItemEffect_HealPoison[6] = {
     [3] = ITEM3_POISON,
 };
 
-const u8 gItemEffect_BurnHeal[6] = {
+const u8 gItemEffect_HealBurn[6] = {
     [3] = ITEM3_BURN,
 };
 
-const u8 gItemEffect_IceHeal[6] = {
+const u8 gItemEffect_HealFreeze[6] = {
     [3] = ITEM3_FREEZE,
 };
 
-const u8 gItemEffect_Awakening[6] = {
+const u8 gItemEffect_HealSleep[6] = {
     [3] = ITEM3_SLEEP,
 };
 
-const u8 gItemEffect_ParalyzeHeal[6] = {
+const u8 gItemEffect_HealParalysis[6] = {
     [3] = ITEM3_PARALYSIS,
 };
 
@@ -39,12 +39,12 @@ const u8 gItemEffect_HyperPotion[7] = {
     [6] = 200,
 };
 
-const u8 gItemEffect_SuperPotion[7] = {
+const u8 gItemEffect_Heal50HP[7] = {
     [4] = ITEM4_HEAL_HP,
     [6] = 50,
 };
 
-const u8 gItemEffect_FullHeal[6] = {
+const u8 gItemEffect_HealStatus[6] = {
     [3] = ITEM3_STATUS_ALL,
 };
 
@@ -56,11 +56,6 @@ const u8 gItemEffect_Revive[7] = {
 const u8 gItemEffect_MaxRevive[7] = {
     [4] = ITEM4_REVIVE | ITEM4_HEAL_HP,
     [6] = ITEM6_HEAL_FULL,
-};
-
-const u8 gItemEffect_FreshWater[7] = {
-    [4] = ITEM4_HEAL_HP,
-    [6] = 50,
 };
 
 const u8 gItemEffect_SodaPop[7] = {
@@ -113,7 +108,7 @@ const u8 gItemEffect_RevivalHerb[10] = {
     [9] = -20,
 };
 
-const u8 gItemEffect_Ether[7] = {
+const u8 gItemEffect_Heal10PP[7] = {
     [4] = ITEM4_HEAL_PP_ONE | ITEM4_HEAL_PP_ALL,
     [6] = 10,
 };
@@ -133,25 +128,12 @@ const u8 gItemEffect_MaxElixir[7] = {
     [6] = 0x7F,
 };
 
-const u8 gItemEffect_LavaCookie[6] = {
-    [3] = ITEM3_STATUS_ALL,
-};
-
-const u8 gItemEffect_BlueFlute[6] = {
-    [3] = ITEM3_SLEEP,
-};
-
-const u8 gItemEffect_YellowFlute[6] = {
+const u8 gItemEffect_HealConfusion[6] = {
     [3] = ITEM3_CONFUSION,
 };
 
 const u8 gItemEffect_RedFlute[6] = {
     [0] = ITEM0_INFATUATION,
-};
-
-const u8 gItemEffect_BerryJuice[7] = {
-    [4] = ITEM4_HEAL_HP,
-    [6] = 20,
 };
 
 const u8 gItemEffect_SacredAsh[7] = {
@@ -284,66 +266,13 @@ const u8 gItemEffect_XSpecial[8] = {
     [7] = 1,
 };
 
-const u8 gItemEffect_SunStone[6] = {
+const u8 gItemEffect_EvolutionStone[6] = {
     [4] = ITEM4_EVO_STONE,
-};
-
-const u8 gItemEffect_MoonStone[6] = {
-    [4] = ITEM4_EVO_STONE,
-};
-
-const u8 gItemEffect_FireStone[6] = {
-    [4] = ITEM4_EVO_STONE,
-};
-
-const u8 gItemEffect_ThunderStone[6] = {
-    [4] = ITEM4_EVO_STONE,
-};
-
-const u8 gItemEffect_WaterStone[6] = {
-    [4] = ITEM4_EVO_STONE,
-};
-
-const u8 gItemEffect_LeafStone[6] = {
-    [4] = ITEM4_EVO_STONE,
-};
-
-const u8 gItemEffect_CheriBerry[6] = {
-    [3] = ITEM3_PARALYSIS,
-};
-
-const u8 gItemEffect_ChestoBerry[6] = {
-    [3] = ITEM3_SLEEP,
-};
-
-const u8 gItemEffect_PechaBerry[6] = {
-    [3] = ITEM3_POISON,
-};
-
-const u8 gItemEffect_RawstBerry[6] = {
-    [3] = ITEM3_BURN,
-};
-
-const u8 gItemEffect_AspearBerry[6] = {
-    [3] = ITEM3_FREEZE,
-};
-
-const u8 gItemEffect_LeppaBerry[7] = {
-    [4] = ITEM4_HEAL_PP_ONE | ITEM4_HEAL_PP_ALL,
-    [6] = 10,
 };
 
 const u8 gItemEffect_OranBerry[7] = {
     [4] = ITEM4_HEAL_HP,
     [6] = 10,
-};
-
-const u8 gItemEffect_PersimBerry[6] = {
-    [3] = ITEM3_CONFUSION,
-};
-
-const u8 gItemEffect_LumBerry[6] = {
-    [3] = ITEM3_STATUS_ALL,
 };
 
 const u8 gItemEffect_SitrusBerry[7] = {
@@ -403,20 +332,20 @@ const u8 gItemEffect_TamatoBerry[10] = {
 
 const u8 *const gItemEffectTable[] =
 {
-    [ITEM_POTION - ITEM_POTION] = gItemEffect_Potion,
-    [ITEM_ANTIDOTE - ITEM_POTION] = gItemEffect_Antidote,
-    [ITEM_BURN_HEAL - ITEM_POTION] = gItemEffect_BurnHeal,
-    [ITEM_ICE_HEAL - ITEM_POTION] = gItemEffect_IceHeal,
-    [ITEM_AWAKENING - ITEM_POTION] = gItemEffect_Awakening,
-    [ITEM_PARALYZE_HEAL - ITEM_POTION] = gItemEffect_ParalyzeHeal,
+    [ITEM_POTION - ITEM_POTION] = gItemEffect_Heal20HP,
+    [ITEM_ANTIDOTE - ITEM_POTION] = gItemEffect_HealPoison,
+    [ITEM_BURN_HEAL - ITEM_POTION] = gItemEffect_HealBurn,
+    [ITEM_ICE_HEAL - ITEM_POTION] = gItemEffect_HealFreeze,
+    [ITEM_AWAKENING - ITEM_POTION] = gItemEffect_HealSleep,
+    [ITEM_PARALYZE_HEAL - ITEM_POTION] = gItemEffect_HealParalysis,
     [ITEM_FULL_RESTORE - ITEM_POTION] = gItemEffect_FullRestore,
     [ITEM_MAX_POTION - ITEM_POTION] = gItemEffect_MaxPotion,
     [ITEM_HYPER_POTION - ITEM_POTION] = gItemEffect_HyperPotion,
-    [ITEM_SUPER_POTION - ITEM_POTION] = gItemEffect_SuperPotion,
-    [ITEM_FULL_HEAL - ITEM_POTION] = gItemEffect_FullHeal,
+    [ITEM_SUPER_POTION - ITEM_POTION] = gItemEffect_Heal50HP,
+    [ITEM_FULL_HEAL - ITEM_POTION] = gItemEffect_HealStatus,
     [ITEM_REVIVE - ITEM_POTION] = gItemEffect_Revive,
     [ITEM_MAX_REVIVE - ITEM_POTION] = gItemEffect_MaxRevive,
-    [ITEM_FRESH_WATER - ITEM_POTION] = gItemEffect_FreshWater,
+    [ITEM_FRESH_WATER - ITEM_POTION] = gItemEffect_Heal50HP,
     [ITEM_SODA_POP - ITEM_POTION] = gItemEffect_SodaPop,
     [ITEM_LEMONADE - ITEM_POTION] = gItemEffect_Lemonade,
     [ITEM_MOOMOO_MILK - ITEM_POTION] = gItemEffect_MoomooMilk,
@@ -424,15 +353,15 @@ const u8 *const gItemEffectTable[] =
     [ITEM_ENERGY_ROOT - ITEM_POTION] = gItemEffect_EnergyRoot,
     [ITEM_HEAL_POWDER - ITEM_POTION] = gItemEffect_HealPowder,
     [ITEM_REVIVAL_HERB - ITEM_POTION] = gItemEffect_RevivalHerb,
-    [ITEM_ETHER - ITEM_POTION] = gItemEffect_Ether,
+    [ITEM_ETHER - ITEM_POTION] = gItemEffect_Heal10PP,
     [ITEM_MAX_ETHER - ITEM_POTION] = gItemEffect_MaxEther,
     [ITEM_ELIXIR - ITEM_POTION] = gItemEffect_Elixir,
     [ITEM_MAX_ELIXIR - ITEM_POTION] = gItemEffect_MaxElixir,
-    [ITEM_LAVA_COOKIE - ITEM_POTION] = gItemEffect_LavaCookie,
-    [ITEM_BLUE_FLUTE - ITEM_POTION] = gItemEffect_BlueFlute,
-    [ITEM_YELLOW_FLUTE - ITEM_POTION] = gItemEffect_YellowFlute,
+    [ITEM_LAVA_COOKIE - ITEM_POTION] = gItemEffect_HealStatus,
+    [ITEM_BLUE_FLUTE - ITEM_POTION] = gItemEffect_HealSleep,
+    [ITEM_YELLOW_FLUTE - ITEM_POTION] = gItemEffect_HealConfusion,
     [ITEM_RED_FLUTE - ITEM_POTION] = gItemEffect_RedFlute,
-    [ITEM_BERRY_JUICE - ITEM_POTION] = gItemEffect_BerryJuice,
+    [ITEM_BERRY_JUICE - ITEM_POTION] = gItemEffect_Heal20HP,
     [ITEM_SACRED_ASH - ITEM_POTION] = gItemEffect_SacredAsh,
     [ITEM_HP_UP - ITEM_POTION] = gItemEffect_HPUp,
     [ITEM_PROTEIN - ITEM_POTION] = gItemEffect_Protein,
@@ -450,21 +379,21 @@ const u8 *const gItemEffectTable[] =
     [ITEM_X_SPEED - ITEM_POTION] = gItemEffect_XSpeed,
     [ITEM_X_ACCURACY - ITEM_POTION] = gItemEffect_XAccuracy,
     [ITEM_X_SPECIAL - ITEM_POTION] = gItemEffect_XSpecial,
-    [ITEM_SUN_STONE - ITEM_POTION] = gItemEffect_SunStone,
-    [ITEM_MOON_STONE - ITEM_POTION] = gItemEffect_MoonStone,
-    [ITEM_FIRE_STONE - ITEM_POTION] = gItemEffect_FireStone,
-    [ITEM_THUNDER_STONE - ITEM_POTION] = gItemEffect_ThunderStone,
-    [ITEM_WATER_STONE - ITEM_POTION] = gItemEffect_WaterStone,
-    [ITEM_LEAF_STONE - ITEM_POTION] = gItemEffect_LeafStone,
-    [ITEM_CHERI_BERRY - ITEM_POTION] = gItemEffect_CheriBerry,
-    [ITEM_CHESTO_BERRY - ITEM_POTION] = gItemEffect_ChestoBerry,
-    [ITEM_PECHA_BERRY - ITEM_POTION] = gItemEffect_PechaBerry,
-    [ITEM_RAWST_BERRY - ITEM_POTION] = gItemEffect_RawstBerry,
-    [ITEM_ASPEAR_BERRY - ITEM_POTION] = gItemEffect_AspearBerry,
-    [ITEM_LEPPA_BERRY - ITEM_POTION] = gItemEffect_LeppaBerry,
+    [ITEM_SUN_STONE - ITEM_POTION] = gItemEffect_EvolutionStone,
+    [ITEM_MOON_STONE - ITEM_POTION] = gItemEffect_EvolutionStone,
+    [ITEM_FIRE_STONE - ITEM_POTION] = gItemEffect_EvolutionStone,
+    [ITEM_THUNDER_STONE - ITEM_POTION] = gItemEffect_EvolutionStone,
+    [ITEM_WATER_STONE - ITEM_POTION] = gItemEffect_EvolutionStone,
+    [ITEM_LEAF_STONE - ITEM_POTION] = gItemEffect_EvolutionStone,
+    [ITEM_CHERI_BERRY - ITEM_POTION] = gItemEffect_HealParalysis,
+    [ITEM_CHESTO_BERRY - ITEM_POTION] = gItemEffect_HealSleep,
+    [ITEM_PECHA_BERRY - ITEM_POTION] = gItemEffect_HealPoison,
+    [ITEM_RAWST_BERRY - ITEM_POTION] = gItemEffect_HealBurn,
+    [ITEM_ASPEAR_BERRY - ITEM_POTION] = gItemEffect_HealFreeze,
+    [ITEM_LEPPA_BERRY - ITEM_POTION] = gItemEffect_Heal10PP,
     [ITEM_ORAN_BERRY - ITEM_POTION] = gItemEffect_OranBerry,
-    [ITEM_PERSIM_BERRY - ITEM_POTION] = gItemEffect_PersimBerry,
-    [ITEM_LUM_BERRY - ITEM_POTION] = gItemEffect_LumBerry,
+    [ITEM_PERSIM_BERRY - ITEM_POTION] = gItemEffect_HealConfusion,
+    [ITEM_LUM_BERRY - ITEM_POTION] = gItemEffect_HealStatus,
     [ITEM_SITRUS_BERRY - ITEM_POTION] = gItemEffect_SitrusBerry,
     [ITEM_POMEG_BERRY - ITEM_POTION] = gItemEffect_PomegBerry,
     [ITEM_KELPSY_BERRY - ITEM_POTION] = gItemEffect_KelpsyBerry,

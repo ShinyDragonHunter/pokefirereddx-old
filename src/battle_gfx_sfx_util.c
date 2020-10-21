@@ -1132,7 +1132,6 @@ void SpriteCB_SetInvisible(struct Sprite *sprite)
 
 void SetBattlerShadowSpriteCallback(u8 battlerId, u16 species)
 {
-
     if (gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies != SPECIES_NONE)
         species = gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies;
 
