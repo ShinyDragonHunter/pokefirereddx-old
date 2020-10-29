@@ -93,19 +93,20 @@ void CopyItemName(u16 itemId, u8 *dst)
 
 void CopyItemNameHandlePlural(u16 itemId, u8 *dst, u32 quantity)
 {
-    if (itemId == ITEM_POKE_BALL)
+    StringCopy(dst, ItemId_GetName(itemId));
+    if (quantity > 1)
     {
-        if (quantity < 2)
-            StringCopy(dst, ItemId_GetName(ITEM_POKE_BALL));
-        else
-            StringCopy(dst, gText_PokeBalls);
-    }
+        u8 *end;
+        end = dst;
+        // loop so end points to the last character
+        while (*end != EOS && // account for empty string
+            *(end + 1) != EOS)
+        end++;
+    
+    if (*end == CHAR_Y)
+        StringCopy(end, gText_Ies);
     else
-    {
-        if (itemId >= ITEM_CHERI_BERRY && itemId <= ITEM_ENIGMA_BERRY)
-            GetBerryCountString(dst, gBerries[itemId - ITEM_CHERI_BERRY].name, quantity);
-        else
-            StringCopy(dst, ItemId_GetName(itemId));
+        StringAppend(dst, gText_S);
     }
 }
 
@@ -117,7 +118,7 @@ void GetBerryCountString(u8 *dst, const u8 *berryName, u32 quantity)
     if (quantity < 2)
         berryString = gText_Berry;
     else
-        berryString = gText_Berries;
+        berryString = gText_BerriesPocket;
 
     txtPtr = StringCopy(dst, berryName);
     *txtPtr = CHAR_SPACE;

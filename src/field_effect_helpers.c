@@ -152,7 +152,7 @@ u8 CreateWarpArrowSprite(void)
     u8 spriteId;
     struct Sprite *sprite;
 
-    LoadFieldEffectPalette(8);
+    LoadFieldEffectPalette(FLDEFFOBJ_ARROW);
     spriteId = CreateSpriteAtEnd(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_ARROW], 0, 0, 0x52);
     if (spriteId != MAX_SPRITES)
     {
@@ -432,6 +432,7 @@ u32 FldEff_JumpLongGrass(void)
     struct Sprite *sprite;
 
     SetSpritePosToOffsetMapCoords((s16 *)&gFieldEffectArguments[0], (s16 *)&gFieldEffectArguments[1], 8, 8);
+    LoadFieldEffectPalette(FLDEFFOBJ_SURF_BLOB);
     spriteId = CreateSpriteAtEnd(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_JUMP_LONG_GRASS], gFieldEffectArguments[0], gFieldEffectArguments[1], 0);
     if (spriteId != MAX_SPRITES)
     {
@@ -1150,7 +1151,7 @@ u32 FldEff_BerryTreeGrowthSparkle(void)
     struct Sprite *sprite;
 
     SetSpritePosToOffsetMapCoords((s16 *)&gFieldEffectArguments[0], (s16 *)&gFieldEffectArguments[1], 8, 4);
-    LoadFieldEffectPalette(22);
+    LoadFieldEffectPalette(FLDEFFOBJ_SPARKLE);
     spriteId = CreateSpriteAtEnd(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_SPARKLE], gFieldEffectArguments[0], gFieldEffectArguments[1], gFieldEffectArguments[2]);
     if (spriteId != MAX_SPRITES)
     {
@@ -1177,7 +1178,7 @@ u32 ShowSandDisguiseFieldEffect(void)
     return ShowDisguiseFieldEffect(FLDEFF_SAND_DISGUISE, FLDEFFOBJ_SAND_DISGUISE);
 }
 
-static u32 ShowDisguiseFieldEffect(u8 fldEff, u8 fldEffObj)
+static u32 ShowDisguiseFieldEffect(u8 fldEff, u8 templateIdx)
 {
     u8 spriteId;
     struct Sprite *sprite;
@@ -1187,8 +1188,8 @@ static u32 ShowDisguiseFieldEffect(u8 fldEff, u8 fldEffObj)
         FieldEffectActiveListRemove(fldEff);
         return MAX_SPRITES;
     }
-    LoadFieldEffectPalette(fldEffObj);
-    spriteId = CreateSpriteAtEnd(gFieldEffectObjectTemplatePointers[fldEffObj], 0, 0, 0);
+    LoadFieldEffectPalette(templateIdx);
+    spriteId = CreateSpriteAtEnd(gFieldEffectObjectTemplatePointers[templateIdx], 0, 0, 0);
     if (spriteId != MAX_SPRITES)
     {
         sprite = &gSprites[spriteId];

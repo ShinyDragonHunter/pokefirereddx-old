@@ -48,12 +48,6 @@ extern const u8 gText_Cute2[];
 extern const u8 gText_Smart2[];
 extern const u8 gText_Tough2[];
 
-extern const u8 gText_Items[];
-extern const u8 gText_Key_Items[];
-extern const u8 gText_Poke_Balls[];
-extern const u8 gText_TMs_Hms[];
-extern const u8 gText_Berries2[];
-
 extern const u8 gText_Single2[];
 extern const u8 gText_Double2[];
 extern const u8 gText_Multi[];
@@ -137,8 +131,8 @@ extern const u8 gText_DecorationWillBeDiscarded[];
 extern const u8 gText_CantThrowAwayInUse[];
 extern const u8 gText_DecorationThrownAway[];
 
-extern const u8 gText_PokeBalls[];
-extern const u8 gText_Berries[];
+extern const u8 gText_S[];
+extern const u8 gText_Ies[];
 extern const u8 gText_Berry[];
 
 extern const u8 gText_Desk[];
@@ -983,6 +977,12 @@ extern const u8 gText_OneDash[];
 extern const u8 gText_TwoDashes[];
 
 extern const u8 *const gReturnToXStringsTable2[];
+
+extern const u8 gText_ItemsPocket[];
+extern const u8 gText_PokeBallsPocket[];
+extern const u8 gText_TMHMPocket[];
+extern const u8 gText_BerriesPocket[];
+extern const u8 gText_KeyItemsPocket[];
 
 extern const u8 gText_NumPlayerLink[];
 extern const u8 gText_ConfirmLinkWhenPlayersReady[];

@@ -32,7 +32,7 @@ EventScript_BufferItemsPocket:: @ 8271B45
 EventScript_BufferKeyItemsPocket:: @ 8271B55
 	bufferstdstring 2, STDSTRING_KEYITEMS
 	compare VAR_0x8007, 1
-	call_if_eq EventScript_PlayFanfareObtainedItem
+	call_if_eq EventScript_PlayFanfareObtainedKeyItem
 	return
 
 EventScript_BufferPokeballsPocket:: @ 8271B65
@@ -50,11 +50,18 @@ EventScript_BufferTMHMsPocket:: @ 8271B75
 EventScript_BufferBerriesPocket:: @ 8271B85
 	bufferstdstring 2, STDSTRING_BERRIES
 	compare VAR_0x8007, 1
-	call_if_eq EventScript_PlayFanfareObtainedItem
+	call_if_eq EventScript_PlayFanfareObtainedBerry
 	return
 
 EventScript_ObtainedItem:: @ 8271B95
+    compare VAR_0x8001, 1
+    goto_if_eq EventScript_ObtainedItemMessage
+    buffernumberstring 0, VAR_0x8001
+	message gText_ObtainedTheItems
+    goto_if_eq EventScript_ContinueObtainedItem
+EventScript_ObtainedItemMessage:
 	message gText_ObtainedTheItem
+EventScript_ContinueObtainedItem:
 	waitfanfare
 	msgbox gText_PutItemInPocket, MSGBOX_DEFAULT
 	setvar VAR_RESULT, 1
@@ -64,12 +71,20 @@ EventScript_NoRoomForItem:: @ 8271BA9
 	setvar VAR_RESULT, 0
 	return
 
+EventScript_PlayFanfareObtainedKeyItem:: @ 8271BAF
+	playfanfare MUS_RG_OBTAIN_KEY_ITEM
+	return
+
 EventScript_PlayFanfareObtainedItem:: @ 8271BAF
 	playfanfare MUS_OBTAIN_ITEM
 	return
 
 EventScript_PlayFanfareObtainedTMHM:: @ 8271BB3
 	playfanfare MUS_OBTAIN_TMHM
+	return
+
+EventScript_PlayFanfareObtainedBerry:: @ 8271BB3
+	playfanfare MUS_OBTAIN_BERRY
 	return
 
 Std_ObtainDecoration:: @ 8271BB7
@@ -88,7 +103,7 @@ EventScript_ObtainDecorationMessage:: @ 8271BC5
 
 EventScript_ObtainedDecor:: @ 8271BE0
 	playfanfare MUS_OBTAIN_ITEM
-	message gText_ObtainedTheDecor
+	message gText_ObtainedTheItem
 	waitfanfare
 	msgbox gText_TheDecorWasTransferredToThePC, MSGBOX_DEFAULT
 	setvar VAR_RESULT, 1

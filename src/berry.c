@@ -1211,26 +1211,17 @@ static u8 GetNumStagesWateredByBerryTreeId(u8 id)
 // and bug fix: https://gist.github.com/hondew/0f0164e5b9dadfd72d24f30f2c049a0b.
 static u8 CalcBerryYieldInternal(u16 max, u16 min, u8 water)
 {
-    u32 randMin;
-    u32 randMax;
+    u16 diff;
+    u32 minRand;
     u32 rand;
-    u32 extraYield;
-
+ 
     if (water == 0)
         return min;
-    else
-    {
-        randMin = (max - min) * (water - 1);
-        randMax = (max - min) * (water);
-        rand = randMin + Random() % (randMax - randMin + 1);
-
-        // Round upwards
-        if ((rand % NUM_WATER_STAGES) >= NUM_WATER_STAGES / 2)
-            extraYield = rand / NUM_WATER_STAGES + 1;
-        else
-            extraYield = rand / NUM_WATER_STAGES;
-        return extraYield + min;
-    }
+ 
+    diff = max - min + 1;
+    minRand = (water - 1) * diff;
+    rand = minRand + Random() % diff;
+    return min + rand / NUM_WATER_STAGES;
 }
 
 static u8 CalcBerryYield(struct BerryTree *tree)
