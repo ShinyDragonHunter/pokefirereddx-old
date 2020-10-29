@@ -98,14 +98,7 @@ Route110_EventScript_Boy2:: @ 81EF338
 	end
 
 Route110_EventScript_SlateportCitySign:: @ 81EF341
-    giveitem ITEM_POTION, 2
-    giveitem ITEM_SHINY_CHARM, 1
-    giveitem ITEM_ORAN_BERRY, 2
-    giveitem ITEM_ENIGMA_BERRY, 2
-    giveitem ITEM_OVAL_CHARM, 1
-    giveitem ITEM_MASTER_BALL, 99
-    giveitem ITEM_ORAN_BERRY, 1
-    closemessage
+	msgbox Route110_Text_SlateportCitySign, MSGBOX_SIGN
 	end
 
 Route110_EventScript_CyclingRoadSign:: @ 81EF34A

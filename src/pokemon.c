@@ -6304,7 +6304,7 @@ void ClearBattleMonForms(void)
 
 u16 GetBattleBGM(void)
 {
-    if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_x2000000))
+    if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_x2000000 | BATTLE_TYPE_FRONTIER))
         return MUS_VS_TRAINER;
     else if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
     {
@@ -6343,10 +6343,7 @@ u16 GetBattleBGM(void)
         case TRAINER_CLASS_PYRAMID_KING:
             return MUS_VS_FRONTIER_BRAIN;
         default:
-            if (gMapHeader.regionMapSectionId == MAPSEC_BATTLE_FRONTIER)
-                return MUS_VS_TRAINER;
-            else
-                return MUS_RG_VS_TRAINER;
+            return MUS_RG_VS_TRAINER;
         }
     }
     else
