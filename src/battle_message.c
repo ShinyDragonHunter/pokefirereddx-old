@@ -384,7 +384,6 @@ static const u8 sText_ThrewPokeblockAtPkmn[] = _("{B_PLAYER_NAME} threw a {POKEB
 static const u8 sText_OutOfSafariBalls[] = _("{PLAY_SE SE_DING_DONG}ANNOUNCER: You're out of\nSAFARI BALLS! Game over!\p");
 static const u8 sText_OpponentMon1Appeared[] = _("{B_OPPONENT_MON1_NAME} appeared!\p");
 static const u8 sText_WildPkmnAppeared[] = _("Wild {B_OPPONENT_MON1_NAME} appeared!\p");
-static const u8 sText_WildPkmnAppeared2[] = _("Wild {B_OPPONENT_MON1_NAME} appeared!\p");
 static const u8 sText_WildPkmnAppearedPause[] = _("Wild {B_OPPONENT_MON1_NAME} appeared!{PAUSE 127}");
 static const u8 sText_TwoWildPkmnAppeared[] = _("Wild {B_OPPONENT_MON1_NAME} and\n{B_OPPONENT_MON2_NAME} appeared!\p");
 static const u8 sText_Trainer1WantsToBattle[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nwould like to battle!\p");
@@ -417,16 +416,8 @@ static const u8 sText_FoePkmnPrefix[] = _("Foe ");
 static const u8 sText_EmptyString8[] = _("");
 static const u8 sText_FoePkmnPrefix2[] = _("Foe");
 static const u8 sText_AllyPkmnPrefix[] = _("Ally");
-static const u8 sText_FoePkmnPrefix3[] = _("Foe");
-static const u8 sText_AllyPkmnPrefix2[] = _("Ally");
-static const u8 sText_FoePkmnPrefix4[] = _("Foe");
-static const u8 sText_AllyPkmnPrefix3[] = _("Ally");
 static const u8 sText_AttackerUsedX[] = _("{B_ATK_NAME_WITH_PREFIX} used\n{B_BUFF2}");
 static const u8 sText_ExclamationMark[] = _("!");
-static const u8 sText_ExclamationMark2[] = _("!");
-static const u8 sText_ExclamationMark3[] = _("!");
-static const u8 sText_ExclamationMark4[] = _("!");
-static const u8 sText_ExclamationMark5[] = _("!");
 static const u8 sText_HP2[] = _("HP");
 static const u8 sText_Attack2[] = _("ATTACK");
 static const u8 sText_Defense2[] = _("DEFENSE");
@@ -1751,9 +1742,7 @@ void BufferStringBattle(u16 stringID)
         }
         else
         {
-            if (gBattleTypeFlags & BATTLE_TYPE_LEGENDARY)
-                stringPtr = sText_WildPkmnAppeared2;
-            else if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE) // interesting, looks like they had something planned for wild double battles
+            if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE) // interesting, looks like they had something planned for wild double battles
                 stringPtr = sText_TwoWildPkmnAppeared;
             else if (gBattleTypeFlags & BATTLE_TYPE_WALLY_TUTORIAL)
                 stringPtr = sText_WildPkmnAppearedPause;
@@ -2356,15 +2345,15 @@ u32 BattleStringExpandPlaceholders(const u8 *src, u8 *dst)
                 break;
             case B_TXT_ATK_PREFIX2:
                 if (GetBattlerSide(gBattlerAttacker) == B_SIDE_PLAYER)
-                    toCpy = sText_AllyPkmnPrefix2;
+                    toCpy = sText_AllyPkmnPrefix;
                 else
-                    toCpy = sText_FoePkmnPrefix3;
+                    toCpy = sText_FoePkmnPrefix2;
                 break;
             case B_TXT_DEF_PREFIX2:
                 if (GetBattlerSide(gBattlerTarget) == B_SIDE_PLAYER)
-                    toCpy = sText_AllyPkmnPrefix2;
+                    toCpy = sText_AllyPkmnPrefix;
                 else
-                    toCpy = sText_FoePkmnPrefix3;
+                    toCpy = sText_FoePkmnPrefix2;
                 break;
             case B_TXT_ATK_PREFIX1:
                 if (GetBattlerSide(gBattlerAttacker) == B_SIDE_PLAYER)
@@ -2380,15 +2369,15 @@ u32 BattleStringExpandPlaceholders(const u8 *src, u8 *dst)
                 break;
             case B_TXT_ATK_PREFIX3:
                 if (GetBattlerSide(gBattlerAttacker) == B_SIDE_PLAYER)
-                    toCpy = sText_AllyPkmnPrefix3;
+                    toCpy = sText_AllyPkmnPrefix;
                 else
-                    toCpy = sText_FoePkmnPrefix4;
+                    toCpy = sText_FoePkmnPrefix2;
                 break;
             case B_TXT_DEF_PREFIX3:
                 if (GetBattlerSide(gBattlerTarget) == B_SIDE_PLAYER)
-                    toCpy = sText_AllyPkmnPrefix3;
+                    toCpy = sText_AllyPkmnPrefix;
                 else
-                    toCpy = sText_FoePkmnPrefix4;
+                    toCpy = sText_FoePkmnPrefix2;
                 break;
             case B_TXT_TRAINER2_CLASS:
                 if (gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
@@ -2658,19 +2647,11 @@ static void ChooseTypeOfMoveUsedString(u8* dst)
     switch (counter)
     {
     case 0:
-        StringCopy(dst, sText_ExclamationMark);
-        break;
     case 1:
-        StringCopy(dst, sText_ExclamationMark2);
-        break;
     case 2:
-        StringCopy(dst, sText_ExclamationMark3);
-        break;
     case 3:
-        StringCopy(dst, sText_ExclamationMark4);
-        break;
     case 4:
-        StringCopy(dst, sText_ExclamationMark5);
+        StringCopy(dst, sText_ExclamationMark);
         break;
     }
 }

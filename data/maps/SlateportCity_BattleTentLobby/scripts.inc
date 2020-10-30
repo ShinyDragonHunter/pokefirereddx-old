@@ -309,4 +309,3 @@ SlateportCity_BattleTentLobby_Text_BattleEvenWithoutToughMons: @ 8208DA6
 SlateportCity_BattleTentLobby_Text_NiceIfMoreSelection: @ 8208DF1
 	.string "Wouldn't it be nice if they had more of\n"
 	.string "a selection?$"
-
