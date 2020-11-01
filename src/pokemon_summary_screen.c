@@ -3083,9 +3083,162 @@ static void BufferMonTrainerMemo(void)
 
         if (sum->metLocation < MAPSEC_NONE)
         {
-            GetMapNameHandleAquaHideout(metLocationString, sum->metLocation);
+            GetMapNameGeneric(metLocationString, sum->metLocation);
             DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
         }
+        if (sum->metLocation == MAPSEC_AQUA_HIDEOUT_OLD)
+        {
+            if (sum->metGame == VERSION_SAPPHIRE)
+		        DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_AquaHideout);
+            else if (sum->metGame == VERSION_RUBY)
+		        DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_MagmaHideout);
+            else
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
+        }
+
+        else if (sum->metGame == VERSION_GAMECUBE)
+        {
+            if (sum->metLocation == 1 
+             || sum->metLocation == 164) //Outskirt Stand
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_OutskirtStand);
+
+            if (sum->metLocation == 3
+             || sum->metLocation == 94
+             || sum->metLocation == 96 
+             || sum->metLocation == 97 
+             || sum->metLocation == 100 
+             || sum->metLocation == 107 // Phenac City 
+             || sum->metLocation == 128) // eReader Pokémon are from here in Phenac City
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_PhenacCity);
+
+            if (sum->metLocation == 5) // Mayor's House
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_MayorsHouse);
+
+            if (sum->metLocation >= 8
+             && sum->metLocation <= 11) // Cipher Lab
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_CipherLab);
+
+            if (sum->metLocation == 15
+             || sum->metLocation == 116
+             || sum->metLocation == 119) // Pyrite Town
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_PyriteTown);
+
+            if (sum->metLocation == 16) // Mt. Battle
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_MtBattle);
+
+            if (sum->metLocation == 25
+             || sum->metLocation == 28) // Pyrite Building
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_PyriteBldg);
+ 
+            if (sum->metLocation == 29
+             || sum->metLocation == 31
+             || sum->metLocation == 32) // Pyrite Cave
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_PyriteCave);
+
+            if (sum->metLocation == 30) // Miror's Hideout
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_MirorsHideout);
+
+            if (sum->metLocation == 39) // Agate Village
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_AgateVillage);
+
+            if (sum->metLocation == 47
+             || sum->metLocation == 55) // The Under
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_TheUnder);
+
+            if (sum->metLocation == 58) // The Under Subway
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_TheUnderSubway);
+
+            if (sum->metLocation == 59
+             || sum->metLocation == 115
+             || sum->metLocation == 117) // Realgam Tower
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_RealgamTower);
+
+            if ((sum->metLocation >= 64
+             && sum->metLocation <= 66)
+             || (sum->metLocation == 70
+             || sum->metLocation == 71)) // Cipher Key Lair
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_CipherKeyLair);
+
+            if (sum->metLocation == 68) // Laboratory
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_Laboratory);
+
+            if (sum->metLocation == 67 
+             || sum->metLocation == 69) // Colosseum: Laboratory; XD: Cipher Key Lair
+            {
+                if (sum->species == SPECIES_BUTTERFREE
+                 || sum->species == SPECIES_PRIMEAPE
+                 || sum->species == SPECIES_MAGNETON
+                 || sum->species == SPECIES_HYPNO
+                 || sum->species == SPECIES_TANGELA)
+                    DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_CipherKeyLair);
+                else
+                    DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_Laboratory);
+            }
+
+            if ((sum->metLocation >= 73
+             && sum->metLocation <= 75)
+             || (sum->metLocation == 77
+             || sum->metLocation == 80
+             || sum->metLocation == 81
+             || sum->metLocation == 84
+             || sum->metLocation == 85
+             || sum->metLocation == 87
+             || sum->metLocation == 88)) // Citadark Isle
+                    DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_CitadarkIsle);
+
+            if (sum->metLocation == 76) // Colosseum: Mt. Battle; XD: Citadark Isle
+            {
+                if (sum->species == SPECIES_ENTEI)
+                    DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_MtBattle);
+                else
+                    DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_CitadarkIsle);
+            }
+
+            if (sum->metLocation == 90) // Rock Poke Spot
+               DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_Rock);
+
+            if (sum->metLocation == 91) // Oasis Poke Spot
+               DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_Oasis);
+
+            if (sum->metLocation == 92) // Cave Poke Spot
+               DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gPCText_Cave);
+
+            if (sum->metLocation == 104
+             || sum->metLocation == 106 // Do these three display as Realgam Tower instead in game?
+             || sum->metLocation == 113) // RealgamTwr Dome
+               DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_RealgamTwr_Dome);
+
+            if (sum->metLocation >= 109 
+             && sum->metLocation <= 111) // Colosseum: RealgamTwr Dome; XD: Pyrite Town
+            {
+                if (sum->species == SPECIES_SUNFLORA
+                 || sum->species == SPECIES_HERACROSS
+                 || sum->species == SPECIES_DELIBIRD
+                 || sum->species == SPECIES_SUICUNE)
+                    DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_RealgamTwr_Dome);
+                else
+                    DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_PyriteTown);
+            }
+
+            if (sum->metLocation == 118) // Tower Colosseum
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_TowerColosseum);
+
+            if (sum->metLocation == 125) // Deep Colosseum
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_DeepColosseum);
+
+            if (sum->metLocation >= 132
+             && sum->metLocation <= 134) // Snagem Hideout
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_SnagemHideout);
+
+            if (sum->metLocation == 143) // Pokémon HQ Lab
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_PokemonHQLab);
+
+            if (sum->metLocation == 153
+             || sum->metLocation == 162) // Gateon Port
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_GateonPort);
+        }
+        else
+            DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
 
         if (DoesMonOTMatchOwner() == TRUE)
         {
@@ -3098,15 +3251,38 @@ static void BufferMonTrainerMemo(void)
         {
             text = gText_XNatureFatefulEncounter;
         }
+        else if (sum->metLocation == 0 && sum->metGame == VERSION_GAMECUBE)
+        {
+            DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, sum->OTName);
+            text = gText_ObtainedFromDad;
+        }
         else if (sum->metLocation != METLOC_IN_GAME_TRADE && DidMonComeFromGBAGames())
         {
             text = (sum->metLocation >= MAPSEC_NONE) ? gText_XNatureObtainedInTrade : gText_XNatureProbablyMetAt;
         }
+        else if (sum->metLocation != METLOC_IN_GAME_TRADE && sum->metGame == VERSION_GAMECUBE)
+        {
+            text = (sum->metLocation >= MAPSEC_NONE) ? gText_XNatureMetDistantLand : gText_XNatureProbablyMetAt;
+        }
         else
         {
-            text = gText_XNatureObtainedInTrade;
+            DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, sum->OTName);
+            if (sum->metLocation == METLOC_IN_GAME_TRADE)
+            {
+                if (sum->species == SPECIES_ESPEON 
+                 || sum->species == SPECIES_UMBREON) // Colosseum Starter Espeon and Umbreon
+                    text = gText_OldFriend;
+                 else
+                    text = gText_Receivedfrom; // Duking's Plusle
+            }
+            else
+            {
+                if (sum->metGame == VERSION_GAMECUBE) // Generic distant land text
+                    text = gText_XNatureMetDistantLand;
+                else
+                    text = gText_XNatureObtainedInTrade;
+            }
         }
-
         DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, text);
         Free(metLevelString);
         Free(metLocationString);
