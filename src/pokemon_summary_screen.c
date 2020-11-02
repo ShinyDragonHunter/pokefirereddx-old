@@ -3086,7 +3086,7 @@ static void BufferMonTrainerMemo(void)
             GetMapNameGeneric(metLocationString, sum->metLocation);
             DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
         }
-        if (sum->metLocation == MAPSEC_AQUA_HIDEOUT_OLD)
+        else if (sum->metLocation == MAPSEC_AQUA_HIDEOUT_OLD)
         {
             if (sum->metGame == VERSION_SAPPHIRE)
 		        DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_AquaHideout);
@@ -3095,13 +3095,22 @@ static void BufferMonTrainerMemo(void)
             else
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
         }
+        else if (sum->metLocation == MAPSEC_BATTLE_FRONTIER)
+        {
+            if (sum->metGame == VERSION_SAPPHIRE
+             || sum->metGame == VERSION_RUBY)
+		        DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_BattleTower);
+            else
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
+        }
 
-        else if (sum->metGame == VERSION_GAMECUBE)
+        // Colosseum/XD location handler
+        if (sum->metGame == VERSION_GAMECUBE)
         {
             switch (sum->metLocation)
             {
             case 1:
-            case 164: //Outskirt Stand
+            case 164: // Outskirt Stand
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_OutskirtStand);
                 break;
             case 3:
@@ -3109,11 +3118,11 @@ static void BufferMonTrainerMemo(void)
             case 96:
             case 97:
             case 100:
-            case 107: //Phenac City
-            case 128: //eReader Pokémon from here are in Phenac City
+            case 107: // Phenac City
+            case 128: // eReader Pokémon from here are in Phenac City
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_PhenacCity);
                 break;
-            case 5: //Mayor's House
+            case 5: // Mayor's House
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_MayorsHouse);
                 break;
             case 8:
@@ -3124,48 +3133,48 @@ static void BufferMonTrainerMemo(void)
                 break;
             case 15:
             case 116:
-            case 119: //Pyrite Town
+            case 119: // Pyrite Town
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_PyriteTown);
                 break;
-            case 16: //Mt. Battle
+            case 16: // Mt. Battle
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_MtBattle);
                 break;
             case 25:
-            case 28: //Pyrite Building
+            case 28: // Pyrite Building
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_PyriteBldg);
                 break;
             case 29:
             case 31:
-            case 32: //Pyrite Cave
+            case 32: // Pyrite Cave
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_PyriteCave);
                 break;
-            case 30: //Miror's Hideout
+            case 30: // Miror's Hideout
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_MirorsHideout);
                 break;
-            case 39: //Agate Village
+            case 39: // Agate Village
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_AgateVillage);
                 break;
             case 47:
-            case 55: //The Under
+            case 55: // The Under
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_TheUnder);
                 break;
-            case 58: //The Under Subway
+            case 58: // The Under Subway
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_TheUnderSubway);
                 break;
             case 59:
             case 115:
-            case 117: //Realgam Tower
+            case 117: // Realgam Tower
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_RealgamTower);
                 break;
             case 64:
             case 65:
             case 66:
             case 70:
-            case 71: //Cipher Key Lair
+            case 71: // Cipher Key Lair
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_CipherKeyLair);
                 break;
             case 67:
-            case 69: //Colosseum: Laboratory; XD: Cipher Key Lair
+            case 69: // Colosseum: Laboratory; XD: Cipher Key Lair
                 if(sum->species == SPECIES_BUTTERFREE
                  || sum->species == SPECIES_PRIMEAPE
                  || sum->species == SPECIES_MAGNETON
@@ -3175,7 +3184,7 @@ static void BufferMonTrainerMemo(void)
                 else
                     DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_Laboratory);
                 break;
-            case 68: //Laboratory
+            case 68: // Laboratory
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_Laboratory);
                 break;
             case 73:
@@ -3187,32 +3196,32 @@ static void BufferMonTrainerMemo(void)
             case 84:
             case 85:
             case 87:
-            case 88: //Citadark Isle
+            case 88: // Citadark Isle
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_CitadarkIsle);
                 break;
-            case 76: //Colosseum: Mt. Battle; XD: Citadark Isle
+            case 76: // Colosseum: Mt. Battle; XD: Citadark Isle
                 if(sum->species == SPECIES_ENTEI)
                     DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_MtBattle);
                 else
                     DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_CitadarkIsle);
                 break;
-            case 90: //Rock Poké Spot
+            case 90: // Rock Poké Spot
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_Rock);
                 break;
-            case 91: //Oasis Poké Spot
+            case 91: // Oasis Poké Spot
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_Oasis);
                 break;
-            case 92: //Cave Poké Spot
+            case 92: // Cave Poké Spot
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gPCText_Cave);
                 break;
             case 104:
-            case 106: //Do these three display as Realgam Tower instead in game?
-            case 113: //RealgamTwr Dome
+            case 106: // Do these three display as Realgam Tower instead in game?
+            case 113: // RealgamTwr Dome
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_RealgamTwr_Dome);
                 break;
             case 109:
             case 110:
-            case 111: //Colosseum: RealgamTwr Dome; XD: Pyrite Town
+            case 111: // Colosseum: RealgamTwr Dome; XD: Pyrite Town
                 if(sum->species == SPECIES_SUNFLORA
                  || sum->species == SPECIES_HERACROSS
                  || sum->species == SPECIES_DELIBIRD
@@ -3221,22 +3230,22 @@ static void BufferMonTrainerMemo(void)
                 else
                     DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_PyriteTown);
                 break;
-            case 118: //Tower Colosseum
+            case 118: // Tower Colosseum
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_TowerColosseum);
                 break;
-            case 125: //Deep Colosseum
+            case 125: // Deep Colosseum
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_DeepColosseum);
                 break;
             case 132:
             case 133:
-            case 134: //Snagem Hideout
+            case 134: // Snagem Hideout
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_SnagemHideout);
                 break;
-            case 143: //Pokémon HQ Lab
+            case 143: // Pokémon HQ Lab
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_PokemonHQLab);
                 break;
             case 153:
-            case 162: //Gateon Port
+            case 162: // Gateon Port
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_GateonPort);
                 break;
             default:
@@ -3288,6 +3297,7 @@ static void BufferMonTrainerMemo(void)
                     text = gText_XNatureObtainedInTrade;
             }
         }
+
         DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, text);
         Free(metLevelString);
         Free(metLocationString);
