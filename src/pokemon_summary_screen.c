@@ -3086,7 +3086,7 @@ static void BufferMonTrainerMemo(void)
             GetMapNameGeneric(metLocationString, sum->metLocation);
             DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
         }
-        else if (sum->metLocation == MAPSEC_AQUA_HIDEOUT_OLD)
+        if (sum->metLocation == MAPSEC_AQUA_HIDEOUT_OLD)
         {
             if (sum->metGame == VERSION_SAPPHIRE)
 		        DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_AquaHideout);
@@ -3095,7 +3095,7 @@ static void BufferMonTrainerMemo(void)
             else
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
         }
-        else if (sum->metLocation == MAPSEC_BATTLE_FRONTIER)
+        if (sum->metLocation == MAPSEC_BATTLE_FRONTIER)
         {
             if (sum->metGame == VERSION_SAPPHIRE
              || sum->metGame == VERSION_RUBY)

@@ -7,8 +7,6 @@
 
 EWRAM_DATA ALIGNED(4) u8 gDecompressionBuffer[0x4000] = {0};
 
-static void DuplicateDeoxysTiles(void *pointer, s32 species);
-
 void LZDecompressWram(const u32 *src, void *dest)
 {
     LZ77UnCompWram(src, dest);
@@ -67,7 +65,6 @@ void DecompressPicFromTable(const struct CompressedSpriteSheet *src, void* buffe
         LZ77UnCompWram(gMonFrontPicTable[0].data, buffer);
     else
         LZ77UnCompWram(src->data, buffer);
-    DuplicateDeoxysTiles(buffer, species);
 }
 
 void HandleLoadSpecialPokePic(const struct CompressedSpriteSheet *src, void *dest, s32 species, u32 personality)
@@ -104,7 +101,6 @@ void LoadSpecialPokePic(const struct CompressedSpriteSheet *src, void *dest, s32
     else
         LZ77UnCompWram(src->data, dest);
 
-    DuplicateDeoxysTiles(dest, species);
     DrawSpindaSpots(species, personality, dest, isFrontPic);
 }
 
@@ -144,10 +140,4 @@ bool8 LoadCompressedSpritePaletteUsingHeap(const struct CompressedSpritePalette 
     LoadSpritePalette(&dest);
     Free(buffer);
     return FALSE;
-}
-
-static void DuplicateDeoxysTiles(void *pointer, s32 species)
-{
-    if (species == SPECIES_DEOXYS)
-        CpuCopy32(pointer + 0x800, pointer, 0x800);
 }
