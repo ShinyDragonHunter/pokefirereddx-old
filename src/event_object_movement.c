@@ -1050,7 +1050,7 @@ static u8 InitObjectEventStateFromTemplate(struct ObjectEventTemplate *template,
     objectEvent->range.as_nybbles.x = template->movementRangeX;
     objectEvent->range.as_nybbles.y = template->movementRangeY;
     objectEvent->trainerType = template->trainerType;
-    objectEvent->mapNum = mapNum; //redundant, but needed to match
+    objectEvent->mapNum = mapNum;
     objectEvent->trainerRange_berryTreeId = template->trainerRange_berryTreeId;
     objectEvent->previousMovementDirection = gInitialMovementTypeFacingDirections[template->movementType];
     SetObjectEventDirection(objectEvent, objectEvent->previousMovementDirection);
@@ -7901,13 +7901,15 @@ bool8 FreezeObjectEvent(struct ObjectEvent *objectEvent)
     {
         return TRUE;
     }
-
-    objectEvent->frozen = 1;
-    objectEvent->spriteAnimPausedBackup = gSprites[objectEvent->spriteId].animPaused;
-    objectEvent->spriteAffineAnimPausedBackup = gSprites[objectEvent->spriteId].affineAnimPaused;
-    gSprites[objectEvent->spriteId].animPaused = 1;
-    gSprites[objectEvent->spriteId].affineAnimPaused = 1;
-    return FALSE;
+    else
+    {
+        objectEvent->frozen = 1;
+        objectEvent->spriteAnimPausedBackup = gSprites[objectEvent->spriteId].animPaused;
+        objectEvent->spriteAffineAnimPausedBackup = gSprites[objectEvent->spriteId].affineAnimPaused;
+        gSprites[objectEvent->spriteId].animPaused = 1;
+        gSprites[objectEvent->spriteId].affineAnimPaused = 1;
+        return FALSE;
+    }
 }
 
 void FreezeObjectEvents(void)
@@ -8080,8 +8082,8 @@ bool8 sub_80976EC(struct Sprite *sprite)
 
     if (sprite->data[5] > 15)
         return TRUE;
-
-    return FALSE;
+    else
+        return FALSE;
 }
 
 static const s8 sFigure8XOffsets[FIGURE_8_LENGTH] = {
@@ -8161,15 +8163,15 @@ static bool8 AnimateSpriteInFigure8(struct Sprite *sprite)
     return finished;
 }
 
-static const s8 gUnknown_0850E802[16] = {
+static const s8 gUnknown_0850E802[] = {
     -4,  -6,  -8, -10, -11, -12, -12, -12, -11, -10,  -9,  -8,  -6,  -4,   0,   0
 };
 
-static const s8 gUnknown_0850E812[16] = {
+static const s8 gUnknown_0850E812[] = {
     0,  -2,  -3,  -4,  -5,  -6,  -6,  -6,  -5,  -5,  -4,  -3,  -2,   0,   0,   0
 };
 
-static const s8 gUnknown_0850E822[16] = {
+static const s8 gUnknown_0850E822[] = {
     -2,  -4,  -6,  -8,  -9, -10, -10, -10,  -9,  -8,  -6,  -5,  -3,  -2,   0,   0
 };
 
@@ -8249,9 +8251,12 @@ static void SetMovementDelay(struct Sprite *sprite, s16 timer)
 
 static bool8 WaitForMovementDelay(struct Sprite *sprite)
 {
-    if (--sprite->data[3] == 0)
+    sprite->data[3]--;
+
+    if (sprite->data[3] == 0)
         return TRUE;
-    return FALSE;
+    else
+        return FALSE;
 }
 
 void SetAndStartSpriteAnim(struct Sprite *sprite, u8 animNum, u8 animCmdIndex)
@@ -8265,7 +8270,8 @@ bool8 SpriteAnimEnded(struct Sprite *sprite)
 {
     if (sprite->animEnded)
         return TRUE;
-    return FALSE;
+    else
+        return FALSE;
 }
 
 void UpdateObjectEventSpriteVisibility(struct Sprite *sprite, bool8 invisible)
@@ -8431,13 +8437,13 @@ static void UpdateObjectEventSpritePosition(struct Sprite *sprite)
 {
     switch(sprite->tAnimNum)
     {
-        case 0:
-            break;
         case UNION_ROOM_SPAWN_IN:
             MoveUnionRoomObjectDown(sprite);
             break;
         case UNION_ROOM_SPAWN_OUT:
             MoveUnionRoomObjectUp(sprite);
+            break;
+        case 0:
             break;
         default:
             sprite->tAnimNum = 0;
@@ -8507,7 +8513,7 @@ u8 (*const gMovementActionFuncs_FlyDown[])(struct ObjectEvent *, struct Sprite *
 
 u8 MovementAction_StoreAndLockAnim_Step0(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
-    bool8 ableToStore = FALSE;
+    bool32 ableToStore = FALSE;
     if (gLockedAnimObjectEvents == NULL)
     {
         gLockedAnimObjectEvents = AllocZeroed(sizeof(struct LockedAnimObjectEvents));
@@ -8517,8 +8523,9 @@ u8 MovementAction_StoreAndLockAnim_Step0(struct ObjectEvent *objectEvent, struct
     }
     else
     {
-        u8 i, firstFreeSlot;
-        bool8 found;
+        u8 i;
+        u8 firstFreeSlot;
+        bool32 found;
         for (firstFreeSlot = 16, found = FALSE, i = 0; i < 16; i++)
         {
             if (firstFreeSlot == 16 && gLockedAnimObjectEvents->objectEventIds[i] == 0)
@@ -8551,7 +8558,7 @@ u8 MovementAction_StoreAndLockAnim_Step0(struct ObjectEvent *objectEvent, struct
 
 u8 MovementAction_FreeAndUnlockAnim_Step0(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
-    bool8 ableToStore;
+    bool32 ableToStore;
     u8 index;
 
     sprite->data[2] = 1;
@@ -8595,7 +8602,7 @@ void CreateLevitateMovementTask(struct ObjectEvent *objectEvent)
     u8 taskId = CreateTask(ApplyLevitateMovement, 0xFF);
     struct Task *task = &gTasks[taskId];
 
-    StoreWordInTwoHalfwords((u16 *)&task->data[0], (u32)objectEvent);
+    StoreWordInTwoHalfwords(&task->data[0], (u32)objectEvent);
     objectEvent->warpArrowSpriteId = taskId;
     task->data[3] = 0xFFFF;
 }
@@ -8606,7 +8613,7 @@ static void ApplyLevitateMovement(u8 taskId)
     struct Sprite *sprite;
     struct Task *task = &gTasks[taskId];
 
-    LoadWordFromTwoHalfwords((u16 *)&task->data[0], (u32 *)&objectEvent); // load the map object pointer.
+    LoadWordFromTwoHalfwords(&task->data[0], (u32 *)&objectEvent); // load the map object pointer.
     sprite = &gSprites[objectEvent->spriteId];
 
     if(!(task->data[2] & 0x3))
@@ -8623,7 +8630,7 @@ void DestroyExtraMovementTask(u8 taskId)
     struct ObjectEvent *objectEvent;
     struct Task *task = &gTasks[taskId];
 
-    LoadWordFromTwoHalfwords((u16 *)&task->data[0], (u32 *)&objectEvent); // unused objectEvent
+    LoadWordFromTwoHalfwords(&task->data[0], (u32 *)&objectEvent); // unused objectEvent
     DestroyTask(taskId);
 }
 
