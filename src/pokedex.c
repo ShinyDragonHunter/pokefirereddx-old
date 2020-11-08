@@ -4628,7 +4628,7 @@ static u32 GetPokedexMonPersonality(u16 species)
     }
     else
     {
-        return 0;
+        return 0xFF; // Changed from 0 to make it so the Pokédex shows the Pokémon pics instead of the female versions.
     }
 }
 

@@ -951,6 +951,8 @@ extern const u8 gText_PlayerUsedVar2[];
 extern const u8 gText_RepelEffectsLingered[];
 extern const u8 gText_UsedVar2WildLured[];
 extern const u8 gText_UsedVar2WildRepelled[];
+extern const u8 gText_ImpossibleToAim[];
+extern const u8 gText_CantThrowBall[];
 extern const u8 gText_BoxFull[];
 extern const u8 gText_WontHaveEffect[];
 
