@@ -74,10 +74,12 @@ BirthIsland_Exterior_EventScript_Deoxys:: @ 8267FC1
 	delay 40
 	waitmoncry
 	setvar VAR_LAST_TALKED, LOCALID_DEOXYS
-	setwildbattle SPECIES_DEOXYS, 30, ITEM_NONE
+	setvar VAR_0x8004, SPECIES_DEOXYS
+	setvar VAR_0x8005, 30 @ level
+	setvar VAR_0x8006, ITEM_NONE
 	special CreateObedientEnemyMon
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
-	dowildbattle
+	special BattleSetup_StartScriptedWildBattle
 	waitstate
 	clearflag FLAG_SYS_CTRL_OBJ_DELETE
 	specialvar VAR_RESULT, GetBattleOutcome

@@ -53,7 +53,7 @@ SkyPillar_Top_EventScript_Rayquaza:: @ 8239722
 	waitmoncry
 	setwildbattle SPECIES_RAYQUAZA, 70, ITEM_NONE
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
-	dowildbattle
+	special BattleSetup_StartScriptedWildBattle
 	waitstate
 	clearflag FLAG_SYS_CTRL_OBJ_DELETE
 	specialvar VAR_RESULT, GetBattleOutcome

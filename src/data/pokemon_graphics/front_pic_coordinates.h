@@ -1498,7 +1498,7 @@ const struct MonCoords gMonFrontPicCoords[] =
     [SPECIES_NUZLEAF] =
     {
         .size = 0x56,
-        .y_offset = 8,
+        .y_offset = 7,
     },
     [SPECIES_SHIFTRY] =
     {

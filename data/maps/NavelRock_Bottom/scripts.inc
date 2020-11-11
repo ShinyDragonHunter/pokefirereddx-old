@@ -54,10 +54,12 @@ NavelRock_Bottom_EventScript_Lugia:: @ 82692A2
 	playmoncry SPECIES_LUGIA, 2
 	waitmoncry
 	delay 20
-	setwildbattle SPECIES_LUGIA, 70, ITEM_NONE
+	setvar VAR_0x8004, SPECIES_LUGIA
+	setvar VAR_0x8005, 70 @ level
+	setvar VAR_0x8006, ITEM_NONE
 	special CreateObedientEnemyMon
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
-	dowildbattle
+	special BattleSetup_StartScriptedWildBattle
 	waitstate
 	clearflag FLAG_SYS_CTRL_OBJ_DELETE
 	specialvar VAR_RESULT, GetBattleOutcome

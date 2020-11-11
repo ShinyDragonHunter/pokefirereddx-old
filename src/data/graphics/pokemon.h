@@ -597,8 +597,10 @@ const u8 gMonIcon_Farfetchd[] = INCBIN_U8("graphics/pokemon/farfetchd/icon.4bpp"
 const u8 gMonFootprint_Farfetchd[] = INCBIN_U8("graphics/pokemon/farfetchd/footprint.1bpp");
 
 const u32 gMonFrontPic_Doduo[] = INCBIN_U32("graphics/pokemon/doduo/front.4bpp.lz");
+const u32 gMonFrontPic_DoduoFemale[] = INCBIN_U32("graphics/pokemon/doduo/female_front.4bpp.lz");
 const u16 gMonPalette_Doduo[] = INCBIN_U16("graphics/pokemon/doduo/normal.gbapal");
 const u32 gMonBackPic_Doduo[] = INCBIN_U32("graphics/pokemon/doduo/back.4bpp.lz");
+const u32 gMonBackPic_DoduoFemale[] = INCBIN_U32("graphics/pokemon/doduo/female_back.4bpp.lz");
 const u16 gMonShinyPalette_Doduo[] = INCBIN_U16("graphics/pokemon/doduo/shiny.gbapal");
 const u8 gMonIcon_Doduo[] = INCBIN_U8("graphics/pokemon/doduo/icon.4bpp");
 const u8 gMonFootprint_Doduo[] = INCBIN_U8("graphics/pokemon/doduo/footprint.1bpp");
@@ -1089,8 +1091,10 @@ const u8 gMonIcon_Bayleef[] = INCBIN_U8("graphics/pokemon/bayleef/icon.4bpp");
 const u8 gMonFootprint_Bayleef[] = INCBIN_U8("graphics/pokemon/bayleef/footprint.1bpp");
 
 const u32 gMonFrontPic_Meganium[] = INCBIN_U32("graphics/pokemon/meganium/front.4bpp.lz");
+const u32 gMonFrontPic_MeganiumFemale[] = INCBIN_U32("graphics/pokemon/meganium/female_front.4bpp.lz");
 const u16 gMonPalette_Meganium[] = INCBIN_U16("graphics/pokemon/meganium/normal.gbapal");
 const u32 gMonBackPic_Meganium[] = INCBIN_U32("graphics/pokemon/meganium/back.4bpp.lz");
+const u32 gMonBackPic_MeganiumFemale[] = INCBIN_U32("graphics/pokemon/meganium/female_back.4bpp.lz");
 const u16 gMonShinyPalette_Meganium[] = INCBIN_U16("graphics/pokemon/meganium/shiny.gbapal");
 const u8 gMonIcon_Meganium[] = INCBIN_U8("graphics/pokemon/meganium/icon.4bpp");
 const u8 gMonFootprint_Meganium[] = INCBIN_U8("graphics/pokemon/meganium/footprint.1bpp");
@@ -1432,6 +1436,7 @@ const u8 gMonIcon_Wobbuffet[] = INCBIN_U8("graphics/pokemon/wobbuffet/icon.4bpp"
 const u8 gMonFootprint_Wobbuffet[] = INCBIN_U8("graphics/pokemon/wobbuffet/footprint.1bpp");
 
 const u32 gMonFrontPic_Girafarig[] = INCBIN_U32("graphics/pokemon/girafarig/front.4bpp.lz");
+const u32 gMonFrontPic_GirafarigFemale[] = INCBIN_U32("graphics/pokemon/girafarig/female_front.4bpp.lz");
 const u16 gMonPalette_Girafarig[] = INCBIN_U16("graphics/pokemon/girafarig/normal.gbapal");
 const u32 gMonBackPic_Girafarig[] = INCBIN_U32("graphics/pokemon/girafarig/back.4bpp.lz");
 const u16 gMonShinyPalette_Girafarig[] = INCBIN_U16("graphics/pokemon/girafarig/shiny.gbapal");
@@ -1934,8 +1939,10 @@ const u8 gMonIcon_Seedot[] = INCBIN_U8("graphics/pokemon/seedot/icon.4bpp");
 const u8 gMonFootprint_Seedot[] = INCBIN_U8("graphics/pokemon/seedot/footprint.1bpp");
 
 const u32 gMonFrontPic_Nuzleaf[] = INCBIN_U32("graphics/pokemon/nuzleaf/front.4bpp.lz");
+const u32 gMonFrontPic_NuzleafFemale[] = INCBIN_U32("graphics/pokemon/nuzleaf/female_front.4bpp.lz");
 const u16 gMonPalette_Nuzleaf[] = INCBIN_U16("graphics/pokemon/nuzleaf/normal.gbapal");
 const u32 gMonBackPic_Nuzleaf[] = INCBIN_U32("graphics/pokemon/nuzleaf/back.4bpp.lz");
+const u32 gMonBackPic_NuzleafFemale[] = INCBIN_U32("graphics/pokemon/nuzleaf/female_back.4bpp.lz");
 const u16 gMonShinyPalette_Nuzleaf[] = INCBIN_U16("graphics/pokemon/nuzleaf/shiny.gbapal");
 const u8 gMonIcon_Nuzleaf[] = INCBIN_U8("graphics/pokemon/nuzleaf/icon.4bpp");
 const u8 gMonFootprint_Nuzleaf[] = INCBIN_U8("graphics/pokemon/nuzleaf/footprint.1bpp");
@@ -2333,8 +2340,10 @@ const u8 gMonIcon_Mawile[] = INCBIN_U8("graphics/pokemon/mawile/icon.4bpp");
 const u8 gMonFootprint_Mawile[] = INCBIN_U8("graphics/pokemon/mawile/footprint.1bpp");
 
 const u32 gMonFrontPic_Meditite[] = INCBIN_U32("graphics/pokemon/meditite/front.4bpp.lz");
+const u32 gMonFrontPic_MedititeFemale[] = INCBIN_U32("graphics/pokemon/meditite/female_front.4bpp.lz");
 const u16 gMonPalette_Meditite[] = INCBIN_U16("graphics/pokemon/meditite/normal.gbapal");
 const u32 gMonBackPic_Meditite[] = INCBIN_U32("graphics/pokemon/meditite/back.4bpp.lz");
+const u32 gMonBackPic_MedititeFemale[] = INCBIN_U32("graphics/pokemon/meditite/female_back.4bpp.lz");
 const u16 gMonShinyPalette_Meditite[] = INCBIN_U16("graphics/pokemon/meditite/shiny.gbapal");
 const u8 gMonIcon_Meditite[] = INCBIN_U8("graphics/pokemon/meditite/icon.4bpp");
 const u8 gMonFootprint_Meditite[] = INCBIN_U8("graphics/pokemon/meditite/footprint.1bpp");
