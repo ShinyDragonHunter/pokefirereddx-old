@@ -38,7 +38,7 @@ void sub_808B864(void);
 void sub_808BCF4(void);
 void sub_808D074(u8);
 void GetXYCoordsOneStepInFrontOfPlayer(s16 *xPtr, s16 *yPtr);
-u8 GetRivalAvatarGraphicsIdByStateIdAndGender(u8, u8);
+u8 GetPlayerAvatarGraphicsIdByStateIdAndGender(u8, u8);
 void SetPlayerAvatarFieldMove(void);
 u8 GetPlayerAvatarGraphicsIdByCurrentState(void);
 void SetPlayerAvatarStateMask(u8 a);

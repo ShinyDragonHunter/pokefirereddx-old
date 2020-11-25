@@ -4743,7 +4743,7 @@ static void sub_811E828(void)
     }
 
     spriteId = AddPseudoObjectEvent(
-        gSaveBlock2Ptr->playerGender == MALE ? OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL : OBJ_EVENT_GFX_RIVAL_MAY_NORMAL,
+        gSaveBlock2Ptr->playerGender == MALE ? OBJ_EVENT_GFX_BRENDAN_NORMAL : OBJ_EVENT_GFX_MAY_NORMAL,
         SpriteCallbackDummy,
         52,
         40,

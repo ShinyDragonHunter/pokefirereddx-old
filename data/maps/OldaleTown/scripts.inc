@@ -7,16 +7,26 @@ OldaleTown_MapScripts:: @ 81E8EA2
 	.byte 0
 
 OldaleTown_OnTransition: @ 81E8EA8
-	call Common_EventScript_SetupRivalGfxId
+	call OldaleTown_EventScript_SetupRivalGfxId
 	setflag FLAG_VISITED_OLDALE_TOWN
 	call_if_unset FLAG_ADVENTURE_STARTED, OldaleTown_EventScript_BlockWestEntrance
 	call_if_unset FLAG_RECEIVED_POTION_OLDALE, OldaleTown_EventScript_MoveMartEmployee
-	call_if_set FLAG_ADVENTURE_STARTED, OldaleTown_EventScript_SetOldaleState
 	end
 
-@ This script seems pointless because nothing uses VAR_OLDALE_TOWN_STATE
-OldaleTown_EventScript_SetOldaleState:: @ 81E8ECC
-	setvar VAR_OLDALE_TOWN_STATE, 1
+OldaleTown_EventScript_SetupRivalGfxId:: @ 81F0DC2
+	checkplayergender
+	compare VAR_RESULT, MALE
+	goto_if_eq OldaleTown_EventScript_SetupRivalGfxIdFemale
+	compare VAR_RESULT, FEMALE
+	goto_if_eq OldaleTown_EventScript_SetupRivalGfxIdMale
+	return
+
+OldaleTown_EventScript_SetupRivalGfxIdFemale:: @ 81F0DE0
+	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_MAY_NORMAL
+	return
+
+OldaleTown_EventScript_SetupRivalGfxIdMale:: @ 81F0DDA
+	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_BRENDAN_NORMAL
 	return
 
 OldaleTown_EventScript_BlockWestEntrance:: @ 81E8ED2

@@ -27,7 +27,7 @@ LittlerootTown_ProfessorBirchsLab_MapScripts:: @ 81F9C91
 	@ 5: Received pokedex
 
 LittlerootTown_ProfessorBirchsLab_OnTransition: @ 81F9CA1
-	call Common_EventScript_SetupRivalGfxId
+	call OldaleTown_EventScript_SetupRivalGfxId
 	call ProfBirch_EventScript_UpdateLocation
 	compare VAR_DEX_UPGRADE_JOHTO_STARTER_STATE, 6
 	goto_if_ge LittlerootTown_ProfessorBirchsLab_EventScript_SetAfterJohtoStarterLayout

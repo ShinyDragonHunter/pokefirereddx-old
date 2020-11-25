@@ -17,7 +17,7 @@ Route104_EventScript_StartSailToDewford:: @ 81ECC47
 	end
 
 Route104_OnTransition: @ 81ECC4E
-	call Common_EventScript_SetupRivalGfxId
+	call OldaleTown_EventScript_SetupRivalGfxId
 	call Route104_EventScript_TrySetRivalPos
 	call Route104_EventScript_ShowOrHideWhiteHerbFlorist
 	end

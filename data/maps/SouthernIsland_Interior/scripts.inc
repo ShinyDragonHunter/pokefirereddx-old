@@ -21,7 +21,7 @@ SouthernIsland_Interior_OnTransition: @ 8242A6E
 	call_if_eq SouthernIsland_Interior_EventScript_SetUpLatios
 	compare VAR_ROAMER_POKEMON, 0
 	call_if_ne SouthernIsland_Interior_EventScript_SetUpLatias
-	call SouthernIsland_Interior_EventScript_SetUpPlayerGfx
+	call Route111_EventScript_SetFallingPlayerGfx
 	end
 
 SouthernIsland_Interior_EventScript_SetUpLatios:: @ 8242A8A
@@ -32,22 +32,6 @@ SouthernIsland_Interior_EventScript_SetUpLatios:: @ 8242A8A
 SouthernIsland_Interior_EventScript_SetUpLatias:: @ 8242A95
 	setvar VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_LATIAS
 	setvar VAR_TEMP_4, SPECIES_LATIAS
-	return
-
-SouthernIsland_Interior_EventScript_SetUpPlayerGfx:: @ 8242AA0
-	checkplayergender
-	compare VAR_RESULT, MALE
-	goto_if_eq SouthernIsland_Interior_EventScript_SetBrendanGfx
-	compare VAR_RESULT, FEMALE
-	goto_if_eq SouthernIsland_Interior_EventScript_SetMayGfx
-	end
-
-SouthernIsland_Interior_EventScript_SetBrendanGfx:: @ 8242AB8
-	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL
-	return
-
-SouthernIsland_Interior_EventScript_SetMayGfx:: @ 8242ABE
-	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_RIVAL_MAY_NORMAL
 	return
 
 SouthernIsland_Interior_EventScript_TryLatiEncounter:: @ 8242AC4

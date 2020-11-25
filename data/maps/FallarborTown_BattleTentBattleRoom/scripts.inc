@@ -12,7 +12,7 @@ FallarborTown_BattleTentBattleRoom_MapScripts:: @ 8200899
 	@ The player is represented instead by object event 1, which has the gfx id VAR_OBJ_GFX_ID_1
 	@ The opponent is represented by object event 3, which has the gfx id VAR_OBJ_GFX_ID_0
 
-FallarborTown_BattleTentBattleRoom_OnTransition: @ 82008A9
+FallarborTown_BattleTentBattleRoom_OnTransition:: @ 82008A9
 	call FallarborTown_BattleTentBattleRoom_EventScript_SetPlayerGfx
 	end
 
@@ -25,13 +25,13 @@ FallarborTown_BattleTentBattleRoom_EventScript_SetPlayerGfx:: @ 82008AF
 	return
 
 FallarborTown_BattleTentBattleRoom_EventScript_SetPlayerGfxMale:: @ 82008C7
-	setvar VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL
-	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL
+	setvar VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_BRENDAN_NORMAL
+	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_BRENDAN_NORMAL
 	return
 
 FallarborTown_BattleTentBattleRoom_EventScript_SetPlayerGfxFemale:: @ 82008D2
-	setvar VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_RIVAL_MAY_NORMAL
-	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_RIVAL_MAY_NORMAL
+	setvar VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_MAY_NORMAL
+	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_MAY_NORMAL
 	return
 
 FallarborTown_BattleTentBattleRoom_OnFrame: @ 82008DD

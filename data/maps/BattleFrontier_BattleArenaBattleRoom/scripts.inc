@@ -23,24 +23,8 @@ BattleFrontier_BattleArenaBattleRoom_OnResume: @ 825749C
 
 BattleFrontier_BattleArenaBattleRoom_OnTransition: @ 82574A0
 	frontier_settrainers
-	call BattleFrontier_BattleArenaBattleRoom_EventScript_SetPlayerGfx
+	call SlateportCity_BattleTentBattleRoom_EventScript_SetPlayerGfx
 	end
-
-BattleFrontier_BattleArenaBattleRoom_EventScript_SetPlayerGfx:: @ 82574AE
-	checkplayergender
-	compare VAR_RESULT, MALE
-	goto_if_eq BattleFrontier_BattleArenaBattleRoom_EventScript_SetPlayerGfxMale
-	compare VAR_RESULT, FEMALE
-	goto_if_eq BattleFrontier_BattleArenaBattleRoom_EventScript_SetPlayerGfxFemale
-	return
-
-BattleFrontier_BattleArenaBattleRoom_EventScript_SetPlayerGfxMale:: @ 82574C6
-	setvar VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL
-	return
-
-BattleFrontier_BattleArenaBattleRoom_EventScript_SetPlayerGfxFemale:: @ 82574CC
-	setvar VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_RIVAL_MAY_NORMAL
-	return
 
 BattleFrontier_BattleArenaBattleRoom_OnFrame: @ 82574D2
 	map_script_2 VAR_TEMP_0, 0, BattleFrontier_BattleArenaBattleRoom_EventScript_EnterRoom
@@ -490,7 +474,7 @@ BattleFrontier_BattleArenaBattleRoom_OnWarp: @ 8257C0C
 BattleFrontier_BattleArenaBattleRoom_EventScript_SetUpRoomObjects:: @ 8257C16
 	hideobjectat LOCALID_PLAYER, MAP_BATTLE_FRONTIER_BATTLE_ARENA_BATTLE_ROOM
 	removeobject LOCALID_OPPONENT
-	call BattleFrontier_BattleDomeBattleRoom_EventScript_SetPlayerGfx
+	call SlateportCity_BattleTentBattleRoom_EventScript_SetPlayerGfx
 	applymovement OBJ_EVENT_ID_PLAYER, BattleFrontier_BattleDomeBattleRoom_Movement_SetInvisible
 	setvar VAR_TEMP_1, 1
 	end

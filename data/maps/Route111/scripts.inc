@@ -61,17 +61,9 @@ Route111_OnTransition: @ 81F0D87
 Route111_EventScript_SetFallingPlayerGfx:: @ 81F0DC2
 	checkplayergender
 	compare VAR_RESULT, MALE
-	goto_if_eq Route111_EventScript_SetFallingPlayerGfxMale
+	goto_if_eq OldaleTown_EventScript_SetupRivalGfxIdMale
 	compare VAR_RESULT, FEMALE
-	goto_if_eq Route111_EventScript_SetFallingPlayerGfxFemale
-	return
-
-Route111_EventScript_SetFallingPlayerGfxMale:: @ 81F0DDA
-	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL
-	return
-
-Route111_EventScript_SetFallingPlayerGfxFemale:: @ 81F0DE0
-	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_RIVAL_MAY_NORMAL
+	goto_if_eq OldaleTown_EventScript_SetupRivalGfxIdFemale
 	return
 
 Route111_EventScript_CheckSetSandstorm:: @ 81F0DE6

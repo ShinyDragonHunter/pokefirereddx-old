@@ -3,7 +3,7 @@
 .set LOCALID_ATTENDANT, 3
 
 VerdanturfTown_BattleTentBattleRoom_MapScripts:: @ 82022FA
-	map_script MAP_SCRIPT_ON_TRANSITION, VerdanturfTown_BattleTentBattleRoom_OnTransition
+	map_script MAP_SCRIPT_ON_TRANSITION, FallarborTown_BattleTentBattleRoom_OnTransition
 	map_script MAP_SCRIPT_ON_FRAME_TABLE, VerdanturfTown_BattleTentBattleRoom_OnFrame
 	map_script MAP_SCRIPT_ON_WARP_INTO_MAP_TABLE, VerdanturfTown_BattleTentBattleRoom_OnWarp
 	.byte 0
@@ -11,28 +11,6 @@ VerdanturfTown_BattleTentBattleRoom_MapScripts:: @ 82022FA
 	@ On this map the player (OBJ_EVENT_ID_PLAYER) is hidden
 	@ The player is represented instead by object event 1, which has the gfx id VAR_OBJ_GFX_ID_1
 	@ The opponent is represented by object event 2, which has the gfx id VAR_OBJ_GFX_ID_0
-
-VerdanturfTown_BattleTentBattleRoom_OnTransition: @ 820230A
-	call VerdanturfTown_BattleTentBattleRoom_EventScript_SetPlayerGfx
-	end
-
-VerdanturfTown_BattleTentBattleRoom_EventScript_SetPlayerGfx:: @ 8202310
-	checkplayergender
-	compare VAR_RESULT, MALE
-	goto_if_eq VerdanturfTown_BattleTentBattleRoom_EventScript_SetPlayerGfxMale
-	compare VAR_RESULT, FEMALE
-	goto_if_eq VerdanturfTown_BattleTentBattleRoom_EventScript_SetPlayerGfxFemale
-	return
-
-VerdanturfTown_BattleTentBattleRoom_EventScript_SetPlayerGfxMale:: @ 8202328
-	setvar VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL
-	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL
-	return
-
-VerdanturfTown_BattleTentBattleRoom_EventScript_SetPlayerGfxFemale:: @ 8202333
-	setvar VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_RIVAL_MAY_NORMAL
-	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_RIVAL_MAY_NORMAL
-	return
 
 VerdanturfTown_BattleTentBattleRoom_OnFrame: @ 820233E
 	map_script_2 VAR_TEMP_0, 0, VerdanturfTown_BattleTentBattleRoom_EventScript_EnterRoom
@@ -139,7 +117,7 @@ VerdanturfTown_BattleTentBattleRoom_OnWarp: @ 8202541
 
 VerdanturfTown_BattleTentBattleRoom_EventScript_SetUpObjects:: @ 820254B
 	hideobjectat LOCALID_PLAYER, MAP_VERDANTURF_TOWN_BATTLE_TENT_BATTLE_ROOM
-	call VerdanturfTown_BattleTentBattleRoom_EventScript_SetPlayerGfx
+	call FallarborTown_BattleTentBattleRoom_EventScript_SetPlayerGfx
 	setvar VAR_TEMP_1, 1
 	applymovement OBJ_EVENT_ID_PLAYER, VerdanturfTown_BattleTentBattleRoom_Movement_SetInvisible
 	removeobject LOCALID_OPPONENT

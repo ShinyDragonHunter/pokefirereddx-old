@@ -6,7 +6,7 @@ Route103_MapScripts:: @ 81EC38E
 	.byte 0
 
 Route103_OnTransition: @ 81EC399
-	call Common_EventScript_SetupRivalGfxId
+	call OldaleTown_EventScript_SetupRivalGfxId
 	call ProfBirch_EventScript_UpdateLocation
 	end
 

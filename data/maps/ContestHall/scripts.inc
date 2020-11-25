@@ -451,10 +451,10 @@ LilycoveCity_ContestLobby_EventScript_SetPlayerGfx:: @ 823BEB6
 	return
 
 LilycoveCity_ContestLobby_EventScript_SetPlayerGfxBrendan:: @ 823BECE
-	setvar VAR_OBJ_GFX_ID_3, OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL
+	setvar VAR_OBJ_GFX_ID_3, OBJ_EVENT_GFX_BRENDAN_NORMAL
 	return
 
 LilycoveCity_ContestLobby_EventScript_SetPlayerGfxMay:: @ 823BED4
-	setvar VAR_OBJ_GFX_ID_3, OBJ_EVENT_GFX_RIVAL_MAY_NORMAL
+	setvar VAR_OBJ_GFX_ID_3, OBJ_EVENT_GFX_MAY_NORMAL
 	return
 
