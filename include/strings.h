@@ -2553,8 +2553,9 @@ extern const u8 gText_Round2Results[];
 extern const u8 gText_ContestantsMonWon[];
 
 // Trainer Card
-extern const u8 gText_LinkCableBattles[];
+extern const u8 gText_LinkBattlesFR[];
 extern const u8 gText_LinkBattles[];
+extern const u8 gText_LinkCableBattles[];
 extern const u8 gText_WaitingTrainerFinishReading[];
 extern const u8 gText_TrainerCardName[];
 extern const u8 gText_TrainerCardIDNo[];
@@ -2566,7 +2567,9 @@ extern const u8 gText_TrainerCardTime[];
 extern const u8 gText_Colon2[];
 extern const u8 gText_Var1sTrainerCard[];
 extern const u8 gText_HallOfFameDebut[];
+extern const u8 gText_FirstHallOfFame[];
 extern const u8 gText_WinsLosses[];
+extern const u8 gText_LossRatio[];
 extern const u8 gText_PokemonTrades[];
 extern const u8 gText_BerryCrush[];
 extern const u8 gText_UnionTradesAndBattles[];

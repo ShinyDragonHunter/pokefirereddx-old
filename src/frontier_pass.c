@@ -603,7 +603,6 @@ static u32 FreeFrontierPassData(void)
     if (sPassData == NULL)
         return 1;
 
-    memset(sPassData, 0, sizeof(*sPassData)); // Why clear data, if it's going to be freed anyway?
     FREE_AND_SET_NULL(sPassData);
     return 0;
 }
@@ -633,7 +632,6 @@ static u32 FreeFrontierPassGfx(void)
     if (sPassGfx->unk20 != NULL)
         FREE_AND_SET_NULL(sPassGfx->unk20);
 
-    memset(sPassGfx, 0, sizeof(*sPassGfx)); // Why clear data, if it's going to be freed anyway?
     FREE_AND_SET_NULL(sPassGfx);
     return 0;
 }
@@ -982,7 +980,7 @@ static void Task_HandleFrontierPassInput(u8 taskId)
                 PlaySE(SE_PC_OFF);
                 SetMainCallback2(CB2_HideFrontierPass);
                 DestroyTask(taskId);
-                // BUG. The function should return here. Otherwise, it can play the same sound twice and destroy the same task twice.
+                return;
             }
         }
 
@@ -1209,7 +1207,6 @@ static void sub_80C6104(u8 cursorArea, u8 previousCursorArea)
             CopyToBgTilemapBufferRect_ChangePalette(1, sPassGfx->unk28 + 72, 2, 10, 12, 3, 17);
         else
             return;
-        break; //needed to match
     case CURSOR_AREA_CANCEL:
         CopyToBgTilemapBufferRect_ChangePalette(1, gUnknown_08DE3374, 21, 0, 9, 2, 17);
         break;
@@ -1307,7 +1304,6 @@ static void FreeFrontierMap(void)
 {
     ResetTasks();
     SetMainCallback2(sMapData->callback);
-    memset(sMapData, 0, sizeof(*sMapData)); // Pointless memory clear.
     FREE_AND_SET_NULL(sMapData);
 }
 

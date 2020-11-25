@@ -26,7 +26,7 @@
 #define LANGUAGE_SPANISH  7
 #define NUM_LANGUAGES     7
 
-#define GAME_VERSION (VERSION_EMERALD)
+#define GAME_VERSION (VERSION_FIRE_RED)
 #define GAME_LANGUAGE (LANGUAGE_ENGLISH)
 
 // capacities of various saveblock objects

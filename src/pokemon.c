@@ -5553,10 +5553,11 @@ u16 HoennToNationalOrder(u16 hoennNum)
 
 u16 SpeciesToCryId(u16 species)
 {
-    if ((species > SPECIES_CELEBI - 1) && (species < SPECIES_TREECKO - 1))
+    if ((species >= SPECIES_OLD_UNOWN_B - 1) 
+     && (species <= SPECIES_OLD_UNOWN_Z - 1))
         return SPECIES_UNOWN - 1;
 
-    if (species > SPECIES_OLD_UNOWN_B - 1)
+    if (species >= SPECIES_TREECKO - 1)
         return species - (26 - 1);
     return species;
 }
