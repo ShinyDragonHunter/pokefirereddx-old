@@ -9,6 +9,7 @@ BattleFrontier_BattlePalaceCorridor_OnFrame: @ 824F4A9
 	.2byte 0
 
 BattleFrontier_BattlePalaceCorridor_EventScript_WalkThroughCorridor:: @ 824F4B3
+	textcolor BLUE
 	delay 16
 	applymovement LOCALID_ATTENDANT, BattleFrontier_BattlePalaceCorridor_Movement_EnterCorridor
 	applymovement OBJ_EVENT_ID_PLAYER, BattleFrontier_BattlePalaceCorridor_Movement_EnterCorridor

@@ -1989,14 +1989,10 @@ static void Cmd_effectivenesssound(void)
         case MOVE_RESULT_NOT_VERY_EFFECTIVE:
             BtlController_EmitPlaySE(0, SE_NOT_EFFECTIVE);
             MarkBattlerForControllerExec(gActiveBattler);
-            break;
         case MOVE_RESULT_DOESNT_AFFECT_FOE:
         case MOVE_RESULT_FAILED:
             // no sound
             break;
-        case MOVE_RESULT_FOE_ENDURED:
-        case MOVE_RESULT_ONE_HIT_KO:
-        case MOVE_RESULT_FOE_HUNG_ON:
         default:
             if (gMoveResultFlags & MOVE_RESULT_SUPER_EFFECTIVE)
             {
@@ -4443,7 +4439,6 @@ static void Cmd_moveend(void)
                 }
             }
             gBattleScripting.moveendState++;
-            break;
         case MOVEEND_COUNT:
             break;
         }

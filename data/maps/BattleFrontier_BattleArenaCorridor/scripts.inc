@@ -9,6 +9,7 @@ BattleFrontier_BattleArenaCorridor_OnFrame: @ 82573BF
 	.2byte 0
 
 BattleFrontier_BattleArenaCorridor_EventScript_WalkToBattleRoom:: @ 82573C9
+	textcolor BLUE
 	delay 16
 	setvar VAR_TEMP_0, 1
 	applymovement LOCALID_ATTENDANT, BattleFrontier_BattleArenaCorridor_Movement_AttendantWalkToDoor

@@ -4,6 +4,7 @@
 #include "constants/rgb.h"
 #include "util.h"
 #include "event_object_movement.h"
+#include "field_camera.h"
 #include "field_weather.h"
 #include "main.h"
 #include "menu.h"
@@ -217,6 +218,7 @@ static void Task_WeatherInit(u8 taskId)
     // When the screen fades in, this is set to TRUE.
     if (gWeatherPtr->readyForInit)
     {
+        UpdateCameraPanning();
         sWeatherFuncs[gWeatherPtr->currWeather].initAll();
         gTasks[taskId].func = Task_WeatherMain;
     }
@@ -392,10 +394,6 @@ static void FadeInScreenWithWeather(void)
             gWeatherPtr->palProcessingState = WEATHER_PAL_STATE_IDLE;
         }
         break;
-    case WEATHER_VOLCANIC_ASH:
-    case WEATHER_SANDSTORM:
-    case WEATHER_FOG_DIAGONAL:
-    case WEATHER_UNDERWATER:
     default:
         if (!gPaletteFade.active)
         {
@@ -1069,7 +1067,6 @@ void PlayRainStoppingSoundEffect(void)
         case 1:
             PlaySE(SE_DOWNPOUR_STOP);
             break;
-        case 2:
         default:
             PlaySE(SE_THUNDERSTORM_STOP);
             break;

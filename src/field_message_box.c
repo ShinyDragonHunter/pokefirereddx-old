@@ -98,14 +98,6 @@ bool8 ShowFieldAutoScrollMessage(const u8 *str)
     return TRUE;
 }
 
-// Unused
-static bool8 ForceShowFieldAutoScrollMessage(const u8 *str)
-{
-    sFieldMessageBoxMode = FIELD_MESSAGE_BOX_AUTO_SCROLL;
-    ExpandStringAndStartDrawFieldMessage(str, TRUE);
-    return TRUE;
-}
-
 // Same as ShowFieldMessage, but instead of accepting a 
 // string arg it just prints whats already in gStringVar4
 bool8 ShowFieldMessageFromBuffer(void)
@@ -120,13 +112,13 @@ bool8 ShowFieldMessageFromBuffer(void)
 static void ExpandStringAndStartDrawFieldMessage(const u8* str, bool32 allowSkippingDelayWithButtonPress)
 {
     StringExpandPlaceholders(gStringVar4, str);
-    AddTextPrinterForMessage(allowSkippingDelayWithButtonPress);
+    AddTextPrinterForMessageWithTextColor(TRUE);
     CreateTask_DrawFieldMessage();
 }
 
 static void StartDrawFieldMessage(void)
 {
-    AddTextPrinterForMessage(TRUE);
+    AddTextPrinterForMessageWithTextColor(TRUE);
     CreateTask_DrawFieldMessage();
 }
 
@@ -147,14 +139,6 @@ bool8 IsFieldMessageBoxHidden(void)
     if (sFieldMessageBoxMode == FIELD_MESSAGE_BOX_HIDDEN)
         return TRUE;
     return FALSE;
-}
-
-// Unused
-static void ReplaceFieldMessageWithFrame(void)
-{
-    DestroyTask_DrawFieldMessage();
-    DrawStdWindowFrame(0, 1);
-    sFieldMessageBoxMode = FIELD_MESSAGE_BOX_HIDDEN;
 }
 
 void StopFieldMessage(void)

@@ -909,8 +909,6 @@ static bool8 DisplayPartyPokemonDataForMoveTutorOrEvolutionItem(u8 slot)
 
         switch (CheckIfItemIsTMHMOrEvolutionStone(item))
         {
-        default:
-            return FALSE;
         case 1: // TM/HM
             DisplayPartyPokemonDataToTeachMove(slot, item, 0);
             break;
@@ -919,6 +917,8 @@ static bool8 DisplayPartyPokemonDataForMoveTutorOrEvolutionItem(u8 slot)
                 return FALSE;
             DisplayPartyPokemonDescriptionData(slot, PARTYBOX_DESC_NO_USE);
             break;
+        default:
+            return FALSE;
         }
     }
     return TRUE;
@@ -1047,14 +1047,6 @@ void AnimatePartySlot(u8 slot, u8 animNum)
 
     switch (slot)
     {
-    default:
-        if (GetMonData(&gPlayerParty[slot], MON_DATA_SPECIES) != SPECIES_NONE)
-        {
-            LoadPartyBoxPalette(&sPartyMenuBoxes[slot], GetPartyBoxPaletteFlags(slot, animNum));
-            AnimateSelectedPartyIcon(sPartyMenuBoxes[slot].monSpriteId, animNum);
-            PartyMenuStartSpriteAnim(sPartyMenuBoxes[slot].pokeballSpriteId, animNum);
-        }
-        return;
     case PARTY_SIZE: // Confirm
         if (animNum == 0)
             SetBgTilemapPalette(1, 23, 16, 7, 2, 1);
@@ -1081,6 +1073,14 @@ void AnimatePartySlot(u8 slot, u8 animNum)
         }
         spriteId = sPartyMenuInternal->spriteIdCancelPokeball;
         break;
+    default:
+        if (GetMonData(&gPlayerParty[slot], MON_DATA_SPECIES) != SPECIES_NONE)
+        {
+            LoadPartyBoxPalette(&sPartyMenuBoxes[slot], GetPartyBoxPaletteFlags(slot, animNum));
+            AnimateSelectedPartyIcon(sPartyMenuBoxes[slot].monSpriteId, animNum);
+            PartyMenuStartSpriteAnim(sPartyMenuBoxes[slot].pokeballSpriteId, animNum);
+        }
+        return;
     }
     PartyMenuStartSpriteAnim(spriteId, animNum);
     ScheduleBgCopyTilemapToVram(1);
@@ -1280,8 +1280,6 @@ static void HandleChooseMonSelection(u8 taskId, s8 *slotPtr)
             }
             break;
         default:
-        case PARTY_ACTION_ABILITY_PREVENTS - 3:
-        case PARTY_ACTION_SWITCHING - 3:
             PlaySE(SE_SELECT);
             Task_TryCreateSelectionWindow(taskId);
             break;
@@ -1798,29 +1796,8 @@ void PartyMenuModifyHP(u8 taskId, u8 slot, s8 hpIncrement, s16 hpDifference, Tas
 static void ResetHPTaskData(u8 taskId, u8 caseId, u32 hp)
 {
     s16 *data = gTasks[taskId].data;
-
-    switch (caseId) // always zero
-    {
-        case 0:
-            tHP = hp;
-            tStartHP = hp;
-            break;
-        case 1:
-            tMaxHP = hp;
-            break;
-        case 2:
-            tHPIncrement = hp;
-            break;
-        case 3:
-            tHPToAdd = hp;
-            break;
-        case 4:
-            tPartyId = hp;
-            break;
-        case 5:
-            SetTaskFuncWithFollowupFunc(taskId, Task_PartyMenuModifyHP, (TaskFunc)hp); // >casting hp as a taskfunc
-            break;
-    }
+    tHP = hp;
+    tStartHP = hp;
 }
 
 #undef tHP

@@ -453,10 +453,10 @@ u8 GetLastTextColor(u8 colorType)
     {
     case 0:
         return gLastTextFgColor;
-    case 2:
-        return gLastTextBgColor;
     case 1:
         return gLastTextShadowColor;
+    case 2:
+        return gLastTextBgColor;
     default:
         return 0;
     }
@@ -700,12 +700,11 @@ void TextPrinterDrawDownArrow(struct TextPrinter *textPrinter)
 
             switch (gTextFlags.useAlternateDownArrow)
             {
-                case FALSE:
-                default:
-                    arrowTiles = gDownArrowTiles;
-                    break;
                 case TRUE:
                     arrowTiles = gDarkDownArrowTiles;
+                    break;
+                default:
+                    arrowTiles = gDownArrowTiles;
                     break;
             }
 
@@ -807,12 +806,11 @@ void DrawDownArrow(u8 windowId, u16 x, u16 y, u8 bgColor, bool8 drawArrow, u8 *c
         {
             switch (gTextFlags.useAlternateDownArrow)
             {
-                case 0:
-                default:
-                    arrowTiles = gDownArrowTiles;
-                    break;
                 case 1:
                     arrowTiles = gDarkDownArrowTiles;
+                    break;
+                default:
+                    arrowTiles = gDownArrowTiles;
                     break;
             }
 
@@ -904,14 +902,13 @@ u16 RenderText(struct TextPrinter *textPrinter)
                 textPrinter->printerTemplate.currentChar++;
                 GenerateFontHalfRowLookupTable(textPrinter->printerTemplate.fgColor, textPrinter->printerTemplate.bgColor, textPrinter->printerTemplate.shadowColor);
                 return 2;
+            case EXT_CTRL_CODE_SIZE:
+                subStruct->glyphId = *textPrinter->printerTemplate.currentChar;
             case EXT_CTRL_CODE_PALETTE:
                 textPrinter->printerTemplate.currentChar++;
                 return 2;
-            case EXT_CTRL_CODE_SIZE:
-                subStruct->glyphId = *textPrinter->printerTemplate.currentChar;
-                textPrinter->printerTemplate.currentChar++;
-                return 2;
             case EXT_CTRL_CODE_RESET_SIZE:
+                subStruct->glyphId = textPrinter->printerTemplate.fontId;
                 return 2;
             case EXT_CTRL_CODE_PAUSE:
                 textPrinter->delayCounter = *textPrinter->printerTemplate.currentChar;
@@ -1036,14 +1033,13 @@ u16 RenderText(struct TextPrinter *textPrinter)
         case 4:
         case 5:
             DecompressGlyphFont2(currChar, textPrinter->japanese);
+        case 6:
             break;
         case 7:
             DecompressGlyphFont7(currChar, textPrinter->japanese);
             break;
         case 8:
             DecompressGlyphFont8(currChar, textPrinter->japanese);
-            break;
-        case 6:
             break;
         }
 
@@ -1181,13 +1177,6 @@ u32 GetStringWidthFixedWidthFont(const u8 *str, u8 fontId, u8 letterSpacing)
             case EXT_CTRL_CODE_CLEAR_TO:
             case EXT_CTRL_CODE_MIN_LETTER_SPACING:
                 ++strPos;
-                break;
-            case EXT_CTRL_CODE_RESET_SIZE:
-            case EXT_CTRL_CODE_PAUSE_UNTIL_PRESS:
-            case EXT_CTRL_CODE_WAIT_SE:
-            case EXT_CTRL_CODE_FILL_WINDOW:
-            case EXT_CTRL_CODE_JPN:
-            case EXT_CTRL_CODE_ENG:
             default:
                 break;
             }
@@ -1195,7 +1184,6 @@ u32 GetStringWidthFixedWidthFont(const u8 *str, u8 fontId, u8 letterSpacing)
         case CHAR_DYNAMIC:
         case PLACEHOLDER_BEGIN:
             ++strPos;
-            break;
         case CHAR_PROMPT_SCROLL:
         case CHAR_PROMPT_CLEAR:
             break;
@@ -1349,9 +1337,10 @@ s32 GetStringWidth(u8 fontId, const u8 *str, s16 letterSpacing)
                 isJapanese = 0;
                 break;
             case EXT_CTRL_CODE_RESET_SIZE:
-            case EXT_CTRL_CODE_PAUSE_UNTIL_PRESS:
-            case EXT_CTRL_CODE_WAIT_SE:
-            case EXT_CTRL_CODE_FILL_WINDOW:
+                if (letterSpacing == -1)
+                    localLetterSpacing = GetFontAttribute(fontId, FONTATTR_LETTER_SPACING);
+                else
+                    localLetterSpacing = letterSpacing;
             default:
                 break;
             }
@@ -1375,7 +1364,6 @@ s32 GetStringWidth(u8 fontId, const u8 *str, s16 letterSpacing)
                 if (isJapanese && str[1] != EOS)
                     lineWidth += localLetterSpacing;
             }
-            break;
         case CHAR_PROMPT_SCROLL:
         case CHAR_PROMPT_CLEAR:
             break;
@@ -1469,12 +1457,6 @@ u8 RenderTextFont9(u8 *pixels, u8 fontId, u8 *str)
             case EXT_CTRL_CODE_MIN_LETTER_SPACING:
                 ++strPos;
                 break;
-            case EXT_CTRL_CODE_RESET_SIZE:
-            case EXT_CTRL_CODE_PAUSE_UNTIL_PRESS:
-            case EXT_CTRL_CODE_WAIT_SE:
-            case EXT_CTRL_CODE_FILL_WINDOW:
-            case EXT_CTRL_CODE_JPN:
-            case EXT_CTRL_CODE_ENG:
             default:
                 continue;
             }
@@ -1484,7 +1466,6 @@ u8 RenderTextFont9(u8 *pixels, u8 fontId, u8 *str)
         case CHAR_EXTRA_SYMBOL:
         case PLACEHOLDER_BEGIN:
             ++strPos;
-            break;
         case CHAR_PROMPT_SCROLL:
         case CHAR_PROMPT_CLEAR:
         case CHAR_NEWLINE:
@@ -1496,7 +1477,6 @@ u8 RenderTextFont9(u8 *pixels, u8 fontId, u8 *str)
             case 9:
                 DecompressGlyphFont9(temp);
                 break;
-            case 1:
             default:
                 DecompressGlyphFont1(temp, 1);
                 break;

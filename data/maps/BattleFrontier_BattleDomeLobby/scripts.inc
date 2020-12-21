@@ -33,6 +33,7 @@ BattleFrontier_BattleDomeLobby_EventScript_GetChallengeStatus:: @ 8249839
 	end
 
 BattleFrontier_BattleDomeLobby_EventScript_QuitWithoutSaving:: @ 8249842
+	textcolor RED
 	lockall
 	msgbox BattleFrontier_BattleDomeLobby_Text_DidntSaveBeforeQuitting, MSGBOX_DEFAULT
 	closemessage
@@ -45,6 +46,7 @@ BattleFrontier_BattleDomeLobby_EventScript_QuitWithoutSaving:: @ 8249842
 	end
 
 BattleFrontier_BattleDomeLobby_EventScript_WonChallenge:: @ 824989B
+	textcolor RED
 	call BattleFrontier_EventScript_IncrementWinStreak
 	lockall
 	frontier_isbrain
@@ -72,6 +74,7 @@ BattleFrontier_BattleDomeLobby_EventScript_GiveBattlePoints:: @ 82498C9
 	goto BattleFrontier_BattleDomeLobby_EventScript_AskRecordBattle
 
 BattleFrontier_BattleDomeLobby_EventScript_LostChallenge:: @ 8249940
+	textcolor RED
 	lockall
 	msgbox BattleFrontier_BattleDomeLobby_Text_ThankYouForPlaying, MSGBOX_DEFAULT
 	message BattleFrontier_BattleDomeLobby_Text_RecordWillBeSaved
@@ -108,9 +111,10 @@ BattleFrontier_BattleDomeLobby_EventScript_EndChallenge:: @ 82499E9
 	end
 
 BattleFrontier_BattleDomeLobby_EventScript_ResumeChallenge:: @ 82499F9
+	textcolor RED
 	lockall
 	msgbox BattleFrontier_BattleDomeLobby_Text_WeveBeenWaitingForYou, MSGBOX_DEFAULT
-	message BattleFrontier_BattleDomeLobby_Text_OkayToSaveBeforeChallenge2
+	message BattleFrontier_BattleDomeLobby_Text_OkayToSaveBeforeChallenge
 	waitmessage
 	dome_save CHALLENGE_STATUS_SAVING
 	playse SE_SAVE
@@ -536,21 +540,10 @@ BattleFrontier_BattleDomeLobby_Text_CongratsForWinningTourney: @ 824A4E9
 	.string "Congratulations for winning\n"
 	.string "your Battle Tournament!$"
 
-@ Unused
-BattleFrontier_BattleDomeLobby_Text_HereIsYourPrize: @ 824A51D
-	.string "Here is your prize for your Battle\n"
-	.string "Tournament victory.$"
-
 @ Used by Verdanturf Tent
 BattleFrontier_BattleDomeLobby_Text_ReceivedPrize: @ 824A554
 	.string "{PLAYER} received the prize\n"
 	.string "{STR_VAR_1}.$"
-
-@ Unused
-BattleFrontier_BattleDomeLobby_Text_BagFullMakeRoom: @ 824A56E
-	.string "Oh, your BAG appears to be full.\p"
-	.string "Please make room in your BAG, then come\n"
-	.string "see me.$"
 
 BattleFrontier_BattleDomeLobby_Text_ThankYouForPlaying: @ 824A5BF
 	.string "Thank you for playing!$"
@@ -561,10 +554,6 @@ BattleFrontier_BattleDomeLobby_Text_RecordWillBeSaved: @ 824A5D6
 
 BattleFrontier_BattleDomeLobby_Text_WeveBeenWaitingForYou: @ 824A5FE
 	.string "We've been waiting for you!$"
-
-BattleFrontier_BattleDomeLobby_Text_OkayToSaveBeforeChallenge2: @ 824A61A
-	.string "Before I show you to the BATTLE DOME,\n"
-	.string "I must save the data. Is that okay?$"
 
 BattleFrontier_BattleDomeLobby_Text_WelcomeDoubleBattle: @ 824A664
 	.string "Where the strategies of TRAINERS\n"

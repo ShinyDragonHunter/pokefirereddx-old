@@ -14,6 +14,7 @@
 #include "mail.h"
 #include "overworld.h"
 #include "decompress.h"
+#include "field_specials.h"
 #include "constants/songs.h"
 #include "constants/items.h"
 #include "constants/maps.h"
@@ -249,6 +250,14 @@ bool8 AdjustQuantityAccordingToDPadInput(s16 *arg0, u16 arg1)
     }
 
     return FALSE;
+}
+
+u8 GetDialogBoxFontId(void)
+{
+    if (!ContextNpcGetTextColor())
+        return 4;
+    else
+        return 5;
 }
 
 u8 GetLRKeysPressed(void)

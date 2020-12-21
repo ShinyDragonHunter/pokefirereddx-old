@@ -45,6 +45,7 @@ BattleFrontier_BattleArenaBattleRoom_EventScript_EnterRoom:: @ 82574DC
 	goto BattleFrontier_BattleArenaBattleRoom_EventScript_AskReadyForOpponent
 
 BattleFrontier_BattleArenaBattleRoom_EventScript_AnnounceTrainers:: @ 825752E
+	textcolor BLUE
 	tower_setopponent
 	addobject LOCALID_OPPONENT
 	applymovement LOCALID_OPPONENT, BattleFrontier_BattleArenaBattleRoom_Movement_OpponentEnter
@@ -75,6 +76,7 @@ BattleFrontier_BattleArenaBattleRoom_EventScript_AnnounceTrainers:: @ 825752E
 	applymovement LOCALID_PLAYER, BattleFrontier_BattleArenaBattleRoom_Movement_PlayerStepForward
 	applymovement LOCALID_OPPONENT, BattleFrontier_BattleArenaBattleRoom_Movement_OpponentStepForward
 	waitmovement 0
+	textcolor RESET
 	palace_getopponentintro
 	msgbox gStringVar4, MSGBOX_DEFAULT
 	waitmessage
@@ -91,6 +93,7 @@ BattleFrontier_BattleArenaBattleRoom_EventScript_DeclareOpponentWinner:: @ 82575
 	waitse
 	waitmovement 0
 	arena_gettrainername
+	textcolor BLUE
 	msgbox BattleFrontier_BattleArenaBattleRoom_Text_WinnerIsOpponent, MSGBOX_DEFAULT
 BattleFrontier_BattleArenaBattleRoom_EventScript_WarpToLobbyLost:: @ 8257615
 	frontier_set FRONTIER_DATA_CHALLENGE_STATUS, CHALLENGE_STATUS_LOST
@@ -238,6 +241,7 @@ BattleFrontier_BattleArenaBattleRoom_EventScript_PauseChallenge:: @ 825789A
 	end
 
 BattleFrontier_BattleArenaBattleRoom_EventScript_TycoonUpNext:: @ 82578BC
+	textcolor BLUE
 	compare VAR_TEMP_2, 1
 	goto_if_eq BattleFrontier_BattleArenaBattleRoom_EventScript_AskReadyForTycoon
 	msgbox BattleFrontier_BattleArenaBattleRoom_Text_NowFaceTycoon, MSGBOX_DEFAULT
@@ -289,6 +293,7 @@ BattleFrontier_BattleArenaBattleRoom_EventScript_BattleGreta:: @ 8257961
 	applymovement LOCALID_OPPONENT, BattleFrontier_BattleArenaBattleRoom_Movement_OpponentStepForward
 	waitmovement 0
 	switch VAR_TEMP_F
+	textcolor RED
 	case FRONTIER_BRAIN_GOLD, BattleFrontier_BattleArenaBattleRoom_EventScript_IntroGretaGold
 	case FRONTIER_BRAIN_STREAK, BattleFrontier_BattleArenaBattleRoom_EventScript_BattleGretaSilver
 	case FRONTIER_BRAIN_STREAK_LONG, BattleFrontier_BattleArenaBattleRoom_EventScript_BattleGretaGold
@@ -321,10 +326,12 @@ BattleFrontier_BattleArenaBattleRoom_EventScript_DefeatedGretaSilver:: @ 8257A5C
 	waitmovement 0
 	msgbox BattleFrontier_BattleArenaBattleRoom_Text_GretaYoureToughAfterAll, MSGBOX_DEFAULT
 	playfanfare MUS_OBTAIN_SYMBOL
+	textcolor DARK_GREY
 	message BattleFrontier_BattleArenaBattleRoom_Text_ReceivedGutsSymbol
 	waitmessage
 	waitfanfare
 	frontier_givesymbol
+	textcolor RED
 	msgbox BattleFrontier_BattleArenaBattleRoom_Text_GoingToBeFunNextTime, MSGBOX_DEFAULT
 	goto BattleFrontier_BattleArenaBattleRoom_EventScript_ReturnToLobbyWon
 
@@ -356,16 +363,20 @@ BattleFrontier_BattleArenaBattleRoom_EventScript_DefeatedGretaGold:: @ 8257B15
 	goto_if_eq BattleFrontier_BattleArenaBattleRoom_EventScript_ReturnToLobbyWon
 	applymovement LOCALID_OPPONENT, BattleFrontier_BattleArenaBattleRoom_Movement_OpponentStepForwardLong
 	waitmovement 0
+	textcolor RED
 	msgbox BattleFrontier_BattleArenaBattleRoom_Text_GretaBlownAway, MSGBOX_DEFAULT
 	playfanfare MUS_OBTAIN_SYMBOL
+	textcolor DARK_GREY
 	message BattleFrontier_BattleArenaBattleRoom_Text_GutsSymbolTookGoldenShine
 	waitmessage
 	waitfanfare
 	frontier_givesymbol
+	textcolor RED
 	msgbox BattleFrontier_BattleArenaBattleRoom_Text_IfWeBattleAgainWontLose, MSGBOX_DEFAULT
 	goto BattleFrontier_BattleArenaBattleRoom_EventScript_ReturnToLobbyWon
 
 BattleFrontier_BattleArenaBattleRoom_EventScript_StartArenaBattle:: @ 8257B5E
+	textcolor BLUE
 	msgbox BattleFrontier_BattleArenaBattleRoom_Text_SetKOTourneyBegin, MSGBOX_DEFAULT
 	call BattleFrontier_BattleArenaBattleRoom_EventScript_DoArenaBattle
 	return
@@ -460,11 +471,6 @@ BattleFrontier_BattleArenaBattleRoom_Movement_JumpInPlaceUp: @ 8257C05
 
 BattleFrontier_BattleArenaBattleRoom_Movement_WalkInPlaceDown: @ 8257C08
 	walk_in_place_fastest_down
-	step_end
-
-@ Unused, redundant
-BattleFrontier_BattleArenaBattleRoom_Movement_WalkInPlaceRight2: @ 8257C0A
-	walk_in_place_fastest_right
 	step_end
 
 BattleFrontier_BattleArenaBattleRoom_OnWarp: @ 8257C0C

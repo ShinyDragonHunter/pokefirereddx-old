@@ -1219,9 +1219,9 @@ static void LinkOpponentHandleDrawTrainerPic(void)
         else if ((gLinkPlayers[GetMultiplayerId() ^ BIT_SIDE].version & 0xFF) == VERSION_EMERALD)
         {
             if (gLinkPlayers[GetMultiplayerId() ^ BIT_SIDE].gender != MALE)
-                trainerPicId = gFacilityClassToPicIndex[FACILITY_CLASS_MAY];
+                trainerPicId = gFacilityClassToPicIndex[FACILITY_CLASS_E_MAY];
             else
-                trainerPicId = gFacilityClassToPicIndex[FACILITY_CLASS_BRENDAN];
+                trainerPicId = gFacilityClassToPicIndex[FACILITY_CLASS_E_BRENDAN];
         }
         else
         {

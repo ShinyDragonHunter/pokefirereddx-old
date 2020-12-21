@@ -13,7 +13,6 @@ BattleFrontier_BattlePalaceBattleRoom_MapScripts:: @ 824F815
 	@ On this map the player (OBJ_EVENT_ID_PLAYER) is hidden
 	@ The player is represented instead by LOCALID_PLAYER, which has the gfx id VAR_OBJ_GFX_ID_0
 	@ The opponent is represented by LOCALID_OPPONENT, which has the gfx id VAR_OBJ_GFX_ID_1
-
 BattleFrontier_BattlePalaceBattleRoom_OnTransition: @ 824F825
 	frontier_settrainers
 	call FallarborTown_BattleTentBattleRoom_EventScript_SetPlayerGfx
@@ -24,6 +23,7 @@ BattleFrontier_BattlePalaceBattleRoom_OnFrame: @ 824F861
 	.2byte 0
 
 BattleFrontier_BattlePalaceBattleRoom_EventScript_EnterRoom:: @ 824F86B
+	textcolor BLUE
 	showobjectat LOCALID_PLAYER, MAP_BATTLE_FRONTIER_BATTLE_PALACE_BATTLE_ROOM
 	frontier_get FRONTIER_DATA_BATTLE_NUM
 	compare VAR_RESULT, 0
@@ -43,6 +43,7 @@ BattleFrontier_BattlePalaceBattleRoom_EventScript_NextOpponentEnter:: @ 824F8BF
 	addobject LOCALID_OPPONENT
 	applymovement LOCALID_OPPONENT, BattleFrontier_BattlePalaceBattleRoom_Movement_OpponentEnter
 	waitmovement 0
+	textcolor RESET
 	palace_getopponentintro
 	msgbox gStringVar4, MSGBOX_DEFAULT
 	waitmessage
@@ -54,6 +55,7 @@ BattleFrontier_BattlePalaceBattleRoom_EventScript_WarpToLobbyLost:: @ 824F8FA
 	goto BattleFrontier_BattlePalaceBattleRoom_EventScript_WarpToLobby
 
 BattleFrontier_BattlePalaceBattleRoom_EventScript_DefeatedOpponent:: @ 824F911
+	textcolor BLUE
 	call BattleFrontier_EventScript_IncrementWinStreak
 	frontier_get FRONTIER_DATA_BATTLE_NUM
 	addvar VAR_RESULT, 1
@@ -227,6 +229,7 @@ BattleFrontier_BattlePalaceBattleRoom_EventScript_DefeatedSpenserSilver:: @ 824F
 	applymovement LOCALID_ATTENDANT, BattleFrontier_BattlePalaceBattleRoom_Movement_FaceDown
 	msgbox BattleFrontier_BattlePalaceBattleRoom_Text_LetsSeeFrontierPass, MSGBOX_DEFAULT
 	playfanfare MUS_OBTAIN_SYMBOL
+	textcolor DARK_GREY
 	message BattleFrontier_BattlePalaceBattleRoom_Text_ReceivedSpiritsSymbol
 	waitmessage
 	waitfanfare
@@ -236,6 +239,7 @@ BattleFrontier_BattlePalaceBattleRoom_EventScript_DefeatedSpenserSilver:: @ 824F
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFastestRight
 	applymovement LOCALID_ATTENDANT, Common_Movement_WalkInPlaceFastestRight
 	waitmovement 0
+	textcolor BLUE
 	msgbox BattleFrontier_BattlePalaceBattleRoom_Text_SpenserAwaitNextTime, MSGBOX_DEFAULT
 	goto BattleFrontier_BattlePalaceBattleRoom_EventScript_WarpToLobbyWon
 
@@ -262,6 +266,7 @@ BattleFrontier_BattlePalaceBattleRoom_EventScript_DefeatedSpenserGold:: @ 824FD8
 	applymovement LOCALID_ATTENDANT, BattleFrontier_BattlePalaceBattleRoom_Movement_FaceDown
 	msgbox BattleFrontier_BattlePalaceBattleRoom_Text_HurryWithFrontierPass, MSGBOX_DEFAULT
 	playfanfare MUS_OBTAIN_SYMBOL
+	textcolor DARK_GREY
 	message BattleFrontier_BattlePalaceBattleRoom_Text_SpiritsSymbolTookGoldenShine
 	waitmessage
 	waitfanfare
@@ -271,6 +276,7 @@ BattleFrontier_BattlePalaceBattleRoom_EventScript_DefeatedSpenserGold:: @ 824FD8
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFastestRight
 	applymovement LOCALID_ATTENDANT, Common_Movement_WalkInPlaceFastestRight
 	waitmovement 0
+	textcolor BLUE
 	msgbox BattleFrontier_BattlePalaceBattleRoom_Text_SpenserComeSeeMeAgain, MSGBOX_DEFAULT
 	goto BattleFrontier_BattlePalaceBattleRoom_EventScript_WarpToLobbyWon
 

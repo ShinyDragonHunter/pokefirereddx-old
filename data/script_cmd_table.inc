@@ -201,7 +201,7 @@ gScriptCmdTable:: @ 81DB67C
 	.4byte ScrCmd_setescapewarp             @ 0xc6
 	.4byte ScrCmd_waitmoncry                @ 0xc7
 	.4byte ScrCmd_bufferboxname             @ 0xc8
-	.4byte ScrCmd_nop1                      @ 0xc9
+	.4byte ScrCmd_textcolor                 @ 0xc9
 	.4byte ScrCmd_nop1                      @ 0xca
 	.4byte ScrCmd_nop1                      @ 0xcb
 	.4byte ScrCmd_nop1                      @ 0xcc

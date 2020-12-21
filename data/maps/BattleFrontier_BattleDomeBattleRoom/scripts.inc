@@ -30,6 +30,7 @@ BattleFrontier_BattleDomeBattleRoom_OnFrame: @ 824BD00
 	.2byte 0
 
 BattleFrontier_BattleDomeBattleRoom_EventScript_EnterRoom:: @ 824BD0A
+	textcolor BLUE
 	lockall
 	call BattleFrontier_BattleDomeBattleRoom_EventScript_GetRoundNum
 	compare VAR_RESULT, DOME_ROUND1
@@ -65,6 +66,7 @@ BattleFrontier_BattleDomeBattleRoom_EventScript_BattleOpponent:: @ 824BD82
 	applymovement LOCALID_PLAYER, BattleFrontier_BattleDomeBattleRoom_Movement_PlayerStepForward
 	applymovement LOCALID_OPPONENT, BattleFrontier_BattleDomeBattleRoom_Movement_OpponentStepForward
 	waitmovement 0
+	textcolor RESET
 	tower_getopponentintro 0
 	msgbox gStringVar4, MSGBOX_DEFAULT
 	closemessage
@@ -72,6 +74,7 @@ BattleFrontier_BattleDomeBattleRoom_EventScript_BattleOpponent:: @ 824BD82
 	call BattleFrontier_BattleDomeBattleRoom_EventScript_DoDomeBattle
 	setvar VAR_TEMP_2, NO_DRAW
 	switch VAR_RESULT
+	textcolor BLUE
 	case B_OUTCOME_WON, BattleFrontier_BattleDomeBattleRoom_EventScript_DefeatedOpponent
 	case B_OUTCOME_LOST, BattleFrontier_BattleDomeBattleRoom_EventScript_LostToOpponent
 	case B_OUTCOME_FORFEITED, BattleFrontier_BattleDomeBattleRoom_EventScript_LostToOpponent

@@ -33,10 +33,10 @@ const union AnimCmd *const *const gTrainerBackAnimsPtrTable[] =
 {
     [TRAINER_BACK_PIC_RED] = sBackAnims_5Frames,
     [TRAINER_BACK_PIC_LEAF] = sBackAnims_5Frames,
-    [TRAINER_BACK_PIC_WALLY] = sBackAnims_4Frames,
-    [TRAINER_BACK_PIC_STEVEN] = sBackAnims_4Frames,
-    [TRAINER_BACK_PIC_BRENDAN] = sBackAnims_4Frames,
-    [TRAINER_BACK_PIC_MAY] = sBackAnims_4Frames,
-    [TRAINER_BACK_PIC_RUBY_SAPPHIRE_BRENDAN] = sBackAnims_4Frames,
-    [TRAINER_BACK_PIC_RUBY_SAPPHIRE_MAY] = sBackAnims_4Frames,
+    [TRAINER_BACK_PIC_POKE_DUDE] = sBackAnims_4Frames,
+    [TRAINER_BACK_PIC_OLD_MAN] = sBackAnims_4Frames,
+    [TRAINER_BACK_PIC_E_BRENDAN] = sBackAnims_4Frames,
+    [TRAINER_BACK_PIC_E_MAY] = sBackAnims_4Frames,
+    [TRAINER_BACK_PIC_RS_BRENDAN] = sBackAnims_4Frames,
+    [TRAINER_BACK_PIC_RS_MAY] = sBackAnims_4Frames,
 };

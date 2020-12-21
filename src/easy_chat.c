@@ -1309,8 +1309,6 @@ void ShowEasyChatScreen(void)
     case EASY_CHAT_TYPE_QUIZ_ANSWER:
         words = &gSaveBlock1Ptr->lilycoveLady.quiz.playerAnswer;
         break;
-    case EASY_CHAT_TYPE_QUIZ_QUESTION:
-        return;
     case EASY_CHAT_TYPE_QUIZ_SET_QUESTION:
         words = gSaveBlock1Ptr->lilycoveLady.quiz.question;
         break;
@@ -1740,10 +1738,6 @@ static u16 sub_811AF8C(void)
 
     switch (Menu_ProcessInputNoWrapClearOnChoose())
     {
-    case MENU_B_PRESSED: // B Button
-    case 1: // No
-        sEasyChatScreen->state = sub_811B2A4();
-        return 7;
     case 0: // Yes
         gSpecialVar_Result = 0;
         var0 = sEasyChatScreen->type - EASY_CHAT_TYPE_QUIZ_SET_QUESTION;
@@ -1751,6 +1745,10 @@ static u16 sub_811AF8C(void)
             sub_811B3E4();
 
         return 24;
+    case 1: // No
+    case MENU_B_PRESSED: // B Button
+        sEasyChatScreen->state = sub_811B2A4();
+        return 7;
     default:
         return 0;
     }
@@ -1760,15 +1758,15 @@ static u16 sub_811AFEC(void)
 {
     switch (Menu_ProcessInputNoWrapClearOnChoose())
     {
-    case MENU_B_PRESSED: // B Button
-    case 1: // No
-        sEasyChatScreen->state = sub_811B2A4();
-        return 7;
     case 0: // Yes
         sub_811BE9C();
         gSpecialVar_Result = sub_811B4EC();
         sub_811B3E4();
         return 24;
+    case 1: // No
+    case MENU_B_PRESSED: // B Button
+        sEasyChatScreen->state = sub_811B2A4();
+        return 7;
     default:
         return 0;
     }
@@ -1778,14 +1776,14 @@ static u16 sub_811B040(void)
 {
     switch (Menu_ProcessInputNoWrapClearOnChoose())
     {
-    case MENU_B_PRESSED: // B Button
-    case 1: // No
-        sEasyChatScreen->state = 1;
-        return 7;
     case 0: // Yes
         sub_811B418();
         sEasyChatScreen->state = 1;
         return 8;
+    case 1: // No
+    case MENU_B_PRESSED: // B Button
+        sEasyChatScreen->state = 1;
+        return 7;
     default:
         return 0;
     }
@@ -1823,16 +1821,16 @@ static u16 sub_811B0F8(void)
 {
     switch (Menu_ProcessInputNoWrapClearOnChoose())
     {
-    case MENU_B_PRESSED: // B Button
-    case 1: // No
-        sub_811B454();
-        sEasyChatScreen->stateBackup = 0;
-        sEasyChatScreen->state = 8;
-        return 31;
     case 0: // Yes
         gSpecialVar_Result = sub_811B4EC();
         sub_811B3E4();
         return 24;
+    case 1: // No
+    case MENU_B_PRESSED: // B Button
+        sub_811B454();
+        sEasyChatScreen->stateBackup = 0;
+        sEasyChatScreen->state = 8;
+        return 31;
     default:
         return 0;
     }
@@ -2133,6 +2131,25 @@ static int sub_811B568(u32 arg0)
 {
     switch (arg0)
     {
+    case 0:
+        if (sEasyChatScreen->unk_0a < 1)
+        {
+            sEasyChatScreen->unk_0a++;
+            if (sub_811B9C8())
+                sub_811B744();
+        }
+        else
+        {
+            sub_811B744();
+        }
+        return 15;
+    case 1:
+        if (sEasyChatScreen->unk_0a)
+            sEasyChatScreen->unk_0a--;
+        else
+            sub_811B744();
+
+        return 15;
     case 2:
         if (sEasyChatScreen->unk_0b != -sEasyChatScreen->unk_0c)
         {
@@ -2167,25 +2184,6 @@ static int sub_811B568(u32 arg0)
             return var0;
         }
         break;
-    case 1:
-        if (sEasyChatScreen->unk_0a)
-            sEasyChatScreen->unk_0a--;
-        else
-            sub_811B744();
-
-        return 15;
-    case 0:
-        if (sEasyChatScreen->unk_0a < 1)
-        {
-            sEasyChatScreen->unk_0a++;
-            if (sub_811B9C8())
-                sub_811B744();
-        }
-        else
-        {
-            sub_811B744();
-        }
-        return 15;
     }
 
     return 0;
@@ -2195,6 +2193,18 @@ static int sub_811B634(u32 arg0)
 {
     switch (arg0)
     {
+    case 0:
+        sEasyChatScreen->unk_0a++;
+        if (sub_811B9C8())
+            sub_811B744();
+
+        return 15;
+    case 1:
+        sEasyChatScreen->unk_0a--;
+        if (sEasyChatScreen->unk_0a < 0)
+            sub_811B744();
+
+        return 15;
     case 2:
         if (sEasyChatScreen->unk_0b > 0)
             sEasyChatScreen->unk_0b--;
@@ -2211,18 +2221,6 @@ static int sub_811B634(u32 arg0)
 
         sub_811B978();
         return 15;
-    case 0:
-        sEasyChatScreen->unk_0a++;
-        if (sub_811B9C8())
-            sub_811B744();
-
-        return 15;
-    case 1:
-        sEasyChatScreen->unk_0a--;
-        if (sEasyChatScreen->unk_0a < 0)
-            sub_811B744();
-
-        return 15;
     }
 
     return 0;
@@ -2232,6 +2230,14 @@ static int sub_811B6C4(u32 arg0)
 {
     switch (arg0)
     {
+    case 0:
+        sEasyChatScreen->unk_0a = 0;
+        sEasyChatScreen->unk_0b++;
+        return 15;
+    case 1:
+        sEasyChatScreen->unk_0b++;
+        sub_811B768();
+        return 15;
     case 2:
         if (sEasyChatScreen->unk_0b)
             sEasyChatScreen->unk_0b--;
@@ -2245,14 +2251,6 @@ static int sub_811B6C4(u32 arg0)
         else
             sEasyChatScreen->unk_0b = 0;
 
-        return 15;
-    case 1:
-        sEasyChatScreen->unk_0b++;
-        sub_811B768();
-        return 15;
-    case 0:
-        sEasyChatScreen->unk_0a = 0;
-        sEasyChatScreen->unk_0b++;
         return 15;
     }
 
@@ -2284,6 +2282,26 @@ static u16 sub_811B794(u32 arg0)
     u16 result;
     switch (arg0)
     {
+    case 0:
+        if (sEasyChatScreen->unk_10 < 1)
+        {
+            sEasyChatScreen->unk_10++;
+            if (sub_811BA1C())
+                sEasyChatScreen->unk_10 = 0;
+        }
+        else
+        {
+            sEasyChatScreen->unk_10 = 0;
+        }
+        return 18;
+    case 1:
+        if (sEasyChatScreen->unk_10 > 0)
+            sEasyChatScreen->unk_10--;
+        else
+            sEasyChatScreen->unk_10 = 1;
+
+        sub_811B9A0();
+        return 18;
     case 2:
         if (sEasyChatScreen->unk_11 + sEasyChatScreen->unk_0e > 0)
         {
@@ -2320,26 +2338,6 @@ static u16 sub_811B794(u32 arg0)
             return result;
         }
         break;
-    case 1:
-        if (sEasyChatScreen->unk_10 > 0)
-            sEasyChatScreen->unk_10--;
-        else
-            sEasyChatScreen->unk_10 = 1;
-
-        sub_811B9A0();
-        return 18;
-    case 0:
-        if (sEasyChatScreen->unk_10 < 1)
-        {
-            sEasyChatScreen->unk_10++;
-            if (sub_811BA1C())
-                sEasyChatScreen->unk_10 = 0;
-        }
-        else
-        {
-            sEasyChatScreen->unk_10 = 0;
-        }
-        return 18;
     case 4:
         if (sEasyChatScreen->unk_0e)
         {
@@ -2393,11 +2391,10 @@ static u8 sub_811B960(u8 arg0)
 {
     switch (arg0)
     {
-    case 0:
-    default:
-        return 6;
     case 1:
         return 5;
+    default:
+        return 6;
     }
 }
 
@@ -2550,11 +2547,6 @@ u8 sub_811BBDC(void)
 u8 sub_811BBE8(void)
 {
     return sEasyChatScreen->unk_0f;
-}
-
-static u8 unref_sub_811BBF4(void)
-{
-    return 0;
 }
 
 int sub_811BBF8(void)
@@ -2866,42 +2858,66 @@ static bool8 sub_811C170(void)
 {
     switch (sUnknown_0203A11C->unk4)
     {
-    case 0:  return FALSE;
-    case 1:  return sub_811C2D4();
-    case 2:  return sub_811C30C();
-    case 3:  return sub_811C3E4();
-    case 4:  return sub_811C48C();
-    case 5:  return sub_811C404();
-    case 6:  return sub_811C448();
-    case 7:  return sub_811C4D0();
-    case 8:  return sub_811C518();
-    case 9:  return sub_811C554();
-    case 10: return sub_811C620();
-    case 11: return sub_811C830();
-    case 12: return sub_811C8F0();
-    case 13: return sub_811C99C();
-    case 14: return sub_811CA5C();
-    case 15: return sub_811C780();
-    case 16: return sub_811C78C();
-    case 17: return sub_811C7D4();
-    case 18: return sub_811CB18();
-    case 19: return sub_811CB98();
-    case 20: return sub_811CB24();
-    case 21: return sub_811CC90();
-    case 22: return sub_811CC08();
-    case 23: return sub_811C6C0();
-    case 24: return FALSE;
-    case 25: return FALSE;
-    case 26: return FALSE;
-    case 27: return FALSE;
-    case 28: return FALSE;
-    case 29: return sub_811CD14();
-    case 30: return sub_811CD54();
-    case 31: return sub_811CD94();
-    case 32: return sub_811CDD4();
-    case 33: return sub_811CE14();
-    case 34: return sub_811CE54();
-    default: return FALSE;
+    case 1:
+        return sub_811C2D4();
+    case 2:
+        return sub_811C30C();
+    case 3:
+        return sub_811C3E4();
+    case 4:
+        return sub_811C48C();
+    case 5:
+        return sub_811C404();
+    case 6:
+        return sub_811C448();
+    case 7:
+        return sub_811C4D0();
+    case 8:
+        return sub_811C518();
+    case 9:
+        return sub_811C554();
+    case 10:
+        return sub_811C620();
+    case 11:
+        return sub_811C830();
+    case 12:
+        return sub_811C8F0();
+    case 13:
+        return sub_811C99C();
+    case 14:
+        return sub_811CA5C();
+    case 15:
+        return sub_811C780();
+    case 16:
+        return sub_811C78C();
+    case 17:
+        return sub_811C7D4();
+    case 18:
+        return sub_811CB18();
+    case 19:
+        return sub_811CB98();
+    case 20:
+        return sub_811CB24();
+    case 21:
+        return sub_811CC90();
+    case 22:
+        return sub_811CC08();
+    case 23:
+        return sub_811C6C0();
+    case 29:
+        return sub_811CD14();
+    case 30:
+        return sub_811CD54();
+    case 31:
+        return sub_811CD94();
+    case 32:
+        return sub_811CDD4();
+    case 33:
+        return sub_811CE14();
+    case 34:
+        return sub_811CE54();
+    default:
+        return FALSE;
     }
 }
 
@@ -3743,14 +3759,14 @@ static void sub_811D104(u8 arg0)
     case 0:
         GetEasyChatInstructionsText(&text1, &text2);
         break;
+    case 1:
+        GetEasyChatConfirmDeletionText(&text1, &text2);
+        break;
     case 2:
         sub_811BB40(&text1, &text2);
         break;
     case 3:
         GetEasyChatConfirmText(&text1, &text2);
-        break;
-    case 1:
-        GetEasyChatConfirmDeletionText(&text1, &text2);
         break;
     case 4:
         text1 = gText_CreateAQuiz;
@@ -3941,12 +3957,12 @@ static void sub_811D60C(void)
     frameId = GetEasyChatScreenFrameId();
     switch (sPhraseFrameDimensions[frameId].footerId)
     {
-    case 2:
-        tilemap += 0x2A0;
-        CopyToBgTilemapBufferRect(3, tilemap, 0, 11, 32, 2);
-        break;
     case 1:
         tilemap += 0x300;
+        CopyToBgTilemapBufferRect(3, tilemap, 0, 11, 32, 2);
+        break;
+    case 2:
+        tilemap += 0x2A0;
         CopyToBgTilemapBufferRect(3, tilemap, 0, 11, 32, 2);
         break;
     case 3:
@@ -4187,10 +4203,9 @@ static void sub_811DADC(u8 arg0)
     FillBgTilemapBufferRect_Palette0(1, 0, 0, 10, 30, 10);
     switch (arg0)
     {
-    case 0:
-        break;
     case 1:
         sub_811DC28(11, 14, 3, 2);
+    case 0:
         break;
     case 2:
         sub_811DC28(9, 14, 7, 2);
@@ -4566,8 +4581,6 @@ static bool8 sub_811E418(void)
 {
     switch (sUnknown_0203A11C->unk9)
     {
-    default:
-        return FALSE;
     case 0:
         sUnknown_0203A11C->unk2E8->pos2.x += 8;
         if (sUnknown_0203A11C->unk2E8->pos2.x >= 0)
@@ -4587,6 +4600,8 @@ static bool8 sub_811E418(void)
             sUnknown_0203A11C->unk9 = 2;
             return FALSE;
         }
+    default:
+        return FALSE;
     }
 
     return TRUE;
@@ -4602,8 +4617,6 @@ static bool8 sub_811E4D0(void)
 {
     switch (sUnknown_0203A11C->unk9)
     {
-    default:
-        return FALSE;
     case 0:
         if (sUnknown_0203A11C->unk2EC->animEnded)
             sUnknown_0203A11C->unk9 = 1;
@@ -4619,6 +4632,8 @@ static bool8 sub_811E4D0(void)
             sUnknown_0203A11C->unk9++;
             return FALSE;
         }
+    default:
+        return FALSE;
     }
 
     return TRUE;
@@ -4761,12 +4776,12 @@ int GetFooterIndex(void)
     u8 frameId = GetEasyChatScreenFrameId();
     switch (sPhraseFrameDimensions[frameId].footerId)
     {
+    case 0:
+        return 0;
     case 1:
         return 1;
     case 2:
         return 2;
-    case 0:
-        return 0;
     default:
         return 3;
     }
@@ -4965,58 +4980,6 @@ u8 *ConvertEasyChatWordsToString(u8 *dest, const u16 *src, u16 columns, u16 rows
         dest = CopyEasyChatWord(dest, *(src++));
         *dest = CHAR_NEWLINE;
         dest++;
-    }
-
-    dest--;
-    *dest = EOS;
-    return dest;
-}
-
-u8 *unref_sub_811EC98(u8 *dest, const u16 *src, u16 columns, u16 rows)
-{
-    u16 i, j, k;
-    u16 numColumns;
-    int var0, var1;
-
-    numColumns = columns;
-    var1 = 0;
-    columns--;
-    for (i = 0; i < rows; i++)
-    {
-        const u16 *var2 = src;
-        var0 = 0;
-        for (j = 0; j < numColumns; j++)
-        {
-            if (var2[j] != 0xFFFF)
-                var0 = 1;
-        }
-
-        if (!var0)
-        {
-            src += numColumns;
-            continue;
-        }
-
-        for (k = 0; k < columns; k++)
-        {
-            dest = CopyEasyChatWord(dest, *src);
-            if (*src != 0xFFFF)
-            {
-                *dest = CHAR_SPACE;
-                dest++;
-            }
-
-            src++;
-        }
-
-        dest = CopyEasyChatWord(dest, *(src++));
-        if (var1 == 0)
-            *dest = CHAR_NEWLINE;
-        else
-            *dest = CHAR_PROMPT_SCROLL;
-
-        dest++;
-        var1++;
     }
 
     dest--;
@@ -5337,20 +5300,6 @@ static u8 sub_811F3B8(u8 index)
         return EC_NUM_GROUPS;
     else
         return sUnknown_0203A120->unk2[index];
-}
-
-u8 *unref_sub_811F3E0(u8 *dest, u8 groupId, u16 totalChars)
-{
-    u16 i;
-    u8 *str = StringCopy(dest, gEasyChatGroupNamePointers[groupId]);
-    for (i = str - dest; i < totalChars; i++)
-    {
-        *str = CHAR_SPACE;
-        str++;
-    }
-    
-    *str = EOS;
-    return str;
 }
 
 static const u8 *GetEasyChatWordGroupName(u8 groupId)

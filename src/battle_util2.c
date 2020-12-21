@@ -188,7 +188,6 @@ u32 sub_805725C(u8 battlerId)
                 effect = 2;
             }
             gBattleCommunication[MULTIUSE_STATE]++;
-            break;
         case 2:
             break;
         }

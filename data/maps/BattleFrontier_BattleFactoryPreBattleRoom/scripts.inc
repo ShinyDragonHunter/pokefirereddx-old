@@ -24,6 +24,7 @@ BattleFrontier_BattleFactoryPreBattleRoom_OnFrame: @ 8259AEF
 	.2byte 0
 
 BattleFrontier_BattleFactoryPreBattleRoom_EventScript_EnterRoom:: @ 8259AF9
+	textcolor BLUE
 	compare VAR_0x8006, 1
 	goto_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_ReturnToRoomFromBattle
 	setvar VAR_TEMP_0, 1

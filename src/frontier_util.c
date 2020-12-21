@@ -794,20 +794,14 @@ static void GetChallengeStatus(void)
     VarSet(VAR_TEMP_0, 0xFF);
     switch (gSaveBlock2Ptr->frontier.challengeStatus)
     {
-    case 0:
-        break;
     case CHALLENGE_STATUS_SAVING:
-        FrontierGamblerSetWonOrLost(FALSE);
-        VarSet(VAR_TEMP_0, gSaveBlock2Ptr->frontier.challengeStatus);
-        break;
     case CHALLENGE_STATUS_LOST:
         FrontierGamblerSetWonOrLost(FALSE);
         VarSet(VAR_TEMP_0, gSaveBlock2Ptr->frontier.challengeStatus);
+    case 0:
         break;
     case CHALLENGE_STATUS_WON:
         FrontierGamblerSetWonOrLost(TRUE);
-        VarSet(VAR_TEMP_0, gSaveBlock2Ptr->frontier.challengeStatus);
-        break;
     case CHALLENGE_STATUS_PAUSED:
         VarSet(VAR_TEMP_0, gSaveBlock2Ptr->frontier.challengeStatus);
         break;
@@ -1009,7 +1003,6 @@ static void TowerPrintPrevOrCurrentStreak(u8 battleMode, u8 lvlMode, u8 x1, u8 x
     switch (battleMode)
     {
     default:
-    case FRONTIER_MODE_SINGLES:
         if (lvlMode != FRONTIER_LVL_50)
             isCurrent = IsWinStreakActive(STREAK_TOWER_SINGLES_OPEN);
         else
@@ -1092,7 +1085,6 @@ static void DomePrintPrevOrCurrentStreak(u8 battleMode, u8 lvlMode, u8 x1, u8 x2
     switch (battleMode)
     {
     default:
-    case FRONTIER_MODE_SINGLES:
         if (lvlMode != FRONTIER_LVL_50)
             isCurrent = IsWinStreakActive(STREAK_DOME_SINGLES_OPEN);
         else
@@ -1169,7 +1161,6 @@ static void PalacePrintPrevOrCurrentStreak(u8 battleMode, u8 lvlMode, u8 x1, u8 
     switch (battleMode)
     {
     default:
-    case FRONTIER_MODE_SINGLES:
         if (lvlMode != FRONTIER_LVL_50)
             isCurrent = IsWinStreakActive(STREAK_PALACE_SINGLES_OPEN);
         else
@@ -1372,7 +1363,6 @@ static void FactoryPrintPrevOrCurrentStreak(u8 battleMode, u8 lvlMode, u8 x1, u8
     switch (battleMode)
     {
     default:
-    case FRONTIER_MODE_SINGLES:
         if (lvlMode != FRONTIER_LVL_50)
             isCurrent = IsWinStreakActive(STREAK_FACTORY_SINGLES_OPEN);
         else
@@ -1674,7 +1664,6 @@ u8 GetFrontierBrainStatus(void)
             status = symbolsCount + 1; // FRONTIER_BRAIN_SILVER and FRONTIER_BRAIN_GOLD
         break;
     // Already received both symbols
-    case 2:
     default:
         // Silver streak is reached
         if (winStreak == sFrontierBrainStreakAppearances[facility][0])

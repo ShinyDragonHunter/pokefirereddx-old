@@ -1286,7 +1286,6 @@ void UpdateAmbientCry(s16 *state, u16 *delayCounter)
             PlayAmbientCry();
             *state = 2;
         }
-        break;
     case 4:
         break;
     }
@@ -2018,6 +2017,7 @@ static bool32 ReturnToFieldLink(u8 *state)
         break;
     case 9:
         InitTilesetAnimations();
+    case 10:
         (*state)++;
         break;
     case 11:
@@ -2031,9 +2031,6 @@ static bool32 ReturnToFieldLink(u8 *state)
     case 12:
         if (RunFieldCallback())
             (*state)++;
-        break;
-    case 10:
-        (*state)++;
         break;
     case 13:
         SetFieldVBlankCallback();

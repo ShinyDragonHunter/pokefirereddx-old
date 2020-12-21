@@ -341,14 +341,14 @@ BattleFrontier_OutsideWest_Text_MayISeeYourTicket: @ 823D808
 	.string "May I see your TICKET?$"
 
 BattleFrontier_OutsideWest_Text_MustHaveTicketToBoard: @ 823D842
-	.string "{PLAYER} doesn't have the TICKET…\p"
-	.string "I'm terribly sorry.\p"
+	.string "{COLOR DARK_GREY}{PLAYER} doesn't have the TICKET…\p"
+	.string "{COLOR RED}I'm terribly sorry.\p"
 	.string "You must have a TICKET to board\n"
 	.string "the ferry.$"
 
 BattleFrontier_OutsideWest_Text_WhereWouldYouLikeToGo: @ 823D89D
-	.string "{PLAYER} flashed the TICKET.\p"
-	.string "Perfect! That's all you need!\p"
+	.string "{COLOR DARK_GREY}{PLAYER} flashed the TICKET.\p"
+	.string "{COLOR RED}Perfect! That's all you need!\p"
 	.string "And where would you like to go?$"
 
 BattleFrontier_OutsideWest_Text_SlateportItIs: @ 823D8F2
@@ -384,6 +384,15 @@ BattleFrontier_OutsideWest_Text_GotSeasickOnWayHere: @ 823DA60
 	.string "But on the way, I got seasick…\n"
 	.string "Urrrrp…$"
 
+.if UK
+BattleFrontier_OutsideWest_Text_OnlyToughTrainersBroughtHere: @ 823DABF
+	.string "It's not as if just anyone can come\n"
+	.string "here, you know?\p"
+	.string "Only those TRAINERS who've been\n"
+	.string "recognised as tough are brought here.\p"
+	.string "That's why many TRAINERS don't even\n"
+	.string "know about the BATTLE FRONTIER.$"
+.else
 BattleFrontier_OutsideWest_Text_OnlyToughTrainersBroughtHere: @ 823DABF
 	.string "It's not as if just anyone can come\n"
 	.string "here, you know?\p"
@@ -391,6 +400,7 @@ BattleFrontier_OutsideWest_Text_OnlyToughTrainersBroughtHere: @ 823DABF
 	.string "recognized as tough are brought here.\p"
 	.string "That's why many TRAINERS don't even\n"
 	.string "know about the BATTLE FRONTIER.$"
+.endif
 
 BattleFrontier_OutsideWest_Text_SureWeCanChallengeWithNoMons: @ 823DB7D
 	.string "Hey, bro…\p"
@@ -528,6 +538,15 @@ BattleFrontier_OutsideWest_Text_FansOverThereUsedToBeTrainers: @ 823E410
 	.string "They go cheer for their idol at the\l"
 	.string "BATTLE DOME every day now.$"
 
+.if UK
+BattleFrontier_OutsideWest_Text_MonWithLongTailInFrontier: @ 823E5A5
+	.string "I heard a rumour that someone saw\n"
+	.string "a POKéMON with an unusually long tail\l"
+	.string "somewhere in the BATTLE FRONTIER.\p"
+	.string "It must be adorable. I'm sure of it…\p"
+	.string "Oh, challenges can wait. I feel driven\n"
+	.string "to find the delightful creature!$"
+.else
 BattleFrontier_OutsideWest_Text_MonWithLongTailInFrontier: @ 823E5A5
 	.string "I heard a rumor that someone saw\n"
 	.string "a POKéMON with an unusually long tail\l"
@@ -535,4 +554,4 @@ BattleFrontier_OutsideWest_Text_MonWithLongTailInFrontier: @ 823E5A5
 	.string "It must be adorable. I'm sure of it…\p"
 	.string "Oh, challenges can wait. I feel driven\n"
 	.string "to find the delightful creature!$"
-
+.endif

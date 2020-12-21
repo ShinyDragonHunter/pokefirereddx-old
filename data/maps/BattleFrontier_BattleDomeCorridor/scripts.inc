@@ -131,22 +131,3 @@ BattleFrontier_BattleDomeCorridor_Movement_AttendantEnterDoorLvOpen: @ 824B1E6
 	walk_up
 	set_invisible
 	step_end
-
-@ Unused
-BattleFrontier_BattleDomeCorridor_Movement_WalkToBattleRoomMidRight: @ 824B1E9
-	walk_up
-	walk_right
-	walk_right
-	walk_right
-	walk_right
-	walk_right
-	walk_right
-	walk_right
-	walk_right
-	walk_right
-	walk_right
-	walk_right
-	walk_up
-	walk_up
-	set_invisible
-	step_end

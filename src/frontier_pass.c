@@ -850,7 +850,6 @@ void CB2_ReshowFrontierPass(void)
         taskId = CreateTask(Task_DoFadeEffect, 0);
         gTasks[taskId].data[0] = TRUE;
         break;
-    case 3:
     default:
         sPassData->unkE = 0;
         taskId = CreateTask(Task_HandleFrontierPassInput, 0);
@@ -892,15 +891,15 @@ static void CB2_ShowFrontierPassFeature(void)
     case 1:
         ShowFrontierMap(CB2_ReshowFrontierPass);
         break;
+    case 2:
+        ShowPlayerTrainerCard(CB2_ReshowFrontierPass);
+        break;
     case 3:
         sSavedPassData.callback = sPassData->callback;
         sSavedPassData.cursorX = sPassData->cursorX;
         sSavedPassData.cursorY = sPassData->cursorY;
         FreeFrontierPassData();
         PlayRecordedBattle(CB2_ReturnFromRecord);
-        break;
-    case 2:
-        ShowPlayerTrainerCard(CB2_ReshowFrontierPass);
         break;
     }
 }
@@ -1057,8 +1056,7 @@ static void Task_DoFadeEffect(u8 taskId)
         }
         break;
     case 2:
-        if (sPassGfx->setAffine) // Nonsensical check.
-            sPassGfx->setAffine = FALSE;
+        sPassGfx->setAffine = FALSE;
         if (UpdatePaletteFade())
             return;
         if (!data[0])
@@ -1290,8 +1288,8 @@ static void HandleFrontierMapCursorMove(u8 direction);
 
 static void ShowFrontierMap(void (*callback)(void))
 {
-    if (sMapData != NULL)
-        SetMainCallback2(callback); // This line doesn't make sense at all, since it gets overwritten later anyway.
+//    if (sMapData != NULL)
+//        SetMainCallback2(callback); // This line doesn't make sense at all, since it gets overwritten later anyway.
 
     sMapData = AllocZeroed(sizeof(*sMapData));
     sMapData->callback = callback;
@@ -1500,36 +1498,28 @@ static void Task_HandleFrontierMap(u8 taskId)
 
 static u8 MapNumToFrontierFacilityId(u16 mapNum) // id + 1, zero means not a frontier map number
 {
-    if ((mapNum >= MAP_NUM(BATTLE_FRONTIER_BATTLE_TOWER_LOBBY) && mapNum <= MAP_NUM(BATTLE_FRONTIER_BATTLE_TOWER_BATTLE_ROOM))
-        || (mapNum >= MAP_NUM(BATTLE_FRONTIER_BATTLE_TOWER_MULTI_PARTNER_ROOM) && mapNum <= MAP_NUM(BATTLE_FRONTIER_BATTLE_TOWER_MULTI_BATTLE_ROOM)))
+    if ((mapNum >= MAP_NUM(BATTLE_FRONTIER_BATTLE_TOWER_LOBBY) 
+     && mapNum <= MAP_NUM(BATTLE_FRONTIER_BATTLE_TOWER_BATTLE_ROOM))
+     || (mapNum >= MAP_NUM(BATTLE_FRONTIER_BATTLE_TOWER_MULTI_PARTNER_ROOM) 
+     && mapNum <= MAP_NUM(BATTLE_FRONTIER_BATTLE_TOWER_MULTI_BATTLE_ROOM)))
         return FRONTIER_FACILITY_TOWER + 1;
     else if (mapNum == MAP_NUM(BATTLE_FRONTIER_BATTLE_DOME_LOBBY)
-             || mapNum == MAP_NUM(BATTLE_FRONTIER_BATTLE_DOME_CORRIDOR)
-             || mapNum == MAP_NUM(BATTLE_FRONTIER_BATTLE_DOME_PRE_BATTLE_ROOM)
-             || mapNum == MAP_NUM(BATTLE_FRONTIER_BATTLE_DOME_BATTLE_ROOM))
+     && mapNum <= MAP_NUM(BATTLE_FRONTIER_BATTLE_DOME_BATTLE_ROOM))
         return FRONTIER_FACILITY_DOME + 1;
-    else if (mapNum == MAP_NUM(BATTLE_FRONTIER_BATTLE_PALACE_LOBBY)
-        || mapNum == MAP_NUM(BATTLE_FRONTIER_BATTLE_PALACE_CORRIDOR)
-        || mapNum == MAP_NUM(BATTLE_FRONTIER_BATTLE_PALACE_BATTLE_ROOM))
+    else if (mapNum >= MAP_NUM(BATTLE_FRONTIER_BATTLE_PALACE_LOBBY)
+     && mapNum <= MAP_NUM(BATTLE_FRONTIER_BATTLE_PALACE_BATTLE_ROOM))
         return FRONTIER_FACILITY_PALACE + 1;
-    else if (mapNum == MAP_NUM(BATTLE_FRONTIER_BATTLE_ARENA_LOBBY)
-        || mapNum == MAP_NUM(BATTLE_FRONTIER_BATTLE_ARENA_CORRIDOR)
-        || mapNum == MAP_NUM(BATTLE_FRONTIER_BATTLE_ARENA_BATTLE_ROOM))
+    else if (mapNum >= MAP_NUM(BATTLE_FRONTIER_BATTLE_ARENA_LOBBY)
+     && mapNum <= MAP_NUM(BATTLE_FRONTIER_BATTLE_ARENA_BATTLE_ROOM))
         return FRONTIER_FACILITY_ARENA + 1;
-    else if (mapNum == MAP_NUM(BATTLE_FRONTIER_BATTLE_FACTORY_LOBBY)
-        || mapNum == MAP_NUM(BATTLE_FRONTIER_BATTLE_FACTORY_PRE_BATTLE_ROOM)
-        || mapNum == MAP_NUM(BATTLE_FRONTIER_BATTLE_FACTORY_BATTLE_ROOM))
+    else if (mapNum >= MAP_NUM(BATTLE_FRONTIER_BATTLE_FACTORY_LOBBY)
+     && mapNum <= MAP_NUM(BATTLE_FRONTIER_BATTLE_FACTORY_BATTLE_ROOM))
         return FRONTIER_FACILITY_FACTORY + 1;
-    else if (mapNum == MAP_NUM(BATTLE_FRONTIER_BATTLE_PIKE_LOBBY)
-             || mapNum == MAP_NUM(BATTLE_FRONTIER_BATTLE_PIKE_CORRIDOR)
-             || mapNum == MAP_NUM(BATTLE_FRONTIER_BATTLE_PIKE_THREE_PATH_ROOM)
-             || mapNum == MAP_NUM(BATTLE_FRONTIER_BATTLE_PIKE_ROOM_NORMAL)
-             || mapNum == MAP_NUM(BATTLE_FRONTIER_BATTLE_PIKE_ROOM_FINAL)
-             || mapNum == MAP_NUM(BATTLE_FRONTIER_BATTLE_PIKE_ROOM_WILD_MONS))
+    else if (mapNum >= MAP_NUM(BATTLE_FRONTIER_BATTLE_PIKE_LOBBY)
+     && mapNum <= MAP_NUM(BATTLE_FRONTIER_BATTLE_PIKE_ROOM_WILD_MONS))
         return FRONTIER_FACILITY_PIKE + 1;
-    else if (mapNum == MAP_NUM(BATTLE_FRONTIER_BATTLE_PYRAMID_LOBBY)
-        || mapNum == MAP_NUM(BATTLE_FRONTIER_BATTLE_PYRAMID_FLOOR)
-        || mapNum == MAP_NUM(BATTLE_FRONTIER_BATTLE_PYRAMID_TOP))
+    else if (mapNum >= MAP_NUM(BATTLE_FRONTIER_BATTLE_PYRAMID_LOBBY)
+     && mapNum <= MAP_NUM(BATTLE_FRONTIER_BATTLE_PYRAMID_TOP))
         return FRONTIER_FACILITY_PYRAMID + 1;
     else
         return 0;

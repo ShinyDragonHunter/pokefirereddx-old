@@ -399,16 +399,16 @@ static void EvoTask_CreatePostEvoSparklesSet2_AndFlash(u8 taskID)
         u8 i;
         switch (gTasks[taskID].tFrameCounter)
         {
-        default:
-            if (gTasks[taskID].tFrameCounter < 50)
-                CreatePostEvoSparkleSet2(Random() & 7);
-            break;
         case 0:
             for (i = 0; i < 8; i++)
                 CreatePostEvoSparkleSet2(i);
             break;
         case 32:
             BeginNormalPaletteFade(0xFFFF041C, 0x10, 0x10, 0, RGB_WHITE); // was 0xFFF9001C in R/S
+            break;
+        default:
+            if (gTasks[taskID].tFrameCounter < 50)
+                CreatePostEvoSparkleSet2(Random() & 7);
             break;
         }
         gTasks[taskID].tFrameCounter++;
@@ -447,16 +447,16 @@ static void EvoTask_CreatePostEvoSparklesSet2_AndFlash_Trade(u8 taskID)
         u8 i;
         switch (gTasks[taskID].tFrameCounter)
         {
-        default:
-            if (gTasks[taskID].tFrameCounter < 50)
-                CreatePostEvoSparkleSet2(Random() & 7);
-            break;
         case 0:
             for (i = 0; i < 8; i++)
                 CreatePostEvoSparkleSet2(i);
             break;
         case 32:
             BeginNormalPaletteFade(0xFFFF0400, 0x10, 0x10, 0, RGB_WHITE); // was 0xFFFF0001 in R/S
+            break;
+        default:
+            if (gTasks[taskID].tFrameCounter < 50)
+                CreatePostEvoSparkleSet2(Random() & 7);
             break;
         }
         gTasks[taskID].tFrameCounter++;

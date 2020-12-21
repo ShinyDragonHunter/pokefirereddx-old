@@ -1887,23 +1887,23 @@ const u8 gStatStageRatios[MAX_STAT_STAGE + 1][2] =
 const u16 gLinkPlayerFacilityClasses[NUM_MALE_LINK_FACILITY_CLASSES + NUM_FEMALE_LINK_FACILITY_CLASSES] =
 {
     // Male classes
-    FACILITY_CLASS_COOLTRAINER_M,
-    FACILITY_CLASS_BLACK_BELT,
-    FACILITY_CLASS_CAMPER,
-    FACILITY_CLASS_YOUNGSTER,
-    FACILITY_CLASS_PSYCHIC_M,
-    FACILITY_CLASS_BUG_CATCHER,
-    FACILITY_CLASS_PKMN_BREEDER_M,
-    FACILITY_CLASS_GUITARIST,
+    HOENN_FACILITY_CLASS_COOLTRAINER_M,
+    HOENN_FACILITY_CLASS_BLACK_BELT,
+    HOENN_FACILITY_CLASS_CAMPER,
+    HOENN_FACILITY_CLASS_YOUNGSTER,
+    HOENN_FACILITY_CLASS_PSYCHIC_M,
+    HOENN_FACILITY_CLASS_BUG_CATCHER,
+    HOENN_FACILITY_CLASS_PKMN_BREEDER_M,
+    HOENN_FACILITY_CLASS_GUITARIST,
     // Female Classes
-    FACILITY_CLASS_COOLTRAINER_F,
-    FACILITY_CLASS_HEX_MANIAC,
-    FACILITY_CLASS_PICNICKER,
-    FACILITY_CLASS_LASS,
-    FACILITY_CLASS_PSYCHIC_F,
-    FACILITY_CLASS_BATTLE_GIRL,
-    FACILITY_CLASS_PKMN_BREEDER_F,
-    FACILITY_CLASS_BEAUTY
+    HOENN_FACILITY_CLASS_COOLTRAINER_F,
+    HOENN_FACILITY_CLASS_HEX_MANIAC,
+    HOENN_FACILITY_CLASS_PICNICKER,
+    HOENN_FACILITY_CLASS_LASS,
+    HOENN_FACILITY_CLASS_PSYCHIC_F,
+    HOENN_FACILITY_CLASS_BATTLE_GIRL,
+    HOENN_FACILITY_CLASS_PKMN_BREEDER_F,
+    HOENN_FACILITY_CLASS_BEAUTY
 };
 
 static const u8 sHoldEffectToType[][2] =
@@ -1992,7 +1992,7 @@ static const struct SpriteTemplate gSpriteTemplateTable_TrainerBackSprites[] =
         .paletteTag = 0,
         .oam = &gOamData_831ACB0,
         .anims = NULL,
-        .images = gTrainerBackPicTable_Wally,
+        .images = gTrainerBackPicTable_PokeDude,
         .affineAnims = gUnknown_082FF618,
         .callback = sub_8039BB4,
     },
@@ -2001,7 +2001,7 @@ static const struct SpriteTemplate gSpriteTemplateTable_TrainerBackSprites[] =
         .paletteTag = 0,
         .oam = &gOamData_831ACB0,
         .anims = NULL,
-        .images = gTrainerBackPicTable_Steven,
+        .images = gTrainerBackPicTable_OldMan,
         .affineAnims = gUnknown_082FF618,
         .callback = sub_8039BB4,
     },
@@ -2010,7 +2010,7 @@ static const struct SpriteTemplate gSpriteTemplateTable_TrainerBackSprites[] =
         .paletteTag = 0,
         .oam = &gOamData_831ACB0,
         .anims = NULL,
-        .images = gTrainerBackPicTable_Brendan,
+        .images = gTrainerBackPicTable_EBrendan,
         .affineAnims = gUnknown_082FF618,
         .callback = sub_8039BB4,
     },
@@ -2019,7 +2019,7 @@ static const struct SpriteTemplate gSpriteTemplateTable_TrainerBackSprites[] =
         .paletteTag = 0,
         .oam = &gOamData_831ACB0,
         .anims = NULL,
-        .images = gTrainerBackPicTable_May,
+        .images = gTrainerBackPicTable_EMay,
         .affineAnims = gUnknown_082FF618,
         .callback = sub_8039BB4,
     },
@@ -2028,7 +2028,7 @@ static const struct SpriteTemplate gSpriteTemplateTable_TrainerBackSprites[] =
         .paletteTag = 0,
         .oam = &gOamData_831ACB0,
         .anims = NULL,
-        .images = gTrainerBackPicTable_RubySapphireBrendan,
+        .images = gTrainerBackPicTable_RSBrendan,
         .affineAnims = gUnknown_082FF618,
         .callback = sub_8039BB4,
     },
@@ -2037,7 +2037,7 @@ static const struct SpriteTemplate gSpriteTemplateTable_TrainerBackSprites[] =
         .paletteTag = 0,
         .oam = &gOamData_831ACB0,
         .anims = NULL,
-        .images = gTrainerBackPicTable_RubySapphireMay,
+        .images = gTrainerBackPicTable_RSMay,
         .affineAnims = gUnknown_082FF618,
         .callback = sub_8039BB4,
     },
@@ -2045,8 +2045,8 @@ static const struct SpriteTemplate gSpriteTemplateTable_TrainerBackSprites[] =
 
 static const u8 sSecretBaseFacilityClasses[2][5] =
 {
-    {FACILITY_CLASS_YOUNGSTER, FACILITY_CLASS_BUG_CATCHER, FACILITY_CLASS_RICH_BOY, FACILITY_CLASS_CAMPER, FACILITY_CLASS_COOLTRAINER_M},
-    {FACILITY_CLASS_LASS, FACILITY_CLASS_SCHOOL_KID_F, FACILITY_CLASS_LADY, FACILITY_CLASS_PICNICKER, FACILITY_CLASS_COOLTRAINER_F}
+    {HOENN_FACILITY_CLASS_YOUNGSTER, HOENN_FACILITY_CLASS_BUG_CATCHER, HOENN_FACILITY_CLASS_RICH_BOY, HOENN_FACILITY_CLASS_CAMPER, HOENN_FACILITY_CLASS_COOLTRAINER_M},
+    {HOENN_FACILITY_CLASS_LASS, HOENN_FACILITY_CLASS_SCHOOL_KID_F, HOENN_FACILITY_CLASS_LADY, HOENN_FACILITY_CLASS_PICNICKER, HOENN_FACILITY_CLASS_COOLTRAINER_F}
 };
 
 static const u8 sGetMonDataEVConstants[] =
@@ -2636,9 +2636,6 @@ bool8 sub_80688F8(u8 caseId, u8 battlerId)
 {
     switch (caseId)
     {
-    case 0:
-    default:
-        return FALSE;
     case 1:
         if (!(gBattleTypeFlags & BATTLE_TYPE_MULTI))
             return FALSE;
@@ -2646,8 +2643,8 @@ bool8 sub_80688F8(u8 caseId, u8 battlerId)
             return FALSE;
         if (gLinkPlayers[GetMultiplayerId()].id == battlerId)
             return FALSE;
-        break;
     case 2:
+    case 4:
         break;
     case 3:
         if (!(gBattleTypeFlags & BATTLE_TYPE_MULTI))
@@ -2656,9 +2653,8 @@ bool8 sub_80688F8(u8 caseId, u8 battlerId)
             return FALSE;
         if (battlerId == 1 || battlerId == 4 || battlerId == 5)
             return TRUE;
+    default:
         return FALSE;
-    case 4:
-        break;
     case 5:
         if (gBattleTypeFlags & BATTLE_TYPE_LINK)
         {
@@ -2939,9 +2935,6 @@ void GiveBoxMonInitialMoveset(struct BoxPokemon *boxMon)
         u16 move;
 
         moveLevel = (gLevelUpLearnsets[species][i] & LEVEL_UP_MOVE_LV);
-
-        if (moveLevel == 0)
-            continue;
 
         if (moveLevel > (level << 9))
             break;
@@ -3971,7 +3964,6 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
                 | (substruct3->giftRibbon6 << 25)
                 | (substruct3->giftRibbon7 << 26);
         }
-        break;
     default:
         break;
     }
@@ -5553,11 +5545,11 @@ u16 HoennToNationalOrder(u16 hoennNum)
 
 u16 SpeciesToCryId(u16 species)
 {
-    if ((species >= SPECIES_OLD_UNOWN_B - 1) 
-     && (species <= SPECIES_OLD_UNOWN_Z - 1))
+    if ((species > SPECIES_CELEBI - 1) 
+     && (species < SPECIES_TREECKO - 1))
         return SPECIES_UNOWN - 1;
 
-    if (species >= SPECIES_TREECKO - 1)
+    if (species > SPECIES_OLD_UNOWN_Z - 1)
         return species - (26 - 1);
     return species;
 }
@@ -5729,12 +5721,12 @@ u16 ModifyStatByNature(u8 nature, u16 n, u8 statIndex)
 
     switch (gNatureStatTable[nature][statIndex - 1])
     {
-    case 1:
-        retVal = n * 110;
-        retVal /= 100;
-        break;
     case -1:
         retVal = n * 90;
+        retVal /= 100;
+        break;
+    case 1:
+        retVal = n * 110;
         retVal /= 100;
         break;
     default:
@@ -5900,7 +5892,9 @@ u16 GetMonEVCount(struct Pokemon *mon)
 void RandomlyGivePartyPokerus(struct Pokemon *party)
 {
     u16 rnd = Random();
-    if (rnd == 0x4000 || rnd == 0x8000 || rnd == 0xC000)
+    if (rnd == 0x4000 
+     || rnd == 0x8000 
+     || rnd == 0xC000)
     {
         struct Pokemon *mon;
 
@@ -6230,9 +6224,8 @@ void ClearBattleMonForms(void)
 
 u16 GetBattleBGM(void)
 {
-    if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_x2000000 | BATTLE_TYPE_FRONTIER))
-        return MUS_VS_TRAINER;
-    else if (gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
+    if (gBattleTypeFlags & (BATTLE_TYPE_LINK
+	                     | BATTLE_TYPE_x2000000))
         return MUS_VS_TRAINER;
 
     else if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
@@ -6246,59 +6239,49 @@ u16 GetBattleBGM(void)
 
         switch (trainerClass)
         {
-        case TRAINER_CLASS_AQUA_LEADER:
-        case TRAINER_CLASS_MAGMA_LEADER:
-            return MUS_VS_AQUA_MAGMA_LEADER;
-        case TRAINER_CLASS_TEAM_AQUA:
-        case TRAINER_CLASS_TEAM_MAGMA:
-        case TRAINER_CLASS_AQUA_ADMIN:
-        case TRAINER_CLASS_MAGMA_ADMIN:
+        case TRAINER_CLASS_BOSS:
+        case TRAINER_CLASS_TEAM_ROCKET:
             return MUS_VS_AQUA_MAGMA;
         case TRAINER_CLASS_LEADER:
         case TRAINER_CLASS_ELITE_FOUR:
             return MUS_RG_VS_GYM_LEADER;
         case TRAINER_CLASS_CHAMPION:
             return MUS_RG_VS_CHAMPION;
-        case TRAINER_CLASS_PKMN_TRAINER_3:
-            if (!StringCompare(gTrainers[gTrainerBattleOpponent_A].trainerName, gText_BattleWallyName))
-                return MUS_RG_VS_TRAINER;
-            return MUS_VS_RIVAL;
-        case TRAINER_CLASS_SALON_MAIDEN:
-        case TRAINER_CLASS_DOME_ACE:
-        case TRAINER_CLASS_PALACE_MAVEN:
-        case TRAINER_CLASS_ARENA_TYCOON:
-        case TRAINER_CLASS_FACTORY_HEAD:
-        case TRAINER_CLASS_PIKE_QUEEN:
-        case TRAINER_CLASS_PYRAMID_KING:
+        case HOENN_TRAINER_CLASS_SALON_MAIDEN:
+        case HOENN_TRAINER_CLASS_DOME_ACE:
+        case HOENN_TRAINER_CLASS_PALACE_MAVEN:
+        case HOENN_TRAINER_CLASS_ARENA_TYCOON:
+        case HOENN_TRAINER_CLASS_FACTORY_HEAD:
+        case HOENN_TRAINER_CLASS_PIKE_QUEEN:
+        case HOENN_TRAINER_CLASS_PYRAMID_KING:
             return MUS_VS_FRONTIER_BRAIN;
         default:
-            return MUS_RG_VS_TRAINER;
+            if (gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
+                return MUS_VS_TRAINER;
+            else
+                return MUS_RG_VS_TRAINER;
         }
     }
     else
-    switch (GetMonData(&gEnemyParty[0], MON_DATA_SPECIES, NULL))
-    {
-    case SPECIES_ARTICUNO:
-    case SPECIES_ZAPDOS:
-    case SPECIES_MOLTRES:
-    case SPECIES_RAIKOU:
-    case SPECIES_ENTEI:
-    case SPECIES_SUICUNE:
-    case SPECIES_LUGIA:
-    case SPECIES_HO_OH:
-        return MUS_RG_VS_LEGEND;
-    case SPECIES_MEWTWO:
-        return MUS_RG_VS_MEWTWO;
-    case SPECIES_MEW:
-        return MUS_VS_MEW;
-    case SPECIES_DEOXYS:
-        return MUS_RG_VS_DEOXYS;
-	default:
-        if (gMapHeader.regionMapSectionId == MAPSEC_BATTLE_FRONTIER 
-		 || gMapHeader.regionMapSectionId == MAPSEC_ARTISAN_CAVE)
-            return MUS_VS_WILD;
-        else
-            return MUS_RG_VS_WILD;
+        switch (GetMonData(&gEnemyParty[0], MON_DATA_SPECIES, NULL))
+        {
+        case SPECIES_ARTICUNO ... SPECIES_MOLTRES:
+        case SPECIES_RAIKOU ... SPECIES_SUICUNE:
+        case SPECIES_LUGIA:
+        case SPECIES_HO_OH:
+            return MUS_RG_VS_LEGEND;
+        case SPECIES_MEWTWO:
+            return MUS_RG_VS_MEWTWO;
+        case SPECIES_MEW:
+            return MUS_VS_MEW;
+        case SPECIES_DEOXYS:
+            return MUS_RG_VS_DEOXYS;
+	    default:
+            if (gMapHeader.regionMapSectionId == MAPSEC_BATTLE_FRONTIER 
+		     || gMapHeader.regionMapSectionId == MAPSEC_ARTISAN_CAVE)
+                return MUS_VS_WILD;
+            else
+                return MUS_RG_VS_WILD;
     }
 }
 
@@ -6761,9 +6744,9 @@ u16 FacilityClassToPicIndex(u16 facilityClass)
 u16 PlayerGenderToFrontTrainerPicId(u8 playerGender)
 {
     if (playerGender != MALE)
-        return FacilityClassToPicIndex(FACILITY_CLASS_MAY);
+        return FacilityClassToPicIndex(FACILITY_CLASS_LEAF);
     else
-        return FacilityClassToPicIndex(FACILITY_CLASS_BRENDAN);
+        return FacilityClassToPicIndex(FACILITY_CLASS_RED);
 }
 
 void HandleSetPokedexFlag(u16 nationalNum, u8 caseId, u32 personality)
@@ -6858,7 +6841,6 @@ struct Unknown_806F160_Struct *sub_806F2AC(u8 id, u8 arg1)
         structPtr->field_3_0 = 1;
         structPtr->field_3_1 = 2;
         break;
-    case 0:
     default:
         structPtr->field_0_0 = 4;
         structPtr->field_0_1 = 4;
@@ -6896,8 +6878,6 @@ struct Unknown_806F160_Struct *sub_806F2AC(u8 id, u8 arg1)
         case 2:
             sub_806F1FC(structPtr);
             break;
-        case 0:
-        case 1:
         default:
             sub_806F160(structPtr);
             break;

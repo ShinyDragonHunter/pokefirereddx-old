@@ -706,16 +706,14 @@ static u8 GetWildBattleTransition(void)
 
     switch (GetMonData(&gEnemyParty[0], MON_DATA_SPECIES, NULL))
     {
-    case SPECIES_ARTICUNO:
-    case SPECIES_ZAPDOS:
-    case SPECIES_MOLTRES:
+    case SPECIES_ARTICUNO ... SPECIES_MOLTRES:
     case SPECIES_MEWTWO:
     case SPECIES_LUGIA:
     case SPECIES_HO_OH:
     case SPECIES_DEOXYS:
-            return B_TRANSITION_BLUR;
+        return B_TRANSITION_BLUR;
     case SPECIES_MEW:
-            return B_TRANSITION_GRID_SQUARES;
+        return B_TRANSITION_GRID_SQUARES;
     default:
         if (enemyLevel < playerLevel)
         {
@@ -760,15 +758,9 @@ static u8 GetTrainerBattleTransition(void)
     if (gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_CHAMPION)
         return B_TRANSITION_CHAMPION;
 
-    if (gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_TEAM_MAGMA
-        || gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_MAGMA_LEADER
-        || gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_MAGMA_ADMIN)
+    if (gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_BOSS
+     || gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_TEAM_ROCKET)
         return B_TRANSITION_MAGMA;
-
-    if (gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_TEAM_AQUA
-        || gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_AQUA_LEADER
-        || gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_AQUA_ADMIN)
-        return B_TRANSITION_AQUA;
 
     if (gTrainers[gTrainerBattleOpponent_A].doubleBattle == TRUE)
         minPartyCount = 2; // double battles always at least have 2 pokemon.
@@ -805,14 +797,13 @@ u8 GetSpecialBattleTransition(s32 id)
     {
         switch (id)
         {
-        case 11:
+        case 3:
+            return sBattleTransitionTable_BattleDome[Random() % ARRAY_COUNT(sBattleTransitionTable_BattleDome)];
+        case 10:
+            return sBattleTransitionTable_BattlePyramid[Random() % ARRAY_COUNT(sBattleTransitionTable_BattlePyramid)];
         case 12:
         case 13:
             return B_TRANSITION_POKEBALLS_TRAIL;
-        case 10:
-            return sBattleTransitionTable_BattlePyramid[Random() % ARRAY_COUNT(sBattleTransitionTable_BattlePyramid)];
-        case 3:
-            return sBattleTransitionTable_BattleDome[Random() % ARRAY_COUNT(sBattleTransitionTable_BattleDome)];
         }
 
         if (VarGet(VAR_FRONTIER_BATTLE_MODE) != FRONTIER_MODE_LINK_MULTIS)
@@ -822,14 +813,14 @@ u8 GetSpecialBattleTransition(s32 id)
     {
         switch (id)
         {
+        case 3:
+            return sBattleTransitionTable_BattleDome[Random() % ARRAY_COUNT(sBattleTransitionTable_BattleDome)];
+        case 10:
+            return sBattleTransitionTable_BattlePyramid[Random() % ARRAY_COUNT(sBattleTransitionTable_BattlePyramid)];
         case 11:
         case 12:
         case 13:
             return B_TRANSITION_BIG_POKEBALL;
-        case 10:
-            return sBattleTransitionTable_BattlePyramid[Random() % ARRAY_COUNT(sBattleTransitionTable_BattlePyramid)];
-        case 3:
-            return sBattleTransitionTable_BattleDome[Random() % ARRAY_COUNT(sBattleTransitionTable_BattleDome)];
         }
 
         if (VarGet(VAR_FRONTIER_BATTLE_MODE) != FRONTIER_MODE_LINK_MULTIS)
@@ -932,12 +923,6 @@ static bool32 IsPlayerDefeated(u32 battleOutcome)
     case B_OUTCOME_LOST:
     case B_OUTCOME_DREW:
         return TRUE;
-    case B_OUTCOME_WON:
-    case B_OUTCOME_RAN:
-    case B_OUTCOME_PLAYER_TELEPORTED:
-    case B_OUTCOME_MON_FLED:
-    case B_OUTCOME_CAUGHT:
-        return FALSE;
     default:
         return FALSE;
     }

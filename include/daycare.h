@@ -3,6 +3,13 @@
 
 #include "constants/daycare.h"
 
+struct ItemSpeciesAlteration
+{
+    u16 item;
+    u16 newSpecies;
+    u16 oldSpecies;
+};
+
 u8 *GetMonNickname2(struct Pokemon *mon, u8 *dest);
 u8 *GetBoxMonNickname(struct BoxPokemon *mon, u8 *dest);
 u8 CountPokemonInDaycare(struct DayCare *daycare);

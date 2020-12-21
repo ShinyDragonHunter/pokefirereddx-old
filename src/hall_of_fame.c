@@ -800,13 +800,6 @@ void CB2_DoHallOfFamePC(void)
 {
     switch (gMain.state)
     {
-    case 0:
-    default:
-        SetVBlankCallback(NULL);
-        ClearVramOamPltt_LoadHofPal();
-        sHofGfxPtr = AllocZeroed(sizeof(*sHofGfxPtr));
-        gMain.state = 1;
-        break;
     case 1:
         LoadHofGfx();
         gMain.state++;
@@ -853,6 +846,12 @@ void CB2_DoHallOfFamePC(void)
             sHofMonPtr = AllocZeroed(0x2000);
             SetMainCallback2(CB2_HallOfFame);
         }
+        break;
+    default:
+        SetVBlankCallback(NULL);
+        ClearVramOamPltt_LoadHofPal();
+        sHofGfxPtr = AllocZeroed(sizeof(*sHofGfxPtr));
+        gMain.state = 1;
         break;
     }
 }

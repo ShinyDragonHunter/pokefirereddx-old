@@ -314,6 +314,16 @@ bool8 sub_811F960(void)
         CpuFastCopy(sMenu->frameTiles + TILE_SIZE_4BPP * 2, dest + TILE_SIZE_4BPP * 7, TILE_SIZE_4BPP);
         sMenu->tileLoadState++;
         break;
+    case 13:
+        CpuFastCopy(sMenu->frameTiles + TILE_SIZE_4BPP * 6, dest, TILE_SIZE_4BPP);
+        for (i = 0; i < 6; i++)
+        {
+            CpuFastCopy(sMenu->frameTiles + TILE_SIZE_4BPP * 7, dest + TILE_SIZE_4BPP * (i + 1), TILE_SIZE_4BPP);
+        }
+        CpuFastCopy(sMenu->frameTiles + TILE_SIZE_4BPP * 8, dest + TILE_SIZE_4BPP * 7, TILE_SIZE_4BPP);
+        sMenu->tileLoadState++;
+    case 14:
+        return FALSE;
     default:
         CpuFastCopy(sMenu->frameTiles + TILE_SIZE_4BPP * 3, dest, TILE_SIZE_4BPP);
         for (i = 0; i < 6; i++)
@@ -323,17 +333,6 @@ bool8 sub_811F960(void)
         CpuFastCopy(sMenu->frameTiles + TILE_SIZE_4BPP * 5, dest + TILE_SIZE_4BPP * 7, TILE_SIZE_4BPP);
         sMenu->tileLoadState++;
         break;
-    case 13:
-        CpuFastCopy(sMenu->frameTiles + TILE_SIZE_4BPP * 6, dest, TILE_SIZE_4BPP);
-        for (i = 0; i < 6; i++)
-        {
-            CpuFastCopy(sMenu->frameTiles + TILE_SIZE_4BPP * 7, dest + TILE_SIZE_4BPP * (i + 1), TILE_SIZE_4BPP);
-        }
-        CpuFastCopy(sMenu->frameTiles + TILE_SIZE_4BPP * 8, dest + TILE_SIZE_4BPP * 7, TILE_SIZE_4BPP);
-        sMenu->tileLoadState++;
-        return FALSE;
-    case 14:
-        return FALSE;
     }
 
     return TRUE;
@@ -424,7 +423,6 @@ bool8 MonMarkingsMenuHandleInput(void)
             sMenu->markings = 0;
             for (i = 0; i < NUM_MON_MARKINGS; i++)
                 sMenu->markings |= sMenu->markingsArray[i] << i;
-            return FALSE;
         case 5:
             return FALSE;
         }

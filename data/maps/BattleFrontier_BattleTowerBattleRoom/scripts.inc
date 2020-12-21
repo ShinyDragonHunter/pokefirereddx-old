@@ -54,6 +54,7 @@ BattleFrontier_BattleTower_EventScript_WarpToLobbyLost:: @ 8241C03
 	goto BattleFrontier_BattleTowerBattleRoom_EventScript_WarpToLobby
 
 BattleFrontier_BattleTowerBattleRoom_EventScript_DefeatedOpponent:: @ 8241C2F
+	textcolor RED
 	call BattleFrontier_EventScript_IncrementWinStreak
 	tower_setbattlewon
 	switch VAR_RESULT
@@ -241,6 +242,7 @@ BattleFrontier_BattleTowerBattleRoom_EventScript_AskReadyForMaidenNoRecord:: @ 8
 	case MULTI_B_PRESSED, BattleFrontier_BattleTowerBattleRoom_EventScript_AskReadyForMaiden
 
 BattleFrontier_BattleTowerBattleRoom_EventScript_BattleAnabel:: @ 8241FAF
+	textcolor RED
 	call BattleFrontier_EventScript_SetBrainObjectGfx
 	closemessage
 	applymovement OBJ_EVENT_ID_PLAYER, BattleFrontier_BattleTowerBattleRoom_Movement_PlayerFaceBattle
@@ -273,10 +275,12 @@ BattleFrontier_BattleTowerBattleRoom_EventScript_DefeatedAnabelSilver:: @ 824204
 	goto_if_ne BattleFrontier_BattleTowerBattleRoom_EventScript_WarpToLobbyWon
 	msgbox BattleFrontier_BattleTowerBattleRoom_Text_AnabelTalentShallBeRecognized, MSGBOX_DEFAULT
 	playfanfare MUS_OBTAIN_SYMBOL
+	textcolor DARK_GREY
 	message BattleFrontier_BattleTowerBattleRoom_Text_ReceivedAbilitySymbol
 	waitmessage
 	waitfanfare
 	frontier_givesymbol
+	textcolor RED
 	msgbox BattleFrontier_BattleTowerBattleRoom_Text_UntilNextTime, MSGBOX_DEFAULT
 	goto BattleFrontier_BattleTowerBattleRoom_EventScript_WarpToLobbyWon
 
@@ -300,10 +304,12 @@ BattleFrontier_BattleTowerBattleRoom_EventScript_DefeatedAnabelGold:: @ 82420CF
 	goto_if_eq BattleFrontier_BattleTowerBattleRoom_EventScript_WarpToLobbyWon
 	msgbox BattleFrontier_BattleTowerBattleRoom_Text_AnabelCongratsYourPassPlease, MSGBOX_DEFAULT
 	playfanfare MUS_OBTAIN_SYMBOL
+	textcolor DARK_GREY
 	message BattleFrontier_BattleTowerBattleRoom_Text_AbilitySymbolTookGoldenShine
 	waitmessage
 	waitfanfare
 	frontier_givesymbol
+	textcolor RED
 	msgbox BattleFrontier_BattleTowerBattleRoom_Text_WishICouldBattleYouAgain, MSGBOX_DEFAULT
 	goto BattleFrontier_BattleTowerBattleRoom_EventScript_WarpToLobbyWon
 
@@ -331,19 +337,18 @@ BattleFrontier_EventScript_SetBrainObjectGfx:: @ 8242170
 	frontier_setbrainobj
 	return
 
-BattleFrontier_BattleTowerBattleRoom_Movement_PlayerEnter: @ 8242179
+BattleFrontier_BattleTowerMultiBattleRoom_Movement_PlayerEnterRoom: @ 8242179
+	walk_up
+BattleFrontier_BattleTowerBattleRoom_Movement_PlayerEnter:
 	walk_up
 	walk_up
 	walk_up
+BattleFrontier_BattleTowerBattleRoom_Movement_PlayerFaceBattle:
 	face_right
 	step_end
 
 BattleFrontier_BattleTowerBattleRoom_Movement_PlayerFaceAttendant: @ 824217E
 	face_down
-	step_end
-
-BattleFrontier_BattleTowerBattleRoom_Movement_PlayerFaceBattle: @ 8242180
-	face_right
 	step_end
 
 BattleFrontier_BattleTowerBattleRoom_Movement_OpponentEnter: @ 8242182
@@ -376,10 +381,6 @@ BattleFrontier_BattleTowerBattleRoom_Movement_AttendantReturnToPos: @ 8242192
 	face_right
 	step_end
 
-BattleFrontier_BattleTowerBattleRoom_Movement_SetInvisible: @ 8242198
-	set_invisible
-	step_end
-
 BattleFrontier_BattleTowerBattleRoom_Movement_SecondAttendantEnter: @ 824219A
 	set_visible
 	delay_16
@@ -393,6 +394,7 @@ BattleFrontier_BattleTowerBattleRoom_Movement_SecondAttendantExit: @ 82421A1
 	walk_right
 	walk_right
 	walk_down
+BattleFrontier_BattleTowerBattleRoom_Movement_SetInvisible:
 	set_invisible
 	step_end
 
@@ -456,11 +458,6 @@ BattleFrontier_BattleTowerBattleRoom_EventScript_RetireChallenge:: @ 824220E
 BattleFrontier_BattleTowerBattleRoom_Text_RestoreMonsToFullHealth: @ 8242217
 	.string "We will restore your POKéMON to\n"
 	.string "full health.$"
-
-@ Unused
-BattleFrontier_BattleTowerBattleRoom_Text_ReadyForOpponent: @ 8242244
-	.string "You will be facing opponent no. {STR_VAR_1}.\n"
-	.string "Are you ready?$"
 
 BattleFrontier_BattleTowerBattleRoom_Text_ReadyFor2ndOpponent: @ 8242277
 	.string "You will be facing opponent no. 2.\n"

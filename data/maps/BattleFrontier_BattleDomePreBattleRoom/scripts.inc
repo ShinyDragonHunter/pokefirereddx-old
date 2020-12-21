@@ -19,6 +19,7 @@ BattleFrontier_BattleDomePreBattleRoom_OnFrame: @ 824B218
 	.2byte 0
 
 BattleFrontier_BattleDomePreBattleRoom_EventScript_EnterRoom:: @ 824B222
+	textcolor RED
 	compare VAR_0x8006, 1
 	goto_if_eq BattleFrontier_BattleDomePreBattleRoom_EventScript_ReturnFromBattle
 	frontier_set FRONTIER_DATA_RECORD_DISABLED, TRUE
@@ -192,31 +193,21 @@ BattleFrontier_BattleDomePreBattleRoom_EventScript_ReadyForSemifinals:: @ 824B54
 BattleFrontier_BattleDomePreBattleRoom_EventScript_ReadyForFinals:: @ 824B54C
 	frontier_getbrainstatus
 	switch VAR_RESULT
-	case FRONTIER_BRAIN_SILVER, BattleFrontier_BattleDomePreBattleRoom_EventScript_ReadyForTuckerSilver
-	case FRONTIER_BRAIN_GOLD, BattleFrontier_BattleDomePreBattleRoom_EventScript_ReadyForTuckerGold
-	case FRONTIER_BRAIN_STREAK, BattleFrontier_BattleDomePreBattleRoom_EventScript_ReadyForTuckerSilver
-	case FRONTIER_BRAIN_STREAK_LONG, BattleFrontier_BattleDomePreBattleRoom_EventScript_ReadyForTuckerGold
+	case FRONTIER_BRAIN_SILVER, BattleFrontier_BattleDomePreBattleRoom_EventScript_ReadyForTucker
+	case FRONTIER_BRAIN_GOLD, BattleFrontier_BattleDomePreBattleRoom_EventScript_ReadyForTucker
+	case FRONTIER_BRAIN_STREAK, BattleFrontier_BattleDomePreBattleRoom_EventScript_ReadyForTucker
+	case FRONTIER_BRAIN_STREAK_LONG, BattleFrontier_BattleDomePreBattleRoom_EventScript_ReadyForTucker
 	message BattleFrontier_BattleDomePreBattleRoom_Text_ReadyForFinals
 	return
 
-BattleFrontier_BattleDomePreBattleRoom_EventScript_ReadyForTuckerSilver:: @ 824B58B
-	goto_if_set FLAG_TEMP_1, BattleFrontier_BattleDomePreBattleRoom_EventScript_ReadyForTuckerSilverShort
-	msgbox BattleFrontier_BattleDomePreBattleRoom_Text_ReadyForTuckerSilver, MSGBOX_DEFAULT
+BattleFrontier_BattleDomePreBattleRoom_EventScript_ReadyForTucker:: @ 824B58B
+	goto_if_set FLAG_TEMP_1, BattleFrontier_BattleDomePreBattleRoom_EventScript_ReadyForTuckerShort
+	msgbox BattleFrontier_BattleDomePreBattleRoom_Text_ReadyForTucker, MSGBOX_DEFAULT
 	setflag FLAG_TEMP_1
 	return
 
-BattleFrontier_BattleDomePreBattleRoom_EventScript_ReadyForTuckerGold:: @ 824B5A0
-	goto_if_set FLAG_TEMP_1, BattleFrontier_BattleDomePreBattleRoom_EventScript_ReadyForTuckerGoldShort
-	msgbox BattleFrontier_BattleDomePreBattleRoom_Text_ReadyForTuckerGold, MSGBOX_DEFAULT
-	setflag FLAG_TEMP_1
-	return
-
-BattleFrontier_BattleDomePreBattleRoom_EventScript_ReadyForTuckerSilverShort:: @ 824B5B5
-	msgbox BattleFrontier_BattleDomePreBattleRoom_Text_ReadyForTuckerSilverShort, MSGBOX_DEFAULT
-	return
-
-BattleFrontier_BattleDomePreBattleRoom_EventScript_ReadyForTuckerGoldShort:: @ 824B5BE
-	msgbox BattleFrontier_BattleDomePreBattleRoom_Text_ReadyForTuckerGoldShort, MSGBOX_DEFAULT
+BattleFrontier_BattleDomePreBattleRoom_EventScript_ReadyForTuckerShort:: @ 824B5B5
+	msgbox BattleFrontier_BattleDomePreBattleRoom_Text_ReadyForTuckerShort, MSGBOX_DEFAULT
 	return
 
 BattleFrontier_BattleDomePreBattleRoom_EventScript_ReturnFromBattle:: @ 824B5C7
@@ -317,27 +308,6 @@ BattleFrontier_BattleDomePreBattleRoom_Text_SemifinalsComplete: @ 824B83F
 	.string "completed.\p"
 	.string "These are the teams that advanced!$"
 
-@ Unused
-BattleFrontier_BattleDomePreBattleRoom_Text_CongratsReadyForRound2: @ 824B88D
-	.string "Congratulations for getting through\n"
-	.string "the 1st round.\p"
-	.string "The 2nd round is next.\n"
-	.string "Are you ready?$"
-
-@ Unused
-BattleFrontier_BattleDomePreBattleRoom_Text_CongratsReadyForSemifinals: @ 824B8E6
-	.string "Congratulations for advancing\n"
-	.string "to the semifinals.\p"
-	.string "The best four teams meet in this round.\n"
-	.string "Are you ready?$"
-
-@ Unused
-BattleFrontier_BattleDomePreBattleRoom_Text_CongratsReadyForFinals: @ 824B94E
-	.string "Congratulations for advancing\n"
-	.string "to the final match.\p"
-	.string "You're one win from the championship.\n"
-	.string "Are you ready?$"
-
 BattleFrontier_BattleDomePreBattleRoom_Text_PlayersNextOpponentIsTrainer: @ 824B9B5
 	.string "{PLAYER}'s next opponent\n"
 	.string "is this TRAINER.$"
@@ -370,27 +340,13 @@ BattleFrontier_BattleDomePreBattleRoom_Text_RecordLastMatch: @ 824BAF7
 	.string "Should I record your last match\n"
 	.string "on your FRONTIER PASS?$"
 
-BattleFrontier_BattleDomePreBattleRoom_Text_ReadyForTuckerSilver: @ 824BB2E
+BattleFrontier_BattleDomePreBattleRoom_Text_ReadyForTucker: @ 824BB2E
 	.string "Congratulations for advancing\n"
 	.string "to the final match.\p"
 	.string "For the final match, you will challenge\n"
 	.string "the DOME ACE TUCKER.\p"
 	.string "Are you ready?$"
 
-@ Identical to ReadyForTuckerSilver
-BattleFrontier_BattleDomePreBattleRoom_Text_ReadyForTuckerGold: @ 824BBAC
-	.string "Congratulations for advancing\n"
-	.string "to the final match.\p"
-	.string "For the final match, you will challenge\n"
-	.string "the DOME ACE TUCKER.\p"
-	.string "Are you ready?$"
-
-BattleFrontier_BattleDomePreBattleRoom_Text_ReadyForTuckerSilverShort: @ 824BC2A
+BattleFrontier_BattleDomePreBattleRoom_Text_ReadyForTuckerShort: @ 824BC2A
 	.string "Your final battle against TUCKER is\n"
 	.string "next. Are you ready?$"
-
-@ Identical again
-BattleFrontier_BattleDomePreBattleRoom_Text_ReadyForTuckerGoldShort: @ 824BC63
-	.string "Your final battle against TUCKER is\n"
-	.string "next. Are you ready?$"
-

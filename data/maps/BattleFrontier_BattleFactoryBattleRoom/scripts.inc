@@ -60,6 +60,7 @@ BattleFrontier_BattleFactoryBattleRoom_OnFrame: @ 825AE31
 	.2byte 0
 
 BattleFrontier_BattleFactoryBattleRoom_EventScript_EnterRoomFactoryHeadBattle:: @ 825AE3B
+	textcolor BLUE
 	msgbox BattleFrontier_BattleFactoryBattleRoom_Text_GetAMoveOn, MSGBOX_DEFAULT
 	closemessage
 	applymovement LOCALID_OPPONENT, BattleFrontier_BattleFactoryBattleRoom_Movement_NolandMoveToBattle

@@ -94,8 +94,8 @@ static void Task_ClearSaveDataScreenYesNoChoice(u8 taskId)
         AddTextPrinterParameterized(0, 1, gText_ClearingData, 0, 1, 0, 0);
         gTasks[taskId].func = Task_ClearSaveData;
         break;
-    case 1:
     case -1:
+    case 1:
         PlaySE(SE_SELECT);
         DestroyTask(taskId);
         SetMainCallback2(CB2_FadeAndDoReset);

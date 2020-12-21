@@ -231,15 +231,6 @@ static void Task_MapNamePopUpWindow(u8 taskId)
 
     switch (task->data[0])
     {
-    case 6:
-        task->data[4]++;
-        if (task->data[4] > 30)
-        {
-            task->data[0] = 0;
-            task->data[4] = 0;
-            ShowMapNamePopUpWindow();
-        }
-        break;
     case 0:
         task->data[2] -= 2;
         if (task->data[2] <= 0 )
@@ -282,6 +273,15 @@ static void Task_MapNamePopUpWindow(u8 taskId)
     case 5:
         HideMapNamePopUpWindow();
         return;
+    case 6:
+        task->data[4]++;
+        if (task->data[4] > 30)
+        {
+            task->data[0] = 0;
+            task->data[4] = 0;
+            ShowMapNamePopUpWindow();
+        }
+        break;
     }
     SetGpuReg(REG_OFFSET_BG0VOFS, task->data[2]);
 }

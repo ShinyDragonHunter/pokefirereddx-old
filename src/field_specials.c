@@ -6,6 +6,7 @@
 #include "data.h"
 #include "decoration.h"
 #include "diploma.h"
+#include "dynamic_placeholder_text_util.h"
 #include "event_data.h"
 #include "event_object_movement.h"
 #include "fieldmap.h"
@@ -2705,20 +2706,6 @@ static void sub_813A600(u8 taskId)
     }
 }
 
-// Never called
-void sub_813A630(void)
-{
-    u8 taskId = FindTaskIdByFunc(sub_813A600);
-    if (taskId == 0xFF)
-    {
-        EnableBothScriptContexts();
-    }
-    else
-    {
-        gTasks[taskId].tKeepOpenAfterSelect++;
-    }
-}
-
 static void sub_813A664(u8 taskId)
 {
     ScriptContext2_Enable();
@@ -2765,26 +2752,23 @@ static void ScrollableMultichoice_RemoveScrollArrows(u8 taskId)
     }
 }
 
-// Removed for Emerald (replaced by ShowScrollableMultichoice)
-void ShowGlassWorkshopMenu(void)
+u8 ContextNpcGetTextColor(void)
 {
-    /*
-    u8 i;
-    ScriptContext2_Enable();
-    Menu_DrawStdWindowFrame(0, 0, 10, 11);
-    InitMenu(0, 1, 1, 5, 0, 9);
-    gUnknown_0203925C = 0;
-    ClearVerticalScrollIndicatorPalettes();
-    LoadScrollIndicatorPalette();
-    sub_810F2B4();
-    for (i = 0; i < 5; i++)
+    u8 gfxId;
+    const struct ObjectEventGraphicsInfo *graphicsInfo;
+
+    if (gSpecialVar_TextColor != 0xFF)
+        return gSpecialVar_TextColor;
+    else if (gSelectedObjectEvent == 0)
+        gSpecialVar_TextColor = TEXT_COLOR_DARK_GREY;
+    else
     {
-        Menu_PrintText(gUnknown_083F83C0[i], 1, 2 * i + 1);
+        gfxId = gObjectEvents[gSelectedObjectEvent].graphicsId;
+        if (gfxId >= OBJ_EVENT_GFX_VAR_0)
+            gfxId = VarGetObjectEventGraphicsId(gfxId - OBJ_EVENT_GFX_VAR_0);
+        graphicsInfo = GetObjectEventGraphicsInfo(gfxId);
+        gSpecialVar_TextColor = graphicsInfo->textColor;
     }
-    gUnknown_0203925B = 0;
-    gUnknown_0203925A = ARRAY_COUNT(gUnknown_083F83C0);
-    CreateTask(sub_810F118, 8);
-    */
 }
 
 void SetBattleTowerLinkPlayerGfx(void)
@@ -3212,29 +3196,6 @@ void CloseBattleFrontierTutorWindow(void)
     RemoveWindow(sTutorMoveAndElevatorWindowId);
 }
 
-// Never called
-void sub_813ADD4(void)
-{
-    u16 scrollOffset, selectedRow;
-    u8 i;
-    u8 taskId = FindTaskIdByFunc(sub_813A600);
-    if (taskId != 0xFF)
-    {
-        struct Task *task = &gTasks[taskId];
-        ListMenuGetScrollAndRow(task->tListTaskId, &scrollOffset, &selectedRow);
-        SetStandardWindowBorderStyle(task->tWindowId, 0);
-
-        for (i = 0; i < MAX_SCROLL_MULTI_ON_SCREEN; i++)
-        {
-            AddTextPrinterParameterized5(task->tWindowId, 1, sScrollableMultichoiceOptions[gSpecialVar_0x8004][scrollOffset + i], 10, i * 16, TEXT_SPEED_FF, NULL, 0, 0);
-        }
-
-        AddTextPrinterParameterized(task->tWindowId, 1, gText_SelectorArrow, 0, selectedRow * 16, TEXT_SPEED_FF, NULL);
-        PutWindowTilemap(task->tWindowId);
-        CopyWindowToVram(task->tWindowId, 3);
-    }
-}
-
 void GetBattleFrontierTutorMoveIndex(void)
 {
     u8 i;
@@ -3270,24 +3231,6 @@ void GetBattleFrontierTutorMoveIndex(void)
             }
             i++;
         } while (i < TUTOR_MOVE_COUNT);
-    }
-}
-
-// Never called
-void sub_813AF48(void)
-{
-    u8 taskId = FindTaskIdByFunc(sub_813A600);
-    if (taskId != 0xFF)
-    {
-        struct Task *task = &gTasks[taskId];
-        DestroyListMenuTask(task->tListTaskId, NULL, NULL);
-        Free(sScrollableMultichoice_ListMenuItem);
-        ClearStdWindowAndFrameToTransparent(task->tWindowId, TRUE);
-        FillWindowPixelBuffer(task->tWindowId, PIXEL_FILL(0));
-        ClearWindowTilemap(task->tWindowId);
-        CopyWindowToVram(task->tWindowId, 2);
-        RemoveWindow(task->tWindowId);
-        DestroyTask(taskId);
     }
 }
 
@@ -4249,7 +4192,6 @@ void BufferFanClubTrainerName(void)
         case FANCLUB_MEMBER7:
             whichLinkTrainer = 1;
             whichNPCTrainer = 5;
-            break;
         case FANCLUB_MEMBER8:
             break;
     }

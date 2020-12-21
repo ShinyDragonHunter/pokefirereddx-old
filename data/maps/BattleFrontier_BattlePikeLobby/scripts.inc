@@ -26,6 +26,7 @@ BattleFrontier_BattlePikeLobby_EventScript_GetChallengeStatus:: @ 825B707
 	end
 
 BattleFrontier_BattlePikeLobby_EventScript_QuitWithoutSaving:: @ 825B710
+	textcolor RED
 	special HealPlayerParty
 	pike_resethelditems
 	lockall
@@ -39,6 +40,7 @@ BattleFrontier_BattlePikeLobby_EventScript_QuitWithoutSaving:: @ 825B710
 	end
 
 BattleFrontier_BattlePikeLobby_EventScript_WonChallenge:: @ 825B762
+	textcolor RED
 	lockall
 	frontier_isbrain
 	compare VAR_RESULT, TRUE
@@ -73,6 +75,7 @@ BattleFrontier_BattlePikeLobby_EventScript_GiveBattlePoints:: @ 825B78D
 	end
 
 BattleFrontier_BattlePikeLobby_EventScript_LostChallenge:: @ 825B806
+	textcolor RED
 	lockall
 	message BattleFrontier_BattlePikeLobby_Text_ChallengeEndedRecordResults
 	waitmessage
@@ -359,18 +362,6 @@ BattleFrontier_BattlePikeLobby_Text_ShallRecordResults: @ 825C1DF
 	.string "I shall record your results.\n"
 	.string "Please wait…$"
 
-@ Unused
-BattleFrontier_BattlePikeLobby_Text_AwardYouTheseBattlePoints2: @ 825C209
-	.string "To commemorate your completion of\n"
-	.string "the Battle Choice challenge, we award\l"
-	.string "you these Battle Point(s)…$"
-
-@ Unused
-BattleFrontier_BattlePikeLobby_Text_ReachedBattlePointLimit: @ 825C26C
-	.string "You appear to have reached the limit\n"
-	.string "for Battle Points…\pPlease exchange some Battle Points\n"
-	.string "for prizes, then return…$"
-
 BattleFrontier_BattlePikeLobby_Text_FailedToSaveBeforeQuitting: @ 825C2E0
 	.string "I beg your pardon, but…\p"
 	.string "You failed to save before you quit\n"
@@ -403,14 +394,6 @@ BattleFrontier_BattlePikeLobby_Text_ThinkAbilitiesUsefulHere: @ 825C4FD
 	.string "Don't you think that the special\n"
 	.string "abilities of POKéMON will be useful\l"
 	.string "here?$"
-
-@ Unused
-BattleFrontier_BattlePikeLobby_Text_TrainersWhicheverPathIChoose: @ 825C558
-	.string "What is this weird place?\n"
-	.string "I can't figure it out at all!\p"
-	.string "I've taken the challenge a bunch\n"
-	.string "of times, but all I ever do is run into\l"
-	.string "TRAINERS whichever path I choose.$"
 
 BattleFrontier_BattlePikeLobby_Text_RulesAreListed: @ 825C5FB
 	.string "The Battle Choice's rules are listed.$"

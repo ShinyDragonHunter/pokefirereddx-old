@@ -10,6 +10,7 @@ BattleFrontier_BattlePikeCorridor_OnFrame: @ 825C77C
 	.2byte 0
 
 BattleFrontier_BattlePikeCorridor_EventScript_EnterCorridor:: @ 825C786
+	textcolor RED
 	delay 16
 	frontier_set FRONTIER_DATA_BATTLE_NUM, 1
 	pike_cleartrainerids
@@ -59,4 +60,3 @@ BattleFrontier_BattlePikeCorridor_Movement_AttendantEnterCorridor: @ 825C812
 BattleFrontier_BattlePikeCorridor_Text_YourChallengeHasBegun: @ 825C817
 	.string "Your Battle Choice challenge\n"
 	.string "has now begun…$"
-

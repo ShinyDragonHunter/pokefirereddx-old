@@ -316,23 +316,6 @@ s32 DoMysteryGiftListMenu(const struct WindowTemplate *windowTemplate, const str
 {
     switch (sMysteryGiftLinkMenu.state)
     {
-    case 0:
-    default:
-        sMysteryGiftLinkMenu.windowId = AddWindow(windowTemplate);
-        switch (arg2)
-        {
-        case 2:
-            LoadUserWindowBorderGfx(sMysteryGiftLinkMenu.windowId, tileNum, palNum);
-        case 1:
-            DrawTextBorderOuter(sMysteryGiftLinkMenu.windowId, tileNum, palNum / 16);
-            break;
-        }
-        gMultiuseListMenuTemplate = *listMenuTemplate;
-        gMultiuseListMenuTemplate.windowId = sMysteryGiftLinkMenu.windowId;
-        sMysteryGiftLinkMenu.listTaskId = ListMenuInit(&gMultiuseListMenuTemplate, 0, 0);
-        CopyWindowToVram(sMysteryGiftLinkMenu.windowId, 1);
-        sMysteryGiftLinkMenu.state = 1;
-        break;
     case 1:
         sMysteryGiftLinkMenu.currItemId = ListMenu_ProcessInput(sMysteryGiftLinkMenu.listTaskId);
         if (JOY_NEW(A_BUTTON))
@@ -355,10 +338,8 @@ s32 DoMysteryGiftListMenu(const struct WindowTemplate *windowTemplate, const str
                 switch (arg2)
                 {
                 case 0: // can never be reached, because of the if statement above
-                    ClearStdWindowAndFrame(sMysteryGiftLinkMenu.windowId, FALSE);
-                    break;
-                case 2:
                 case 1:
+                case 2:
                     ClearStdWindowAndFrame(sMysteryGiftLinkMenu.windowId, FALSE);
                     break;
                 }
@@ -372,6 +353,22 @@ s32 DoMysteryGiftListMenu(const struct WindowTemplate *windowTemplate, const str
         RemoveWindow(sMysteryGiftLinkMenu.windowId);
         sMysteryGiftLinkMenu.state = 0;
         return sMysteryGiftLinkMenu.currItemId;
+    default:
+        sMysteryGiftLinkMenu.windowId = AddWindow(windowTemplate);
+        switch (arg2)
+        {
+        case 2:
+            LoadUserWindowBorderGfx(sMysteryGiftLinkMenu.windowId, tileNum, palNum);
+        case 1:
+            DrawTextBorderOuter(sMysteryGiftLinkMenu.windowId, tileNum, palNum / 16);
+            break;
+        }
+        gMultiuseListMenuTemplate = *listMenuTemplate;
+        gMultiuseListMenuTemplate.windowId = sMysteryGiftLinkMenu.windowId;
+        sMysteryGiftLinkMenu.listTaskId = ListMenuInit(&gMultiuseListMenuTemplate, 0, 0);
+        CopyWindowToVram(sMysteryGiftLinkMenu.windowId, 1);
+        sMysteryGiftLinkMenu.state = 1;
+        break;
     }
 
     return LIST_NOTHING_CHOSEN;
@@ -381,26 +378,6 @@ u8 ListMenuInit(struct ListMenuTemplate *listMenuTemplate, u16 scrollOffset, u16
 {
     u8 taskId = ListMenuInitInternal(listMenuTemplate, scrollOffset, selectedRow);
     PutWindowTilemap(listMenuTemplate->windowId);
-    CopyWindowToVram(listMenuTemplate->windowId, 2);
-
-    return taskId;
-}
-
-// unused
-u8 ListMenuInitInRect(struct ListMenuTemplate *listMenuTemplate, struct ListMenuWindowRect *rect, u16 scrollOffset, u16 selectedRow)
-{
-    s32 i;
-
-    u8 taskId = ListMenuInitInternal(listMenuTemplate, scrollOffset, selectedRow);
-    for (i = 0; rect[i].palNum != 0xFF; i++)
-    {
-        PutWindowRectTilemapOverridePalette(listMenuTemplate->windowId,
-                                            rect[i].x,
-                                            rect[i].y,
-                                            rect[i].width,
-                                            rect[i].height,
-                                            rect[i].palNum);
-    }
     CopyWindowToVram(listMenuTemplate->windowId, 2);
 
     return taskId;
@@ -433,11 +410,6 @@ s32 ListMenu_ProcessInput(u8 listTaskId)
         bool16 rightButton, leftButton;
         switch (list->template.scrollMultiple)
         {
-        case LIST_NO_MULTIPLE_SCROLL:
-        default:
-            leftButton = FALSE;
-            rightButton = FALSE;
-            break;
         case LIST_MULTIPLE_SCROLL_DPAD:
             // note: JOY_REPEAT won't match here
             leftButton = gMain.newAndRepeatedKeys & DPAD_LEFT;
@@ -447,6 +419,10 @@ s32 ListMenu_ProcessInput(u8 listTaskId)
             // same as above
             leftButton = gMain.newAndRepeatedKeys & L_BUTTON;
             rightButton = gMain.newAndRepeatedKeys & R_BUTTON;
+            break;
+        default:
+            leftButton = FALSE;
+            rightButton = FALSE;
             break;
         }
 
@@ -494,50 +470,7 @@ void RedrawListMenu(u8 listTaskId)
     CopyWindowToVram(list->template.windowId, 2);
 }
 
-// unused
-void ChangeListMenuPals(u8 listTaskId, u8 cursorPal, u8 fillValue, u8 cursorShadowPal)
-{
-    struct ListMenu *list = (void*) gTasks[listTaskId].data;
-
-    list->template.cursorPal = cursorPal;
-    list->template.fillValue = fillValue;
-    list->template.cursorShadowPal = cursorShadowPal;
-}
-
-// unused
-void ChangeListMenuCoords(u8 listTaskId, u8 x, u8 y)
-{
-    struct ListMenu *list = (void*) gTasks[listTaskId].data;
-
-    SetWindowAttribute(list->template.windowId, WINDOW_TILEMAP_LEFT, x);
-    SetWindowAttribute(list->template.windowId, WINDOW_TILEMAP_TOP, y);
-}
-
-// unused
-s32 ListMenuTestInput(struct ListMenuTemplate *template, u32 scrollOffset, u32 selectedRow, u16 keys, u16 *newScrollOffset, u16 *newSelectedRow)
-{
-    struct ListMenu list;
-
-    list.template = *template;
-    list.scrollOffset = scrollOffset;
-    list.selectedRow = selectedRow;
-    list.unk_1C = 0;
-    list.unk_1D = 0;
-
-    if (keys == DPAD_UP)
-        ListMenuChangeSelection(&list, FALSE, 1, FALSE);
-    if (keys == DPAD_DOWN)
-        ListMenuChangeSelection(&list, FALSE, 1, TRUE);
-
-    if (newScrollOffset != NULL)
-        *newScrollOffset = list.scrollOffset;
-    if (newSelectedRow != NULL)
-        *newSelectedRow = list.selectedRow;
-
-    return LIST_NOTHING_CHOSEN;
-}
-
-void ListMenuGetCurrentItemArrayId(u8 listTaskId, u16 *arrayId)
+	void ListMenuGetCurrentItemArrayId(u8 listTaskId, u16 *arrayId)
 {
     struct ListMenu *list = (void*) gTasks[listTaskId].data;
 
@@ -654,7 +587,6 @@ static void ListMenuDrawCursor(struct ListMenu *list)
     {
     case 0:
         ListMenuPrint(list, gText_SelectorArrow2, x, y);
-        break;
     case 1:
         break;
     case 2:
@@ -857,9 +789,6 @@ static bool8 ListMenuChangeSelection(struct ListMenu *list, bool8 updateCursorAn
     {
         switch (selectionChange)
         {
-        case 0:
-        default:
-            return TRUE;
         case 1:
             ListMenuErasePrintedCursor(list, oldSelectedRow);
             ListMenuDrawCursor(list);
@@ -874,6 +803,8 @@ static bool8 ListMenuChangeSelection(struct ListMenu *list, bool8 updateCursorAn
             ListMenuCallSelectionChangedCallback(list, FALSE);
             CopyWindowToVram(list->template.windowId, 2);
             break;
+        default:
+            return TRUE;
         }
     }
 
@@ -886,64 +817,10 @@ static void ListMenuCallSelectionChangedCallback(struct ListMenu *list, u8 onIni
         list->template.moveCursorFunc(list->template.items[list->scrollOffset + list->selectedRow].id, onInit, list);
 }
 
-// unused
-void ListMenuOverrideSetColors(u8 cursorPal, u8 fillValue, u8 cursorShadowPal)
-{
-    gListMenuOverride.cursorPal = cursorPal;
-    gListMenuOverride.fillValue = fillValue;
-    gListMenuOverride.cursorShadowPal = cursorShadowPal;
-    gListMenuOverride.enabled = TRUE;
-}
-
 void ListMenuDefaultCursorMoveFunc(s32 itemIndex, bool8 onInit, struct ListMenu *list)
 {
     if (!onInit)
         PlaySE(SE_SELECT);
-}
-
-// unused
-s32 ListMenuGetUnkIndicatorsStructFields(u8 taskId, u8 field)
-{
-    struct UnkIndicatorsStruct *data = (void*) gTasks[taskId].data;
-
-    switch (field)
-    {
-    case 0:
-    case 1:
-        return (s32)(data->field_4);
-    case 2:
-        return data->field_C;
-    case 3:
-        return data->field_E;
-    case 4:
-        return data->field_10;
-    case 5:
-        return data->field_11;
-    case 6:
-        return data->field_12;
-    case 7:
-        return data->field_13;
-    case 8:
-        return data->field_14_0;
-    case 9:
-        return data->field_14_1;
-    case 10:
-        return data->field_15_0;
-    case 11:
-        return data->field_15_1;
-    case 12:
-        return data->field_16_0;
-    case 13:
-        return data->field_16_1;
-    case 14:
-        return data->field_16_2;
-    case 15:
-        return data->field_17_0;
-    case 16:
-        return data->field_17_1;
-    default:
-        return -1;
-    }
 }
 
 void ListMenuSetUnkIndicatorsStructField(u8 taskId, u8 field, s32 value)
@@ -1196,11 +1073,10 @@ static u8 ListMenuAddCursorObjectInternal(struct CursorStruct *cursor, u32 curso
 {
     switch (cursorKind)
     {
-    case 0:
-    default:
-        return ListMenuAddRedOutlineCursorObject(cursor);
     case 1:
         return ListMenuAddRedArrowCursorObject(cursor);
+    default:
+        return ListMenuAddRedOutlineCursorObject(cursor);
     }
 }
 

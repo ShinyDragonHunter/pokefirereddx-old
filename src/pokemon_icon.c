@@ -1238,10 +1238,9 @@ u8 UpdateMonIconFrame(struct Sprite *sprite)
 
         switch (frame)
         {
-        case -1:
-            break;
         case -2:
             sprite->animCmdIndex = 0;
+        case -1:
             break;
         default:
             RequestSpriteCopy(

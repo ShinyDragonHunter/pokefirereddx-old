@@ -263,12 +263,11 @@ void ReadMail(struct MailStruct *mail, void (*callback)(void), bool8 flag)
     }
     switch (sMailRead->playerIsSender)
     {
-        case FALSE:
-        default:
-            sMailRead->layout = &sUnknown_0859F3B4[sMailRead->mailType];
-            break;
         case TRUE:
             sMailRead->layout = &sUnknown_0859F458[sMailRead->mailType];
+            break;
+        default:
+            sMailRead->layout = &sUnknown_0859F3B4[sMailRead->mailType];
             break;
     }
     species = MailSpeciesToSpecies(mail->species, buffer);
@@ -276,14 +275,14 @@ void ReadMail(struct MailStruct *mail, void (*callback)(void), bool8 flag)
     {
         switch (sMailRead->mailType)
         {
-            default:
-                sMailRead->animsActive = 0;
-                break;
             case ITEM_BEAD_MAIL - ITEM_ORANGE_MAIL:
                 sMailRead->animsActive = 1;
                 break;
             case ITEM_DREAM_MAIL - ITEM_ORANGE_MAIL:
                 sMailRead->animsActive = 2;
+                break;
+            default:
+                sMailRead->animsActive = 0;
                 break;
         }
     }

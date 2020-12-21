@@ -909,22 +909,27 @@ static const struct OamData sOamData_MoveSelector =
     .paletteNum = 0,
     .affineParam = 0,
 };
+// Used in sSpriteAnimTable_StatusCondition for StatusPoison
 static const union AnimCmd sSpriteAnim_MoveSelector0[] = {
     ANIMCMD_FRAME(0, 0, FALSE, FALSE),
     ANIMCMD_END
 };
+// Used in sSpriteAnimTable_StatusCondition for StatusParalyzed
 static const union AnimCmd sSpriteAnim_MoveSelector1[] = {
     ANIMCMD_FRAME(4, 0, FALSE, FALSE),
     ANIMCMD_END
 };
+// Used in sSpriteAnimTable_StatusCondition for StatusSleep
 static const union AnimCmd sSpriteAnim_MoveSelector2[] = {
     ANIMCMD_FRAME(8, 0, FALSE, FALSE),
     ANIMCMD_END
 };
+// Used in sSpriteAnimTable_StatusCondition for StatusFrozen
 static const union AnimCmd sSpriteAnim_MoveSelector3[] = {
     ANIMCMD_FRAME(12, 0, FALSE, FALSE),
     ANIMCMD_END
 };
+// Used in sSpriteAnimTable_StatusCondition for StatusBurn
 static const union AnimCmd sSpriteAnim_MoveSelectorLeft[] = {
     ANIMCMD_FRAME(16, 0, FALSE, FALSE),
     ANIMCMD_END
@@ -933,10 +938,12 @@ static const union AnimCmd sSpriteAnim_MoveSelectorRight[] = {
     ANIMCMD_FRAME(16, 0, TRUE, FALSE),
     ANIMCMD_END
 };
+// Used in sSpriteAnimTable_StatusCondition for StatusPokeRus
 static const union AnimCmd sSpriteAnim_MoveSelectorMiddle[] = {
     ANIMCMD_FRAME(20, 0, FALSE, FALSE),
     ANIMCMD_END
 };
+// Used in sSpriteAnimTable_StatusCondition for StatusFaint
 static const union AnimCmd sSpriteAnim_MoveSelector7[] = {
     ANIMCMD_FRAME(24, 0, FALSE, FALSE),
     ANIMCMD_END
@@ -999,42 +1006,14 @@ static const struct OamData sOamData_StatusCondition =
     .paletteNum = 0,
     .affineParam = 0,
 };
-static const union AnimCmd sSpriteAnim_StatusPoison[] = {
-    ANIMCMD_FRAME(0, 0, FALSE, FALSE),
-    ANIMCMD_END
-};
-static const union AnimCmd sSpriteAnim_StatusParalyzed[] = {
-    ANIMCMD_FRAME(4, 0, FALSE, FALSE),
-    ANIMCMD_END
-};
-static const union AnimCmd sSpriteAnim_StatusSleep[] = {
-    ANIMCMD_FRAME(8, 0, FALSE, FALSE),
-    ANIMCMD_END
-};
-static const union AnimCmd sSpriteAnim_StatusFrozen[] = {
-    ANIMCMD_FRAME(12, 0, FALSE, FALSE),
-    ANIMCMD_END
-};
-static const union AnimCmd sSpriteAnim_StatusBurn[] = {
-    ANIMCMD_FRAME(16, 0, FALSE, FALSE),
-    ANIMCMD_END
-};
-static const union AnimCmd sSpriteAnim_StatusPokerus[] = {
-    ANIMCMD_FRAME(20, 0, FALSE, FALSE),
-    ANIMCMD_END
-};
-static const union AnimCmd sSpriteAnim_StatusFaint[] = {
-    ANIMCMD_FRAME(24, 0, FALSE, FALSE),
-    ANIMCMD_END
-};
 static const union AnimCmd *const sSpriteAnimTable_StatusCondition[] = {
-    sSpriteAnim_StatusPoison,
-    sSpriteAnim_StatusParalyzed,
-    sSpriteAnim_StatusSleep,
-    sSpriteAnim_StatusFrozen,
-    sSpriteAnim_StatusBurn,
-    sSpriteAnim_StatusPokerus,
-    sSpriteAnim_StatusFaint,
+    sSpriteAnim_MoveSelector0,         // StatusPoison
+    sSpriteAnim_MoveSelector1,         // StatusParalyzed
+    sSpriteAnim_MoveSelector2,         // StatusSleep
+    sSpriteAnim_MoveSelector3,         // StatusFrozen
+    sSpriteAnim_MoveSelectorLeft, // StatusBurn
+    sSpriteAnim_MoveSelectorMiddle,    // StatusPokeRus
+    sSpriteAnim_MoveSelector7,         // StatusFaint
 };
 static const struct CompressedSpriteSheet sStatusIconsSpriteSheet =
 {
@@ -3104,156 +3083,6 @@ static void BufferMonTrainerMemo(void)
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
         }
 
-        // Colosseum/XD location handler
-        if (sum->metGame == VERSION_GAMECUBE)
-        {
-            switch (sum->metLocation)
-            {
-            case 1:
-            case 164: // Outskirt Stand
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_OutskirtStand);
-                break;
-            case 3:
-            case 94:
-            case 96:
-            case 97:
-            case 100:
-            case 107: // Phenac City
-            case 128: // eReader Pokémon from here are in Phenac City
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_PhenacCity);
-                break;
-            case 5: // Mayor's House
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_MayorsHouse);
-                break;
-            case 8:
-            case 9:
-            case 10:
-            case 11: //Cipher Lab
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_CipherLab);
-                break;
-            case 15:
-            case 116:
-            case 119: // Pyrite Town
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_PyriteTown);
-                break;
-            case 16: // Mt. Battle
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_MtBattle);
-                break;
-            case 25:
-            case 28: // Pyrite Building
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_PyriteBldg);
-                break;
-            case 29:
-            case 31:
-            case 32: // Pyrite Cave
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_PyriteCave);
-                break;
-            case 30: // Miror's Hideout
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_MirorsHideout);
-                break;
-            case 39: // Agate Village
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_AgateVillage);
-                break;
-            case 47:
-            case 55: // The Under
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_TheUnder);
-                break;
-            case 58: // The Under Subway
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_TheUnderSubway);
-                break;
-            case 59:
-            case 115:
-            case 117: // Realgam Tower
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_RealgamTower);
-                break;
-            case 64:
-            case 65:
-            case 66:
-            case 70:
-            case 71: // Cipher Key Lair
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_CipherKeyLair);
-                break;
-            case 67:
-            case 69: // Colosseum: Laboratory; XD: Cipher Key Lair
-                if(sum->species == SPECIES_BUTTERFREE
-                 || sum->species == SPECIES_PRIMEAPE
-                 || sum->species == SPECIES_MAGNETON
-                 || sum->species == SPECIES_HYPNO
-                 || sum->species == SPECIES_TANGELA)
-                    DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_CipherKeyLair);
-                else
-                    DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_Laboratory);
-                break;
-            case 68: // Laboratory
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_Laboratory);
-                break;
-            case 73:
-            case 74:
-            case 75:
-            case 77:
-            case 80:
-            case 81:
-            case 84:
-            case 85:
-            case 87:
-            case 88: // Citadark Isle
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_CitadarkIsle);
-                break;
-            case 76: // Colosseum: Mt. Battle; XD: Citadark Isle
-                if(sum->species == SPECIES_ENTEI)
-                    DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_MtBattle);
-                else
-                    DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_CitadarkIsle);
-                break;
-            case 90: // Rock Poké Spot
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_Rock);
-                break;
-            case 91: // Oasis Poké Spot
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_Oasis);
-                break;
-            case 92: // Cave Poké Spot
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gPCText_Cave);
-                break;
-            case 104:
-            case 106: // Do these three display as Realgam Tower instead in game?
-            case 113: // RealgamTwr Dome
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_RealgamTwr_Dome);
-                break;
-            case 109:
-            case 110:
-            case 111: // Colosseum: RealgamTwr Dome; XD: Pyrite Town
-                if(sum->species == SPECIES_SUNFLORA
-                 || sum->species == SPECIES_HERACROSS
-                 || sum->species == SPECIES_DELIBIRD
-                 || sum->species == SPECIES_SUICUNE)
-                    DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_RealgamTwr_Dome);
-                else
-                    DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_PyriteTown);
-                break;
-            case 118: // Tower Colosseum
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_TowerColosseum);
-                break;
-            case 125: // Deep Colosseum
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_DeepColosseum);
-                break;
-            case 132:
-            case 133:
-            case 134: // Snagem Hideout
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_SnagemHideout);
-                break;
-            case 143: // Pokémon HQ Lab
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_PokemonHQLab);
-                break;
-            case 153:
-            case 162: // Gateon Port
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_GateonPort);
-                break;
-            default:
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
-                break;
-            }
-        }
-
         if (DoesMonOTMatchOwner() == TRUE)
         {
             if (sum->metLevel == 0)
@@ -3265,37 +3094,148 @@ static void BufferMonTrainerMemo(void)
         {
             text = gText_XNatureFatefulEncounter;
         }
-        else if (sum->metLocation == 0 && sum->metGame == VERSION_GAMECUBE)
-        {
-            DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, sum->OTName);
-            text = gText_ObtainedFromDad;
-        }
         else if (sum->metLocation != METLOC_IN_GAME_TRADE && DidMonComeFromGBAGames())
         {
             text = (sum->metLocation >= MAPSEC_NONE) ? gText_XNatureObtainedInTrade : gText_XNatureProbablyMetAt;
         }
-        else if (sum->metLocation != METLOC_IN_GAME_TRADE && sum->metGame == VERSION_GAMECUBE)
+        // Because Colosseum and XD both use VERSION_GAMECUBE, some metLocation IDs
+        // have species checks to account for IDs that clash between both games.
+        else if (sum->metGame == VERSION_GAMECUBE)
         {
-            text = (sum->metLocation >= MAPSEC_NONE) ? gText_XNatureMetDistantLand : gText_XNatureProbablyMetAt;
+            text = (sum->metLocation >= MAPSEC_NONE) ? gText_XNatureMetDistantLand : gText_XNatureProbablyMetAt; // Generic distant land text
+            switch (sum->metLocation)
+            {
+            // XD starter Eevee
+	        case 0:
+                text = gText_ObtainedFromDad;
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, sum->OTName);
+            break;
+            // Outskirt Stand
+            case 1: case 164:
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_OutskirtStand);
+                break;
+            // Phenac City
+            case 3: case 94: case 96: case 97: case 100: case 107: case 128:
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_PhenacCity);
+                break;
+            // Mayor's House
+            case 5:
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_MayorsHouse);
+                break;
+            //Cipher Lab
+            case 8: case 9: case 10: case 11:
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_CipherLab);
+                break;
+            // Colosseum: RealgamTwr Dome; XD: Pyrite Town
+            case 15: case 109: case 110: case 111: case 116: case 119:
+                if (sum->species != SPECIES_SUNFLORA
+                 || sum->species != SPECIES_HERACROSS
+                 || sum->species != SPECIES_DELIBIRD
+                 || sum->species != SPECIES_SUICUNE)
+                    DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_PyriteTown);
+                else
+            // Do these three display as Realgam Tower instead in game?
+            // RealgamTwr Dome
+            case 104: case 106: case 113:
+                    DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_RealgamTwr_Dome);
+                break;
+            // Pyrite Building
+            case 25: case 28:
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_PyriteBldg);
+                break;
+            // Pyrite Cave
+            case 29: case 31: case 32:
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_PyriteCave);
+                break;
+            // Miror's Hideout
+            case 30:
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_MirorsHideout);
+                break;
+            // Agate Village
+            case 39:
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_AgateVillage);
+                break;
+            // The Under
+            case 47: case 55:
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_TheUnder);
+                break;
+            // The Under Subway
+            case 58:
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_TheUnderSubway);
+                break;
+            // Realgam Tower
+            case 59: case 115: case 117:
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_RealgamTower);
+                break;
+            // Colosseum: Laboratory; XD: Cipher Key Lair
+            case 67: case 68: case 69:
+                if (sum->species != SPECIES_BUTTERFREE
+                 || sum->species != SPECIES_PRIMEAPE
+                 || sum->species != SPECIES_MAGNETON
+                 || sum->species != SPECIES_HYPNO
+                 || sum->species != SPECIES_TANGELA)
+                    DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_Laboratory);
+                else
+            // Cipher Key Lair
+            case 64: case 65: case 66: case 70: case 71:
+                    DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_CipherKeyLair);
+                break;
+            // Colosseum: Mt. Battle; XD: Citadark Isle
+            case 73: case 74: case 75: case 76: case 77: case 80: case 81: case 84: case 85: case 87: case 88:
+                if (sum->species != SPECIES_ENTEI)
+                    DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_CitadarkIsle);
+                else
+            // Mt. Battle
+            case 16:
+                    DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_MtBattle);
+                break;
+            // Rock Poké Spot
+            case 90:
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_Rock);
+                break;
+            // Oasis Poké Spot
+            case 91:
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_Oasis);
+                break;
+            // Cave Poké Spot
+            case 92:
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gPCText_Cave);
+                break;
+            // Tower Colosseum
+            case 118:
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_TowerColosseum);
+                break;
+            // Deep Colosseum
+            case 125:
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_DeepColosseum);
+                break;
+            // Snagem Hideout
+            case 132: case 133: case 134:
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_SnagemHideout);
+                break;
+            // Pokémon HQ Lab
+            case 143:
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_PokemonHQLab);
+                break;
+            // Gateon Port
+            case 153: case 162:
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_GateonPort);
+                break;
+            // Colosseum Starter Espeon and Umbreon and Duking's Plusle
+            case METLOC_IN_GAME_TRADE:
+            DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, sum->OTName);
+                if (sum->species == SPECIES_ESPEON 
+                 || sum->species == SPECIES_UMBREON)
+                    text = gText_OldFriend;
+                else
+                    text = gText_Receivedfrom;
+            default:
+                break;
+            }
         }
         else
         {
-            DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, sum->OTName);
-            if (sum->metLocation == METLOC_IN_GAME_TRADE)
-            {
-                if (sum->species == SPECIES_ESPEON 
-                 || sum->species == SPECIES_UMBREON) // Colosseum Starter Espeon and Umbreon
-                    text = gText_OldFriend;
-                 else
-                    text = gText_Receivedfrom; // Duking's Plusle
-            }
-            else
-            {
-                if (sum->metGame == VERSION_GAMECUBE) // Generic distant land text
-                    text = gText_XNatureMetDistantLand;
-                else
-                    text = gText_XNatureObtainedInTrade;
-            }
+            text = gText_XNatureObtainedInTrade;
         }
 
         DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, text);

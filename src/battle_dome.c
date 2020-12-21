@@ -2366,7 +2366,7 @@ static void InitDomeTrainers(void)
     {
         monTypesBits = 0;
         rankingScores[i] = 0;
-        ivs = GetDomeTrainerMonIvs(DOME_TRAINERS[i].trainerId);
+        ivs = GetFrontierTrainerFixedIvs(DOME_TRAINERS[i].trainerId);
         for (j = 0; j < FRONTIER_PARTY_SIZE; j++)
         {
             CalcDomeMonStats(gFacilityTrainerMons[DOME_MONS[i][j]].species,
@@ -2526,7 +2526,7 @@ static void CreateDomeOpponentMon(u8 monPartyId, u16 tournamentTrainerId, u8 tou
 {
     int i;
     u8 friendship = MAX_FRIENDSHIP;
-    u8 fixedIv = GetDomeTrainerMonIvs(tournamentTrainerId); // BUG: Should be using (DOME_TRAINERS[tournamentTrainerId].trainerId) instead of (tournamentTrainerId). As a result, all Pokemon have ivs of 3.
+    u8 fixedIv = GetFrontierTrainerFixedIvs(DOME_TRAINERS[tournamentTrainerId].trainerId);
     u8 level = SetFacilityPtrsGetLevel();
     CreateMonWithEVSpreadNatureOTID(&gEnemyParty[monPartyId],
                                          gFacilityTrainerMons[DOME_MONS[tournamentTrainerId][tournamentMonId]].species,
@@ -2845,33 +2845,6 @@ static int GetTypeEffectivenessPoints(int move, int targetSpecies, int arg2)
     }
 
     return typePower;
-}
-
-// Duplicate of GetFrontierTrainerFixedIvs
-// NOTE: In CreateDomeOpponentMon a tournament trainer ID (0-15) is passed instead, resulting in all IVs of 3
-//       To fix, see CreateDomeOpponentMon
-static u8 GetDomeTrainerMonIvs(u16 trainerId)
-{
-    u8 fixedIv;
-
-    if (trainerId <= FRONTIER_TRAINER_JILL)         // 0 - 99
-        fixedIv = 3;
-    else if (trainerId <= FRONTIER_TRAINER_CHLOE)   // 100 - 119
-        fixedIv = 6;
-    else if (trainerId <= FRONTIER_TRAINER_SOFIA)   // 120 - 139
-        fixedIv = 9;
-    else if (trainerId <= FRONTIER_TRAINER_JAZLYN)  // 140 - 159
-        fixedIv = 12;
-    else if (trainerId <= FRONTIER_TRAINER_ALISON)  // 160 - 179
-        fixedIv = 15;
-    else if (trainerId <= FRONTIER_TRAINER_LAMAR)   // 180 - 199
-        fixedIv = 18;
-    else if (trainerId <= FRONTIER_TRAINER_TESS)    // 200 - 219
-        fixedIv = 21;
-    else                                            // 220+ (- 299)
-        fixedIv = 31;
-
-    return fixedIv;
 }
 
 static int TournamentIdOfOpponent(int roundId, int trainerId)
@@ -4382,7 +4355,7 @@ static void DisplayTrainerInfoOnCard(u8 flags, u8 trainerTourneyId)
     textPrinter.windowId = windowId + 4;
     textPrinter.currentX = 0;
     textPrinter.y = 4;
-    textPrinter.currentY = 4;
+    textPrinter.currentY = 5;
     AddTextPrinter(&textPrinter, 0, NULL);
 
     // Calculate move scores to determine the trainers battle style
@@ -4425,7 +4398,7 @@ static void DisplayTrainerInfoOnCard(u8 flags, u8 trainerTourneyId)
     // Print the trainers battle style
     textPrinter.currentChar = sBattleDomeOpponentStyleTexts[i];
     textPrinter.y = 20;
-    textPrinter.currentY = 20;
+    textPrinter.currentY = 21;
     AddTextPrinter(&textPrinter, 0, NULL);
 
     for (i = 0; i < ALLOC_ARRAY_SIZE; i++)
@@ -4614,7 +4587,7 @@ static void DisplayTrainerInfoOnCard(u8 flags, u8 trainerTourneyId)
     // Print the stat text
     textPrinter.currentChar = sBattleDomeOpponentStatsTexts[i];
     textPrinter.y = 36;
-    textPrinter.currentY = 36;
+    textPrinter.currentY = 37;
     AddTextPrinter(&textPrinter, 0, NULL);
     Free(allocatedArray);
 }
@@ -5839,7 +5812,7 @@ static void InitRandomTourneyTreeResults(void)
     {
         monTypesBits = 0;
         statSums[i] = 0;
-        ivs = GetDomeTrainerMonIvs(DOME_TRAINERS[i].trainerId);
+        ivs = GetFrontierTrainerFixedIvs(DOME_TRAINERS[i].trainerId);
         for (j = 0; j < FRONTIER_PARTY_SIZE; j++)
         {
             CalcDomeMonStats(gFacilityTrainerMons[DOME_MONS[i][j]].species,

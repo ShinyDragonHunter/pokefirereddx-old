@@ -774,15 +774,6 @@ void BattleArena_DeductMindPoints(u8 battler, u16 stringId)
     }
 }
 
-void sub_81A586C(u8 battler) // Unused.
-{
-    u16 *hpAtStart = gBattleStruct->arenaStartHp;
-
-    hpAtStart[battler] = gBattleMons[battler].hp;
-    if (hpAtStart[BATTLE_OPPOSITE(battler)] > gBattleMons[BATTLE_OPPOSITE(battler)].hp)
-        hpAtStart[BATTLE_OPPOSITE(battler)] = gBattleMons[BATTLE_OPPOSITE(battler)].hp;
-}
-
 static void InitArenaChallenge(void)
 {
     bool32 isCurrent;

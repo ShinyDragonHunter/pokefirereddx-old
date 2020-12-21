@@ -33,6 +33,7 @@ BattleFrontier_BattlePikeThreePathRoom_EventScript_WarpToLobby:: @ 825C89A
 	end
 
 BattleFrontier_BattlePikeThreePathRoom_EventScript_ResumeChallenge:: @ 825C8A4
+	textcolor RED
 	lockall
 	message BattleFrontier_BattlePikeThreePathRoom_Text_AwaitingReturnSaveBeforeResume
 	waitmessage
@@ -161,6 +162,7 @@ BattleFrontier_BattlePikeThreePathRoom_EventScript_SetPikeQueenHint:: @ 825CA91
 	end
 
 BattleFrontier_BattlePikeThreePathRoom_EventScript_GivePikeQueenHint:: @ 825CA97
+	textcolor RED
 	applymovement LOCALID_HINT_GIVER, BattleFrontier_BattlePikeThreePathRoom_Movement_HintGiverApproachPlayer
 	waitmovement 0
 	lockall
@@ -327,17 +329,29 @@ BattleFrontier_BattlePikeThreePathRoom_Text_FindingItDifficultToChoose: @ 825CE6
 	.string "Are you perhaps finding it difficult\n"
 	.string "to choose your path?$"
 
+.if UK
+BattleFrontier_BattlePikeThreePathRoom_Text_ApologizeForImpertinence: @ 825CEBB
+	.string "I see…\n"
+	.string "I apologise for my impertinence…$"
+.else
 BattleFrontier_BattlePikeThreePathRoom_Text_ApologizeForImpertinence: @ 825CEBB
 	.string "I see…\n"
 	.string "I apologize for my impertinence…$"
+.endif
 
 BattleFrontier_BattlePikeThreePathRoom_Text_SomethingAboutRightPath: @ 825CEE3
 	.string "Ah, let me see… There is something\n"
 	.string "about the path on the right…$"
 
+.if UK
+BattleFrontier_BattlePikeThreePathRoom_Text_SomethingAboutCenterPath: @ 825CF23
+	.string "Ah, let me see… There is something\n"
+	.string "about the path in the centre…$"
+.else
 BattleFrontier_BattlePikeThreePathRoom_Text_SomethingAboutCenterPath: @ 825CF23
 	.string "Ah, let me see… There is something\n"
 	.string "about the path in the center…$"
+.endif
 
 BattleFrontier_BattlePikeThreePathRoom_Text_SomethingAboutLeftPath: @ 825CF64
 	.string "Ah, let me see… There is something\n"

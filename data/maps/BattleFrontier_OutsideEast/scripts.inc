@@ -303,11 +303,19 @@ BattleFrontier_OutsideEast_Text_DidScottBringYouHere: @ 8243230
 	.string "I've never seen him battling in person\n"
 	.string "ever.$"
 
+.if UK
+BattleFrontier_OutsideEast_Text_BelieveInYouBuddy: @ 82432DD
+	.string "ZIGG!\n"
+	.string "I believe in you, little buddy!\p"
+	.string "I'll make my little ZIGG any favourite\n"
+	.string "tasty treats you like if you win!$"
+.else
 BattleFrontier_OutsideEast_Text_BelieveInYouBuddy: @ 82432DD
 	.string "ZIGG!\n"
 	.string "I believe in you, little buddy!\p"
 	.string "I'll make my little ZIGG any favorite\n"
 	.string "tasty treats you like if you win!$"
+.endif
 
 BattleFrontier_OutsideEast_Text_ZigzagoonLooksVacant: @ 824334B
 	.string "ZIGZAGOON looks vacant…$"

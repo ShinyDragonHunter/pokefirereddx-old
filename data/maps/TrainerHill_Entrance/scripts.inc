@@ -127,6 +127,7 @@ TrainerHill_Entrance_EventScript_AttendantEnd:: @ 8268227
 	end
 
 TrainerHill_Entrance_EventScript_EntryTrigger:: @ 8268229
+    textcolor RED
 	lockall
 	applymovement OBJ_EVENT_ID_PLAYER, TrainerHill_Entrance_Movement_PlayerFaceAttendant
 	goto_if_unset FLAG_SYS_GAME_CLEAR, TrainerHill_Entrance_EventScript_Closed

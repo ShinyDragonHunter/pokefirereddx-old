@@ -277,14 +277,12 @@ void CopyWindowToVram(u8 windowId, u8 mode)
 
     switch (mode)
     {
-    case 1:
-        CopyBgTilemapBufferToVram(windowLocal.window.bg);
-        break;
     case 2:
         LoadBgTiles(windowLocal.window.bg, windowLocal.tileData, windowSize, windowLocal.window.baseBlock);
         break;
     case 3:
         LoadBgTiles(windowLocal.window.bg, windowLocal.tileData, windowSize, windowLocal.window.baseBlock);
+    case 1:
         CopyBgTilemapBufferToVram(windowLocal.window.bg);
         break;
     }
@@ -309,14 +307,12 @@ void CopyWindowRectToVram(u32 windowId, u32 mode, u32 x, u32 y, u32 w, u32 h)
 
         switch (mode)
         {
-        case 1:
-            CopyBgTilemapBufferToVram(windowLocal.window.bg);
-            break;
         case 2:
             LoadBgTiles(windowLocal.window.bg, windowLocal.tileData + (rectPos * 32), rectSize, windowLocal.window.baseBlock + rectPos);
             break;
         case 3:
             LoadBgTiles(windowLocal.window.bg, windowLocal.tileData + (rectPos * 32), rectSize, windowLocal.window.baseBlock + rectPos);
+        case 1:
             CopyBgTilemapBufferToVram(windowLocal.window.bg);
             break;
         }
@@ -523,7 +519,6 @@ void ScrollWindow(u8 windowId, u8 direction, u8 distance, u8 fillValue)
             MOVE_TILES_UP(24)
             MOVE_TILES_UP(28)
         }
-        break;
     case 2:
         break;
     }
@@ -553,12 +548,11 @@ bool8 SetWindowAttribute(u8 windowId, u8 attributeId, u32 value)
         return FALSE;
     case WINDOW_TILE_DATA:
         gWindows[windowId].tileData = (u8*)(value);
-        return TRUE;
-    case WINDOW_BG:
-    case WINDOW_WIDTH:
-    case WINDOW_HEIGHT:
     default:
         return TRUE;
+    case WINDOW_WIDTH:
+        gWindows[windowId].window.width = value; // Added by Pidgey. Game Freak didn't have this for some reason.
+        return FALSE;
     }
 }
 
@@ -695,14 +689,12 @@ void CopyWindowToVram8Bit(u8 windowId, u8 mode)
 
     switch (mode)
     {
-    case 1:
-        CopyBgTilemapBufferToVram(sWindowPtr->window.bg);
-        break;
     case 2:
         LoadBgTiles(sWindowPtr->window.bg, sWindowPtr->tileData, sWindowSize, sWindowPtr->window.baseBlock);
         break;
     case 3:
         LoadBgTiles(sWindowPtr->window.bg, sWindowPtr->tileData, sWindowSize, sWindowPtr->window.baseBlock);
+    case 1:
         CopyBgTilemapBufferToVram(sWindowPtr->window.bg);
         break;
     }

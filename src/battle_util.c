@@ -315,9 +315,6 @@ void HandleAction_UseItem(void)
 
         switch (*(gBattleStruct->AI_itemType + (gBattlerAttacker >> 1)))
         {
-        case AI_ITEM_FULL_RESTORE:
-        case AI_ITEM_HEAL_HP:
-            break;
         case AI_ITEM_CURE_CONDITION:
             gBattleCommunication[MULTISTRING_CHOOSER] = 0;
             if (*(gBattleStruct->AI_itemFlags + gBattlerAttacker / 2) & 1)
@@ -333,6 +330,8 @@ void HandleAction_UseItem(void)
                     gBattleCommunication[MULTISTRING_CHOOSER]++;
                 }
             }
+        case AI_ITEM_FULL_RESTORE:
+        case AI_ITEM_HEAL_HP:
             break;
         case AI_ITEM_X_STAT:
             gBattleCommunication[MULTISTRING_CHOOSER] = 4;
@@ -673,8 +672,6 @@ u8 GetBattlerForBattleScript(u8 caseId)
         ret = gBattleScripting.battler;
         break;
     case BS_FAINTED:
-        ret = gBattlerFainted;
-        break;
     case 5:
         ret = gBattlerFainted;
         break;
@@ -3659,7 +3656,6 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                 }
             }
         }
-        break;
     case 2:
         break;
     case ITEMEFFECT_MOVE_END:

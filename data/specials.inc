@@ -285,7 +285,6 @@ gSpecials:: @ 81DBA64
 	def_special DoSoftReset
 	def_special GameClear
 	def_special MoveElevator
-	def_special ShowGlassWorkshopMenu
 	def_special SpawnCameraObject
 	def_special RemoveCameraObject
 	def_special GetPokeblockNameByMonNature
@@ -353,7 +352,6 @@ gSpecials:: @ 81DBA64
 	def_special TryPutLotteryWinnerReportOnAir
 	def_special TrySetUpTrainerFanClubSpecial
 	def_special ShouldHideFanClubInterviewer
-	def_special ShowGlassWorkshopMenu
 	def_special PutFanClubSpecialOnTheAir
 	def_special IncrementDailyPlantedBerries
 	def_special IncrementDailyPickedBerries
@@ -452,7 +450,6 @@ gSpecials:: @ 81DBA64
 	def_special ClearLinkContestFlags
 	def_special TryContestEModeLinkup
 	def_special ShowScrollableMultichoice
-	def_special sub_813A630
 	def_special BufferBattleTowerElevatorFloors
 	def_special TryStoreHeldItemsInPyramidBag
 	def_special ChooseItemsToTossFromPyramidBag
@@ -481,10 +478,8 @@ gSpecials:: @ 81DBA64
 	def_special CountPlayerTrainerStars
 	def_special BufferBattleFrontierTutorMoveName
 	def_special CloseBattleFrontierTutorWindow
-	def_special sub_813ADD4
 	def_special ChooseMonForMoveTutor
 	def_special GetBattleFrontierTutorMoveIndex
-	def_special sub_813AF48
 	def_special DoDeoxysRockInteraction
 	def_special SetDeoxysRockPalette
 	def_special CreateObedientEnemyMon

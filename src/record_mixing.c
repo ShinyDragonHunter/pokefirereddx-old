@@ -392,6 +392,49 @@ static void Task_MixingRecordsRecv(u8 taskId)
         task->data[0] = 400;
         ClearLinkCallback_2();
         break;
+    case 1: // wait for handshake
+        if (gReceivedRemoteLinkPlayers != 0)
+        {
+            ConvertIntToDecimalStringN(gStringVar1, GetMultiplayerId_(), STR_CONV_MODE_LEADING_ZEROS, 2);
+            task->data[0] = 5;
+        }
+        break;
+    case 2:
+        {
+            u8 subTaskId;
+
+            task->data[6] = GetLinkPlayerCount_2();
+            task->data[0] = 0;
+            task->data[5] = GetMultiplayerId_();
+            task->func = Task_SendPacket;
+            if (Link_AnyPartnersPlayingRubyOrSapphire())
+            {
+                StorePtrInTaskData(sSentRecord, (u16 *)&task->data[2]);
+                subTaskId = CreateTask(Task_CopyReceiveBuffer, 80);
+                task->data[10] = subTaskId;
+                gTasks[subTaskId].data[0] = taskId;
+                StorePtrInTaskData(sReceivedRecords, (u16 *)&gTasks[subTaskId].data[5]);
+                sRecordStructSize = sizeof(struct PlayerRecordsRS);
+            }
+            else
+            {
+                StorePtrInTaskData(sSentRecord, (u16 *)&task->data[2]);
+                subTaskId = CreateTask(Task_CopyReceiveBuffer, 80);
+                task->data[10] = subTaskId;
+                gTasks[subTaskId].data[0] = taskId;
+                StorePtrInTaskData(sReceivedRecords, (u16 *)&gTasks[subTaskId].data[5]);
+                sRecordStructSize = sizeof(struct PlayerRecordsEmerald);
+            }
+            // Note: This task is destroyed by Task_CopyReceiveBuffer when it's done.
+        }
+        break;
+    case 5: // wait 60 frames
+        if (++task->data[10] > 60)
+        {
+            task->data[10] = 0;
+            task->data[0] = 2;
+        }
+        break;
     case 100: // wait 20 frames
         if (++task->data[12] > 20)
         {
@@ -435,49 +478,6 @@ static void Task_MixingRecordsRecv(u8 taskId)
         {
             task->data[0] = 1;
             task->data[12] = 0;
-        }
-        break;
-    case 1: // wait for handshake
-        if (gReceivedRemoteLinkPlayers != 0)
-        {
-            ConvertIntToDecimalStringN(gStringVar1, GetMultiplayerId_(), STR_CONV_MODE_LEADING_ZEROS, 2);
-            task->data[0] = 5;
-        }
-        break;
-    case 2:
-        {
-            u8 subTaskId;
-
-            task->data[6] = GetLinkPlayerCount_2();
-            task->data[0] = 0;
-            task->data[5] = GetMultiplayerId_();
-            task->func = Task_SendPacket;
-            if (Link_AnyPartnersPlayingRubyOrSapphire())
-            {
-                StorePtrInTaskData(sSentRecord, (u16 *)&task->data[2]);
-                subTaskId = CreateTask(Task_CopyReceiveBuffer, 80);
-                task->data[10] = subTaskId;
-                gTasks[subTaskId].data[0] = taskId;
-                StorePtrInTaskData(sReceivedRecords, (u16 *)&gTasks[subTaskId].data[5]);
-                sRecordStructSize = sizeof(struct PlayerRecordsRS);
-            }
-            else
-            {
-                StorePtrInTaskData(sSentRecord, (u16 *)&task->data[2]);
-                subTaskId = CreateTask(Task_CopyReceiveBuffer, 80);
-                task->data[10] = subTaskId;
-                gTasks[subTaskId].data[0] = taskId;
-                StorePtrInTaskData(sReceivedRecords, (u16 *)&gTasks[subTaskId].data[5]);
-                sRecordStructSize = sizeof(struct PlayerRecordsEmerald);
-            }
-            // Note: This task is destroyed by Task_CopyReceiveBuffer when it's done.
-        }
-        break;
-    case 5: // wait 60 frames
-        if (++task->data[10] > 60)
-        {
-            task->data[10] = 0;
-            task->data[0] = 2;
         }
         break;
     }

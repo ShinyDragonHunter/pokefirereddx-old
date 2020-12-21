@@ -643,9 +643,6 @@ static void CB2_EggHatch_1(void)
         CopyWindowToVram(sEggHatchData->windowId, 3);
         break;
     case 6:
-        if (IsFanfareTaskInactive())
-            sEggHatchData->CB2_state++;
-        break;
     case 7:
         if (IsFanfareTaskInactive())
             sEggHatchData->CB2_state++;

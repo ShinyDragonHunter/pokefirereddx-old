@@ -101,11 +101,19 @@ BattleFrontier_RankingHall_EventScript_Boy:: @ 825E573
 	msgbox BattleFrontier_RankingHall_Text_MyNamesNotUpThere, MSGBOX_NPC
 	end
 
+.if UK
+BattleFrontier_RankingHall_Text_ExplainRankingHall: @ 825E57C
+	.string "This is the RANKING HALL.\p"
+	.string "This is where we recognise the immortal\n"
+	.string "TRAINERS who left great records in\l"
+	.string "BATTLE FRONTIER events.$"
+.else
 BattleFrontier_RankingHall_Text_ExplainRankingHall: @ 825E57C
 	.string "This is the RANKING HALL.\p"
 	.string "This is where we recognize the immortal\n"
 	.string "TRAINERS who left great records in\l"
 	.string "BATTLE FRONTIER events.$"
+.endif
 
 BattleFrontier_RankingHall_Text_DomePikeFactoryRecords: @ 825E5F9
 	.string "BATTLE DOME, BATTLE PIKE,\n"

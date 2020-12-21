@@ -367,25 +367,24 @@ static void sub_81D5084(u8 taskId)
     case 13:
         switch (sub_81D4EE4(&data->unk9, &data->unk0))
         {
+            case 1:
+                PlaySE(SE_SELECT);
+                CloseLink();
+                data->unk8 = 23;
             case 0:
                 break;
             case 2:
                 AddTextPrinterToWindow1(gJPText_Connecting);
                 data->unk8 = 14;
                 break;
-            case 1:
-                PlaySE(SE_SELECT);
-                CloseLink();
-                data->unk8 = 23;
-                break;
-            case 5:
-                CloseLink();
-                data->unk8 = 21;
-                break;
             case 3:
             case 4:
                 CloseLink();
                 data->unk8 = 20;
+                break;
+            case 5:
+                CloseLink();
+                data->unk8 = 21;
                 break;
         }
         break;
@@ -439,10 +438,6 @@ static void sub_81D5084(u8 taskId)
         if (IsFanfareTaskInactive() && (JOY_NEW(A_BUTTON | B_BUTTON)))
             data->unk8 = 26;
         break;
-    case 23:
-        if (MG_PrintTextOnWindow1AndWaitButton(&data->unk9, gJPText_CardReadingHasBeenHalted))
-            data->unk8 = 26;
-        break;
     case 20:
         if (MG_PrintTextOnWindow1AndWaitButton(&data->unk9, gJPText_ConnectionErrorCheckLink))
             data->unk8 = 0;
@@ -454,6 +449,10 @@ static void sub_81D5084(u8 taskId)
     case 22:
         if (MG_PrintTextOnWindow1AndWaitButton(&data->unk9, gJPText_WriteErrorUnableToSaveData))
             data->unk8 = 0;
+        break;
+    case 23:
+        if (MG_PrintTextOnWindow1AndWaitButton(&data->unk9, gJPText_CardReadingHasBeenHalted))
+            data->unk8 = 26;
         break;
     case 26:
         Free(data->unk10);

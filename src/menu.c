@@ -1,9 +1,11 @@
 #include "global.h"
+#include "event_object_movement.h"
 #include "malloc.h"
 #include "bg.h"
 #include "blit.h"
 #include "dma3.h"
 #include "event_data.h"
+#include "field_specials.h"
 #include "graphics.h"
 #include "main.h"
 #include "menu.h"
@@ -189,23 +191,25 @@ u16 AddTextPrinterParameterized2(u8 windowId, u8 fontId, const u8 *str, u8 speed
     return AddTextPrinter(&printer, speed, callback);
 }
 
-void AddTextPrinterForMessage(bool8 allowSkippingDelayWithButtonPress)
+void AddTextPrinterForMessageWithTextColor(bool8 allowSkippingDelayWithButtonPress)
 {
-    void (*callback)(struct TextPrinterTemplate *, u16) = NULL;
+    u8 color;
     gTextFlags.canABSpeedUpPrint = allowSkippingDelayWithButtonPress;
-    AddTextPrinterParameterized2(0, 2, gStringVar4, GetPlayerTextSpeedDelay(), callback, 2, 1, 3);
+
+    color = ContextNpcGetTextColor();
+    AddTextPrinterParameterized2(0, 2, gStringVar4, GetPlayerTextSpeedDelay(), NULL, gSpecialVar_TextColor, 1, 3);      
 }
 
-void AddTextPrinterForMessage_2(bool8 allowSkippingDelayWithButtonPress)
+void AddTextPrinterForMessage(bool8 allowSkippingDelayWithButtonPress)
 {
     gTextFlags.canABSpeedUpPrint = allowSkippingDelayWithButtonPress;
-    AddTextPrinterParameterized2(0, 1, gStringVar4, GetPlayerTextSpeedDelay(), NULL, 2, 1, 3);
+    AddTextPrinterParameterized2(0, 2, gStringVar4, GetPlayerTextSpeedDelay(), NULL, 2, 1, 3);
 }
 
 void AddTextPrinterWithCustomSpeedForMessage(bool8 allowSkippingDelayWithButtonPress, u8 speed)
 {
     gTextFlags.canABSpeedUpPrint = allowSkippingDelayWithButtonPress;
-    AddTextPrinterParameterized2(0, 1, gStringVar4, speed, NULL, 2, 1, 3);
+    AddTextPrinterParameterized2(0, 2, gStringVar4, speed, NULL, 2, 1, 3);
 }
 
 void LoadMessageBoxAndBorderGfx(void)
@@ -516,6 +520,7 @@ u8 GetPlayerTextSpeedDelay(void)
     return sTextSpeedFrameDelays[speed];
 }
 
+
 u8 sub_81979C4(u8 a1)
 {
     if (sStartMenuWindowId == 0xFF)
@@ -571,7 +576,7 @@ void RemoveMapNamePopUpWindow(void)
 void AddTextPrinterWithCallbackForMessage(bool8 a1, void (*callback)(struct TextPrinterTemplate *, u16))
 {
     gTextFlags.canABSpeedUpPrint = a1;
-    AddTextPrinterParameterized2(0, 1, gStringVar4, GetPlayerTextSpeedDelay(), callback, 2, 1, 3);
+    AddTextPrinterParameterized2(0, 2, gStringVar4, GetPlayerTextSpeedDelay(), callback, 2, 1, 3);
 }
 
 void sub_8197AE8(bool8 copyToVram)
@@ -2136,7 +2141,6 @@ void ListMenuLoadStdPalAt(u8 palOffset, u8 palId)
 
     switch (palId)
     {
-        case 0:
         default:
             palette = gFireRedMenuElements1_Pal;
             break;

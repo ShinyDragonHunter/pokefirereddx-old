@@ -2096,7 +2096,6 @@ static void rfu_STC_NI_receive_Sender(u8 NI_slot, u8 bm_flag, const struct RfuLo
             switch (NI_comm->remainSize)
             {
             default:
-            case 0:
                 NI_comm->phase = 0;
                 if (NI_comm->state == SLOT_STATE_SEND_START)
                 {
@@ -2114,7 +2113,6 @@ static void rfu_STC_NI_receive_Sender(u8 NI_slot, u8 bm_flag, const struct RfuLo
                     NI_comm->remainSize = 0;
                     NI_comm->state = SLOT_STATE_SEND_LAST;
                 }
-                break;
             case 1 ... INT_MAX:
                 break;
             }

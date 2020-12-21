@@ -686,6 +686,7 @@ SECTIONS {
         data/mystery_event.o(.rodata);
         src/m4a_tables.o(.rodata);
         data/sound_data.o(.rodata);
+	    src/dynamic_placeholder_text_util.o(.rodata);
     } =0
 
     song_data :

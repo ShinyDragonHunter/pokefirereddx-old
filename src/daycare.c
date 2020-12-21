@@ -40,6 +40,12 @@ EWRAM_DATA static u16 sHatchedEggMotherMoves[MAX_MON_MOVES] = {0};
 
 #include "data/pokemon/egg_moves.h"
 
+static const struct ItemSpeciesAlteration sItemSpeciesAlterations[] =
+{
+    {ITEM_SEA_INCENSE, SPECIES_AZURILL, SPECIES_MARILL},
+    {ITEM_LAX_INCENSE, SPECIES_WYNAUT, SPECIES_WOBBUFFET},
+};
+
 static const struct WindowTemplate sDaycareLevelMenuWindowTemplate =
 {
     .bg = 0,
@@ -550,12 +556,7 @@ static void InheritIVs(struct Pokemon *egg, struct DayCare *daycare)
     {
         // Randomly pick an IV from the available list and stop from being chosen again.
         selectedIvs[i] = availableIVs[Random() % (NUM_STATS - i)];
-        // BUG: Instead of removing the IV that was just picked (like in RS and FRLG), this
-        // removes position 0 (HP) then position 1 (DEF), then position 2. This is why HP and DEF
-        // have a lower chance to be inherited in Emerald and why the IV picked for inheritance can
-        // be repeated. Uncomment the inline comment and remove the existing expression to get the
-        // intended behavior and  to match the other Gen 3 games. 
-        RemoveIVIndexFromList(availableIVs, i /*selectedIvs[i]*/);
+        RemoveIVIndexFromList(availableIVs, selectedIvs[i]);
     }
 
     // Determine which parent each of the selected IVs should inherit from.
@@ -732,21 +733,20 @@ void RejectEggFromDayCare(void)
     RemoveEggFromDayCare(&gSaveBlock1Ptr->daycare);
 }
 
-static void AlterEggSpeciesWithIncenseItem(u16 *species, struct DayCare *daycare)
+static void AlterEggSpeciesWithItem(u16 *species, struct DayCare *daycare)
 {
     u16 motherItem, fatherItem;
-    if (*species == SPECIES_WYNAUT || *species == SPECIES_AZURILL)
+    u32 i;
+    motherItem = GetBoxMonData(&daycare->mons[0].mon, MON_DATA_HELD_ITEM);
+    fatherItem = GetBoxMonData(&daycare->mons[1].mon, MON_DATA_HELD_ITEM);
+    for (i = 0; i < ARRAY_COUNT(sItemSpeciesAlterations); i++)
     {
-        motherItem = GetBoxMonData(&daycare->mons[0].mon, MON_DATA_HELD_ITEM);
-        fatherItem = GetBoxMonData(&daycare->mons[1].mon, MON_DATA_HELD_ITEM);
-        if (*species == SPECIES_WYNAUT && motherItem != ITEM_LAX_INCENSE && fatherItem != ITEM_LAX_INCENSE)
+        const struct ItemSpeciesAlteration *alteration = &sItemSpeciesAlterations[i];
+        if (*species == alteration->newSpecies)
         {
-            *species = SPECIES_WOBBUFFET;
-        }
-
-        if (*species == SPECIES_AZURILL && motherItem != ITEM_SEA_INCENSE && fatherItem != ITEM_SEA_INCENSE)
-        {
-            *species = SPECIES_MARILL;
+            if (motherItem != alteration->item
+             && fatherItem != alteration->item)
+                *species = alteration->oldSpecies;
         }
     }
 }
@@ -813,7 +813,7 @@ static void _GiveEggFromDaycare(struct DayCare *daycare)
     bool8 isEgg;
 
     species = DetermineEggSpeciesAndParentSlots(daycare, parentSlots);
-    AlterEggSpeciesWithIncenseItem(&species, daycare);
+    AlterEggSpeciesWithItem(&species, daycare);
     SetInitialEggData(&egg, species, daycare);
     InheritIVs(&egg, daycare);
     BuildEggMoveset(&egg, &daycare->mons[parentSlots[1]].mon, &daycare->mons[parentSlots[0]].mon);

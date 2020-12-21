@@ -940,35 +940,22 @@ void ItemUseOutOfBattle_EvolutionStone(u8 taskId)
 void ItemUseInBattle_PokeBall(u8 taskId)
 {
     if (IsBattlerAlive(GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT))
-        && IsBattlerAlive(GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT))) // There are two present pokemon.
+     && IsBattlerAlive(GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT))) // There are two present Pokémon.
     {
-        if (!InBattlePyramid())
-            DisplayItemMessage(taskId, 1, gText_ImpossibleToAim, BagMenu_InitListsMenu);
-        else
-            DisplayItemMessageInBattlePyramid(taskId, gText_ImpossibleToAim, Task_CloseBattlePyramidBagMessage);
+        DisplayItemMessage(taskId, 1, gText_ImpossibleToAim, BagMenu_InitListsMenu);
     }
     else if (gBattlerInMenuId == GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT)
-             && IsBattlerAlive(GetBattlerAtPosition(B_POSITION_PLAYER_LEFT))) // Attempting to throw a ball with the second pokemon while both are alive.
+     && IsBattlerAlive(GetBattlerAtPosition(B_POSITION_PLAYER_LEFT))) // Attempting to throw a Ball with the second Pokémon while both are alive.
     {
-        if (!InBattlePyramid())
-            DisplayItemMessage(taskId, 1, gText_CantThrowBall, BagMenu_InitListsMenu);
-        else
-            DisplayItemMessageInBattlePyramid(taskId, gText_CantThrowBall, Task_CloseBattlePyramidBagMessage);
+        DisplayItemMessage(taskId, 1, gText_CantThrowBall, BagMenu_InitListsMenu);
     }
-    else if (IsPlayerPartyAndPokemonStorageFull() == FALSE) // have room for mon?
+    else if (IsPlayerPartyAndPokemonStorageFull() == FALSE) // have room for Pokémon?
     {
         RemoveBagItem(gSpecialVar_ItemId, 1);
-        if (!InBattlePyramid())
-            Task_FadeAndCloseBagMenu(taskId);
-        else
-            CloseBattlePyramidBagAndSetCallback(taskId);
-    }
-    else if (!InBattlePyramid())
-    {
-        DisplayItemMessage(taskId, 1, gText_BoxFull, BagMenu_InitListsMenu);
+        Task_FadeAndCloseBagMenu(taskId);
     }
     else
-        DisplayItemMessageInBattlePyramid(taskId, gText_BoxFull, Task_CloseBattlePyramidBagMessage);
+        DisplayItemMessage(taskId, 1, gText_BoxFull, BagMenu_InitListsMenu);
 }
 
 static void Task_CloseStatIncreaseMessage(u8 taskId)
@@ -1031,13 +1018,6 @@ static void ItemUseInBattle_ShowPartyMenu(u8 taskId)
 void ItemUseInBattle_Medicine(u8 taskId)
 {
     gItemUseCB = ItemUseCB_Medicine;
-    ItemUseInBattle_ShowPartyMenu(taskId);
-}
-
-// Unused. Sacred Ash cannot be used in battle
-void ItemUseInBattle_SacredAsh(u8 taskId)
-{
-    gItemUseCB = ItemUseCB_SacredAsh;
     ItemUseInBattle_ShowPartyMenu(taskId);
 }
 

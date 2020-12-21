@@ -281,21 +281,18 @@ static void Task_LinkLeaderSearchForChildren(u8 taskId)
         rfu_LMAN_initializeRFU(&sRfuReqConfig);
         Rfu.state = 1;
         gTasks[taskId].data[1] = 1;
-        break;
     case 1:
+    case 3:
+    case 5:
         break;
     case 2:
         rfu_LMAN_establishConnection(Rfu.parentChild, 0, 240, (u16 *)sAcceptedSerialNos);
         Rfu.state = 3;
         gTasks[taskId].data[1] = 6;
         break;
-    case 3:
-        break;
     case 4:
         rfu_LMAN_stopManager(FALSE);
         Rfu.state = 5;
-        break;
-    case 5:
         break;
     case 18:
         Rfu.unk_cdb = FALSE;
@@ -367,15 +364,13 @@ static void Task_JoinGroupSearchForParent(u8 taskId)
         rfu_LMAN_initializeRFU((INIT_PARAM *)&sRfuReqConfigTemplate);
         Rfu.state = 1;
         gTasks[taskId].data[1] = 1;
-        break;
     case 1:
+    case 7:
         break;
     case 6:
         rfu_LMAN_establishConnection(Rfu.parentChild, 0, 240, (u16 *)sAcceptedSerialNos);
         Rfu.state = 7;
         gTasks[taskId].data[1] = 7;
-        break;
-    case 7:
         break;
     case 9:
         gTasks[taskId].data[1] = 10;
@@ -452,14 +447,8 @@ static void Task_LinkRfu_UnionRoomListen(u8 taskId)
         rfu_LMAN_initializeRFU(&sRfuReqConfig);
         Rfu.state = 1;
         gTasks[taskId].data[1] = 1;
-        break;
     case 1:
-        break;
-    case 17:
-        rfu_LMAN_establishConnection(2, 0, 240, (u16 *)sAcceptedSerialNos);
-        rfu_LMAN_setMSCCallback(sub_800ED34);
-        Rfu.state = 18;
-        break;
+    case 15:
     case 18:
         break;
     case 13:
@@ -481,8 +470,6 @@ static void Task_LinkRfu_UnionRoomListen(u8 taskId)
         rfu_LMAN_stopManager(0);
         Rfu.state = 15;
         break;
-    case 15:
-        break;
     case 16:
         Rfu.unk_cdb = FALSE;
         rfu_LMAN_setMSCCallback(sub_800EDBC);
@@ -495,6 +482,11 @@ static void Task_LinkRfu_UnionRoomListen(u8 taskId)
         CreateTask(sub_801084C, 5);
         Rfu.unk_ce8 = TRUE;
         DestroyTask(taskId);
+        break;
+    case 17:
+        rfu_LMAN_establishConnection(2, 0, 240, (u16 *)sAcceptedSerialNos);
+        rfu_LMAN_setMSCCallback(sub_800ED34);
+        Rfu.state = 18;
         break;
     }
 }
@@ -1217,9 +1209,7 @@ static void RfuPrepareSendBuffer(u16 command)
         break;
     case RFUCMD_SEND_HELD_KEYS:
         gSendCmd[1] = gHeldKeyCodeToSend;
-        break;
     case RFUCMD_0xEE00:
-        break;
     case RFUCMD_0xED00:
         break;
     }
@@ -1713,10 +1703,6 @@ static void sub_801084C(u8 taskId)
         else
             gTasks[taskId].data[0] = 2;
         break;
-    case 101:
-        if (gSendCmd[0] == 0)
-            gTasks[taskId].data[0] = 2;
-        break;
     case 2:
         if (Rfu.playerCount)
             gTasks[taskId].data[0]++;
@@ -1762,6 +1748,10 @@ static void sub_801084C(u8 taskId)
                 }
             }
         }
+        break;
+    case 101:
+        if (gSendCmd[0] == 0)
+            gTasks[taskId].data[0] = 2;
         break;
     }
 }
@@ -2102,8 +2092,13 @@ static void sub_801120C(u8 msg, u8 paramCount)
     {
     case LMAN_MSG_INITIALIZE_COMPLETED:
         Rfu.state = 2;
-        break;
     case LMAN_MSG_NEW_CHILD_CONNECT_DETECTED:
+    case LMAN_MSG_NEW_CHILD_CONNECT_REJECTED:
+    case LMAN_MSG_SEARCH_CHILD_PERIOD_EXPIRED:
+    case 0x34:
+    case LMAN_MSG_RFU_POWER_DOWN:
+    case LMAN_MSG_MANAGER_STOPPED:
+    case LMAN_MSG_MANAGER_FORCED_STOPPED_AND_RFU_RESET:
         break;
     case LMAN_MSG_NEW_CHILD_CONNECT_ACCEPTED:
         sub_80115EC(lman.param[0]);
@@ -2129,10 +2124,6 @@ static void sub_801120C(u8 msg, u8 paramCount)
             rfu_REQ_disconnect(disconnectFlag);
             rfu_waitREQComplete();
         }
-        break;
-    case LMAN_MSG_NEW_CHILD_CONNECT_REJECTED:
-        break;
-    case LMAN_MSG_SEARCH_CHILD_PERIOD_EXPIRED:
         break;
     case LMAN_MSG_END_WAIT_CHILD_NAME:
         if (Rfu.acceptSlot_flag != lman.acceptSlot_flag)
@@ -2160,12 +2151,6 @@ static void sub_801120C(u8 msg, u8 paramCount)
                 sub_80111FC();
         }
         RfuSetStatus(RFU_STATUS_CONNECTION_ERROR, msg);
-        break;
-    case 0x34:
-        break;
-    case LMAN_MSG_RFU_POWER_DOWN:
-    case LMAN_MSG_MANAGER_STOPPED:
-    case LMAN_MSG_MANAGER_FORCED_STOPPED_AND_RFU_RESET:
         break;
     case LMAN_MSG_LMAN_API_ERROR_RETURN:
         RfuSetStatus(RFU_STATUS_FATAL_ERROR, msg);
@@ -2231,9 +2216,7 @@ void sub_8011404(u8 msg, u8 unused1)
     case LMAN_MSG_LINK_RECOVERY_SUCCESSED:
         Rfu.linkLossRecoveryState = 3;
         Rfu.linkRecovered = TRUE;
-        break;
     case 0x34:
-        break;
     case LMAN_MSG_RFU_POWER_DOWN:
     case LMAN_MSG_MANAGER_STOPPED:
     case LMAN_MSG_MANAGER_FORCED_STOPPED_AND_RFU_RESET:
@@ -2328,10 +2311,12 @@ static void sub_8011674(u8 msg, u8 paramCount)
             rfu_waitREQComplete();
         }
         sub_80115EC(lman.param[0]);
-        break;
     case LMAN_MSG_NEW_CHILD_CONNECT_REJECTED:
-        break;
     case LMAN_MSG_SEARCH_CHILD_PERIOD_EXPIRED:
+    case LMAN_MSG_SEARCH_PARENT_PERIOD_EXPIRED:
+    case LMAN_MSG_RFU_POWER_DOWN:
+    case LMAN_MSG_MANAGER_STOPPED:
+    case LMAN_MSG_MANAGER_FORCED_STOPPED_AND_RFU_RESET:
         break;
     case LMAN_MSG_END_WAIT_CHILD_NAME:
         if (GetHostRFUtgtGname()->activity != (ACTIVITY_CHAT | IN_UNION_ROOM) && lman.acceptCount > 1)
@@ -2346,8 +2331,6 @@ static void sub_8011674(u8 msg, u8 paramCount)
         break;
     case LMAN_MSG_PARENT_FOUND:
         Rfu.parentId = lman.param[0];
-        break;
-    case LMAN_MSG_SEARCH_PARENT_PERIOD_EXPIRED:
         break;
     case LMAN_MSG_CONNECT_PARENT_SUCCESSED:
         Rfu.childSlot = lman.param[0];
@@ -2410,10 +2393,6 @@ static void sub_8011674(u8 msg, u8 paramCount)
         break;
     case LMAN_MSG_LINK_DISCONNECTED_BY_USER:
         Rfu.unk_ce3 = 0;
-        break;
-    case LMAN_MSG_RFU_POWER_DOWN:
-    case LMAN_MSG_MANAGER_STOPPED:
-    case LMAN_MSG_MANAGER_FORCED_STOPPED_AND_RFU_RESET:
         break;
     case LMAN_MSG_LMAN_API_ERROR_RETURN:
         RfuSetStatus(RFU_STATUS_FATAL_ERROR, msg);

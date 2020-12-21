@@ -28,6 +28,7 @@ BattleFrontier_BattlePalaceLobby_EventScript_GetChallengeStatus:: @ 824D7C7
 	end
 
 BattleFrontier_BattlePalaceLobby_EventScript_QuitWithoutSaving:: @ 824D7D0
+	textcolor BLUE
 	lockall
 	msgbox BattleFrontier_BattlePalaceLobby_Text_FailedToSaveBeforeEndingChallenge, MSGBOX_DEFAULT
 	closemessage
@@ -39,6 +40,7 @@ BattleFrontier_BattlePalaceLobby_EventScript_QuitWithoutSaving:: @ 824D7D0
 	end
 
 BattleFrontier_BattlePalaceLobby_EventScript_WonChallenge:: @ 824D817
+	textcolor BLUE
 	lockall
 	frontier_isbrain
 	compare VAR_RESULT, TRUE
@@ -62,6 +64,7 @@ BattleFrontier_BattlePalaceLobby_EventScript_GiveBattlePoints:: @ 824D840
 	end
 
 BattleFrontier_BattlePalaceLobby_EventScript_LostChallenge:: @ 824D873
+	textcolor BLUE
 	lockall
 	message BattleFrontier_BattlePalaceLobby_Text_ResultsWillBeRecorded
 	waitmessage
@@ -97,6 +100,7 @@ BattleFrontier_BattlePalaceLobby_EventScript_EndSaveAfterChallenge:: @ 824D907
 	return
 
 BattleFrontier_BattlePalaceLobby_EventScript_ResumeChallenge:: @ 824D908
+	textcolor BLUE
 	lockall
 	msgbox BattleFrontier_BattlePalaceLobby_Text_WeHaveBeenWaiting, MSGBOX_DEFAULT
 	message BattleFrontier_BattlePalaceLobby_Text_MustSaveBeforeChallenge
@@ -299,13 +303,9 @@ BattleFrontier_BattlePalaceLobby_Movement_WalkToDoor: @ 824DC47
 	walk_up
 	step_end
 
-BattleFrontier_BattlePalaceLobby_Movement_AttendantEnterDoor: @ 824DC49
-	walk_up
-	set_invisible
-	step_end
-
 BattleFrontier_BattlePalaceLobby_Movement_PlayerEnterDoor: @ 824DC4C
 	walk_up
+BattleFrontier_BattlePalaceLobby_Movement_AttendantEnterDoor:
 	walk_up
 	set_invisible
 	step_end
@@ -402,10 +402,34 @@ BattleFrontier_BattlePalaceLobby_Text_TakeSingleBattleChallenge: @ 824DDE1
 	.string "Do you wish to take\n"
 	.string "the SINGLE BATTLE HALL challenge?$"
 
+.if UK
 BattleFrontier_BattlePalaceLobby_Text_ExplainSingleBattleChallenge: @ 824DE17
 	.string "In the BATTLE PALACE, there are\n"
-	.string "several auditoriums for SINGLE BATTLES\l"
-	.string "that are named SINGLE BATTLE HALLS.\p"
+	.string "auditoriums for SINGLE BATTLES that\l" 
+    .string "are named SINGLE BATTLE HALLS.\p"
+	.string "The SINGLE BATTLES are conducted in\n"
+	.string "the usual way, except with one crucial\l"
+	.string "rule that must be obeyed.\p"
+	.string "TRAINERS are permitted only to switch\n"
+	.string "their POKéMON in and out.\p"
+	.string "TRAINERS are otherwise forbidden to\n"
+	.string "command their POKéMON.\p"
+	.string "The POKéMON are to behave according\n"
+	.string "to their nature and battle on their own.\p"
+	.string "You must put your trust in your\n"
+	.string "POKéMON and watch over them.\p"
+	.string "If you achieve the honour of beating\n"
+	.string "seven TRAINERS in succession,\l"
+	.string "we will present you with Battle Points.\p"
+	.string "If you want to interrupt your\n"
+	.string "challenge, you must save the game.\p"
+	.string "If you don't save before interrupting,\n"
+	.string "you will be disqualified.$"
+.else
+BattleFrontier_BattlePalaceLobby_Text_ExplainSingleBattleChallenge: @ 824DE17
+	.string "In the BATTLE PALACE, there are\n"
+	.string "auditoriums for SINGLE BATTLES that\l" 
+    .string "are named SINGLE BATTLE HALLS.\p"
 	.string "The SINGLE BATTLES are conducted in\n"
 	.string "the usual way, except with one crucial\l"
 	.string "rule that must be obeyed.\p"
@@ -424,6 +448,7 @@ BattleFrontier_BattlePalaceLobby_Text_ExplainSingleBattleChallenge: @ 824DE17
 	.string "challenge, you must save the game.\p"
 	.string "If you don't save before interrupting,\n"
 	.string "you will be disqualified.$"
+.endif
 
 BattleFrontier_BattlePalaceLobby_Text_ReturnWhenFortified: @ 824E0D8
 	.string "When you have fortified your heart\n"
@@ -487,11 +512,6 @@ BattleFrontier_BattlePalaceLobby_Text_FeatWillBeRecorded: @ 824E4F7
 	.string "Your feat will be recorded.\n"
 	.string "I must ask you to briefly wait.$"
 
-@ Unused
-BattleFrontier_BattlePalaceLobby_Text_BattlePointsFor7WinStreak: @ 824E5333
-    .string "For the feat of your 7-win streak,\n"
-    .string "we present you with Battle Point(s).$"
-
 BattleFrontier_BattlePalaceLobby_Text_NoSpaceForPrize: @ 824E57B
 	.string "You seem to have no space for\n"
 	.string "our prize.\p"
@@ -512,11 +532,23 @@ BattleFrontier_BattlePalaceLobby_Text_FailedToSaveBeforeEndingChallenge: @ 824E6
 	.string "As a result, your challenge has been\n"
 	.string "disqualified. It is most unfortunate.$"
 
-@ Unused
-BattleFrontier_BattlePalaceLobby_Text_ReceivedPrize: @ 824E6C9
-	.string "{PLAYER} received the prize\n"
-	.string "{STR_VAR_1}.$"
-
+.if UK
+BattleFrontier_BattlePalaceLobby_Text_LadyCanTellWhatMonsThink: @ 824E6E3
+	.string "For a hardy fellow like me,\n"
+	.string "hardy POKéMON are the best.\p"
+	.string "Offence is the best defence!\n"
+	.string "A relentless attack is the ultimate!\p"
+	.string "But that's not what I wanted to chat\n"
+	.string "about.\p"
+	.string "Every so often a really cute lady\n"
+	.string "swings by here.\p"
+	.string "She says that she can tell what\n"
+	.string "POKéMON are thinking.\p"
+	.string "I don't know about that part,\n"
+	.string "but she is really cute.\p"
+	.string "Huh?\n"
+	.string "Why are you looking at me like that?$"
+.else
 BattleFrontier_BattlePalaceLobby_Text_LadyCanTellWhatMonsThink: @ 824E6E3
 	.string "For a hardy fellow like me,\n"
 	.string "hardy POKéMON are the best.\p"
@@ -532,6 +564,7 @@ BattleFrontier_BattlePalaceLobby_Text_LadyCanTellWhatMonsThink: @ 824E6E3
 	.string "but she is really cute.\p"
 	.string "Huh?\n"
 	.string "Why are you looking at me like that?$"
+.endif
 
 BattleFrontier_BattlePalaceLobby_Text_NatureAndMovesKeyHere: @ 824E851
 	.string "Hmm…\p"
@@ -554,12 +587,21 @@ BattleFrontier_BattlePalaceLobby_Text_MonDocileButTransforms: @ 824E992
 	.string "It becomes totally intimidating.\n"
 	.string "It's shocking, even.$"
 
+.if UK
+BattleFrontier_BattlePalaceLobby_Text_WhatNatureFavorsChippingAway: @ 824EA4B
+	.string "I wonder what sort of nature a POKéMON\n"
+	.string "would have if it favoured enfeebling\l"
+	.string "its opponent and chipping away slowly.\p"
+	.string "I'd be surprised if it was a LAX nature.\p"
+	.string "But, nah, that can't be right.$"
+.else
 BattleFrontier_BattlePalaceLobby_Text_WhatNatureFavorsChippingAway: @ 824EA4B
 	.string "I wonder what sort of nature a POKéMON\n"
 	.string "would have if it favored enfeebling its\l"
 	.string "opponents and chipping away slowly.\p"
 	.string "I'd be surprised if it was a LAX nature.\p"
 	.string "But, nah, that can't be right.$"
+.endif
 
 BattleFrontier_BattlePalaceLobby_Text_WelcomeForDoubleBattle: @ 824EB06
 	.string "Where the hearts of TRAINERS\n"
@@ -572,10 +614,34 @@ BattleFrontier_BattlePalaceLobby_Text_TakeDoubleBattleChallenge: @ 824EB8C
 	.string "Do you wish to take\n"
 	.string "the DOUBLE BATTLE HALL challenge?$"
 
+.if UK
 BattleFrontier_BattlePalaceLobby_Text_ExplainDoubleBattleChallenge: @ 824EBC2
 	.string "In the BATTLE PALACE, there are\n"
-	.string "several auditoriums for DOUBLE BATTLES\l"
-	.string "that are named DOUBLE BATTLE HALLS.\p"
+	.string "auditoriums for DOUBLE BATTLES that\l" 
+    .string "are named DOUBLE BATTLE HALLS.\p"
+	.string "The DOUBLE BATTLES are conducted in\n"
+	.string "the usual way, except with one crucial\l"
+	.string "rule that must be obeyed.\p"
+	.string "TRAINERS are permitted only to switch\n"
+	.string "their POKéMON in and out.\p"
+	.string "TRAINERS are otherwise forbidden to\n"
+	.string "command their POKéMON.\p"
+	.string "The POKéMON are to behave according\n"
+	.string "to their nature and battle on their own.\p"
+	.string "You must put your trust in your\n"
+	.string "POKéMON and watch over them.\p"
+	.string "If you achieve the honour of beating\n"
+	.string "seven TRAINERS in succession,\l"
+	.string "we will present you with Battle Points.\p"
+	.string "If you want to interrupt your\n"
+	.string "challenge, please save the game.\p"
+	.string "If you don't save before interrupting,\n"
+	.string "you will be disqualified.$"
+.else
+BattleFrontier_BattlePalaceLobby_Text_ExplainDoubleBattleChallenge: @ 824EBC2
+	.string "In the BATTLE PALACE, there are\n"
+	.string "auditoriums for DOUBLE BATTLES that\l" 
+    .string "are named DOUBLE BATTLE HALLS.\p"
 	.string "The DOUBLE BATTLES are conducted in\n"
 	.string "the usual way, except with one crucial\l"
 	.string "rule that must be obeyed.\p"
@@ -594,15 +660,23 @@ BattleFrontier_BattlePalaceLobby_Text_ExplainDoubleBattleChallenge: @ 824EBC2
 	.string "challenge, please save the game.\p"
 	.string "If you don't save before interrupting,\n"
 	.string "you will be disqualified.$"
+.endif
 
 BattleFrontier_BattlePalaceLobby_Text_ToDefeatMavenAnd7Trainers: @ 824EE81
 	.string "To defeat the PALACE MAVEN\n"
 	.string "and seven TRAINERS in a row…$"
 
+.if UK
+BattleFrontier_BattlePalaceLobby_Text_PresentYouWithBattlePoints: @ 824EEB9
+	.string "In honour of the bond you share with\n"
+	.string "your POKéMON, we present you with\l"
+	.string "these Battle Point(s).$"
+.else
 BattleFrontier_BattlePalaceLobby_Text_PresentYouWithBattlePoints: @ 824EEB9
 	.string "In honor of the bond you share with\n"
 	.string "your POKéMON, we present you with\l"
 	.string "these Battle Point(s).$"
+.endif
 
 BattleFrontier_BattlePalaceLobby_Text_LikeToRecordMatch: @ 824EF16
 	.string "Would you like to record your latest\n"
@@ -622,6 +696,20 @@ BattleFrontier_BattlePalaceLobby_Text_ExplainRulesBasics: @ 824EFAB
 	.string "with people behave differently\l"
 	.string "depending on their nature.$"
 
+.if UK
+BattleFrontier_BattlePalaceLobby_Text_ExplainRulesNature: @ 824F049
+	.string "Depending on its nature, a POKéMON\n"
+	.string "may prefer to attack no matter what.\p"
+	.string "Another POKéMON may prefer to protect\n"
+	.string "itself from any harm.\p"
+	.string "Yet another may enjoy vexing or\n"
+	.string "confounding its foes.\p"
+	.string "Due to its nature, a POKéMON\n"
+	.string "will have favourite moves that it is\l"
+	.string "good at using.\p"
+	.string "It may also dislike certain moves that\n"
+	.string "it has trouble using.$"
+.else
 BattleFrontier_BattlePalaceLobby_Text_ExplainRulesNature: @ 824F049
 	.string "Depending on its nature, a POKéMON\n"
 	.string "may prefer to attack no matter what.\p"
@@ -634,6 +722,7 @@ BattleFrontier_BattlePalaceLobby_Text_ExplainRulesNature: @ 824F049
 	.string "at using.\p"
 	.string "It may also dislike certain moves that\n"
 	.string "it has trouble using.$"
+.endif
 
 BattleFrontier_BattlePalaceLobby_Text_ExplainRulesMoves: @ 824F190
 	.string "There are offensive moves that inflict\n"
@@ -664,4 +753,3 @@ BattleFrontier_BattlePalaceLobby_Text_ExplainRulesWhenInDanger: @ 824F3F4
 	.string "nature when it is in trouble.\p"
 	.string "If a POKéMON begins behaving oddly\n"
 	.string "in a pinch, watch it carefully.$"
-

@@ -142,13 +142,11 @@ static const u16 sCaterpieLevelUpLearnset[] = {
 
 static const u16 sMetapodLevelUpLearnset[] = {
     LEVEL_UP_MOVE( 0, MOVE_HARDEN),
-    LEVEL_UP_MOVE( 1, MOVE_HARDEN),
     LEVEL_UP_END
 };
 
 static const u16 sButterfreeLevelUpLearnset[] = {
     LEVEL_UP_MOVE( 0, MOVE_CONFUSION),
-    LEVEL_UP_MOVE( 1, MOVE_CONFUSION),
     LEVEL_UP_MOVE(13, MOVE_POISON_POWDER),
     LEVEL_UP_MOVE(14, MOVE_STUN_SPORE),
     LEVEL_UP_MOVE(15, MOVE_SLEEP_POWDER),
@@ -169,7 +167,6 @@ static const u16 sWeedleLevelUpLearnset[] = {
 
 static const u16 sBeedrillLevelUpLearnset[] = {
     LEVEL_UP_MOVE( 0, MOVE_FURY_ATTACK),
-    LEVEL_UP_MOVE( 1, MOVE_FURY_ATTACK),
     LEVEL_UP_MOVE(15, MOVE_FOCUS_ENERGY),
     LEVEL_UP_MOVE(20, MOVE_TWINEEDLE),
     LEVEL_UP_MOVE(25, MOVE_RAGE),
@@ -799,8 +796,6 @@ static const u16 sKadabraLevelUpLearnset[] = {
     LEVEL_UP_MOVE( 0, MOVE_KINESIS),
     LEVEL_UP_MOVE( 0, MOVE_CONFUSION),
     LEVEL_UP_MOVE( 1, MOVE_TELEPORT),
-    LEVEL_UP_MOVE( 1, MOVE_KINESIS),
-    LEVEL_UP_MOVE( 1, MOVE_CONFUSION),
     LEVEL_UP_MOVE(18, MOVE_DISABLE),
     LEVEL_UP_MOVE(21, MOVE_PSYBEAM),
     LEVEL_UP_MOVE(23, MOVE_REFLECT),
@@ -816,8 +811,6 @@ static const u16 sAlakazamLevelUpLearnset[] = {
     LEVEL_UP_MOVE( 0, MOVE_KINESIS),
     LEVEL_UP_MOVE( 0, MOVE_CONFUSION),
     LEVEL_UP_MOVE( 1, MOVE_TELEPORT),
-    LEVEL_UP_MOVE( 1, MOVE_KINESIS),
-    LEVEL_UP_MOVE( 1, MOVE_CONFUSION),
     LEVEL_UP_MOVE(18, MOVE_DISABLE),
     LEVEL_UP_MOVE(21, MOVE_PSYBEAM),
     LEVEL_UP_MOVE(23, MOVE_REFLECT),
@@ -3412,12 +3405,12 @@ static const u16 sMudkipLevelUpLearnset[] = {
 };
 
 static const u16 sMarshtompLevelUpLearnset[] = {
+    LEVEL_UP_MOVE( 0, MOVE_MUD_SHOT),
     LEVEL_UP_MOVE( 1, MOVE_TACKLE),
     LEVEL_UP_MOVE( 1, MOVE_GROWL),
     LEVEL_UP_MOVE( 1, MOVE_MUD_SLAP),
     LEVEL_UP_MOVE( 1, MOVE_WATER_GUN),
     LEVEL_UP_MOVE(15, MOVE_BIDE),
-    LEVEL_UP_MOVE(16, MOVE_MUD_SHOT),
     LEVEL_UP_MOVE(20, MOVE_FORESIGHT),
     LEVEL_UP_MOVE(25, MOVE_MUD_SPORT),
     LEVEL_UP_MOVE(31, MOVE_TAKE_DOWN),
@@ -3834,7 +3827,7 @@ static const u16 sDelcattyLevelUpLearnset[] = {
 };
 
 static const u16 sKecleonLevelUpLearnset[] = {
-    LEVEL_UP_MOVE( 1, MOVE_THIEF),
+    LEVEL_UP_MOVE( 0, MOVE_THIEF),
     LEVEL_UP_MOVE( 1, MOVE_TAIL_WHIP),
     LEVEL_UP_MOVE( 1, MOVE_ASTONISH),
     LEVEL_UP_MOVE( 1, MOVE_LICK),

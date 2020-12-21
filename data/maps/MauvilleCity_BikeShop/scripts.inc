@@ -27,6 +27,7 @@ MauvilleCity_BikeShop_EventScript_ChooseBike:: @ 820EC16
 	waitmessage
 	multichoice 21, 8, MULTI_BIKE, 1
 	switch VAR_RESULT
+	textcolor DARK_GREY
 	case 0, MauvilleCity_BikeShop_EventScript_GetMachBike
 	case 1, MauvilleCity_BikeShop_EventScript_GetAcroBike
 	end
@@ -63,6 +64,7 @@ MauvilleCity_BikeShop_EventScript_ComeBackToSwitchBikes:: @ 820EC87
 MauvilleCity_BikeShop_EventScript_AskSwitchBikes:: @ 820EC94
 	msgbox MauvilleCity_BikeShop_Text_WantToSwitchBikes, MSGBOX_YESNO
 	compare VAR_RESULT, YES
+	textcolor DARK_GREY
 	goto_if_eq MauvilleCity_BikeShop_EventScript_SwitchBikes
 	compare VAR_RESULT, NO
 	goto_if_eq MauvilleCity_BikeShop_EventScript_KeepBike
@@ -82,6 +84,7 @@ MauvilleCity_BikeShop_EventScript_SwitchBikes:: @ 820ECB3
 	end
 
 MauvilleCity_BikeShop_EventScript_KeepBike:: @ 820ECE5
+	copyvar VAR_TEXT_COLOR, VAR_PREV_TEXT_COLOR
 	msgbox MauvilleCity_BikeShop_Text_HappyYouLikeIt, MSGBOX_DEFAULT
 	release
 	end

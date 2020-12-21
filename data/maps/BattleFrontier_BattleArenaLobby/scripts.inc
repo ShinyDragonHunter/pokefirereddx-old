@@ -27,6 +27,7 @@ BattleFrontier_BattleArenaLobby_EventScript_GetChallengeStatus:: @ 8255C7F
 	end
 
 BattleFrontier_BattleArenaLobby_EventScript_QuitWithoutSaving:: @ 8255C88
+	textcolor BLUE
 	lockall
 	msgbox BattleFrontier_BattleArenaLobby_Text_DidntSaveBeforeShuttingDown, MSGBOX_DEFAULT
 	closemessage
@@ -38,6 +39,7 @@ BattleFrontier_BattleArenaLobby_EventScript_QuitWithoutSaving:: @ 8255C88
 	end
 
 BattleFrontier_BattleArenaLobby_EventScript_WonChallenge:: @ 8255CCF
+	textcolor BLUE
 	lockall
 	frontier_isbrain
 	compare VAR_RESULT, TRUE
@@ -54,19 +56,20 @@ BattleFrontier_BattleArenaLobby_EventScript_GiveBattlePoints:: @ 8255CF8
 	message BattleFrontier_BattleArenaLobby_Text_RecordAchievement
 	waitmessage
 	call BattleFrontier_BattleArenaLobby_EventScript_SaveAfterChallenge
-	msgbox BattleFrontier_BattleArenaLobby_Text_AwaitAnotherChallenge2, MSGBOX_DEFAULT
+	msgbox BattleFrontier_BattleArenaLobby_Text_AwaitAnotherChallenge, MSGBOX_DEFAULT
 	closemessage
 	setvar VAR_TEMP_0, 255
 	releaseall
 	end
 
 BattleFrontier_BattleArenaLobby_EventScript_LostChallenge:: @ 8255D2B
+	textcolor BLUE
 	lockall
 	message BattleFrontier_BattleArenaLobby_Text_ThankYouWaitWhileSave
 	waitmessage
 	arena_set ARENA_DATA_WIN_STREAK_ACTIVE, FALSE
 	call BattleFrontier_BattleArenaLobby_EventScript_SaveAfterChallenge
-	msgbox BattleFrontier_BattleArenaLobby_Text_AwaitAnotherChallenge2, MSGBOX_DEFAULT
+	msgbox BattleFrontier_BattleArenaLobby_Text_AwaitAnotherChallenge, MSGBOX_DEFAULT
 	closemessage
 	setvar VAR_TEMP_0, 255
 	releaseall
@@ -455,30 +458,9 @@ BattleFrontier_BattleArenaLobby_Text_RecordAchievement: @ 8256931
 	.string "Your achievement will be recorded.\n"
 	.string "Please wait while I save the game.$"
 
-@ Unused
-BattleFrontier_BattleArenaLobby_Text_PresentYouWithPrize: @ 8256977
-	.string "In commemoration of your 7-win streak,\n"
-	.string "we present you with this prize.$"
-
-@ Unused
-BattleFrontier_BattleArenaLobby_Text_ReceivedPrize: @ 82569BE
-	.string "{PLAYER} received the prize\n"
-	.string "{STR_VAR_1}.$"
-
-@ Unused
-BattleFrontier_BattleArenaLobby_Text_BagFullReturnForPrize: @ 82569D8
-	.string "Oh?\n"
-	.string "Your BAG seems to be full.\p"
-	.string "I urge you to clear space and\n"
-	.string "return for your prize.$"
-
 BattleFrontier_BattleArenaLobby_Text_ThankYouWaitWhileSave: @ 8256A2C
 	.string "Thank you so much for participating!\p"
 	.string "Please wait while I save the game.$"
-
-BattleFrontier_BattleArenaLobby_Text_AwaitAnotherChallenge2: @ 8256A74
-	.string "We await your challenge on\n"
-	.string "another occasion!$"
 
 BattleFrontier_BattleArenaLobby_Text_LookingForwardToArrivalSaveGame: @ 8256AA1
 	.string "We have been looking forward to\n"

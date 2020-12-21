@@ -68,10 +68,11 @@ BattleFrontier_BattleTowerMultiBattleRoom_EventScript_EnterRoom:: @ 8248F4D
 	goto BattleFrontier_BattleTowerMultiBattleRoom_EventScript_AskReadyForOpponents
 
 BattleFrontier_BattleTowerMultiBattleRoom_EventScript_OpponentsEnter:: @ 8248FB4
+	textcolor RESET
 	tower_setopponent
 	addobject LOCALID_OPPONENT_1
 	addobject LOCALID_OPPONENT_2
-	applymovement LOCALID_OPPONENT_1, BattleFrontier_BattleTowerMultiBattleRoom_Movement_Opponent1Enter
+	applymovement LOCALID_OPPONENT_1, BattleFrontier_BattleTowerBattleRoom_Movement_OpponentEnter
 	applymovement LOCALID_OPPONENT_2, BattleFrontier_BattleTowerMultiBattleRoom_Movement_Opponent2Enter
 	waitmovement 0
 	compare VAR_FRONTIER_BATTLE_MODE, FRONTIER_MODE_LINK_MULTIS
@@ -115,12 +116,13 @@ BattleFrontier_BattleTowerMultiBattleRoom_EventScript_WarpToLobbyLost:: @ 824907
 	goto BattleFrontier_BattleTowerBattleRoom_EventScript_WarpToLobby
 
 BattleFrontier_BattleTowerMultiBattleRoom_EventScript_DefeatedOpponents:: @ 82490AA
+	textcolor RED
 	call BattleFrontier_EventScript_IncrementWinStreak
 	tower_setbattlewon
 	switch VAR_RESULT
 	case 7, BattleFrontier_BattleTowerMultiBattleRoom_EventScript_WarpToLobbyWon
 	applymovement LOCALID_OPPONENT_2, BattleFrontier_BattleTowerMultiBattleRoom_Movement_Opponent2Exit
-	applymovement LOCALID_OPPONENT_1, BattleFrontier_BattleTowerMultiBattleRoom_Movement_Opponent1Exit
+	applymovement LOCALID_OPPONENT_1, BattleFrontier_BattleTowerMultiBattleRoom_Movement_PlayerEnterRoom
 	waitmovement 0
 	removeobject LOCALID_OPPONENT_1
 	removeobject LOCALID_OPPONENT_2
@@ -388,14 +390,6 @@ BattleFrontier_BattleTowerMultiBattleRoom_EventScript_249514:: @ 8249514
 	special sub_813B534
 	return
 
-BattleFrontier_BattleTowerMultiBattleRoom_Movement_PlayerEnterRoom: @ 8249518
-	walk_up
-	walk_up
-	walk_up
-	walk_up
-	face_right
-	step_end
-
 BattleFrontier_BattleTowerMultiBattleRoom_Movement_PartnerEnterRoom: @ 824951E
 	walk_left
 	walk_up
@@ -404,27 +398,12 @@ BattleFrontier_BattleTowerMultiBattleRoom_Movement_PartnerEnterRoom: @ 824951E
 	face_right
 	step_end
 
-BattleFrontier_BattleTowerMultiBattleRoom_Movement_FaceAttendant: @ 8249524
-	face_left
-	step_end
-
-BattleFrontier_BattleTowerMultiBattleRoom_Movement_FaceBattle: @ 8249526
-	walk_in_place_fastest_right
-	step_end
-
-BattleFrontier_BattleTowerMultiBattleRoom_Movement_Opponent1Enter: @ 8249528
-	walk_down
-	walk_down
-	walk_down
-	walk_down
-	face_left
-	step_end
-
 BattleFrontier_BattleTowerMultiBattleRoom_Movement_Opponent2Enter: @ 824952E
 	walk_right
 	walk_down
 	walk_down
 	walk_down
+BattleFrontier_BattleTowerMultiBattleRoom_Movement_FaceAttendant:
 	face_left
 	step_end
 
@@ -435,13 +414,6 @@ BattleFrontier_BattleTowerMultiBattleRoom_Movement_Opponent2Exit: @ 8249534
 	set_invisible
 	step_end
 
-BattleFrontier_BattleTowerMultiBattleRoom_Movement_Opponent1Exit: @ 8249539
-	walk_up
-	walk_up
-	walk_up
-	walk_up
-	step_end
-
 BattleFrontier_BattleTowerMultiBattleRoom_Movement_AttendantApproachPlayer: @ 824953E
 	walk_right
 	walk_right
@@ -450,6 +422,7 @@ BattleFrontier_BattleTowerMultiBattleRoom_Movement_AttendantApproachPlayer: @ 82
 BattleFrontier_BattleTowerMultiBattleRoom_Movement_AttendantReturnToPos: @ 8249541
 	walk_left
 	walk_left
+BattleFrontier_BattleTowerMultiBattleRoom_Movement_FaceBattle:
 	walk_in_place_fastest_right
 	step_end
 
@@ -481,40 +454,17 @@ BattleFrontier_BattleTowerMultiBattleRoom_Text_ReadyFor7thOpponentSet: @ 824963C
 	.string "The 7th set of opponents is next.\n"
 	.string "Are you ready?$"
 
-@ Unused
-BattleFrontier_BattleTowerMultiBattleRoom_Text_2ndOpponentSetNext: @ 824966D
-	.string "The 2nd set of opponents is next.\n"
-	.string "Do your best!$"
-
-@ Unused
-BattleFrontier_BattleTowerMultiBattleRoom_Text_3rdOpponentSetNext: @ 824969D
-	.string "The 3rd set of opponents is next.\n"
-	.string "Do your best!$"
-
-@ Unused
-BattleFrontier_BattleTowerMultiBattleRoom_Text_4thOpponentSetNext: @ 82496CD
-	.string "The 4th set of opponents is next.\n"
-	.string "Do your best!$"
-
-@ Unused
-BattleFrontier_BattleTowerMultiBattleRoom_Text_5thOpponentSetNext: @ 82496FD
-	.string "The 5th set of opponents is next.\n"
-	.string "Do your best!$"
-
-@ Unused
-BattleFrontier_BattleTowerMultiBattleRoom_Text_6thOpponentSetNext: @ 824972D
-	.string "The 6th set of opponents is next.\n"
-	.string "Do your best!$"
-
-@ Unused
-BattleFrontier_BattleTowerMultiBattleRoom_Text_7thOpponentSetNext: @ 824975D
-	.string "The 7th set of opponents is next.\n"
-	.string "Do your best!$"
-
 gText_LinkStandby3:: @ 824978D
 	.string "Link standby…$"
 
+.if UK
+gText_YourPartnerHasRetired:: @ 824979B
+	.string "Your partner has retired.\p"
+	.string "Your BATTLE ROOM challenge\n"
+	.string "will be cancelled.$"
+.else
 gText_YourPartnerHasRetired:: @ 824979B
 	.string "Your partner has retired.\p"
 	.string "Your BATTLE ROOM challenge\n"
 	.string "will be canceled.$"
+.endif

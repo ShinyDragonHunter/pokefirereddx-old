@@ -7,6 +7,8 @@
 
 #define RAM_SCRIPT_MAGIC 51
 
+EWRAM_DATA u8 gWalkAwayFromSignInhibitTimer = 0;
+
 extern const u8* gUnknown_020375C0;
 
 // ewram bss
@@ -16,6 +18,9 @@ static struct ScriptContext sScriptContext1;
 static u32 sUnusedVariable2;
 static struct ScriptContext sScriptContext2;
 static bool8 sScriptContext2Enabled;
+static u8 sMsgBoxWalkawayDisabled;
+static u8 sMsgBoxIsCancelable;
+static u8 sMsgIsSignPost;
 
 extern ScrCmdFunc gScriptCmdTable[];
 extern ScrCmdFunc gScriptCmdTableEnd[];
@@ -60,9 +65,6 @@ void StopScript(struct ScriptContext *ctx)
 
 bool8 RunScriptCommand(struct ScriptContext *ctx)
 {
-    if (ctx->mode == 0)
-        return FALSE;
-
     switch (ctx->mode)
     {
     case 0:
@@ -179,6 +181,63 @@ void ScriptContext2_Disable(void)
 bool8 ScriptContext2_IsEnabled(void)
 {
     return sScriptContext2Enabled;
+}
+
+void DisableMsgBoxWalkaway(void)
+{
+    sMsgBoxWalkawayDisabled = TRUE;
+}
+
+void EnableMsgBoxWalkaway(void)
+{
+    sMsgBoxWalkawayDisabled = FALSE;
+}
+
+bool8 IsMsgBoxWalkawayDisabled(void)
+{
+    return sMsgBoxWalkawayDisabled;
+}
+
+void SetWalkingIntoSignVars(void)
+{
+    gWalkAwayFromSignInhibitTimer = 6;
+    sMsgBoxIsCancelable = TRUE;
+}
+
+void ClearMsgBoxCancelableState(void)
+{
+    sMsgBoxIsCancelable = FALSE;
+}
+
+bool8 CanWalkAwayToCancelMsgBox(void)
+{
+    if(sMsgBoxIsCancelable == TRUE)
+        return TRUE;
+    else
+        return FALSE;
+}
+
+void MsgSetSignPost(void)
+{
+    sMsgIsSignPost = TRUE;
+}
+
+void MsgSetNotSignPost(void)
+{
+    sMsgIsSignPost = FALSE;
+}
+
+bool8 IsMsgSignPost(void)
+{
+    if(sMsgIsSignPost == TRUE)
+        return TRUE;
+    else
+        return FALSE;
+}
+
+void ResetFacingNpcOrSignPostVars(void)
+{
+    MsgSetNotSignPost();
 }
 
 bool8 ScriptContext1_IsScriptSetUp(void)

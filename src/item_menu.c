@@ -653,8 +653,6 @@ bool8 SetupBagMenu(void)
         break;
     case 4:
         ResetSpriteData();
-        gMain.state++;
-        break;
     case 5:
         gMain.state++;
         break;
@@ -1517,10 +1515,6 @@ void OpenContextMenu(u8 unused)
                 gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_Cancel);
             }
             break;
-        case ITEMMENULOCATION_PARTY:
-        case ITEMMENULOCATION_SHOP:
-        case ITEMMENULOCATION_BERRY_TREE:
-        case ITEMMENULOCATION_ITEMPC:
         default:
             if (MenuHelpers_LinkSomething() == TRUE || InUnionRoom() == TRUE)
             {
@@ -1626,11 +1620,10 @@ void Task_HandleInBattleItemMenuInput(u8 taskId)
         s8 selection = Menu_ProcessInputNoWrap();
         switch (selection)
         {
-            case MENU_NOTHING_CHOSEN:
-                break;
             case MENU_B_PRESSED:
                 PlaySE(SE_SELECT);
                 sItemMenuActions[ITEMMENUACTION_CANCEL].func.void_u8(taskId);
+            case MENU_NOTHING_CHOSEN:
                 break;
             default:
                 PlaySE(SE_SELECT);
@@ -2264,6 +2257,7 @@ void Task_WallyTutorialBagMenu(u8 taskId)
                 BagMenu_PrintCursor_(data[0], 2);
                 gSpecialVar_ItemId = ITEM_POKE_BALL;
                 OpenContextMenu(taskId);
+            default:
                 data[8]++;
                 break;
             case 0x132:
@@ -2272,9 +2266,6 @@ void Task_WallyTutorialBagMenu(u8 taskId)
                 DestroyListMenuTask(data[0], 0, 0);
                 RestoreBagAfterWallyTutorial();
                 Task_FadeAndCloseBagMenu(taskId);
-                break;
-            default:
-                data[8]++;
                 break;
         }
     }

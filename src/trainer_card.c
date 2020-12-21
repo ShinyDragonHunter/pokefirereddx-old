@@ -55,6 +55,7 @@ struct TrainerCardData
     u8 easyChatProfile[TRAINER_CARD_PROFILE_LENGTH][13];
     u8 textPlayersCard[70];
     u8 textHofTime[70];
+    u8 filler[140];
     u8 textLinkBattleWins[70];
     u8 textLinkBattleLosses[140];
     u8 textNumTrades[140];
@@ -302,8 +303,8 @@ static const u8 sTrainerPicFacilityClass[][GENDER_COUNT] =
     }, 
     [CARD_TYPE_EMERALD] = 
     {
-        [MALE]   = FACILITY_CLASS_BRENDAN,
-        [FEMALE] = FACILITY_CLASS_MAY
+        [MALE]   = FACILITY_CLASS_E_BRENDAN,
+        [FEMALE] = FACILITY_CLASS_E_MAY
     }
 };
 
@@ -694,14 +695,14 @@ static u8 GetHoennTrainerStars(struct TrainerCard *trainerCard)
         stars++;
     if (trainerCard->caughtAllHoenn)
         stars++;
-    if (sData->cardType == CARD_TYPE_EMERALD)
+    if (sData->cardType == CARD_TYPE_RS)
     {
-        if (trainerCard->hasAllSymbols)
+        if (trainerCard->battleTowerStraightWins > 49)
             stars++;
     }
     else
     {
-        if (trainerCard->battleTowerStraightWins > 49)
+        if (trainerCard->hasAllSymbols)
             stars++;
     }
     if (trainerCard->hasAllPaintings)
@@ -749,20 +750,8 @@ static void SetPlayerCardData(struct TrainerCard *trainerCard, u8 cardType)
 
     StringCopy(trainerCard->playerName, gSaveBlock2Ptr->playerName);
 
-    switch (cardType)
+    if (!sData->isHoenn)
     {
-    case CARD_TYPE_RS:
-    case CARD_TYPE_EMERALD:
-        trainerCard->caughtAllHoenn = HasAllHoennMons();
-        trainerCard->battleTowerWins = GetCappedGameStat(sData->trainerCard.battleTowerWins, 9999);
-        trainerCard->battleTowerStraightWins = GetCappedGameStat(sData->trainerCard.battleTowerStraightWins, 9999);
-        trainerCard->contestsWithFriends = GetCappedGameStat(GAME_STAT_WON_LINK_CONTEST, 999);
-        trainerCard->pokeblocksWithFriends = GetCappedGameStat(GAME_STAT_POKEBLOCKS_WITH_FRIENDS, 0xFFFF);
-        if (CountPlayerContestPaintings() > 4)
-            trainerCard->hasAllPaintings = TRUE;
-        trainerCard->stars = GetHoennTrainerStars(trainerCard);
-        break;
-    default:
         trainerCard->caughtAllHoenn = HasAllKantoMons();
         trainerCard->hasAllMons = HasAllMons();
         trainerCard->berriesPicked = gSaveBlock2Ptr->berryPick.berriesPicked;
@@ -771,7 +760,17 @@ static void SetPlayerCardData(struct TrainerCard *trainerCard, u8 cardType)
         trainerCard->berryCrushPoints = GetCappedGameStat(GAME_STAT_51, 0xFFFF);
         trainerCard->shouldDrawStickers = TRUE;
         trainerCard->stars = GetKantoTrainerStars(trainerCard);
-        break;
+    }
+    else
+	{
+        trainerCard->caughtAllHoenn = HasAllHoennMons();
+        trainerCard->battleTowerWins = GetCappedGameStat(sData->trainerCard.battleTowerWins, 9999);
+        trainerCard->battleTowerStraightWins = GetCappedGameStat(sData->trainerCard.battleTowerStraightWins, 9999);
+        trainerCard->contestsWithFriends = GetCappedGameStat(GAME_STAT_WON_LINK_CONTEST, 999);
+        trainerCard->pokeblocksWithFriends = GetCappedGameStat(GAME_STAT_POKEBLOCKS_WITH_FRIENDS, 0xFFFF);
+        if (CountPlayerContestPaintings() > 4)
+            trainerCard->hasAllPaintings = TRUE;
+        trainerCard->stars = GetHoennTrainerStars(trainerCard);
     }
 }
 
@@ -842,11 +841,13 @@ static void SetDataFromTrainerCard(void)
      || sData->trainerCard.hofDebutSeconds)
         sData->hasHofResult++;
 
-    if (sData->trainerCard.linkBattleWins || sData->trainerCard.linkBattleLosses)
+    if (sData->trainerCard.linkBattleWins
+     || sData->trainerCard.linkBattleLosses)
         sData->hasLinkResults++;
     if (sData->trainerCard.pokemonTrades)
         sData->hasTrades++;
-    if (sData->trainerCard.battleTowerWins || sData->trainerCard.battleTowerStraightWins)
+    if (sData->trainerCard.battleTowerWins
+     || sData->trainerCard.battleTowerStraightWins)
         sData->hasBattleTowerWins++;
 
     for (i = 0, badgeFlag = FLAG_BADGE01_GET; badgeFlag < FLAG_BADGE01_GET + NUM_BADGES; badgeFlag++, i++)
@@ -1026,47 +1027,53 @@ static void PrintNameOnCardFront(void)
 
 static void PrintIdOnCard(void)
 {
-    u8 buffer[32];
+    u8 buffer[32], fontId, top, var, var2;
     u8* txtPtr;
     s32 xPos;
-    u32 top;
     txtPtr = StringCopy(buffer, gText_TrainerCardIDNo);
     ConvertIntToDecimalStringN(txtPtr, sData->trainerCard.trainerId, STR_CONV_MODE_LEADING_ZEROS, 5);
     if (!sData->isHoenn)
     {
-        xPos = GetStringCenterAlignXOffset(1, buffer, 80) + 131;
+        fontId = 2;
         top = 10;
-        AddTextPrinterParameterized3(1, 2, xPos, top, sTrainerCardTextColors, TEXT_SPEED_FF, buffer);
+        var = 80;
+        var2 = 131;
     }
     else
     {
-        xPos = GetStringCenterAlignXOffset(1, buffer, 96) + 120;
+        fontId = 1;
         top = 9;
-        AddTextPrinterParameterized3(1, 1, xPos, top, sTrainerCardTextColors, TEXT_SPEED_FF, buffer);
+        var = 96;
+        var2 = 120;
     }
+    xPos = GetStringCenterAlignXOffset(1, buffer, var) + var2;
+    AddTextPrinterParameterized3(1, fontId, xPos, top, sTrainerCardTextColors, TEXT_SPEED_FF, buffer);
 }
 
 static void PrintMoneyOnCard(void)
 {
     s32 xOffset;
-    u8 top;
+    u8 fontId, left, top, x;
 
-    ConvertIntToDecimalStringN(gStringVar1, sData->trainerCard.money, STR_CONV_MODE_LEFT_ALIGN, 6);
-    StringExpandPlaceholders(gStringVar4, gText_PokedollarVar1);
     if (!sData->isHoenn)
     {
-        AddTextPrinterParameterized3(1, 2, 20, 56, sTrainerCardTextColors, TEXT_SPEED_FF, gText_TrainerCardMoney);
-        xOffset = GetStringRightAlignXOffset(1, gStringVar4, 134);
+        fontId = 2;
+        left = 20;
         top = 56;
-        AddTextPrinterParameterized3(1, 2, xOffset, top, sTrainerCardTextColors, TEXT_SPEED_FF, gStringVar4);
+        x = 134;
     }
     else
     {
-        AddTextPrinterParameterized3(1, 1, 16, 57, sTrainerCardTextColors, TEXT_SPEED_FF, gText_TrainerCardMoney);
-        xOffset = GetStringRightAlignXOffset(1, gStringVar4, 128);
+        fontId = 1;
+        left = 16;
         top = 57;
-        AddTextPrinterParameterized3(1, 1, xOffset, top, sTrainerCardTextColors, TEXT_SPEED_FF, gStringVar4);
+        x = 128;
     }
+    AddTextPrinterParameterized3(1, fontId, left, top, sTrainerCardTextColors, TEXT_SPEED_FF, gText_TrainerCardMoney);
+    ConvertIntToDecimalStringN(gStringVar1, sData->trainerCard.money, STR_CONV_MODE_LEFT_ALIGN, 6);
+    StringExpandPlaceholders(gStringVar4, gText_PokedollarVar1);
+    xOffset = GetStringRightAlignXOffset(1, gStringVar4, x);
+    AddTextPrinterParameterized3(1, fontId, xOffset, top, sTrainerCardTextColors, TEXT_SPEED_FF, gStringVar4);
 }
 
 static u16 GetCaughtMonsCount(void)
@@ -1080,24 +1087,27 @@ static u16 GetCaughtMonsCount(void)
 static void PrintPokedexOnCard(void)
 {
     s32 xOffset;
-    u8 top;
+    u8 fontId, left, top, x;
     if (FlagGet(FLAG_SYS_POKEDEX_GET))
     {
-        StringCopy(ConvertIntToDecimalStringN(gStringVar4, sData->trainerCard.caughtMonsCount, STR_CONV_MODE_LEFT_ALIGN, 3), gText_EmptyString6);
         if (!sData->isHoenn)
         {
-            AddTextPrinterParameterized3(1, 2, 20, 72, sTrainerCardTextColors, TEXT_SPEED_FF, gText_TrainerCardPokedex);
-            xOffset = GetStringRightAlignXOffset(1, gStringVar4, 136);
+            fontId = 2;
+            left = 20;
             top = 72;
-            AddTextPrinterParameterized3(1, 2, xOffset, top, sTrainerCardTextColors, TEXT_SPEED_FF, gStringVar4);
+            x = 136;
         }
         else
         {
-            AddTextPrinterParameterized3(1, 1, 16, 73, sTrainerCardTextColors, TEXT_SPEED_FF, gText_TrainerCardPokedex);
-            xOffset = GetStringRightAlignXOffset(1, gStringVar4, 128);
+            fontId = 1;
+            left = 16;
             top = 73;
-            AddTextPrinterParameterized3(1, 1, xOffset, top, sTrainerCardTextColors, TEXT_SPEED_FF, gStringVar4);
+            x = 128;
         }
+        AddTextPrinterParameterized3(1, fontId, left, top, sTrainerCardTextColors, TEXT_SPEED_FF, gText_TrainerCardPokedex);
+        StringCopy(ConvertIntToDecimalStringN(gStringVar4, sData->trainerCard.caughtMonsCount, STR_CONV_MODE_LEFT_ALIGN, 3), gText_EmptyString6);
+        xOffset = GetStringRightAlignXOffset(1, gStringVar4, x);
+        AddTextPrinterParameterized3(1, fontId, xOffset, top, sTrainerCardTextColors, TEXT_SPEED_FF, gStringVar4);
     }
 }
 
@@ -1105,15 +1115,10 @@ static const u8 *const sTimeColonTextColors[] = {sTrainerCardTextColors, sTimeCo
 
 static void PrintTimeOnCard(void)
 {
-    u16 hours;
-    u16 minutes;
+    u8 fontId, left;
+    u16 hours, minutes;
     s32 width;
     u32 x, y, totalWidth;
-
-    if (!sData->isHoenn)
-        AddTextPrinterParameterized3(1, 2, 20, 88, sTrainerCardTextColors, TEXT_SPEED_FF, gText_TrainerCardTime);
-    else
-        AddTextPrinterParameterized3(1, 1, 16, 89, sTrainerCardTextColors, TEXT_SPEED_FF, gText_TrainerCardTime);
 
     if (sData->isLink)
     {
@@ -1133,71 +1138,51 @@ static void PrintTimeOnCard(void)
 
     if (!sData->isHoenn)
     {
-        width = GetStringWidth(2, gText_Colon2, 0);
+        fontId = 2;
+        left = 20;
         x = 136;
         y = 88;
     }
     else
     {
-        width = GetStringWidth(1, gText_Colon2, 0);
+        fontId = 1;
+        left = 16;
         x = 128;
         y = 89;
     }
+    AddTextPrinterParameterized3(1, fontId, left, y, sTrainerCardTextColors, TEXT_SPEED_FF, gText_TrainerCardTime);
+
+    width = GetStringWidth(fontId, gText_Colon2, 0);
     totalWidth = width + 30;
     x -= totalWidth;
 
     FillWindowPixelRect(1, PIXEL_FILL(0), x, y, totalWidth, 15);
     ConvertIntToDecimalStringN(gStringVar4, hours, STR_CONV_MODE_RIGHT_ALIGN, 3);
-    if (!sData->isHoenn)
-    {
-        AddTextPrinterParameterized3(1, 2, x, y, sTrainerCardTextColors, TEXT_SPEED_FF, gStringVar4);
-    }
-    else
-    {
-        AddTextPrinterParameterized3(1, 1, x, y, sTrainerCardTextColors, TEXT_SPEED_FF, gStringVar4);
-    }
+    AddTextPrinterParameterized3(1, fontId, x, y, sTrainerCardTextColors, TEXT_SPEED_FF, gStringVar4);
     x += 18;
-    if (!sData->isHoenn)
-    {
-        AddTextPrinterParameterized3(1, 2, x, y, sTimeColonTextColors[sData->timeColonInvisible], TEXT_SPEED_FF, gText_Colon2);
-    }
-    else
-    {
-        AddTextPrinterParameterized3(1, 1, x, y, sTimeColonTextColors[sData->timeColonInvisible], TEXT_SPEED_FF, gText_Colon2);
-    }
+    AddTextPrinterParameterized3(1, fontId, x, y, sTimeColonTextColors[sData->timeColonInvisible], TEXT_SPEED_FF, gText_Colon2);
     x += width;
     ConvertIntToDecimalStringN(gStringVar4, minutes, STR_CONV_MODE_LEADING_ZEROS, 2);
-    if (!sData->isHoenn)
-    {
-        AddTextPrinterParameterized3(1, 2, x, y, sTrainerCardTextColors, TEXT_SPEED_FF, gStringVar4);
-    }
-    else
-    {
-        AddTextPrinterParameterized3(1, 1, x, y, sTrainerCardTextColors, TEXT_SPEED_FF, gStringVar4);
-    }
+    AddTextPrinterParameterized3(1, fontId, x, y, sTrainerCardTextColors, TEXT_SPEED_FF, gStringVar4);
 }
 
 static void PrintProfilePhraseOnCard(void)
 {
+    u8 fontId;
     static const u8 yOffsetsLine1[] = {113, 104};
     static const u8 yOffsetsLine2[] = {129, 120};
 
+    if (!sData->isHoenn)
+        fontId = 2;
+    else
+        fontId = 1;
+
     if (sData->isLink)
     {
-        if (!sData->isHoenn)
-        {
-            AddTextPrinterParameterized3(1, 2, 8, yOffsetsLine1[sData->isHoenn], sTrainerCardTextColors, TEXT_SPEED_FF, sData->easyChatProfile[0]);
-            AddTextPrinterParameterized3(1, 2, GetStringWidth(1, sData->easyChatProfile[0], 0) + 14, yOffsetsLine1[sData->isHoenn], sTrainerCardTextColors, TEXT_SPEED_FF, sData->easyChatProfile[1]);
-            AddTextPrinterParameterized3(1, 2, 8, yOffsetsLine2[sData->isHoenn], sTrainerCardTextColors, TEXT_SPEED_FF, sData->easyChatProfile[2]);
-            AddTextPrinterParameterized3(1, 2, GetStringWidth(1, sData->easyChatProfile[2], 0) + 14, yOffsetsLine2[sData->isHoenn], sTrainerCardTextColors, TEXT_SPEED_FF, sData->easyChatProfile[3]);
-        }
-        else
-        {
-            AddTextPrinterParameterized3(1, 1, 8, yOffsetsLine1[sData->isHoenn], sTrainerCardTextColors, TEXT_SPEED_FF, sData->easyChatProfile[0]);
-            AddTextPrinterParameterized3(1, 1, GetStringWidth(1, sData->easyChatProfile[0], 0) + 14, yOffsetsLine1[sData->isHoenn], sTrainerCardTextColors, TEXT_SPEED_FF, sData->easyChatProfile[1]);
-            AddTextPrinterParameterized3(1, 1, 8, yOffsetsLine2[sData->isHoenn], sTrainerCardTextColors, TEXT_SPEED_FF, sData->easyChatProfile[2]);
-            AddTextPrinterParameterized3(1, 1, GetStringWidth(1, sData->easyChatProfile[2], 0) + 14, yOffsetsLine2[sData->isHoenn], sTrainerCardTextColors, TEXT_SPEED_FF, sData->easyChatProfile[3]);
-        }
+        AddTextPrinterParameterized3(1, fontId, 8, yOffsetsLine1[sData->isHoenn], sTrainerCardTextColors, TEXT_SPEED_FF, sData->easyChatProfile[0]);
+        AddTextPrinterParameterized3(1, fontId, GetStringWidth(1, sData->easyChatProfile[0], 0) + 14, yOffsetsLine1[sData->isHoenn], sTrainerCardTextColors, TEXT_SPEED_FF, sData->easyChatProfile[1]);
+        AddTextPrinterParameterized3(1, fontId, 8, yOffsetsLine2[sData->isHoenn], sTrainerCardTextColors, TEXT_SPEED_FF, sData->easyChatProfile[2]);
+        AddTextPrinterParameterized3(1, fontId, GetStringWidth(1, sData->easyChatProfile[2], 0) + 14, yOffsetsLine2[sData->isHoenn], sTrainerCardTextColors, TEXT_SPEED_FF, sData->easyChatProfile[3]);
     }
 }
 
@@ -1235,36 +1220,32 @@ static void BufferHofDebutTime(void)
 
 static void PrintStatOnBackOfCard(u8 top, const u8* statName, u8* stat, const u8* color)
 {
+    u8 fontId, var;
     static const u8 xOffsets[] = {10, 16};
     static const u8 HoennXOffsets[] = {8, 16};
     static const u8 widths[] = {216, 216};
 
     if (!sData->isHoenn)
     {
+        fontId = 2;
+        var = 35;
         AddTextPrinterParameterized3(1, 2, xOffsets[sData->isHoenn], top * 16 + 35, sTrainerCardTextColors, TEXT_SPEED_FF, statName);
-        AddTextPrinterParameterized3(1, 2, GetStringRightAlignXOffset(2, stat, widths[sData->isHoenn]), top * 16 + 35, color, TEXT_SPEED_FF, stat);
     }
     else
     {
+        fontId = 1;
+        var = 33;
         AddTextPrinterParameterized3(1, 1, HoennXOffsets[sData->isHoenn], top * 16 + 33, sTrainerCardTextColors, TEXT_SPEED_FF, statName);
-        AddTextPrinterParameterized3(1, 1, GetStringRightAlignXOffset(1, stat, widths[sData->isHoenn]), top * 16 + 33, color, TEXT_SPEED_FF, stat);
     }
+    AddTextPrinterParameterized3(1, fontId, GetStringRightAlignXOffset(2, stat, widths[sData->isHoenn]), top * 16 + var, color, TEXT_SPEED_FF, stat);
 }
 
 static void PrintHofDebutTimeOnCard(void)
 {
-    if (sData->hasHofResult)
-    {
-        switch (sData->cardType)
-        {
-        case CARD_TYPE_RS:
-            PrintStatOnBackOfCard(0, gText_FirstHallOfFame, sData->textHofTime, sTrainerCardStatColors);
-            break;
-        default:
-            PrintStatOnBackOfCard(0, gText_HallOfFameDebut, sData->textHofTime, sTrainerCardStatColors);
-            break;
-        }
-    }
+    if (sData->cardType == CARD_TYPE_RS)
+        PrintStatOnBackOfCard(0, gText_FirstHallOfFame, sData->textHofTime, sTrainerCardStatColors);
+    else
+        PrintStatOnBackOfCard(0, gText_HallOfFameDebut, sData->textHofTime, sTrainerCardStatColors);
 }
 
 static void BufferLinkBattleResults(void)
@@ -1283,20 +1264,20 @@ static void PrintLinkBattleResultsOnCard(void)
         StringCopy(gStringVar1, sData->textLinkBattleWins);
         StringCopy(gStringVar2, sData->textLinkBattleLosses);
 
-        switch (sData->cardType)
+        if (sData->cardType == CARD_TYPE_RS)
         {
-        case CARD_TYPE_RS:
             StringExpandPlaceholders(gStringVar4, gText_LossRatio);
             PrintStatOnBackOfCard(1, gText_LinkCableBattles, gStringVar4, sTrainerCardTextColors);
-            break;
-        case CARD_TYPE_EMERALD:
+        }
+        else if (sData->cardType == CARD_TYPE_EMERALD)
+        {
             StringExpandPlaceholders(gStringVar4, gText_WinsLosses);
             PrintStatOnBackOfCard(1, gText_LinkBattles, gStringVar4, sTrainerCardTextColors);
-            break;
-        default:
+        }
+        else
+        {
             StringExpandPlaceholders(gStringVar4, gText_LossRatio);
             PrintStatOnBackOfCard(1, gText_LinkBattlesFR, gStringVar4, sTrainerCardTextColors);
-            break;
         }
     }
 }
@@ -1315,10 +1296,6 @@ static void PrintTradesStringOnCard(void)
 
 static void BufferBerryCrushPoints(void)
 {
-    if (!sData->isHoenn && sData->trainerCard.frontierBP)
-        ConvertIntToDecimalStringN(gStringVar1, sData->trainerCard.frontierBP, STR_CONV_MODE_RIGHT_ALIGN, 5);
-        StringExpandPlaceholders(sData->textBattleFacilityStat, gText_NumBP);
-
     if (!sData->isHoenn && sData->trainerCard.berryCrushPoints)
         ConvertIntToDecimalStringN(sData->textBerryCrushPts, sData->trainerCard.berryCrushPoints, STR_CONV_MODE_RIGHT_ALIGN, 5);
 }
@@ -1373,38 +1350,32 @@ static void PrintContestStringOnCard(void)
 
 static void BufferBattleFacilityStats(void)
 {
-    switch (sData->cardType)
+    if (sData->cardType == CARD_TYPE_RS)
     {
-    case CARD_TYPE_RS:
         if (sData->hasBattleTowerWins)
-        {
             ConvertIntToDecimalStringN(gStringVar1, sData->trainerCard.battleTowerWins, STR_CONV_MODE_RIGHT_ALIGN, 4);
             ConvertIntToDecimalStringN(gStringVar2, sData->trainerCard.battleTowerStraightWins, STR_CONV_MODE_RIGHT_ALIGN, 4);
             StringExpandPlaceholders(sData->textBattleFacilityStat, gText_WinsStraight);
-        }
-        break;
-    case CARD_TYPE_EMERALD:
+    }
+    else
+    {
         if (sData->trainerCard.frontierBP)
-        {
             ConvertIntToDecimalStringN(gStringVar1, sData->trainerCard.frontierBP, STR_CONV_MODE_RIGHT_ALIGN, 5);
             StringExpandPlaceholders(sData->textBattleFacilityStat, gText_NumBP);
-        }
-        break;
     }
 }
 
 static void PrintBattleFacilityStringOnCard(void)
 {
-    switch (sData->cardType)
+    if (sData->cardType == CARD_TYPE_RS)
     {
-    case CARD_TYPE_RS:
         if (sData->hasBattleTowerWins)
             PrintStatOnBackOfCard(5, gText_BattleTower, sData->textBattleFacilityStat, sTrainerCardTextColors);
-        break;
-    case CARD_TYPE_EMERALD:
+    }
+    else if (sData->cardType == CARD_TYPE_EMERALD)
+    {
         if (sData->trainerCard.frontierBP)
             PrintStatOnBackOfCard(5, gText_BattlePtsWon, sData->textBattleFacilityStat, sTrainerCardStatColors);
-        break;
     }
 }
 

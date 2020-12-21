@@ -88,7 +88,6 @@ static u8 GetMapsecType(u16 mapSecId);
 static u16 CorrectSpecialMapSecId_Internal(u16 mapSecId);
 static u16 GetTerraOrMarineCaveMapSecId(void);
 static void GetMarineCaveCoords(u16 *x, u16 *y);
-static bool32 IsPlayerInAquaHideout(u8 mapSecId);
 static void GetPositionOfCursorWithinMapSec(void);
 static bool8 RegionMap_IsMapSecIdInNextRow(u16 y);
 static void SpriteCB_CursorMapFull(struct Sprite *sprite);
@@ -194,11 +193,6 @@ static const struct UCoords16 sMarineCaveLocationCoords[MARINE_CAVE_LOCATIONS] =
     [MARINE_CAVE_COORD(ROUTE_127_SOUTH)] = {25, 7},
     [MARINE_CAVE_COORD(ROUTE_129_WEST)]  = {24, 10},
     [MARINE_CAVE_COORD(ROUTE_129_EAST)]  = {24, 10}
-};
-
-static const u8 sMapSecAquaHideoutOld[] =
-{
-    MAPSEC_AQUA_HIDEOUT_OLD
 };
 
 static const struct OamData sRegionMapCursorOam =
@@ -609,7 +603,6 @@ bool8 LoadRegionMapGfx(void)
             SetBgAttribute(gRegionMap->bgNum, BG_ATTR_PALETTEMODE, 1);
         }
         gRegionMap->initStep++;
-        return FALSE;
     default:
         return FALSE;
     }
@@ -986,21 +979,6 @@ static void InitMapBasedOnPlayerLocation(void)
 
     switch (GetMapTypeByGroupAndId(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum))
     {
-    default:
-    case MAP_TYPE_TOWN:
-    case MAP_TYPE_CITY:
-    case MAP_TYPE_ROUTE:
-    case MAP_TYPE_UNDERWATER:
-    case MAP_TYPE_OCEAN_ROUTE:
-        gRegionMap->mapSecId = gMapHeader.regionMapSectionId;
-        gRegionMap->playerIsInCave = FALSE;
-        mapWidth = gMapHeader.mapLayout->width;
-        mapHeight = gMapHeader.mapLayout->height;
-        x = gSaveBlock1Ptr->pos.x;
-        y = gSaveBlock1Ptr->pos.y;
-        if (gRegionMap->mapSecId == MAPSEC_UNDERWATER_SEAFLOOR_CAVERN || gRegionMap->mapSecId == MAPSEC_UNDERWATER_MARINE_CAVE)
-            gRegionMap->playerIsInCave = TRUE;
-        break;
     case MAP_TYPE_UNDERGROUND:
     case MAP_TYPE_UNKNOWN:
         if (gMapHeader.flags & MAP_ALLOW_ESCAPING)
@@ -1045,16 +1023,21 @@ static void InitMapBasedOnPlayerLocation(void)
             mapHeader = Overworld_GetMapHeaderByGroupAndId(warp->mapGroup, warp->mapNum);
             gRegionMap->mapSecId = mapHeader->regionMapSectionId;
         }
-
-        if (IsPlayerInAquaHideout(gRegionMap->mapSecId))
-            gRegionMap->playerIsInCave = TRUE;
-        else
-            gRegionMap->playerIsInCave = FALSE;
-
+        gRegionMap->playerIsInCave = FALSE;
         mapWidth = mapHeader->mapLayout->width;
         mapHeight = mapHeader->mapLayout->height;
         x = warp->x;
         y = warp->y;
+        break;
+    default:
+        gRegionMap->mapSecId = gMapHeader.regionMapSectionId;
+        gRegionMap->playerIsInCave = FALSE;
+        mapWidth = gMapHeader.mapLayout->width;
+        mapHeight = gMapHeader.mapLayout->height;
+        x = gSaveBlock1Ptr->pos.x;
+        y = gSaveBlock1Ptr->pos.y;
+        if (gRegionMap->mapSecId == MAPSEC_UNDERWATER_SEAFLOOR_CAVERN || gRegionMap->mapSecId == MAPSEC_UNDERWATER_MARINE_CAVE)
+            gRegionMap->playerIsInCave = TRUE;
         break;
     }
 
@@ -1269,20 +1252,6 @@ static void GetMarineCaveCoords(u16 *x, u16 *y)
 
     *x = sMarineCaveLocationCoords[idx].x + MAPCURSOR_X_MIN;
     *y = sMarineCaveLocationCoords[idx].y + MAPCURSOR_Y_MIN;
-}
-
-// Probably meant to be an "IsPlayerInIndoorDungeon" function, but in practice it only has the one mapsec
-// Additionally, because the mapsec doesnt exist in Emerald, this function always returns FALSE
-static bool32 IsPlayerInAquaHideout(u8 mapSecId)
-{
-    u32 i;
-
-    for (i = 0; i < ARRAY_COUNT(sMapSecAquaHideoutOld); i++)
-    {
-        if (sMapSecAquaHideoutOld[i] == mapSecId)
-            return TRUE;
-    }
-    return FALSE;
 }
 
 u16 CorrectSpecialMapSecId(u16 mapSecId)
@@ -1940,12 +1909,11 @@ static void CB_HandleFlyMapInput(void)
     {
         switch (DoRegionMapInputCallback())
         {
+        case MAP_INPUT_MOVE_END:
+            DrawFlyDestTextWindow();
         case MAP_INPUT_NONE:
         case MAP_INPUT_MOVE_START:
         case MAP_INPUT_MOVE_CONT:
-            break;
-        case MAP_INPUT_MOVE_END:
-            DrawFlyDestTextWindow();
             break;
         case MAP_INPUT_A_BUTTON:
             if (sFlyMap->regionMap.mapSecType == MAPSECTYPE_CITY_CANFLY || sFlyMap->regionMap.mapSecType == MAPSECTYPE_BATTLE_FRONTIER)

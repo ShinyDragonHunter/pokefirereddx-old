@@ -47,68 +47,68 @@ const struct SpriteFrameImage gUnknown_082FF408[] =
 
 const struct SpriteFrameImage gTrainerBackPicTable_Red[] =
 {
-    gTrainerBackPic_Red, 0x0800,
-    gTrainerBackPic_Red + 0x0800, 0x0800,
-    gTrainerBackPic_Red + 0x1000, 0x0800,
-    gTrainerBackPic_Red + 0x1800, 0x0800,
-    gTrainerBackPic_Red + 0x2000, 0x0800,
+    gTrainerBackPicRed, 0x0800,
+    gTrainerBackPicRed + 0x0800, 0x0800,
+    gTrainerBackPicRed + 0x1000, 0x0800,
+    gTrainerBackPicRed + 0x1800, 0x0800,
+    gTrainerBackPicRed + 0x2000, 0x0800,
 };
 
 const struct SpriteFrameImage gTrainerBackPicTable_Leaf[] =
 {
-    gTrainerBackPic_Leaf, 0x0800,
-    gTrainerBackPic_Leaf + 0x0800, 0x0800,
-    gTrainerBackPic_Leaf + 0x1000, 0x0800,
-    gTrainerBackPic_Leaf + 0x1800, 0x0800,
-    gTrainerBackPic_Leaf + 0x2000, 0x0800,
+    gTrainerBackPicLeaf, 0x0800,
+    gTrainerBackPicLeaf + 0x0800, 0x0800,
+    gTrainerBackPicLeaf + 0x1000, 0x0800,
+    gTrainerBackPicLeaf + 0x1800, 0x0800,
+    gTrainerBackPicLeaf + 0x2000, 0x0800,
 };
 
-const struct SpriteFrameImage gTrainerBackPicTable_Wally[] =
+const struct SpriteFrameImage gTrainerBackPicTable_PokeDude[] =
 {
-    gTrainerBackPic_Wally, 0x0800,
-    gTrainerBackPic_Wally + 0x0800, 0x0800,
-    gTrainerBackPic_Wally + 0x1000, 0x0800,
-    gTrainerBackPic_Wally + 0x1800, 0x0800,
+    gTrainerBackPicPokeDude, 0x0800,
+    gTrainerBackPicPokeDude + 0x0800, 0x0800,
+    gTrainerBackPicPokeDude + 0x1000, 0x0800,
+    gTrainerBackPicPokeDude + 0x1800, 0x0800,
 };
 
-const struct SpriteFrameImage gTrainerBackPicTable_Steven[] =
+const struct SpriteFrameImage gTrainerBackPicTable_OldMan[] =
 {
-    gTrainerBackPic_Steven, 0x0800,
-    gTrainerBackPic_Steven + 0x0800, 0x0800,
-    gTrainerBackPic_Steven + 0x1000, 0x0800,
-    gTrainerBackPic_Steven + 0x1800, 0x0800,
+    gTrainerBackPicOldMan, 0x0800,
+    gTrainerBackPicOldMan + 0x0800, 0x0800,
+    gTrainerBackPicOldMan + 0x1000, 0x0800,
+    gTrainerBackPicOldMan + 0x1800, 0x0800,
 };
 
-const struct SpriteFrameImage gTrainerBackPicTable_Brendan[] =
+const struct SpriteFrameImage gTrainerBackPicTable_EBrendan[] =
 {
-    gTrainerBackPic_Brendan, 0x0800,
-    gTrainerBackPic_Brendan + 0x0800, 0x0800,
-    gTrainerBackPic_Brendan + 0x1000, 0x0800,
-    gTrainerBackPic_Brendan + 0x1800, 0x0800,
+    gTrainerBackPicEBrendan, 0x0800,
+    gTrainerBackPicEBrendan + 0x0800, 0x0800,
+    gTrainerBackPicEBrendan + 0x1000, 0x0800,
+    gTrainerBackPicEBrendan + 0x1800, 0x0800,
 };
 
-const struct SpriteFrameImage gTrainerBackPicTable_May[] =
+const struct SpriteFrameImage gTrainerBackPicTable_EMay[] =
 {
-    gTrainerBackPic_May, 0x0800,
-    gTrainerBackPic_May + 0x0800, 0x0800,
-    gTrainerBackPic_May + 0x1000, 0x0800,
-    gTrainerBackPic_May + 0x1800, 0x0800,
+    gTrainerBackPicEMay, 0x0800,
+    gTrainerBackPicEMay + 0x0800, 0x0800,
+    gTrainerBackPicEMay + 0x1000, 0x0800,
+    gTrainerBackPicEMay + 0x1800, 0x0800,
 };
 
-const struct SpriteFrameImage gTrainerBackPicTable_RubySapphireBrendan[] =
+const struct SpriteFrameImage gTrainerBackPicTable_RSBrendan[] =
 {
-    gTrainerBackPic_RubySapphireBrendan, 0x0800,
-    gTrainerBackPic_RubySapphireBrendan + 0x0800, 0x0800,
-    gTrainerBackPic_RubySapphireBrendan + 0x1000, 0x0800,
-    gTrainerBackPic_RubySapphireBrendan + 0x1800, 0x0800,
+    gTrainerBackPicRSBrendan, 0x0800,
+    gTrainerBackPicRSBrendan + 0x0800, 0x0800,
+    gTrainerBackPicRSBrendan + 0x1000, 0x0800,
+    gTrainerBackPicRSBrendan + 0x1800, 0x0800,
 };
 
-const struct SpriteFrameImage gTrainerBackPicTable_RubySapphireMay[] =
+const struct SpriteFrameImage gTrainerBackPicTable_RSMay[] =
 {
-    gTrainerBackPic_RubySapphireMay, 0x0800,
-    gTrainerBackPic_RubySapphireMay + 0x0800, 0x0800,
-    gTrainerBackPic_RubySapphireMay + 0x1000, 0x0800,
-    gTrainerBackPic_RubySapphireMay + 0x1800, 0x0800,
+    gTrainerBackPicRSMay, 0x0800,
+    gTrainerBackPicRSMay + 0x0800, 0x0800,
+    gTrainerBackPicRSMay + 0x1000, 0x0800,
+    gTrainerBackPicRSMay + 0x1800, 0x0800,
 };
 
 static const union AnimCmd sAnim_GeneralFrame0[] =
@@ -285,6 +285,8 @@ const union AnimCmd *const gUnknown_082FF70C[] =
 
 #define TRAINER_SPRITE(trainerPic, sprite, size) [TRAINER_PIC_##trainerPic] = {sprite, size, TRAINER_PIC_##trainerPic}
 #define TRAINER_PAL(trainerPic, pal) [TRAINER_PIC_##trainerPic] = {pal, TRAINER_PIC_##trainerPic}
+#define HOENN_TRAINER_SPRITE(trainerPic, sprite, size) [HOENN_TRAINER_PIC_##trainerPic] = {sprite, size, HOENN_TRAINER_PIC_##trainerPic}
+#define HOENN_TRAINER_PAL(trainerPic, pal) [HOENN_TRAINER_PIC_##trainerPic] = {pal, HOENN_TRAINER_PIC_##trainerPic}
 
 #define TRAINER_BACK_PAL(trainerPic, pal) [TRAINER_BACK_PIC_##trainerPic] = {pal, TRAINER_BACK_PIC_##trainerPic}
 

@@ -10,6 +10,7 @@ BattleFrontier_BattlePikeRoomFinal_OnFrame: @ 825E39D
 	.2byte 0
 
 BattleFrontier_BattlePikeRoomFinal_EventScript_EnterRoom:: @ 825E3A7
+	textcolor RED
 	delay 16
 	applymovement LOCALID_ATTENDANT, BattleFrontier_BattlePikeRoomFinal_Movement_AttendantApproachPlayer
 	waitmovement 0

@@ -87,11 +87,13 @@ BattleFrontier_BattleTowerLobby_EventScript_GiveRibbons:: @ 823E780
 BattleFrontier_BattleTowerLobby_EventScript_GiveBattlePoints:: @ 823E7A5
 	msgbox BattleFrontier_BattleTowerLobby_Text_AwardYouTheseBattlePoints, MSGBOX_DEFAULT
 	frontier_givepoints
+	textcolor DARK_GREY
 	msgbox BattleFrontier_Text_ObtainedXBattlePoints, MSGBOX_GETPOINTS
 	call BattleFrontier_BattleTowerLobby_EventScript_AskSaveBattle
 	tower_get TOWER_DATA_WIN_STREAK
 	compare VAR_RESULT, 49
 	goto_if_ne BattleFrontier_BattleTowerLobby_EventScript_LookForwardToChallenge
+	textcolor RED
 	msgbox BattleFrontier_BattleTowerLobby_Text_AboutToFace50thTrainer, MSGBOX_DEFAULT
 BattleFrontier_BattleTowerLobby_EventScript_LookForwardToChallenge:: @ 823E7E2
 	msgbox BattleFrontier_BattleTowerLobby_Text_LookForwardToAnotherChallenge, MSGBOX_DEFAULT
@@ -1363,20 +1365,6 @@ BattleFrontier_BattleTowerLobby_Text_FriendChoseDifferentLvlMode: @ 82412E8
 	.string "Your friend has chosen a different\n"
 	.string "battle level.$"
 
-@ Unused
-BattleFrontier_BattleTowerLobby_Text_FriendChoseDifferentLvlModeSameMon: @ 8241319
-	.string "Your friend has chosen a different\n"
-	.string "battle level.\p"
-	.string "Your friend has also selected\n"
-	.string "the POKéMON {STR_VAR_1}.$"
-
-@ Unused
-BattleFrontier_BattleTowerLobby_Text_FriendChoseDifferentLvlModeSameMons: @ 8241378
-	.string "Your friend has chosen a different\n"
-	.string "battle level.\p"
-	.string "Your friend has also selected the\n"
-	.string "POKéMON {STR_VAR_1} and {STR_VAR_2}.$"
-
 BattleFrontier_BattleTowerLobby_Text_ChooseDifferentMonsMatchLvlMode: @ 82413DE
 	.string "Please choose two POKéMON different\n"
 	.string "from your friend's, match the level\l"
@@ -1396,7 +1384,7 @@ BattleFrontier_BattleTowerLobby_Text_AwardYouTheseBattlePoints: @ 82414D4
 	.string "we award you these Battle Point(s).$"
 
 BattleFrontier_Text_ObtainedXBattlePoints: @ 8241520
-	.string "{PLAYER} obtained {STR_VAR_1} Battle Point(s).$"
+	.string "{COLOR DARK_GREY}{PLAYER} obtained {STR_VAR_1} Battle Point(s).$"
 
 BattleFrontier_BattleTowerLobby_Text_RulesAreListed: @ 8241540
 	.string "The BATTLE TOWER rules are listed.$"

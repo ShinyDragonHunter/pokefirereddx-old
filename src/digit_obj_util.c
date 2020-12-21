@@ -224,15 +224,14 @@ void DigitObjUtil_PrintNumOn(u32 id, s32 num)
 
     switch (sOamWork->array[id].strConvMode)
     {
-    case 0:
-    default:
-        DrawNumObjsLeadingZeros(&sOamWork->array[id], num, sign);
-        break;
     case 1:
         DrawNumObjsMinusInFront(&sOamWork->array[id], num, sign);
         break;
     case 2:
         DrawNumObjsMinusInBack(&sOamWork->array[id], num, sign);
+        break;
+    default:
+        DrawNumObjsLeadingZeros(&sOamWork->array[id], num, sign);
         break;
     }
 }

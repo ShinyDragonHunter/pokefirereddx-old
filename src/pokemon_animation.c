@@ -1,5 +1,6 @@
 #include "global.h"
 #include "battle.h"
+#include "data.h"
 #include "pokemon.h"
 #include "pokemon_animation.h"
 #include "sprite.h"
@@ -1040,6 +1041,13 @@ static void sub_817F77C(struct Sprite *sprite)
         FreeOamMatrix(sprite->oam.matrixNum);
         sprite->oam.matrixNum |= (sprite->hFlip << 3);
         sprite->oam.affineMode = ST_OAM_AFFINE_OFF;
+    }
+    else
+    {
+        // FIX: Reset these back to normal after they were changed so Poké Ball catch/release
+        // animations without a screen transition in between don't break
+        sprite->affineAnimPaused = FALSE;
+        sprite->affineAnims = gUnknown_082FF694;
     }
 }
 
@@ -4095,8 +4103,6 @@ static void sub_8183574(struct Sprite *sprite)
     u8 var2 = var5;
     if (var5 != 0xFF)
         var5 = sprite->data[7];
-    else
-        var5 = 0xFF; // needed to match
 
     var6 = sUnknown_0860AA80[sprite->data[5]][1];
     var7 = 0;

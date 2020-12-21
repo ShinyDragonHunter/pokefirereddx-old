@@ -1452,9 +1452,10 @@
 	.2byte \box
 	.endm
 
-	@ Sets the color of the text in standard message boxes. 0x00 produces blue (male) text, 0x01 produces red (female) text, 
-	@ 0xFF resets the color to the default for the current OW's gender, and all other values produce black text.
-	@ Used only in FireRed/LeafGreen, does nothing in Emerald.
+	@ Sets the colour of the text in standard message boxes. 0x00 produces blue (male) text, 0x01 produces red (female) text,
+	@ 0xFF resets to the default for the current object event, and all other values produce dark grey text.
+	@ This has been adapted to include all 16 possible text colours.
+	@ See "textcolor script command values" at the bottom of this file for command values.
 	.macro textcolor color:req
 	.byte 0xc9
 	.byte \color
@@ -1751,6 +1752,25 @@
 	compare VAR_0x8000, \condition
 	goto_if_eq \dest
 	.endm
+
+    @ textcolor script command values
+	TRANSPARENT = 0
+	WHITE       = 1
+	DARK_GREY   = 2
+	LIGHT_GREY  = 3
+	RED         = 4
+	LIGHT_RED   = 5
+	GREEN       = 6
+	LIGHT_GREEN = 7
+	BLUE        = 8
+	LIGHT_BLUE  = 9
+	DYNAMIC_1   = 10
+	DYNAMIC_2   = 11
+	DYNAMIC_3   = 12
+	DYNAMIC_4   = 13
+	DYNAMIC_5   = 14
+	DYNAMIC_6   = 15
+	RESET       = 0xFF
 
 	@ Message box types
 	MSGBOX_NPC = 2

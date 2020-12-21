@@ -20,6 +20,7 @@
 #include "random.h"
 #include "sprite.h"
 #include "task.h"
+#include "text.h"
 #include "trainer_see.h"
 #include "trainer_hill.h"
 #include "util.h"
@@ -521,17 +522,6 @@ const u8 gAcroWheelieDirectionAnimNums[] = {
     [DIR_NORTHWEST] = 21,
     [DIR_NORTHEAST] = 21,
 };
-const u8 gUnrefAnimNums_08375633[] = {
-    [DIR_NONE] = 24,
-    [DIR_SOUTH] = 24,
-    [DIR_NORTH] = 25,
-    [DIR_WEST] = 26,
-    [DIR_EAST] = 27,
-    [DIR_SOUTHWEST] = 24,
-    [DIR_SOUTHEAST] = 24,
-    [DIR_NORTHWEST] = 25,
-    [DIR_NORTHEAST] = 25,
-};
 const u8 gAcroEndWheelieDirectionAnimNums[] = {
     [DIR_NONE] = 28,
     [DIR_SOUTH] = 28,
@@ -1023,38 +1013,6 @@ static u8 InitObjectEventStateFromTemplate(struct ObjectEventTemplate *template,
     return objectEventId;
 }
 
-u8 Unref_TryInitLocalObjectEvent(u8 localId)
-{
-    u8 i;
-    u8 objectEventCount;
-    struct ObjectEventTemplate *template;
-
-    if (gMapHeader.events != NULL)
-    {
-        if (InBattlePyramid())
-        {
-            objectEventCount = GetNumBattlePyramidObjectEvents();
-        }
-        else if (InTrainerHill())
-        {
-            objectEventCount = 2;
-        }
-        else
-        {
-            objectEventCount = gMapHeader.events->objectEventCount;
-        }
-        for (i = 0; i < objectEventCount; i++)
-        {
-            template = &gSaveBlock1Ptr->objectEventTemplates[i];
-            if (template->localId == localId && !FlagGet(template->flagId))
-            {
-                return InitObjectEventStateFromTemplate(template, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup);
-            }
-        }
-    }
-    return OBJECT_EVENTS_COUNT;
-}
-
 static bool8 GetAvailableObjectEventId(u16 localId, u8 mapNum, u8 mapGroup, u8 *objectEventId)
 // Looks for an empty slot.
 // Returns FALSE and the location of the available slot
@@ -1450,7 +1408,7 @@ static void sub_808E1B8(u8 objectEventId, s16 x, s16 y)
     spriteFrameImage.size = graphicsInfo->size;
     MakeObjectTemplateFromObjectEventGraphicsInfoWithCallbackIndex(objectEvent->graphicsId, objectEvent->movementType, &spriteTemplate, &subspriteTables);
     spriteTemplate.images = &spriteFrameImage;
-    if (spriteTemplate.paletteTag != 0xffff)
+    if (spriteTemplate.paletteTag != 0xFFFF)
     {
         LoadObjectEventPalette(spriteTemplate.paletteTag);
         UpdatePaletteGammaType(IndexOfSpritePaletteTag(spriteTemplate.paletteTag), GAMMA_ALT);
@@ -1765,14 +1723,6 @@ static u8 FindObjectEventPaletteIndexByTag(u16 tag)
 static void sub_808EAB0(u16 tag, u8 slot)
 {
     PatchObjectPalette(tag, slot);
-}
-
-void unref_sub_808EAC4(struct ObjectEvent *objectEvent, s16 x, s16 y)
-{
-    objectEvent->previousCoords.x = objectEvent->currentCoords.x;
-    objectEvent->previousCoords.y = objectEvent->currentCoords.y;
-    objectEvent->currentCoords.x += x;
-    objectEvent->currentCoords.y += y;
 }
 
 void ShiftObjectEventCoords(struct ObjectEvent *objectEvent, s16 x, s16 y)
@@ -4217,11 +4167,6 @@ u8 GetAcroWheelieDirectionAnimNum(u8 direction)
     return gAcroWheelieDirectionAnimNums[direction];
 }
 
-u8 Unref_GetAnimNums_08375633(u8 direction)
-{
-    return gUnrefAnimNums_08375633[direction];
-}
-
 u8 GetAcroEndWheelieDirectionAnimNum(u8 direction)
 {
     return gAcroEndWheelieDirectionAnimNums[direction];
@@ -5220,7 +5165,7 @@ bool8 sub_80941E0(struct ObjectEvent *objectEvent, struct Sprite *sprite)
     {
         case 255:
             return TRUE;
-        case   1:
+        case 1:
             SetObjectEventDirection(objectEvent, GetOppositeDirection(objectEvent->movementDirection));
             obj_npc_animation_step(objectEvent, sprite, GetMoveDirectionAnimNum(objectEvent->facingDirection));
         default:
@@ -8396,7 +8341,6 @@ static void UpdateObjectEventSpritePosition(struct Sprite *sprite)
             break;
         case UNION_ROOM_SPAWN_OUT:
             MoveUnionRoomObjectUp(sprite);
-            break;
         case 0:
             break;
         default:

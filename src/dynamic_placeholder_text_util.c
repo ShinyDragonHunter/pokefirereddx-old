@@ -1,7 +1,9 @@
 #include "global.h"
+#include "global.fieldmap.h"
 #include "text.h"
 #include "dynamic_placeholder_text_util.h"
 #include "string_util.h"
+#include "constants/event_objects.h"
 
 static EWRAM_DATA const u8 *sStringPointers[8] = {};
 

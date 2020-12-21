@@ -556,8 +556,6 @@ static void ProcessRecvCmds(u8 unused)
                 gLinkPartnersHeldKeys[i] = gRecvCmds[i][1];
                 break;
             case LINKCMD_0x5555:
-                gLinkDummy2 = TRUE;
-                break;
             case LINKCMD_0x5566:
                 gLinkDummy2 = TRUE;
                 break;
@@ -1974,9 +1972,6 @@ u32 LinkMain1(u8 *shouldAdvanceLinkState, u16 *sendCmd, u16 (*recvCmds)[CMD_LENG
         case LINK_STATE_HANDSHAKE:
             switch (*shouldAdvanceLinkState)
             {
-                default:
-                    CheckMasterOrSlave();
-                    break;
                 case 1:
                     if (gLink.isMaster == LINK_MASTER && gLink.playerCount > 1)
                     {
@@ -1986,6 +1981,9 @@ u32 LinkMain1(u8 *shouldAdvanceLinkState, u16 *sendCmd, u16 (*recvCmds)[CMD_LENG
                 case 2:
                     gLink.state = LINK_STATE_START0;
                     REG_SIOMLT_SEND = 0;
+                    break;
+                default:
+                    CheckMasterOrSlave();
                     break;
             }
             break;

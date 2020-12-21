@@ -6,11 +6,6 @@ BattleFrontier_BattlePyramidLobby_MapScripts:: @ 8250716
 	map_script MAP_SCRIPT_ON_WARP_INTO_MAP_TABLE, BattleFrontier_BattleDomeLobby_OnWarp
 	.byte 0
 
-@ Unused. Pyramid uses Dome's OnWarp (presumably by mistake). Their effects are identical
-BattleFrontier_BattlePyramidLobby_OnWarp: @ 8250721
-	map_script_2 VAR_TEMP_1, 0, BattleFrontier_BattlePyramidLobby_EventScript_TurnPlayerNorth
-	.2byte 0
-
 BattleFrontier_BattlePyramidLobby_EventScript_TurnPlayerNorth: @ 825072B
 	setvar VAR_TEMP_1, 1
 	turnobject OBJ_EVENT_ID_PLAYER, DIR_NORTH
@@ -29,6 +24,7 @@ BattleFrontier_BattlePyramidLobby_EventScript_GetChallengeStatus:: @ 825075F
 	end
 
 BattleFrontier_BattlePyramidLobby_EventScript_QuitWithoutSaving:: @ 8250768
+	textcolor BLUE
 	lockall
 	message BattleFrontier_BattlePyramidLobby_Text_DidntSaveBeforeQuittingTakeBag
 	waitmessage
@@ -43,6 +39,7 @@ BattleFrontier_BattlePyramidLobby_EventScript_QuitWithoutSaving:: @ 8250768
 	end
 
 BattleFrontier_BattlePyramidLobby_EventScript_WonChallenge:: @ 82507B1
+	textcolor BLUE
 	lockall
 	frontier_isbrain
 	compare VAR_RESULT, TRUE
@@ -222,12 +219,8 @@ BattleFrontier_BattlePyramidLobby_EventScript_GiveHint:: @ 8250AF0
 	switch VAR_RESULT
 	case FRONTIER_LVL_50, BattleFrontier_BattlePyramidLobby_EventScript_GiveHintLv50
 	case FRONTIER_LVL_OPEN, BattleFrontier_BattlePyramidLobby_EventScript_GiveHintLvOpen
-	case FRONTIER_LVL_TENT, BattleFrontier_BattlePyramidLobby_EventScript_NoHint
-	case MULTI_B_PRESSED, BattleFrontier_BattlePyramidLobby_EventScript_NoHint
-	return
-
-@ Shouldnt occur
-BattleFrontier_BattlePyramidLobby_EventScript_NoHint:: @ 8250B27
+	case FRONTIER_LVL_TENT, BattleFrontier_BattlePyramidLobby_EventScript_NoHint @ Shouldnt occur
+	case MULTI_B_PRESSED, BattleFrontier_BattlePyramidLobby_EventScript_NoHint @ Shouldnt occur
 	return
 
 BattleFrontier_BattlePyramidLobby_EventScript_GiveHintLv50:: @ 8250B28
@@ -237,6 +230,7 @@ BattleFrontier_BattlePyramidLobby_EventScript_GiveHintLv50:: @ 8250B28
 	goto_if_ne BattleFrontier_BattlePyramidLobby_EventScript_GiveHintGetLv50Streak
 	setvar VAR_RESULT, 0
 	goto BattleFrontier_BattlePyramidLobby_EventScript_DoHintComment
+BattleFrontier_BattlePyramidLobby_EventScript_NoHint::
 	return
 
 BattleFrontier_BattlePyramidLobby_EventScript_GiveHintGetLv50Streak:: @ 8250B53
@@ -386,10 +380,12 @@ BattleFrontier_BattlePyramidLobby_EventScript_WalkToPanelAndReceiveBag:: @ 8250D
 BattleFrontier_BattlePyramidLobby_EventScript_ReceiveNewBattleBag:: @ 8250D94
 	msgbox BattleFrontier_BattlePyramidLobby_Text_PleaseTakeThisBattleBag, MSGBOX_DEFAULT
 BattleFrontier_BattlePyramidLobby_EventScript_ReceiveBattleBag:: @ 8250D9C
+	textcolor DARK_GREY
 	message BattleFrontier_BattlePyramidLobby_Text_ExchangedBagForBattleBag
 	waitmessage
 	playse SE_EXP_MAX
 	waitse
+	textcolor BLUE
 	msgbox BattleFrontier_BattlePyramidLobby_Text_StepOnFloorPanel, MSGBOX_DEFAULT
 	closemessage
 	applymovement LOCALID_ATTENDANT, BattleFrontier_BattlePyramidLobby_Movement_AttendantMoveAside
@@ -415,6 +411,7 @@ BattleFrontier_BattlePyramidLobby_Movement_PlayerWalkToPanel: @ 8250DCD
 	walk_up
 	walk_up
 	walk_up
+BattleFrontier_BattlePyramidLobby_Movement_PlayerStepOnPanel:
 	walk_up
 	walk_up
 	step_end
@@ -422,11 +419,6 @@ BattleFrontier_BattlePyramidLobby_Movement_PlayerWalkToPanel: @ 8250DCD
 BattleFrontier_BattlePyramidLobby_Movement_AttendantMoveAside: @ 8250DD5
 	walk_right
 	face_left
-	step_end
-
-BattleFrontier_BattlePyramidLobby_Movement_PlayerStepOnPanel: @ 8250DD8
-	walk_up
-	walk_up
 	step_end
 
 BattleFrontier_BattlePyramidLobby_EventScript_StoreHeldItemsInPyramidBag:: @ 8250DDB
@@ -669,11 +661,6 @@ BattleFrontier_BattlePyramidLobby_Text_PickItemsToKeep: @ 825197E
 	.string "Please pick the items you'll keep in the\n"
 	.string "BATTLE BAG, and with your POKéMON.$"
 
-@ Unused
-BattleFrontier_BattlePyramidLobby_Text_ReturnedEverythingMonsHeld: @ 82519CA
-	.string "{PLAYER} returned everything that\n"
-	.string "the POKéMON held.$"
-
 BattleFrontier_BattlePyramidLobby_Text_UsedBattleBagWillBeKept: @ 82519F8
 	.string "The BATTLE BAG you used will be kept\n"
 	.string "in readiness for your next challenge.\p"
@@ -684,23 +671,6 @@ BattleFrontier_BattlePyramidLobby_Text_RecordResultsWait: @ 8251A77
 	.string "I must record your results.\n"
 	.string "Please wait.$"
 
-@ Unused
-BattleFrontier_BattlePyramidLobby_Text_ForConqueringPyramidTakeThis: @ 8251AA0
-	.string "As a memento for conquering\n"
-	.string "the BATTLE PYRAMID, please take this.$"
-
-@ Unused
-BattleFrontier_BattlePyramidLobby_Text_ReceivedPrizeItem: @ 8251AE2
-	.string "{PLAYER} received the prize\n"
-	.string "{STR_VAR_1}.$"
-
-@ Unused
-BattleFrontier_BattlePyramidLobby_Text_BagIsFull: @ 8251AFC
-	.string "…Ah…\n"
-	.string "Your BAG appears to be filled.\p"
-	.string "Please return after you've organized\n"
-	.string "your BAG's contents.$"
-
 BattleFrontier_BattlePyramidLobby_Text_DisappointingHereIsBag: @ 8251B5A
 	.string "How disappointing for you…\p"
 	.string "Here is the BAG we've been holding\n"
@@ -710,13 +680,6 @@ BattleFrontier_BattlePyramidLobby_Text_DisappointingHereIsBag: @ 8251B5A
 BattleFrontier_BattlePyramidLobby_Text_LookForwardToNextChallenge: @ 8251BB6
 	.string "We look forward to your\n"
 	.string "next challenge!$"
-
-@ Unused
-BattleFrontier_BattlePyramidLobby_Text_HereIsPrize: @ 8251BDE
-	.string "We have been looking forward to\n"
-	.string "your arrival!\p"
-	.string "Here is your prize for conquering\n"
-	.string "the PYRAMID.$"
 
 BattleFrontier_BattlePyramidLobby_Text_TellYouWhatMisfortunesAwait: @ 8251C3B
 	.string "Welcome…\p"

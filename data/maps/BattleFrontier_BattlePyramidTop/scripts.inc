@@ -110,6 +110,7 @@ BattleFrontier_BattlePyramidTop_EventScript_BrandonHereMoveAside:: @ 8255240
 	end
 
 BattleFrontier_BattlePyramidTop_EventScript_BattleBrandon:: @ 8255256
+	textcolor BLUE
 	lockall
 	switch VAR_TEMP_C
 	case FRONTIER_BRAIN_GOLD, BattleFrontier_BattlePyramidTop_EventScript_BrandonIntroGold

@@ -21,7 +21,7 @@ static const struct TrHillFloor sDataTagJPDefault_Floors[] = {
         .trainers = {
             [0] = {
                 .name = __("シゲノブ$$$$   "),
-                .facilityClass = FACILITY_CLASS_YOUNGSTER,
+                .facilityClass = HOENN_FACILITY_CLASS_YOUNGSTER,
                 .unused = 0x1,
                 .speechBefore = { EC_WORD_TRAINER, EC_WORD_MRS, EC_WORD_EXCL, EC_WORD_THEY_WERE, EC_WORD_OPPONENT, EC_WORD_CAN },
                 .speechWin = { EC_WORD_TRAINER, EC_WORD_MRS, EC_WORD_WEAK, EC_WORD_OF, EC_WORD_WERE, EC_WORD_ELLIPSIS_ELLIPSIS_ELLIPSIS },
@@ -107,7 +107,7 @@ static const struct TrHillFloor sDataTagJPDefault_Floors[] = {
             },
             [1] = {
                 .name = __("アカリ$$$$$   "),
-                .facilityClass = FACILITY_CLASS_PARASOL_LADY,
+                .facilityClass = HOENN_FACILITY_CLASS_PARASOL_LADY,
                 .unused = 0x1,
                 .speechBefore = { EC_WORD_SHE, EC_WORD_EVERY, EC_WORD_TYPE, EC_WORD_ADORE, EC_WORD_FOR, EC_WORD_EXCL },
                 .speechWin = { EC_WORD_SURPRISE, EC_WORD_THESE, EC_WORD_WONDER, EC_WORD_GIGGLE, EC_WORD_ELLIPSIS, EC_WORD_EXCL },
@@ -223,7 +223,7 @@ static const struct TrHillFloor sDataTagJPDefault_Floors[] = {
         .trainers = {
             [0] = {
                 .name = __("シゲゾウ$$$$   "),
-                .facilityClass = FACILITY_CLASS_NINJA_BOY,
+                .facilityClass = HOENN_FACILITY_CLASS_NINJA_BOY,
                 .unused = 0x1,
                 .speechBefore = { EC_WORD_WIN, EC_WORD_UNTIL, EC_WORD_DAUGHTER, EC_MOVE(CONSTRICT), EC_WORD_OF, EC_WORD_WERE },
                 .speechWin = { EC_MOVE(CONSTRICT), EC_WORD_UNTIL, EC_WORD_LESS, EC_WORD_NONE, EC_WORD_HEY_QUES, EC_WORD_EXCL },
@@ -309,7 +309,7 @@ static const struct TrHillFloor sDataTagJPDefault_Floors[] = {
             },
             [1] = {
                 .name = __("ナミコ$$$$$   "),
-                .facilityClass = FACILITY_CLASS_BEAUTY,
+                .facilityClass = HOENN_FACILITY_CLASS_BEAUTY,
                 .unused = 0x1,
                 .speechBefore = { EC_WORD_SISTER, EC_WORD_ALTHOUGH, EC_WORD_KIND, EC_WORD_MATCH, EC_WORD_PLEASE, EC_WORD_WITHOUT },
                 .speechWin = { EC_WORD_KIND, EC_WORD_ELLIPSIS, EC_WORD_INSTEAD, EC_WORD_DEEP, EC_WORD_WEAK, EC_WORD_QUES },
@@ -440,7 +440,7 @@ static const struct TrHillFloor sDataTagNormal_Floors[] =
             [0] =
             {
                 .name = _("ALAINA"),
-                .facilityClass = FACILITY_CLASS_HEX_MANIAC,
+                .facilityClass = HOENN_FACILITY_CLASS_HEX_MANIAC,
                 .unused = 0,
                 .speechBefore = {EC_WORD_YOU, EC_WORD_CAN, EC_WORD_CHOOSE, EC_WORD_NOT, EC_WORD_TO, EC_WORD_BELIEVE},
                 .speechWin = {EC_WORD_A, EC_WORD_SUPER, EC_WORD_NATURAL, EC_WORD_POWER, EC_WORD_HAS, EC_WORD_COME},
@@ -587,7 +587,7 @@ static const struct TrHillFloor sDataTagNormal_Floors[] =
             [1] =
             {
                 .name = _("ALFONSO"),
-                .facilityClass = FACILITY_CLASS_CYCLING_TRIATHLETE_M,
+                .facilityClass = HOENN_FACILITY_CLASS_CYCLING_TRIATHLETE_M,
                 .unused = 0,
                 .speechBefore = {EC_WORD_I, EC_WORD_NEVER, EC_WORD_TAKE, EC_WORD_A, EC_WORD_TRAIN, 0xFFFF},
                 .speechWin = {EC_WORD_I_AM, EC_WORD_FEELING, EC_MOVE2(SUPERSONIC), EC_WORD_ON, EC_WORD_MY, EC_WORD_BIKE},
@@ -759,7 +759,7 @@ static const struct TrHillFloor sDataTagNormal_Floors[] =
             [0] =
             {
                 .name = _("THEODORE"),
-                .facilityClass = FACILITY_CLASS_BLACK_BELT,
+                .facilityClass = HOENN_FACILITY_CLASS_BLACK_BELT,
                 .unused = 0,
                 .speechBefore = {EC_WORD_MY, EC_WORD_POWER, EC_WORD_WILL, EC_MOVE2(STOMP), EC_WORD_YOU, EC_WORD_EXCL},
                 .speechWin = {EC_WORD_WAAAH, EC_WORD_HAHAHA, EC_WORD_EXCL, EC_WORD_WAAAH, EC_WORD_HAHAHA, EC_WORD_EXCL_EXCL},
@@ -904,7 +904,7 @@ static const struct TrHillFloor sDataTagNormal_Floors[] =
             [1] =
             {
                 .name = _("JAYDEN"),
-                .facilityClass = FACILITY_CLASS_PKMN_BREEDER_F,
+                .facilityClass = HOENN_FACILITY_CLASS_PKMN_BREEDER_F,
                 .unused = 0,
                 .speechBefore = {EC_WORD_SOME, EC_WORD_THINGS, EC_WORD_YOU, EC_WORD_CAN_T, EC_WORD_DO, EC_WORD_ALONE},
                 .speechWin = {EC_WORD_YOU, EC_WORD_WIN, EC_WORD_AS, EC_WORD_A, EC_WORD_GROUP, 0xFFFF},
@@ -1081,7 +1081,7 @@ static const struct TrHillFloor sDataTagNormal_Floors[] =
             [0] =
             {
                 .name = _("SALVADORE"),
-                .facilityClass = FACILITY_CLASS_PKMN_BREEDER_M,
+                .facilityClass = HOENN_FACILITY_CLASS_PKMN_BREEDER_M,
                 .unused = 0,
                 .speechBefore = {EC_WORD_LET_S, EC_MOVE2(WRAP), EC_WORD_THINGS, EC_WORD_UP, EC_WORD_HERE, EC_WORD_HEY_QUES},
                 .speechWin = {EC_WORD_WOULD, EC_WORD_YOU, EC_WORD_LIKE, EC_WORD_TO, EC_WORD_GO_HOME, EC_WORD_QUES},
@@ -1226,7 +1226,7 @@ static const struct TrHillFloor sDataTagNormal_Floors[] =
             [1] =
             {
                 .name = _("VERONICA"),
-                .facilityClass = FACILITY_CLASS_PKMN_BREEDER_F,
+                .facilityClass = HOENN_FACILITY_CLASS_PKMN_BREEDER_F,
                 .unused = 0,
                 .speechBefore = {EC_WORD_I_AM, EC_WORD_THE, EC_WORD_STRONG, EC_WORD_BEAUTY, EC_WORD_AROUND, EC_WORD_HERE},
                 .speechWin = {EC_WORD_I_AM, EC_WORD_STRONG, EC_WORD_THAT_S, EC_WORD_WHY, EC_WORD_EXCL, 0xFFFF},
@@ -1402,7 +1402,7 @@ static const struct TrHillFloor sDataTagNormal_Floors[] =
             [0] =
             {
                 .name = _("KEENAN"),
-                .facilityClass = FACILITY_CLASS_PSYCHIC_M,
+                .facilityClass = HOENN_FACILITY_CLASS_PSYCHIC_M,
                 .unused = 0,
                 .speechBefore = {EC_WORD_YOU, EC_WORD_LOOK, EC_WORD_SO, EC_WORD_HURRIED, 0xFFFF, 0xFFFF},
                 .speechWin = {EC_WORD_TOO, EC_WORD_BAD, 0xFFFF, EC_WORD_TIME, EC_WORD_IS, EC_WORD_UP},
@@ -1543,7 +1543,7 @@ static const struct TrHillFloor sDataTagNormal_Floors[] =
             [1] =
             {
                 .name = _("KRISTINA"),
-                .facilityClass = FACILITY_CLASS_AROMA_LADY,
+                .facilityClass = HOENN_FACILITY_CLASS_AROMA_LADY,
                 .unused = 0,
                 .speechBefore = {EC_WORD_IT_S, EC_WORD_HOT, EC_WORD_ELLIPSIS, EC_WORD_WHAT, EC_WORD_A, EC_WORD_STENCH},
                 .speechWin = {EC_WORD_I, EC_WORD_REALLY, EC_WORD_LIKE, EC_WORD_AN, EC_WORD_OFFENSIVE, EC_WORD_STENCH},
@@ -1727,7 +1727,7 @@ static const struct TrHillFloor sDataTagVariety_Floors[] = {
                     [0] =
                         {
                             .name = _("TERRANCE"),
-                            .facilityClass = FACILITY_CLASS_GENTLEMAN,
+                            .facilityClass = HOENN_FACILITY_CLASS_GENTLEMAN,
                             .unused = 0,
                             .speechBefore = {EC_WORD_GOOD, EC_WORD_CHILDREN, EC_WORD_WILL, EC_WORD_GET, EC_WORD_A, EC_MOVE2(PRESENT)},
                             .speechWin = {EC_WORD_THANK_YOU, EC_WORD_MY, EC_WORD_VICTORY, EC_WORD_IS, EC_WORD_YOUR, EC_MOVE2(PRESENT)},
@@ -1866,7 +1866,7 @@ static const struct TrHillFloor sDataTagVariety_Floors[] = {
                     [1] =
                         {
                             .name = _("ELIZABETH"),
-                            .facilityClass = FACILITY_CLASS_LADY,
+                            .facilityClass = HOENN_FACILITY_CLASS_LADY,
                             .unused = 0,
                             .speechBefore = {EC_WORD_CAN, EC_WORD_YOU, EC_WORD_SENSE, EC_WORD_ME, EC_MOVE(FOCUS_ENERGY), EC_WORD_QUES},
                             .speechWin = {EC_WORD_THAT_S, EC_WORD_ABOUT, EC_WORD_RIGHT, EC_WORD_I, EC_WORD_WOULD, EC_WORD_THINK},
@@ -2037,7 +2037,7 @@ static const struct TrHillFloor sDataTagVariety_Floors[] = {
                     [0] =
                         {
                             .name = _("ANNABELL"),
-                            .facilityClass = FACILITY_CLASS_PARASOL_LADY,
+                            .facilityClass = HOENN_FACILITY_CLASS_PARASOL_LADY,
                             .unused = 0,
                             .speechBefore = {EC_WORD_HI, EC_WORD_ARE, EC_WORD_YOU, EC_WORD_FEELING, EC_WORD_UPBEAT, EC_WORD_QUES},
                             .speechWin = {EC_WORD_AREN_T, EC_WORD_YOU, EC_WORD_FEELING, EC_WORD_WELL, EC_WORD_QUES, 0xFFFF},
@@ -2200,7 +2200,7 @@ static const struct TrHillFloor sDataTagVariety_Floors[] = {
                     [1] =
                         {
                             .name = _("COLEMAN"),
-                            .facilityClass = FACILITY_CLASS_COLLECTOR,
+                            .facilityClass = HOENN_FACILITY_CLASS_COLLECTOR,
                             .unused = 0,
                             .speechBefore = {EC_WORD_I, EC_WORD_SEEK, EC_WORD_SOMEONE, EC_WORD_AS, EC_WORD_MY, EC_WORD_IDOL},
                             .speechWin = {EC_WORD_DID, EC_WORD_MY, EC_WORD_IDOL, EC_WORD_SEE, EC_WORD_THAT, EC_WORD_QUES},
@@ -2377,7 +2377,7 @@ static const struct TrHillFloor sDataTagVariety_Floors[] = {
                     [0] =
                         {
                             .name = _("ENRIQUE"),
-                            .facilityClass = FACILITY_CLASS_RICH_BOY,
+                            .facilityClass = HOENN_FACILITY_CLASS_RICH_BOY,
                             .unused = 0,
                             .speechBefore = {EC_WORD_GET, EC_WORD_READY, EC_WORD_FOR, EC_WORD_AN, EC_WORD_AWESOME, EC_WORD_TIME},
                             .speechWin = {EC_WORD_HEY, EC_WORD_HEY, EC_WORD_EXCL, EC_WORD_WHAT_S_UP_QUES, 0xFFFF, 0xFFFF},
@@ -2522,7 +2522,7 @@ static const struct TrHillFloor sDataTagVariety_Floors[] = {
                     [1] =
                         {
                             .name = _("COLLEEN"),
-                            .facilityClass = FACILITY_CLASS_LADY,
+                            .facilityClass = HOENN_FACILITY_CLASS_LADY,
                             .unused = 0,
                             .speechBefore = {EC_WORD_I, EC_WORD_WOULD, EC_WORD_LIKE, EC_WORD_TO, EC_WORD_ROCK, EC_WORD_OUT},
                             .speechWin = {EC_WORD_I, EC_WORD_LIKE, EC_WORD_THIS, EC_WORD_ROCK, EC_WORD_THING, EC_WORD_EXCL},
@@ -2698,7 +2698,7 @@ static const struct TrHillFloor sDataTagVariety_Floors[] = {
                     [0] =
                         {
                             .name = _("KIMBERLY"),
-                            .facilityClass = FACILITY_CLASS_POKEFAN_F,
+                            .facilityClass = HOENN_FACILITY_CLASS_POKEFAN_F,
                             .unused = 0,
                             .speechBefore = {EC_WORD_I, EC_WORD_LIKE, EC_WORD_WORKING, EC_WORD_AT, EC_WORD_MY, EC_WORD_OWN_TEMPO},
                             .speechWin = {EC_WORD_I_AM, EC_WORD_NOT, EC_WORD_BAD, EC_WORD_YOU, EC_WORD_THINK, EC_WORD_QUES},
@@ -2838,7 +2838,7 @@ static const struct TrHillFloor sDataTagVariety_Floors[] = {
                     [1] =
                         {
                             .name = _("FRANCISCO"),
-                            .facilityClass = FACILITY_CLASS_POKEFAN_M,
+                            .facilityClass = HOENN_FACILITY_CLASS_POKEFAN_M,
                             .unused = 0,
                             .speechBefore = {EC_WORD_I, EC_WORD_STUDY, EC_WORD_EVERY, EC_WORD_DAY, EC_WORD_TOO, 0xFFFF},
                             .speechWin = {EC_WORD_SO, EC_WORD_THAT_S, EC_WORD_HOW, EC_WORD_YOU, EC_WORD_LOSE, 0xFFFF},
@@ -3021,7 +3021,7 @@ static const struct TrHillFloor sDataTagUnique_Floors[] = {
                     [0] =
                         {
                             .name = _("MEREDITH"),
-                            .facilityClass = FACILITY_CLASS_PKMN_RANGER_F,
+                            .facilityClass = HOENN_FACILITY_CLASS_PKMN_RANGER_F,
                             .unused = 0,
                             .speechBefore = {EC_WORD_UM, EC_WORD_ELLIPSIS, 0xFFFF, EC_WORD_I, EC_WORD_ELLIPSIS, 0xFFFF},
                             .speechWin = {EC_WORD_OH, EC_WORD_EXCL, 0xFFFF, EC_WORD_UM, EC_WORD_ELLIPSIS, EC_WORD_YAY},
@@ -3164,7 +3164,7 @@ static const struct TrHillFloor sDataTagUnique_Floors[] = {
                     [1] =
                         {
                             .name = _("BERNARD"),
-                            .facilityClass = FACILITY_CLASS_KINDLER,
+                            .facilityClass = HOENN_FACILITY_CLASS_KINDLER,
                             .unused = 0,
                             .speechBefore = {EC_WORD_I, EC_WORD_CAN_T, EC_WORD_LOSE, EC_WORD_THIS, EC_WORD_HOT, EC_WORD_BATTLE},
                             .speechWin = {EC_WORD_DID, EC_WORD_I, EC_WORD_COOL, EC_WORD_YOU, EC_WORD_DOWN, EC_WORD_QUES},
@@ -3336,7 +3336,7 @@ static const struct TrHillFloor sDataTagUnique_Floors[] = {
                     [0] =
                         {
                             .name = _("ABRAHAM"),
-                            .facilityClass = FACILITY_CLASS_RUIN_MANIAC,
+                            .facilityClass = HOENN_FACILITY_CLASS_RUIN_MANIAC,
                             .unused = 0,
                             .speechBefore = {EC_WORD_I, EC_WORD_LIKE, EC_WORD_THIS, EC_WORD_POKEMON, EC_WORD_THE, EC_WORD_BEST},
                             .speechWin = {EC_WORD_WHAT, EC_WORD_A, EC_WORD_GREAT, EC_WORD_POKEMON, EC_WORD_IT, EC_WORD_IS},
@@ -3481,7 +3481,7 @@ static const struct TrHillFloor sDataTagUnique_Floors[] = {
                     [1] =
                         {
                             .name = _("LUC"),
-                            .facilityClass = FACILITY_CLASS_TUBER_M,
+                            .facilityClass = HOENN_FACILITY_CLASS_TUBER_M,
                             .unused = 0,
                             .speechBefore = {EC_WORD_I, EC_WORD_HAVE, EC_WORD_A, EC_WORD_COOL, EC_WORD_RARE, EC_WORD_MOVE},
                             .speechWin = {EC_WORD_MY, EC_WORD_RARE, EC_WORD_MOVE, EC_WORD_IS, EC_WORD_COOL, EC_WORD_ISN_T_IT_QUES},
@@ -3657,7 +3657,7 @@ static const struct TrHillFloor sDataTagUnique_Floors[] = {
                     [0] =
                         {
                             .name = _("BREYDEN"),
-                            .facilityClass = FACILITY_CLASS_YOUNGSTER,
+                            .facilityClass = HOENN_FACILITY_CLASS_YOUNGSTER,
                             .unused = 0,
                             .speechBefore = {EC_WORD_I, EC_WORD_CARE, EC_WORD_FOR, EC_WORD_MY, EC_WORD_POKEMON, EC_WORD_A_LOT},
                             .speechWin = {EC_WORD_MY, EC_WORD_POKEMON, EC_WORD_CAN, EC_WORD_DO, EC_WORD_IT, EC_WORD_ALL},
@@ -3801,7 +3801,7 @@ static const struct TrHillFloor sDataTagUnique_Floors[] = {
                     [1] =
                         {
                             .name = _("ANIYA"),
-                            .facilityClass = FACILITY_CLASS_TUBER_F,
+                            .facilityClass = HOENN_FACILITY_CLASS_TUBER_F,
                             .unused = 0,
                             .speechBefore = {EC_WORD_SOMEONE, EC_WORD_GOT, EC_WORD_ME, EC_WORD_A_LITTLE, EC_WORD_POKEMON, EC_WORD_EGG},
                             .speechWin = {EC_WORD_I_AM, EC_WORD_NOT, EC_WORD_NEW, EC_WORD_AT, EC_WORD_THIS, EC_WORD_EXCL},
@@ -3978,7 +3978,7 @@ static const struct TrHillFloor sDataTagUnique_Floors[] = {
                     [0] =
                         {
                             .name = _("DANE"),
-                            .facilityClass = FACILITY_CLASS_BIRD_KEEPER,
+                            .facilityClass = HOENN_FACILITY_CLASS_BIRD_KEEPER,
                             .unused = 0,
                             .speechBefore = {EC_WORD_I, EC_WORD_GOT, EC_WORD_MY, EC_WORD_POKEMON, EC_WORD_ON, EC_WORD_VACATION},
                             .speechWin = {EC_WORD_IT_S, EC_WORD_GREAT, EC_WORD_TO, EC_WORD_TRAVEL, EC_WORD_AND, EC_WORD_BATTLE},
@@ -4118,7 +4118,7 @@ static const struct TrHillFloor sDataTagUnique_Floors[] = {
                     [1] =
                         {
                             .name = _("STEPHANIE"),
-                            .facilityClass = FACILITY_CLASS_SWIMMING_TRIATHLETE_F,
+                            .facilityClass = HOENN_FACILITY_CLASS_SWIMMING_TRIATHLETE_F,
                             .unused = 0,
                             .speechBefore = {EC_WORD_THIS, EC_WORD_IS, EC_WORD_HOW, EC_WORD_YOU, EC_WORD_WIN, EC_WORD_EXCL},
                             .speechWin = {EC_WORD_DO, EC_WORD_YOU, EC_WORD_UNDERSTAND, EC_WORD_HOW, EC_WORD_NOW, EC_WORD_QUES},
@@ -4300,7 +4300,7 @@ static const struct TrHillFloor sDataTagExpert_Floors[] = {
                     [0] =
                         {
                             .name = _("ALFRED"),
-                            .facilityClass = FACILITY_CLASS_COOLTRAINER_M,
+                            .facilityClass = HOENN_FACILITY_CLASS_COOLTRAINER_M,
                             .unused = 0,
                             .speechBefore = {EC_WORD_WE, EC_WORD_CAN, EC_WORD_TAKE, EC_WORD_ON, EC_WORD_ANY, EC_WORD_TYPE},
                             .speechWin = {EC_WORD_WE, EC_WORD_DID, EC_WORD_BETTER, EC_WORD_THAN, EC_WORD_OKAY, EC_WORD_EXCL},
@@ -4445,7 +4445,7 @@ static const struct TrHillFloor sDataTagExpert_Floors[] = {
                     [1] =
                         {
                             .name = _("EDIE"),
-                            .facilityClass = FACILITY_CLASS_PSYCHIC_F,
+                            .facilityClass = HOENN_FACILITY_CLASS_PSYCHIC_F,
                             .unused = 0,
                             .speechBefore = {EC_WORD_WE, EC_WORD_WILL_BE_HERE, EC_WORD_FOR, EC_WORD_ANY, EC_WORD_TRAINER, EC_WORD_CHALLENGE},
                             .speechWin = {EC_WORD_MY, EC_WORD_STRATEGY, EC_WORD_WORKS, EC_WORD_TO, EC_WORD_PERFECTION, EC_WORD_EXCL},
@@ -4622,7 +4622,7 @@ static const struct TrHillFloor sDataTagExpert_Floors[] = {
                     [0] =
                         {
                             .name = _("RODERICK"),
-                            .facilityClass = FACILITY_CLASS_COOLTRAINER_M,
+                            .facilityClass = HOENN_FACILITY_CLASS_COOLTRAINER_M,
                             .unused = 0,
                             .speechBefore = {EC_WORD_I, EC_WORD_CAN, EC_WORD_WIN, EC_WORD_WITHOUT, EC_WORD_A, EC_MOVE2(HELPING_HAND)},
                             .speechWin = {EC_WORD_IT_S, EC_WORD_ONLY, EC_WORD_NATURAL, EC_WORD_THAT, EC_WORD_I, EC_WORD_WIN},
@@ -4767,7 +4767,7 @@ static const struct TrHillFloor sDataTagExpert_Floors[] = {
                     [1] =
                         {
                             .name = _("ALICIA"),
-                            .facilityClass = FACILITY_CLASS_COOLTRAINER_F,
+                            .facilityClass = HOENN_FACILITY_CLASS_COOLTRAINER_F,
                             .unused = 0,
                             .speechBefore = {EC_WORD_I, EC_WORD_DON_T, EC_WORD_NEED, EC_WORD_A, EC_MOVE2(HELPING_HAND), EC_WORD_EXCL},
                             .speechWin = {EC_WORD_SORRY, EC_WORD_EXCL, EC_WORD_TOO, EC_WORD_BAD, EC_WORD_FOR, EC_WORD_YOU},
@@ -4944,7 +4944,7 @@ static const struct TrHillFloor sDataTagExpert_Floors[] = {
                     [0] =
                         {
                             .name = _("TERRENCE"),
-                            .facilityClass = FACILITY_CLASS_EXPERT_M,
+                            .facilityClass = HOENN_FACILITY_CLASS_EXPERT_M,
                             .unused = 0,
                             .speechBefore = {EC_WORD_OH_DEAR, EC_WORD_THIS, EC_WORD_MATCH, EC_WORD_IS, EC_WORD_FOR, EC_WORD_YOU},
                             .speechWin = {EC_WORD_OH_DEAR, EC_WORD_DID, EC_WORD_YOU, EC_WORD_SEE, EC_WORD_THAT, EC_WORD_QUES},
@@ -5089,7 +5089,7 @@ static const struct TrHillFloor sDataTagExpert_Floors[] = {
                     [1] =
                         {
                             .name = _("CARLOTTA"),
-                            .facilityClass = FACILITY_CLASS_EXPERT_F,
+                            .facilityClass = HOENN_FACILITY_CLASS_EXPERT_F,
                             .unused = 0,
                             .speechBefore = {EC_WORD_OH_DEAR, EC_WORD_I, EC_WORD_WILL, EC_WORD_WIN, EC_WORD_FOR, EC_WORD_YOU},
                             .speechWin = {EC_WORD_OH_DEAR, EC_WORD_WE, EC_WORD_HAVE, EC_WORD_A, EC_WORD_PARTY, EC_WORD_LATER},
@@ -5266,7 +5266,7 @@ static const struct TrHillFloor sDataTagExpert_Floors[] = {
                     [0] =
                         {
                             .name = _("NORA"),
-                            .facilityClass = FACILITY_CLASS_PKMN_RANGER_F,
+                            .facilityClass = HOENN_FACILITY_CLASS_PKMN_RANGER_F,
                             .unused = 0,
                             .speechBefore = {EC_WORD_WAAAH, EC_WORD_THIS, EC_WORD_IS, EC_WORD_SO, EC_WORD_EXCITING, EC_WORD_EXCL},
                             .speechWin = {EC_WORD_WAAAH, EC_WORD_I_AM, EC_WORD_SO, EC_WORD_HAPPY, EC_WORD_I, EC_WORD_WON},
@@ -5407,7 +5407,7 @@ static const struct TrHillFloor sDataTagExpert_Floors[] = {
                     [1] =
                         {
                             .name = _("GAV"),
-                            .facilityClass = FACILITY_CLASS_PKMN_RANGER_M,
+                            .facilityClass = HOENN_FACILITY_CLASS_PKMN_RANGER_M,
                             .unused = 0,
                             .speechBefore = {EC_WORD_WAHAHAHA, EC_WORD_YOU, EC_WORD_CAN_T, EC_WORD_STOP, EC_WORD_ME, EC_WORD_EXCL},
                             .speechWin = {EC_WORD_WOWEE, EC_WORD_EXCL, 0xFFFF, EC_WORD_I_AM, EC_WORD_AWESOME, EC_WORD_COOL},

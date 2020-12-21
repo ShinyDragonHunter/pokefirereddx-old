@@ -145,7 +145,6 @@ static u32 ExchangeDataAndGetLinkupStatus(u8 minPlayers, u8 maxPlayers)
         return LINKUP_WRONG_NUM_PLAYERS;
     case EXCHANGE_STAT_7:
         return LINKUP_FAILED_CONTEST_GMODE;
-    case EXCHANGE_TIMED_OUT:
     default:
         return LINKUP_ONGOING;
     }
@@ -195,17 +194,6 @@ static bool32 sub_80B25CC(u8 taskId)
         return TRUE;
     }
     return FALSE;
-}
-
-// Unused
-static void sub_80B2600(u8 taskId)
-{
-    gTasks[taskId].data[0]++;
-    if (gTasks[taskId].data[0] == 10)
-    {
-        SendBlockRequest(2);
-        DestroyTask(taskId);
-    }
 }
 
 static void Task_LinkupStart(u8 taskId)
@@ -1064,13 +1052,12 @@ static void Task_EnterCableClubSeat(u8 taskId)
     case 2:
         switch (sub_8087214())
         {
-        case 0:
-            break;
         case 1:
             HideFieldMessageBox();
             task->tState = 0;
             sub_80872C4();
             SwitchTaskToFollowupFunc(taskId);
+        case 0:
             break;
         case 2:
             task->tState = 3;
@@ -1167,12 +1154,6 @@ void PlayerEnteredTradeSeat(void)
         CreateTask_EnterCableClubSeat(Task_StartWiredTrade);
 }
 
-// Unused
-static void CreateTask_StartWiredTrade(void)
-{
-    CreateTask(Task_StartWiredTrade, 80);
-}
-
 void nullsub_37(void)
 {
 
@@ -1186,13 +1167,6 @@ void ColosseumPlayerSpotTriggered(void)
         CreateTask_EnterCableClubSeat(Task_StartWirelessCableClubBattle);
     else
         CreateTask_EnterCableClubSeat(Task_StartWiredCableClubBattle);
-}
-
-// Unused
-static void CreateTask_EnterCableClubSeatNoFollowup(void)
-{
-    u8 taskId = CreateTask(Task_EnterCableClubSeat, 80);
-    ScriptContext1_Stop();
 }
 
 void Script_ShowLinkTrainerCard(void)
@@ -1259,13 +1233,6 @@ static void sub_80B3AAC(u8 taskId)
         EnableBothScriptContexts();
         DestroyTask(taskId);
     }
-}
-
-// Unused
-static void sub_80B3AD0(u8 taskId)
-{
-    SetCloseLinkCallback();
-    gTasks[taskId].func = sub_80B3AAC;
 }
 
 #define tTimer data[1]

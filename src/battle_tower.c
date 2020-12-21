@@ -75,7 +75,6 @@ static void FillTrainerParty(u16 trainerId, u8 firstMonId, u8 monCount);
 static void FillTentTrainerParty_(u16 trainerId, u8 firstMonId, u8 monCount);
 static void FillFactoryFrontierTrainerParty(u16 trainerId, u8 firstMonId);
 static void FillFactoryTentTrainerParty(u16 trainerId, u8 firstMonId);
-static u8 GetFrontierTrainerFixedIvs(u16 trainerId);
 static void FillPartnerParty(u16 trainerId);
 static void SetEReaderTrainerChecksum(struct BattleTowerEReaderTrainer *ereaderTrainer);
 static u8 SetTentPtrsGetLevel(void);
@@ -154,60 +153,60 @@ const u16 gBattleFrontierHeldItems[] =
 
 const u8 gTowerMaleFacilityClasses[30] =
 {
-    FACILITY_CLASS_RUIN_MANIAC,
-    FACILITY_CLASS_TUBER_M,
-    FACILITY_CLASS_COOLTRAINER_M,
-    FACILITY_CLASS_RICH_BOY,
-    FACILITY_CLASS_POKEMANIAC,
-    FACILITY_CLASS_SWIMMER_M,
-    FACILITY_CLASS_BLACK_BELT,
-    FACILITY_CLASS_GUITARIST,
-    FACILITY_CLASS_KINDLER,
-    FACILITY_CLASS_CAMPER,
-    FACILITY_CLASS_BUG_MANIAC,
-    FACILITY_CLASS_PSYCHIC_M,
-    FACILITY_CLASS_GENTLEMAN,
-    FACILITY_CLASS_SCHOOL_KID_M,
-    FACILITY_CLASS_POKEFAN_M,
-    FACILITY_CLASS_EXPERT_M,
-    FACILITY_CLASS_YOUNGSTER,
-    FACILITY_CLASS_FISHERMAN,
-    FACILITY_CLASS_CYCLING_TRIATHLETE_M,
-    FACILITY_CLASS_RUNNING_TRIATHLETE_M,
-    FACILITY_CLASS_SWIMMING_TRIATHLETE_M,
-    FACILITY_CLASS_DRAGON_TAMER,
-    FACILITY_CLASS_BIRD_KEEPER,
-    FACILITY_CLASS_NINJA_BOY,
-    FACILITY_CLASS_SAILOR,
-    FACILITY_CLASS_COLLECTOR,
-    FACILITY_CLASS_PKMN_BREEDER_M,
-    FACILITY_CLASS_PKMN_RANGER_M,
-    FACILITY_CLASS_BUG_CATCHER,
-    FACILITY_CLASS_HIKER
+    HOENN_FACILITY_CLASS_RUIN_MANIAC,
+    HOENN_FACILITY_CLASS_TUBER_M,
+    HOENN_FACILITY_CLASS_COOLTRAINER_M,
+    HOENN_FACILITY_CLASS_RICH_BOY,
+    HOENN_FACILITY_CLASS_POKEMANIAC,
+    HOENN_FACILITY_CLASS_SWIMMER_M,
+    HOENN_FACILITY_CLASS_BLACK_BELT,
+    HOENN_FACILITY_CLASS_GUITARIST,
+    HOENN_FACILITY_CLASS_KINDLER,
+    HOENN_FACILITY_CLASS_CAMPER,
+    HOENN_FACILITY_CLASS_BUG_MANIAC,
+    HOENN_FACILITY_CLASS_PSYCHIC_M,
+    HOENN_FACILITY_CLASS_GENTLEMAN,
+    HOENN_FACILITY_CLASS_SCHOOL_KID_M,
+    HOENN_FACILITY_CLASS_POKEFAN_M,
+    HOENN_FACILITY_CLASS_EXPERT_M,
+    HOENN_FACILITY_CLASS_YOUNGSTER,
+    HOENN_FACILITY_CLASS_FISHERMAN,
+    HOENN_FACILITY_CLASS_CYCLING_TRIATHLETE_M,
+    HOENN_FACILITY_CLASS_RUNNING_TRIATHLETE_M,
+    HOENN_FACILITY_CLASS_SWIMMING_TRIATHLETE_M,
+    HOENN_FACILITY_CLASS_DRAGON_TAMER,
+    HOENN_FACILITY_CLASS_BIRD_KEEPER,
+    HOENN_FACILITY_CLASS_NINJA_BOY,
+    HOENN_FACILITY_CLASS_SAILOR,
+    HOENN_FACILITY_CLASS_COLLECTOR,
+    HOENN_FACILITY_CLASS_PKMN_BREEDER_M,
+    HOENN_FACILITY_CLASS_PKMN_RANGER_M,
+    HOENN_FACILITY_CLASS_BUG_CATCHER,
+    HOENN_FACILITY_CLASS_HIKER
 };
 
 const u8 gTowerFemaleFacilityClasses[20] =
 {
-    FACILITY_CLASS_AROMA_LADY,
-    FACILITY_CLASS_TUBER_F,
-    FACILITY_CLASS_COOLTRAINER_F,
-    FACILITY_CLASS_HEX_MANIAC,
-    FACILITY_CLASS_LADY,
-    FACILITY_CLASS_BEAUTY,
-    FACILITY_CLASS_PSYCHIC_F,
-    FACILITY_CLASS_SCHOOL_KID_F,
-    FACILITY_CLASS_POKEFAN_F,
-    FACILITY_CLASS_EXPERT_F,
-    FACILITY_CLASS_CYCLING_TRIATHLETE_F,
-    FACILITY_CLASS_RUNNING_TRIATHLETE_F,
-    FACILITY_CLASS_SWIMMING_TRIATHLETE_F,
-    FACILITY_CLASS_BATTLE_GIRL,
-    FACILITY_CLASS_PARASOL_LADY,
-    FACILITY_CLASS_SWIMMER_F,
-    FACILITY_CLASS_PICNICKER,
-    FACILITY_CLASS_PKMN_BREEDER_F,
-    FACILITY_CLASS_PKMN_RANGER_F,
-    FACILITY_CLASS_LASS
+    HOENN_FACILITY_CLASS_AROMA_LADY,
+    HOENN_FACILITY_CLASS_TUBER_F,
+    HOENN_FACILITY_CLASS_COOLTRAINER_F,
+    HOENN_FACILITY_CLASS_HEX_MANIAC,
+    HOENN_FACILITY_CLASS_LADY,
+    HOENN_FACILITY_CLASS_BEAUTY,
+    HOENN_FACILITY_CLASS_PSYCHIC_F,
+    HOENN_FACILITY_CLASS_SCHOOL_KID_F,
+    HOENN_FACILITY_CLASS_POKEFAN_F,
+    HOENN_FACILITY_CLASS_EXPERT_F,
+    HOENN_FACILITY_CLASS_CYCLING_TRIATHLETE_F,
+    HOENN_FACILITY_CLASS_RUNNING_TRIATHLETE_F,
+    HOENN_FACILITY_CLASS_SWIMMING_TRIATHLETE_F,
+    HOENN_FACILITY_CLASS_BATTLE_GIRL,
+    HOENN_FACILITY_CLASS_PARASOL_LADY,
+    HOENN_FACILITY_CLASS_SWIMMER_F,
+    HOENN_FACILITY_CLASS_PICNICKER,
+    HOENN_FACILITY_CLASS_PKMN_BREEDER_F,
+    HOENN_FACILITY_CLASS_PKMN_RANGER_F,
+    HOENN_FACILITY_CLASS_LASS
 };
 
 const u8 gTowerMaleTrainerGfxIds[30] =
@@ -271,81 +270,56 @@ const u8 gTowerFemaleTrainerGfxIds[20] =
 // Excludes the unused RS_FACILITY_CLASS_BOARDER_1 and _2
 static const u8 sRubyFacilityClassToEmerald[RS_FACILITY_CLASSES_COUNT - 2][2] =
 {
-    {RS_FACILITY_CLASS_AQUA_LEADER_ARCHIE, FACILITY_CLASS_AQUA_LEADER_ARCHIE},
-    {RS_FACILITY_CLASS_AQUA_GRUNT_M, FACILITY_CLASS_AQUA_GRUNT_M},
-    {RS_FACILITY_CLASS_AQUA_GRUNT_F, FACILITY_CLASS_AQUA_GRUNT_F},
-    {RS_FACILITY_CLASS_AROMA_LADY, FACILITY_CLASS_AROMA_LADY},
-    {RS_FACILITY_CLASS_RUIN_MANIAC, FACILITY_CLASS_RUIN_MANIAC},
-    {RS_FACILITY_CLASS_INTERVIEWER, FACILITY_CLASS_INTERVIEWER},
-    {RS_FACILITY_CLASS_TUBER_F, FACILITY_CLASS_TUBER_F},
-    {RS_FACILITY_CLASS_TUBER_M, FACILITY_CLASS_TUBER_M},
-    {RS_FACILITY_CLASS_COOLTRAINER_M, FACILITY_CLASS_COOLTRAINER_M},
-    {RS_FACILITY_CLASS_COOLTRAINER_F, FACILITY_CLASS_COOLTRAINER_F},
-    {RS_FACILITY_CLASS_HEX_MANIAC, FACILITY_CLASS_HEX_MANIAC},
-    {RS_FACILITY_CLASS_LADY, FACILITY_CLASS_LADY},
-    {RS_FACILITY_CLASS_BEAUTY, FACILITY_CLASS_BEAUTY},
-    {RS_FACILITY_CLASS_RICH_BOY, FACILITY_CLASS_RICH_BOY},
-    {RS_FACILITY_CLASS_POKEMANIAC, FACILITY_CLASS_POKEMANIAC},
-    {RS_FACILITY_CLASS_SWIMMER_M, FACILITY_CLASS_SWIMMER_M},
-    {RS_FACILITY_CLASS_BLACK_BELT, FACILITY_CLASS_BLACK_BELT},
-    {RS_FACILITY_CLASS_GUITARIST, FACILITY_CLASS_GUITARIST},
-    {RS_FACILITY_CLASS_KINDLER, FACILITY_CLASS_KINDLER},
-    {RS_FACILITY_CLASS_CAMPER, FACILITY_CLASS_CAMPER},
-    {RS_FACILITY_CLASS_BUG_MANIAC, FACILITY_CLASS_BUG_MANIAC},
-    {RS_FACILITY_CLASS_PSYCHIC_M, FACILITY_CLASS_PSYCHIC_M},
-    {RS_FACILITY_CLASS_PSYCHIC_F, FACILITY_CLASS_PSYCHIC_F},
-    {RS_FACILITY_CLASS_GENTLEMAN, FACILITY_CLASS_GENTLEMAN},
-    {RS_FACILITY_CLASS_ELITE_FOUR_M, FACILITY_CLASS_ELITE_FOUR_SIDNEY},
-    {RS_FACILITY_CLASS_ELITE_FOUR_F, FACILITY_CLASS_ELITE_FOUR_PHOEBE},
-    {RS_FACILITY_CLASS_LEADER_F, FACILITY_CLASS_LEADER_ROXANNE},
-    {RS_FACILITY_CLASS_LEADER_M, FACILITY_CLASS_LEADER_BRAWLY},
-    {RS_FACILITY_CLASS_LEADER_MF, FACILITY_CLASS_LEADER_TATE_AND_LIZA},
-    {RS_FACILITY_CLASS_SCHOOL_KID_M, FACILITY_CLASS_SCHOOL_KID_M},
-    {RS_FACILITY_CLASS_SCHOOL_KID_F, FACILITY_CLASS_SCHOOL_KID_F},
-    {RS_FACILITY_CLASS_SR_AND_JR, FACILITY_CLASS_SR_AND_JR},
-    {RS_FACILITY_CLASS_POKEFAN_M, FACILITY_CLASS_POKEFAN_M},
-    {RS_FACILITY_CLASS_POKEFAN_F, FACILITY_CLASS_POKEFAN_F},
-    {RS_FACILITY_CLASS_EXPERT_M, FACILITY_CLASS_EXPERT_M},
-    {RS_FACILITY_CLASS_EXPERT_F, FACILITY_CLASS_EXPERT_F},
-    {RS_FACILITY_CLASS_YOUNGSTER, FACILITY_CLASS_YOUNGSTER},
-    {RS_FACILITY_CLASS_CHAMPION, FACILITY_CLASS_CHAMPION_WALLACE},
-    {RS_FACILITY_CLASS_FISHERMAN, FACILITY_CLASS_FISHERMAN},
-    {RS_FACILITY_CLASS_CYCLING_TRIATHLETE_M, FACILITY_CLASS_CYCLING_TRIATHLETE_M},
-    {RS_FACILITY_CLASS_CYCLING_TRIATHLETE_F, FACILITY_CLASS_CYCLING_TRIATHLETE_F},
-    {RS_FACILITY_CLASS_RUNNING_TRIATHLETE_M, FACILITY_CLASS_RUNNING_TRIATHLETE_M},
-    {RS_FACILITY_CLASS_RUNNING_TRIATHLETE_F, FACILITY_CLASS_RUNNING_TRIATHLETE_F},
-    {RS_FACILITY_CLASS_SWIMMING_TRIATHLETE_M, FACILITY_CLASS_SWIMMING_TRIATHLETE_M},
-    {RS_FACILITY_CLASS_SWIMMING_TRIATHLETE_F, FACILITY_CLASS_SWIMMING_TRIATHLETE_F},
-    {RS_FACILITY_CLASS_DRAGON_TAMER, FACILITY_CLASS_DRAGON_TAMER},
-    {RS_FACILITY_CLASS_BIRD_KEEPER, FACILITY_CLASS_BIRD_KEEPER},
-    {RS_FACILITY_CLASS_NINJA_BOY, FACILITY_CLASS_NINJA_BOY},
-    {RS_FACILITY_CLASS_BATTLE_GIRL, FACILITY_CLASS_BATTLE_GIRL},
-    {RS_FACILITY_CLASS_PARASOL_LADY, FACILITY_CLASS_PARASOL_LADY},
-    {RS_FACILITY_CLASS_SWIMMER_F, FACILITY_CLASS_SWIMMER_F},
-    {RS_FACILITY_CLASS_PICNICKER, FACILITY_CLASS_PICNICKER},
-    {RS_FACILITY_CLASS_TWINS, FACILITY_CLASS_TWINS},
-    {RS_FACILITY_CLASS_SAILOR, FACILITY_CLASS_SAILOR},
-    {RS_FACILITY_CLASS_COLLECTOR, FACILITY_CLASS_COLLECTOR},
-    {RS_FACILITY_CLASS_WALLY, FACILITY_CLASS_WALLY},
-    {RS_FACILITY_CLASS_BRENDAN_1, FACILITY_CLASS_BRENDAN},
-    {RS_FACILITY_CLASS_BRENDAN_2, FACILITY_CLASS_BRENDAN_2},
-    {RS_FACILITY_CLASS_BRENDAN_3, FACILITY_CLASS_BRENDAN_3},
-    {RS_FACILITY_CLASS_MAY_1, FACILITY_CLASS_MAY},
-    {RS_FACILITY_CLASS_MAY_2, FACILITY_CLASS_MAY_2},
-    {RS_FACILITY_CLASS_MAY_3, FACILITY_CLASS_MAY_3},
-    {RS_FACILITY_CLASS_PKMN_BREEDER_M, FACILITY_CLASS_PKMN_BREEDER_M},
-    {RS_FACILITY_CLASS_PKMN_BREEDER_F, FACILITY_CLASS_PKMN_BREEDER_F},
-    {RS_FACILITY_CLASS_PKMN_RANGER_M, FACILITY_CLASS_PKMN_RANGER_M},
-    {RS_FACILITY_CLASS_PKMN_RANGER_F, FACILITY_CLASS_PKMN_RANGER_F},
-    {RS_FACILITY_CLASS_MAGMA_LEADER, FACILITY_CLASS_MAGMA_LEADER_MAXIE},
-    {RS_FACILITY_CLASS_MAGMA_GRUNT_M, FACILITY_CLASS_MAGMA_GRUNT_M},
-    {RS_FACILITY_CLASS_MAGMA_GRUNT_F, FACILITY_CLASS_MAGMA_GRUNT_F},
-    {RS_FACILITY_CLASS_LASS, FACILITY_CLASS_LASS},
-    {RS_FACILITY_CLASS_BUG_CATCHER, FACILITY_CLASS_BUG_CATCHER},
-    {RS_FACILITY_CLASS_HIKER, FACILITY_CLASS_HIKER},
-    {RS_FACILITY_CLASS_YOUNG_COUPLE, FACILITY_CLASS_YOUNG_COUPLE},
-    {RS_FACILITY_CLASS_OLD_COUPLE, FACILITY_CLASS_OLD_COUPLE},
-    {RS_FACILITY_CLASS_SIS_AND_BRO, FACILITY_CLASS_SIS_AND_BRO},
+    {RS_FACILITY_CLASS_AROMA_LADY, HOENN_FACILITY_CLASS_AROMA_LADY},
+    {RS_FACILITY_CLASS_RUIN_MANIAC, HOENN_FACILITY_CLASS_RUIN_MANIAC},
+    {RS_FACILITY_CLASS_TUBER_F, HOENN_FACILITY_CLASS_TUBER_F},
+    {RS_FACILITY_CLASS_TUBER_M, HOENN_FACILITY_CLASS_TUBER_M},
+    {RS_FACILITY_CLASS_COOLTRAINER_M, HOENN_FACILITY_CLASS_COOLTRAINER_M},
+    {RS_FACILITY_CLASS_COOLTRAINER_F, HOENN_FACILITY_CLASS_COOLTRAINER_F},
+    {RS_FACILITY_CLASS_HEX_MANIAC, HOENN_FACILITY_CLASS_HEX_MANIAC},
+    {RS_FACILITY_CLASS_LADY, HOENN_FACILITY_CLASS_LADY},
+    {RS_FACILITY_CLASS_BEAUTY, HOENN_FACILITY_CLASS_BEAUTY},
+    {RS_FACILITY_CLASS_RICH_BOY, HOENN_FACILITY_CLASS_RICH_BOY},
+    {RS_FACILITY_CLASS_POKEMANIAC, HOENN_FACILITY_CLASS_POKEMANIAC},
+    {RS_FACILITY_CLASS_SWIMMER_M, HOENN_FACILITY_CLASS_SWIMMER_M},
+    {RS_FACILITY_CLASS_BLACK_BELT, HOENN_FACILITY_CLASS_BLACK_BELT},
+    {RS_FACILITY_CLASS_GUITARIST, HOENN_FACILITY_CLASS_GUITARIST},
+    {RS_FACILITY_CLASS_KINDLER, HOENN_FACILITY_CLASS_KINDLER},
+    {RS_FACILITY_CLASS_CAMPER, HOENN_FACILITY_CLASS_CAMPER},
+    {RS_FACILITY_CLASS_BUG_MANIAC, HOENN_FACILITY_CLASS_BUG_MANIAC},
+    {RS_FACILITY_CLASS_PSYCHIC_M, HOENN_FACILITY_CLASS_PSYCHIC_M},
+    {RS_FACILITY_CLASS_PSYCHIC_F, HOENN_FACILITY_CLASS_PSYCHIC_F},
+    {RS_FACILITY_CLASS_GENTLEMAN, HOENN_FACILITY_CLASS_GENTLEMAN},
+    {RS_FACILITY_CLASS_SCHOOL_KID_M, HOENN_FACILITY_CLASS_SCHOOL_KID_M},
+    {RS_FACILITY_CLASS_SCHOOL_KID_F, HOENN_FACILITY_CLASS_SCHOOL_KID_F},
+    {RS_FACILITY_CLASS_POKEFAN_M, HOENN_FACILITY_CLASS_POKEFAN_M},
+    {RS_FACILITY_CLASS_POKEFAN_F, HOENN_FACILITY_CLASS_POKEFAN_F},
+    {RS_FACILITY_CLASS_EXPERT_M, HOENN_FACILITY_CLASS_EXPERT_M},
+    {RS_FACILITY_CLASS_EXPERT_F, HOENN_FACILITY_CLASS_EXPERT_F},
+    {RS_FACILITY_CLASS_YOUNGSTER, HOENN_FACILITY_CLASS_YOUNGSTER},
+    {RS_FACILITY_CLASS_FISHERMAN, HOENN_FACILITY_CLASS_FISHERMAN},
+    {RS_FACILITY_CLASS_CYCLING_TRIATHLETE_M, HOENN_FACILITY_CLASS_CYCLING_TRIATHLETE_M},
+    {RS_FACILITY_CLASS_CYCLING_TRIATHLETE_F, HOENN_FACILITY_CLASS_CYCLING_TRIATHLETE_F},
+    {RS_FACILITY_CLASS_RUNNING_TRIATHLETE_M, HOENN_FACILITY_CLASS_RUNNING_TRIATHLETE_M},
+    {RS_FACILITY_CLASS_RUNNING_TRIATHLETE_F, HOENN_FACILITY_CLASS_RUNNING_TRIATHLETE_F},
+    {RS_FACILITY_CLASS_SWIMMING_TRIATHLETE_M, HOENN_FACILITY_CLASS_SWIMMING_TRIATHLETE_M},
+    {RS_FACILITY_CLASS_SWIMMING_TRIATHLETE_F, HOENN_FACILITY_CLASS_SWIMMING_TRIATHLETE_F},
+    {RS_FACILITY_CLASS_DRAGON_TAMER, HOENN_FACILITY_CLASS_DRAGON_TAMER},
+    {RS_FACILITY_CLASS_BIRD_KEEPER, HOENN_FACILITY_CLASS_BIRD_KEEPER},
+    {RS_FACILITY_CLASS_NINJA_BOY, HOENN_FACILITY_CLASS_NINJA_BOY},
+    {RS_FACILITY_CLASS_BATTLE_GIRL, HOENN_FACILITY_CLASS_BATTLE_GIRL},
+    {RS_FACILITY_CLASS_PARASOL_LADY, HOENN_FACILITY_CLASS_PARASOL_LADY},
+    {RS_FACILITY_CLASS_SWIMMER_F, HOENN_FACILITY_CLASS_SWIMMER_F},
+    {RS_FACILITY_CLASS_PICNICKER, HOENN_FACILITY_CLASS_PICNICKER},
+    {RS_FACILITY_CLASS_SAILOR, HOENN_FACILITY_CLASS_SAILOR},
+    {RS_FACILITY_CLASS_COLLECTOR, HOENN_FACILITY_CLASS_COLLECTOR},
+    {RS_FACILITY_CLASS_PKMN_BREEDER_M, HOENN_FACILITY_CLASS_PKMN_BREEDER_M},
+    {RS_FACILITY_CLASS_PKMN_BREEDER_F, HOENN_FACILITY_CLASS_PKMN_BREEDER_F},
+    {RS_FACILITY_CLASS_PKMN_RANGER_M, HOENN_FACILITY_CLASS_PKMN_RANGER_M},
+    {RS_FACILITY_CLASS_PKMN_RANGER_F, HOENN_FACILITY_CLASS_PKMN_RANGER_F},
+    {RS_FACILITY_CLASS_LASS, HOENN_FACILITY_CLASS_LASS},
+    {RS_FACILITY_CLASS_BUG_CATCHER, HOENN_FACILITY_CLASS_BUG_CATCHER},
+    {RS_FACILITY_CLASS_HIKER, HOENN_FACILITY_CLASS_HIKER},
 };
 
 #define PARTNER_TEXTS(name)                                             \
@@ -691,56 +665,56 @@ struct
     const u8 *const *strings;
 } const sPartnerTrainerTextTables[] =
 {
-    {FACILITY_CLASS_LASS,                  sPartnerTextsLass},
-    {FACILITY_CLASS_YOUNGSTER,             sPartnerTextsYoungster},
-    {FACILITY_CLASS_HIKER,                 sPartnerTextsHiker},
-    {FACILITY_CLASS_BEAUTY,                sPartnerTextsBeauty},
-    {FACILITY_CLASS_FISHERMAN,             sPartnerTextsFisherman},
-    {FACILITY_CLASS_LADY,                  sPartnerTextsLady},
-    {FACILITY_CLASS_CYCLING_TRIATHLETE_F,  sPartnerTextsCyclingTriathleteF},
-    {FACILITY_CLASS_BUG_CATCHER,           sPartnerTextsBugCatcher},
-    {FACILITY_CLASS_SCHOOL_KID_M,          sPartnerTextsSchoolKidM},
-    {FACILITY_CLASS_RICH_BOY,              sPartnerTextsRichBoy},
-    {FACILITY_CLASS_BLACK_BELT,            sPartnerTextsBlackBelt},
-    {FACILITY_CLASS_TUBER_F,               sPartnerTextsTuberF},
-    {FACILITY_CLASS_HEX_MANIAC,            sPartnerTextsHexManiac},
-    {FACILITY_CLASS_PKMN_BREEDER_M,        sPartnerTextsPkmnBreederM},
-    {FACILITY_CLASS_RUNNING_TRIATHLETE_F,  sPartnerTextsRunningTriathleteF},
-    {FACILITY_CLASS_RUNNING_TRIATHLETE_M,  sPartnerTextsRunningTriathleteM},
-    {FACILITY_CLASS_BATTLE_GIRL,           sPartnerTextsBattleGirl},
-    {FACILITY_CLASS_CYCLING_TRIATHLETE_M,  sPartnerTextsCyclingTriathleteM},
-    {FACILITY_CLASS_TUBER_M,               sPartnerTextsTuberM},
-    {FACILITY_CLASS_GUITARIST,             sPartnerTextsGuitarist},
-    {FACILITY_CLASS_GENTLEMAN,             sPartnerTextsGentleman},
-    {FACILITY_CLASS_POKEFAN_M,             sPartnerTextsPokefanM},
-    {FACILITY_CLASS_EXPERT_M,              sPartnerTextsExpertM},
-    {FACILITY_CLASS_EXPERT_F,              sPartnerTextsExpertF},
-    {FACILITY_CLASS_DRAGON_TAMER,          sPartnerTextsDragonTamer},
-    {FACILITY_CLASS_BIRD_KEEPER,           sPartnerTextsBirdKeeper},
-    {FACILITY_CLASS_NINJA_BOY,             sPartnerTextsNinjaBoy},
-    {FACILITY_CLASS_PARASOL_LADY,          sPartnerTextsParasolLady},
-    {FACILITY_CLASS_BUG_MANIAC,            sPartnerTextsBugManiac},
-    {FACILITY_CLASS_SAILOR,                sPartnerTextsSailor},
-    {FACILITY_CLASS_COLLECTOR,             sPartnerTextsCollector},
-    {FACILITY_CLASS_PKMN_RANGER_M,         sPartnerTextsPkmnRangerM},
-    {FACILITY_CLASS_PKMN_RANGER_F,         sPartnerTextsPkmnRangerF},
-    {FACILITY_CLASS_AROMA_LADY,            sPartnerTextsAromaLady},
-    {FACILITY_CLASS_RUIN_MANIAC,           sPartnerTextsRuinManiac},
-    {FACILITY_CLASS_COOLTRAINER_M,         sPartnerTextsCoolTrainerM},
-    {FACILITY_CLASS_COOLTRAINER_F,         sPartnerTextsCoolTrainerF},
-    {FACILITY_CLASS_POKEMANIAC,            sPartnerTextsPokemaniac},
-    {FACILITY_CLASS_KINDLER,               sPartnerTextsKindler},
-    {FACILITY_CLASS_CAMPER,                sPartnerTextsCamper},
-    {FACILITY_CLASS_PICNICKER,             sPartnerTextsPicnicker},
-    {FACILITY_CLASS_PSYCHIC_M,             sPartnerTextsPsychicM},
-    {FACILITY_CLASS_PSYCHIC_F,             sPartnerTextsPsychicF},
-    {FACILITY_CLASS_SCHOOL_KID_F,          sPartnerTextsSchoolKidF},
-    {FACILITY_CLASS_PKMN_BREEDER_F,        sPartnerTextsPkmnBreederF},
-    {FACILITY_CLASS_POKEFAN_F,             sPartnerTextsPokefanF},
-    {FACILITY_CLASS_SWIMMER_F,             sPartnerTextsSwimmerF},
-    {FACILITY_CLASS_SWIMMING_TRIATHLETE_M, sPartnerTextsSwimmingTriathleteM},
-    {FACILITY_CLASS_SWIMMING_TRIATHLETE_F, sPartnerTextsSwimmingTriathleteF},
-    {FACILITY_CLASS_SWIMMER_M,             sPartnerTextsSwimmerM}
+    {HOENN_FACILITY_CLASS_LASS,                  sPartnerTextsLass},
+    {HOENN_FACILITY_CLASS_YOUNGSTER,             sPartnerTextsYoungster},
+    {HOENN_FACILITY_CLASS_HIKER,                 sPartnerTextsHiker},
+    {HOENN_FACILITY_CLASS_BEAUTY,                sPartnerTextsBeauty},
+    {HOENN_FACILITY_CLASS_FISHERMAN,             sPartnerTextsFisherman},
+    {HOENN_FACILITY_CLASS_LADY,                  sPartnerTextsLady},
+    {HOENN_FACILITY_CLASS_CYCLING_TRIATHLETE_F,  sPartnerTextsCyclingTriathleteF},
+    {HOENN_FACILITY_CLASS_BUG_CATCHER,           sPartnerTextsBugCatcher},
+    {HOENN_FACILITY_CLASS_SCHOOL_KID_M,          sPartnerTextsSchoolKidM},
+    {HOENN_FACILITY_CLASS_RICH_BOY,              sPartnerTextsRichBoy},
+    {HOENN_FACILITY_CLASS_BLACK_BELT,            sPartnerTextsBlackBelt},
+    {HOENN_FACILITY_CLASS_TUBER_F,               sPartnerTextsTuberF},
+    {HOENN_FACILITY_CLASS_HEX_MANIAC,            sPartnerTextsHexManiac},
+    {HOENN_FACILITY_CLASS_PKMN_BREEDER_M,        sPartnerTextsPkmnBreederM},
+    {HOENN_FACILITY_CLASS_RUNNING_TRIATHLETE_F,  sPartnerTextsRunningTriathleteF},
+    {HOENN_FACILITY_CLASS_RUNNING_TRIATHLETE_M,  sPartnerTextsRunningTriathleteM},
+    {HOENN_FACILITY_CLASS_BATTLE_GIRL,           sPartnerTextsBattleGirl},
+    {HOENN_FACILITY_CLASS_CYCLING_TRIATHLETE_M,  sPartnerTextsCyclingTriathleteM},
+    {HOENN_FACILITY_CLASS_TUBER_M,               sPartnerTextsTuberM},
+    {HOENN_FACILITY_CLASS_GUITARIST,             sPartnerTextsGuitarist},
+    {HOENN_FACILITY_CLASS_GENTLEMAN,             sPartnerTextsGentleman},
+    {HOENN_FACILITY_CLASS_POKEFAN_M,             sPartnerTextsPokefanM},
+    {HOENN_FACILITY_CLASS_EXPERT_M,              sPartnerTextsExpertM},
+    {HOENN_FACILITY_CLASS_EXPERT_F,              sPartnerTextsExpertF},
+    {HOENN_FACILITY_CLASS_DRAGON_TAMER,          sPartnerTextsDragonTamer},
+    {HOENN_FACILITY_CLASS_BIRD_KEEPER,           sPartnerTextsBirdKeeper},
+    {HOENN_FACILITY_CLASS_NINJA_BOY,             sPartnerTextsNinjaBoy},
+    {HOENN_FACILITY_CLASS_PARASOL_LADY,          sPartnerTextsParasolLady},
+    {HOENN_FACILITY_CLASS_BUG_MANIAC,            sPartnerTextsBugManiac},
+    {HOENN_FACILITY_CLASS_SAILOR,                sPartnerTextsSailor},
+    {HOENN_FACILITY_CLASS_COLLECTOR,             sPartnerTextsCollector},
+    {HOENN_FACILITY_CLASS_PKMN_RANGER_M,         sPartnerTextsPkmnRangerM},
+    {HOENN_FACILITY_CLASS_PKMN_RANGER_F,         sPartnerTextsPkmnRangerF},
+    {HOENN_FACILITY_CLASS_AROMA_LADY,            sPartnerTextsAromaLady},
+    {HOENN_FACILITY_CLASS_RUIN_MANIAC,           sPartnerTextsRuinManiac},
+    {HOENN_FACILITY_CLASS_COOLTRAINER_M,         sPartnerTextsCoolTrainerM},
+    {HOENN_FACILITY_CLASS_COOLTRAINER_F,         sPartnerTextsCoolTrainerF},
+    {HOENN_FACILITY_CLASS_POKEMANIAC,            sPartnerTextsPokemaniac},
+    {HOENN_FACILITY_CLASS_KINDLER,               sPartnerTextsKindler},
+    {HOENN_FACILITY_CLASS_CAMPER,                sPartnerTextsCamper},
+    {HOENN_FACILITY_CLASS_PICNICKER,             sPartnerTextsPicnicker},
+    {HOENN_FACILITY_CLASS_PSYCHIC_M,             sPartnerTextsPsychicM},
+    {HOENN_FACILITY_CLASS_PSYCHIC_F,             sPartnerTextsPsychicF},
+    {HOENN_FACILITY_CLASS_SCHOOL_KID_F,          sPartnerTextsSchoolKidF},
+    {HOENN_FACILITY_CLASS_PKMN_BREEDER_F,        sPartnerTextsPkmnBreederF},
+    {HOENN_FACILITY_CLASS_POKEFAN_F,             sPartnerTextsPokefanF},
+    {HOENN_FACILITY_CLASS_SWIMMER_F,             sPartnerTextsSwimmerF},
+    {HOENN_FACILITY_CLASS_SWIMMING_TRIATHLETE_M, sPartnerTextsSwimmingTriathleteM},
+    {HOENN_FACILITY_CLASS_SWIMMING_TRIATHLETE_F, sPartnerTextsSwimmingTriathleteF},
+    {HOENN_FACILITY_CLASS_SWIMMER_M,             sPartnerTextsSwimmerM}
 };
 
 static const u8 *const *const sPartnerApprenticeTextTables[NUM_APPRENTICES] =
@@ -843,8 +817,7 @@ static const u8 sApprenticeChallengeThreshold[MAX_APPRENTICE_QUESTIONS] =
     1, 2, 3, 4, 5, 8, 9, 10, 11, 12
 };
 
-// Unclear why this was duplicated
-static const u8 sBattleTowerPartySizes2[] =
+static const u8 sBattleTowerPartySizes[FRONTIER_MODE_COUNT] =
 {
     [FRONTIER_MODE_SINGLES]     = FRONTIER_PARTY_SIZE,
     [FRONTIER_MODE_DOUBLES]     = FRONTIER_DOUBLES_PARTY_SIZE,
@@ -876,21 +849,6 @@ static const u16 sFrontierTrainerIdRangesHard[][2] =
     {FRONTIER_TRAINER_JAXON,   FRONTIER_TRAINER_TESS},   // 200 - 219
     {FRONTIER_TRAINER_LEON,    FRONTIER_TRAINER_RAUL},   // 220 - 239
     {FRONTIER_TRAINER_JAXON,   FRONTIER_TRAINER_GRETEL}, // 200 - 299
-};
-
-// Trainer IDs? Don't make sense as part of previous array, min/max relationship reversed and never accessed
-static const u16 sUnused_085DFA1A[][2] =
-{
-    {179, 141}, // FRONTIER_TRAINER_ALISON - FRONTIER_TRAINER_KAYDEN
-    {200, 183}, // FRONTIER_TRAINER_JAXON  - FRONTIER_TRAINER_HUNTER
-};
-
-static const u8 sBattleTowerPartySizes[FRONTIER_MODE_COUNT] =
-{
-    [FRONTIER_MODE_SINGLES]     = FRONTIER_PARTY_SIZE,
-    [FRONTIER_MODE_DOUBLES]     = FRONTIER_DOUBLES_PARTY_SIZE,
-    [FRONTIER_MODE_MULTIS]      = FRONTIER_MULTI_PARTY_SIZE,
-    [FRONTIER_MODE_LINK_MULTIS] = FRONTIER_MULTI_PARTY_SIZE,
 };
 
 static const u16 sRecordTrainerSpeechWon[] =
@@ -934,10 +892,9 @@ static void GetTowerData(void)
 
     switch (gSpecialVar_0x8005)
     {
-    case 0:
-        break;
     case TOWER_DATA_WIN_STREAK:
         gSpecialVar_Result = GetCurrentBattleTowerWinStreak(lvlMode, battleMode);
+    case 0:
         break;
     case TOWER_DATA_WIN_STREAK_ACTIVE:
         gSpecialVar_Result = ((gSaveBlock2Ptr->frontier.winStreakActiveFlags & sWinStreakFlags[battleMode][lvlMode]) != 0);
@@ -955,10 +912,9 @@ static void SetTowerData(void)
 
     switch (gSpecialVar_0x8005)
     {
-    case 0:
-        break;
     case TOWER_DATA_WIN_STREAK:
         gSaveBlock2Ptr->frontier.towerWinStreaks[battleMode][lvlMode] = gSpecialVar_0x8006;
+    case 0:
         break;
     case TOWER_DATA_WIN_STREAK_ACTIVE:
         if (gSpecialVar_0x8006)
@@ -1017,7 +973,7 @@ static bool8 ChooseSpecialBattleTowerTrainer(void)
                 validMons++;
         }
 
-        if (validMons >= sBattleTowerPartySizes2[battleMode]
+        if (validMons >= sBattleTowerPartySizes[battleMode]
             && gSaveBlock2Ptr->frontier.towerRecords[i].winStreak == winStreak
             && gSaveBlock2Ptr->frontier.towerRecords[i].lvlMode == lvlMode
             && recordHasData
@@ -1205,15 +1161,14 @@ void SetBattleFacilityTrainerGfxId(u16 trainerId, u8 tempVarId)
         trainerObjectGfxId = gTowerMaleTrainerGfxIds[i];
         switch (tempVarId)
         {
-        case 0:
-        default:
-            VarSet(VAR_OBJ_GFX_ID_0, trainerObjectGfxId);
-            return;
         case 1:
             VarSet(VAR_OBJ_GFX_ID_1, trainerObjectGfxId);
             return;
         case 15:
             VarSet(VAR_OBJ_GFX_ID_E, trainerObjectGfxId);
+            return;
+        default:
+            VarSet(VAR_OBJ_GFX_ID_0, trainerObjectGfxId);
             return;
         }
     }
@@ -1229,30 +1184,28 @@ void SetBattleFacilityTrainerGfxId(u16 trainerId, u8 tempVarId)
         trainerObjectGfxId = gTowerFemaleTrainerGfxIds[i];
         switch (tempVarId)
         {
-        case 0:
-        default:
-            VarSet(VAR_OBJ_GFX_ID_0, trainerObjectGfxId);
-            return;
         case 1:
             VarSet(VAR_OBJ_GFX_ID_1, trainerObjectGfxId);
             return;
         case 15:
             VarSet(VAR_OBJ_GFX_ID_E, trainerObjectGfxId);
             return;
+        default:
+            VarSet(VAR_OBJ_GFX_ID_0, trainerObjectGfxId);
+            return;
         }
     }
 
     switch (tempVarId)
     {
-    case 0:
-    default:
-        VarSet(VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_BOY_1);
-        return;
     case 1:
         VarSet(VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_BOY_1);
         return;
     case 15:
         VarSet(VAR_OBJ_GFX_ID_E, OBJ_EVENT_GFX_BOY_1);
+        return;
+    default:
+        VarSet(VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_BOY_1);
         return;
     }
 }
@@ -1337,7 +1290,7 @@ void PutNewBattleTowerRecord(struct EmeraldBattleTowerRecord *newRecordEm)
             for (k = 0; k < PLAYER_NAME_LENGTH; k++)
             {
                 // BUG: Wrong variable used, 'j' instead of 'k'.
-                if (gSaveBlock2Ptr->frontier.towerRecords[i].name[j] != newRecord->name[j])
+                if (gSaveBlock2Ptr->frontier.towerRecords[i].name[k] != newRecord->name[k])
                     break;
                 if (newRecord->name[j] == EOS)
                 {
@@ -1950,14 +1903,17 @@ static void HandleSpecialTrainerBattleEnd(void)
     RecordedBattle_SaveBattleOutcome();
     switch (gBattleScripting.specialTrainerBattleType)
     {
-    case SPECIAL_BATTLE_TOWER:
-    case SPECIAL_BATTLE_DOME:
-    case SPECIAL_BATTLE_PALACE:
-    case SPECIAL_BATTLE_ARENA:
-    case SPECIAL_BATTLE_FACTORY:
-    case SPECIAL_BATTLE_PIKE_SINGLE:
-    case SPECIAL_BATTLE_PIKE_DOUBLE:
-    case SPECIAL_BATTLE_PYRAMID:
+    case SPECIAL_BATTLE_SECRET_BASE:
+        for (i = 0; i < PARTY_SIZE; i++)
+        {
+            u16 itemBefore = GetMonData(&gSaveBlock1Ptr->playerParty[i], MON_DATA_HELD_ITEM);
+            SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &itemBefore);
+        }
+        break;
+    case SPECIAL_BATTLE_EREADER:
+        CopyEReaderTrainerFarewellMessage();
+        break;
+    default:
         if (gSaveBlock2Ptr->frontier.battlesCount < 0xFFFFFF)
         {
             gSaveBlock2Ptr->frontier.battlesCount++;
@@ -1968,16 +1924,6 @@ static void HandleSpecialTrainerBattleEnd(void)
         {
             gSaveBlock2Ptr->frontier.battlesCount = 0xFFFFFF;
         }
-        break;
-    case SPECIAL_BATTLE_SECRET_BASE:
-        for (i = 0; i < PARTY_SIZE; i++)
-        {
-            u16 itemBefore = GetMonData(&gSaveBlock1Ptr->playerParty[i], MON_DATA_HELD_ITEM);
-            SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &itemBefore);
-        }
-        break;
-    case SPECIAL_BATTLE_EREADER:
-        CopyEReaderTrainerFarewellMessage();
         break;
     }
 
@@ -2524,7 +2470,6 @@ static void ShowPartnerCandidateMessage(void)
             gSaveBlock2Ptr->frontier.trainerIds[k] = i;
         }
         gSaveBlock2Ptr->frontier.trainerIds[17] = trainerId;
-        break;
     case PARTNER_MSGID_REJECT:
         break;
     }
@@ -2532,12 +2477,7 @@ static void ShowPartnerCandidateMessage(void)
     if (trainerId == TRAINER_EREADER)
         return;
 
-    // First check is redundant, only needs to make sure it's not an Apprentice
-    if (trainerId < FRONTIER_TRAINERS_COUNT)
-    {
-        ShowFieldMessage(sPartnerTrainerTextTables[partnerId].strings[gSpecialVar_0x8005]);
-    }
-    else if (trainerId < TRAINER_RECORD_MIXING_APPRENTICE)
+    if (trainerId < TRAINER_RECORD_MIXING_APPRENTICE)
     {
         ShowFieldMessage(sPartnerTrainerTextTables[partnerId].strings[gSpecialVar_0x8005]);
     }
@@ -2557,7 +2497,6 @@ static void LoadLinkMultiOpponentsData(void)
     u32 lvlMode = gSaveBlock2Ptr->frontier.lvlMode;
     u32 battleMode = VarGet(VAR_FRONTIER_BATTLE_MODE);
     u32 battleNum = gSaveBlock2Ptr->frontier.curChallengeBattleNum;
-    GetMultiplayerId(); // Yet another pointless function call.
 
     switch (gSpecialVar_Result)
     {
@@ -2956,7 +2895,7 @@ static void FillPartnerParty(u16 trainerId)
                       sStevenMons[i].species,
                       sStevenMons[i].level,
                       sStevenMons[i].fixedIV,
-                      TRUE, i, // BUG: personality was stored in the 'j' variable. As a result, Steven's pokemon do not have the intended natures.
+                      TRUE, j,
                       OT_ID_PRESET, STEVEN_OTID);
             for (j = 0; j < PARTY_SIZE; j++)
                 SetMonData(&gPlayerParty[MULTI_PARTY_SIZE + i], MON_DATA_HP_EV + j, &sStevenMons[i].evs[j]);
@@ -3072,7 +3011,7 @@ bool32 RubyBattleTowerRecordToEmerald(struct RSBattleTowerRecord *src, struct Em
         if (i != FACILITY_CLASSES_COUNT)
             dst->facilityClass = sRubyFacilityClassToEmerald[i][1];
         else
-            dst->facilityClass = FACILITY_CLASS_YOUNGSTER;
+            dst->facilityClass = RS_FACILITY_CLASS_YOUNGSTER;
 
         for (i = 0; i < PLAYER_NAME_LENGTH + 1; i++)
             dst->name[i] = src->name[i];
@@ -3217,14 +3156,13 @@ u8 GetFrontierEnemyMonLevel(u8 lvlMode)
 
     switch (lvlMode)
     {
-    default:
-    case FRONTIER_LVL_50:
-        level = 50;
-        break;
     case FRONTIER_LVL_OPEN:
         level = GetHighestLevelInPlayerParty();
         if (level < 60)
             level = 60;
+        break;
+    default:
+        level = 50;
         break;
     }
 
@@ -3251,8 +3189,7 @@ s32 GetHighestLevelInPlayerParty(void)
 }
 
 // Frontier Trainer parties are roughly scaled in difficulty with higher trainer IDs, so scale IVs as well
-// Duplicated in Battle Dome as GetDomeTrainerMonIvs
-static u8 GetFrontierTrainerFixedIvs(u16 trainerId)
+u8 GetFrontierTrainerFixedIvs(u16 trainerId)
 {
     u8 fixedIv;
 
@@ -3286,8 +3223,6 @@ static u16 sub_8165D40(void)
         return Random() % 30;
     else if (facility == FRONTIER_FACILITY_FACTORY)
         return Random() % 30;
-    else if (facility == FRONTIER_FACILITY_TOWER)
-        return 0;
     else
         return 0;
 }
@@ -3465,33 +3400,6 @@ u8 FacilityClassToGraphicsId(u8 facilityClass)
     else
     {
         return OBJ_EVENT_GFX_BOY_1;
-    }
-}
-
-bool32 ValidateBattleTowerRecord(u8 recordId) // unused
-{
-    s32 i;
-    u32 *record = (u32*)(&gSaveBlock2Ptr->frontier.towerRecords[recordId]);
-    u32 checksum = 0;
-    u32 hasData = 0;
-    for (i = 0; i < (sizeof(struct EmeraldBattleTowerRecord) - 4) / 4; i++) // - 4, because of the last fjeld bejng the checksum jtself.
-    {
-        checksum += record[i];
-        hasData |= record[i];
-    }
-
-    if (checksum == 0 && hasData == 0)
-    {
-        return FALSE;
-    }
-    else if (gSaveBlock2Ptr->frontier.towerRecords[recordId].checksum != checksum)
-    {
-        ClearBattleTowerRecord(&gSaveBlock2Ptr->frontier.towerRecords[recordId]);
-        return FALSE;
-    }
-    else
-    {
-        return TRUE;
     }
 }
 

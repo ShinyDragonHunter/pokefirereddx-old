@@ -1260,7 +1260,7 @@ static void PlayerPartnerHandleDrawTrainerPic(void)
 
     if (gPartnerTrainerId == TRAINER_STEVEN_PARTNER)
     {
-        trainerPicId = TRAINER_BACK_PIC_STEVEN;
+        trainerPicId = TRAINER_BACK_PIC_OLD_MAN;
         xPos = 90;
         yPos = (8 - gTrainerBackPicCoords[trainerPicId].size) * 4 + 80;
     }
@@ -1626,7 +1626,7 @@ static void PlayerPartnerHandleIntroTrainerBallThrow(void)
     paletteNum = AllocSpritePalette(0xD6F9);
     if (gPartnerTrainerId == TRAINER_STEVEN_PARTNER)
     {
-        u8 spriteId = TRAINER_BACK_PIC_STEVEN;
+        u8 spriteId = TRAINER_BACK_PIC_OLD_MAN;
         LoadPalette(gTrainerBackPicPaletteTable[spriteId].data, 0x100 + paletteNum * 16, 32);
     }
     else

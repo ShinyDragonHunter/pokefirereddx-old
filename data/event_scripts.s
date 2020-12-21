@@ -82,7 +82,8 @@ gSpecialVars:: @ 81DBA0C
 	.4byte gSpecialVar_ContestCategory
 	.4byte gSpecialVar_MonBoxId
 	.4byte gSpecialVar_MonBoxPos
-	.4byte gSpecialVar_Unused_0x8014
+	.4byte gSpecialVar_TextColor
+	.4byte gSpecialVar_PrevTextColor
 	.4byte gTrainerBattleOpponent_A
 
 	.include "data/specials.inc"
@@ -886,7 +887,7 @@ gText_PlayerWhitedOut:: @ 8272DE3
 	.string "POKéMON!\p{PLAYER} whited out!$"
 
 gText_RegisteredTrainerinPokeNav:: @ 8272E0F
-	.string "Registered {STR_VAR_1} {STR_VAR_2}\n"
+	.string "{COLOR DARK_GREY}Registered {STR_VAR_1} {STR_VAR_2}\n"
 	.string "in the POKéNAV.$"
 
 gText_ComeBackWithSecretPower:: @ 8272E30

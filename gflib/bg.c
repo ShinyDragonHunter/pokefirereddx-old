@@ -262,7 +262,6 @@ static void SetBgAffineInternal(u8 bg, s32 srcCenterX, s32 srcCenterY, s16 dispC
         if (bg < 2 || bg > 3)
             return;
         break;
-    case 0:
     default:
         return;
     }
@@ -560,15 +559,14 @@ s32 ChangeBgX(u8 bg, s32 value, u8 op)
 
     switch (op)
     {
-    case 0:
-    default:
-        sGpuBgConfigs2[bg].bg_x = value;
-        break;
     case 1:
         sGpuBgConfigs2[bg].bg_x += value;
         break;
     case 2:
         sGpuBgConfigs2[bg].bg_x -= value;
+        break;
+    default:
+        sGpuBgConfigs2[bg].bg_x = value;
         break;
     }
 
@@ -640,15 +638,14 @@ s32 ChangeBgY(u8 bg, s32 value, u8 op)
 
     switch (op)
     {
-    case 0:
-    default:
-        sGpuBgConfigs2[bg].bg_y = value;
-        break;
     case 1:
         sGpuBgConfigs2[bg].bg_y += value;
         break;
     case 2:
         sGpuBgConfigs2[bg].bg_y -= value;
+        break;
+    default:
+        sGpuBgConfigs2[bg].bg_y = value;
         break;
     }
 
@@ -1101,11 +1098,9 @@ u16 GetBgMetricTextMode(u8 bg, u8 whichMetric)
         switch (screenSize)
         {
         case 0:
-            return 1;
-        case 1:
-            return 2;
         case 2:
             return 1;
+        case 1:
         case 3:
             return 2;
         }

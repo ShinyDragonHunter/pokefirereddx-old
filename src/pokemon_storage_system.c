@@ -2416,6 +2416,9 @@ static void Cb_MainPSS(u8 taskId)
             PlaySE(SE_SELECT);
             sPSSData->state = 1;
             break;
+        case 4:
+            SetPSSCallback(Cb_OnCloseBoxPressed);
+            break;
         case 5:
             if (sPSSData->boxOption != BOX_OPTION_MOVE_MONS && sPSSData->boxOption != BOX_OPTION_MOVE_ITEMS)
             {
@@ -2440,12 +2443,6 @@ static void Cb_MainPSS(u8 taskId)
             {
                 SetPSSCallback(Cb_HidePartyPokemon);
             }
-            break;
-        case 4:
-            SetPSSCallback(Cb_OnCloseBoxPressed);
-            break;
-        case 19:
-            SetPSSCallback(Cb_OnBPressed);
             break;
         case 7:
             PlaySE(SE_SELECT);
@@ -2504,6 +2501,10 @@ static void Cb_MainPSS(u8 taskId)
                 sPSSData->state = 4;
             }
             break;
+        case 12:
+            PlaySE(SE_SELECT);
+            SetPSSCallback(Cb_WithdrawMon);
+            break;
         case 13:
             if (CanMovePartyMon())
             {
@@ -2526,10 +2527,6 @@ static void Cb_MainPSS(u8 taskId)
                 SetPSSCallback(Cb_ShiftMon);
             }
             break;
-        case 12:
-            PlaySE(SE_SELECT);
-            SetPSSCallback(Cb_WithdrawMon);
-            break;
         case 15:
             PlaySE(SE_SELECT);
             SetPSSCallback(Cb_PlaceMon);
@@ -2546,23 +2543,29 @@ static void Cb_MainPSS(u8 taskId)
             PlaySE(SE_SELECT);
             SetPSSCallback(Cb_SwitchSelectedItem);
             break;
+        case 19:
+            SetPSSCallback(Cb_OnBPressed);
+            break;
         case 20:
             PlaySE(SE_SELECT);
             sub_80D01D0(0);
             sPSSData->state = 7;
-            break;
-        case 22:
-            sub_80D01D0(1);
-            sPSSData->state = 8;
             break;
         case 21:
             PlaySE(SE_SELECT);
             sub_80D01D0(2);
             sPSSData->state = 9;
             break;
+        case 22:
+            sub_80D01D0(1);
+            sPSSData->state = 8;
+            break;
         case 23:
             sub_80D01D0(3);
             sPSSData->state = 7;
+            break;
+        case 24:
+            PlaySE(SE_FAILURE);
             break;
         case 25:
             PlaySE(SE_SELECT);
@@ -2573,9 +2576,6 @@ static void Cb_MainPSS(u8 taskId)
             PlaySE(SE_SELECT);
             sub_80D01D0(5);
             sPSSData->state = 7;
-            break;
-        case 24:
-            PlaySE(SE_FAILURE);
             break;
         }
         break;
@@ -2740,40 +2740,6 @@ static void Cb_OnSelectedMon(u8 taskId)
             ClearBottomWindow();
             SetPSSCallback(Cb_MainPSS);
             break;
-        case 3:
-            if (CanMovePartyMon())
-            {
-                sPSSData->state = 3;
-            }
-            else
-            {
-                PlaySE(SE_SELECT);
-                ClearBottomWindow();
-                SetPSSCallback(Cb_MoveMon);
-            }
-            break;
-        case 5:
-            PlaySE(SE_SELECT);
-            ClearBottomWindow();
-            SetPSSCallback(Cb_PlaceMon);
-            break;
-        case 4:
-            if (!CanShiftMon())
-            {
-                sPSSData->state = 3;
-            }
-            else
-            {
-                PlaySE(SE_SELECT);
-                ClearBottomWindow();
-                SetPSSCallback(Cb_ShiftMon);
-            }
-            break;
-        case 2:
-            PlaySE(SE_SELECT);
-            ClearBottomWindow();
-            SetPSSCallback(Cb_WithdrawMon);
-            break;
         case 1:
             if (CanMovePartyMon())
             {
@@ -2789,6 +2755,44 @@ static void Cb_OnSelectedMon(u8 taskId)
                 ClearBottomWindow();
                 SetPSSCallback(Cb_DepositMenu);
             }
+            break;
+        case 2:
+            PlaySE(SE_SELECT);
+            ClearBottomWindow();
+            SetPSSCallback(Cb_WithdrawMon);
+            break;
+        case 3:
+            if (CanMovePartyMon())
+            {
+                sPSSData->state = 3;
+            }
+            else
+            {
+                PlaySE(SE_SELECT);
+                ClearBottomWindow();
+                SetPSSCallback(Cb_MoveMon);
+            }
+            break;
+        case 4:
+            if (!CanShiftMon())
+            {
+                sPSSData->state = 3;
+            }
+            else
+            {
+                PlaySE(SE_SELECT);
+                ClearBottomWindow();
+                SetPSSCallback(Cb_ShiftMon);
+            }
+            break;
+        case 5:
+            PlaySE(SE_SELECT);
+            ClearBottomWindow();
+            SetPSSCallback(Cb_PlaceMon);
+            break;
+        case 6:
+            PlaySE(SE_SELECT);
+            SetPSSCallback(Cb_ShowMonSummary);
             break;
         case 7:
             if (CanMovePartyMon())
@@ -2809,10 +2813,6 @@ static void Cb_OnSelectedMon(u8 taskId)
                 SetPSSCallback(Cb_ReleaseMon);
             }
             break;
-        case 6:
-            PlaySE(SE_SELECT);
-            SetPSSCallback(Cb_ShowMonSummary);
-            break;
         case 8:
             PlaySE(SE_SELECT);
             SetPSSCallback(Cb_ShowMarkMenu);
@@ -2825,16 +2825,16 @@ static void Cb_OnSelectedMon(u8 taskId)
             PlaySE(SE_SELECT);
             SetPSSCallback(Cb_GiveMovingItemToMon);
             break;
-        case 16:
-            SetPSSCallback(Cb_ItemToBag);
+        case 14:
+            PlaySE(SE_SELECT);
+            SetPSSCallback(Cb_GiveItemFromBag);
             break;
         case 15:
             PlaySE(SE_SELECT);
             SetPSSCallback(Cb_SwitchSelectedItem);
             break;
-        case 14:
-            PlaySE(SE_SELECT);
-            SetPSSCallback(Cb_GiveItemFromBag);
+        case 16:
+            SetPSSCallback(Cb_ItemToBag);
             break;
         case 17:
             SetPSSCallback(Cb_ShowItemInfo);
@@ -3303,16 +3303,16 @@ static void Cb_ItemToBag(u8 taskId)
             sPSSData->state = 4;
         }
         break;
-    case 4:
-        if (!IsDma3ManagerBusyWithBgCopy())
-            SetPSSCallback(Cb_MainPSS);
-        break;
     case 3:
         if (JOY_NEW(A_BUTTON | B_BUTTON | DPAD_ANY))
         {
             ClearBottomWindow();
             SetPSSCallback(Cb_MainPSS);
         }
+        break;
+    case 4:
+        if (!IsDma3ManagerBusyWithBgCopy())
+            SetPSSCallback(Cb_MainPSS);
         break;
     }
 }
@@ -3417,11 +3417,6 @@ static void Cb_CloseBoxWhileHoldingItem(u8 taskId)
     case 1:
         switch (Menu_ProcessInputNoWrapClearOnChoose())
         {
-        case MENU_B_PRESSED:
-        case 1:
-            ClearBottomWindow();
-            SetPSSCallback(Cb_MainPSS);
-            break;
         case 0:
             if (AddBagItem(sPSSData->movingItem, 1) == TRUE)
             {
@@ -3433,6 +3428,11 @@ static void Cb_CloseBoxWhileHoldingItem(u8 taskId)
                 PrintStorageActionText(PC_TEXT_BAG_FULL);
                 sPSSData->state = 2;
             }
+            break;
+        case MENU_B_PRESSED:
+        case 1:
+            ClearBottomWindow();
+            SetPSSCallback(Cb_MainPSS);
             break;
         }
         break;
@@ -3528,19 +3528,19 @@ static void Cb_HandleBoxOptions(u8 taskId)
             ClearBottomWindow();
             SetPSSCallback(Cb_MainPSS);
             break;
-        case 11:
+        case 9:
             PlaySE(SE_SELECT);
-            SetPSSCallback(Cb_NameBox);
+            ClearBottomWindow();
+            SetPSSCallback(Cb_JumpBox);
             break;
         case 10:
             PlaySE(SE_SELECT);
             ClearBottomWindow();
             SetPSSCallback(Cb_HandleWallpapers);
             break;
-        case 9:
+        case 11:
             PlaySE(SE_SELECT);
-            ClearBottomWindow();
-            SetPSSCallback(Cb_JumpBox);
+            SetPSSCallback(Cb_NameBox);
             break;
         }
         break;
@@ -3597,11 +3597,10 @@ static void Cb_HandleWallpapers(u8 taskId)
         sPSSData->wallpaperId = sub_80D00AC();
         switch (sPSSData->wallpaperId)
         {
-        case -2:
-            break;
         case -1:
             ClearBottomWindow();
             sPSSData->state = 0;
+        case -2:
             break;
         default:
             PlaySE(SE_SELECT);
@@ -3767,15 +3766,15 @@ static void Cb_OnCloseBoxPressed(u8 taskId)
     case 2:
         switch (Menu_ProcessInputNoWrapClearOnChoose())
         {
-        case MENU_B_PRESSED:
-        case 1:
-            ClearBottomWindow();
-            SetPSSCallback(Cb_MainPSS);
-            break;
         case 0:
             PlaySE(SE_PC_OFF);
             ClearBottomWindow();
             sPSSData->state++;
+            break;
+        case MENU_B_PRESSED:
+        case 1:
+            ClearBottomWindow();
+            SetPSSCallback(Cb_MainPSS);
             break;
         }
         break;
@@ -4109,7 +4108,7 @@ static void PrintCursorMonInfo(void)
     FillWindowPixelBuffer(0, PIXEL_FILL(1));
     if (sPSSData->boxOption != BOX_OPTION_MOVE_ITEMS)
     {
-        AddTextPrinterParameterized(0, 1, sPSSData->cursorMonNickText, 6, 0, TEXT_SPEED_FF, NULL);
+        AddTextPrinterParameterized(0, 2, sPSSData->cursorMonNickText, 6, 0, TEXT_SPEED_FF, NULL);
         AddTextPrinterParameterized(0, 2, sPSSData->cursorMonSpeciesName, 6, 15, TEXT_SPEED_FF, NULL);
         AddTextPrinterParameterized(0, 2, sPSSData->cursorMonGenderLvlText, 10, 29, TEXT_SPEED_FF, NULL);
         AddTextPrinterParameterized(0, 0, sPSSData->cursorMonItemName, 6, 43, TEXT_SPEED_FF, NULL);
@@ -4117,7 +4116,7 @@ static void PrintCursorMonInfo(void)
     else
     {
         AddTextPrinterParameterized(0, 0, sPSSData->cursorMonItemName, 6, 0, TEXT_SPEED_FF, NULL);
-        AddTextPrinterParameterized(0, 1, sPSSData->cursorMonNickText, 6, 13, TEXT_SPEED_FF, NULL);
+        AddTextPrinterParameterized(0, 2, sPSSData->cursorMonNickText, 6, 13, TEXT_SPEED_FF, NULL);
         AddTextPrinterParameterized(0, 2, sPSSData->cursorMonSpeciesName, 6, 28, TEXT_SPEED_FF, NULL);
         AddTextPrinterParameterized(0, 2, sPSSData->cursorMonGenderLvlText, 10, 42, TEXT_SPEED_FF, NULL);
     }
@@ -4388,12 +4387,11 @@ static void PrintStorageActionText(u8 id)
     DynamicPlaceholderTextUtil_Reset();
     switch (gPCStorageActionTexts[id].format)
     {
-    case PC_TEXT_FMT_NORMAL:
-        break;
     case PC_TEXT_FMT_MON_NAME_1:
     case PC_TEXT_FMT_MON_NAME_2:
     case PC_TEXT_FMT_MON_NAME_3:
         DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, sPSSData->cursorMonNick);
+    case PC_TEXT_FMT_NORMAL:
         break;
     case PC_TEXT_FMT_MON_NAME_4:
     case PC_TEXT_FMT_MON_NAME_5:
@@ -6227,10 +6225,8 @@ static bool8 sub_80CDED4(void)
 {
     switch (sPSSData->field_CB4->pos2.y)
     {
-    default:
-        sPSSData->field_CB4->pos2.y++;
-        break;
     case 0:
+    default:
         sPSSData->field_CB4->pos2.y++;
         break;
     case 8:
@@ -6914,7 +6910,6 @@ static u8 HandleInput_InBox(void)
 {
     switch (sPSSData->inBoxMovingMode)
     {
-    case 0:
     default:
         return InBoxInput_Normal();
     case 1:
@@ -7563,7 +7558,6 @@ static bool8 sub_80CFA84(void)
                 return FALSE;
         }
         break;
-    case BOX_OPTION_MOVE_ITEMS:
     default:
         return FALSE;
     }

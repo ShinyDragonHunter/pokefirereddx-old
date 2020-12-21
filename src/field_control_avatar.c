@@ -141,6 +141,8 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
     gSpecialVar_LastTalked = 0;
     gSelectedObjectEvent = 0;
 
+    gSpecialVar_TextColor = 0xFF;
+
     playerDirection = GetPlayerFacingDirection();
     GetPlayerPosition(&position);
     metatileBehavior = MapGridGetMetatileBehaviorAt(position.x, position.y);
@@ -190,6 +192,23 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
         return TRUE;
 
     return FALSE;
+}
+
+void FieldInput_HandleCancelSignpost(struct FieldInput * input)
+{
+    if (ScriptContext1_IsScriptSetUp() == TRUE)
+    {
+        if (gWalkAwayFromSignInhibitTimer != 0)
+            gWalkAwayFromSignInhibitTimer--;
+        else if (CanWalkAwayToCancelMsgBox() == TRUE)
+        {
+            if (input->dpadDirection != 0 && GetPlayerFacingDirection() != input->dpadDirection)
+            {
+                if (IsMsgBoxWalkawayDisabled() == TRUE)
+                    return;
+            }
+        }
+    }
 }
 
 static void GetPlayerPosition(struct MapPosition *position)
@@ -325,7 +344,6 @@ static const u8 *GetInteractedBackgroundEventScript(struct MapPosition *position
 
     switch (bgEvent->kind)
     {
-    case BG_EVENT_PLAYER_FACING_ANY:
     default:
         return bgEvent->bgUnion.script;
     case BG_EVENT_PLAYER_FACING_NORTH:
@@ -649,7 +667,6 @@ static bool8 UpdatePoisonStepCounter(void)
             switch (DoPoisonFieldEffect())
             {
             case FLDPSN_NONE:
-                return FALSE;
             case FLDPSN_PSN:
                 return FALSE;
             case FLDPSN_FNT:
