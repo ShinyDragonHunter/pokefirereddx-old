@@ -194,23 +194,6 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
     return FALSE;
 }
 
-void FieldInput_HandleCancelSignpost(struct FieldInput * input)
-{
-    if (ScriptContext1_IsScriptSetUp() == TRUE)
-    {
-        if (gWalkAwayFromSignInhibitTimer != 0)
-            gWalkAwayFromSignInhibitTimer--;
-        else if (CanWalkAwayToCancelMsgBox() == TRUE)
-        {
-            if (input->dpadDirection != 0 && GetPlayerFacingDirection() != input->dpadDirection)
-            {
-                if (IsMsgBoxWalkawayDisabled() == TRUE)
-                    return;
-            }
-        }
-    }
-}
-
 static void GetPlayerPosition(struct MapPosition *position)
 {
     PlayerGetDestCoords(&position->x, &position->y);
@@ -1014,9 +997,7 @@ int SetCableClubWarp(void)
 {
     struct MapPosition position;
 
-    GetPlayerMovementDirection();  //unnecessary
     GetPlayerPosition(&position);
-    MapGridGetMetatileBehaviorAt(position.x, position.y);  //unnecessary
     SetupWarp(&gMapHeader, GetWarpEventAtMapPosition(&gMapHeader, &position), &position);
     return 0;
 }

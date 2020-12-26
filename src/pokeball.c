@@ -1251,13 +1251,12 @@ void LoadBallGfx(u8 ballId)
     }
     switch (ballId)
     {
-    case BALL_DIVE:
-    case BALL_LUXURY:
-    case BALL_PREMIER:
-        break;
     default:
         var = GetSpriteTileStartByTag(gBallSpriteSheets[ballId].tag);
         LZDecompressVram(gOpenPokeballGfx, (void *)(VRAM + 0x10100 + var * 32));
+    case BALL_DIVE:
+    case BALL_LUXURY:
+    case BALL_PREMIER:
         break;
     }
 }

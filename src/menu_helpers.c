@@ -252,14 +252,6 @@ bool8 AdjustQuantityAccordingToDPadInput(s16 *arg0, u16 arg1)
     return FALSE;
 }
 
-u8 GetDialogBoxFontId(void)
-{
-    if (!ContextNpcGetTextColor())
-        return 4;
-    else
-        return 5;
-}
-
 u8 GetLRKeysPressed(void)
 {
     if (gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR)

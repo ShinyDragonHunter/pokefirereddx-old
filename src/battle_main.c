@@ -306,12 +306,6 @@ const struct OamData gOamData_831ACB0 =
     .affineParam = 0,
 };
 
-// Unknown and unused data. Feel free to remove.
-static const u16 gUnknown_0831ACB8[] = {0, 5, 0xfffe, 0};
-static const u16 *const gUnknown_0831ACC0 = gUnknown_0831ACB8;
-static const u16 gUnknown_0831ACC4[] = {0xfff0, 0, 0x0400, 0, 0, 0, 0x3c00, 0, 0x7ffe, 1, 0, 0};
-static const u16 *const gUnknown_0831ACDC = gUnknown_0831ACC4;
-
 static const s8 gUnknown_0831ACE0[] ={-32, -16, -16, -32, -32, 0, 0, 0};
 
 // format: attacking type, defending type, damage multiplier
@@ -2861,13 +2855,12 @@ void DoBounceEffect(u8 battler, u8 which, s8 delta, s8 amplitude)
 
     switch (which)
     {
-    case BOUNCE_HEALTHBOX:
-    default:
-        if (gBattleSpritesDataPtr->healthBoxesData[battler].healthboxIsBouncing)
-            return;
-        break;
     case BOUNCE_MON:
         if (gBattleSpritesDataPtr->healthBoxesData[battler].battlerIsBouncing)
+            return;
+        break;
+    default:
+        if (gBattleSpritesDataPtr->healthBoxesData[battler].healthboxIsBouncing)
             return;
         break;
     }
@@ -2927,11 +2920,7 @@ static void SpriteCB_BounceEffect(struct Sprite *sprite)
     u8 bouncerSpriteId = sprite->sBouncerSpriteId;
     s32 index;
 
-    if (sprite->sWhich == BOUNCE_HEALTHBOX)
-        index = sprite->sSinIndex;
-    else
-        index = sprite->sSinIndex;
-
+    index = sprite->sSinIndex;
     gSprites[bouncerSpriteId].pos2.y = Sin(index, sprite->sAmplitude) + sprite->sAmplitude;
     sprite->sSinIndex = (sprite->sSinIndex + sprite->sDelta) & 0xFF;
 }
@@ -3492,25 +3481,6 @@ static void BattleIntroDrawPartySummaryScreens(void)
     }
     else
     {
-        // The struct gets set here, but nothing is ever done with it since
-        // wild battles don't show the party summary.
-        // Still, there's no point in having dead code.
-
-        for (i = 0; i < PARTY_SIZE; i++)
-        {
-            if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES2) == SPECIES_NONE
-             || GetMonData(&gPlayerParty[i], MON_DATA_SPECIES2) == SPECIES_EGG)
-            {
-                hpStatus[i].hp = 0xFFFF;
-                hpStatus[i].status = 0;
-            }
-            else
-            {
-                hpStatus[i].hp = GetMonData(&gPlayerParty[i], MON_DATA_HP);
-                hpStatus[i].status = GetMonData(&gPlayerParty[i], MON_DATA_STATUS);
-            }
-        }
-
         gBattleMainFunc = BattleIntroPrintWildMonAttacked;
     }
 

@@ -238,27 +238,3 @@ bool8 FlagGet(u16 id)
 
     return TRUE;
 }
-
-void ResetSpecialVars(void)
-{
-    gSpecialVar_0x8000 = 0;
-    gSpecialVar_0x8001 = 0;
-    gSpecialVar_0x8002 = 0;
-    gSpecialVar_0x8003 = 0;
-    gSpecialVar_0x8004 = 0;
-    gSpecialVar_0x8005 = 0;
-    gSpecialVar_0x8006 = 0;
-    gSpecialVar_0x8007 = 0;
-    gSpecialVar_0x8008 = 0;
-    gSpecialVar_0x8009 = 0;
-    gSpecialVar_0x800A = 0;
-    gSpecialVar_0x800B = 0;
-    gSpecialVar_Facing = 0;
-    gSpecialVar_Result = 0;
-    gSpecialVar_LastTalked = 0;
-    gSpecialVar_Facing = 0;
-    gSpecialVar_MonBoxId = 0;
-    gSpecialVar_MonBoxPos = 0;
-    gSpecialVar_TextColor = 0;
-    gSpecialVar_PrevTextColor = 0;
-}

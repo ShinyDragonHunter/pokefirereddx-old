@@ -301,9 +301,8 @@
 #define VAR_MON_BOX_POS               0x8013
 #define VAR_TEXT_COLOR                0x8014
 #define VAR_PREV_TEXT_COLOR           0x8015
-#define VAR_UNUSED_0x8014             0x8016
-#define VAR_TRAINER_BATTLE_OPPONENT_A 0x8017 // Alias of gTrainerBattleOpponent_A
+#define VAR_TRAINER_BATTLE_OPPONENT_A 0x8016 // Alias of gTrainerBattleOpponent_A
 
-#define SPECIAL_VARS_END              0x8015
+#define SPECIAL_VARS_END              0x8016
 
 #endif // GUARD_CONSTANTS_VARS_H

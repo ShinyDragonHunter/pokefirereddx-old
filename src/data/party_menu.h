@@ -643,7 +643,6 @@ static const u8 *const sActionStringTable[] =
     [PARTY_MSG_X_MONS_ARE_NEEDED]      = gText_PokemonAreNeeded,
     [PARTY_MSG_MONS_CANT_BE_SAME]      = gText_PokemonCantBeSame,
     [PARTY_MSG_NO_SAME_HOLD_ITEMS]     = gText_NoIdenticalHoldItems,
-    [PARTY_MSG_UNUSED]                 = gText_EmptyString2,
     [PARTY_MSG_DO_WHAT_WITH_MON]       = gText_DoWhatWithPokemon,
     [PARTY_MSG_RESTORE_WHICH_MOVE]     = gText_RestoreWhichMove,
     [PARTY_MSG_BOOST_PP_WHICH_MOVE]    = gText_BoostPp,
@@ -655,26 +654,15 @@ static const u8 *const sActionStringTable[] =
 static const u8 *const sDescriptionStringTable[] =
 {
     [PARTYBOX_DESC_NO_USE]     = gText_NoUse,
-    [PARTYBOX_DESC_ABLE_3]     = gText_Able,
+    [PARTYBOX_DESC_ABLE]       = gText_Able,
     [PARTYBOX_DESC_FIRST]      = gText_First_PM,
     [PARTYBOX_DESC_SECOND]     = gText_Second_PM,
     [PARTYBOX_DESC_THIRD]      = gText_Third_PM,
     [PARTYBOX_DESC_FOURTH]     = gText_Fourth,
-    [PARTYBOX_DESC_ABLE]       = gText_Able2,
     [PARTYBOX_DESC_NOT_ABLE]   = gText_NotAble,
-    [PARTYBOX_DESC_ABLE_2]     = gText_Able3,
-    [PARTYBOX_DESC_NOT_ABLE_2] = gText_NotAble2,
     [PARTYBOX_DESC_LEARNED]    = gText_Learned,
     [PARTYBOX_DESC_HAVE]       = gText_Have,
     [PARTYBOX_DESC_DONT_HAVE]  = gText_DontHave,
-};
-
-static const u16 sUnused_08615B94[] =
-{
-    0x0108, 0x0151, 0x0160, 0x015b, 0x002e, 0x005c, 0x0102, 0x0153, 0x014b, 0x00ed, 0x00f1, 0x010d, 0x003a, 0x003b, 0x003f, 0x0071,
-    0x00b6, 0x00f0, 0x00ca, 0x00db, 0x00da, 0x004c, 0x00e7, 0x0055, 0x0057, 0x0059, 0x00d8, 0x005b, 0x005e, 0x00f7, 0x0118, 0x0068,
-    0x0073, 0x015f, 0x0035, 0x00bc, 0x00c9, 0x007e, 0x013d, 0x014c, 0x0103, 0x0107, 0x0122, 0x009c, 0x00d5, 0x00a8, 0x00d3, 0x011d,
-    0x0121, 0x013b, 0x000f, 0x0013, 0x0039, 0x0046, 0x0094, 0x00f9, 0x007f, 0x0123,
 };
 
 enum
@@ -695,8 +683,7 @@ enum
     MENU_NO_ENTRY,
     MENU_STORE,
     MENU_REGISTER,
-    MENU_TRADE1,
-    MENU_TRADE2,
+    MENU_TRADE,
     MENU_TOSS,
     MENU_FIELD_MOVES,
 };
@@ -744,8 +731,7 @@ struct
     [MENU_NO_ENTRY] = {gText_NoEntry, CursorCb_NoEntry},
     [MENU_STORE] = {gText_Store, CursorCb_Store},
     [MENU_REGISTER] = {gText_Register, CursorCb_Register},
-    [MENU_TRADE1] = {gText_Trade4, CursorCb_Trade1},
-    [MENU_TRADE2] = {gText_Trade4, CursorCb_Trade2},
+    [MENU_TRADE] = {gText_Trade4, CursorCb_Trade},
     [MENU_TOSS] = {gMenuText_Toss, CursorCb_Toss},
     [MENU_FIELD_MOVES + FIELD_MOVE_CUT] = {gMoveNames[MOVE_CUT], CursorCb_FieldMove},
     [MENU_FIELD_MOVES + FIELD_MOVE_FLASH] = {gMoveNames[MOVE_FLASH], CursorCb_FieldMove},
@@ -773,8 +759,7 @@ static const u8 sPartyMenuAction_StoreSummaryCancel[] = {MENU_STORE, MENU_SUMMAR
 static const u8 sPartyMenuAction_GiveTakeItemCancel[] = {MENU_GIVE, MENU_TAKE_ITEM, MENU_CANCEL2};
 static const u8 sPartyMenuAction_ReadTakeMailCancel[] = {MENU_READ, MENU_TAKE_MAIL, MENU_CANCEL2};
 static const u8 sPartyMenuAction_RegisterSummaryCancel[] = {MENU_REGISTER, MENU_SUMMARY, MENU_CANCEL1};
-static const u8 sPartyMenuAction_TradeSummaryCancel1[] = {MENU_TRADE1, MENU_SUMMARY, MENU_CANCEL1};
-static const u8 sPartyMenuAction_TradeSummaryCancel2[] = {MENU_TRADE2, MENU_SUMMARY, MENU_CANCEL1};
+static const u8 sPartyMenuAction_TradeSummaryCancel1[] = {MENU_TRADE, MENU_SUMMARY, MENU_CANCEL1};
 static const u8 sPartyMenuAction_TakeItemTossCancel[] = {MENU_TAKE_ITEM, MENU_TOSS, MENU_CANCEL1};
 
 // IDs for the action lists that appear when a party mon is selected
@@ -792,7 +777,6 @@ enum
     ACTIONS_MAIL,
     ACTIONS_REGISTER,
     ACTIONS_TRADE,
-    ACTIONS_SPIN_TRADE,
     ACTIONS_TAKEITEM_TOSS
 };
 
@@ -810,7 +794,6 @@ static const u8 *const sPartyMenuActions[] =
     [ACTIONS_MAIL]          = sPartyMenuAction_ReadTakeMailCancel,
     [ACTIONS_REGISTER]      = sPartyMenuAction_RegisterSummaryCancel,
     [ACTIONS_TRADE]         = sPartyMenuAction_TradeSummaryCancel1,
-    [ACTIONS_SPIN_TRADE]    = sPartyMenuAction_TradeSummaryCancel2,
     [ACTIONS_TAKEITEM_TOSS] = sPartyMenuAction_TakeItemTossCancel,
 };
 
@@ -828,7 +811,6 @@ static const u8 sPartyMenuActionCounts[] =
     [ACTIONS_MAIL]          = ARRAY_COUNT(sPartyMenuAction_ReadTakeMailCancel),
     [ACTIONS_REGISTER]      = ARRAY_COUNT(sPartyMenuAction_RegisterSummaryCancel),
     [ACTIONS_TRADE]         = ARRAY_COUNT(sPartyMenuAction_TradeSummaryCancel1),
-    [ACTIONS_SPIN_TRADE]    = ARRAY_COUNT(sPartyMenuAction_TradeSummaryCancel2),
     [ACTIONS_TAKEITEM_TOSS] = ARRAY_COUNT(sPartyMenuAction_TakeItemTossCancel)
 };
 
@@ -893,6 +875,10 @@ static const struct OamData sOamData_HeldItem =
     .affineParam = 0,
 };
 
+// Also used in
+// sSpriteAnimTable_MenuPokeball,
+// sSpriteAnimTable_MenuPokeballSmall
+// and sSpriteTemplate_StatusCondition
 static const union AnimCmd sSpriteAnim_HeldItem[] =
 {
     ANIMCMD_FRAME(0, 1),
@@ -949,12 +935,7 @@ static const struct OamData sOamData_MenuPokeball =
     .affineParam = 0
 };
 
-static const union AnimCmd sPokeballAnim_Closed[] =
-{
-    ANIMCMD_FRAME(0, 0),
-    ANIMCMD_END
-};
-
+// Also used in sSpriteTemplate_StatusCondition
 static const union AnimCmd sPokeballAnim_Open[] =
 {
     ANIMCMD_FRAME(16, 0),
@@ -963,7 +944,7 @@ static const union AnimCmd sPokeballAnim_Open[] =
 
 static const union AnimCmd *const sSpriteAnimTable_MenuPokeball[] =
 {
-    sPokeballAnim_Closed,
+    sSpriteAnim_HeldItem,
     sPokeballAnim_Open
 };
 
@@ -1006,51 +987,17 @@ static const struct OamData sOamData_MenuPokeballSmall =
     .affineParam = 0
 };
 
-static const union AnimCmd sSmallPokeballAnim_Closed[] =
-{
-    ANIMCMD_FRAME(0, 0),
-    ANIMCMD_END
-};
-
+// Also used in sSpriteTemplate_StatusCondition
 static const union AnimCmd sSmallPokeballAnim_Open[] =
 {
     ANIMCMD_FRAME(4, 0),
     ANIMCMD_END
 };
 
-static const union AnimCmd sSmallPokeballAnim_Blank1[] =
-{
-    ANIMCMD_FRAME(8, 0),
-    ANIMCMD_END
-};
-
-static const union AnimCmd sSmallPokeballAnim_Blank2[] =
-{
-    ANIMCMD_FRAME(12, 0),
-    ANIMCMD_END
-};
-
-static const union AnimCmd sSmallPokeballAnim_Blank3[] =
-{
-    ANIMCMD_FRAME(16, 0),
-    ANIMCMD_END
-};
-
-static const union AnimCmd sSmallPokeballAnim_Blank4[] =
-{
-    ANIMCMD_FRAME(20, 0),
-    ANIMCMD_END
-};
-
-// The blanks below are never used. See SpriteCB_BounceConfirmCancelButton, where they were intended to be used
 static const union AnimCmd *const sSpriteAnimTable_MenuPokeballSmall[] =
 {
-    sSmallPokeballAnim_Closed,
+    sSpriteAnim_HeldItem,
     sSmallPokeballAnim_Open,
-    sSmallPokeballAnim_Blank1,
-    sSmallPokeballAnim_Blank2,
-    sSmallPokeballAnim_Blank3,
-    sSmallPokeballAnim_Blank4
 };
 
 static const struct CompressedSpriteSheet sSpriteSheet_MenuPokeballSmall =
@@ -1087,18 +1034,6 @@ static const struct OamData sOamData_StatusCondition =
     .affineParam = 0
 };
 
-static const union AnimCmd sSpriteAnim_StatusPoison[] =
-{
-    ANIMCMD_FRAME(0, 0),
-    ANIMCMD_END
-};
-
-static const union AnimCmd sSpriteAnim_StatusParalyzed[] =
-{
-    ANIMCMD_FRAME(4, 0),
-    ANIMCMD_END
-};
-
 static const union AnimCmd sSpriteAnim_StatusSleep[] =
 {
     ANIMCMD_FRAME(8, 0),
@@ -1108,12 +1043,6 @@ static const union AnimCmd sSpriteAnim_StatusSleep[] =
 static const union AnimCmd sSpriteAnim_StatusFrozen[] =
 {
     ANIMCMD_FRAME(12, 0),
-    ANIMCMD_END
-};
-
-static const union AnimCmd sSpriteAnim_StatusBurn[] =
-{
-    ANIMCMD_FRAME(16, 0),
     ANIMCMD_END
 };
 
@@ -1137,11 +1066,11 @@ static const union AnimCmd sSpriteAnim_Blank[] =
 
 static const union AnimCmd *const sSpriteTemplate_StatusCondition[] =
 {
-    sSpriteAnim_StatusPoison,
-    sSpriteAnim_StatusParalyzed,
+    sSpriteAnim_HeldItem,
+    sSmallPokeballAnim_Open,
     sSpriteAnim_StatusSleep,
     sSpriteAnim_StatusFrozen,
-    sSpriteAnim_StatusBurn,
+    sPokeballAnim_Open,
     sSpriteAnim_StatusPokerus,
     sSpriteAnim_StatusFaint,
     sSpriteAnim_Blank

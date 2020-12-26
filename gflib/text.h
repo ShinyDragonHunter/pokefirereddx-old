@@ -271,6 +271,13 @@
 
 enum
 {
+    COLOR_FOREGROUND,
+    COLOR_SHADOW,
+    COLOR_BACKGROUND
+};
+
+enum
+{
     FONTATTR_MAX_LETTER_WIDTH,
     FONTATTR_MAX_LETTER_HEIGHT,
     FONTATTR_LETTER_SPACING,
@@ -372,7 +379,7 @@ struct Struct_03002F90
 
 extern TextFlags gTextFlags;
 
-extern u8 gUnknown_03002F84;
+extern bool8 gUnknown_03002F84;
 extern struct Struct_03002F90 gUnknown_03002F90;
 
 void SetFontsPointer(const struct FontInfo *fonts);

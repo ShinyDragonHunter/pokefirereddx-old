@@ -3128,10 +3128,10 @@ static void BufferMonTrainerMemo(void)
                 break;
             // Colosseum: RealgamTwr Dome; XD: Pyrite Town
             case 15: case 109: case 110: case 111: case 116: case 119:
-                if (sum->species != SPECIES_SUNFLORA
-                 || sum->species != SPECIES_HERACROSS
-                 || sum->species != SPECIES_DELIBIRD
-                 || sum->species != SPECIES_SUICUNE)
+                if (!sum->species == SPECIES_SUNFLORA
+                 || !sum->species == SPECIES_HERACROSS
+                 || !sum->species == SPECIES_DELIBIRD
+                 || !sum->species == SPECIES_SUICUNE)
                     DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_PyriteTown);
                 else
             // Do these three display as Realgam Tower instead in game?
@@ -3169,11 +3169,11 @@ static void BufferMonTrainerMemo(void)
                 break;
             // Colosseum: Laboratory; XD: Cipher Key Lair
             case 67: case 68: case 69:
-                if (sum->species != SPECIES_BUTTERFREE
-                 || sum->species != SPECIES_PRIMEAPE
-                 || sum->species != SPECIES_MAGNETON
-                 || sum->species != SPECIES_HYPNO
-                 || sum->species != SPECIES_TANGELA)
+                if (!sum->species == SPECIES_BUTTERFREE
+                 || !sum->species == SPECIES_PRIMEAPE
+                 || !sum->species == SPECIES_MAGNETON
+                 || !sum->species == SPECIES_HYPNO
+                 || !sum->species == SPECIES_TANGELA)
                     DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_Laboratory);
                 else
             // Cipher Key Lair
@@ -3182,7 +3182,7 @@ static void BufferMonTrainerMemo(void)
                 break;
             // Colosseum: Mt. Battle; XD: Citadark Isle
             case 73: case 74: case 75: case 76: case 77: case 80: case 81: case 84: case 85: case 87: case 88:
-                if (sum->species != SPECIES_ENTEI)
+                if (!sum->species == SPECIES_ENTEI)
                     DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_CitadarkIsle);
                 else
             // Mt. Battle

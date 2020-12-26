@@ -30,6 +30,8 @@
 #include "constants/trainer_hill.h"
 #include "constants/weather.h"
 
+extern const struct WindowTemplate gStandardBattleWindowTemplates[];
+
 struct BattleWindowText
 {
     u8 fillValue;
@@ -1657,11 +1659,6 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
 };
 
-//static const struct BattleWindowText *const sBattleTextOnWindowsInfo[] =
-//{
-//    sTextOnWindowsInfo_Normal, sTextOnWindowsInfo_Arena
-//};
-
 static const u8 sRecordedBattleTextSpeeds[] = {8, 4, 1, 0};
 
 // code
@@ -1730,7 +1727,7 @@ void BufferStringBattle(u16 stringID)
         }
         else
         {
-            if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE) // interesting, looks like they had something planned for wild double battles
+            if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
                 stringPtr = sText_TwoWildPkmnAppeared;
             else if (gBattleTypeFlags & BATTLE_TYPE_WALLY_TUTORIAL)
                 stringPtr = sText_WildPkmnAppearedPause;
@@ -1761,9 +1758,7 @@ void BufferStringBattle(u16 stringID)
         {
             if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
             {
-                if (gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS)
-                    stringPtr = sText_TwoTrainersSentPkmn;
-                else if (gBattleTypeFlags & BATTLE_TYPE_x800000)
+                if (gBattleTypeFlags & (BATTLE_TYPE_TWO_OPPONENTS | BATTLE_TYPE_x800000))
                     stringPtr = sText_TwoTrainersSentPkmn;
                 else if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
                     stringPtr = sText_TwoLinkTrainersSentOutPkmn;
@@ -2545,14 +2540,11 @@ static void ExpandBattleTextBuffPlaceholders(const u8 *src, u8 *dst)
     }
 }
 
-const u8 gUnknown_83FEC90[] = {0x04, 0x05, 0x02, 0x02};
-
 void BattlePutTextOnWindow(const u8 *text, u8 windowId)
 {
     bool32 copyToVram;
     struct TextPrinterTemplate printerTemplate;
     u8 speed;
-    u8 context;
 
     if (windowId & 0x80)
     {
@@ -2562,8 +2554,6 @@ void BattlePutTextOnWindow(const u8 *text, u8 windowId)
     else
     {
         FillWindowPixelBuffer(windowId, sTextOnWindowsInfo_Normal[windowId].fillValue);
-        context = ContextNpcGetTextColor();
-        printerTemplate.fontId = gUnknown_83FEC90[context];
         copyToVram = TRUE;
     }
 
@@ -2585,34 +2575,34 @@ void BattlePutTextOnWindow(const u8 *text, u8 windowId)
     {
         u32 width = sub_80397C4(windowId);
         s32 alignX = GetStringCenterAlignXOffsetWithLetterSpacing(printerTemplate.fontId, printerTemplate.currentChar, width, printerTemplate.letterSpacing);
-        printerTemplate.x = printerTemplate.currentX = alignX;
+        printerTemplate.x = alignX;
     }
 
     if (windowId == 0x16)
-        gTextFlags.useAlternateDownArrow = 0;
+        gTextFlags.useAlternateDownArrow = FALSE;
     else
-        gTextFlags.useAlternateDownArrow = 1;
+        gTextFlags.useAlternateDownArrow = TRUE;
 
     if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED))
-        gTextFlags.autoScroll = 1;
+        gTextFlags.autoScroll = TRUE;
     else
-        gTextFlags.autoScroll = 0;
+        gTextFlags.autoScroll = FALSE;
 
     if (windowId == 0 || windowId == 0x16)
     {
         if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_x2000000))
-            speed = 1;
+            speed = TRUE;
         else if (gBattleTypeFlags & BATTLE_TYPE_RECORDED)
             speed = sRecordedBattleTextSpeeds[GetTextSpeedInRecordedBattle()];
         else
             speed = GetPlayerTextSpeedDelay();
 
-        gTextFlags.canABSpeedUpPrint = 1;
+        gTextFlags.canABSpeedUpPrint = TRUE;
     }
     else
     {
         speed = sTextOnWindowsInfo_Normal[windowId].speed;
-        gTextFlags.canABSpeedUpPrint = 0;
+        gTextFlags.canABSpeedUpPrint = FALSE;
     }
 
     AddTextPrinter(&printerTemplate, speed, NULL);

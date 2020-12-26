@@ -3395,18 +3395,7 @@ u8 GetBoxMonGender(struct BoxPokemon *boxMon)
     u16 species = GetBoxMonData(boxMon, MON_DATA_SPECIES, NULL);
     u32 personality = GetBoxMonData(boxMon, MON_DATA_PERSONALITY, NULL);
 
-    switch (gBaseStats[species].genderRatio)
-    {
-    case MON_MALE:
-    case MON_FEMALE:
-    case MON_GENDERLESS:
-        return gBaseStats[species].genderRatio;
-    }
-
-    if (gBaseStats[species].genderRatio > (personality & 0xFF))
-        return MON_FEMALE;
-    else
-        return MON_MALE;
+    return GetGenderFromSpeciesAndPersonality(species, personality);
 }
 
 u8 GetGenderFromSpeciesAndPersonality(u16 species, u32 personality)
@@ -6224,16 +6213,14 @@ void ClearBattleMonForms(void)
 
 u16 GetBattleBGM(void)
 {
-    if (gBattleTypeFlags & (BATTLE_TYPE_LINK
-	                     | BATTLE_TYPE_x2000000))
-        return MUS_VS_TRAINER;
-
-    else if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+    if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
     {
         u8 trainerClass;
 
         if (gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
             trainerClass = GetFrontierOpponentClass(gTrainerBattleOpponent_A);
+        else if (gBattleTypeFlags & BATTLE_TYPE_TRAINER_HILL)
+            trainerClass = TRAINER_CLASS_YOUNGSTER;
         else
             trainerClass = gTrainers[gTrainerBattleOpponent_A].trainerClass;
 
@@ -6256,7 +6243,9 @@ u16 GetBattleBGM(void)
         case HOENN_TRAINER_CLASS_PYRAMID_KING:
             return MUS_VS_FRONTIER_BRAIN;
         default:
-            if (gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
+            if (gBattleTypeFlags & (BATTLE_TYPE_LINK 
+                                 | BATTLE_TYPE_x2000000
+                                 | BATTLE_TYPE_FRONTIER))
                 return MUS_VS_TRAINER;
             else
                 return MUS_RG_VS_TRAINER;
@@ -6265,8 +6254,12 @@ u16 GetBattleBGM(void)
     else
         switch (GetMonData(&gEnemyParty[0], MON_DATA_SPECIES, NULL))
         {
-        case SPECIES_ARTICUNO ... SPECIES_MOLTRES:
-        case SPECIES_RAIKOU ... SPECIES_SUICUNE:
+        case SPECIES_ARTICUNO:
+        case SPECIES_ZAPDOS:
+        case SPECIES_MOLTRES:
+        case SPECIES_RAIKOU:
+        case SPECIES_ENTEI:
+        case SPECIES_SUICUNE:
         case SPECIES_LUGIA:
         case SPECIES_HO_OH:
             return MUS_RG_VS_LEGEND;

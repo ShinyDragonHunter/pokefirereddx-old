@@ -328,15 +328,6 @@ $(FONTGFXDIR)/unused_frlg_female.fwjpnfont: $(FONTGFXDIR)/unused_japanese_frlg_f
 $(FONTGFXDIR)/down_arrow.4bpp: %.4bpp: %.png
 	$(GFX) $< $@
 
-$(FONTGFXDIR)/down_arrow_rs.4bpp: %.4bpp: %.png
-	$(GFX) $< $@
-
-$(FONTGFXDIR)/unused_frlg_blanked_down_arrow.4bpp: %.4bpp: %.png
-	$(GFX) $< $@
-
-$(FONTGFXDIR)/unused_frlg_down_arrow.4bpp: %.4bpp: %.png
-	$(GFX) $< $@
-
 $(FONTGFXDIR)/keypad_icons.4bpp: %.4bpp: %.png
 	$(GFX) $< $@
 

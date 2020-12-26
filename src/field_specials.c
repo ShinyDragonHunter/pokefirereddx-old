@@ -2759,7 +2759,7 @@ u8 ContextNpcGetTextColor(void)
 
     if (gSpecialVar_TextColor != 0xFF)
         return gSpecialVar_TextColor;
-    else if (gSelectedObjectEvent == 0)
+    else if (!gSelectedObjectEvent)
         gSpecialVar_TextColor = TEXT_COLOR_DARK_GREY;
     else
     {

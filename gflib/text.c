@@ -21,7 +21,7 @@ static u16 gLastTextFgColor;
 static u16 gLastTextShadowColor;
 
 const struct FontInfo *gFonts;
-u8 gUnknown_03002F84;
+bool8 gUnknown_03002F84;
 struct Struct_03002F90 gUnknown_03002F90;
 TextFlags gTextFlags;
 
@@ -46,11 +46,8 @@ const u8 gFontHalfRowOffsets[] =
 };
 
 const u8 gDownArrowTiles[] = INCBIN_U8("graphics/fonts/down_arrow.4bpp");
-const u8 gDarkDownArrowTiles[] = INCBIN_U8("graphics/fonts/down_arrow_RS.4bpp");
-const u8 gUnusedFRLGBlankedDownArrow[] = INCBIN_U8("graphics/fonts/unused_frlg_blanked_down_arrow.4bpp");
-const u8 gUnusedFRLGDownArrow[] = INCBIN_U8("graphics/fonts/unused_frlg_down_arrow.4bpp");
-const u8 gDownArrowYCoords[] = { 0x0, 0x1, 0x2, 0x1 };
-const u8 gWindowVerticalScrollSpeeds[] = { 0x1, 0x2, 0x4, 0x0 };
+const u8 gDownArrowYCoords[] = {0x0, 0x8, 0x10, 0x8};
+const u8 gWindowVerticalScrollSpeeds[] = {1, 2, 4, 0};
 
 const struct GlyphWidthFunc gGlyphWidthFuncs[] =
 {
@@ -205,7 +202,7 @@ bool16 AddTextPrinter(struct TextPrinterTemplate *printerTemplate, u8 speed, voi
             CopyWindowToVram(gTempTextPrinter.printerTemplate.windowId, 2);
         gTextPrinters[printerTemplate->windowId].active = 0;
     }
-    gUnknown_03002F84 = 0;
+    gUnknown_03002F84 = FALSE;
     return TRUE;
 }
 
@@ -213,7 +210,7 @@ void RunTextPrinters(void)
 {
     int i;
 
-    if (gUnknown_03002F84 == 0)
+    if (!gUnknown_03002F84)
     {
         for (i = 0; i < NUM_TEXT_PRINTERS; ++i)
         {
@@ -225,7 +222,7 @@ void RunTextPrinters(void)
                 case 0:
                     CopyWindowToVram(gTextPrinters[i].printerTemplate.windowId, 2);
                 case 3:
-                    if (gTextPrinters[i].callback != 0)
+                    if (gTextPrinters[i].callback != NULL)
                         gTextPrinters[i].callback(&gTextPrinters[i].printerTemplate, temp);
                     break;
                 case 1:
@@ -451,11 +448,11 @@ u8 GetLastTextColor(u8 colorType)
 {
     switch (colorType)
     {
-    case 0:
+    case COLOR_FOREGROUND:
         return gLastTextFgColor;
-    case 1:
+    case COLOR_SHADOW:
         return gLastTextShadowColor;
-    case 2:
+    case COLOR_BACKGROUND:
         return gLastTextBgColor;
     default:
         return 0;
@@ -666,7 +663,7 @@ void TextPrinterInitDownArrowCounters(struct TextPrinter *textPrinter)
 {
     struct TextPrinterSubStruct *subStruct = (struct TextPrinterSubStruct *)(&textPrinter->subStructFields);
 
-    if (gTextFlags.autoScroll == 1)
+    if (gTextFlags.autoScroll == TRUE)
     {
         subStruct->autoScrollDelay = 0;
     }
@@ -682,7 +679,7 @@ void TextPrinterDrawDownArrow(struct TextPrinter *textPrinter)
     struct TextPrinterSubStruct *subStruct = (struct TextPrinterSubStruct *)(&textPrinter->subStructFields);
     const u8 *arrowTiles;
 
-    if (gTextFlags.autoScroll == 0)
+    if (!gTextFlags.autoScroll)
     {
         if (subStruct->downArrowDelay != 0)
         {
@@ -696,29 +693,29 @@ void TextPrinterDrawDownArrow(struct TextPrinter *textPrinter)
                 textPrinter->printerTemplate.currentX,
                 textPrinter->printerTemplate.currentY,
                 8,
-                16);
+                12);
 
             switch (gTextFlags.useAlternateDownArrow)
             {
                 case TRUE:
-                    arrowTiles = gDarkDownArrowTiles;
+                    arrowTiles = &gDownArrowTiles[0x80];
                     break;
                 default:
-                    arrowTiles = gDownArrowTiles;
+                    arrowTiles = &gDownArrowTiles[0];
                     break;
             }
 
             BlitBitmapRectToWindow(
                 textPrinter->printerTemplate.windowId,
                 arrowTiles,
-                0,
                 gDownArrowYCoords[subStruct->downArrowYPosIdx],
-                8,
-                16,
+                0,
+                0x40,
+                0x10,
                 textPrinter->printerTemplate.currentX,
                 textPrinter->printerTemplate.currentY,
                 8,
-                16);
+                12);
             CopyWindowToVram(textPrinter->printerTemplate.windowId, 2);
 
             subStruct->downArrowDelay = 8;
@@ -735,7 +732,7 @@ void TextPrinterClearDownArrow(struct TextPrinter *textPrinter)
         textPrinter->printerTemplate.currentX,
         textPrinter->printerTemplate.currentY,
         8,
-        16);
+        12);
     CopyWindowToVram(textPrinter->printerTemplate.windowId, 2);
 }
 
@@ -757,7 +754,7 @@ bool8 TextPrinterWaitAutoMode(struct TextPrinter *textPrinter)
 bool16 TextPrinterWaitWithDownArrow(struct TextPrinter *textPrinter)
 {
     bool8 result = FALSE;
-    if (gTextFlags.autoScroll != 0)
+    if (gTextFlags.autoScroll)
     {
         result = TextPrinterWaitAutoMode(textPrinter);
     }
@@ -776,17 +773,14 @@ bool16 TextPrinterWaitWithDownArrow(struct TextPrinter *textPrinter)
 bool16 TextPrinterWait(struct TextPrinter *textPrinter)
 {
     bool16 result = FALSE;
-    if (gTextFlags.autoScroll != 0)
+    if (gTextFlags.autoScroll)
     {
         result = TextPrinterWaitAutoMode(textPrinter);
     }
-    else
+    else if (JOY_NEW(A_BUTTON | B_BUTTON))
     {
-        if (JOY_NEW(A_BUTTON | B_BUTTON))
-        {
-            result = TRUE;
-            PlaySE(SE_SELECT);
-        }
+        result = TRUE;
+        PlaySE(SE_SELECT);
     }
     return result;
 }
@@ -801,30 +795,30 @@ void DrawDownArrow(u8 windowId, u16 x, u16 y, u8 bgColor, bool8 drawArrow, u8 *c
     }
     else
     {
-        FillWindowPixelRect(windowId, (bgColor << 4) | bgColor, x, y, 0x8, 0x10);
-        if (drawArrow == 0)
+        FillWindowPixelRect(windowId, (bgColor << 4) | bgColor, x, y, 10, 12);
+        if (!drawArrow)
         {
             switch (gTextFlags.useAlternateDownArrow)
             {
-                case 1:
-                    arrowTiles = gDarkDownArrowTiles;
+                case TRUE:
+                    arrowTiles = &gDownArrowTiles[0x80];
                     break;
                 default:
-                    arrowTiles = gDownArrowTiles;
+                    arrowTiles = &gDownArrowTiles[0];
                     break;
             }
 
             BlitBitmapRectToWindow(
                 windowId,
                 arrowTiles,
-                0,
                 gDownArrowYCoords[*yCoordIndex & 3],
-                0x8,
+                0,
+                0x40,
                 0x10,
                 x,
-                y - 2,
-                0x8,
-                0x10);
+                y,
+                8,
+                12);
             CopyWindowToVram(windowId, 0x2);
             *counter = 8;
             ++*yCoordIndex;
@@ -1055,13 +1049,10 @@ u16 RenderText(struct TextPrinter *textPrinter)
                 textPrinter->printerTemplate.currentX += width;
             }
         }
+        else if (textPrinter->japanese)
+            textPrinter->printerTemplate.currentX += (gUnknown_03002F90.width + textPrinter->printerTemplate.letterSpacing);
         else
-        {
-            if (textPrinter->japanese)
-                textPrinter->printerTemplate.currentX += (gUnknown_03002F90.width + textPrinter->printerTemplate.letterSpacing);
-            else
-                textPrinter->printerTemplate.currentX += gUnknown_03002F90.width;
-        }
+            textPrinter->printerTemplate.currentX += gUnknown_03002F90.width;
         return 0;
     case 1:
         if (TextPrinterWait(textPrinter))
