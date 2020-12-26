@@ -6,6 +6,7 @@
 #include "constants/battle_anim.h"
 #include "battle_interface.h"
 #include "main.h"
+#include "dma3.h"
 #include "malloc.h"
 #include "graphics.h"
 #include "random.h"
@@ -566,7 +567,7 @@ void BattleLoadOpponentMonSpriteGfx(struct Pokemon *mon, u8 battlerId)
     otId = GetMonData(mon, MON_DATA_OT_ID);
     position = GetBattlerPosition(battlerId);
     HandleLoadSpecialPokePic(&gMonFrontPicTable[species],
-                                              gMonSpritesGfxPtr->sprites[position],
+                                              gMonSpritesGfxPtr->sprites.ptr[position],
                                               species, currentPersonality);
 
     paletteOffset = 0x100 + battlerId * 16;
@@ -613,18 +614,9 @@ void BattleLoadPlayerMonSpriteGfx(struct Pokemon *mon, u8 battlerId)
     otId = GetMonData(mon, MON_DATA_OT_ID);
     position = GetBattlerPosition(battlerId);
 
-    if (sub_80688F8(1, battlerId) == 1 || gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies != SPECIES_NONE)
-    {
-        HandleLoadSpecialPokePic(&gMonBackPicTable[species],
-                                                  gMonSpritesGfxPtr->sprites[position],
-                                                  species, currentPersonality);
-    }
-    else
-    {
-        HandleLoadSpecialPokePic(&gMonBackPicTable[species],
-                                gMonSpritesGfxPtr->sprites[position],
-                                species, currentPersonality);
-    }
+    HandleLoadSpecialPokePic(&gMonBackPicTable[species],
+                                             gMonSpritesGfxPtr->sprites.ptr[position],
+                                             species, currentPersonality);
 
     paletteOffset = 0x100 + battlerId * 16;
 
@@ -659,7 +651,7 @@ void DecompressTrainerFrontPic(u16 frontPicId, u8 battlerId)
 {
     u8 position = GetBattlerPosition(battlerId);
     DecompressPicFromTable(&gTrainerFrontPicTable[frontPicId],
-                             gMonSpritesGfxPtr->sprites[position],
+                             gMonSpritesGfxPtr->sprites.ptr[position],
                              SPECIES_NONE);
     LoadSpritePalette(&gTrainerFrontPicPaletteTable[frontPicId]);
 }
@@ -871,7 +863,7 @@ void HandleSpeciesGfxDataChange(u8 battlerAtk, u8 battlerDef, bool8 notTransform
             otId = gContestResources->moveAnim->otId;
 
             HandleLoadSpecialPokePic(&gMonBackPicTable[targetSpecies],
-                                                      gMonSpritesGfxPtr->sprites[0],
+                                                      gMonSpritesGfxPtr->sprites.ptr[0],
                                                       targetSpecies,
                                                       gContestResources->moveAnim->targetPersonality);
         }
@@ -890,7 +882,7 @@ void HandleSpeciesGfxDataChange(u8 battlerAtk, u8 battlerDef, bool8 notTransform
                 otId = GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerAtk]], MON_DATA_OT_ID);
 
                 HandleLoadSpecialPokePic(&gMonBackPicTable[targetSpecies],
-                                                          gMonSpritesGfxPtr->sprites[position],
+                                                          gMonSpritesGfxPtr->sprites.ptr[position],
                                                           targetSpecies,
                                                           gTransformedPersonalities[battlerAtk]);
             }
@@ -900,14 +892,14 @@ void HandleSpeciesGfxDataChange(u8 battlerAtk, u8 battlerDef, bool8 notTransform
                 otId = GetMonData(&gEnemyParty[gBattlerPartyIndexes[battlerAtk]], MON_DATA_OT_ID);
 
                 HandleLoadSpecialPokePic(&gMonFrontPicTable[targetSpecies],
-                                                          gMonSpritesGfxPtr->sprites[position],
+                                                          gMonSpritesGfxPtr->sprites.ptr[position],
                                                           targetSpecies,
                                                           gTransformedPersonalities[battlerAtk]);
             }
         }
 
-        src = gMonSpritesGfxPtr->sprites[position];
-        dst = (void *)(VRAM + 0x10000 + gSprites[gBattlerSpriteIds[battlerAtk]].oam.tileNum * 32);
+        src = gMonSpritesGfxPtr->sprites.ptr[position];
+        dst = (void *)(OBJ_VRAM0 + gSprites[gBattlerSpriteIds[battlerAtk]].oam.tileNum * 32);
         DmaCopy32(3, src, dst, 0x800);
         paletteOffset = 0x100 + battlerAtk * 16;
         LoadPalette(GetMonSpritePalFromSpeciesAndPersonality(targetSpecies, otId, personalityValue), paletteOffset, 32);
@@ -944,17 +936,15 @@ void BattleLoadSubstituteOrMonSpriteGfx(u8 battlerId, bool8 loadMonSprite)
             position = GetBattlerPosition(battlerId);
 
         if (IsContest())
-            LZDecompressVram(gSubstituteDollTilemap, gMonSpritesGfxPtr->sprites[position]);
+            LZDecompressVram(gSubstituteDollTilemap, gMonSpritesGfxPtr->sprites.ptr[position]);
         else if (GetBattlerSide(battlerId) != B_SIDE_PLAYER)
-            LZDecompressVram(gSubstituteDollGfx, gMonSpritesGfxPtr->sprites[position]);
+            LZDecompressVram(gSubstituteDollGfx, gMonSpritesGfxPtr->sprites.ptr[position]);
         else
-            LZDecompressVram(gSubstituteDollTilemap, gMonSpritesGfxPtr->sprites[position]);
+            LZDecompressVram(gSubstituteDollTilemap, gMonSpritesGfxPtr->sprites.ptr[position]);
 
         for (i = 1; i < 4; i++)
         {
-            u8 (*ptr)[4][0x800] = gMonSpritesGfxPtr->sprites[position];
-
-            DmaCopy32Defvars(3, (*ptr)[0], (*ptr)[i], 0x800);
+            Dma3CopyLarge32_(gMonSpritesGfxPtr->sprites.ptr[position], &gMonSpritesGfxPtr->sprites.byte[position][0x800 * i], 0x800);
         }
 
         palOffset = (battlerId * 16) + 0x100;
@@ -1190,12 +1180,12 @@ void AllocateMonSpritesGfx(void)
 
     for (i = 0; i < MAX_BATTLERS_COUNT; i++)
     {
-        gMonSpritesGfxPtr->sprites[i] = gMonSpritesGfxPtr->firstDecompressed + (i * 0x2000);
+        gMonSpritesGfxPtr->sprites.ptr[i] = gMonSpritesGfxPtr->firstDecompressed + (i * 0x2000);
         *(gMonSpritesGfxPtr->templates + i) = gUnknown_08329D98[i];
 
         for (j = 0; j < 4; j++)
         {
-            gMonSpritesGfxPtr->field_74[i][j].data = gMonSpritesGfxPtr->sprites[i] + (j * 0x800);
+            gMonSpritesGfxPtr->field_74[i][j].data = gMonSpritesGfxPtr->sprites.ptr[i] + (j * 0x800);
             gMonSpritesGfxPtr->field_74[i][j].size = 0x800;
         }
 
@@ -1217,10 +1207,10 @@ void FreeMonSpritesGfx(void)
 
     FREE_AND_SET_NULL(gMonSpritesGfxPtr->barFontGfx);
     FREE_AND_SET_NULL(gMonSpritesGfxPtr->firstDecompressed);
-    gMonSpritesGfxPtr->sprites[0] = NULL;
-    gMonSpritesGfxPtr->sprites[1] = NULL;
-    gMonSpritesGfxPtr->sprites[2] = NULL;
-    gMonSpritesGfxPtr->sprites[3] = NULL;
+    gMonSpritesGfxPtr->sprites.ptr[0] = NULL;
+    gMonSpritesGfxPtr->sprites.ptr[1] = NULL;
+    gMonSpritesGfxPtr->sprites.ptr[2] = NULL;
+    gMonSpritesGfxPtr->sprites.ptr[3] = NULL;
     FREE_AND_SET_NULL(gMonSpritesGfxPtr);
 }
 

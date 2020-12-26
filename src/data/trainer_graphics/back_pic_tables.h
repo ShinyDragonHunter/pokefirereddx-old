@@ -10,6 +10,8 @@ const struct MonCoords gTrainerBackPicCoords[] =
     [TRAINER_BACK_PIC_RS_MAY] = {.size = 8, .y_offset = 4},
 };
 
+#define TRAINER_BACK_PAL(trainerPic, pal) [TRAINER_BACK_PIC_##trainerPic] = {pal, TRAINER_BACK_PIC_##trainerPic}
+
 const struct SpritePalette gTrainerBackPicPaletteTable[] =
 {
     TRAINER_BACK_PAL(RED, gTrainerBackPicPaletteFRLGPlayer),

@@ -863,7 +863,9 @@ static const struct WindowTemplate sInfoCardWindowTemplates[] =
         .paletteNum = 15,
         .baseBlock = 372,
     },
-    // UB: No DUMMY_WIN_TEMPLATE at the array's end.
+    #ifdef UBFIX
+    DUMMY_WIN_TEMPLATE,
+    #endif
 };
 
 static const struct ScanlineEffectParams sTourneyTreeScanlineEffectParams =
@@ -5937,6 +5939,10 @@ static void DecideRoundWinners(u8 roundId)
         else if (tournamentId2 != 0xFF)
         {
             // BUG: points1 and points2 are not cleared at the beginning of the loop resulting in not fair results.
+            #ifdef BUGFIX
+            points1 = 0;
+            points2 = 0;
+            #endif
 
             // Calculate points for both trainers.
             for (monId1 = 0; monId1 < FRONTIER_PARTY_SIZE; monId1++)

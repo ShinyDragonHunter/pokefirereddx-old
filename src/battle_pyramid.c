@@ -1746,6 +1746,7 @@ static bool8 SetPyramidObjectPositionsInAndNearSquare(u8 objType, u8 squareId)
         r7 &= 1;
     }
     free(floorLayoutOffsets);
+
     return (numObjects / 2) > numPlacedObjects;
 }
 
@@ -1797,6 +1798,7 @@ static bool8 SetPyramidObjectPositionsNearSquare(u8 objType, u8 squareId)
             break;
     }
     free(floorLayoutOffsets);
+
     return (numObjects / 2) > numPlacedObjects;
 }
 

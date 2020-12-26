@@ -57,12 +57,12 @@ static void SetTowerBattleWon(void);
 static void AwardBattleTowerRibbons(void);
 static void SaveTowerChallenge(void);
 static void GetOpponentIntroSpeech(void);
-static void nullsub_61(void);
-static void nullsub_116(void);
+static void BattleTowerNop1(void);
+static void BattleTowerNop2(void);
 static void LoadMultiPartnerCandidatesData(void);
 static void ShowPartnerCandidateMessage(void);
 static void LoadLinkMultiOpponentsData(void);
-static void sub_8164DCC(void);
+static void TowerTryCloseLink(void);
 static void SetMultiPartnerGfx(void);
 static void SetTowerInterviewData(void);
 static void ValidateBattleTowerRecordChecksums(void);
@@ -785,12 +785,12 @@ static void (* const sBattleTowerFuncs[])(void) =
     [BATTLE_TOWER_FUNC_GIVE_RIBBONS]        = AwardBattleTowerRibbons,
     [BATTLE_TOWER_FUNC_SAVE]                = SaveTowerChallenge,
     [BATTLE_TOWER_FUNC_GET_OPPONENT_INTRO]  = GetOpponentIntroSpeech,
-    [BATTLE_TOWER_FUNC_NOP]                 = nullsub_61,
-    [BATTLE_TOWER_FUNC_NOP2]                = nullsub_116,
+    [BATTLE_TOWER_FUNC_NOP]                 = BattleTowerNop1,
+    [BATTLE_TOWER_FUNC_NOP2]                = BattleTowerNop2,
     [BATTLE_TOWER_FUNC_LOAD_PARTNERS]       = LoadMultiPartnerCandidatesData,
     [BATTLE_TOWER_FUNC_PARTNER_MSG]         = ShowPartnerCandidateMessage,
     [BATTLE_TOWER_FUNC_LOAD_LINK_OPPONENTS] = LoadLinkMultiOpponentsData,
-    [BATTLE_TOWER_FUNC_13]                  = sub_8164DCC,
+    [BATTLE_TOWER_FUNC_TRY_CLOSE_LINK]      = TowerTryCloseLink,
     [BATTLE_TOWER_FUNC_SET_PARTNER_GFX]     = SetMultiPartnerGfx,
     [BATTLE_TOWER_FUNC_SET_INTERVIEW_DATA]  = SetTowerInterviewData,
 };
@@ -1289,10 +1289,9 @@ void PutNewBattleTowerRecord(struct EmeraldBattleTowerRecord *newRecordEm)
         {
             for (k = 0; k < PLAYER_NAME_LENGTH; k++)
             {
-                // BUG: Wrong variable used, 'j' instead of 'k'.
                 if (gSaveBlock2Ptr->frontier.towerRecords[i].name[k] != newRecord->name[k])
                     break;
-                if (newRecord->name[j] == EOS)
+                if (newRecord->name[k] == EOS)
                 {
                     k = PLAYER_NAME_LENGTH;
                     break;
@@ -1495,7 +1494,7 @@ void GetFrontierTrainerName(u8 *dst, u16 trainerId)
     {
         if (gBattleTypeFlags & BATTLE_TYPE_RECORDED)
         {
-            sub_8186468(dst);
+            GetRecordedBattleRecordMixFriendName(dst);
             return;
         }
         else
@@ -2000,7 +1999,7 @@ void DoSpecialTrainerBattle(void)
         if (gTrainerBattleOpponent_A == TRAINER_FRONTIER_BRAIN)
             FillFrontierTrainerParty(DOME_BATTLE_PARTY_SIZE);
         CreateTask(Task_StartBattleAfterTransition, 1);
-        sub_806E694(0);
+        CreateTask_PlayMapChosenOrBattleBGM(0);
         BattleTransition_StartOnField(GetSpecialBattleTransition(3));
         break;
     case SPECIAL_BATTLE_PALACE:
@@ -2080,7 +2079,7 @@ static void SaveCurrentWinStreak(void)
         gSaveBlock2Ptr->frontier.towerWinStreaks[battleMode][lvlMode] = winStreak;
 }
 
-static void sub_8163EE4(void)
+static void SaveBattleTowerRecord(void)
 {
     s32 i;
     u8 lvlMode, battleMode, class;
@@ -2119,7 +2118,7 @@ static void sub_8163EE4(void)
     for (i = 0; i < MAX_FRONTIER_PARTY_SIZE; i++)
     {
         if (gSaveBlock2Ptr->frontier.selectedPartyMons[i] != 0)
-            sub_80686FC(&gPlayerParty[gSaveBlock2Ptr->frontier.selectedPartyMons[i] - 1], &playerRecord->party[i]);
+            ConvertPokemonToBattleTowerPokemon(&gPlayerParty[gSaveBlock2Ptr->frontier.selectedPartyMons[i] - 1], &playerRecord->party[i]);
     }
 
     playerRecord->language = gGameLanguage;
@@ -2134,7 +2133,7 @@ static void SaveTowerChallenge(void)
     s32 challengeNum = (signed)(gSaveBlock2Ptr->frontier.towerWinStreaks[battleMode][lvlMode] / 7);
 
     if (gSpecialVar_0x8005 == 0 && (challengeNum > 1 || gSaveBlock2Ptr->frontier.curChallengeBattleNum != 0))
-        sub_8163EE4();
+        SaveBattleTowerRecord();
 
     gSaveBlock2Ptr->frontier.challengeStatus = gSpecialVar_0x8005;
     VarSet(VAR_TEMP_0, 0);
@@ -2142,12 +2141,12 @@ static void SaveTowerChallenge(void)
     SaveGameFrontier();
 }
 
-static void nullsub_61(void)
+static void BattleTowerNop1(void)
 {
 
 }
 
-static void nullsub_116(void)
+static void BattleTowerNop2(void)
 {
 
 }
@@ -2351,7 +2350,7 @@ static void LoadMultiPartnerCandidatesData(void)
     }
 }
 
-static void sub_81646BC(u16 trainerId, u16 monId)
+static void GetPotentialPartnerMoveAndSpecies(u16 trainerId, u16 monId)
 {
     u16 move = 0;
     u16 species = 0;
@@ -2386,6 +2385,14 @@ static void sub_81646BC(u16 trainerId, u16 monId)
     StringCopy(gStringVar2, gSpeciesNames[species]);
 }
 
+// For multi battles in the Battle Tower, the player may choose a partner by talking to them
+// These partners can be an NPC or a former/record-mixed Apprentice
+// When talked to, their response consists of:
+// PARTNER_MSGID_INTRO - A greeting
+// PARTNER_MSGID_MON1 - Naming one pokemon on their team, and a move it has
+// PARTNER_MSGID_MON2_ASK - Naming a second pokemon on their team, a move it has, and asking if they'd like to be their partner
+// PARTNER_MSGID_ACCEPT - If the player agrees to be their partner
+// PARTNER_MSGID_REJECT - If the player declines to be their partner
 static void ShowPartnerCandidateMessage(void)
 {
     s32 i, j, partnerId;
@@ -2428,11 +2435,11 @@ static void ShowPartnerCandidateMessage(void)
         break;
     case PARTNER_MSGID_MON1:
         monId = gSaveBlock2Ptr->frontier.trainerIds[8 + k * 2];
-        sub_81646BC(trainerId, monId);
+        GetPotentialPartnerMoveAndSpecies(trainerId, monId);
         break;
     case PARTNER_MSGID_MON2_ASK:
         monId = gSaveBlock2Ptr->frontier.trainerIds[9 + k * 2];
-        sub_81646BC(trainerId, monId);
+        GetPotentialPartnerMoveAndSpecies(trainerId, monId);
         break;
     case PARTNER_MSGID_ACCEPT:
         gPartnerTrainerId = trainerId;
@@ -2577,7 +2584,7 @@ static void LoadLinkMultiOpponentsData(void)
     }
 }
 
-static void sub_8164DCC(void)
+static void TowerTryCloseLink(void)
 {
     if (gWirelessCommType != 0)
         SetCloseLinkCallback();
@@ -2772,7 +2779,7 @@ static void FillEReaderTrainerWithPlayerData(void)
     }
 
     for (i = 0; i < 3; i++)
-        sub_80686FC(&gPlayerParty[i], &ereaderTrainer->party[i]);
+        ConvertPokemonToBattleTowerPokemon(&gPlayerParty[i], &ereaderTrainer->party[i]);
 
     SetEReaderTrainerChecksum(ereaderTrainer);
 }
@@ -2895,7 +2902,8 @@ static void FillPartnerParty(u16 trainerId)
                       sStevenMons[i].species,
                       sStevenMons[i].level,
                       sStevenMons[i].fixedIV,
-                      TRUE, j,
+                      TRUE,
+                      j,
                       OT_ID_PRESET, STEVEN_OTID);
             for (j = 0; j < PARTY_SIZE; j++)
                 SetMonData(&gPlayerParty[MULTI_PARTY_SIZE + i], MON_DATA_HP_EV + j, &sStevenMons[i].evs[j]);
@@ -3001,9 +3009,12 @@ bool32 RubyBattleTowerRecordToEmerald(struct RSBattleTowerRecord *src, struct Em
     {
         dst->lvlMode = src->lvlMode;
         dst->winStreak = src->winStreak;
-        // BUG: Reading outside the array. sRubyFacilityClassToEmerald has less than FACILITY_CLASSES_COUNT entries.
-        //      Fix by using ARRAY_COUNT(sRubyFacilityClassToEmerald)
+        // UB: Reading outside the array. sRubyFacilityClassToEmerald has less than FACILITY_CLASSES_COUNT entries.
+        #ifdef UBFIX
+        for (i = 0; i < ARRAY_COUNT(sRubyFacilityClassToEmerald); i++)
+        #else
         for (i = 0; i < FACILITY_CLASSES_COUNT; i++)
+        #endif
         {
             if (sRubyFacilityClassToEmerald[i][0] == src->facilityClass)
                 break;
@@ -3051,9 +3062,12 @@ bool32 EmeraldBattleTowerRecordToRuby(struct EmeraldBattleTowerRecord *src, stru
     {
         dst->lvlMode = src->lvlMode;
         dst->winStreak = src->winStreak;
-        // BUG: Reading outside the array. sRubyFacilityClassToEmerald has less than FACILITY_CLASSES_COUNT entries.
-        //      Fix by using ARRAY_COUNT(sRubyFacilityClassToEmerald) instead
+        // UB: Reading outside the array. sRubyFacilityClassToEmerald has less than FACILITY_CLASSES_COUNT entries.
+        #ifdef UBFIX
+        for (i = 0; i < ARRAY_COUNT(sRubyFacilityClassToEmerald); i++)
+        #else
         for (i = 0; i < FACILITY_CLASSES_COUNT; i++)
+        #endif
         {
             if (sRubyFacilityClassToEmerald[i][1] == src->facilityClass)
                 break;
@@ -3213,16 +3227,18 @@ u8 GetFrontierTrainerFixedIvs(u16 trainerId)
     return fixedIv;
 }
 
-static u16 sub_8165D40(void)
+static u16 GetBattleTentTrainerId(void)
 {
     u32 facility = VarGet(VAR_FRONTIER_FACILITY);
 
-    if (facility == FRONTIER_FACILITY_PALACE)
-        return Random() % 30;
-    else if (facility == FRONTIER_FACILITY_ARENA)
-        return Random() % 30;
-    else if (facility == FRONTIER_FACILITY_FACTORY)
-        return Random() % 30;
+    if (facility == FRONTIER_FACILITY_PALACE)       // Verdanturf Tent; uses Palace mechanics
+        return Random() % NUM_BATTLE_TENT_TRAINERS;
+    else if (facility == FRONTIER_FACILITY_ARENA)   // Fallarbor Tent; uses Arena mechanics
+        return Random() % NUM_BATTLE_TENT_TRAINERS;
+    else if (facility == FRONTIER_FACILITY_FACTORY) // Slateport Tent; uses Factory mechanics
+        return Random() % NUM_BATTLE_TENT_TRAINERS;
+    else if (facility == FRONTIER_FACILITY_TOWER)
+        return 0;
     else
         return 0;
 }
@@ -3267,7 +3283,7 @@ static void SetNextBattleTentOpponent(void)
 
     do
     {
-        trainerId = sub_8165D40();
+        trainerId = GetBattleTentTrainerId();
         for (i = 0; i < gSaveBlock2Ptr->frontier.curChallengeBattleNum; i++)
         {
             if (gSaveBlock2Ptr->frontier.trainerIds[i] == trainerId)
@@ -3403,7 +3419,7 @@ u8 FacilityClassToGraphicsId(u8 facilityClass)
     }
 }
 
-void sub_8166188(void)
+void TrySetLinkBattleTowerEnemyPartyLevel(void)
 {
     if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_x2000000))
     {
