@@ -130,11 +130,7 @@ static const u16 sRegionMap_SpecialPlaceLocations[][2] =
 {
     {MAPSEC_UNDERWATER_105,             MAPSEC_ROUTE_105},
     {MAPSEC_UNDERWATER_124,             MAPSEC_ROUTE_124},
-    #ifdef BUGFIX
     {MAPSEC_UNDERWATER_125,             MAPSEC_ROUTE_125},
-    #else
-    {MAPSEC_UNDERWATER_125,             MAPSEC_ROUTE_129}, // BUG: Map will incorrectly display the name of Route 129 when diving on Route 125 (for Marine Cave only)
-    #endif
     {MAPSEC_UNDERWATER_126,             MAPSEC_ROUTE_126},
     {MAPSEC_UNDERWATER_127,             MAPSEC_ROUTE_127},
     {MAPSEC_UNDERWATER_128,             MAPSEC_ROUTE_128},
@@ -1549,6 +1545,10 @@ u8 *GetMapName(u8 *dest, u16 regionMapId, u16 padLength)
     {
         str = StringCopy(dest, gRegionMapEntries[regionMapId].name);
     }
+    else if (regionMapId >= JOHTO_MAPSEC_START && regionMapId < JOHTO_MAPSEC_END)
+    {
+        str = StringCopy(dest, gJohtoRegionMapNames[regionMapId - JOHTO_MAPSEC_START]);
+    }
     else
     {
         if (padLength == 0)
@@ -1571,13 +1571,7 @@ u8 *GetMapName(u8 *dest, u16 regionMapId, u16 padLength)
 // TODO: probably needs a better name
 u8 *GetMapNameGeneric(u8 *dest, u16 mapSecId)
 {
-    switch (mapSecId)
-    {
-    case MAPSEC_DYNAMIC:
-        return StringCopy(dest, gText_Ferry);
-    default:
-        return GetMapName(dest, mapSecId, 0);
-    }
+    return GetMapName(dest, mapSecId, 0);
 }
 
 static void GetMapSecDimensions(u16 mapSecId, u16 *x, u16 *y, u16 *width, u16 *height)

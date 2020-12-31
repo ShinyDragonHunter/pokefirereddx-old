@@ -20,6 +20,7 @@
 #include "m4a.h"
 #include "party_menu.h"
 #include "pokedex.h"
+#include "pokeball.h"
 #include "pokeblock.h"
 #include "pokemon.h"
 #include "pokemon_animation.h"
@@ -3800,6 +3801,10 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
         break;
     case MON_DATA_POKEBALL:
         retVal = substruct3->pokeball;
+        if (retVal == BALL_LEVEL)
+        {
+            retVal += boxMon->altBall;
+        }
         break;
     case MON_DATA_OT_GENDER:
         retVal = substruct3->otGender;
@@ -4172,7 +4177,15 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
     case MON_DATA_POKEBALL:
     {
         u8 pokeball = *data;
-        substruct3->pokeball = pokeball;
+        if (pokeball >= BALL_LEVEL)
+        {
+            substruct3->pokeball = BALL_LEVEL;
+            boxMon->altBall = pokeball - BALL_LEVEL;
+        }
+        else
+        {
+            substruct3->pokeball = pokeball;
+        }
         break;
     }
     case MON_DATA_OT_GENDER:
@@ -5442,16 +5455,26 @@ u16 GetEvolutionTargetSpecies(struct Pokemon *mon, u8 type, u16 evolutionItem)
         break;
     case 2:
     case 3:
-        for (i = 0; i < EVOS_PER_MON; i++)
-        {
-            if (gEvolutionTable[species][i].method == EVO_ITEM
-             && gEvolutionTable[species][i].param == evolutionItem)
-            {
-                targetSpecies = gEvolutionTable[species][i].targetSpecies;
-                break;
-            }
-        }
+        targetSpecies = GetItemEvolutionTargetSpecies(species, evolutionItem);
         break;
+    }
+
+    return targetSpecies;
+}
+
+u16 GetItemEvolutionTargetSpecies(u16 species, u16 evolutionItem)
+{
+    u8 i;
+    u16 targetSpecies = SPECIES_NONE;
+
+    for (i = 0; i < EVOS_PER_MON; i++)
+    {
+        if (gEvolutionTable[species][i].method == EVO_ITEM
+            && gEvolutionTable[species][i].param == evolutionItem)
+        {
+            targetSpecies = gEvolutionTable[species][i].targetSpecies;
+            break;
+        }
     }
 
     return targetSpecies;
@@ -6483,7 +6506,7 @@ void SetWildMonHeldItem(void)
 
         count = (WILD_DOUBLE_BATTLE) ? 2 : 1;
         if (!GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG, 0)
-            && GetMonAbility(&gPlayerParty[0]) == ABILITY_COMPOUND_EYES)
+         && GetMonAbility(&gPlayerParty[0]) == ABILITY_COMPOUND_EYES)
         {
             var1 = 20;
             var2 = 80;

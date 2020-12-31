@@ -1,7 +1,7 @@
 static const u8 sDummyDesc[] = _(
     "?????");
 
-// Pokeballs
+// Pokéballs
 static const u8 sMasterBallDesc[] = _(
     "The best BALL that\n"
     "catches a POKéMON\n"
@@ -1550,6 +1550,7 @@ static const u8 sOldSeaMapDesc[] = _(
     "that shows the way\n"
     "to a certain island.");
 
+// New key items
 static const u8 sShinyCharmDesc[] = _(
     "A charm that will\n"
     "raise the chance\n"
@@ -1559,3 +1560,43 @@ static const u8 sOvalCharmDesc[] = _(
     "Raises the chance\n"
     "of finding eggs at\n"
     "the DAY CARE.");
+
+// Apricorn Pokéballs
+static const u8 sLevelBallDesc[] = _(
+    "A BALL for catching\n"
+    "POKéMON that are\n"
+    "lower level.");
+
+static const u8 sLureBallDesc[] = _(
+    "A BALL for catching\n"
+    "POKéMON hooked by\n"
+    "a fishing ROD.");
+
+static const u8 sMoonBallDesc[] = _(
+    "A BALL for POKéMON\n"
+    "that evolve via a\n"
+    "MOON STONE.");
+
+static const u8 sFriendBallDesc[] = _(
+    "A BALL that makes\n"
+    "a caught POKéMON\n"
+    "more friendly.");
+
+static const u8 sFastBallDesc[] = _(
+    "A BALL for catching\n"
+    "POKéMON that are\n"
+    "fast.");
+
+static const u8 sHeavyBallDesc[] = _(
+    "A BALL for catching\n"
+    "POKéMON that are\n"
+    "heavy.");
+
+static const u8 sLoveBallDesc[] = _(
+    "A BALL for catching\n"
+    "POKéMON of the\n"
+    "opposite gender.");
+
+static const u8 sParkBallDesc[] = _(
+    "A BALL for the\n"
+    "BUG-CATCHING CONTEST.");

@@ -166,7 +166,7 @@ static EWRAM_DATA struct PokemonSummaryScreenData
     u8 secondMoveIndex;
     bool8 lockMovesFlag; // This is used to prevent the player from changing position of moves in a battle or when trading.
     u8 bgDisplayOrder; // Determines the order page backgrounds are loaded while scrolling between them
-    u8 filler40CA;
+    u8 obedience; // Used to differentiate between Colosseum or XD when reading Orre metLocation IDs
     u8 windowIds[8];
     u8 spriteIds[SPRITE_ARR_ID_COUNT];
     bool8 unk40EF;
@@ -1048,6 +1048,7 @@ void ShowPokemonSummaryScreen(u8 mode, void *mons, u8 monIndex, u8 maxMonIndex, 
     sMonSummaryScreen->maxMonIndex = maxMonIndex;
     sMonSummaryScreen->callback = callback;
 
+
     if (mode == PSS_MODE_BOX)
         sMonSummaryScreen->isBoxMon = TRUE;
     else
@@ -1355,6 +1356,7 @@ static bool8 ExtractMonDataToSummaryStruct(struct Pokemon *mon)
         sum->item = GetMonData(mon, MON_DATA_HELD_ITEM);
         sum->pid = GetMonData(mon, MON_DATA_PERSONALITY);
         sum->sanity = GetMonData(mon, MON_DATA_SANITY_IS_BAD_EGG);
+        sMonSummaryScreen->obedience = GetMonData(mon, MON_DATA_OBEDIENCE);
 
         if (sum->sanity)
             sum->isEgg = TRUE;
@@ -3056,15 +3058,24 @@ static void BufferMonTrainerMemo(void)
     }
     else
     {
+        u16 mapsecShift = MAPSEC_LITTLEROOT_TOWN;
+        u16 maxMapsec = MAPSEC_NONE;
         u8 *metLevelString = Alloc(32);
         u8 *metLocationString = Alloc(32);
         GetMetLevelString(metLevelString);
 
-        if (sum->metLocation < MAPSEC_NONE)
+        if (sum->metGame == VERSION_CRYSTAL_DUST)
         {
-            GetMapNameGeneric(metLocationString, sum->metLocation);
+            mapsecShift = JOHTO_MAPSEC_START;
+            maxMapsec = JOHTO_MAPSEC_END - JOHTO_MAPSEC_START;
+        }
+
+        if (sum->metLocation < maxMapsec)
+        {
+            GetMapNameGeneric(metLocationString, sum->metLocation + mapsecShift);
             DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
         }
+
         if (sum->metLocation == MAPSEC_AQUA_HIDEOUT_OLD)
         {
             if (sum->metGame == VERSION_SAPPHIRE)
@@ -3074,6 +3085,7 @@ static void BufferMonTrainerMemo(void)
             else
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
         }
+
         if (sum->metLocation == MAPSEC_BATTLE_FRONTIER)
         {
             if (sum->metGame == VERSION_SAPPHIRE
@@ -3086,9 +3098,9 @@ static void BufferMonTrainerMemo(void)
         if (DoesMonOTMatchOwner() == TRUE)
         {
             if (sum->metLevel == 0)
-                text = (sum->metLocation >= MAPSEC_NONE) ? gText_XNatureHatchedSomewhereAt : gText_XNatureHatchedAtYZ;
+                text = (sum->metLocation >= maxMapsec) ? gText_XNatureHatchedSomewhereAt : gText_XNatureHatchedAtYZ;
             else
-                text = (sum->metLocation >= MAPSEC_NONE) ? gText_XNatureMetSomewhereAt : gText_XNatureMetAtYZ;
+                text = (sum->metLocation >= maxMapsec) ? gText_XNatureMetSomewhereAt : gText_XNatureMetAtYZ;
         }
         else if (sum->metLocation == METLOC_FATEFUL_ENCOUNTER)
         {
@@ -3096,17 +3108,18 @@ static void BufferMonTrainerMemo(void)
         }
         else if (sum->metLocation != METLOC_IN_GAME_TRADE && DidMonComeFromGBAGames())
         {
-            text = (sum->metLocation >= MAPSEC_NONE) ? gText_XNatureObtainedInTrade : gText_XNatureProbablyMetAt;
+            text = (sum->metLocation >= maxMapsec) ? gText_XNatureObtainedInTrade : gText_XNatureProbablyMetAt;
         }
-        // Because Colosseum and XD both use VERSION_GAMECUBE, some metLocation IDs
-        // have species checks to account for IDs that clash between both games.
+
+        // Pokémon from XD have the obedience bit set, we can use this to differentiate between that and Colosseum.
         else if (sum->metGame == VERSION_GAMECUBE)
         {
-            text = (sum->metLocation >= MAPSEC_NONE) ? gText_XNatureMetDistantLand : gText_XNatureProbablyMetAt; // Generic distant land text
+            text = (sum->metLocation >= maxMapsec) ? gText_XNatureMetDistantLand : gText_XNatureProbablyMetAt; // Generic distant land text
+
             switch (sum->metLocation)
             {
             // XD starter Eevee
-	        case 0:
+            case 0:
                 text = gText_ObtainedFromDad;
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, sum->OTName);
             break;
@@ -3128,10 +3141,7 @@ static void BufferMonTrainerMemo(void)
                 break;
             // Colosseum: RealgamTwr Dome; XD: Pyrite Town
             case 15: case 109: case 110: case 111: case 116: case 119:
-                if (!sum->species == SPECIES_SUNFLORA
-                 || !sum->species == SPECIES_HERACROSS
-                 || !sum->species == SPECIES_DELIBIRD
-                 || !sum->species == SPECIES_SUICUNE)
+                if (sMonSummaryScreen->obedience)
                     DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_PyriteTown);
                 else
             // Do these three display as Realgam Tower instead in game?
@@ -3169,11 +3179,7 @@ static void BufferMonTrainerMemo(void)
                 break;
             // Colosseum: Laboratory; XD: Cipher Key Lair
             case 67: case 68: case 69:
-                if (!sum->species == SPECIES_BUTTERFREE
-                 || !sum->species == SPECIES_PRIMEAPE
-                 || !sum->species == SPECIES_MAGNETON
-                 || !sum->species == SPECIES_HYPNO
-                 || !sum->species == SPECIES_TANGELA)
+                if (sMonSummaryScreen->obedience)
                     DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_Laboratory);
                 else
             // Cipher Key Lair
@@ -3182,7 +3188,7 @@ static void BufferMonTrainerMemo(void)
                 break;
             // Colosseum: Mt. Battle; XD: Citadark Isle
             case 73: case 74: case 75: case 76: case 77: case 80: case 81: case 84: case 85: case 87: case 88:
-                if (!sum->species == SPECIES_ENTEI)
+                if (sMonSummaryScreen->obedience)
                     DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_CitadarkIsle);
                 else
             // Mt. Battle
@@ -3224,8 +3230,7 @@ static void BufferMonTrainerMemo(void)
             // Colosseum Starter Espeon and Umbreon and Duking's Plusle
             case METLOC_IN_GAME_TRADE:
             DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, sum->OTName);
-                if (sum->species == SPECIES_ESPEON 
-                 || sum->species == SPECIES_UMBREON)
+                if (!sum->species == SPECIES_PLUSLE)
                     text = gText_OldFriend;
                 else
                     text = gText_Receivedfrom;
@@ -3294,17 +3299,13 @@ static bool8 DoesMonOTMatchOwner(void)
 static bool8 DidMonComeFromGBAGames(void)
 {
     struct PokeSummary *sum = &sMonSummaryScreen->summary;
-    if (sum->metGame > 0 && sum->metGame <= VERSION_LEAF_GREEN)
-        return TRUE;
-    return FALSE;
+    return sum->metGame > 0 && sum->metGame <= VERSION_CRYSTAL_DUST;
 }
 
 bool8 DidMonComeFromRSE(void)
 {
     struct PokeSummary *sum = &sMonSummaryScreen->summary;
-    if (sum->metGame > 0 && sum->metGame <= VERSION_EMERALD)
-        return TRUE;
-    return FALSE;
+    return sum->metGame > 0 && sum->metGame <= VERSION_EMERALD;
 }
 
 static bool8 IsInGamePartnerMon(void)
@@ -3365,9 +3366,28 @@ static void PrintEggMemo(void)
         else if (DidMonComeFromGBAGames() == FALSE || DoesMonOTMatchOwner() == FALSE)
             text = gText_PeculiarEggTrade;
         else if (sum->metLocation == METLOC_SPECIAL_EGG)
-            text = (DidMonComeFromRSE() == TRUE) ? gText_EggFromHotSprings : gText_EggFromTraveler;
+        {
+            if (sum->metGame == VERSION_CRYSTAL_DUST)
+            {
+                text = gText_EggFromTraveler;
+            }
+            else if (DidMonComeFromRSE() == TRUE)
+            {
+                text = gText_EggFromHotSprings;
+            }
+            else
+            {
+                text = gText_EggFromTraveler;
+            }
+        }
+        else if (sum->metLocation == JOHTO_MAPSEC_GOLDENROD_CITY && sum->metGame == VERSION_CRYSTAL_DUST)
+        {
+            text = gText_EggFromTraveler;
+        }
         else
+        {
             text = gText_OddEggFoundByCouple;
+        }
     }
     else
     {
@@ -4119,7 +4139,7 @@ static void RemoveAndCreateMonMarkingsSprite(struct Pokemon *mon)
 
 static void CreateCaughtBallSprite(struct Pokemon *mon)
 {
-    u8 ball = ItemIdToBallId(GetMonData(mon, MON_DATA_POKEBALL));
+    u8 ball = BallIdToGfxId(GetMonData(mon, MON_DATA_POKEBALL));
 
     LoadBallGfx(ball);
     sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_BALL] = CreateSprite(&gBallSpriteTemplates[ball], 16, 136, 0);

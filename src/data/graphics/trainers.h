@@ -82,10 +82,10 @@ const u16 gTrainerPaletteGiovanni[] = INCBIN_U16("graphics/trainers/palettes/gio
 const u32 gTrainerFrontPicRocketGruntM[] = INCBIN_U32("graphics/trainers/front_pics/rocket_grunt_m_front_pic.4bpp.lz");
 const u16 gTrainerPaletteRocketGrunt[] = INCBIN_U16("graphics/trainers/palettes/rocket_grunt.gbapal");
 
-const u32 gTrainerFrontPicCooltrainerM[] = INCBIN_U32("graphics/trainers/front_pics/cool_trainer_m_front_pic.4bpp.lz");
+const u32 gTrainerFrontPicCooltrainerM[] = INCBIN_U32("graphics/trainers/front_pics/cooltrainer_m_front_pic.4bpp.lz");
 const u16 gTrainerPaletteCooltrainer[] = INCBIN_U16("graphics/trainers/palettes/cool_trainer.gbapal");
 
-const u32 gTrainerFrontPicCooltrainerF[] = INCBIN_U32("graphics/trainers/front_pics/cool_trainer_f_front_pic.4bpp.lz");
+const u32 gTrainerFrontPicCooltrainerF[] = INCBIN_U32("graphics/trainers/front_pics/cooltrainer_f_front_pic.4bpp.lz");
 
 const u32 gTrainerFrontPicLorelei[] = INCBIN_U32("graphics/trainers/front_pics/lorelei_front_pic.4bpp.lz");
 const u16 gTrainerPaletteLorelei[] = INCBIN_U16("graphics/trainers/palettes/lorelei.gbapal");

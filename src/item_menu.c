@@ -286,6 +286,11 @@ static const u8 sContextMenuItems_QuizLady[] = {
     ITEMMENUACTION_CONFIRM_2,   ITEMMENUACTION_CANCEL
 };
 
+static const u8 sContextMenuItems_TossCancel[] = {
+    ITEMMENUACTION_TOSS,
+    ITEMMENUACTION_CANCEL
+};
+
 static const TaskFunc gUnknown_08614054[] = {
     [ITEMMENULOCATION_FIELD] =                  Task_ItemContext_FieldOrBattle,
     [ITEMMENULOCATION_BATTLE] =                 Task_ItemContext_FieldOrBattle,
@@ -923,7 +928,7 @@ void BagMenu_ItemPrintCallback(u8 windowId, s32 itemIndex, u8 y)
             offset = GetStringRightAlignXOffset(7, gStringVar4, 119);
             BagMenu_Print(windowId, 7, gStringVar4, offset, y, 0, 0, -1, 0);
         }
-        else if (gBagPositionStruct.pocket != KEYITEMS_POCKET && ItemId_GetImportance(itemId) == FALSE)
+        else if (gBagPositionStruct.pocket != KEYITEMS_POCKET && ItemId_GetImportance(itemId) < 2)
         {
             ConvertIntToDecimalStringN(gStringVar1, itemQuantity, STR_CONV_MODE_RIGHT_ALIGN, BAG_ITEM_CAPACITY_DIGITS);
             StringExpandPlaceholders(gStringVar4, gText_xVar1);
@@ -1528,6 +1533,11 @@ void OpenContextMenu(u8 unused)
                     gBagMenu->contextMenuItemsPtr = sContextMenuItems_Give;
                     gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_Give);
                 }
+            }
+            else if (ItemId_GetImportance(gSpecialVar_ItemId) == 1)
+            {
+                gBagMenu->contextMenuItemsPtr = sContextMenuItems_TossCancel;
+                gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_TossCancel);
             }
             else
             {

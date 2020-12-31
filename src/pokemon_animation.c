@@ -1044,8 +1044,6 @@ static void sub_817F77C(struct Sprite *sprite)
     }
     else
     {
-        // FIX: Reset these back to normal after they were changed so Poké Ball catch/release
-        // animations without a screen transition in between don't break
         sprite->affineAnimPaused = FALSE;
         sprite->affineAnims = gUnknown_082FF694;
     }

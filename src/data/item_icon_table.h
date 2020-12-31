@@ -405,6 +405,15 @@ const u32 *const gItemIconTable[][2] =
     // New key items
     [ITEM_SHINY_CHARM] = {gItemIcon_ShinyCharm, gItemIconPalette_ShinyCharm},
     [ITEM_OVAL_CHARM] = {gItemIcon_OvalCharm, gItemIconPalette_ShinyCharm},
+    // Apricorn Pokeballs
+    [ITEM_LEVEL_BALL] = {gItemIcon_LevelBall, gItemIconPalette_LevelBall},
+    [ITEM_LURE_BALL] = {gItemIcon_LureBall, gItemIconPalette_LureBall},
+    [ITEM_MOON_BALL] = {gItemIcon_MoonBall, gItemIconPalette_MoonBall},
+    [ITEM_FRIEND_BALL] = {gItemIcon_FriendBall, gItemIconPalette_FriendBall},
+    [ITEM_FAST_BALL] = {gItemIcon_FastBall, gItemIconPalette_FastBall},
+    [ITEM_HEAVY_BALL] = {gItemIcon_HeavyBall, gItemIconPalette_HeavyBall},
+    [ITEM_LOVE_BALL] = {gItemIcon_LoveBall, gItemIconPalette_LoveBall},
+    [ITEM_PARK_BALL] = {gItemIcon_ParkBall, gItemIconPalette_PokeBall},
     // Return to field arrow
     [ITEM_FIELD_ARROW] = {gItemIcon_ReturnToFieldArrow, gItemIconPalette_ReturnToFieldArrow},
 };

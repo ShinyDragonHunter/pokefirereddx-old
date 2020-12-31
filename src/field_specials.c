@@ -3012,7 +3012,7 @@ static void FillFrontierExchangeCornerWindowAndItemIcon(u16 menu, u16 selection)
         switch (menu)
         {
             case SCROLL_MULTI_BF_EXCHANGE_CORNER_DECOR_VENDOR_1:
-                AddTextPrinterParameterized2(0, 1, sFrontierExchangeCorner_Decor1Descriptions[selection], 0, NULL, 2, 1, 3);
+                AddTextPrinterParameterized2(0, 2, sFrontierExchangeCorner_Decor1Descriptions[selection], 0, NULL, 2, 1, 3);
                 if (sFrontierExchangeCorner_Decor1[selection] == 0xFFFF)
                 {
                     ShowFrontierExchangeCornerItemIcon(sFrontierExchangeCorner_Decor1[selection]);
@@ -3025,7 +3025,7 @@ static void FillFrontierExchangeCornerWindowAndItemIcon(u16 menu, u16 selection)
                 }
                 break;
             case SCROLL_MULTI_BF_EXCHANGE_CORNER_DECOR_VENDOR_2:
-                AddTextPrinterParameterized2(0, 1, sFrontierExchangeCorner_Decor2Descriptions[selection], 0, NULL, 2, 1, 3);
+                AddTextPrinterParameterized2(0, 2, sFrontierExchangeCorner_Decor2Descriptions[selection], 0, NULL, 2, 1, 3);
                 if (sFrontierExchangeCorner_Decor2[selection] == 0xFFFF)
                 {
                     ShowFrontierExchangeCornerItemIcon(sFrontierExchangeCorner_Decor2[selection]);
@@ -3038,11 +3038,11 @@ static void FillFrontierExchangeCornerWindowAndItemIcon(u16 menu, u16 selection)
                 }
                 break;
             case SCROLL_MULTI_BF_EXCHANGE_CORNER_VITAMIN_VENDOR:
-                AddTextPrinterParameterized2(0, 1, sFrontierExchangeCorner_VitaminsDescriptions[selection], 0, NULL, 2, 1, 3);
+                AddTextPrinterParameterized2(0, 2, sFrontierExchangeCorner_VitaminsDescriptions[selection], 0, NULL, 2, 1, 3);
                 ShowFrontierExchangeCornerItemIcon(sFrontierExchangeCorner_Vitamins[selection]);
                 break;
             case SCROLL_MULTI_BF_EXCHANGE_CORNER_HOLD_ITEM_VENDOR:
-                AddTextPrinterParameterized2(0, 1, sFrontierExchangeCorner_HoldItemsDescriptions[selection], 0, NULL, 2, 1, 3);
+                AddTextPrinterParameterized2(0, 2, sFrontierExchangeCorner_HoldItemsDescriptions[selection], 0, NULL, 2, 1, 3);
                 ShowFrontierExchangeCornerItemIcon(sFrontierExchangeCorner_HoldItems[selection]);
                 break;
         }
@@ -3181,11 +3181,11 @@ static void ShowBattleFrontierTutorMoveDescription(u8 menu, u16 selection)
         FillWindowPixelRect(sTutorMoveAndElevatorWindowId, PIXEL_FILL(1), 0, 0, 96, 48);
         if (menu == SCROLL_MULTI_BF_MOVE_TUTOR_2)
         {
-            AddTextPrinterParameterized(sTutorMoveAndElevatorWindowId, 1, sBattleFrontier_TutorMoveDescriptions2[selection], 0, 1, 0, NULL);
+            AddTextPrinterParameterized(sTutorMoveAndElevatorWindowId, 2, sBattleFrontier_TutorMoveDescriptions2[selection], 0, 1, 0, NULL);
         }
         else
         {
-            AddTextPrinterParameterized(sTutorMoveAndElevatorWindowId, 1, sBattleFrontier_TutorMoveDescriptions1[selection], 0, 1, 0, NULL);
+            AddTextPrinterParameterized(sTutorMoveAndElevatorWindowId, 2, sBattleFrontier_TutorMoveDescriptions1[selection], 0, 1, 0, NULL);
         }
     }
 }
