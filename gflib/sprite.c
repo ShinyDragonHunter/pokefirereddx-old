@@ -554,6 +554,8 @@ u8 CreateSpriteAt(u8 index, const struct SpriteTemplate *template, s16 x, s16 y,
     sprite->usingSheet = TRUE;
 
     sprite->subpriority = subpriority;
+    sprite->tileTag = template->tileTag;
+    sprite->paletteTag = template->paletteTag;
     sprite->oam = *template->oam;
     sprite->anims = template->anims;
     sprite->affineAnims = template->affineAnims;
@@ -564,7 +566,7 @@ u8 CreateSpriteAt(u8 index, const struct SpriteTemplate *template, s16 x, s16 y,
 
     CalcCenterToCornerVec(sprite, sprite->oam.shape, sprite->oam.size, sprite->oam.affineMode);
 
-    if (template->tileTag == 0xFFFF)
+    if (sprite->tileTag == 0xFFFF)
     {
         s16 tileNum;
         sprite->images = template->images;
@@ -580,15 +582,15 @@ u8 CreateSpriteAt(u8 index, const struct SpriteTemplate *template, s16 x, s16 y,
     }
     else
     {
-        sprite->sheetTileStart = GetSpriteTileStartByTag(template->tileTag);
+        sprite->sheetTileStart = GetSpriteTileStartByTag(sprite->tileTag);
         SetSpriteSheetFrameTileNum(sprite);
     }
 
     if (sprite->oam.affineMode & ST_OAM_AFFINE_ON_MASK)
         InitSpriteAffineAnim(sprite);
 
-    if (template->paletteTag != 0xFFFF)
-        sprite->oam.paletteNum = IndexOfSpritePaletteTag(template->paletteTag);
+    if (sprite->paletteTag != 0xFFFF)
+        sprite->oam.paletteNum = IndexOfSpritePaletteTag(sprite->paletteTag);
 
     return index;
 }
@@ -870,14 +872,14 @@ void ResetAllSprites(void)
 // UB: template pointer may point to freed temporary storage
 void FreeSpriteTiles(struct Sprite *sprite)
 {
-    if (sprite->template->tileTag != 0xFFFF)
-        FreeSpriteTilesByTag(sprite->template->tileTag);
+    if (sprite->tileTag != 0xFFFF)
+        FreeSpriteTilesByTag(sprite->tileTag);
 }
 
 // UB: template pointer may point to freed temporary storage
 void FreeSpritePalette(struct Sprite *sprite)
 {
-    FreeSpritePaletteByTag(sprite->template->paletteTag);
+    FreeSpritePaletteByTag(sprite->paletteTag);
 }
 
 void FreeSpriteOamMatrix(struct Sprite *sprite)

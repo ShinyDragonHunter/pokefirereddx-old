@@ -270,13 +270,9 @@ void rfu_LMAN_stopManager(u8 forced_stop_and_RFU_reset_flag)
         msg = LMAN_MSG_SEARCH_CHILD_PERIOD_EXPIRED;
         break;
     case LMAN_STATE_POLL_SEARCH_CHILD:
-        lman.state = LMAN_STATE_END_SEARCH_CHILD;
-        lman.next_state = LMAN_STATE_WAIT_RECV_CHILD_NAME;
-        break;
     case LMAN_STATE_END_SEARCH_CHILD:
         lman.state = LMAN_STATE_END_SEARCH_CHILD;
         lman.next_state = LMAN_STATE_WAIT_RECV_CHILD_NAME;
-        break;
     case LMAN_STATE_WAIT_RECV_CHILD_NAME:
         break;
     case LMAN_STATE_START_SEARCH_PARENT:
@@ -284,9 +280,6 @@ void rfu_LMAN_stopManager(u8 forced_stop_and_RFU_reset_flag)
         msg = LMAN_MSG_SEARCH_PARENT_PERIOD_EXPIRED;
         break;
     case LMAN_STATE_POLL_SEARCH_PARENT:
-        lman.state = LMAN_STATE_END_SEARCH_PARENT;
-        lman.next_state = LMAN_STATE_READY;
-        break;
     case LMAN_STATE_END_SEARCH_PARENT:
         lman.state = LMAN_STATE_END_SEARCH_PARENT;
         lman.next_state = LMAN_STATE_READY;
@@ -300,7 +293,6 @@ void rfu_LMAN_stopManager(u8 forced_stop_and_RFU_reset_flag)
         break;
     case LMAN_STATE_END_CONNECT_PARENT:
         lman.state = LMAN_STATE_END_CONNECT_PARENT;
-        break;
     case LMAN_STATE_SEND_CHILD_NAME:
         break;
     case LMAN_STATE_START_LINK_RECOVERY:
@@ -311,8 +303,6 @@ void rfu_LMAN_stopManager(u8 forced_stop_and_RFU_reset_flag)
         rfu_LMAN_occureCallback(LMAN_MSG_LINK_RECOVERY_FAILED_AND_DISCONNECTED, 1);
         return;
     case LMAN_STATE_POLL_LINK_RECOVERY:
-        lman.state = LMAN_STATE_END_LINK_RECOVERY;
-        break;
     case LMAN_STATE_END_LINK_RECOVERY:
         lman.state = LMAN_STATE_END_LINK_RECOVERY;
         break;
@@ -528,9 +518,6 @@ void rfu_LMAN_manager_entity(u32 rand)
                 break;
             case LMAN_STATE_STOP_MODE:
                 rfu_REQ_stopMode();
-                break;
-            case LMAN_STATE_BACK_STATE:
-                break;
             default:
                 break;
             }

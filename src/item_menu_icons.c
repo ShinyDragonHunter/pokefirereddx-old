@@ -532,6 +532,15 @@ void AddBagItemIconSprite(u16 itemId, u8 id)
     }
 }
 
+void HideBagItemIconSprite(u8 id)
+{
+    u8 *spriteId = &gBagMenu->spriteId[10];
+    if (spriteId[id] != 0xFF)
+    {
+        gSprites[spriteId[id]].invisible = TRUE;
+    }
+}
+
 void RemoveBagItemIconSprite(u8 id)
 {
     RemoveBagSprite(id + 2);

@@ -67,7 +67,7 @@ static u16 GetBattlerPokeballItemId(u8 battlerId);
 #define GFX_TAG_LOVEBALL    55018
 #define GFX_TAG_PARKBALL    55019
 
-const struct CompressedSpriteSheet gBallSpriteSheets[POKEBALL_COUNT] =
+const struct CompressedSpriteSheet gBallSpriteSheets[BALLGFX_COUNT] =
 {
     [BALLGFX_POKE]      = {gInterfaceGfx_PokeBall,    384, GFX_TAG_POKEBALL},
     [BALLGFX_GREAT]     = {gInterfaceGfx_GreatBall,   384, GFX_TAG_GREATBALL},
@@ -91,7 +91,7 @@ const struct CompressedSpriteSheet gBallSpriteSheets[POKEBALL_COUNT] =
     [BALLGFX_PARK]      = {gInterfaceGfx_ParkBall,    384, GFX_TAG_PARKBALL},
 };
 
-const struct CompressedSpritePalette gBallSpritePalettes[POKEBALL_COUNT] =
+const struct CompressedSpritePalette gBallSpritePalettes[BALLGFX_COUNT] =
 {
     [BALLGFX_POKE]      = {gInterfacePal_PokeBall,    GFX_TAG_POKEBALL},
     [BALLGFX_GREAT]     = {gInterfacePal_GreatBall,   GFX_TAG_GREATBALL},
@@ -228,7 +228,7 @@ static const union AffineAnimCmd *const sAffineAnim_BallRotate[] =
     [BALL_AFFINE_ANIM_4] = sAffineAnim_BallRotate_4,
 };
 
-const struct SpriteTemplate gBallSpriteTemplates[POKEBALL_COUNT] =
+const struct SpriteTemplate gBallSpriteTemplates[BALLGFX_COUNT] =
 {
     {
         .tileTag = GFX_TAG_POKEBALL,
@@ -957,7 +957,7 @@ static void HandleBallAnimEnd(struct Sprite *sprite)
         }
         if (doneBattlers == MAX_BATTLERS_COUNT)
         {
-            for (i = 0; i < POKEBALL_COUNT; i++)
+            for (i = 0; i < BALLGFX_COUNT; i++)
                 FreeBallGfx(i);
         }
     }
@@ -1084,12 +1084,12 @@ static void SpriteCB_OpponentMonSendOut(struct Sprite *sprite)
 
 static u8 AnimateBallOpenParticlesForPokeball(u8 x, u8 y, u8 kindOfStars, u8 d)
 {
-    return AnimateBallOpenParticles(x, y, kindOfStars, d, BALL_POKE);
+    return AnimateBallOpenParticles(x, y, kindOfStars, d, BALLGFX_POKE);
 }
 
 static u8 LaunchBallFadeMonTaskForPokeball(bool8 unFadeLater, u8 battlerId, u32 arg2)
 {
-    return LaunchBallFadeMonTask(unFadeLater, battlerId, arg2, BALL_POKE);
+    return LaunchBallFadeMonTask(unFadeLater, battlerId, arg2, BALLGFX_POKE);
 }
 
 void CreatePokeballSpriteToReleaseMon(u8 monSpriteId, u8 battlerId, u8 x, u8 y, u8 oamPriority, u8 subpriortiy, u8 g, u32 h, u16 species)

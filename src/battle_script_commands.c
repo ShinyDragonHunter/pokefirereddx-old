@@ -9809,7 +9809,7 @@ static void Cmd_handleballthrow(void)
     }
     else
     {
-        u32 odds;
+        u32 odds, i;
         u8 catchRate;
         u16 ball = ITEM_ID_TO_BALL_ID(gLastUsedItem);
 
@@ -9820,7 +9820,7 @@ static void Cmd_handleballthrow(void)
 
         if (ball > BALL_SAFARI)
         {
-            switch (gLastUsedItem)
+            switch (ball)
             {
             case BALL_NET:
                 if (IS_BATTLER_OF_TYPE(gBattlerTarget, TYPE_WATER) || IS_BATTLER_OF_TYPE(gBattlerTarget, TYPE_BUG))
@@ -9863,11 +9863,11 @@ static void Cmd_handleballthrow(void)
                 ballMultiplier = 10;
                 break;
             case BALL_LEVEL:
-                if (gBattleMons[gBattlerAttacker].level >= 4 * gBattleMons[gBattlerTarget].level)
+                if (gBattleMons[gActiveBattler].level >= (gBattleMons[gBattlerTarget].level * 4))
                     ballMultiplier = 80;
-                else if (gBattleMons[gBattlerAttacker].level > 2 * gBattleMons[gBattlerTarget].level)
+                else if (gBattleMons[gActiveBattler].level >= (gBattleMons[gBattlerTarget].level * 2))
                     ballMultiplier = 40;
-                else if (gBattleMons[gBattlerAttacker].level > gBattleMons[gBattlerTarget].level)
+                else if (gBattleMons[gActiveBattler].level >= gBattleMons[gBattlerTarget].level)
                     ballMultiplier = 20;
                 else
                     ballMultiplier = 10;
@@ -9894,16 +9894,15 @@ static void Cmd_handleballthrow(void)
             case BALL_HEAVY:
             {
                 int newRate;
-                u16 weight = GetPokedexHeightWeight(SpeciesToNationalPokedexNum(gBattleMons[gBattlerTarget].species), 1);
-
-                if (weight < WEIGHT_AVERAGE)
+                i = GetPokedexHeightWeight(SpeciesToNationalPokedexNum(gBattleMons[gBattlerTarget].species), 1);
+                if (i < WEIGHT_AVERAGE)
                     newRate = catchRate - 20;
-                else if (weight < WEIGHT_HEAVY)
+                else if (i < WEIGHT_HEAVY)
                     // do nothing
                     newRate = catchRate;
-                else if (weight < WEIGHT_HEAVIER)
+                else if (i < WEIGHT_HEAVIER)
                     newRate = catchRate + 20;
-                else if (weight < WEIGHT_HEAVIEST)
+                else if (i < WEIGHT_HEAVIEST)
                     newRate = catchRate + 30;
                 else
                     newRate = catchRate + 40;
@@ -9925,13 +9924,13 @@ static void Cmd_handleballthrow(void)
                     u8 gender1 = GetMonGender(&gEnemyParty[gBattlerPartyIndexes[gBattlerTarget]]);
                     u8 gender2 = GetMonGender(&gPlayerParty[gBattlerPartyIndexes[gBattlerAttacker]]);
 
-                    if (gender1 != gender2 && gender1 != MON_GENDERLESS && gender2 != MON_GENDERLESS)
+                    if (gender1 != gender2 
+                     && gender1 != MON_GENDERLESS 
+                     && gender2 != MON_GENDERLESS)
                         ballMultiplier = 80;
                 }
                 else
-                {
                     ballMultiplier = 10;
-                }
 				break;
             }
             case BALL_PARK:

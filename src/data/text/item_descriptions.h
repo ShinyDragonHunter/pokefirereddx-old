@@ -1599,4 +1599,5 @@ static const u8 sLoveBallDesc[] = _(
 
 static const u8 sParkBallDesc[] = _(
     "A BALL for the\n"
-    "BUG-CATCHING CONTEST.");
+    "BUG-CATCHING\n"
+    "CONTEST.");

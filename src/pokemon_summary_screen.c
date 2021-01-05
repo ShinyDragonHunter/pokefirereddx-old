@@ -3230,7 +3230,7 @@ static void BufferMonTrainerMemo(void)
             // Colosseum Starter Espeon and Umbreon and Duking's Plusle
             case METLOC_IN_GAME_TRADE:
             DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, sum->OTName);
-                if (!sum->species == SPECIES_PLUSLE)
+                if (sum->species == SPECIES_PLUSLE)
                     text = gText_OldFriend;
                 else
                     text = gText_Receivedfrom;

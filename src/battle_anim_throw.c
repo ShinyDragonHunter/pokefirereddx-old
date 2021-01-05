@@ -137,28 +137,28 @@ static const struct CaptureStar sCaptureStars[] =
     },
 };
 
-#define TAG_PARTICLES_POKEBALL    65030
-#define TAG_PARTICLES_GREATBALL   65031
-#define TAG_PARTICLES_SAFARIBALL  65032
-#define TAG_PARTICLES_ULTRABALL   65033
-#define TAG_PARTICLES_MASTERBALL  65034
-#define TAG_PARTICLES_NETBALL     65035
-#define TAG_PARTICLES_DIVEBALL    65036
-#define TAG_PARTICLES_NESTBALL    65037
-#define TAG_PARTICLES_REPEATBALL  65038
-#define TAG_PARTICLES_TIMERBALL   65039
-#define TAG_PARTICLES_LUXURYBALL  65040
-#define TAG_PARTICLES_PREMIERBALL 65041
-#define TAG_PARTICLES_LEVELBALL   65042
-#define TAG_PARTICLES_LUREBALL    65043
-#define TAG_PARTICLES_MOONBALL    65044
-#define TAG_PARTICLES_FRIENDBALL  65045
-#define TAG_PARTICLES_FASTBALL    65046
-#define TAG_PARTICLES_HEAVYBALL   65047
-#define TAG_PARTICLES_LOVEBALL    65048
-#define TAG_PARTICLES_PARKBALL    65049
+#define TAG_PARTICLES_POKEBALL    55020
+#define TAG_PARTICLES_GREATBALL   55021
+#define TAG_PARTICLES_SAFARIBALL  55022
+#define TAG_PARTICLES_ULTRABALL   55023
+#define TAG_PARTICLES_MASTERBALL  55024
+#define TAG_PARTICLES_NETBALL     55025
+#define TAG_PARTICLES_DIVEBALL    55026
+#define TAG_PARTICLES_NESTBALL    55027
+#define TAG_PARTICLES_REPEATBALL  55028
+#define TAG_PARTICLES_TIMERBALL   55029
+#define TAG_PARTICLES_LUXURYBALL  55030
+#define TAG_PARTICLES_PREMIERBALL 55031
+#define TAG_PARTICLES_LEVELBALL   55032
+#define TAG_PARTICLES_LUREBALL    55033
+#define TAG_PARTICLES_MOONBALL    55034
+#define TAG_PARTICLES_FRIENDBALL  55035
+#define TAG_PARTICLES_FASTBALL    55036
+#define TAG_PARTICLES_HEAVYBALL   55037
+#define TAG_PARTICLES_LOVEBALL    55038
+#define TAG_PARTICLES_PARKBALL    55039
 
-static const struct CompressedSpriteSheet sBallParticleSpriteSheets[POKEBALL_COUNT] =
+static const struct CompressedSpriteSheet sBallParticleSpriteSheets[BALLGFX_COUNT] =
 {
     [BALLGFX_POKE]      = {gBattleAnimSpriteGfx_Particles,           0x160, TAG_PARTICLES_POKEBALL},
     [BALLGFX_GREAT]     = {gBattleAnimSpriteGfx_Particles,           0x160, TAG_PARTICLES_GREATBALL},
@@ -182,7 +182,7 @@ static const struct CompressedSpriteSheet sBallParticleSpriteSheets[POKEBALL_COU
     [BALLGFX_PARK]      = {gBattleAnimSpriteGfx_Particles,           0x160, TAG_PARTICLES_PARKBALL},
 };
 
-static const struct CompressedSpritePalette sBallParticlePalettes[POKEBALL_COUNT] =
+static const struct CompressedSpritePalette sBallParticlePalettes[BALLGFX_COUNT] =
 {
     [BALLGFX_POKE]      = {gBattleAnimSpritePal_CircleImpact, TAG_PARTICLES_POKEBALL},
     [BALLGFX_GREAT]     = {gBattleAnimSpritePal_CircleImpact, TAG_PARTICLES_GREATBALL},
@@ -258,7 +258,7 @@ static const union AnimCmd *const sAnims_BallParticles[] =
     sAnim_UltraRepeatTimerBall,
 };
 
-static const u8 sBallParticleAnimNums[POKEBALL_COUNT] =
+static const u8 sBallParticleAnimNums[BALLGFX_COUNT] =
 {
     [BALLGFX_POKE]      = 0,
     [BALLGFX_GREAT]     = 0,
@@ -282,7 +282,7 @@ static const u8 sBallParticleAnimNums[POKEBALL_COUNT] =
     [BALLGFX_PARK]      = 0,
 };
 
-static const TaskFunc sBallParticleAnimationFuncs[POKEBALL_COUNT] =
+static const TaskFunc sBallParticleAnimationFuncs[BALLGFX_COUNT] =
 {
     [BALLGFX_POKE]      = PokeBallOpenParticleAnimation,
     [BALLGFX_GREAT]     = GreatBallOpenParticleAnimation,
@@ -306,7 +306,7 @@ static const TaskFunc sBallParticleAnimationFuncs[POKEBALL_COUNT] =
     [BALLGFX_PARK]      = PokeBallOpenParticleAnimation,
 };
 
-static const struct SpriteTemplate sBallParticleSpriteTemplates[POKEBALL_COUNT] =
+static const struct SpriteTemplate sBallParticleSpriteTemplates[BALLGFX_COUNT] =
 {
     [BALLGFX_POKE] = {
         .tileTag = TAG_PARTICLES_POKEBALL,
@@ -651,7 +651,7 @@ static void FreeHealthboxPalsForLevelUp(u8 battler)
 
     FreeSpritePaletteByTag(0xD709);
     FreeSpritePaletteByTag(0xD70A);
-    paletteId1 = IndexOfSpritePaletteTag(0xD6FF);
+    paletteId1 = IndexOfSpritePaletteTag(0xD700);
     paletteId2 = IndexOfSpritePaletteTag(0xD704);
     gSprites[healthBoxSpriteId].oam.paletteNum = paletteId1;
     gSprites[spriteId1].oam.paletteNum = paletteId1;
@@ -886,7 +886,9 @@ void AnimTask_ThrowBall_StandingTrainer(u8 taskId)
     else
     {
         x = 23;
-        y = 5;
+        y = 11;
+        if (gSaveBlock2Ptr->playerGender == FEMALE)
+            y = 13;
     }
 
     ballId = BallIdToGfxId(ITEM_ID_TO_BALL_ID(gLastUsedItem));
@@ -989,7 +991,7 @@ static void SpriteCB_Ball_Arc(struct Sprite *sprite)
             ballId = BallIdToGfxId(ITEM_ID_TO_BALL_ID(gLastUsedItem));
             switch (ballId)
             {
-            case 0 ... POKEBALL_COUNT - 1:
+            case 0 ... BALLGFX_COUNT - 1:
                 AnimateBallOpenParticles(sprite->pos1.x, sprite->pos1.y - 5, 1, 28, ballId);
                 LaunchBallFadeMonTask(FALSE, gBattleAnimTarget, 14, ballId);
                 break;
@@ -1613,7 +1615,7 @@ static void SpriteCB_Ball_Release_Step(struct Sprite *sprite)
     ballId = BallIdToGfxId(ITEM_ID_TO_BALL_ID(gLastUsedItem));
     switch (ballId)
     {
-    case 0 ... POKEBALL_COUNT - 1:
+    case 0 ... BALLGFX_COUNT - 1:
         AnimateBallOpenParticles(sprite->pos1.x, sprite->pos1.y - 5, 1, 28, ballId);
         LaunchBallFadeMonTask(TRUE, gBattleAnimTarget, 14, ballId);
         break;
@@ -2003,7 +2005,7 @@ static void RepeatBallOpenParticleAnimation(u8 taskId)
     priority = gTasks[taskId].data[3];
     subpriority = gTasks[taskId].data[4];
 
-    for (i = 0; i < POKEBALL_COUNT; i++)
+    for (i = 0; i < BALLGFX_COUNT; i++)
     {
         spriteId = CreateSprite(&sBallParticleSpriteTemplates[ballId], x, y, subpriority);
         if (spriteId != MAX_SPRITES)
@@ -2523,15 +2525,15 @@ static void DestroyBallOpenAnimationParticle(struct Sprite *sprite)
         gBattleSpritesDataPtr->animationData->numBallParticles--;
         if (gBattleSpritesDataPtr->animationData->numBallParticles == 0)
         {
-            for (i = 0; i < POKEBALL_COUNT; i++)
+            for (i = 0; i < BALLGFX_COUNT; i++)
             {
                 if (FuncIsActiveTask(sBallParticleAnimationFuncs[i]) == TRUE)
                     break;
             }
 
-            if (i == POKEBALL_COUNT)
+            if (i == BALLGFX_COUNT)
             {
-                for (j = 0; j < POKEBALL_COUNT; j++)
+                for (j = 0; j < BALLGFX_COUNT; j++)
                 {
                     FreeSpriteTilesByTag(sBallParticleSpriteSheets[j].tag);
                     FreeSpritePaletteByTag(sBallParticlePalettes[j].tag);

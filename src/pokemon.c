@@ -4010,7 +4010,6 @@ void SetMonData(struct Pokemon *mon, s32 field, const void *dataArg)
         break;
     case MON_DATA_MAIL:
         SET8(mon->mail);
-        break;
     case MON_DATA_SPECIES2:
         break;
     default:

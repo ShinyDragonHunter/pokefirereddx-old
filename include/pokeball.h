@@ -31,7 +31,7 @@ enum
     BALLGFX_HEAVY,
     BALLGFX_LOVE,
     BALLGFX_PARK,
-    POKEBALL_COUNT
+    BALLGFX_COUNT
 };
 
 enum
@@ -59,6 +59,7 @@ enum
     BALL_PARK
 };
 
+#define POKEBALL_COUNT BALLGFX_COUNT
 #define IS_ITEM_BALL(x) ((x) <= ITEM_PREMIER_BALL || ((x) >= ITEM_LEVEL_BALL && (x) <= ITEM_PARK_BALL))
 #define ITEM_ID_TO_BALL_ID(x) (((x) >= ITEM_LEVEL_BALL && (x) <= ITEM_PARK_BALL) ? (((x) - ITEM_LEVEL_BALL) + BALL_LEVEL) : (x))
 
