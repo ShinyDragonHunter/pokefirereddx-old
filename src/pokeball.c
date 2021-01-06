@@ -437,10 +437,8 @@ u8 DoPokeballSendOutAnimation(s16 pan, u8 kindOfThrow)
 
 static void Task_DoPokeballSendOutAnim(u8 taskId)
 {
-    u16 throwCaseId;
-    u8 battlerId;
-    u16 itemId, ballId;
-    u8 ballSpriteId;
+    u16 throwCaseId, itemId, ballId;
+    u8 battlerId, ballSpriteId;
     bool8 notSendOut = FALSE;
 
     if (gTasks[taskId].tFrames == 0)
