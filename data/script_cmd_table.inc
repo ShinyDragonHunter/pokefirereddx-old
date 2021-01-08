@@ -205,30 +205,28 @@ gScriptCmdTable:: @ 81DB67C
 	.4byte ScrCmd_nop1                      @ 0xca
 	.4byte ScrCmd_nop1                      @ 0xcb
 	.4byte ScrCmd_nop1                      @ 0xcc
-	.4byte ScrCmd_nop1                      @ 0xcd
-	.4byte ScrCmd_nop1                      @ 0xce
-	.4byte ScrCmd_setmonobedient            @ 0xcf
-	.4byte ScrCmd_checkmonobedience         @ 0xd0
-	.4byte ScrCmd_gotoram                   @ 0xd1
-	.4byte ScrCmd_nop1                      @ 0xd2
-	.4byte ScrCmd_warpD1                    @ 0xd3
-	.4byte ScrCmd_setmonmetlocation         @ 0xd4
-	.4byte ScrCmd_moverotatingtileobjects   @ 0xd5
-	.4byte ScrCmd_turnrotatingtileobjects   @ 0xd6
-	.4byte ScrCmd_initrotatingtilepuzzle    @ 0xd7
-	.4byte ScrCmd_freerotatingtilepuzzle    @ 0xd8
-	.4byte ScrCmd_warpmossdeepgym           @ 0xd9
-	.4byte ScrCmd_cmdD8                     @ 0xda
-	.4byte ScrCmd_cmdD9                     @ 0xdb
-	.4byte ScrCmd_closebraillemessage       @ 0xdc
-	.4byte ScrCmd_cmdDB                     @ 0xdd
-	.4byte ScrCmd_fadescreenswapbuffers     @ 0xde
-	.4byte ScrCmd_buffertrainerclassname    @ 0xdf
-	.4byte ScrCmd_buffertrainername         @ 0xe0
-	.4byte ScrCmd_pokenavcall               @ 0xe1
-	.4byte ScrCmd_warpsootopolislegend      @ 0xe2
-	.4byte ScrCmd_buffercontesttype         @ 0xe3
-	.4byte ScrCmd_bufferitemnameplural      @ 0xe4
+	.4byte ScrCmd_setmonobedient            @ 0xcd
+	.4byte ScrCmd_checkmonobedience         @ 0xce
+	.4byte ScrCmd_gotoram                   @ 0xcf
+	.4byte ScrCmd_nop1                      @ 0xd0
+	.4byte ScrCmd_warpspinenter             @ 0xd1
+	.4byte ScrCmd_setmonmetlocation         @ 0xd2
+	.4byte ScrCmd_moverotatingtileobjects   @ 0xd3
+	.4byte ScrCmd_turnrotatingtileobjects   @ 0xd4
+	.4byte ScrCmd_initrotatingtilepuzzle    @ 0xd5
+	.4byte ScrCmd_freerotatingtilepuzzle    @ 0xd6
+	.4byte ScrCmd_warpmossdeepgym           @ 0xd7
+	.4byte ScrCmd_cmdD8                     @ 0xd8
+	.4byte ScrCmd_cmdD9                     @ 0xd9
+	.4byte ScrCmd_closebraillemessage       @ 0xda
+	.4byte ScrCmd_cmdDB                     @ 0xdb
+	.4byte ScrCmd_fadescreenswapbuffers     @ 0xdc
+	.4byte ScrCmd_buffertrainerclassname    @ 0xdd
+	.4byte ScrCmd_buffertrainername         @ 0xde
+	.4byte ScrCmd_pokenavcall               @ 0xdf
+	.4byte ScrCmd_warpsootopolislegend      @ 0xe0
+	.4byte ScrCmd_buffercontesttype         @ 0xe1
+	.4byte ScrCmd_bufferitemnameplural      @ 0xe2
 
 gScriptCmdTableEnd:: @ 81DBA08
 	.4byte ScrCmd_nop
