@@ -9558,7 +9558,7 @@ static void Cmd_pickup(void)
                  && (Random() % 10) == 0)
             {
                 if (InBattlePyramid())
-				{
+                {
                     heldItem = GetBattlePyramidPickupItemId();
                     SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &heldItem);
                 }
@@ -9845,17 +9845,15 @@ static void Cmd_handleballthrow(void)
                 if (GetSetPokedexFlag(SpeciesToNationalPokedexNum(gBattleMons[gBattlerTarget].species), FLAG_GET_CAUGHT))
                     ballMultiplier = 30;
                 else
+            case BALL_LUXURY:
+            case BALL_PREMIER:
+            case BALL_FRIEND:
                     ballMultiplier = 10;
                 break;
             case BALL_TIMER:
                 ballMultiplier = gBattleResults.battleTurnCounter + 10;
                 if (ballMultiplier > 40)
                     ballMultiplier = 40;
-                break;
-            case BALL_LUXURY:
-            case BALL_PREMIER:
-            case BALL_FRIEND:
-                ballMultiplier = 10;
                 break;
             case BALL_LEVEL:
                 if (gBattleMons[gActiveBattler].level >= (gBattleMons[gBattlerTarget].level * 4))

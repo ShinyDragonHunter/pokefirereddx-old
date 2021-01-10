@@ -64,7 +64,6 @@ MauvilleCity_BikeShop_EventScript_ComeBackToSwitchBikes:: @ 820EC87
 MauvilleCity_BikeShop_EventScript_AskSwitchBikes:: @ 820EC94
 	msgbox MauvilleCity_BikeShop_Text_WantToSwitchBikes, MSGBOX_YESNO
 	compare VAR_RESULT, YES
-	textcolor DARK_GREY
 	goto_if_eq MauvilleCity_BikeShop_EventScript_SwitchBikes
 	compare VAR_RESULT, NO
 	goto_if_eq MauvilleCity_BikeShop_EventScript_KeepBike

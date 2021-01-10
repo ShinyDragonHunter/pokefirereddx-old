@@ -121,10 +121,6 @@ static bool32 SetDamagedSectorBits(u8 op, u8 bit)
     case DISABLE:
         gDamagedSaveSectors &= ~(1 << bit);
         break;
-    case CHECK: // unused
-        if (gDamagedSaveSectors & (1 << bit))
-            retVal = TRUE;
-        break;
     }
 
     return retVal;
@@ -665,9 +661,6 @@ u8 HandleSavingData(u8 saveType)
     UpdateSaveAddresses();
     switch (saveType)
     {
-    case SAVE_HALL_OF_FAME_ERASE_BEFORE: // deletes HOF before overwriting HOF completely. unused
-        for (i = SECTOR_ID_HOF_1; i < SECTORS_COUNT; i++)
-            EraseFlashSector(i);
     case SAVE_HALL_OF_FAME: // hall of fame.
         if (GetGameStat(GAME_STAT_ENTERED_HOF) < 999)
             IncrementGameStat(GAME_STAT_ENTERED_HOF);
@@ -677,13 +670,7 @@ u8 HandleSavingData(u8 saveType)
         HandleWriteSectorNBytes(SECTOR_ID_HOF_1, tempAddr, SECTOR_DATA_SIZE);
         HandleWriteSectorNBytes(SECTOR_ID_HOF_2, tempAddr + SECTOR_DATA_SIZE, SECTOR_DATA_SIZE);
         break;
-    case SAVE_NORMAL: // normal save. also called by overwriting your own save.
-    default:
-        SaveSerializedGame();
-        SaveWriteToFlash(0xFFFF, gRamSaveSectionLocations);
-        break;
     case SAVE_LINK:  // Link and Battle Frontier
-    case SAVE_LINK2: // Unused
         SaveSerializedGame();
         for(i = SECTOR_ID_SAVEBLOCK2; i <= SECTOR_ID_SAVEBLOCK1_END; i++)
             ClearSaveData_2(i, gRamSaveSectionLocations);
@@ -700,6 +687,7 @@ u8 HandleSavingData(u8 saveType)
     case SAVE_OVERWRITE_DIFFERENT_FILE:
         for (i = SECTOR_ID_HOF_1; i < SECTORS_COUNT; i++)
             EraseFlashSector(i); // erase HOF.
+    default: // normal save. also called by overwriting your own save.
         SaveSerializedGame();
         SaveWriteToFlash(0xFFFF, gRamSaveSectionLocations);
         break;
@@ -811,17 +799,16 @@ u8 Save_LoadGameData(u8 saveType)
     UpdateSaveAddresses();
     switch (saveType)
     {
-    case SAVE_NORMAL:
+    case SAVE_HALL_OF_FAME:
+        status = sub_81530DC(SECTOR_ID_HOF_1, gDecompressionBuffer, SECTOR_DATA_SIZE);
+        if (status == SAVE_STATUS_OK)
+            status = sub_81530DC(SECTOR_ID_HOF_2, gDecompressionBuffer + SECTOR_DATA_SIZE, SECTOR_DATA_SIZE);
+        break;
     default:
         status = sub_8152DD0(0xFFFF, gRamSaveSectionLocations);
         LoadSerializedGame();
         gSaveFileStatus = status;
         gGameContinueCallback = 0;
-        break;
-    case SAVE_HALL_OF_FAME:
-        status = sub_81530DC(SECTOR_ID_HOF_1, gDecompressionBuffer, SECTOR_DATA_SIZE);
-        if (status == SAVE_STATUS_OK)
-            status = sub_81530DC(SECTOR_ID_HOF_2, gDecompressionBuffer + SECTOR_DATA_SIZE, SECTOR_DATA_SIZE);
         break;
     }
 

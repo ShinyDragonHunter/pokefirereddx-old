@@ -289,8 +289,6 @@ void rfu_LMAN_stopManager(u8 forced_stop_and_RFU_reset_flag)
         msg = LMAN_MSG_CONNECT_PARENT_FAILED;
         break;
     case LMAN_STATE_POLL_CONNECT_PARENT:
-        lman.state = LMAN_STATE_END_CONNECT_PARENT;
-        break;
     case LMAN_STATE_END_CONNECT_PARENT:
         lman.state = LMAN_STATE_END_CONNECT_PARENT;
     case LMAN_STATE_SEND_CHILD_NAME:

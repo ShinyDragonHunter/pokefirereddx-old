@@ -676,13 +676,11 @@ void MauvilleGymSetDefaultBarriers(void)
                     MapGridSetMetatileIdAt(x, y, METATILE_MauvilleGym_PoleBottom_On | METATILE_COLLISION_MASK);
                     break;
                 case METATILE_MauvilleGym_GreenBeamV2_On:
+                case METATILE_MauvilleGym_RedBeamV2_On:
                     MapGridSetMetatileIdAt(x, y, METATILE_MauvilleGym_FloorTile);
                     break;
                 case METATILE_MauvilleGym_RedBeamV1_On:
                     MapGridSetMetatileIdAt(x, y, METATILE_MauvilleGym_PoleBottom_Off | METATILE_COLLISION_MASK);
-                    break;
-                case METATILE_MauvilleGym_RedBeamV2_On:
-                    MapGridSetMetatileIdAt(x, y, METATILE_MauvilleGym_FloorTile);
                     break;
                 case METATILE_MauvilleGym_PoleBottom_On:
                     MapGridSetMetatileIdAt(x, y, METATILE_MauvilleGym_GreenBeamV1_On | METATILE_COLLISION_MASK);
@@ -1018,17 +1016,15 @@ static void PCTurnOnEffect_0(struct Task *task)
         {
             case DIR_NORTH:
                 dx = 0;
-                dy = -1;
                 break;
             case DIR_WEST:
                 dx = -1;
-                dy = -1;
                 break;
             case DIR_EAST:
                 dx = 1;
-                dy = -1;
                 break;
         }
+        dy = -1;
         PCTurnOnEffect_1(task->data[4], dx, dy);
         DrawWholeMapView();
         task->data[4] ^= 1;
@@ -1091,17 +1087,15 @@ static void PCTurnOffEffect(void)
     {
         case DIR_NORTH:
             dx = 0;
-            dy = -1;
             break;
         case DIR_WEST:
             dx = -1;
-            dy = -1;
             break;
         case DIR_EAST:
             dx = 1;
-            dy = -1;
             break;
     }
+    dy = -1;
     if (gSpecialVar_0x8004 == 0)
     {
         tileId = METATILE_Building_PC_Off;
@@ -1387,13 +1381,12 @@ u8 TryUpdateRusturfTunnelState(void)
         if (FlagGet(FLAG_HIDE_RUSTURF_TUNNEL_ROCK_1))
         {
             VarSet(VAR_RUSTURF_TUNNEL_STATE, 4);
-            return TRUE;
         }
         else if (FlagGet(FLAG_HIDE_RUSTURF_TUNNEL_ROCK_2))
         {
             VarSet(VAR_RUSTURF_TUNNEL_STATE, 5);
-            return TRUE;
         }
+        return TRUE;
     }
     return FALSE;
 }
@@ -1742,9 +1735,6 @@ void SetDeptStoreFloor(void)
     u8 deptStoreFloor;
     switch (gSaveBlock1Ptr->dynamicWarp.mapNum)
     {
-        case MAP_NUM(LILYCOVE_CITY_DEPARTMENT_STORE_1F):
-            deptStoreFloor = DEPT_STORE_FLOORNUM_1F;
-            break;
         case MAP_NUM(LILYCOVE_CITY_DEPARTMENT_STORE_2F):
             deptStoreFloor = DEPT_STORE_FLOORNUM_2F;
             break;
@@ -1760,6 +1750,7 @@ void SetDeptStoreFloor(void)
         case MAP_NUM(LILYCOVE_CITY_DEPARTMENT_STORE_ROOFTOP):
             deptStoreFloor = DEPT_STORE_FLOORNUM_ROOFTOP;
             break;
+        case MAP_NUM(LILYCOVE_CITY_DEPARTMENT_STORE_1F):
         default:
             deptStoreFloor = DEPT_STORE_FLOORNUM_1F;
             break;
@@ -1865,10 +1856,10 @@ void ShowDeptStoreElevatorFloorSelect(void)
     SetStandardWindowBorderStyle(sTutorMoveAndElevatorWindowId, 0);
 
     xPos = GetStringCenterAlignXOffset(1, gText_ElevatorNowOn, 64);
-    AddTextPrinterParameterized(sTutorMoveAndElevatorWindowId, 1, gText_ElevatorNowOn, xPos, 1, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(sTutorMoveAndElevatorWindowId, 2, gText_ElevatorNowOn, xPos, 1, TEXT_SPEED_FF, NULL);
 
     xPos = GetStringCenterAlignXOffset(1, gDeptStoreFloorNames[gSpecialVar_0x8005], 64);
-    AddTextPrinterParameterized(sTutorMoveAndElevatorWindowId, 1, gDeptStoreFloorNames[gSpecialVar_0x8005], xPos, 17, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(sTutorMoveAndElevatorWindowId, 2, gDeptStoreFloorNames[gSpecialVar_0x8005], xPos, 17, TEXT_SPEED_FF, NULL);
 
     PutWindowTilemap(sTutorMoveAndElevatorWindowId);
     CopyWindowToVram(sTutorMoveAndElevatorWindowId, 3);
@@ -1903,26 +1894,16 @@ static void Task_MoveElevatorWindowLights(u8 taskId)
     {
         data[0]++;
 
-        // ascending
-        if (data[2] == FALSE)
+        for (y = 0; y < 3; y++)
         {
-            for (y = 0; y < 3; y++)
+            for (x = 0; x < 3; x++)
             {
-                for (x = 0; x < 3; x++)
-                {
+                // ascending
+                if (data[2] == FALSE)
                     MapGridSetMetatileIdAt(x + 8, y + 7, sElevatorWindowTiles_Ascending[y][data[0] % 3] | METATILE_COLLISION_MASK);
-                }
-            }
-        }
-        // descending
-        else
-        {
-            for (y = 0; y < 3; y++)
-            {
-                for (x = 0; x < 3; x++)
-                {
+                // descending
+                else
                     MapGridSetMetatileIdAt(x + 8, y + 7, sElevatorWindowTiles_Descending[y][data[0] % 3] | METATILE_COLLISION_MASK);
-                }
             }
         }
         DrawWholeMapView();
@@ -2645,13 +2626,12 @@ static void ScrollableMultichoice_ProcessInput(u8 taskId)
 
     switch (input)
     {
-    case LIST_NOTHING_CHOSEN:
-        break;
     case LIST_CANCEL:
         gSpecialVar_Result = MULTI_B_PRESSED;
         PlaySE(SE_SELECT);
         CloseScrollableMultichoice(taskId);
-        break;
+    case LIST_NOTHING_CHOSEN:
+        break;;
     default:
         gSpecialVar_Result = input;
         PlaySE(SE_SELECT);
@@ -2754,7 +2734,6 @@ static void ScrollableMultichoice_RemoveScrollArrows(u8 taskId)
 
 u8 ContextNpcGetTextColor(void)
 {
-    u8 gfxId;
     const struct ObjectEventGraphicsInfo *graphicsInfo;
 
     if (gSpecialVar_TextColor != 0xFF)
@@ -2763,7 +2742,7 @@ u8 ContextNpcGetTextColor(void)
         gSpecialVar_TextColor = TEXT_COLOR_DARK_GREY;
     else
     {
-        gfxId = gObjectEvents[gSelectedObjectEvent].graphicsId;
+        u8 gfxId = gObjectEvents[gSelectedObjectEvent].graphicsId;
         if (gfxId >= OBJ_EVENT_GFX_VAR_0)
             gfxId = VarGetObjectEventGraphicsId(gfxId - OBJ_EVENT_GFX_VAR_0);
         graphicsInfo = GetObjectEventGraphicsInfo(gfxId);
@@ -4169,13 +4148,11 @@ void BufferFanClubTrainerName(void)
     u8 whichNPCTrainer = 0;
     switch (gSpecialVar_0x8004)
     {
-        case FANCLUB_MEMBER1:
-            break;
-        case FANCLUB_MEMBER2:
-            break;
         case FANCLUB_MEMBER3:
             whichLinkTrainer = 0;
             whichNPCTrainer = 3;
+        case FANCLUB_MEMBER1:
+        case FANCLUB_MEMBER2:
             break;
         case FANCLUB_MEMBER4:
             whichLinkTrainer = 0;
@@ -4205,9 +4182,6 @@ static void BufferFanClubTrainerName_(struct LinkBattleRecords *linkRecords, u8 
     {
         switch (whichNPCTrainer)
         {
-            case 0:
-                StringCopy(gStringVar1, gText_Wallace);
-                break;
             case 1:
                 StringCopy(gStringVar1, gText_Steven);
                 break;

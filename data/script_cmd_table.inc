@@ -1,7 +1,7 @@
 	.align 2
 gScriptCmdTable:: @ 81DB67C
 	.4byte ScrCmd_nop      	                @ 0x00
-	.4byte ScrCmd_nop1                      @ 0x01
+	.4byte ScrCmd_nop                       @ 0x01
 	.4byte ScrCmd_end      	                @ 0x02
 	.4byte ScrCmd_return                    @ 0x03
 	.4byte ScrCmd_call                      @ 0x04
@@ -184,31 +184,31 @@ gScriptCmdTable:: @ 81DB67C
 	.4byte ScrCmd_removecoins               @ 0xb5
 	.4byte ScrCmd_setwildbattle             @ 0xb6
 	.4byte ScrCmd_dowildbattle              @ 0xb7
-	.4byte ScrCmd_setdoublewildbattle       @ 0xb8
-	.4byte ScrCmd_dodoublewildbattle        @ 0xb9
-	.4byte ScrCmd_setvaddress               @ 0xba
-	.4byte ScrCmd_vgoto                     @ 0xbb
-	.4byte ScrCmd_vcall                     @ 0xbc
-	.4byte ScrCmd_vgoto_if                  @ 0xbd
-	.4byte ScrCmd_vcall_if                  @ 0xbe
-	.4byte ScrCmd_vmessage                  @ 0xbf
-	.4byte ScrCmd_vloadword                 @ 0xc0
-	.4byte ScrCmd_vbufferstring             @ 0xc1
-	.4byte ScrCmd_showcoinsbox              @ 0xc2
-	.4byte ScrCmd_hidecoinsbox              @ 0xc3
-	.4byte ScrCmd_updatecoinsbox            @ 0xc4
-	.4byte ScrCmd_incrementgamestat         @ 0xc5
-	.4byte ScrCmd_setescapewarp             @ 0xc6
-	.4byte ScrCmd_waitmoncry                @ 0xc7
-	.4byte ScrCmd_bufferboxname             @ 0xc8
-	.4byte ScrCmd_textcolor                 @ 0xc9
-	.4byte ScrCmd_nop1                      @ 0xca
-	.4byte ScrCmd_nop1                      @ 0xcb
-	.4byte ScrCmd_nop1                      @ 0xcc
+	.4byte ScrCmd_setvaddress               @ 0xb8
+	.4byte ScrCmd_vgoto                     @ 0xb9
+	.4byte ScrCmd_vcall                     @ 0xba
+	.4byte ScrCmd_vgoto_if                  @ 0xbb
+	.4byte ScrCmd_vcall_if                  @ 0xbc
+	.4byte ScrCmd_vmessage                  @ 0xbd
+	.4byte ScrCmd_vloadword                 @ 0xbe
+	.4byte ScrCmd_vbufferstring             @ 0xbf
+	.4byte ScrCmd_showcoinsbox              @ 0xc0
+	.4byte ScrCmd_hidecoinsbox              @ 0xc1
+	.4byte ScrCmd_updatecoinsbox            @ 0xc2
+	.4byte ScrCmd_incrementgamestat         @ 0xc3
+	.4byte ScrCmd_setescapewarp             @ 0xc4
+	.4byte ScrCmd_waitmoncry                @ 0xc5
+	.4byte ScrCmd_bufferboxname             @ 0xc6
+	.4byte ScrCmd_textcolor                 @ 0xc7
+	.4byte ScrCmd_nop                       @ 0xc8
+	.4byte ScrCmd_nop                       @ 0xc9
+	.4byte ScrCmd_nop                       @ 0xca
+	.4byte ScrCmd_nop                       @ 0xcb
+	.4byte ScrCmd_nop                       @ 0xcc
 	.4byte ScrCmd_setmonobedient            @ 0xcd
 	.4byte ScrCmd_checkmonobedience         @ 0xce
 	.4byte ScrCmd_gotoram                   @ 0xcf
-	.4byte ScrCmd_nop1                      @ 0xd0
+	.4byte ScrCmd_nop                       @ 0xd0
 	.4byte ScrCmd_warpspinenter             @ 0xd1
 	.4byte ScrCmd_setmonmetlocation         @ 0xd2
 	.4byte ScrCmd_moverotatingtileobjects   @ 0xd3

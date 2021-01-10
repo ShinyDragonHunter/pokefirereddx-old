@@ -257,7 +257,6 @@ u8 (*gFactorySelect_CurrentOptionFunc)(void);
 static const u16 sPokeballGray_Pal[]         = INCBIN_U16("graphics/battle_frontier/factory_screen/pokeball_gray.gbapal");
 static const u16 sPokeballSelected_Pal[]     = INCBIN_U16("graphics/battle_frontier/factory_screen/pokeball_selected.gbapal");
 static const u16 sInterface_Pal[]            = INCBIN_U16("graphics/battle_frontier/factory_screen/interface.gbapal"); // Arrow, menu/action highlights, action box, etc
-static const u8 sPokeball_Gfx[]              = INCBIN_U8( "graphics/battle_frontier/factory_screen/pokeball.4bpp"); // Unused, gPokeballSelection_Gfx used instead
 static const u8 sArrow_Gfx[]                 = INCBIN_U8( "graphics/battle_frontier/factory_screen/arrow.4bpp");
 static const u8 sMenuHighlightLeft_Gfx[]     = INCBIN_U8( "graphics/battle_frontier/factory_screen/menu_highlight_left.4bpp");
 static const u8 sMenuHighlightRight_Gfx[]    = INCBIN_U8( "graphics/battle_frontier/factory_screen/menu_highlight_right.4bpp");
@@ -932,7 +931,6 @@ enum {
     SWAP_WIN_OPTIONS,
     SWAP_WIN_YES_NO,
     SWAP_WIN_ACTION_FADE, // Used for action text fading out during screen transition
-    SWAP_WIN_UNUSED,
     SWAP_WIN_SPECIES_AT_FADE, // Used to print species name stopped at current fade level
     SWAP_WIN_MON_CATEGORY,
 };
@@ -992,15 +990,6 @@ static const struct WindowTemplate sSwap_WindowTemplates[] =
         .height = 5,
         .paletteNum = 14,
         .baseBlock = 0x006b,
-    },
-    [SWAP_WIN_UNUSED] = {
-        .bg = 2,
-        .tilemapLeft = 10,
-        .tilemapTop = 2,
-        .width = 4,
-        .height = 2,
-        .paletteNum = 14,
-        .baseBlock = 0x00c1,
     },
     [SWAP_WIN_SPECIES_AT_FADE] = {
         .bg = 0,

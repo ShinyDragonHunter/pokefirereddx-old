@@ -3231,9 +3231,9 @@ static void BufferMonTrainerMemo(void)
             case METLOC_IN_GAME_TRADE:
             DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, sum->OTName);
                 if (sum->species == SPECIES_PLUSLE)
-                    text = gText_OldFriend;
-                else
                     text = gText_Receivedfrom;
+                else
+                    text = gText_OldFriend;
             default:
                 break;
             }
@@ -3369,7 +3369,7 @@ static void PrintEggMemo(void)
         {
             if (sum->metGame == VERSION_CRYSTAL_DUST)
             {
-                text = gText_EggFromTraveler;
+                text = gText_EggFromElm;
             }
             else if (DidMonComeFromRSE() == TRUE)
             {
@@ -3382,11 +3382,7 @@ static void PrintEggMemo(void)
         }
         else if (sum->metLocation == JOHTO_MAPSEC_GOLDENROD_CITY && sum->metGame == VERSION_CRYSTAL_DUST)
         {
-            text = gText_EggFromTraveler;
-        }
-        else
-        {
-            text = gText_OddEggFoundByCouple;
+            text = gText_EggFromPokecomCenter;
         }
     }
     else

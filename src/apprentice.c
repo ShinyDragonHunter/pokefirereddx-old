@@ -322,14 +322,7 @@ static void SetRandomQuestionData(void)
     FREE_AND_SET_NULL(gApprenticePartyMovesData);
 }
 
-// No idea why a do-while loop is needed, but it will not match without it.
-
-#define APPRENTICE_SPECIES_ID(speciesArrId, monId) speciesArrId = (PLAYER_APPRENTICE.speciesIds[monId] >> \
-                                                                  (((PLAYER_APPRENTICE.party >> monId) & 1) << 2)) & 0xF; \
-                                                   do {} while (0)
-
-// Why the need to have two macros do the exact thing differently?
-#define APPRENTICE_SPECIES_ID_2(speciesArrId, monId) {  u8 a0 = ((PLAYER_APPRENTICE.party >> monId) & 1);\
+#define APPRENTICE_SPECIES_ID(speciesArrId, monId) {  u8 a0 = ((PLAYER_APPRENTICE.party >> monId) & 1);\
                                                         speciesArrId = PLAYER_APPRENTICE.speciesIds[monId];     \
                                                         speciesArrId = ((speciesArrId) >> (a0 << 2)) & 0xF; \
                                                      }
@@ -1016,7 +1009,7 @@ static void InitQuestionData(void)
         {
             // count re-used as monId
             count = PLAYER_APPRENTICE.questions[CURRENT_QUESTION_NUM].monId;
-            APPRENTICE_SPECIES_ID_2(id1, count);
+            APPRENTICE_SPECIES_ID(id1, count);
             gApprenticeQuestionData->speciesId = gApprentices[PLAYER_APPRENTICE.id].species[id1];
             gApprenticeQuestionData->moveId1 = GetDefaultMove(count, id1, PLAYER_APPRENTICE.questions[CURRENT_QUESTION_NUM].moveSlot);
             gApprenticeQuestionData->moveId2 = PLAYER_APPRENTICE.questions[CURRENT_QUESTION_NUM].data;
@@ -1030,7 +1023,7 @@ static void InitQuestionData(void)
         {
             // count re-used as monId
             count = PLAYER_APPRENTICE.questions[CURRENT_QUESTION_NUM].monId;
-            APPRENTICE_SPECIES_ID_2(id2, count);
+            APPRENTICE_SPECIES_ID(id2, count);
             gApprenticeQuestionData->speciesId = gApprentices[PLAYER_APPRENTICE.id].species[id2];
         }
     }
@@ -1287,7 +1280,6 @@ const u8 *GetApprenticeNameInLanguage(u32 apprenticeId, s32 language)
         return apprentice->name[3];
     case LANGUAGE_GERMAN:
         return apprentice->name[4];
-    case LANGUAGE_SPANISH:
     default:
         return apprentice->name[5];
     }

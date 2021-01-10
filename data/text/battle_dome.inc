@@ -141,18 +141,6 @@ BattleDome_Text_StyleUsesAddedEffectMoves::
 BattleDome_Text_StyleUsesBalancedMixOfMoves::
 	.string "Uses a well-balanced mix of moves.$"
 
-BattleDome_Text_StyleSampleMessage1::
-	.string "This is sample message 1.$"
-
-BattleDome_Text_StyleSampleMessage2::
-	.string "This is sample message 2.$"
-
-BattleDome_Text_StyleSampleMessage3::
-	.string "This is sample message 3.$"
-
-BattleDome_Text_StyleSampleMessage4::
-	.string "This is sample message 4.$"
-
 .if UK
 BattleDome_Text_EmphasizesHPAndAtk::
 	.string "Emphasises HP and ATTACK.$"

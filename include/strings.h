@@ -1219,8 +1219,8 @@ extern const u8 gText_XNatureMetSomewhereAt[];
 extern const u8 gText_XNatureFatefulEncounter[];
 extern const u8 gText_XNatureProbablyMetAt[];
 
-extern const u8 gText_OldFriend[];
 extern const u8 gText_Receivedfrom[];
+extern const u8 gText_OldFriend[];
 
 extern const u8 gText_XNatureObtainedInTrade[];
 
@@ -1234,8 +1234,10 @@ extern const u8 gText_EggWillHatchSoon[];
 extern const u8 gText_EggWillTakeSomeTime[];
 extern const u8 gText_PeculiarEggNicePlace[];
 extern const u8 gText_PeculiarEggTrade[];
-extern const u8 gText_EggFromTraveler[];
+extern const u8 gText_EggFromElm[];
 extern const u8 gText_EggFromHotSprings[];
+extern const u8 gText_EggFromTraveler[];
+extern const u8 gText_EggFromPokecomCenter[];
 extern const u8 gText_OddEggFoundByCouple[];
 extern const u8 gText_None[];
 extern const u8 gText_RibbonsVar1[];
