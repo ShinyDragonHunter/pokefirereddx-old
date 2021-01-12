@@ -388,7 +388,7 @@ static bool8 MailReadBuildGraphics(void)
             }
             break;
         case 15:
-            if (sub_8087598() == TRUE)
+            if (sub_8087598())
             {
                 return FALSE;
             }
@@ -431,7 +431,7 @@ static void CB2_InitMailRead(void)
 {
     do
     {
-        if (MailReadBuildGraphics() == TRUE)
+        if (MailReadBuildGraphics())
         {
             SetMainCallback2(CB2_MailRead);
             break;

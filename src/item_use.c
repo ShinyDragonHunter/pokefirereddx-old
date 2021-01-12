@@ -203,11 +203,11 @@ void ItemUseOutOfBattle_Bike(u8 taskId)
     u8 behavior;
     PlayerGetDestCoords(&coordsX, &coordsY);
     behavior = MapGridGetMetatileBehaviorAt(coordsX, coordsY);
-    if (FlagGet(FLAG_SYS_CYCLING_ROAD) == TRUE || MetatileBehavior_IsVerticalRail(behavior) == TRUE || MetatileBehavior_IsHorizontalRail(behavior) == TRUE || MetatileBehavior_IsIsolatedVerticalRail(behavior) == TRUE || MetatileBehavior_IsIsolatedHorizontalRail(behavior) == TRUE)
+    if (FlagGet(FLAG_SYS_CYCLING_ROAD) || MetatileBehavior_IsVerticalRail(behavior) || MetatileBehavior_IsHorizontalRail(behavior) || MetatileBehavior_IsIsolatedVerticalRail(behavior) || MetatileBehavior_IsIsolatedHorizontalRail(behavior))
         DisplayCannotDismountBikeMessage(taskId, tUsingRegisteredKeyItem);
     else
     {
-        if (Overworld_IsBikingAllowed() == TRUE && IsBikingDisallowedByPlayer() == 0)
+        if (Overworld_IsBikingAllowed() && IsBikingDisallowedByPlayer() == 0)
         {
             sItemUseOnFieldCB = ItemUseOnFieldCB_Bike;
             SetUpItemUseOnFieldCallback(taskId);
@@ -251,7 +251,7 @@ static bool32 CanFish(void)
     {
         if (MetatileBehavior_IsSurfableWaterOrUnderwater(tileBehavior) && !MapGridIsImpassableAt(x, y))
             return TRUE;
-        if (MetatileBehavior_8089510(tileBehavior) == TRUE)
+        if (MetatileBehavior_8089510(tileBehavior))
             return TRUE;
     }
 
@@ -260,7 +260,7 @@ static bool32 CanFish(void)
 
 void ItemUseOutOfBattle_Rod(u8 taskId)
 {
-    if (CanFish() == TRUE)
+    if (CanFish())
     {
         sItemUseOnFieldCB = ItemUseOnFieldCB_Rod;
         SetUpItemUseOnFieldCallback(taskId);
@@ -284,7 +284,7 @@ void ItemUseOutOfBattle_Itemfinder(u8 var)
 
 static void ItemUseOnFieldCB_Itemfinder(u8 taskId)
 {
-    if (ItemfinderCheckForHiddenItems(gMapHeader.events, taskId) == TRUE)
+    if (ItemfinderCheckForHiddenItems(gMapHeader.events, taskId))
         gTasks[taskId].func = Task_UseItemfinder;
     else
         DisplayItemMessageOnField(taskId, gText_ItemFinderNothing, Task_CloseItemfinderMessage);
@@ -366,7 +366,7 @@ static bool8 ItemfinderCheckForHiddenItems(const struct MapEvents *events, u8 ta
     }
 
     CheckForHiddenItemsInMapConnection(taskId);
-    if (gTasks[taskId].tItemFound == TRUE)
+    if (gTasks[taskId].tItemFound)
         return TRUE;
     else
         return FALSE;
@@ -455,7 +455,7 @@ static void CheckForHiddenItemsInMapConnection(u8 taskId)
              || y >= height)
             {
                 struct MapConnection *conn = GetConnectionAtCoords(x, y);
-                if (conn && IsHiddenItemPresentInConnection(conn, x, y) == TRUE)
+                if (conn && IsHiddenItemPresentInConnection(conn, x, y))
                     SetDistanceOfClosestHiddenItem(taskId, x - playerX, y - playerY);
             }
         }
@@ -578,7 +578,7 @@ static void PlayerFaceHiddenItem(u8 direction)
 
 static void Task_HiddenItemNearby(u8 taskId)
 {
-    if (ObjectEventCheckHeldMovementStatus(&gObjectEvents[GetObjectEventIdByLocalIdAndMap(OBJ_EVENT_ID_PLAYER, 0, 0)]) == TRUE)
+    if (ObjectEventCheckHeldMovementStatus(&gObjectEvents[GetObjectEventIdByLocalIdAndMap(OBJ_EVENT_ID_PLAYER, 0, 0)]))
         DisplayItemMessageOnField(taskId, gText_ItemFinderNearby, Task_CloseItemfinderMessage);
 }
 
@@ -586,7 +586,7 @@ static void Task_StandingOnHiddenItem(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
-    if (ObjectEventCheckHeldMovementStatus(&gObjectEvents[GetObjectEventIdByLocalIdAndMap(OBJ_EVENT_ID_PLAYER, 0, 0)]) == TRUE
+    if (ObjectEventCheckHeldMovementStatus(&gObjectEvents[GetObjectEventIdByLocalIdAndMap(OBJ_EVENT_ID_PLAYER, 0, 0)])
     || tItemFound == FALSE)
     {
         // Spin player around on item
@@ -610,7 +610,7 @@ static void Task_StandingOnHiddenItem(u8 taskId)
 
 void ItemUseOutOfBattle_PokeblockCase(u8 taskId)
 {
-    if (MenuHelpers_LinkSomething() == TRUE) // link func
+    if (MenuHelpers_LinkSomething()) // link func
     {
         DisplayDadsAdviceCannotUseItemMessage(taskId, gTasks[taskId].tUsingRegisteredKeyItem);
     }
@@ -674,7 +674,7 @@ void ItemUseOutOfBattle_PowderJar(u8 taskId)
 
 void ItemUseOutOfBattle_Berry(u8 taskId)
 {
-    if (IsPlayerFacingEmptyBerryTreePatch() == TRUE)
+    if (IsPlayerFacingEmptyBerryTreePatch())
     {
         sItemUseOnFieldCB = ItemUseOnFieldCB_Berry;
         gFieldCallback = FieldCB_UseItemOnField;
@@ -697,12 +697,12 @@ static void ItemUseOnFieldCB_Berry(u8 taskId)
 
 void ItemUseOutOfBattle_WailmerPail(u8 taskId)
 {
-    if (TryToWaterSudowoodo() == TRUE)
+    if (TryToWaterSudowoodo())
     {
         sItemUseOnFieldCB = ItemUseOnFieldCB_WailmerPailSudowoodo;
         SetUpItemUseOnFieldCallback(taskId);
     }
-    else if (TryToWaterBerryTree() == TRUE)
+    else if (TryToWaterBerryTree())
     {
         sItemUseOnFieldCB = ItemUseOnFieldCB_WailmerPailBerry;
         SetUpItemUseOnFieldCallback(taskId);
@@ -920,7 +920,7 @@ bool8 CanUseDigOrEscapeRopeOnCurMap(void)
 
 void ItemUseOutOfBattle_EscapeRope(u8 taskId)
 {
-    if (CanUseDigOrEscapeRopeOnCurMap() == TRUE)
+    if (CanUseDigOrEscapeRopeOnCurMap())
     {
         sItemUseOnFieldCB = ItemUseOnFieldCB_EscapeRope;
         SetUpItemUseOnFieldCallback(taskId);

@@ -1175,7 +1175,7 @@ void UpdateHpTextInHealthbox(u8 healthboxSpriteId, s16 value, u8 maxOrCurrent)
 
         memcpy(text, sUnknown_0832C3C4, sizeof(sUnknown_0832C3C4));
         battler = gSprites[healthboxSpriteId].hMain_Battler;
-        if (IsDoubleBattle() == TRUE || GetBattlerSide(battler) == B_SIDE_OPPONENT)
+        if (IsDoubleBattle() || GetBattlerSide(battler) == B_SIDE_OPPONENT)
         {
             UpdateHpTextInHealthboxInDoubles(healthboxSpriteId, value, maxOrCurrent);
         }
@@ -1394,7 +1394,7 @@ void SwapHpBarsWithHpText(void)
                 if (gBattleTypeFlags & BATTLE_TYPE_SAFARI)
                     continue;
 
-                if (noBars == TRUE) // bars to text
+                if (noBars) // bars to text
                 {
                     healthBarSpriteId = gSprites[gHealthboxSpriteIds[i]].hMain_HealthBarSpriteId;
 
@@ -1411,7 +1411,7 @@ void SwapHpBarsWithHpText(void)
             }
             else
             {
-                if (noBars == TRUE) // bars to text
+                if (noBars) // bars to text
                 {
                     if (gBattleTypeFlags & BATTLE_TYPE_SAFARI)
                     {
@@ -2045,7 +2045,7 @@ static void UpdateStatusIconInHealthbox(u8 healthboxSpriteId)
     FillPalette(sStatusIconColors[statusPalId], pltAdder + 0x100, 2);
     CpuCopy16(gPlttBufferUnfaded + 0x100 + pltAdder, (void*)(OBJ_PLTT + pltAdder * 2), 2);
     CpuCopy32(statusGfxPtr, (void*)(OBJ_VRAM0 + (gSprites[healthboxSpriteId].oam.tileNum + tileNumAdder) * TILE_SIZE_4BPP), 96);
-    if (IsDoubleBattle() == TRUE || GetBattlerSide(battlerId) == B_SIDE_OPPONENT)
+    if (IsDoubleBattle() || GetBattlerSide(battlerId) == B_SIDE_OPPONENT)
     {
         if (!gBattleSpritesDataPtr->battlerData[battlerId].hpNumbersNoBars)
         {

@@ -156,9 +156,3 @@ u32 GetLotteryNumber(void)
 
     return (lowNum << 16) | highNum;
 }
-
-// interestingly, this may have been the original lottery number set function, but GF tried to change it to 32-bit later but didnt finish changing all calls as one GetLotteryNumber still shifts to u16.
-void SetLotteryNumber16_Unused(u16 lotteryNum)
-{
-    SetLotteryNumber(lotteryNum);
-}

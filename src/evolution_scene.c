@@ -1086,7 +1086,7 @@ static void Task_TradeEvolutionScene(u8 taskID)
         }
         break;
     case 13:
-        if (!IsTextPrinterActive(0) && IsFanfareTaskInactive() == TRUE)
+        if (!IsTextPrinterActive(0) && IsFanfareTaskInactive())
         {
             var = MonTryLearningNewMoveEvolution(mon, gTasks[taskID].tLearnsFirstMove);
             if (var != 0 && !gTasks[taskID].tEvoWasStopped)
@@ -1160,7 +1160,7 @@ static void Task_TradeEvolutionScene(u8 taskID)
         }
         break;
     case 19:
-        if (!IsTextPrinterActive(0) && IsFanfareTaskInactive() == TRUE && --gTasks[taskID].tLearnsFirstMove == 0)
+        if (!IsTextPrinterActive(0) && IsFanfareTaskInactive() && --gTasks[taskID].tLearnsFirstMove == 0)
             gTasks[taskID].tState = 13;
         break;
     case 20:

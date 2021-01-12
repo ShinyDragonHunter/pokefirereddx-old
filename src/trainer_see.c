@@ -240,7 +240,7 @@ static u8 CheckTrainer(u8 objectEventId)
     u8 ret = 1;
     u8 approachDistance;
 
-    if (InTrainerHill() == TRUE)
+    if (InTrainerHill())
         scriptPtr = GetTrainerHillTrainerScript();
     else
         scriptPtr = GetObjectEventScriptPointerByObjectEventId(objectEventId);
@@ -250,7 +250,7 @@ static u8 CheckTrainer(u8 objectEventId)
         if (GetBattlePyramidTrainerFlag(objectEventId))
             return 0;
     }
-    else if (InTrainerHill() == TRUE)
+    else if (InTrainerHill())
     {
         if (GetHillTrainerFlag(objectEventId))
             return 0;
@@ -789,7 +789,7 @@ void PlayerFaceTrainerAfterBattle(void)
 {
     struct ObjectEvent *objEvent;
 
-    if (gTrainerApproachedPlayer == TRUE)
+    if (gTrainerApproachedPlayer)
     {
         objEvent = &gObjectEvents[gApproachingTrainers[gWhichTrainerToFaceAfterBattle].objectEventId];
         gPostBattleMovementScript[0] = GetFaceDirectionMovementAction(GetOppositeDirection(objEvent->facingDirection));

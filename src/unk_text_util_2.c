@@ -77,13 +77,10 @@ u16 Font6Func(struct TextPrinter *textPrinter)
 
                             GenerateFontHalfRowLookupTable(textPrinter->printerTemplate.fgColor, textPrinter->printerTemplate.bgColor, textPrinter->printerTemplate.shadowColor);
                             return 2;
-                        case EXT_CTRL_CODE_PALETTE:
-                            textPrinter->printerTemplate.currentChar++;
-                            return 2;
                         case EXT_CTRL_CODE_SIZE:
                             subStruct->glyphId = *textPrinter->printerTemplate.currentChar;
+                        case EXT_CTRL_CODE_PALETTE:
                             textPrinter->printerTemplate.currentChar++;
-                            return 2;
                         case EXT_CTRL_CODE_RESET_SIZE:
                             return 2;
                         case EXT_CTRL_CODE_PAUSE:

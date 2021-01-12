@@ -1867,7 +1867,7 @@ static void HandleSpecialTrainerBattleEnd(void)
 
 static void Task_StartBattleAfterTransition(u8 taskId)
 {
-    if (IsBattleTransitionDone() == TRUE)
+    if (IsBattleTransitionDone())
     {
         gMain.savedCallback = HandleSpecialTrainerBattleEnd;
         SetMainCallback2(CB2_InitBattle);
@@ -2807,7 +2807,7 @@ void TryHideBattleTowerReporter(void)
 {
     if (gSaveBlock2Ptr->frontier.challengeStatus == CHALLENGE_STATUS_SAVING)
         HideBattleTowerReporter();
-    if (FlagGet(FLAG_CANCEL_BATTLE_ROOM_CHALLENGE) == TRUE)
+    if (FlagGet(FLAG_CANCEL_BATTLE_ROOM_CHALLENGE))
     {
         HideBattleTowerReporter();
         FlagClear(FLAG_CANCEL_BATTLE_ROOM_CHALLENGE);
@@ -2945,12 +2945,7 @@ bool32 RubyBattleTowerRecordToEmerald(struct RSBattleTowerRecord *src, struct Em
     {
         dst->lvlMode = src->lvlMode;
         dst->winStreak = src->winStreak;
-        // UB: Reading outside the array. sRubyFacilityClassToEmerald has less than FACILITY_CLASSES_COUNT entries.
-        #ifdef UBFIX
         for (i = 0; i < ARRAY_COUNT(sRubyFacilityClassToEmerald); i++)
-        #else
-        for (i = 0; i < FACILITY_CLASSES_COUNT; i++)
-        #endif
         {
             if (sRubyFacilityClassToEmerald[i][0] == src->facilityClass)
                 break;
@@ -2998,12 +2993,7 @@ bool32 EmeraldBattleTowerRecordToRuby(struct EmeraldBattleTowerRecord *src, stru
     {
         dst->lvlMode = src->lvlMode;
         dst->winStreak = src->winStreak;
-        // UB: Reading outside the array. sRubyFacilityClassToEmerald has less than FACILITY_CLASSES_COUNT entries.
-        #ifdef UBFIX
         for (i = 0; i < ARRAY_COUNT(sRubyFacilityClassToEmerald); i++)
-        #else
-        for (i = 0; i < FACILITY_CLASSES_COUNT; i++)
-        #endif
         {
             if (sRubyFacilityClassToEmerald[i][1] == src->facilityClass)
                 break;

@@ -1150,7 +1150,7 @@ void task00_mystery_gift(u8 taskId)
         {
         case 0:
             data->IsCardOrNews = 0;
-            if (ValidateReceivedWonderCard() == TRUE)
+            if (ValidateReceivedWonderCard())
             {
                 data->state = 18;
             }
@@ -1161,7 +1161,7 @@ void task00_mystery_gift(u8 taskId)
             break;
         case 1:
             data->IsCardOrNews = 1;
-            if (ValidateReceivedWonderNews() == TRUE)
+            if (ValidateReceivedWonderNews())
             {
                 data->state = 18;
             }
@@ -1337,7 +1337,7 @@ void task00_mystery_gift(u8 taskId)
         switch (flag)
         {
         case 0:
-            if (CheckReceivedGiftFromWonderCard() == TRUE)
+            if (CheckReceivedGiftFromWonderCard())
             {
                 data->state = 12;
             }
@@ -1531,7 +1531,7 @@ void task00_mystery_gift(u8 taskId)
         switch (mevent_message_prompt_discard(&data->textState, &data->curPromptWindowId, data->IsCardOrNews))
         {
         case 0:
-            if (data->IsCardOrNews == 0 && CheckReceivedGiftFromWonderCard() == TRUE)
+            if (data->IsCardOrNews == 0 && CheckReceivedGiftFromWonderCard())
             {
                 data->state = 23;
             }

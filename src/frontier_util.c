@@ -1028,7 +1028,7 @@ static void TowerPrintPrevOrCurrentStreak(u8 battleMode, u8 lvlMode, u8 x1, u8 x
         break;
     }
 
-    if (isCurrent == TRUE)
+    if (isCurrent)
         TowerPrintStreak(gText_Current, winStreak, x1, x2, y);
     else
         TowerPrintStreak(gText_Prev, winStreak, x1, x2, y);
@@ -1098,7 +1098,7 @@ static void DomePrintPrevOrCurrentStreak(u8 battleMode, u8 lvlMode, u8 x1, u8 x2
         break;
     }
 
-    if (isCurrent == TRUE)
+    if (isCurrent)
         PrintTwoStrings(gText_Current, gText_ClearStreak, winStreak, x1, x2, y);
     else
         PrintTwoStrings(gText_Prev, gText_ClearStreak, winStreak, x1, x2, y);
@@ -1173,7 +1173,7 @@ static void PalacePrintPrevOrCurrentStreak(u8 battleMode, u8 lvlMode, u8 x1, u8 
             isCurrent = IsWinStreakActive(STREAK_PALACE_DOUBLES_50);
     }
 
-    if (isCurrent == TRUE)
+    if (isCurrent)
         PalacePrintStreak(gText_Current, winStreak, x1, x2, y);
     else
         PalacePrintStreak(gText_Prev, winStreak, x1, x2, y);
@@ -1229,7 +1229,7 @@ static void PikePrintPrevOrCurrentStreak(u8 lvlMode, u8 x1, u8 x2, u8 y)
     else
         isCurrent = IsWinStreakActive(STREAK_PIKE_50);
 
-    if (isCurrent == TRUE)
+    if (isCurrent)
         PrintTwoStrings(gText_Current, gText_RoomsCleared, winStreak, x1, x2, y);
     else
         PrintTwoStrings(gText_Prev, gText_RoomsCleared, winStreak, x1, x2, y);
@@ -1291,7 +1291,7 @@ static void ArenaPrintPrevOrCurrentStreak(u8 lvlMode, u8 x1, u8 x2, u8 y)
     else
         isCurrent = IsWinStreakActive(STREAK_ARENA_50);
 
-    if (isCurrent == TRUE)
+    if (isCurrent)
         ArenaPrintStreak(gText_Current, winStreak, x1, x2, y);
     else
         ArenaPrintStreak(gText_Prev, winStreak, x1, x2, y);
@@ -1376,7 +1376,7 @@ static void FactoryPrintPrevOrCurrentStreak(u8 battleMode, u8 lvlMode, u8 x1, u8
         break;
     }
 
-    if (isCurrent == TRUE)
+    if (isCurrent)
         FactoryPrintStreak(gText_Current, winStreak, rents, x1, x2, x3, y);
     else
         FactoryPrintStreak(gText_Prev, winStreak, rents, x1, x2, x3, y);
@@ -1441,7 +1441,7 @@ static void PyramidPrintPrevOrCurrentStreak(u8 lvlMode, u8 x1, u8 x2, u8 y)
     else
         isCurrent = IsWinStreakActive(STREAK_PYRAMID_50);
 
-    if (isCurrent == TRUE)
+    if (isCurrent)
         PyramidPrintStreak(gText_Current, winStreak, x1, x2, y);
     else
         PyramidPrintStreak(gText_Prev, winStreak, x1, x2, y);
@@ -2372,13 +2372,7 @@ void ClearRankingHallRecords(void)
 {
     s32 i, j, k;
 
-    // BUG: Passing 0 as a pointer instead of a pointer holding a value of 0.
-    #ifdef BUGFIX
     u8 zero = 0;
-    #define ZERO (&zero)
-    #else
-    #define ZERO 0
-    #endif
 
     for (i = 0; i < HALL_FACILITIES_COUNT; i++)
     {
@@ -2386,7 +2380,7 @@ void ClearRankingHallRecords(void)
         {
             for (k = 0; k < 3; k++)
             {
-                CopyTrainerId(gSaveBlock2Ptr->hallRecords1P[i][j][k].id, ZERO); 
+                CopyTrainerId(gSaveBlock2Ptr->hallRecords1P[i][j][k].id, &zero); 
                 gSaveBlock2Ptr->hallRecords1P[i][j][k].name[0] = EOS;
                 gSaveBlock2Ptr->hallRecords1P[i][j][k].winStreak = 0;
             }
@@ -2397,8 +2391,8 @@ void ClearRankingHallRecords(void)
     {
         for (k = 0; k < 3; k++)
         {
-            CopyTrainerId(gSaveBlock2Ptr->hallRecords2P[j][k].id1, ZERO);
-            CopyTrainerId(gSaveBlock2Ptr->hallRecords2P[j][k].id2, ZERO);
+            CopyTrainerId(gSaveBlock2Ptr->hallRecords2P[j][k].id1, &zero);
+            CopyTrainerId(gSaveBlock2Ptr->hallRecords2P[j][k].id2, &zero);
             gSaveBlock2Ptr->hallRecords2P[j][k].name1[0] = EOS;
             gSaveBlock2Ptr->hallRecords2P[j][k].name2[0] = EOS;
             gSaveBlock2Ptr->hallRecords2P[j][k].winStreak = 0;

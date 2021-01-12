@@ -359,7 +359,7 @@ static void Task_BattleStart(u8 taskId)
         }
         break;
     case 1:
-        if (IsBattleTransitionDone() == TRUE)
+        if (IsBattleTransitionDone())
         {
             CleanupOverworldWindowsAndTilemaps();
             SetMainCallback2(CB2_InitBattle);
@@ -520,7 +520,7 @@ static void CB2_EndWildBattle(void)
     CpuFill16(0, (void*)(BG_PLTT), BG_PLTT_SIZE);
     ResetOamRange(0, 128);
 
-    if (IsPlayerDefeated(gBattleOutcome) == TRUE && !InBattlePyramid() && !InBattlePike())
+    if (IsPlayerDefeated(gBattleOutcome) && !InBattlePyramid() && !InBattlePike())
     {
         SetMainCallback2(CB2_WhiteOut);
     }
@@ -536,7 +536,7 @@ static void CB2_EndScriptedWildBattle(void)
     CpuFill16(0, (void*)(BG_PLTT), BG_PLTT_SIZE);
     ResetOamRange(0, 128);
 
-    if (IsPlayerDefeated(gBattleOutcome) == TRUE)
+    if (IsPlayerDefeated(gBattleOutcome))
     {
         if (InBattlePyramid())
             SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
@@ -595,7 +595,7 @@ u8 BattleSetup_GetTerrainId(void)
     {
         if (MetatileBehavior_GetBridgeType(tileBehavior))
             return BATTLE_TERRAIN_POND;
-        if (MetatileBehavior_IsBridge(tileBehavior) == TRUE)
+        if (MetatileBehavior_IsBridge(tileBehavior))
             return BATTLE_TERRAIN_WATER;
     }
     if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(ROUTE113) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(ROUTE113))
@@ -707,7 +707,9 @@ static u8 GetWildBattleTransition(void)
 
     switch (GetMonData(&gEnemyParty[0], MON_DATA_SPECIES, NULL))
     {
-    case SPECIES_ARTICUNO ... SPECIES_MOLTRES:
+    case SPECIES_ARTICUNO:
+    case SPECIES_ZAPDOS:
+    case SPECIES_MOLTRES:
     case SPECIES_MEWTWO:
     case SPECIES_LUGIA:
     case SPECIES_HO_OH:
@@ -763,7 +765,7 @@ static u8 GetTrainerBattleTransition(void)
      || gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_TEAM_ROCKET)
         return B_TRANSITION_MAGMA;
 
-    if (gTrainers[gTrainerBattleOpponent_A].doubleBattle == TRUE)
+    if (gTrainers[gTrainerBattleOpponent_A].doubleBattle)
         minPartyCount = 2; // double battles always at least have 2 pokemon.
     else
         minPartyCount = 1;
@@ -800,12 +802,14 @@ u8 GetSpecialBattleTransition(s32 id)
         return sBattleTransitionTable_BattleDome[Random() % ARRAY_COUNT(sBattleTransitionTable_BattleDome)];
     case 10:
         return sBattleTransitionTable_BattlePyramid[Random() % ARRAY_COUNT(sBattleTransitionTable_BattlePyramid)];
+    case 11:
+    case 12:
+    case 13:
+        if (enemyLevel < playerLevel)
+            return B_TRANSITION_POKEBALLS_TRAIL;
+        else
+            return B_TRANSITION_BIG_POKEBALL;
     }
-
-    if (enemyLevel < playerLevel)
-        return B_TRANSITION_POKEBALLS_TRAIL;
-    else
-        return B_TRANSITION_BIG_POKEBALL;
 
     if (VarGet(VAR_FRONTIER_BATTLE_MODE) != FRONTIER_MODE_LINK_MULTIS)
         return sBattleTransitionTable_BattleFrontier[Random() % ARRAY_COUNT(sBattleTransitionTable_BattleFrontier)];
@@ -840,7 +844,7 @@ static void CB2_StartFirstBattle(void)
     UpdatePaletteFade();
     RunTasks();
 
-    if (IsBattleTransitionDone() == TRUE)
+    if (IsBattleTransitionDone())
     {
         gBattleTypeFlags = BATTLE_TYPE_FIRST_BATTLE;
         gMain.savedCallback = CB2_EndFirstBattle;
@@ -1230,7 +1234,7 @@ static void CB2_EndTrainerBattle(void)
     {
         SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
     }
-    else if (IsPlayerDefeated(gBattleOutcome) == TRUE)
+    else if (IsPlayerDefeated(gBattleOutcome))
     {
         if (InBattlePyramid() || InTrainerHillChallenge())
             SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
@@ -1254,7 +1258,7 @@ static void CB2_EndRematchBattle(void)
     {
         SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
     }
-    else if (IsPlayerDefeated(gBattleOutcome) == TRUE)
+    else if (IsPlayerDefeated(gBattleOutcome))
     {
         SetMainCallback2(CB2_WhiteOut);
     }
@@ -1528,7 +1532,7 @@ static bool32 UpdateRandomTrainerRematches(const struct RematchTrainer *table, u
 
 void UpdateRematchIfDefeated(s32 rematchTableId)
 {
-    if (HasTrainerBeenFought(gRematchTable[rematchTableId].trainerIds[0]) == TRUE)
+    if (HasTrainerBeenFought(gRematchTable[rematchTableId].trainerIds[0]))
         SetRematchIdForTrainer(gRematchTable, rematchTableId);
 }
 
@@ -1677,7 +1681,7 @@ static bool32 HasAtLeastFiveBadges(void)
 
     for (count = 0, i = 0; i < ARRAY_COUNT(sBadgeFlags); i++)
     {
-        if (FlagGet(sBadgeFlags[i]) == TRUE)
+        if (FlagGet(sBadgeFlags[i]))
         {
             if (++count >= 5)
                 return TRUE;
@@ -1710,7 +1714,7 @@ static bool32 IsRematchStepCounterMaxed(void)
 
 void TryUpdateRandomTrainerRematches(u16 mapGroup, u16 mapNum)
 {
-    if (IsRematchStepCounterMaxed() && UpdateRandomTrainerRematches(gRematchTable, mapGroup, mapNum) == TRUE)
+    if (IsRematchStepCounterMaxed() && UpdateRandomTrainerRematches(gRematchTable, mapGroup, mapNum))
         gSaveBlock1Ptr->trainerRematchStepCounter = 0;
 }
 

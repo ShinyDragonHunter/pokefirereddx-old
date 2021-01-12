@@ -1927,8 +1927,6 @@ u8 CameraObjectGetFollowedObjectId(void)
 
 void CameraObjectReset2(void)
 {
-    // UB: Possible null dereference
-#ifdef UBFIX
     struct Sprite *cameraObject;
 
     cameraObject = FindCameraObject();
@@ -1936,9 +1934,6 @@ void CameraObjectReset2(void)
     {
         cameraObject->data[1] = 2;
     }
-#else
-    FindCameraObject()->data[1] = 2;
-#endif // UBFIX
 }
 
 u8 CopySprite(struct Sprite *sprite, s16 x, s16 y, u8 subpriority)
@@ -2002,11 +1997,8 @@ const u8 *GetObjectEventScriptPointerByObjectEventId(u8 objectEventId)
 static u16 GetObjectEventFlagIdByLocalIdAndMap(u8 localId, u8 mapNum, u8 mapGroup)
 {
     struct ObjectEventTemplate *obj = GetObjectEventTemplateByLocalIdAndMap(localId, mapNum, mapGroup);
-#ifdef UBFIX
-    // BUG: The function may return NULL, and attempting to read from NULL may freeze the game using modern compilers.
-    if (obj == NULL)
+    if (!obj)
         return 0;
-#endif // UBFIX
     return obj->flagId;
 }
 
@@ -7722,7 +7714,7 @@ static void DoFlaggedGroundEffects(struct ObjectEvent *objEvent, struct Sprite *
 {
     u8 i;
 
-    if (ObjectEventIsFarawayIslandMew(objEvent) == TRUE && !ShouldMewShakeGrass(objEvent))
+    if (ObjectEventIsFarawayIslandMew(objEvent) && !ShouldMewShakeGrass(objEvent))
         return;
 
     for (i = 0; i < ARRAY_COUNT(sGroundEffectFuncs); i++, flags >>= 1)
@@ -8290,7 +8282,7 @@ bool32 IsObjectEventSpriteInvisible(u8 objectEventId)
     if (spriteId == MAX_SPRITES)
         return FALSE;
 
-    return (gSprites[spriteId].tInvisible == TRUE);
+    return (gSprites[spriteId].tInvisible);
 }
 
 void SetObjectEventSpriteAnim(u8 objectEventId, u8 animNum)
@@ -8452,7 +8444,7 @@ u8 MovementAction_StoreAndLockAnim_Step0(struct ObjectEvent *objectEvent, struct
         }
     }
 
-    if (ableToStore == TRUE)
+    if (ableToStore)
     {
         objectEvent->inanimate = TRUE;
         objectEvent->facingDirectionLocked = TRUE;
@@ -8480,7 +8472,7 @@ u8 MovementAction_FreeAndUnlockAnim_Step0(struct ObjectEvent *objectEvent, struc
         }
         if (gLockedAnimObjectEvents->count == 0)
             FREE_AND_SET_NULL(gLockedAnimObjectEvents);
-        if (ableToStore == TRUE)
+        if (ableToStore)
         {
             objectEvent->inanimate = GetObjectEventGraphicsInfo(objectEvent->graphicsId)->inanimate;
             objectEvent->facingDirectionLocked = FALSE;

@@ -128,7 +128,7 @@ static bool8 CheckPartyMonHasHeldItem(u16 item)
 bool8 DoesPartyHaveEnigmaBerry(void)
 {
     bool8 hasItem = CheckPartyMonHasHeldItem(ITEM_ENIGMA_BERRY);
-    if (hasItem == TRUE)
+    if (hasItem)
         GetBerryNameByBerryType(ItemIdToBerryType(ITEM_ENIGMA_BERRY), gStringVar1);
 
     return hasItem;

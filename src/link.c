@@ -596,7 +596,7 @@ static void ProcessRecvCmds(u8 unused)
 
                 if (sBlockRecv[i].pos >= sBlockRecv[i].size)
                 {
-                    if (gRemoteLinkPlayersNotReceived[i] == TRUE)
+                    if (gRemoteLinkPlayersNotReceived[i])
                     {
                         struct LinkPlayerBlock *block;
                         struct LinkPlayer *linkPlayer;

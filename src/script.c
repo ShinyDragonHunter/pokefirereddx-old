@@ -69,7 +69,7 @@ bool8 RunScriptCommand(struct ScriptContext *ctx)
     case 2:
         if (ctx->nativePtr)
         {
-            if (ctx->nativePtr() == TRUE)
+            if (ctx->nativePtr())
                 ctx->mode = 1;
             return TRUE;
         }

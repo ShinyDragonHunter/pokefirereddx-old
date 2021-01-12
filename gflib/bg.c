@@ -42,8 +42,6 @@ static struct BgControl sGpuBgConfigs;
 static struct BgConfig2 sGpuBgConfigs2[4];
 static u32 sDmaBusyBitfield[4];
 
-u32 gUnneededFireRedVariable;
-
 static const struct BgConfig sZeroedBgControlStruct = { 0 };
 
 void ResetBgs(void)
@@ -73,14 +71,6 @@ void ResetBgControlStructs(void)
     for (i = 0; i < 4; i++)
     {
         bgConfigs[i] = zeroedConfig;
-    }
-}
-
-void Unused_ResetBgControlStruct(u8 bg)
-{
-    if (!IsInvalidBg(bg))
-    {
-        sGpuBgConfigs.configs[bg] = sZeroedBgControlStruct;
     }
 }
 
@@ -295,11 +285,6 @@ bool8 IsInvalidBg(u8 bg)
         return FALSE;
 }
 
-int DummiedOutFireRedLeafGreenTileAllocFunc(int a1, int a2, int a3, int a4)
-{
-    return 0;
-}
-
 void ResetBgsAndClearDma3BusyFlags(u32 leftoverFireRedLeafGreenVariable)
 {
     int i;
@@ -309,8 +294,6 @@ void ResetBgsAndClearDma3BusyFlags(u32 leftoverFireRedLeafGreenVariable)
     {
         sDmaBusyBitfield[i] = 0;
     }
-
-    gUnneededFireRedVariable = leftoverFireRedLeafGreenVariable;
 }
 
 void InitBgsFromTemplates(u8 bgMode, const struct BgTemplate *templates, u8 numTemplates)
@@ -399,11 +382,6 @@ u16 LoadBgTiles(u8 bg, const void* src, u16 size, u16 destOffset)
 
     sDmaBusyBitfield[cursor / 0x20] |= (1 << (cursor % 0x20));
 
-    if (gUnneededFireRedVariable == 1)
-    {
-        DummiedOutFireRedLeafGreenTileAllocFunc(bg, tileOffset / 0x20, size / 0x20, 1);
-    }
-
     return cursor;
 }
 
@@ -419,30 +397,6 @@ u16 LoadBgTilemap(u8 bg, const void *src, u16 size, u16 destOffset)
     sDmaBusyBitfield[cursor / 0x20] |= (1 << (cursor % 0x20));
 
     return cursor;
-}
-
-u16 Unused_LoadBgPalette(u8 bg, const void *src, u16 size, u16 destOffset)
-{
-    s8 cursor;
-
-    if (!IsInvalidBg32(bg))
-    {
-        u16 paletteOffset = (sGpuBgConfigs2[bg].basePalette * 0x20) + (destOffset * 2);
-        cursor = RequestDma3Copy(src, (void*)(paletteOffset + BG_PLTT), size, 0);
-
-        if (cursor == -1)
-        {
-            return -1;
-        }
-    }
-    else
-    {
-        return -1;
-    }
-
-    sDmaBusyBitfield[cursor / 0x20] |= (1 << (cursor % 0x20));
-
-    return (u8)cursor;
 }
 
 bool8 IsDma3ManagerBusyWithBgCopy(void)
@@ -778,77 +732,6 @@ s32 GetBgY(u8 bg)
 void SetBgAffine(u8 bg, s32 srcCenterX, s32 srcCenterY, s16 dispCenterX, s16 dispCenterY, s16 scaleX, s16 scaleY, u16 rotationAngle)
 {
     SetBgAffineInternal(bg, srcCenterX, srcCenterY, dispCenterX, dispCenterY, scaleX, scaleY, rotationAngle);
-}
-
-u8 Unused_AdjustBgMosaic(u8 a1, u8 a2)
-{
-    u16 result = GetGpuReg(REG_OFFSET_MOSAIC);
-    s16 test1 = result & 0xF;
-    s16 test2 = (result >> 4) & 0xF;
-
-    result &= 0xFF00;
-
-    switch (a2)
-    {
-    case 0:
-    default:
-        test1 = a1 & 0xF;
-        test2 = a1 >> 0x4;
-        break;
-    case 1:
-        test1 = a1 & 0xF;
-        break;
-    case 2:
-        if ((test1 + a1) > 0xF)
-        {
-            test1 = 0xF;
-        }
-        else
-        {
-            test1 += a1;
-        }
-        break;
-    case 3:
-        if ((test1 - a1) < 0)
-        {
-            test1 = 0x0;
-        }
-        else
-        {
-            test1 -= a1;
-        }
-        break;
-    case 4:
-        test2 = a1 & 0xF;
-        break;
-    case 5:
-        if ((test2 + a1) > 0xF)
-        {
-            test2 = 0xF;
-        }
-        else
-        {
-            test2 += a1;
-        }
-        break;
-    case 6:
-        if ((test2 - a1) < 0)
-        {
-            test2 = 0x0;
-        }
-        else
-        {
-            test2 -= a1;
-        }
-        break;
-    }
-
-    result |= ((test2 << 0x4) & 0xF0);
-    result |= (test1 & 0xF);
-
-    SetGpuReg(REG_OFFSET_MOSAIC, result);
-
-    return result;
 }
 
 void SetBgTilemapBuffer(u8 bg, void *tilemap)

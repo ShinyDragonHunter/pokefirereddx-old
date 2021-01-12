@@ -1311,11 +1311,8 @@ void ApplyAffineAnimFrameRelativeAndUpdateMatrix(u8 matrixNum, struct AffineAnim
 s16 ConvertScaleParam(s16 scale)
 {
     s32 val = 0x10000;
-    // UB: possible division by zero
-#ifdef UBFIX
-    if (scale == 0)
+    if (!scale)
         return 0;
-#endif //UBFIX
     return val / scale;
 }
 

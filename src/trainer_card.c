@@ -406,7 +406,7 @@ static void Task_TrainerCard(u8 taskId)
         break;
     // Fade in
     case 7:
-        if (gWirelessCommType == 1 && gReceivedRemoteLinkPlayers == TRUE)
+        if (gWirelessCommType == 1 && gReceivedRemoteLinkPlayers)
         {
             LoadWirelessStatusIndicatorSpriteGfx();
             CreateWirelessStatusIndicatorSprite(230, 150);
@@ -443,7 +443,7 @@ static void Task_TrainerCard(u8 taskId)
         }
         else if (JOY_NEW(B_BUTTON))
         {
-            if (gReceivedRemoteLinkPlayers && sData->isLink && InUnionRoom() == TRUE)
+            if (gReceivedRemoteLinkPlayers && sData->isLink && InUnionRoom())
             {
                 sData->mainState = STATE_WAIT_LINK_PARTNER;
             }
@@ -464,7 +464,7 @@ static void Task_TrainerCard(u8 taskId)
     case STATE_HANDLE_INPUT_BACK:
         if (JOY_NEW(B_BUTTON))
         {
-            if (gReceivedRemoteLinkPlayers && sData->isLink && InUnionRoom() == TRUE)
+            if (gReceivedRemoteLinkPlayers && sData->isLink && InUnionRoom())
             {
                 sData->mainState = STATE_WAIT_LINK_PARTNER;
             }
@@ -482,7 +482,7 @@ static void Task_TrainerCard(u8 taskId)
         }
         else if (JOY_NEW(A_BUTTON))
         {
-           if (gReceivedRemoteLinkPlayers && sData->isLink && InUnionRoom() == TRUE)
+           if (gReceivedRemoteLinkPlayers && sData->isLink && InUnionRoom())
            {
                sData->mainState = STATE_WAIT_LINK_PARTNER;
            }
@@ -606,7 +606,7 @@ static void CB2_InitTrainerCard(void)
         gMain.state++;
         break;
     case 6:
-        if (LoadCardGfx() == TRUE)
+        if (LoadCardGfx())
             gMain.state++;
         break;
     case 7:
@@ -622,7 +622,7 @@ static void CB2_InitTrainerCard(void)
         gMain.state++;
         break;
     case 10:
-        if (SetCardBgsAndPals() == TRUE)
+        if (SetCardBgsAndPals())
             gMain.state++;
         break;
     default:
@@ -782,7 +782,7 @@ static void TrainerCard_GenerateCardForLinkPlayer(struct TrainerCard *trainerCar
     trainerCard->hasAllSymbols = HasAllFrontierSymbols();
     trainerCard->frontierBP = gSaveBlock2Ptr->frontier.cardBattlePoints;
 
-    if (trainerCard->gender == FEMALE)
+    if (trainerCard->gender)
         trainerCard->facilityClass = gLinkPlayerFacilityClasses[(trainerCard->trainerId % NUM_FEMALE_LINK_FACILITY_CLASSES) + NUM_MALE_LINK_FACILITY_CLASSES];
     else
         trainerCard->facilityClass = gLinkPlayerFacilityClasses[trainerCard->trainerId % NUM_MALE_LINK_FACILITY_CLASSES];
@@ -796,7 +796,7 @@ void TrainerCard_GenerateCardForPlayer(struct TrainerCard *trainerCard)
     trainerCard->hasAllFrontierSymbols = HasAllFrontierSymbols();
     *((u16*)&trainerCard->berryCrushPoints) = gSaveBlock2Ptr->frontier.cardBattlePoints;
 
-    if (trainerCard->gender == FEMALE)
+    if (trainerCard->gender)
         trainerCard->facilityClass = gLinkPlayerFacilityClasses[(trainerCard->trainerId % NUM_FEMALE_LINK_FACILITY_CLASSES) + NUM_MALE_LINK_FACILITY_CLASSES];
     else
         trainerCard->facilityClass = gLinkPlayerFacilityClasses[trainerCard->trainerId % NUM_MALE_LINK_FACILITY_CLASSES];
@@ -1439,7 +1439,7 @@ static void PrintStickersOnCard(void)
     u8 i;
     u8 paletteSlots[4] = {11, 12, 13, 14};
 
-    if (!sData->isHoenn && sData->trainerCard.shouldDrawStickers == TRUE)
+    if (!sData->isHoenn && sData->trainerCard.shouldDrawStickers)
     {
         for (i = 0; i < TRAINER_CARD_STICKER_TYPES; i++)
         {
@@ -1713,7 +1713,7 @@ static bool8 Task_AnimateCardFlipDown(struct Task* task)
 static bool8 Task_DrawFlippedCardSide(struct Task* task)
 {
     sData->allowDMACopy = FALSE;
-    if (sub_8087598() == TRUE)
+    if (sub_8087598())
         return FALSE;
 
     do
@@ -1848,7 +1848,7 @@ void ShowPlayerTrainerCard(void (*callback)(void))
     else
         sData->blendColor = RGB_BLACK;
 
-    if (InUnionRoom() == TRUE)
+    if (InUnionRoom())
         sData->isLink = TRUE;
     else
         sData->isLink = FALSE;
@@ -1928,7 +1928,7 @@ static u8 VersionToCardType(u8 version)
 
 static void CreateTrainerCardTrainerPic(void)
 {
-    if (InUnionRoom() == TRUE && gReceivedRemoteLinkPlayers == 1)
+    if (InUnionRoom() && gReceivedRemoteLinkPlayers == 1)
     {
         CreateTrainerCardTrainerPicSprite(FacilityClassToPicIndex(sData->trainerCard.facilityClass),
                     TRUE,

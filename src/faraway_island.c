@@ -289,25 +289,25 @@ static u8 GetValidMewMoveDirection(u8 ignoredDir)
     for (i = 0; i < ARRAY_COUNT(sMewDirectionCandidates); i++)
         sMewDirectionCandidates[i] = DIR_NONE;
 
-    if (CanMewMoveToCoords(mew->currentCoords.x, mew->currentCoords.y - 1) == TRUE && ignoredDir != DIR_NORTH)
+    if (CanMewMoveToCoords(mew->currentCoords.x, mew->currentCoords.y - 1) && ignoredDir != DIR_NORTH)
     {
         sMewDirectionCandidates[count] = DIR_NORTH;
         count++;
     }
 
-    if (CanMewMoveToCoords(mew->currentCoords.x + 1, mew->currentCoords.y) == TRUE && ignoredDir != DIR_EAST)
+    if (CanMewMoveToCoords(mew->currentCoords.x + 1, mew->currentCoords.y) && ignoredDir != DIR_EAST)
     {
         sMewDirectionCandidates[count] = DIR_EAST;
         count++;
     }
 
-    if (CanMewMoveToCoords(mew->currentCoords.x, mew->currentCoords.y + 1) == TRUE && ignoredDir != DIR_SOUTH)
+    if (CanMewMoveToCoords(mew->currentCoords.x, mew->currentCoords.y + 1) && ignoredDir != DIR_SOUTH)
     {
         sMewDirectionCandidates[count] = DIR_SOUTH;
         count++;
     }
 
-    if (CanMewMoveToCoords(mew->currentCoords.x - 1, mew->currentCoords.y) == TRUE && ignoredDir != DIR_WEST)
+    if (CanMewMoveToCoords(mew->currentCoords.x - 1, mew->currentCoords.y) && ignoredDir != DIR_WEST)
     {
         sMewDirectionCandidates[count] = DIR_WEST;
         count++;

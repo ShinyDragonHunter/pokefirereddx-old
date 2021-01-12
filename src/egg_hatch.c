@@ -177,12 +177,6 @@ static const struct OamData sOamData_EggShard =
     .affineParam = 0,
 };
 
-static const union AnimCmd sSpriteAnim_EggShard0[] =
-{
-    ANIMCMD_FRAME(0, 5),
-    ANIMCMD_END
-};
-
 static const union AnimCmd sSpriteAnim_EggShard1[] =
 {
     ANIMCMD_FRAME(1, 5),
@@ -203,7 +197,7 @@ static const union AnimCmd sSpriteAnim_EggShard3[] =
 
 static const union AnimCmd *const sSpriteAnimTable_EggShard[] =
 {
-    sSpriteAnim_EggShard0,
+    sSpriteAnim_EggHatch0,
     sSpriteAnim_EggShard1,
     sSpriteAnim_EggShard2,
     sSpriteAnim_EggShard3,

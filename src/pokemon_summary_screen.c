@@ -57,7 +57,6 @@
 #define PSS_LABEL_WINDOW_PROMPT_CANCEL 4
 #define PSS_LABEL_WINDOW_PROMPT_INFO 5
 #define PSS_LABEL_WINDOW_PROMPT_SWITCH 6
-#define PSS_LABEL_WINDOW_UNUSED1 7
 
 // Info screen
 #define PSS_LABEL_WINDOW_POKEMON_INFO_RENTAL 8
@@ -72,12 +71,11 @@
 // Moves screen
 #define PSS_LABEL_WINDOW_MOVES_POWER_ACC 14 // Also contains the power and accuracy values
 #define PSS_LABEL_WINDOW_MOVES_APPEAL_JAM 15
-#define PSS_LABEL_WINDOW_UNUSED2 16
 
 // Above/below the pokemon's portrait (left)
-#define PSS_LABEL_WINDOW_PORTRAIT_DEX_NUMBER 17
-#define PSS_LABEL_WINDOW_PORTRAIT_NICKNAME 18 // The upper name
-#define PSS_LABEL_WINDOW_PORTRAIT_SPECIES 19 // The lower name
+#define PSS_LABEL_WINDOW_PORTRAIT_DEX_NUMBER 16
+#define PSS_LABEL_WINDOW_PORTRAIT_NICKNAME 17 // The upper name
+#define PSS_LABEL_WINDOW_PORTRAIT_SPECIES 18 // The lower name
 #define PSS_LABEL_WINDOW_END 20
 
 // Dynamic fields for the Pokemon Info page
@@ -434,15 +432,6 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .paletteNum = 7,
         .baseBlock = 121,
     },
-    [PSS_LABEL_WINDOW_UNUSED1] = {
-        .bg = 0,
-        .tilemapLeft = 11,
-        .tilemapTop = 4,
-        .width = 0,
-        .height = 2,
-        .paletteNum = 6,
-        .baseBlock = 137,
-    },
     [PSS_LABEL_WINDOW_POKEMON_INFO_RENTAL] = {
         .bg = 0,
         .tilemapLeft = 11,
@@ -514,15 +503,6 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .height = 4,
         .paletteNum = 6,
         .baseBlock = 367,
-    },
-    [PSS_LABEL_WINDOW_UNUSED2] = {
-        .bg = 0,
-        .tilemapLeft = 22,
-        .tilemapTop = 4,
-        .width = 0,
-        .height = 2,
-        .paletteNum = 6,
-        .baseBlock = 387,
     },
     [PSS_LABEL_WINDOW_PORTRAIT_DEX_NUMBER] = {
         .bg = 0,
@@ -1373,11 +1353,12 @@ static bool8 ExtractMonDataToSummaryStruct(struct Pokemon *mon)
         sum->ppBonuses = GetMonData(mon, MON_DATA_PP_BONUSES);
         break;
     case 2:
-        if (sMonSummaryScreen->monList.mons == gPlayerParty || sMonSummaryScreen->mode == PSS_MODE_BOX || sMonSummaryScreen->unk40EF == TRUE)
+        sum->nature = GetNature(mon);
+        sum->currentHP = GetMonData(mon, MON_DATA_HP);
+        sum->maxHP = GetMonData(mon, MON_DATA_MAX_HP);
+
+        if (sMonSummaryScreen->monList.mons == gPlayerParty || sMonSummaryScreen->mode == PSS_MODE_BOX || sMonSummaryScreen->unk40EF)
         {
-            sum->nature = GetNature(mon);
-            sum->currentHP = GetMonData(mon, MON_DATA_HP);
-            sum->maxHP = GetMonData(mon, MON_DATA_MAX_HP);
             sum->atk = GetMonData(mon, MON_DATA_ATK);
             sum->def = GetMonData(mon, MON_DATA_DEF);
             sum->spatk = GetMonData(mon, MON_DATA_SPATK);
@@ -1386,9 +1367,6 @@ static bool8 ExtractMonDataToSummaryStruct(struct Pokemon *mon)
         }
         else
         {
-            sum->nature = GetNature(mon);
-            sum->currentHP = GetMonData(mon, MON_DATA_HP);
-            sum->maxHP = GetMonData(mon, MON_DATA_MAX_HP);
             sum->atk = GetMonData(mon, MON_DATA_ATK2);
             sum->def = GetMonData(mon, MON_DATA_DEF2);
             sum->spatk = GetMonData(mon, MON_DATA_SPATK2);
@@ -1525,7 +1503,7 @@ static void ChangeSummaryPokemon(u8 taskId, s8 delta)
 
     if (!sMonSummaryScreen->lockMonFlag)
     {
-        if (sMonSummaryScreen->isBoxMon == TRUE)
+        if (sMonSummaryScreen->isBoxMon)
         {
             if (sMonSummaryScreen->currPageIndex != PSS_PAGE_INFO)
             {
@@ -1543,7 +1521,7 @@ static void ChangeSummaryPokemon(u8 taskId, s8 delta)
             }
             monId = sub_80D214C(sMonSummaryScreen->monList.boxMons, sMonSummaryScreen->curMonIndex, sMonSummaryScreen->maxMonIndex, delta);
         }
-        else if (IsMultiBattle() == TRUE)
+        else if (IsMultiBattle())
         {
             monId = AdvanceMultiBattleMonIndex(delta);
         }
@@ -1590,7 +1568,7 @@ static void Task_ChangeSummaryMon(u8 taskId)
         sMonSummaryScreen->switchCounter = 0;
         break;
     case 4:
-        if (ExtractMonDataToSummaryStruct(&sMonSummaryScreen->currentMon) == FALSE)
+        if (!ExtractMonDataToSummaryStruct(&sMonSummaryScreen->currentMon))
             return;
         break;
     case 5:
@@ -1687,14 +1665,14 @@ static s8 AdvanceMultiBattleMonIndex(s8 delta)
         if (arrId < 0 || arrId >= PARTY_SIZE)
             return -1;
         index = order[arrId];
-        if (IsValidToViewInMulti(&mons[index]) == TRUE)
+        if (IsValidToViewInMulti(&mons[index]))
             return index;
     }
 }
 
 static bool8 IsValidToViewInMulti(struct Pokemon* mon)
 {
-    if (GetMonData(mon, MON_DATA_SPECIES) == SPECIES_NONE)
+    if (!GetMonData(mon, MON_DATA_SPECIES))
         return FALSE;
     else if (sMonSummaryScreen->curMonIndex != 0 || !GetMonData(mon, MON_DATA_IS_EGG))
         return TRUE;
@@ -1870,13 +1848,13 @@ static void Task_HandleInput_MoveSelect(u8 taskId)
         }
         else if (JOY_NEW(A_BUTTON))
         {
-            if (sMonSummaryScreen->lockMovesFlag == TRUE
+            if (sMonSummaryScreen->lockMovesFlag
              || (sMonSummaryScreen->newMove == MOVE_NONE && sMonSummaryScreen->firstMoveIndex == MAX_MON_MOVES))
             {
                 PlaySE(SE_SELECT);
                 CloseMoveSelectMode(taskId);
             }
-            else if (HasMoreThanOneMove() == TRUE)
+            else if (HasMoreThanOneMove())
             {
                 PlaySE(SE_SELECT);
                 SwitchToMovePositionSwitchMode(taskId);
@@ -2030,7 +2008,7 @@ static void ExitMovePositionSwitchMode(u8 taskId, bool8 swapMoves)
     SetMainMoveSelectorColor(0);
     DestroyMoveSelectorSprites(SPRITE_ARR_ID_MOVE_SELECTOR2);
 
-    if (swapMoves == TRUE)
+    if (swapMoves)
     {
         if (!sMonSummaryScreen->isBoxMon)
         {
@@ -2161,7 +2139,7 @@ static void Task_HandleReplaceMoveInput(u8 taskId)
             }
             else if (JOY_NEW(A_BUTTON))
             {
-                if (CanReplaceMove() == TRUE)
+                if (CanReplaceMove())
                 {
                     StopPokemonAnimations();
                     PlaySE(SE_SELECT);
@@ -2827,7 +2805,7 @@ static void PutPageWindowTilemaps(u8 page)
     case PSS_PAGE_INFO:
         PutWindowTilemap(PSS_LABEL_WINDOW_POKEMON_INFO_TITLE);
         PutWindowTilemap(PSS_LABEL_WINDOW_PROMPT_CANCEL);
-        if (InBattleFactory() == TRUE || InSlateportBattleTent() == TRUE)
+        if (InBattleFactory() || InSlateportBattleTent())
             PutWindowTilemap(PSS_LABEL_WINDOW_POKEMON_INFO_RENTAL);
         PutWindowTilemap(PSS_LABEL_WINDOW_POKEMON_INFO_TYPE);
         break;
@@ -2877,7 +2855,7 @@ static void ClearPageWindowTilemaps(u8 page)
     {
     case PSS_PAGE_INFO:
         ClearWindowTilemap(PSS_LABEL_WINDOW_PROMPT_CANCEL);
-        if (InBattleFactory() == TRUE || InSlateportBattleTent() == TRUE)
+        if (InBattleFactory() || InSlateportBattleTent())
             ClearWindowTilemap(PSS_LABEL_WINDOW_POKEMON_INFO_RENTAL);
         ClearWindowTilemap(PSS_LABEL_WINDOW_POKEMON_INFO_TYPE);
         break;
@@ -3052,7 +3030,7 @@ static void BufferMonTrainerMemo(void)
     DynamicPlaceholderTextUtil_SetPlaceholderPtr(1, sMemoMiscTextColor);
     BufferNatureString();
 
-    if (InBattleFactory() == TRUE || InSlateportBattleTent() == TRUE || IsInGamePartnerMon() == TRUE)
+    if (InBattleFactory() || InSlateportBattleTent() || IsInGamePartnerMon())
     {
         DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, gText_XNature);
     }
@@ -3095,7 +3073,7 @@ static void BufferMonTrainerMemo(void)
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
         }
 
-        if (DoesMonOTMatchOwner() == TRUE)
+        if (DoesMonOTMatchOwner())
         {
             if (sum->metLevel == 0)
                 text = (sum->metLocation >= maxMapsec) ? gText_XNatureHatchedSomewhereAt : gText_XNatureHatchedAtYZ;
@@ -3340,7 +3318,7 @@ static void PrintEggState(void)
     const u8 *text;
     struct PokeSummary *sum = &sMonSummaryScreen->summary;
 
-    if (sMonSummaryScreen->summary.sanity == TRUE)
+    if (sMonSummaryScreen->summary.sanity)
         text = gText_EggWillTakeALongTime;
     else if (sum->friendship <= 5)
         text = gText_EggAboutToHatch;
@@ -3363,7 +3341,7 @@ static void PrintEggMemo(void)
     {
         if (sum->metLocation == METLOC_FATEFUL_ENCOUNTER)
             text = gText_PeculiarEggNicePlace;
-        else if (DidMonComeFromGBAGames() == FALSE || DoesMonOTMatchOwner() == FALSE)
+        else if (!DidMonComeFromGBAGames() || DoesMonOTMatchOwner())
             text = gText_PeculiarEggTrade;
         else if (sum->metLocation == METLOC_SPECIAL_EGG)
         {
@@ -3371,7 +3349,7 @@ static void PrintEggMemo(void)
             {
                 text = gText_EggFromElm;
             }
-            else if (DidMonComeFromRSE() == TRUE)
+            else if (DidMonComeFromRSE())
             {
                 text = gText_EggFromHotSprings;
             }
@@ -3444,7 +3422,7 @@ static void PrintHeldItemName(void)
     int x;
 
     if (sMonSummaryScreen->summary.item == ITEM_ENIGMA_BERRY
-        && IsMultiBattle() == TRUE
+        && IsMultiBattle()
         && (sMonSummaryScreen->curMonIndex == 1 || sMonSummaryScreen->curMonIndex == 4 || sMonSummaryScreen->curMonIndex == 5))
     {
         text = ItemId_GetName(ITEM_ENIGMA_BERRY);
@@ -4033,7 +4011,7 @@ static void PlayMonCry(void)
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
     if (!summary->isEgg)
     {
-        if (ShouldPlayNormalMonCry(&sMonSummaryScreen->currentMon) == TRUE)
+        if (ShouldPlayNormalMonCry(&sMonSummaryScreen->currentMon))
             PlayCry3(summary->species2, 0, 0);
         else
             PlayCry3(summary->species2, 0, 11);
@@ -4083,15 +4061,6 @@ void SummaryScreen_DestroyUnknownTask(void)
         DestroyTask(sUnknownTaskId);
         sUnknownTaskId = 0xFF;
     }
-}
-
-// unused
-static bool32 IsMonAnimationFinished(void)
-{
-    if (gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].callback == SpriteCallbackDummy)
-        return FALSE;
-    else
-        return TRUE;
 }
 
 static void StopPokemonAnimations(void)  // A subtle effect, this function stops pokemon animations when leaving the PSS

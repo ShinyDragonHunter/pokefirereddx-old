@@ -224,7 +224,7 @@ static bool32 AnimateUnionRoomPlayerDespawn(s8 * state, u32 playerIdx, struct Un
     switch (*state)
     {
     case 0:
-        if (SetUnionRoomPlayerEnterExitMovement(playerIdx, sMovement_UnionPlayerExit) == TRUE)
+        if (SetUnionRoomPlayerEnterExitMovement(playerIdx, sMovement_UnionPlayerExit))
         {
             HideUnionRoomPlayer(playerIdx);
             (*state)++;
@@ -255,12 +255,12 @@ static bool32 AnimateUnionRoomPlayerSpawn(s8 * state, u32 playerIdx, struct Unio
             break;
         }
         PlayerGetDestCoords(&x, &y);
-        if (IsUnionRoomPlayerFacingTileAt(playerIdx, 0, x, y) == TRUE)
+        if (IsUnionRoomPlayerFacingTileAt(playerIdx, 0, x, y))
         {
             break;
         }
         player_get_pos_including_state_based_drift(&x, &y);
-        if (IsUnionRoomPlayerFacingTileAt(playerIdx, 0, x, y) == TRUE)
+        if (IsUnionRoomPlayerFacingTileAt(playerIdx, 0, x, y))
         {
             break;
         }
@@ -270,7 +270,7 @@ static bool32 AnimateUnionRoomPlayerSpawn(s8 * state, u32 playerIdx, struct Unio
         (*state)++;
         // fallthrough
     case 3: // incorrect?
-        if (SetUnionRoomPlayerEnterExitMovement(playerIdx, sMovement_UnionPlayerEnter) == TRUE)
+        if (SetUnionRoomPlayerEnterExitMovement(playerIdx, sMovement_UnionPlayerEnter))
         {
             (*state)++;
         }
@@ -332,7 +332,7 @@ static void AnimateUnionRoomPlayer(u32 playerIdx, struct UnionRoomObject * ptr)
             RemoveUnionRoomPlayerObjectEvent(playerIdx);
             HideUnionRoomPlayer(playerIdx);
         }
-        else if (AnimateUnionRoomPlayerSpawn(&ptr->animState, playerIdx, ptr) == TRUE)
+        else if (AnimateUnionRoomPlayerSpawn(&ptr->animState, playerIdx, ptr))
         {
             ptr->state = 1;
         }
@@ -367,7 +367,7 @@ static void Task_AnimateUnionRoomPlayers(u8 taskId)
 
 static u8 CreateTask_AnimateUnionRoomPlayers(void)
 {
-    if (FuncIsActiveTask(Task_AnimateUnionRoomPlayers) == TRUE)
+    if (FuncIsActiveTask(Task_AnimateUnionRoomPlayers))
         return NUM_TASKS;
     else
         return CreateTask(Task_AnimateUnionRoomPlayers, 5);
@@ -452,7 +452,7 @@ static void SpawnGroupMember(u32 playerIdx, u32 direction, u8 graphicsId, struct
 {
     s32 x, y;
     s32 id = UR_PLAYER_SPRITE_ID(playerIdx, direction);
-    if (IsUnionRoomPlayerInvisible(playerIdx, direction) == TRUE)
+    if (IsUnionRoomPlayerInvisible(playerIdx, direction))
     {
         SetObjectEventSpriteInvisibility(id - UR_SPRITE_START_ID, FALSE);
         SetObjectEventSpriteAnim(id - UR_SPRITE_START_ID, UNION_ROOM_SPAWN_IN);
@@ -478,9 +478,9 @@ static void AssembleGroup(u32 playerIdx, struct GFtgtGname * gname)
 
     PlayerGetDestCoords(&x, &y);
     player_get_pos_including_state_based_drift(&x2, &y2);
-    if (IsObjectEventSpriteInvisible(UR_PLAYER_SPRITE_ID(playerIdx, 0) - UR_SPRITE_START_ID) == TRUE)
+    if (IsObjectEventSpriteInvisible(UR_PLAYER_SPRITE_ID(playerIdx, 0) - UR_SPRITE_START_ID))
     {
-        if (IsUnionRoomPlayerFacingTileAt(playerIdx, 0, x, y) == TRUE || IsUnionRoomPlayerFacingTileAt(playerIdx, 0, x2, y2) == TRUE)
+        if (IsUnionRoomPlayerFacingTileAt(playerIdx, 0, x, y) || IsUnionRoomPlayerFacingTileAt(playerIdx, 0, x2, y2))
         {
             return;
         }

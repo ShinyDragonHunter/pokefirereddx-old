@@ -722,7 +722,7 @@ static void SetPlayerBerryDataInBattleStruct(void)
     struct BattleStruct *battleStruct = gBattleStruct;
     struct BattleEnigmaBerry *battleBerry = &battleStruct->battleEnigmaBerry;
 
-    if (IsEnigmaBerryValid() == TRUE)
+    if (IsEnigmaBerryValid())
     {
         for (i = 0; i < BERRY_NAME_LENGTH; i++)
             battleBerry->name[i] = gSaveBlock1Ptr->enigmaBerry.berry.name[i];
@@ -757,7 +757,7 @@ static void SetAllPlayersBerryData(void)
 
     if (!(gBattleTypeFlags & BATTLE_TYPE_LINK))
     {
-        if (IsEnigmaBerryValid() == TRUE)
+        if (IsEnigmaBerryValid())
         {
             for (i = 0; i < BERRY_NAME_LENGTH; i++)
             {
@@ -1910,7 +1910,7 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
                                                                         | BATTLE_TYPE_EREADER_TRAINER
                                                                         | BATTLE_TYPE_TRAINER_HILL)))
     {
-        if (firstTrainer == TRUE)
+        if (firstTrainer)
             ZeroEnemyPartyMons();
 
         if (gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS)
@@ -1928,7 +1928,7 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
         for (i = 0; i < monsCount; i++)
         {
 
-            if (gTrainers[trainerNum].doubleBattle == TRUE)
+            if (gTrainers[trainerNum].doubleBattle)
                 personalityValue = 0x80;
             else if (gTrainers[trainerNum].encounterMusic_gender & 0x80)
                 personalityValue = 0x78;
@@ -2316,7 +2316,7 @@ static void sub_8038F34(void)
             gBattleCommunication[MULTIUSE_STATE]++;
         break;
     case 6:
-        if (IsLinkTaskFinished() == TRUE)
+        if (IsLinkTaskFinished())
         {
             SetLinkStandbyCallback();
             BattlePutTextOnWindow(gText_LinkStandby3, 0);
@@ -2326,7 +2326,7 @@ static void sub_8038F34(void)
     case 7:
         if (!IsTextPrinterActive(0))
         {
-            if (IsLinkTaskFinished() == TRUE)
+            if (IsLinkTaskFinished())
                 gBattleCommunication[MULTIUSE_STATE]++;
         }
         break;
@@ -2501,7 +2501,7 @@ static void sub_803939C(void)
         }
         break;
     case 6:
-        if (IsLinkTaskFinished() == TRUE)
+        if (IsLinkTaskFinished())
         {
             HandleBattleWindow(0x18, 8, 0x1D, 0xD, WINDOW_CLEAR);
             if (gMain.field_439_x4)
@@ -2551,7 +2551,7 @@ static void sub_803939C(void)
         }
         break;
     case 11:
-        if (IsLinkTaskFinished() == TRUE && !IsTextPrinterActive(0) && --gBattleCommunication[1] == 0)
+        if (IsLinkTaskFinished() && !IsTextPrinterActive(0) && --gBattleCommunication[1] == 0)
         {
             if (gMain.field_439_x4)
             {
@@ -2567,7 +2567,7 @@ static void sub_803939C(void)
         {
             if (gMain.field_439_x4)
             {
-                if (IsLinkTaskFinished() == TRUE)
+                if (IsLinkTaskFinished())
                 {
                     BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 0x10, RGB_BLACK);
                     gBattleCommunication[1] = 0x20;
@@ -3004,7 +3004,7 @@ static void BattleStartClearSetData(void)
 
     if (!(gBattleTypeFlags & BATTLE_TYPE_RECORDED))
     {
-        if (!(gBattleTypeFlags & BATTLE_TYPE_LINK) && gSaveBlock2Ptr->optionsBattleSceneOff == TRUE)
+        if (!(gBattleTypeFlags & BATTLE_TYPE_LINK) && gSaveBlock2Ptr->optionsBattleSceneOff)
             gHitMarker |= HITMARKER_NO_ANIMATIONS;
     }
     else if (!(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_x2000000)) && GetBattleSceneInRecordedBattle())

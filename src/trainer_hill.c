@@ -417,7 +417,7 @@ static void GiveChallengePrize(void)
     {
         gSpecialVar_Result = 2;
     }
-    else if (AddBagItem(itemId, 1) == TRUE)
+    else if (AddBagItem(itemId, 1))
     {
         CopyItemName(itemId, gStringVar2);
         gSaveBlock1Ptr->trainerHill.receivedPrize = TRUE;
@@ -931,7 +931,7 @@ static void SetAllTrainerFlags(void)
 // Palette never loaded, OnTrainerHillEReaderChallengeFloor always FALSE
 void TryLoadTrainerHillEReaderPalette(void)
 {
-    if (OnTrainerHillEReaderChallengeFloor() == TRUE)
+    if (OnTrainerHillEReaderChallengeFloor())
         LoadPalette(sEReader_Pal, 0x70, 0x20);
 }
 

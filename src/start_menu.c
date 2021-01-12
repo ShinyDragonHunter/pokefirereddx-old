@@ -224,26 +224,19 @@ static void ShowSaveInfoWindow(void);
 static void RemoveSaveInfoWindow(void);
 static void HideStartMenuWindow(void);
 
-void SetDexPokemonPokenavFlags(void) // unused
-{
-    FlagSet(FLAG_SYS_POKEDEX_GET);
-    FlagSet(FLAG_SYS_POKEMON_GET);
-    FlagSet(FLAG_SYS_POKENAV_GET);
-}
-
 static void BuildStartMenuActions(void)
 {
     sNumStartMenuActions = 0;
 
-    if (IsUpdateLinkStateCBActive() == TRUE)
+    if (IsUpdateLinkStateCBActive())
     {
         BuildLinkModeStartMenu();
     }
-    else if (InUnionRoom() == TRUE)
+    else if (InUnionRoom())
     {
         BuildUnionRoomStartMenu();
     }
-    else if (GetSafariZoneFlag() == TRUE)
+    else if (GetSafariZoneFlag())
     {
         BuildSafariZoneStartMenu();
     }
@@ -272,18 +265,18 @@ static void AddStartMenuAction(u8 action)
 
 static void BuildNormalStartMenu(void)
 {
-    if (FlagGet(FLAG_SYS_POKEDEX_GET) == TRUE)
+    if (FlagGet(FLAG_SYS_POKEDEX_GET))
     {
         AddStartMenuAction(MENU_ACTION_POKEDEX);
     }
-    if (FlagGet(FLAG_SYS_POKEMON_GET) == TRUE)
+    if (FlagGet(FLAG_SYS_POKEMON_GET))
     {
         AddStartMenuAction(MENU_ACTION_POKEMON);
     }
 
     AddStartMenuAction(MENU_ACTION_BAG);
 
-    if (FlagGet(FLAG_SYS_POKENAV_GET) == TRUE)
+    if (FlagGet(FLAG_SYS_POKENAV_GET))
     {
         AddStartMenuAction(MENU_ACTION_POKENAV);
     }
@@ -310,7 +303,7 @@ static void BuildLinkModeStartMenu(void)
     AddStartMenuAction(MENU_ACTION_POKEMON);
     AddStartMenuAction(MENU_ACTION_BAG);
 
-    if (FlagGet(FLAG_SYS_POKENAV_GET) == TRUE)
+    if (FlagGet(FLAG_SYS_POKENAV_GET))
     {
         AddStartMenuAction(MENU_ACTION_POKENAV);
     }
@@ -325,7 +318,7 @@ static void BuildUnionRoomStartMenu(void)
     AddStartMenuAction(MENU_ACTION_POKEMON);
     AddStartMenuAction(MENU_ACTION_BAG);
 
-    if (FlagGet(FLAG_SYS_POKENAV_GET) == TRUE)
+    if (FlagGet(FLAG_SYS_POKENAV_GET))
     {
         AddStartMenuAction(MENU_ACTION_POKENAV);
     }
@@ -441,11 +434,9 @@ static bool32 InitStartMenuStep(void)
 
     switch (state)
     {
-    case 0:
-        sInitStartMenuData[0]++;
-        break;
     case 1:
         BuildStartMenuActions();
+    case 0:
         sInitStartMenuData[0]++;
         break;
     case 2:
@@ -484,7 +475,7 @@ static void InitStartMenu(void)
 
 static void StartMenuTask(u8 taskId)
 {
-    if (InitStartMenuStep() == TRUE)
+    if (InitStartMenuStep())
         SwitchTaskToFollowupFunc(taskId);
 }
 
@@ -523,14 +514,14 @@ void Task_ShowStartMenu(u8 taskId)
     switch(task->data[0])
     {
     case 0:
-        if (InUnionRoom() == TRUE)
+        if (InUnionRoom())
             SetUsingUnionRoomStartMenu();
 
         gMenuCallback = HandleStartMenuInput;
         task->data[0]++;
         break;
     case 1:
-        if (gMenuCallback() == TRUE)
+        if (gMenuCallback())
             DestroyTask(taskId);
         break;
     }
@@ -663,9 +654,7 @@ static bool8 StartMenuPlayerNameCallback(void)
         RemoveExtraStartMenuWindows();
         CleanupOverworldWindowsAndTilemaps();
 
-        if (IsUpdateLinkStateCBActive() || InUnionRoom())
-            ShowPlayerTrainerCard(CB2_ReturnToFieldWithOpenMenu); // Display trainer card
-        else if (FlagGet(FLAG_SYS_FRONTIER_PASS))
+        if (FlagGet(FLAG_SYS_FRONTIER_PASS))
             ShowFrontierPass(CB2_ReturnToFieldWithOpenMenu); // Display frontier pass
         else
             ShowPlayerTrainerCard(CB2_ReturnToFieldWithOpenMenu); // Display trainer card
@@ -776,12 +765,11 @@ static bool8 SaveCallback(void)
 {
     switch (RunSaveCallback())
     {
-    case SAVE_IN_PROGRESS:
-        return FALSE;
     case SAVE_CANCELED: // Back to start menu
         ClearDialogWindowAndFrameToTransparent(0, FALSE);
         InitStartMenu();
         gMenuCallback = HandleStartMenuInput;
+    case SAVE_IN_PROGRESS:
         return FALSE;
     case SAVE_SUCCESS:
     case SAVE_ERROR:    // Close start menu
@@ -818,7 +806,6 @@ static bool8 BattlePyramidRetireCallback(void)
     case SAVE_SUCCESS: // No (Stay in battle pyramid)
         RemoveExtraStartMenuWindows();
         gMenuCallback = BattlePyramidRetireReturnCallback;
-        return FALSE;
     case SAVE_IN_PROGRESS:
         return FALSE;
     case SAVE_CANCELED: // Yes (Retire from battle pyramid)
@@ -842,7 +829,7 @@ static void InitSave(void)
 static u8 RunSaveCallback(void)
 {
     // True if text is still printing
-    if (RunTextPrintersAndIsPrinter0Active() == TRUE)
+    if (RunTextPrintersAndIsPrinter0Active())
     {
         return SAVE_IN_PROGRESS;
     }
@@ -992,7 +979,7 @@ static u8 SaveConfirmInputCallback(void)
 // A different save file exists
 static u8 SaveFileExistsCallback(void)
 {
-    if (gDifferentSaveFile == TRUE)
+    if (gDifferentSaveFile)
     {
         ShowSaveMessage(gText_DifferentSaveFile, SaveConfirmOverwriteDefaultNoCallback);
     }
@@ -1048,7 +1035,7 @@ static u8 SaveDoSaveCallback(void)
     IncrementGameStat(GAME_STAT_SAVED_GAME);
     PausePyramidChallenge();
 
-    if (gDifferentSaveFile == TRUE)
+    if (gDifferentSaveFile)
     {
         saveStatus = TrySavingData(SAVE_OVERWRITE_DIFFERENT_FILE);
         gDifferentSaveFile = FALSE;
@@ -1304,11 +1291,11 @@ static void ShowSaveInfoWindow(void)
     DrawStdWindowFrame(sSaveInfoWindowId, FALSE);
 
     gender = gSaveBlock2Ptr->playerGender;
-    color = TEXT_COLOR_RED;  // Red when female, blue when male.
+    color = TEXT_COLOR_BLUE;  // Red when female, blue when male.
 
-    if (gender == MALE)
+    if (gender)
     {
-        color = TEXT_COLOR_BLUE;
+        color = TEXT_COLOR_RED;
     }
 
     // Print region name
@@ -1330,7 +1317,7 @@ static void ShowSaveInfoWindow(void)
     xOffset = GetStringRightAlignXOffset(1, gStringVar4, 0x70);
     AddTextPrinterParameterized(sSaveInfoWindowId, 1, gStringVar4, xOffset, yOffset, 0xFF, NULL);
 
-    if (FlagGet(FLAG_SYS_POKEDEX_GET) == TRUE)
+    if (FlagGet(FLAG_SYS_POKEDEX_GET))
     {
         // Print pokedex count
         yOffset += 16;

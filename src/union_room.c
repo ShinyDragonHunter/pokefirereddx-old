@@ -475,14 +475,7 @@ static void Task_TryBecomeLinkLeader(u8 taskId)
         }
         break;
     case LL_STATE_MEMBER_LEFT:
-        // BUG: sPlayerActivityGroupSize was meant below, not gPlayerCurrActivity
-        //      This will be false for all but ACTIVITY_BATTLE_DOUBLE and ACTIVITY_DECLINE
-        //      All this changes is which of two texts gets printed
-        #ifdef BUGFIX
         id = (GROUP_MAX(sPlayerActivityGroupSize) == 2) ? 0 : 1;
-        #else
-        id = (GROUP_MAX(gPlayerCurrActivity) == 2) ? 1 : 0;
-        #endif
         if (PrintOnTextbox(&data->textState, sPlayerUnavailableTexts[id]))
         {
             data->playerCount = sub_8013398(data->field_0);
@@ -1324,11 +1317,7 @@ static bool32 IsPartnerActivityAcceptable(u32 activity, u32 linkGroup)
     if (linkGroup == 0xFF)
         return TRUE;
 
-    #ifdef UBFIX
     if (linkGroup < ARRAY_COUNT(sAcceptedActivityIds))
-    #else
-    if (linkGroup <= ARRAY_COUNT(sAcceptedActivityIds))
-    #endif
     {
         const u8 *bytes = sAcceptedActivityIds[linkGroup];
 
@@ -2627,7 +2616,7 @@ static void Task_RunUnionRoom(u8 taskId)
             break;
         case RFU_STATUS_FATAL_ERROR:
         case RFU_STATUS_CONNECTION_ERROR:
-            if (IsUnionRoomListenTaskActive() == TRUE)
+            if (IsUnionRoomListenTaskActive())
                 ScheduleFieldMessageAndExit(sText_TrainerAppearsBusy);
             else
                 ScheduleFieldMessageWithFollowupState(UR_STATE_CANCEL_ACTIVITY_LINK_ERROR, sText_TrainerAppearsBusy);
@@ -2828,7 +2817,7 @@ static void Task_RunUnionRoom(u8 taskId)
         case RFU_STATUS_CONNECTION_ERROR:
             playerGender = GetUnionRoomPlayerGender(taskData[1], uroom->field_0);
             UpdateGameData_SetActivity(ACTIVITY_PLYRTALK | IN_UNION_ROOM, 0, TRUE);
-            if (IsUnionRoomListenTaskActive() == TRUE)
+            if (IsUnionRoomListenTaskActive())
                 ScheduleFieldMessageAndExit(sChatDeclinedTexts[playerGender]);
             else
                 ScheduleFieldMessageWithFollowupState(UR_STATE_CANCEL_ACTIVITY_LINK_ERROR, sChatDeclinedTexts[playerGender]);
@@ -2844,7 +2833,7 @@ static void Task_RunUnionRoom(u8 taskId)
         {
             playerGender = GetUnionRoomPlayerGender(taskData[1], uroom->field_0);
             UpdateGameData_SetActivity(ACTIVITY_PLYRTALK | IN_UNION_ROOM, 0, TRUE);
-            if (IsUnionRoomListenTaskActive() == TRUE)
+            if (IsUnionRoomListenTaskActive())
                 ScheduleFieldMessageAndExit(sChatDeclinedTexts[playerGender]);
             else
                 ScheduleFieldMessageWithFollowupState(UR_STATE_CANCEL_ACTIVITY_LINK_ERROR, sChatDeclinedTexts[playerGender]);
@@ -3203,7 +3192,7 @@ static void Task_RunUnionRoom(u8 taskId)
 
 void SetUsingUnionRoomStartMenu(void)
 {
-    if (InUnionRoom() == TRUE)
+    if (InUnionRoom())
         gSpecialVar_Result = UR_INTERACT_START_MENU;
 }
 
@@ -3354,7 +3343,7 @@ static u8 HandlePlayerListUpdate(void)
 
     for (i = 0; i < RFU_CHILD_MAX; i++)
     {
-        if (AreGnameUnameDifferent(&data->field_C->arr[i].gname_uname, &sWirelessGnameUnamePair_Dummy) == TRUE)
+        if (AreGnameUnameDifferent(&data->field_C->arr[i].gname_uname, &sWirelessGnameUnamePair_Dummy))
         {
             data->field_8->arr[0].gname_uname = data->field_C->arr[i].gname_uname;
             data->field_8->arr[0].timeoutCounter = 0;
@@ -4491,7 +4480,7 @@ static void ViewURoomPartnerTrainerCard(u8 *unused, struct WirelessLink_URoom *d
     DynamicPlaceholderTextUtil_ExpandPlaceholders(data->trainerCardMsgStrBuffer, sText_TrainerCardInfoPage2);
     StringAppend(gStringVar4, data->trainerCardMsgStrBuffer);
 
-    if (isParent == TRUE)
+    if (isParent)
     {
         DynamicPlaceholderTextUtil_ExpandPlaceholders(data->trainerCardMsgStrBuffer, sText_FinishedCheckingPlayersTrainerCard);
         StringAppend(gStringVar4, data->trainerCardMsgStrBuffer);

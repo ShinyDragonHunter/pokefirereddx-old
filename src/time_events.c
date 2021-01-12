@@ -22,12 +22,6 @@ static void SetMirageRnd(u32 rnd)
     VarSet(VAR_MIRAGE_RND_L, rnd);
 }
 
-// unused
-void InitMirageRnd(void)
-{
-    SetMirageRnd((Random() << 16) | Random());
-}
-
 void UpdateMirageRnd(u16 days)
 {
     s32 rnd = GetMirageRnd();

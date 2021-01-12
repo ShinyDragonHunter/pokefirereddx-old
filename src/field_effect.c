@@ -245,7 +245,6 @@ extern u8 *gFieldEffectScriptPointers[];
 extern const struct SpriteTemplate *const gFieldEffectObjectTemplatePointers[];
 
 static const u32 sNewGameBirch_Gfx[] = INCBIN_U32("graphics/birch_speech/birch.4bpp");
-static const u32 sUnusedBirchBeauty[] = INCBIN_U32("graphics/unused/intro_birch_beauty.4bpp");
 static const u16 sNewGameBirch_Pal[16] = INCBIN_U16("graphics/birch_speech/birch.gbapal");
 static const u32 sPokeballGlow_Gfx[] = INCBIN_U32("graphics/misc/pokeball_glow.4bpp");
 static const u16 sPokeballGlow_Pal[16] = INCBIN_U16("graphics/field_effects/palettes/pokeball_glow.gbapal");
@@ -1667,7 +1666,7 @@ static void FadeOutAtEndOfEscalator(void)
 
 static void WarpAtEndOfEscalator(void)
 {
-    if (!gPaletteFade.active && BGMusicStopped() == TRUE)
+    if (!gPaletteFade.active && BGMusicStopped())
     {
         StopEscalator();
         WarpIntoMap();
@@ -2039,7 +2038,7 @@ static bool8 LavaridgeGymB1FWarpEffect_FadeOut(struct Task *task, struct ObjectE
 
 static bool8 LavaridgeGymB1FWarpEffect_Warp(struct Task *task, struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
-    if (!gPaletteFade.active && BGMusicStopped() == TRUE)
+    if (!gPaletteFade.active && BGMusicStopped())
     {
         WarpIntoMap();
         gFieldCallback = FieldCB_LavaridgeGymB1FWarpExit;
@@ -2195,7 +2194,7 @@ static bool8 LavaridgeGym1FWarpEffect_FadeOut(struct Task *task, struct ObjectEv
 
 static bool8 LavaridgeGym1FWarpEffect_Warp(struct Task *task, struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
-    if (!gPaletteFade.active && BGMusicStopped() == TRUE)
+    if (!gPaletteFade.active && BGMusicStopped())
     {
         WarpIntoMap();
         gFieldCallback = FieldCB_FallWarpExit;
@@ -2259,7 +2258,7 @@ static void EscapeRopeWarpOutEffect_Spin(struct Task *task)
     objectEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
     if (!ObjectEventIsMovementOverridden(objectEvent) || ObjectEventClearHeldMovementIfFinished(objectEvent))
     {
-        if (task->tTimer == 0 && !gPaletteFade.active && BGMusicStopped() == TRUE)
+        if (task->tTimer == 0 && !gPaletteFade.active && BGMusicStopped())
         {
             SetObjectEventDirection(objectEvent, task->tStartDir);
             SetWarpDestinationToEscapeWarp();
@@ -2426,7 +2425,7 @@ static void TeleportWarpOutFieldEffect_End(struct Task *task)
             task->data[5] = TRUE;
         }
 
-        if (BGMusicStopped() == TRUE)
+        if (BGMusicStopped())
         {
             SetWarpDestinationToLastHealLocation();
             WarpIntoMap();
@@ -2558,7 +2557,7 @@ static void TeleportWarpInFieldEffect_SpinGround(struct Task *task)
 bool8 FldEff_FieldMoveShowMon(void)
 {
     u8 taskId;
-    if (IsMapTypeOutdoors(GetCurrentMapType()) == TRUE)
+    if (IsMapTypeOutdoors(GetCurrentMapType()))
         taskId = CreateTask(Task_FieldMoveShowMonOutdoors, 0xff);
     else
         taskId = CreateTask(Task_FieldMoveShowMonIndoors, 0xff);
@@ -3868,12 +3867,7 @@ static void Task_MoveDeoxysRock(u8 taskId)
             data[4] = sprite->pos1.x << 4;
             data[5] = sprite->pos1.y << 4;
 
-            // UB: Possible divide by zero
-            #ifdef UBFIX
             #define DIVISOR (data[8] ? data[8] : 1);
-            #else
-            #define DIVISOR (data[8])
-            #endif
 
             data[6] = (data[2] * 16 - data[4]) / DIVISOR;
             data[7] = (data[3] * 16 - data[5]) / DIVISOR;

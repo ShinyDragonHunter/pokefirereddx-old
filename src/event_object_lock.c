@@ -49,7 +49,7 @@ static void sub_8098400(u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
 
-    if (!task->data[0] && IsPlayerStandingStill() == TRUE)
+    if (!task->data[0] && IsPlayerStandingStill())
     {
         sub_808B864();
         task->data[0] = 1;
@@ -123,7 +123,7 @@ static void sub_80985BC(u8 taskId)
     struct Task *task = &gTasks[taskId];
     u8 objectEventId = task->data[2];
 
-    if (!task->data[0] && IsPlayerStandingStill() == TRUE)
+    if (!task->data[0] && IsPlayerStandingStill())
     {
         sub_808B864();
         task->data[0] = 1;

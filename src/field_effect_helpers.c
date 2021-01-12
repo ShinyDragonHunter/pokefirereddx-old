@@ -127,7 +127,7 @@ static void UpdateObjectReflectionSprite(struct Sprite *reflectionSprite)
         reflectionSprite->pos2.y = -mainSprite->pos2.y;
         reflectionSprite->coordOffsetEnabled = mainSprite->coordOffsetEnabled;
 
-        if (objectEvent->hideReflection == TRUE)
+        if (objectEvent->hideReflection)
             reflectionSprite->invisible = TRUE;
 
         // Check if the reflection is not still.

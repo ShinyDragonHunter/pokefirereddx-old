@@ -663,7 +663,7 @@ void TextPrinterInitDownArrowCounters(struct TextPrinter *textPrinter)
 {
     struct TextPrinterSubStruct *subStruct = (struct TextPrinterSubStruct *)(&textPrinter->subStructFields);
 
-    if (gTextFlags.autoScroll == TRUE)
+    if (gTextFlags.autoScroll)
     {
         subStruct->autoScrollDelay = 0;
     }
@@ -1594,7 +1594,7 @@ void DecompressGlyphFont0(u16 glyphId, bool32 isJapanese)
 
 u32 GetGlyphWidthFont0(u16 glyphId, bool32 isJapanese)
 {
-    if (isJapanese == TRUE)
+    if (isJapanese)
         return 8;
     else
         return gFont0LatinGlyphWidths[glyphId];
@@ -1604,7 +1604,7 @@ void DecompressGlyphFont7(u16 glyphId, bool32 isJapanese)
 {
     const u16* glyphs;
 
-    if (isJapanese == TRUE)
+    if (isJapanese)
     {
         int eff;
         glyphs = gFont1JapaneseGlyphs + (0x100 * (glyphId >> 0x4)) + (0x8 * (glyphId & (eff = 0xF)));  // shh, no questions, only matching now
@@ -1637,7 +1637,7 @@ void DecompressGlyphFont7(u16 glyphId, bool32 isJapanese)
 
 u32 GetGlyphWidthFont7(u16 glyphId, bool32 isJapanese)
 {
-    if (isJapanese == TRUE)
+    if (isJapanese)
         return 8;
     else
         return gFont7LatinGlyphWidths[glyphId];
@@ -1647,7 +1647,7 @@ void DecompressGlyphFont8(u16 glyphId, bool32 isJapanese)
 {
     const u16* glyphs;
 
-    if (isJapanese == TRUE)
+    if (isJapanese)
     {
         glyphs = gFont0JapaneseGlyphs + (0x100 * (glyphId >> 0x4)) + (0x8 * (glyphId & 0xF));
         DecompressGlyphTile(glyphs, gUnknown_03002F90.unk0);
@@ -1679,7 +1679,7 @@ void DecompressGlyphFont8(u16 glyphId, bool32 isJapanese)
 
 u32 GetGlyphWidthFont8(u16 glyphId, bool32 isJapanese)
 {
-    if (isJapanese == TRUE)
+    if (isJapanese)
         return 8;
     else
         return gFont8LatinGlyphWidths[glyphId];
@@ -1689,7 +1689,7 @@ void DecompressGlyphFont2(u16 glyphId, bool32 isJapanese)
 {
     const u16* glyphs;
 
-    if (isJapanese == TRUE)
+    if (isJapanese)
     {
         glyphs = gFont2JapaneseGlyphs + (0x100 * (glyphId >> 0x3)) + (0x10 * (glyphId & 0x7));
         DecompressGlyphTile(glyphs, gUnknown_03002F90.unk0);
@@ -1723,7 +1723,7 @@ void DecompressGlyphFont2(u16 glyphId, bool32 isJapanese)
 
 u32 GetGlyphWidthFont2(u16 glyphId, bool32 isJapanese)
 {
-    if (isJapanese == TRUE)
+    if (isJapanese)
         return gFont2JapaneseGlyphWidths[glyphId];
     else
         return gFont2LatinGlyphWidths[glyphId];
@@ -1733,7 +1733,7 @@ void DecompressGlyphFont1(u16 glyphId, bool32 isJapanese)
 {
     const u16* glyphs;
 
-    if (isJapanese == TRUE)
+    if (isJapanese)
     {
         int eff;
         glyphs = gFont1JapaneseGlyphs + (0x100 * (glyphId >> 0x4)) + (0x8 * (glyphId & (eff = 0xF)));  // shh, no questions, only matching now
@@ -1766,7 +1766,7 @@ void DecompressGlyphFont1(u16 glyphId, bool32 isJapanese)
 
 u32 GetGlyphWidthFont1(u16 glyphId, bool32 isJapanese)
 {
-    if (isJapanese == TRUE)
+    if (isJapanese)
         return 8;
     else
         return gFont1LatinGlyphWidths[glyphId];

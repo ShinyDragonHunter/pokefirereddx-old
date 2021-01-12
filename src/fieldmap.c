@@ -535,18 +535,11 @@ static bool32 SavedMapViewIsEmpty(void)
     u16 i;
     u32 marker = 0;
 
-#ifndef UBFIX
-    // BUG: This loop extends past the bounds of the mapView array. Its size is only 0x100.
-    for (i = 0; i < 0x200; i++)
-        marker |= gSaveBlock1Ptr->mapView[i];
-#else
-    // UBFIX: Only iterate over 0x100
     for (i = 0; i < ARRAY_COUNT(gSaveBlock1Ptr->mapView); i++)
         marker |= gSaveBlock1Ptr->mapView[i];
-#endif
 
 
-    if (marker == 0)
+    if (!marker)
         return TRUE;
     else
         return FALSE;
@@ -802,8 +795,6 @@ struct MapConnection *sub_8088950(u8 direction, int x, int y)
     int i;
     struct MapConnection *connection;
     const struct MapConnections *connections = gMapHeader.connections;
-    // UB: Multiple possible null dereferences
-#ifdef UBFIX
     if (connections != NULL)
     {
         count = connections->count;
@@ -817,15 +808,6 @@ struct MapConnection *sub_8088950(u8 direction, int x, int y)
             }
         }
     }
-#else
-    count = connections->count;
-    connection = connections->connections;
-    for (i = 0; i < count; i++, connection++)
-    {
-        if (connection->direction == direction && sub_80889A8(direction, x, y, connection) == TRUE)
-            return connection;
-    }
-#endif
     return NULL;
 }
 
@@ -930,13 +912,6 @@ void GetCameraFocusCoords(u16 *x, u16 *y)
 {
     *x = gSaveBlock1Ptr->pos.x + 7;
     *y = gSaveBlock1Ptr->pos.y + 7;
-}
-
-// Unused
-static void SetCameraCoords(u16 x, u16 y)
-{
-    gSaveBlock1Ptr->pos.x = x;
-    gSaveBlock1Ptr->pos.y = y;
 }
 
 void GetCameraCoords(u16 *x, u16 *y)

@@ -71,8 +71,5 @@ void CopyWindowToVram8Bit(u8 windowId, u8 mode);
 
 extern struct Window gWindows[];
 extern void* gUnknown_03002F70[];
-extern u32 filler_03002F58;
-extern u32 filler_03002F5C;
-extern u32 filler_03002F64;
 
 #endif // GUARD_WINDOW_H

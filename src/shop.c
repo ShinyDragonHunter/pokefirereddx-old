@@ -396,7 +396,7 @@ static void MapPostLoadHook_ReturnToShopMenu(void)
 
 static void Task_ReturnToShopMenu(u8 taskId)
 {
-    if (IsWeatherNotFadingIn() == TRUE)
+    if (IsWeatherNotFadingIn())
     {
         if (gMartInfo.martType == MART_TYPE_DECOR2)
             DisplayItemMessageOnField(taskId, gText_CanIHelpWithAnythingElse, ShowShopMenuAfterExitingBuyOrSellMenu);
@@ -739,7 +739,7 @@ static void BuyMenuDrawMapBg(void)
         for (i = 0; i < 15; i++)
         {
             metatile = MapGridGetMetatileIdAt(x + i, y + j);
-            if (BuyMenuCheckForOverlapWithMenuBg(i, j) == TRUE)
+            if (BuyMenuCheckForOverlapWithMenuBg(i, j))
                 metatileLayerType = 0;
 
             if (metatile < NUM_METATILES_IN_PRIMARY)
@@ -871,7 +871,7 @@ static void BuyMenuDrawObjectEvents(void)
             (u16)gShopDataPtr->viewportObjects[i][Y_COORD] * 16 + 48 - graphicsInfo->height / 2,
             2);
 
-        if (BuyMenuCheckIfObjectEventOverlapsMenuBg(gShopDataPtr->viewportObjects[i]) == TRUE)
+        if (BuyMenuCheckIfObjectEventOverlapsMenuBg(gShopDataPtr->viewportObjects[i]))
         {
             gSprites[spriteId].subspriteTableNum = 4;
             gSprites[spriteId].subspriteMode = SUBSPRITES_ON;
@@ -1028,7 +1028,7 @@ static void Task_BuyHowManyDialogueHandleInput(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
-    if (AdjustQuantityAccordingToDPadInput(&tItemCount, gShopDataPtr->maxQuantity) == TRUE)
+    if (AdjustQuantityAccordingToDPadInput(&tItemCount, gShopDataPtr->maxQuantity))
     {
         gShopDataPtr->totalCost = (ItemId_GetPrice(tItemId) >> GetPriceReduction(POKENEWS_SLATEPORT)) * tItemCount;
         BuyMenuPrintItemQuantityAndPrice(taskId);
@@ -1073,7 +1073,7 @@ static void BuyMenuTryMakePurchase(u8 taskId)
 
     if (gMartInfo.martType == MART_TYPE_NORMAL)
     {
-        if (AddBagItem(tItemId, tItemCount) == TRUE)
+        if (AddBagItem(tItemId, tItemCount))
         {
             BuyMenuDisplayMessage(taskId, gText_HereYouGoThankYou, BuyMenuSubtractMoney);
             RecordItemPurchase(taskId);
@@ -1127,7 +1127,7 @@ static void Task_ReturnToItemListAfterItemPurchase(u8 taskId)
     if (JOY_NEW(A_BUTTON | B_BUTTON))
     {
         PlaySE(SE_SELECT);
-        if (tItemId == ITEM_POKE_BALL && tItemCount > 9 && AddBagItem(ITEM_PREMIER_BALL, 1) == TRUE)
+        if (tItemId == ITEM_POKE_BALL && tItemCount > 9 && AddBagItem(ITEM_PREMIER_BALL, 1))
         {
             BuyMenuDisplayMessage(taskId, gText_ThrowInPremierBall, BuyMenuReturnToItemList);
         }

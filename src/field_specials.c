@@ -1639,7 +1639,7 @@ bool8 IsBadEggInParty(void)
 
     for (i = 0; i < partyCount; i++)
     {
-        if (GetMonData(&gPlayerParty[i], MON_DATA_SANITY_IS_BAD_EGG) == TRUE)
+        if (GetMonData(&gPlayerParty[i], MON_DATA_SANITY_IS_BAD_EGG))
             return TRUE;
     }
 
@@ -2631,7 +2631,7 @@ static void ScrollableMultichoice_ProcessInput(u8 taskId)
         PlaySE(SE_SELECT);
         CloseScrollableMultichoice(taskId);
     case LIST_NOTHING_CHOSEN:
-        break;;
+        break;
     default:
         gSpecialVar_Result = input;
         PlaySE(SE_SELECT);
@@ -3266,7 +3266,7 @@ static void Task_DeoxysRockInteraction(u8 taskId)
 {
     static const u8 sStoneMaxStepCounts[] = { 4, 8, 8, 8, 4, 4, 4, 6, 3, 3 };
 
-    if (FlagGet(FLAG_DEOXYS_ROCK_COMPLETE) == TRUE)
+    if (FlagGet(FLAG_DEOXYS_ROCK_COMPLETE))
     {
         gSpecialVar_Result = 3;
         EnableBothScriptContexts();
@@ -3420,11 +3420,11 @@ void CreateAbnormalWeatherEvent(void)
     u16 randomValue = Random();
     VarSet(VAR_ABNORMAL_WEATHER_STEP_COUNTER, 0);
 
-    if (FlagGet(FLAG_DEFEATED_KYOGRE) == TRUE)
+    if (FlagGet(FLAG_DEFEATED_KYOGRE))
     {
         VarSet(VAR_ABNORMAL_WEATHER_LOCATION, (randomValue % TERRA_CAVE_LOCATIONS) + TERRA_CAVE_LOCATIONS_START);
     }
-    else if (FlagGet(FLAG_DEFEATED_GROUDON) == TRUE)
+    else if (FlagGet(FLAG_DEFEATED_GROUDON))
     {
         VarSet(VAR_ABNORMAL_WEATHER_LOCATION, (randomValue % MARINE_CAVE_LOCATIONS) + MARINE_CAVE_LOCATIONS_START);
     }
@@ -3598,7 +3598,7 @@ bool32 IsTrainerRegistered(void)
     int index = GetRematchIdxByTrainerIdx(gSpecialVar_0x8004);
     if (index >= 0)
     {
-        if (FlagGet(FLAG_MATCH_CALL_REGISTERED + index) == TRUE)
+        if (FlagGet(FLAG_MATCH_CALL_REGISTERED + index))
             return TRUE;
     }
     return FALSE;
@@ -3639,7 +3639,7 @@ static void Task_LinkRetireStatusWithBattleTowerPartner(u8 taskId)
             }
             break;
         case 1:
-            if (IsLinkTaskFinished() == TRUE)
+            if (IsLinkTaskFinished())
             {
                 if (GetMultiplayerId() == 0)
                 {
@@ -3683,7 +3683,7 @@ static void Task_LinkRetireStatusWithBattleTowerPartner(u8 taskId)
             }
             break;
         case 3:
-            if (IsLinkTaskFinished() == TRUE)
+            if (IsLinkTaskFinished())
             {
                 if (GetMultiplayerId() != 0)
                 {

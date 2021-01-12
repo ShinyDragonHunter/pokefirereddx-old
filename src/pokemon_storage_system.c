@@ -3418,7 +3418,7 @@ static void Cb_CloseBoxWhileHoldingItem(u8 taskId)
         switch (Menu_ProcessInputNoWrapClearOnChoose())
         {
         case 0:
-            if (AddBagItem(sPSSData->movingItem, 1) == TRUE)
+            if (AddBagItem(sPSSData->movingItem, 1))
             {
                 ClearBottomWindow();
                 sPSSData->state = 3;
@@ -3861,7 +3861,7 @@ static void Cb_ChangeScreen(u8 taskId)
     u8 mode, monIndex, maxMonIndex;
     u8 screenChangeType = sPSSData->screenChangeType;
 
-    if (sPSSData->boxOption == BOX_OPTION_MOVE_ITEMS && IsActiveItemMoving() == TRUE)
+    if (sPSSData->boxOption == BOX_OPTION_MOVE_ITEMS && IsActiveItemMoving())
         sMovingItemId = GetMovingItem();
     else
         sMovingItemId = ITEM_NONE;
@@ -5362,7 +5362,7 @@ static bool8 DoWallpaperGfxChange(void)
         }
         break;
     case 2:
-        if (WaitForWallpaperGfxLoad() == TRUE)
+        if (WaitForWallpaperGfxLoad())
         {
             sub_80CCF9C();
             BeginNormalPaletteFade(sPSSData->field_738, 1, 16, 0, RGB_WHITEALPHA);
@@ -7002,7 +7002,7 @@ static u8 InBoxInput_Normal(void)
             if (!sCanOnlyMove)
                 return 8;
 
-            if (sPSSData->boxOption != BOX_OPTION_MOVE_MONS || sIsMonBeingMoved == TRUE)
+            if (sPSSData->boxOption != BOX_OPTION_MOVE_MONS || sIsMonBeingMoved)
             {
                 switch (sub_80CFF98(0))
                 {
@@ -7612,7 +7612,7 @@ static bool8 sub_80CFB44(void)
         }
         else
         {
-            if (ItemIsMail(sPSSData->cursorMonItem) == TRUE)
+            if (ItemIsMail(sPSSData->cursorMonItem))
                 return FALSE;
 
             SetMenuText(15);
@@ -8401,13 +8401,8 @@ static void sub_80D08CC(void)
         for (j = sMoveMonsPtr->minRow; j < rowCount; j++)
         {
             struct BoxPokemon *boxMon = GetBoxedMonPtr(boxId, boxPosition);
-            // UB: possible null dereference
-#ifdef UBFIX
             if (boxMon != NULL)
                 sMoveMonsPtr->boxMons[monArrayId] = *boxMon;
-#else
-            sMoveMonsPtr->boxMons[monArrayId] = *boxMon;
-#endif
             monArrayId++;
             boxPosition++;
         }
@@ -9329,9 +9324,7 @@ u32 GetBoxMonLevelAt(u8 boxId, u8 boxPosition)
 
     if (boxId < TOTAL_BOXES_COUNT && boxPosition < IN_BOX_COUNT && GetBoxMonData(&gPokemonStoragePtr->boxes[boxId][boxPosition], MON_DATA_SANITY_HAS_SPECIES))
         lvl = GetLevelFromBoxMonExp(&gPokemonStoragePtr->boxes[boxId][boxPosition]);
-    #ifdef BUGFIX
     else
-    #endif
         lvl = 0;
 
     return lvl;

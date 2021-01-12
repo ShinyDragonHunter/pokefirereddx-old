@@ -476,7 +476,7 @@ bool32 MoveRecordedBattleToSaveData(void)
     while (1)
     {
         ret = RecordedBattleToSave(battleSave, savSection);
-        if (ret == TRUE)
+        if (ret)
             break;
         saveAttempts++;
         if (saveAttempts >= 3)
@@ -608,7 +608,7 @@ static void SetVariablesForRecordedBattle(struct RecordedBattleSave *src)
 void PlayRecordedBattle(void (*CB2_After)(void))
 {
     struct RecordedBattleSave *battleSave = AllocZeroed(sizeof(struct RecordedBattleSave));
-    if (CopyRecordedBattleFromSave(battleSave) == TRUE)
+    if (CopyRecordedBattleFromSave(battleSave))
     {
         u8 taskId;
 

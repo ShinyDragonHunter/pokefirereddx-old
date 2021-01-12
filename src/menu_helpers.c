@@ -302,7 +302,7 @@ bool8 itemid_80BF6D8_mail_related(u16 itemId)
 
 bool8 MenuHelpers_LinkSomething(void)
 {
-    if (IsUpdateLinkStateCBActive() == TRUE || gReceivedRemoteLinkPlayers == 1)
+    if (IsUpdateLinkStateCBActive() || gReceivedRemoteLinkPlayers == 1)
         return TRUE;
     else
         return FALSE;
@@ -318,7 +318,7 @@ static bool8 sub_81221D0(void)
 
 bool8 MenuHelpers_CallLinkSomething(void)
 {
-    if (sub_81221D0() == TRUE)
+    if (sub_81221D0())
         return TRUE;
     else if (sub_800B504() != TRUE)
         return FALSE;

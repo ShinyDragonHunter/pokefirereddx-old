@@ -2744,10 +2744,10 @@ static bool8 Phase2_ShredSplit_Func3(struct Task *task)
     for (i = 0; i < 0xA0; i++)
     {
         if (gScanlineEffectRegBuffers[1][i] != 0xF0 && gScanlineEffectRegBuffers[1][i] != checkVar2)
-            done = FALSE; // a break statement should be put here
+            break;
     }
 
-    if (done == TRUE)
+    if (done)
         task->tState++;
 
     return FALSE;
@@ -2975,7 +2975,7 @@ static bool8 Phase2_RectangularSpiral_Func2(struct Task *task)
         }
     }
 
-    if (done == TRUE)
+    if (done)
         task->tState++;
     return FALSE;
 }

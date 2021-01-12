@@ -2832,14 +2832,7 @@ void BoxMonToMon(const struct BoxPokemon *src, struct Pokemon *dest)
 
 u8 GetLevelFromMonExp(struct Pokemon *mon)
 {
-    u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
-    u32 exp = GetMonData(mon, MON_DATA_EXP, NULL);
-    s32 level = 1;
-
-    while (level <= MAX_LEVEL && gExperienceTables[gBaseStats[species].growthRate][level] <= exp)
-        level++;
-
-    return level - 1;
+    return GetLevelFromBoxMonExp(&mon->box);
 }
 
 u8 GetLevelFromBoxMonExp(struct BoxPokemon *boxMon)
@@ -6482,7 +6475,6 @@ void SetWildMonHeldItem(void)
             var1 = 20;
             var2 = 80;
         }
-
         count = (WILD_DOUBLE_BATTLE) ? 2 : 1;
         for (i = 0; i < count; i++)
         {
@@ -6494,34 +6486,21 @@ void SetWildMonHeldItem(void)
                 {
                     if (rnd < var2)
                         return;
+
                     SetMonData(&gEnemyParty[i], MON_DATA_HELD_ITEM, &sAlteringCaveWildMonHeldItems[alteringCaveId].item);
                 }
-                else
-                {
-                    if (rnd < var1)
-                        return;
-                    if (rnd < var2)
-                        SetMonData(&gEnemyParty[i], MON_DATA_HELD_ITEM, &gBaseStats[species].item1);
-                    else
-                        SetMonData(&gEnemyParty[i], MON_DATA_HELD_ITEM, &gBaseStats[species].item2);
-                }
             }
+            else if (gBaseStats[species].item1 == gBaseStats[species].item2 && gBaseStats[species].item1 != 0)
+	        {
+                SetMonData(&gEnemyParty[i], MON_DATA_HELD_ITEM, &gBaseStats[species].item1);
+            }
+
+            if (rnd < var1)
+                return;
+            if (rnd < var2)
+                SetMonData(&gEnemyParty[i], MON_DATA_HELD_ITEM, &gBaseStats[species].item1);
             else
-            {
-                if (gBaseStats[species].item1 == gBaseStats[species].item2 && gBaseStats[species].item1 != 0)
-                {
-                    SetMonData(&gEnemyParty[i], MON_DATA_HELD_ITEM, &gBaseStats[species].item1);
-                }
-                else
-                {
-                    if (rnd < var1)
-                        return;
-                    if (rnd < var2)
-                        SetMonData(&gEnemyParty[i], MON_DATA_HELD_ITEM, &gBaseStats[species].item1);
-                    else
-                        SetMonData(&gEnemyParty[i], MON_DATA_HELD_ITEM, &gBaseStats[species].item2);
-                }
-            }
+                SetMonData(&gEnemyParty[i], MON_DATA_HELD_ITEM, &gBaseStats[species].item2);
         }
     }
 }
@@ -6738,7 +6717,7 @@ u16 FacilityClassToPicIndex(u16 facilityClass)
 
 u16 PlayerGenderToFrontTrainerPicId(u8 playerGender)
 {
-    if (playerGender != MALE)
+    if (playerGender)
         return FacilityClassToPicIndex(FACILITY_CLASS_LEAF);
     else
         return FacilityClassToPicIndex(FACILITY_CLASS_RED);
