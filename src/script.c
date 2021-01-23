@@ -13,9 +13,7 @@ extern const u8* gUnknown_020375C0;
 
 // ewram bss
 static u8 sScriptContext1Status;
-static u32 sUnusedVariable1;
 static struct ScriptContext sScriptContext1;
-static u32 sUnusedVariable2;
 static struct ScriptContext sScriptContext2;
 static bool8 sScriptContext2Enabled;
 

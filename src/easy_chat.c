@@ -4089,7 +4089,6 @@ static void sub_811D864(u8 arg0, u8 arg1)
 {
     int i, j;
     u16 easyChatWord;
-    u8 *str;
     int y;
     int var0;
 

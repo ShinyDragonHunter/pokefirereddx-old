@@ -1205,7 +1205,7 @@ static void RecordedOpponentHandleDrawTrainerPic(void)
         }
         else
         {
-            trainerPicId = PlayerGenderToFrontTrainerPicId(gLinkPlayers[gUnknown_0203C7B4 ^ BIT_SIDE].gender);
+            trainerPicId = PlayerGenderToFrontTrainerPicId(gLinkPlayers[gRecordedBattleMultiplayerId ^ BIT_SIDE].gender);
         }
     }
 
@@ -1478,7 +1478,6 @@ static void RecordedOpponentHandleIntroSlide(void)
 
 static void RecordedOpponentHandleIntroTrainerBallThrow(void)
 {
-    u8 paletteNum;
     u8 taskId;
 
     SetSpritePrimaryCoordsFromSecondaryCoords(&gSprites[gBattlerSpriteIds[gActiveBattler]]);

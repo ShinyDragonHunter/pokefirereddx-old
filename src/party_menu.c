@@ -151,7 +151,7 @@ static EWRAM_DATA u16 *sSlot1TilemapBuffer = 0; // for switching party slots
 static EWRAM_DATA u16 *sSlot2TilemapBuffer = 0; //
 EWRAM_DATA u8 gSelectedOrderFromParty[MAX_FRONTIER_PARTY_SIZE] = {0};
 static EWRAM_DATA u16 sPartyMenuItemId = 0;
-static EWRAM_DATA u16 sUnused_0203CEFE = 0;
+static EWRAM_DATA u16 sUnused = 0;
 EWRAM_DATA u8 gBattlePartyCurrentOrder[PARTY_SIZE / 2] = {0}; // bits 0-3 are the current pos of Slot 1, 4-7 are Slot 2, and so on
 
 // IWRAM common
@@ -1934,9 +1934,9 @@ static u8 CanMonLearnTMTutor(struct Pokemon *mon, u16 item, u8 tutor)
     if (GetMonData(mon, MON_DATA_IS_EGG))
         return CANNOT_LEARN_MOVE_IS_EGG;
 
-    if (item >= ITEM_TM01_FOCUS_PUNCH)
+    if (item >= ITEM_TM01)
     {
-        if (!CanMonLearnTMHM(mon, item - ITEM_TM01_FOCUS_PUNCH))
+        if (!CanMonLearnTMHM(mon, item - ITEM_TM01))
             return CANNOT_LEARN_MOVE;
         else
             move = ItemIdToBattleMoveId(item);
@@ -4487,7 +4487,7 @@ void ItemUseCB_PPUp(u8 taskId, TaskFunc task)
 
 u16 ItemIdToBattleMoveId(u16 item)
 {
-    u16 tmNumber = item - ITEM_TM01_FOCUS_PUNCH;
+    u16 tmNumber = item - ITEM_TM01;
     return sTMHMMoves[tmNumber];
 }
 

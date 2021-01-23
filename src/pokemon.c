@@ -2177,9 +2177,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
     if (hasFixedPersonality)
         personality = fixedPersonality;
     else
-    {
         personality = Random32();
-    }
 
     //Determine original trainer ID
     if (otIdType == OT_ID_RANDOM_NO_SHINY) //Pokemon cannot be shiny
@@ -2301,14 +2299,14 @@ void CreateMonWithGenderNatureLetter(struct Pokemon *mon, u16 species, u8 level,
 {
     u32 personality;
 
-    if ((u8)(unownLetter - 1) < 28)
+    if ((u8)(unownLetter - 1) < NUM_UNOWN_FORMS)
     {
         u16 actualLetter;
 
         do
         {
             personality = Random32();
-            actualLetter = ((((personality & 0x3000000) >> 18) | ((personality & 0x30000) >> 12) | ((personality & 0x300) >> 6) | (personality & 0x3)) % 28);
+            actualLetter = GET_UNOWN_LETTER(personality);
         }
         while (nature != GetNatureFromPersonality(personality)
             || gender != GetGenderFromSpeciesAndPersonality(species, personality)
@@ -2677,8 +2675,8 @@ u16 GetUnionRoomTrainerPic(void)
     u8 linkId;
     u32 arrId;
 
-    if (gBattleTypeFlags & BATTLE_TYPE_x2000000)
-        linkId = gUnknown_0203C7B4 ^ 1;
+    if (gBattleTypeFlags & BATTLE_TYPE_RECORDED_LINK)
+        linkId = gRecordedBattleMultiplayerId ^ 1;
     else
         linkId = GetMultiplayerId() ^ 1;
 
@@ -2692,8 +2690,8 @@ u16 GetUnionRoomTrainerClass(void)
     u8 linkId;
     u32 arrId;
 
-    if (gBattleTypeFlags & BATTLE_TYPE_x2000000)
-        linkId = gUnknown_0203C7B4 ^ 1;
+    if (gBattleTypeFlags & BATTLE_TYPE_RECORDED_LINK)
+        linkId = gRecordedBattleMultiplayerId ^ 1;
     else
         linkId = GetMultiplayerId() ^ 1;
 
@@ -3330,7 +3328,7 @@ u8 CountAliveMonsInBattle(u8 caseId)
 
 static bool8 ShouldGetStatBadgeBoost(u16 badgeFlag, u8 battlerId)
 {
-    if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_EREADER_TRAINER | BATTLE_TYPE_x2000000 | BATTLE_TYPE_FRONTIER))
+    if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_EREADER_TRAINER | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_FRONTIER))
         return FALSE;
     else if (GetBattlerSide(battlerId) != B_SIDE_PLAYER)
         return FALSE;
@@ -4600,7 +4598,6 @@ bool8 PokemonUseItemEffects(struct Pokemon *mon, u16 item, u8 partyIndex, u8 mov
     u32 var_28 = 0;
     u16 heldItem;
     u8 r10;
-    u32 r4;
     u32 r5;
     s8 r2;
     u16 evCount;
@@ -6240,7 +6237,7 @@ u16 GetBattleBGM(void)
             return MUS_VS_FRONTIER_BRAIN;
         default:
             if (gBattleTypeFlags & (BATTLE_TYPE_LINK 
-                                 | BATTLE_TYPE_x2000000
+                                 | BATTLE_TYPE_RECORDED_LINK
                                  | BATTLE_TYPE_FRONTIER))
                 return MUS_VS_TRAINER;
             else
@@ -6576,7 +6573,7 @@ static void Task_PokemonSummaryAnimateAfterDelay(u8 taskId)
 
 void BattleAnimateFrontSprite(struct Sprite* sprite, u16 species, bool8 noCry, u8 arg3)
 {
-    if (gHitMarker & HITMARKER_NO_ANIMATIONS && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_x2000000)))
+    if (gHitMarker & HITMARKER_NO_ANIMATIONS && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK)))
         DoMonFrontSpriteAnimation(sprite, species, noCry, arg3 | 0x80);
     else
         DoMonFrontSpriteAnimation(sprite, species, noCry, arg3);
@@ -6654,7 +6651,7 @@ void StopPokemonAnimationDelayTask(void)
 
 void BattleAnimateBackSprite(struct Sprite* sprite, u16 species)
 {
-    if (gHitMarker & HITMARKER_NO_ANIMATIONS && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_x2000000)))
+    if (gHitMarker & HITMARKER_NO_ANIMATIONS && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK)))
     {
         sprite->callback = SpriteCallbackDummy;
     }

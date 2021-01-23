@@ -1153,12 +1153,12 @@ static void RecordedPlayerHandleDrawTrainerPic(void)
     s16 xPos, yPos;
     u32 trainerPicId;
 
-    if (gBattleTypeFlags & BATTLE_TYPE_x2000000)
+    if (gBattleTypeFlags & BATTLE_TYPE_RECORDED_LINK)
     {
         if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
             trainerPicId = GetActiveBattlerLinkPlayerGender();
         else
-            trainerPicId = gLinkPlayers[gUnknown_0203C7B4].gender;
+            trainerPicId = gLinkPlayers[gRecordedBattleMultiplayerId].gender;
     }
     else
     {
@@ -1508,6 +1508,10 @@ static void RecordedPlayerHandleIntroTrainerBallThrow(void)
     StartSpriteAnim(&gSprites[gBattlerSpriteIds[gActiveBattler]], 1);
 
     paletteNum = AllocSpritePalette(0xD70F);
+    if (gBattleTypeFlags & BATTLE_TYPE_RECORDED_LINK)
+        trainerPicId = gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender;
+    else
+        trainerPicId = gSaveBlock2Ptr->playerGender;
 
     LoadPalette(gTrainerBackPicPaletteTable[trainerPicId].data, 0x100 + paletteNum * 16, 32);
 

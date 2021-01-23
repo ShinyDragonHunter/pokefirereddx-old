@@ -83,7 +83,7 @@ void LoadSpecialPokePic(const struct CompressedSpriteSheet *src, void *dest, s32
 {
     if (species == SPECIES_UNOWN)
     {
-        u16 i = (((personality & 0x3000000) >> 18) | ((personality & 0x30000) >> 12) | ((personality & 0x300) >> 6) | (personality & 3)) % 0x1C;
+        u16 i = GET_UNOWN_LETTER(personality);
 
         // The other Unowns are separate from Unown A.
         if (i == 0)

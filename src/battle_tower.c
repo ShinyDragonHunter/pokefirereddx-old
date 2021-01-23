@@ -1900,7 +1900,7 @@ void DoSpecialTrainerBattle(void)
             gBattleTypeFlags |= BATTLE_TYPE_DOUBLE | BATTLE_TYPE_INGAME_PARTNER | BATTLE_TYPE_MULTI | BATTLE_TYPE_TWO_OPPONENTS;
             break;
         case FRONTIER_MODE_LINK_MULTIS:
-            gBattleTypeFlags |= BATTLE_TYPE_DOUBLE | BATTLE_TYPE_LINK | BATTLE_TYPE_MULTI | BATTLE_TYPE_x800000;
+            gBattleTypeFlags |= BATTLE_TYPE_DOUBLE | BATTLE_TYPE_LINK | BATTLE_TYPE_MULTI | BATTLE_TYPE_TOWER_LINK_MULTI;
             FillFrontierTrainersParties(FRONTIER_MULTI_PARTY_SIZE);
             break;
         }
@@ -3347,7 +3347,7 @@ u8 FacilityClassToGraphicsId(u8 facilityClass)
 
 void TrySetLinkBattleTowerEnemyPartyLevel(void)
 {
-    if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_x2000000))
+    if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK))
     {
         s32 i;
         u8 enemyLevel = SetFacilityPtrsGetLevel();

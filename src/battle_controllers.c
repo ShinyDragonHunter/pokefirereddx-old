@@ -171,9 +171,9 @@ static void InitSinglePlayerBtlControllers(void)
 
         if (gBattleTypeFlags & BATTLE_TYPE_RECORDED)
         {
-            if (gBattleTypeFlags & BATTLE_TYPE_x2000000)
+            if (gBattleTypeFlags & BATTLE_TYPE_RECORDED_LINK)
             {
-                if (gBattleTypeFlags & BATTLE_TYPE_x80000000)
+                if (gBattleTypeFlags & BATTLE_TYPE_RECORDED_IS_MASTER)
                 {
                     gBattleMainFunc = BeginBattleIntro;
 
@@ -256,9 +256,9 @@ static void InitSinglePlayerBtlControllers(void)
             }
             else if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
             {
-                u8 var; // multiplayer Id in a recorded battle?
+                u8 multiplayerId;
 
-                for (var = gUnknown_0203C7B4, i = 0; i < MAX_BATTLERS_COUNT; i++)
+                for (multiplayerId = gRecordedBattleMultiplayerId, i = 0; i < MAX_BATTLERS_COUNT; i++)
                 {
                     switch (gLinkPlayers[i].id)
                     {
@@ -272,7 +272,7 @@ static void InitSinglePlayerBtlControllers(void)
                         break;
                     }
 
-                    if (i == var)
+                    if (i == multiplayerId)
                     {
                         gBattlerControllerFuncs[gLinkPlayers[i].id] = SetControllerToRecordedPlayer;
                         switch (gLinkPlayers[i].id)
@@ -289,8 +289,8 @@ static void InitSinglePlayerBtlControllers(void)
                             break;
                         }
                     }
-                    else if ((!(gLinkPlayers[i].id & 1) && !(gLinkPlayers[var].id & 1))
-                            || ((gLinkPlayers[i].id & 1) && (gLinkPlayers[var].id & 1)))
+                    else if ((!(gLinkPlayers[i].id & 1) && !(gLinkPlayers[multiplayerId].id & 1))
+                            || ((gLinkPlayers[i].id & 1) && (gLinkPlayers[multiplayerId].id & 1)))
                     {
                         gBattlerControllerFuncs[gLinkPlayers[i].id] = SetControllerToRecordedPlayer;
                         switch (gLinkPlayers[i].id)
@@ -334,7 +334,7 @@ static void InitSinglePlayerBtlControllers(void)
                 gBattlerControllerFuncs[2] = SetControllerToRecordedPlayer;
                 gBattlerPositions[2] = B_POSITION_PLAYER_RIGHT;
 
-                if (gBattleTypeFlags & BATTLE_TYPE_x2000000)
+                if (gBattleTypeFlags & BATTLE_TYPE_RECORDED_LINK)
                 {
                   gBattlerControllerFuncs[1] = SetControllerToRecordedOpponent;
                   gBattlerPositions[1] = B_POSITION_OPPONENT_LEFT;
@@ -359,7 +359,7 @@ static void InitSinglePlayerBtlControllers(void)
                 gBattlerControllerFuncs[3] = SetControllerToRecordedPlayer;
                 gBattlerPositions[3] = B_POSITION_PLAYER_RIGHT;
 
-                if (gBattleTypeFlags & BATTLE_TYPE_x2000000)
+                if (gBattleTypeFlags & BATTLE_TYPE_RECORDED_LINK)
                 {
                     gBattlerControllerFuncs[0] = SetControllerToRecordedOpponent;
                     gBattlerPositions[0] = B_POSITION_OPPONENT_LEFT;
@@ -822,7 +822,7 @@ void sub_8033648(void)
     s32 j;
     u8 *recvBuffer;
 
-    if (gReceivedRemoteLinkPlayers != 0 && (gBattleTypeFlags & BATTLE_TYPE_20))
+    if (gReceivedRemoteLinkPlayers != 0 && (gBattleTypeFlags & BATTLE_TYPE_LINK_IN_BATTLE))
     {
         DestroyTask_RfuIdle();
         for (i = 0; i < GetLinkPlayerCount(); i++)
