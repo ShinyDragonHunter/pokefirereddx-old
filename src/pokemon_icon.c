@@ -915,12 +915,6 @@ const struct SpritePalette gMonIconPaletteTable[] =
     { gMonIconPalettes[0], POKE_ICON_BASE_PAL_TAG + 0 },
     { gMonIconPalettes[1], POKE_ICON_BASE_PAL_TAG + 1 },
     { gMonIconPalettes[2], POKE_ICON_BASE_PAL_TAG + 2 },
-
-// There are only 3 actual palettes. The following are unused
-// and don't point to valid data.
-    { gMonIconPalettes[3], POKE_ICON_BASE_PAL_TAG + 3 },
-    { gMonIconPalettes[4], POKE_ICON_BASE_PAL_TAG + 4 },
-    { gMonIconPalettes[5], POKE_ICON_BASE_PAL_TAG + 5 },
 };
 
 const struct OamData sMonIconOamData =
@@ -970,7 +964,6 @@ static const union AnimCmd sAnim_3[] =
 static const union AnimCmd sAnim_4[] =
 {
     ANIMCMD_FRAME(0, 29),
-    ANIMCMD_FRAME(0, 29), // frame 0 is repeated
     ANIMCMD_JUMP(0),
 };
 
@@ -1139,17 +1132,6 @@ void LoadMonIconPalettes(void)
         LoadSpritePalette(&gMonIconPaletteTable[i]);
 }
 
-// unused
-void SafeLoadMonIconPalette(u16 species)
-{
-    u8 palIndex;
-    if (species > NUM_SPECIES)
-        species = 260;
-    palIndex = gMonIconPaletteIndices[species];
-    if (IndexOfSpritePaletteTag(gMonIconPaletteTable[palIndex].tag) == 0xFF)
-        LoadSpritePalette(&gMonIconPaletteTable[palIndex]);
-}
-
 void LoadMonIconPalette(u16 species)
 {
     u8 palIndex = gMonIconPaletteIndices[species];
@@ -1162,16 +1144,6 @@ void FreeMonIconPalettes(void)
     u8 i;
     for (i = 0; i < 6; i++)
         FreeSpritePaletteByTag(gMonIconPaletteTable[i].tag);
-}
-
-// unused
-void SafeFreeMonIconPalette(u16 species)
-{
-    u8 palIndex;
-    if (species > NUM_SPECIES)
-        species = 260;
-    palIndex = gMonIconPaletteIndices[species];
-    FreeSpritePaletteByTag(gMonIconPaletteTable[palIndex].tag);
 }
 
 void FreeMonIconPalette(u16 species)

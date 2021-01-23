@@ -279,15 +279,9 @@ static const struct OamData sOamData_RedArrowCursor =
     .affineParam = 0
 };
 
-static const union AnimCmd sSpriteAnim_RedArrowCursor[] =
-{
-    ANIMCMD_FRAME(0, 30),
-    ANIMCMD_END
-};
-
 static const union AnimCmd *const sSpriteAnimTable_RedArrowCursor[] =
 {
-    sSpriteAnim_RedArrowCursor
+    sSpriteAnim_ScrollArrowIndicator0
 };
 
 static const struct SpriteTemplate sSpriteTemplate_RedArrowCursor =
@@ -329,24 +323,13 @@ s32 DoMysteryGiftListMenu(const struct WindowTemplate *windowTemplate, const str
         }
         if (sMysteryGiftLinkMenu.state == 2)
         {
-            if (arg2 == 0)
+            if (arg2)
             {
-                ClearWindowTilemap(sMysteryGiftLinkMenu.windowId);
+                ClearStdWindowAndFrame(sMysteryGiftLinkMenu.windowId, FALSE);
             }
-            else
-            {
-                switch (arg2)
-                {
-                case 0: // can never be reached, because of the if statement above
-                case 1:
-                case 2:
-                    ClearStdWindowAndFrame(sMysteryGiftLinkMenu.windowId, FALSE);
-                    break;
-                }
-            }
-
-            CopyWindowToVram(sMysteryGiftLinkMenu.windowId, 1);
         }
+
+        CopyWindowToVram(sMysteryGiftLinkMenu.windowId, 1);
         break;
     case 2:
         DestroyListMenuTask(sMysteryGiftLinkMenu.listTaskId, NULL, NULL);
@@ -429,17 +412,13 @@ s32 ListMenu_ProcessInput(u8 listTaskId)
         if (leftButton)
         {
             ListMenuChangeSelection(list, TRUE, list->template.maxShowed, FALSE);
-            return LIST_NOTHING_CHOSEN;
         }
         else if (rightButton)
         {
             ListMenuChangeSelection(list, TRUE, list->template.maxShowed, TRUE);
-            return LIST_NOTHING_CHOSEN;
         }
-        else
-        {
-            return LIST_NOTHING_CHOSEN;
-        }
+
+        return LIST_NOTHING_CHOSEN;
     }
 }
 
@@ -899,14 +878,13 @@ static void SpriteCallback_ScrollIndicatorArrow(struct Sprite *sprite)
         sprite->tState++;
         break;
     case 1:
+        multiplier = sprite->tMultiplier;
         switch (sprite->tBounceDir)
         {
         case 0:
-            multiplier = sprite->tMultiplier;
             sprite->pos2.x = (gSineTable[(u8)(sprite->tSinePos)] * multiplier) / 256;
             break;
         case 1:
-            multiplier = sprite->tMultiplier;
             sprite->pos2.y = (gSineTable[(u8)(sprite->tSinePos)] * multiplier) / 256;
             break;
         }

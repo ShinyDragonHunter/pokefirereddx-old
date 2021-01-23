@@ -601,13 +601,11 @@ static void DrawLinkBattleParticipantPokeballs(u8 taskId, u8 multiplayerId, u8 b
 
     if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
     {
+        pokeballStatuses = 0x3F & gTasks[taskId].data[3];
         if (gTasks[taskId].data[5] != 0)
         {
             switch (multiplayerId)
             {
-            case 0:
-                pokeballStatuses = 0x3F & gTasks[taskId].data[3];
-                break;
             case 1:
                 pokeballStatuses = (0xFC0 & gTasks[taskId].data[4]) >> 6;
                 break;

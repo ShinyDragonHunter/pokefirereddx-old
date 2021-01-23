@@ -994,12 +994,6 @@ static const struct OamData sOamData_8572874 =
     .affineParam = 0
 };
 
-static const union AnimCmd sSpriteAnim_857287C[] =
-{
-    ANIMCMD_FRAME(0, 5),
-    ANIMCMD_END
-};
-
 static const union AnimCmd sSpriteAnim_8572884[] =
 {
     ANIMCMD_FRAME(2, 8),
@@ -1024,7 +1018,7 @@ static const union AnimCmd sSpriteAnim_857289C[] =
 
 static const union AnimCmd *const sSpriteAnimTable_85728AC[] =
 {
-    sSpriteAnim_857287C,
+    sSpriteAnim_85716F0,
     sSpriteAnim_8572884,
     sSpriteAnim_8572894,
     sSpriteAnim_857289C
@@ -1458,9 +1452,6 @@ static const u32 *const gFriendsIcons[] =
     gWallpaperIcon_Magma,
 };
 
-// Unknown Unused data.
-static const u16 gUnknown_0857B07C = 0x23BA;
-
 static const struct SpriteSheet gUnknown_0857B080 = {gPCGfx_Arrow, 0x80, 6};
 
 static const struct OamData gOamData_83BB298 =
@@ -1470,22 +1461,10 @@ static const struct OamData gOamData_83BB298 =
     .priority = 2
 };
 
-static const union AnimCmd gSpriteAnim_83BB2A0[] =
-{
-    ANIMCMD_FRAME(0, 5),
-    ANIMCMD_END
-};
-
-static const union AnimCmd gSpriteAnim_83BB2A8[] =
-{
-    ANIMCMD_FRAME(8, 5),
-    ANIMCMD_END
-};
-
 static const union AnimCmd *const gSpriteAnimTable_83BB2B0[] =
 {
-    gSpriteAnim_83BB2A0,
-    gSpriteAnim_83BB2A8
+    sSpriteAnim_85716F0,
+    sSpriteAnim_8572894
 };
 
 static const struct SpriteTemplate gSpriteTemplate_857B0A8 =
@@ -1506,12 +1485,6 @@ static const struct OamData gOamData_83BB2D0 =
     .priority = 2
 };
 
-static const union AnimCmd gSpriteAnim_83BB2D8[] =
-{
-    ANIMCMD_FRAME(0, 5),
-    ANIMCMD_END
-};
-
 static const union AnimCmd gSpriteAnim_83BB2E0[] =
 {
     ANIMCMD_FRAME(2, 5),
@@ -1520,7 +1493,7 @@ static const union AnimCmd gSpriteAnim_83BB2E0[] =
 
 static const union AnimCmd *const gSpriteAnimTable_83BB2E8[] =
 {
-    gSpriteAnim_83BB2D8,
+    sSpriteAnim_85716F0,
     gSpriteAnim_83BB2E0
 };
 
@@ -1561,7 +1534,7 @@ void DrawTextWindowAndBufferTiles(const u8 *string, void *dst, u8 zero1, u8 zero
         txtColor[0] = zero2;
     txtColor[1] = TEXT_DYNAMIC_COLOR_6;
     txtColor[2] = TEXT_DYNAMIC_COLOR_5;
-    AddTextPrinterParameterized4(windowId, 1, 0, 1, 0, 0, txtColor, -1, string);
+    AddTextPrinterParameterized4(windowId, 2, 0, 1, 0, 0, txtColor, -1, string);
 
     tileBytesToBuffer = bytesToBuffer;
     if (tileBytesToBuffer > 6u)
@@ -1579,35 +1552,6 @@ void DrawTextWindowAndBufferTiles(const u8 *string, void *dst, u8 zero1, u8 zero
         }
     }
 
-    // Never used. bytesToBuffer is always passed <= 6, so remainingBytes is always <= 0 here
-    if (remainingBytes > 0)
-        CpuFill16((zero2 << 4) | zero2, dst, (u32)(remainingBytes) * 0x100);
-
-    RemoveWindow(windowId);
-}
-
-// Unused
-void sub_80C6EAC(const u8 *string, void *dst, u16 arg2, u8 arg3, u8 clr2, u8 clr3)
-{
-    u32 var;
-    u8 windowId;
-    u8 txtColor[3];
-    u8 *tileData1, *tileData2;
-    struct WindowTemplate winTemplate = {0};
-
-    winTemplate.width = StringLength_Multibyte(string);
-    winTemplate.height = 2;
-    var = winTemplate.width * 32;
-    windowId = AddWindow(&winTemplate);
-    FillWindowPixelBuffer(windowId, PIXEL_FILL(arg3));
-    tileData1 = (u8*) GetWindowAttribute(windowId, WINDOW_TILE_DATA);
-    tileData2 = (winTemplate.width * 32) + tileData1;
-    txtColor[0] = arg3;
-    txtColor[1] = clr2;
-    txtColor[2] = clr3;
-    AddTextPrinterParameterized4(windowId, 1, 0, 2, 0, 0, txtColor, -1, string);
-    CpuCopy16(tileData1, dst, var);
-    CpuCopy16(tileData2, dst + arg2, var);
     RemoveWindow(windowId);
 }
 
@@ -1738,7 +1682,7 @@ static void Task_PokemonStorageSystemPC(u8 taskId)
         LoadMessageBoxAndBorderGfx();
         DrawDialogueFrame(0, 0);
         FillWindowPixelBuffer(0, PIXEL_FILL(1));
-        AddTextPrinterParameterized2(0, 1, gUnknown_085716C0[task->data[1]].desc, TEXT_SPEED_FF, NULL, 2, 1, 3);
+        AddTextPrinterParameterized2(0, 2, gUnknown_085716C0[task->data[1]].desc, TEXT_SPEED_FF, NULL, 2, 1, 3);
         CopyWindowToVram(0, 3);
         CopyWindowToVram(task->data[15], 3);
         task->data[0]++;
@@ -1764,7 +1708,7 @@ static void Task_PokemonStorageSystemPC(u8 taskId)
             {
                 task->data[1] = task->data[3];
                 FillWindowPixelBuffer(0, PIXEL_FILL(1));
-                AddTextPrinterParameterized2(0, 1, gUnknown_085716C0[task->data[1]].desc, 0, NULL, 2, 1, 3);
+                AddTextPrinterParameterized2(0, 2, gUnknown_085716C0[task->data[1]].desc, 0, NULL, 2, 1, 3);
             }
             break;
         case MENU_B_PRESSED:
@@ -1779,13 +1723,13 @@ static void Task_PokemonStorageSystemPC(u8 taskId)
             if (task->data[2] == 0 && CountPartyMons() == PARTY_SIZE)
             {
                 FillWindowPixelBuffer(0, PIXEL_FILL(1));
-                AddTextPrinterParameterized2(0, 1, gText_PartyFull, 0, NULL, 2, 1, 3);
+                AddTextPrinterParameterized2(0, 2, gText_PartyFull, 0, NULL, 2, 1, 3);
                 task->data[0] = 3;
             }
             else if (task->data[2] == 1 && CountPartyMons() == 1)
             {
                 FillWindowPixelBuffer(0, PIXEL_FILL(1));
-                AddTextPrinterParameterized2(0, 1, gText_JustOnePkmn, 0, NULL, 2, 1, 3);
+                AddTextPrinterParameterized2(0, 2, gText_JustOnePkmn, 0, NULL, 2, 1, 3);
                 task->data[0] = 3;
             }
             else
@@ -1800,7 +1744,7 @@ static void Task_PokemonStorageSystemPC(u8 taskId)
         if (JOY_NEW(A_BUTTON | B_BUTTON))
         {
             FillWindowPixelBuffer(0, PIXEL_FILL(1));
-            AddTextPrinterParameterized2(0, 1, gUnknown_085716C0[task->data[1]].desc, 0, NULL, 2, 1, 3);
+            AddTextPrinterParameterized2(0, 2, gUnknown_085716C0[task->data[1]].desc, 0, NULL, 2, 1, 3);
             task->data[0] = 2;
         }
         else if (JOY_NEW(DPAD_UP))
@@ -1810,7 +1754,7 @@ static void Task_PokemonStorageSystemPC(u8 taskId)
             Menu_MoveCursor(-1);
             task->data[1] = Menu_GetCursorPos();
             FillWindowPixelBuffer(0, PIXEL_FILL(1));
-            AddTextPrinterParameterized2(0, 1, gUnknown_085716C0[task->data[1]].desc, 0, NULL, 2, 1, 3);
+            AddTextPrinterParameterized2(0, 2, gUnknown_085716C0[task->data[1]].desc, 0, NULL, 2, 1, 3);
             task->data[0] = 2;
         }
         else if (JOY_NEW(DPAD_DOWN))
@@ -1820,7 +1764,7 @@ static void Task_PokemonStorageSystemPC(u8 taskId)
             Menu_MoveCursor(1);
             task->data[1] = Menu_GetCursorPos();
             FillWindowPixelBuffer(0, PIXEL_FILL(1));
-            AddTextPrinterParameterized2(0, 1, gUnknown_085716C0[task->data[1]].desc, 0, NULL, 2, 1, 3);
+            AddTextPrinterParameterized2(0, 2, gUnknown_085716C0[task->data[1]].desc, 0, NULL, 2, 1, 3);
             task->data[0] = 2;
         }
         break;
@@ -2106,12 +2050,12 @@ static void sub_80C7BE4(void)
     FillWindowPixelBuffer(windowId, PIXEL_FILL(4));
 
     center = GetStringCenterAlignXOffset(1, boxName, 64);
-    AddTextPrinterParameterized3(windowId, 1, center, 1, sBoxInfoTextColors, TEXT_SPEED_FF, boxName);
+    AddTextPrinterParameterized3(windowId, 2, center, 1, sBoxInfoTextColors, TEXT_SPEED_FF, boxName);
 
     ConvertIntToDecimalStringN(numBoxMonsText, nPokemonInBox, STR_CONV_MODE_RIGHT_ALIGN, 2);
     StringAppend(numBoxMonsText, sText_OutOf30);
     center = GetStringCenterAlignXOffset(1, numBoxMonsText, 64);
-    AddTextPrinterParameterized3(windowId, 1, center, 17, sBoxInfoTextColors, TEXT_SPEED_FF, numBoxMonsText);
+    AddTextPrinterParameterized3(windowId, 2, center, 17, sBoxInfoTextColors, TEXT_SPEED_FF, numBoxMonsText);
 
     winTileData = GetWindowAttribute(windowId, WINDOW_TILE_DATA);
     CpuCopy32((void *)winTileData, (void *)OBJ_VRAM0 + 0x100 + (GetSpriteTileStartByTag(gUnknown_02039D04->unk_0240) * 32), 0x400);
@@ -2345,7 +2289,6 @@ static void Cb_InitPSS(u8 taskId)
             SetPSSCallback(Cb_ReshowPSS);
         }
         SetVBlankCallback(VblankCb_PSS);
-        return;
     default:
         return;
     }
@@ -3642,8 +3585,6 @@ static void Cb_JumpBox(u8 taskId)
         sPSSData->newCurrBoxId = HandleBoxChooseSelectionInput();
         switch (sPSSData->newCurrBoxId)
         {
-        case 200:
-            break;
         default:
             ClearBottomWindow();
             sub_80C78E4();
@@ -3657,6 +3598,7 @@ static void Cb_JumpBox(u8 taskId)
             {
                 sPSSData->state++;
             }
+        case 200:
             break;
         }
         break;
@@ -4414,7 +4356,7 @@ static void PrintStorageActionText(u8 id)
 
     DynamicPlaceholderTextUtil_ExpandPlaceholders(sPSSData->field_2190, gPCStorageActionTexts[id].text);
     FillWindowPixelBuffer(1, PIXEL_FILL(1));
-    AddTextPrinterParameterized(1, 1, sPSSData->field_2190, 0, 1, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(1, 2, sPSSData->field_2190, 0, 1, TEXT_SPEED_FF, NULL);
     DrawTextBorderOuter(1, 2, 14);
     PutWindowTilemap(1);
     CopyWindowToVram(1, 2);
@@ -5459,7 +5401,7 @@ static void sub_80CCA3C(const void *tilemap, s8 direction, u8 arg2)
     if (direction == 0)
         return;
     if (direction > 0)
-        x *= 1, x += 0x14; // x * 1 is needed to match, but can be safely removed as it makes no functional difference
+        x += 0x14; // x * 1 is needed to match, but can be safely removed as it makes no functional difference
     else
         x -= 4;
 
@@ -9071,7 +9013,7 @@ static void PrintItemDescription(void)
         description = ItemId_GetDescription(sPSSData->cursorMonItem);
 
     FillWindowPixelBuffer(2, PIXEL_FILL(1));
-    AddTextPrinterParameterized5(2, 1, description, 4, 0, 0, NULL, 0, 1);
+    AddTextPrinterParameterized5(2, 2, description, 4, 0, 0, NULL, 0, 1);
 }
 
 static void sub_80D1818(void)

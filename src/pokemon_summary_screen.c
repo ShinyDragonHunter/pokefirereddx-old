@@ -991,7 +991,7 @@ static const union AnimCmd *const sSpriteAnimTable_StatusCondition[] = {
     sSpriteAnim_MoveSelector1,         // StatusParalyzed
     sSpriteAnim_MoveSelector2,         // StatusSleep
     sSpriteAnim_MoveSelector3,         // StatusFrozen
-    sSpriteAnim_MoveSelectorLeft, // StatusBurn
+    sSpriteAnim_MoveSelectorLeft,      // StatusBurn
     sSpriteAnim_MoveSelectorMiddle,    // StatusPokeRus
     sSpriteAnim_MoveSelector7,         // StatusFaint
 };
@@ -1948,7 +1948,7 @@ static void CloseMoveSelectMode(u8 taskId)
     PrintMoveDetails(0);
     TilemapFiveMovesDisplay(sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_BATTLE_MOVES][0], 3, TRUE);
     TilemapFiveMovesDisplay(sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_CONTEST_MOVES][0], 1, TRUE);
-    AddAndFillMoveNamesWindow(); // This function seems to have no effect.
+//    AddAndFillMoveNamesWindow(); // This function seems to have no effect.
     if (sMonSummaryScreen->firstMoveIndex != MAX_MON_MOVES)
     {
         ClearWindowTilemap(PSS_LABEL_WINDOW_MOVES_POWER_ACC);
@@ -2502,22 +2502,22 @@ static void TilemapFiveMovesDisplay(u16 *dst, u16 palette, bool8 remove)
 
     palette *= 0x1000;
     id = 0x56A;
-    if (!remove)
-    {
-        for (i = 0; i < 20; i++)
-        {
-            dst[id + i] = gSummaryScreenWindow_Tilemap[i] + palette;
-            dst[id + i + 0x20] = gSummaryScreenWindow_Tilemap[i] + palette;
-            dst[id + i + 0x40] = gSummaryScreenWindow_Tilemap[i + 20] + palette;
-        }
-    }
-    else // Remove
+    if (remove) // Remove
     {
         for (i = 0; i < 20; i++)
         {
             dst[id + i] = gSummaryScreenWindow_Tilemap[i + 20] + palette;
             dst[id + i + 0x20] = gSummaryScreenWindow_Tilemap[i + 40] + palette;
             dst[id + i + 0x40] = gSummaryScreenWindow_Tilemap[i + 40] + palette;
+        }
+    }
+    else
+    {
+        for (i = 0; i < 20; i++)
+        {
+            dst[id + i] = gSummaryScreenWindow_Tilemap[i] + palette;
+            dst[id + i + 0x20] = gSummaryScreenWindow_Tilemap[i] + palette;
+            dst[id + i + 0x40] = gSummaryScreenWindow_Tilemap[i + 20] + palette;
         }
     }
 }
@@ -2539,10 +2539,10 @@ static void DrawPokerusCuredSymbol(struct Pokemon *mon) // This checks if the mo
 
 static void SetMonPicBackgroundPalette(bool8 isMonShiny)
 {
-    if (!isMonShiny)
-        SetBgTilemapPalette(3, 1, 4, 8, 8, 0);
-    else
+    if (isMonShiny)
         SetBgTilemapPalette(3, 1, 4, 8, 8, 5);
+    else
+        SetBgTilemapPalette(3, 1, 4, 8, 8, 0);
     ScheduleBgCopyTilemapToVram(3);
 }
 
@@ -2671,25 +2671,26 @@ static void PrintNotEggInfo(void)
         StringCopy(gStringVar1, &gText_NumberClear01[0]);
         ConvertIntToDecimalStringN(gStringVar2, dexNum, STR_CONV_MODE_LEADING_ZEROS, 3);
         StringAppend(gStringVar1, gStringVar2);
-        if (!IsMonShiny(mon))
-        {
-            PrintTextOnWindow(PSS_LABEL_WINDOW_PORTRAIT_DEX_NUMBER, gStringVar1, 0, 1, 0, 1);
-            SetMonPicBackgroundPalette(FALSE);
-        }
-        else
+        if (IsMonShiny(mon))
         {
             PrintTextOnWindow(PSS_LABEL_WINDOW_PORTRAIT_DEX_NUMBER, gStringVar1, 0, 1, 0, 7);
             SetMonPicBackgroundPalette(TRUE);
+
+        }
+        else
+        {
+            PrintTextOnWindow(PSS_LABEL_WINDOW_PORTRAIT_DEX_NUMBER, gStringVar1, 0, 1, 0, 1);
+            SetMonPicBackgroundPalette(FALSE);
         }
         PutWindowTilemap(PSS_LABEL_WINDOW_PORTRAIT_DEX_NUMBER);
     }
     else
     {
         ClearWindowTilemap(PSS_LABEL_WINDOW_PORTRAIT_DEX_NUMBER);
-        if (!IsMonShiny(mon))
-            SetMonPicBackgroundPalette(FALSE);
-        else
+        if (IsMonShiny(mon))
             SetMonPicBackgroundPalette(TRUE);
+        else
+            SetMonPicBackgroundPalette(FALSE);
     }
     StringCopy(gStringVar1, gText_LevelSymbol);
     ConvertIntToDecimalStringN(gStringVar2, summary->level, STR_CONV_MODE_LEFT_ALIGN, 3);
@@ -3075,10 +3076,10 @@ static void BufferMonTrainerMemo(void)
 
         if (DoesMonOTMatchOwner())
         {
-            if (sum->metLevel == 0)
-                text = (sum->metLocation >= maxMapsec) ? gText_XNatureHatchedSomewhereAt : gText_XNatureHatchedAtYZ;
-            else
+            if (sum->metLevel)
                 text = (sum->metLocation >= maxMapsec) ? gText_XNatureMetSomewhereAt : gText_XNatureMetAtYZ;
+            else
+                text = (sum->metLocation >= maxMapsec) ? gText_XNatureHatchedSomewhereAt : gText_XNatureHatchedAtYZ;
         }
         else if (sum->metLocation == METLOC_FATEFUL_ENCOUNTER)
         {
@@ -3341,7 +3342,7 @@ static void PrintEggMemo(void)
     {
         if (sum->metLocation == METLOC_FATEFUL_ENCOUNTER)
             text = gText_PeculiarEggNicePlace;
-        else if (!DidMonComeFromGBAGames() || DoesMonOTMatchOwner())
+        else if (!DidMonComeFromGBAGames() || !DoesMonOTMatchOwner())
             text = gText_PeculiarEggTrade;
         else if (sum->metLocation == METLOC_SPECIAL_EGG)
         {
@@ -3427,14 +3428,14 @@ static void PrintHeldItemName(void)
     {
         text = ItemId_GetName(ITEM_ENIGMA_BERRY);
     }
-    else if (sMonSummaryScreen->summary.item == ITEM_NONE)
-    {
-        text = gText_None;
-    }
-    else
+    else if (sMonSummaryScreen->summary.item)
     {
         CopyItemName(sMonSummaryScreen->summary.item, gStringVar1);
         text = gStringVar1;
+    }
+    else
+    {
+        text = gText_None;
     }
 
     x = GetStringCenterAlignXOffset(1, text, 72) + 6;
@@ -3446,15 +3447,15 @@ static void PrintRibbonCount(void)
     const u8 *text;
     int x;
 
-    if (sMonSummaryScreen->summary.ribbonCount == 0)
-    {
-        text = gText_None;
-    }
-    else
+    if (sMonSummaryScreen->summary.ribbonCount)
     {
         ConvertIntToDecimalStringN(gStringVar1, sMonSummaryScreen->summary.ribbonCount, STR_CONV_MODE_RIGHT_ALIGN, 2);
         StringExpandPlaceholders(gStringVar4, gText_RibbonsVar1);
         text = gStringVar4;
+    }
+    else
+    {
+        text = gText_None;
     }
 
     x = GetStringCenterAlignXOffset(1, text, 70) + 6;
@@ -3836,7 +3837,7 @@ static void SetSpriteInvisibility(u8 spriteArrayId, bool8 invisible)
 
 static void HidePageSpecificSprites(void)
 {
-    // Keeps Pok�mon, caught ball and status sprites visible.
+    // Keeps Pokémon, caught ball and status sprites visible.
     u8 i;
 
     for (i = SPRITE_ARR_ID_TYPE; i < ARRAY_COUNT(sMonSummaryScreen->spriteIds); i++)
@@ -4104,7 +4105,7 @@ static void RemoveAndCreateMonMarkingsSprite(struct Pokemon *mon)
 
 static void CreateCaughtBallSprite(struct Pokemon *mon)
 {
-    u8 ball = BallIdToGfxId(GetMonData(mon, MON_DATA_POKEBALL));
+    u8 ball = ItemIdToBallId(GetMonData(mon, MON_DATA_POKEBALL));
 
     LoadBallGfx(ball);
     sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_BALL] = CreateSprite(&gBallSpriteTemplates[ball], 16, 136, 0);

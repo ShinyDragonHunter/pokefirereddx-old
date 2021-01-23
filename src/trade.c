@@ -626,17 +626,16 @@ static void CB2_ReturnToTradeMenu(void)
     {
     case 0:
         InitTradeMenu();
+        // fallthrough
+    case 2:
+    case 3:
+    case 6:
+    case 20:
         gMain.state++;
         break;
     case 1:
         gMain.state++;
         sTradeMenuData->timer = 0;
-        break;
-    case 2:
-        gMain.state++;
-        break;
-    case 3:
-        gMain.state++;
         break;
     case 4:
         CalculatePlayerPartyCount();
@@ -648,9 +647,6 @@ static void CB2_ReturnToTradeMenu(void)
             LoadWirelessStatusIndicatorSpriteGfx();
             CreateWirelessStatusIndicatorSprite(0, 0);
         }
-        gMain.state++;
-        break;
-    case 6:
         gMain.state++;
         break;
     case 7:
@@ -767,9 +763,6 @@ static void CB2_ReturnToTradeMenu(void)
     case 19:
         SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_OBJ_1D_MAP | DISPCNT_OBJ_ON);
         LoadTradeBgGfx(2);
-        gMain.state++;
-        break;
-    case 20:
         gMain.state++;
         break;
     case 21:
@@ -934,19 +927,6 @@ static void SetTradePartyMonsVisible(void)
     sTradeMenuData->neverRead_44 = TRUE;
 }
 
-// why not just use memcpy?
-static void Trade_Memcpy(void *dataDest, const void *dataSrc, u32 count)
-{
-    u8 *dest = dataDest;
-    const u8 *src = dataSrc;
-    u32 i;
-
-    for (i = 0; i < count; i++)
-    {
-        dest[i] = src[i];
-    }
-}
-
 static bool8 BufferTradeParties(void)
 {
     u8 id = GetMultiplayerId();
@@ -956,7 +936,7 @@ static bool8 BufferTradeParties(void)
     switch (sTradeMenuData->bufferPartyState)
     {
     case 0:
-        Trade_Memcpy(gBlockSendBuffer, &gPlayerParty[0], 2 * sizeof(struct Pokemon));
+        memcpy(gBlockSendBuffer, &gPlayerParty[0], 2 * sizeof(struct Pokemon));
         sTradeMenuData->bufferPartyState++;
         sTradeMenuData->timer = 0;
         break;
@@ -984,13 +964,13 @@ static bool8 BufferTradeParties(void)
     case 4:
         if (_GetBlockReceivedStatus() == 3)
         {
-            Trade_Memcpy(&gEnemyParty[0], gBlockRecvBuffer[id ^ 1], 2 * sizeof(struct Pokemon));
+            memcpy(&gEnemyParty[0], gBlockRecvBuffer[id ^ 1], 2 * sizeof(struct Pokemon));
             TradeResetReceivedFlags();
             sTradeMenuData->bufferPartyState++;
         }
         break;
     case 5:
-        Trade_Memcpy(gBlockSendBuffer, &gPlayerParty[2], 2 * sizeof(struct Pokemon));
+        memcpy(gBlockSendBuffer, &gPlayerParty[2], 2 * sizeof(struct Pokemon));
         sTradeMenuData->bufferPartyState++;
         break;
     case 7:
@@ -1003,13 +983,13 @@ static bool8 BufferTradeParties(void)
     case 8:
         if (_GetBlockReceivedStatus() == 3)
         {
-            Trade_Memcpy(&gEnemyParty[2], gBlockRecvBuffer[id ^ 1], 200);
+            memcpy(&gEnemyParty[2], gBlockRecvBuffer[id ^ 1], 200);
             TradeResetReceivedFlags();
             sTradeMenuData->bufferPartyState++;
         }
         break;
     case 9:
-        Trade_Memcpy(gBlockSendBuffer, &gPlayerParty[4], 200);
+        memcpy(gBlockSendBuffer, &gPlayerParty[4], 200);
         sTradeMenuData->bufferPartyState++;
         break;
     case 11:
@@ -1022,13 +1002,13 @@ static bool8 BufferTradeParties(void)
     case 12:
         if (_GetBlockReceivedStatus() == 3)
         {
-            Trade_Memcpy(&gEnemyParty[4], gBlockRecvBuffer[id ^ 1], 200);
+            memcpy(&gEnemyParty[4], gBlockRecvBuffer[id ^ 1], 200);
             TradeResetReceivedFlags();
             sTradeMenuData->bufferPartyState++;
         }
         break;
     case 13:
-        Trade_Memcpy(gBlockSendBuffer, gSaveBlock1Ptr->mail, 220);
+        memcpy(gBlockSendBuffer, gSaveBlock1Ptr->mail, 220);
         sTradeMenuData->bufferPartyState++;
         break;
     case 15:
@@ -1041,13 +1021,13 @@ static bool8 BufferTradeParties(void)
     case 16:
         if (_GetBlockReceivedStatus() == 3)
         {
-            Trade_Memcpy(gTradeMail, gBlockRecvBuffer[id ^ 1], 216);
+            memcpy(gTradeMail, gBlockRecvBuffer[id ^ 1], 216);
             TradeResetReceivedFlags();
             sTradeMenuData->bufferPartyState++;
         }
         break;
     case 17:
-        Trade_Memcpy(gBlockSendBuffer, gSaveBlock1Ptr->giftRibbons, ARRAY_COUNT(sTradeMenuData->giftRibbons));
+        memcpy(gBlockSendBuffer, gSaveBlock1Ptr->giftRibbons, ARRAY_COUNT(sTradeMenuData->giftRibbons));
         sTradeMenuData->bufferPartyState++;
         break;
     case 19:
@@ -1060,7 +1040,7 @@ static bool8 BufferTradeParties(void)
     case 20:
         if (_GetBlockReceivedStatus() == 3)
         {
-            Trade_Memcpy(sTradeMenuData->giftRibbons, gBlockRecvBuffer[id ^ 1], ARRAY_COUNT(sTradeMenuData->giftRibbons));
+            memcpy(sTradeMenuData->giftRibbons, gBlockRecvBuffer[id ^ 1], ARRAY_COUNT(sTradeMenuData->giftRibbons));
             TradeResetReceivedFlags();
             sTradeMenuData->bufferPartyState++;
         }
@@ -1411,7 +1391,6 @@ static void TradeMenuProcessInput_SelectedMon(void)
     case MENU_B_PRESSED:
         PlaySE(SE_SELECT);
         TradeMenuChooseMon();
-        break;
     case MENU_NOTHING_CHOSEN:
         break;
     case 0: // Summary
@@ -1431,9 +1410,6 @@ static void TradeMenuProcessInput_SelectedMon(void)
             break;
         case CANT_TRADE_NATIONAL:
         case CANT_TRADE_INVALID_MON:
-            QueueAction(QUEUE_DELAY_MSG, QUEUE_MON_CANT_BE_TRADED);
-            sTradeMenuData->tradeMenuFunc = TRADEMENUFUNC_REDRAW_MAIN_MENU;
-            break;
         case CANT_TRADE_EGG_YET:
         case CANT_TRADE_EGG_YET2:
             QueueAction(QUEUE_DELAY_MSG, QUEUE_EGG_CANT_BE_TRADED);
@@ -2128,7 +2104,7 @@ static void DoQueuedActions(void)
 static void PrintTradeMessage(u8 messageId)
 {
     FillWindowPixelBuffer(0, PIXEL_FILL(1));
-    AddTextPrinterParameterized(0, 1, sTradeMessages[messageId], 0, 1, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(0, 2, sTradeMessages[messageId], 0, 1, TEXT_SPEED_FF, NULL);
     DrawTextBorderOuter(0, 20, 12);
     PutWindowTilemap(0);
     CopyWindowToVram(0, 3);
@@ -2193,14 +2169,13 @@ static void SetTradePartyLiveStatuses(u8 whichParty)
     case TRADE_PLAYER:
         for (i = 0; i < sTradeMenuData->partyCounts[whichParty]; i++)
         {
+            sTradeMenuData->isLiveMon[whichParty][i] = FALSE;
             if (GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG) == TRUE)
             {
-                sTradeMenuData->isLiveMon[whichParty][i] = FALSE;
                 sTradeMenuData->isEgg[whichParty][i] = TRUE;
             }
             else if (GetMonData(&gPlayerParty[i], MON_DATA_HP) == 0)
             {
-                sTradeMenuData->isLiveMon[whichParty][i] = FALSE;
                 sTradeMenuData->isEgg[whichParty][i] = FALSE;
             }
             else
@@ -2213,14 +2188,13 @@ static void SetTradePartyLiveStatuses(u8 whichParty)
     case TRADE_PARTNER:
         for (i = 0; i < sTradeMenuData->partyCounts[whichParty]; i++)
         {
-            if (GetMonData(&gEnemyParty[i], MON_DATA_IS_EGG) == TRUE)
+            sTradeMenuData->isLiveMon[whichParty][i] = FALSE;
+            if (GetMonData(&gEnemyParty[i], MON_DATA_IS_EGG))
             {
-                sTradeMenuData->isLiveMon[whichParty][i] = FALSE;
                 sTradeMenuData->isEgg[whichParty][i] = TRUE;
             }
             else if (GetMonData(&gEnemyParty[i], MON_DATA_HP) == 0)
             {
-                sTradeMenuData->isLiveMon[whichParty][i] = FALSE;
                 sTradeMenuData->isEgg[whichParty][i] = FALSE;
             }
             else
@@ -2372,14 +2346,11 @@ s32 GetGameProgressForLinkTrade(void)
             // Is player champion
             if (gLinkPlayers[GetMultiplayerId()].progressFlagsCopy & 0xF0)
             {
-                if (isGameFrLg == 2) //unnecessary check, isGameFrLg always 2 here
-                {
-                    // Is partner champion
-                    if (gLinkPlayers[GetMultiplayerId() ^ 1].progressFlagsCopy & 0xF0)
-                        return TRADE_BOTH_PLAYERS_READY;
-                    else
-                        return TRADE_PARTNER_NOT_READY;
-                }
+                // Is partner champion
+                if (gLinkPlayers[GetMultiplayerId() ^ 1].progressFlagsCopy & 0xF0)
+                    return TRADE_BOTH_PLAYERS_READY;
+                else
+                    return TRADE_PARTNER_NOT_READY;
             }
             else
             {
@@ -3388,15 +3359,12 @@ static bool8 AnimateTradeSequenceCable(void)
         }
         break;
     case 34:
+    case 36:
         BlendPalettes(0x1, 16, RGB_WHITEALPHA);
         sTradeData->state++;
         break;
     case 35:
         BlendPalettes(0x1, 0, RGB_WHITEALPHA);
-        sTradeData->state++;
-        break;
-    case 36:
-        BlendPalettes(0x1, 16, RGB_WHITEALPHA);
         sTradeData->state++;
         break;
     case 37:
@@ -3885,13 +3853,7 @@ static bool8 AnimateTradeSequenceWireless(void)
         }
         break;
     case 34:
-        BlendPalettes(0x8, 16, RGB_WHITEALPHA);
-        sTradeData->state++;
-        break;
     case 35:
-        BlendPalettes(0x8, 16, RGB_WHITEALPHA);
-        sTradeData->state++;
-        break;
     case 36:
         BlendPalettes(0x8, 16, RGB_WHITEALPHA);
         sTradeData->state++;
@@ -4387,12 +4349,8 @@ static void _CreateInGameTradePokemon(u8 whichPlayerMon, u8 whichInGameTrade)
             SetInGameTradeMail(&mail, inGameTrade);
             gTradeMail[0] = mail;
             SetMonData(pokemon, MON_DATA_MAIL, &isMail);
-            SetMonData(pokemon, MON_DATA_HELD_ITEM, &inGameTrade->heldItem);
         }
-        else
-        {
-            SetMonData(pokemon, MON_DATA_HELD_ITEM, &inGameTrade->heldItem);
-        }
+        SetMonData(pokemon, MON_DATA_HELD_ITEM, &inGameTrade->heldItem);
     }
     CalculateMonStats(&gEnemyParty[0]);
 }
@@ -4430,7 +4388,7 @@ void CreateInGameTradePokemon(void)
 
 static void CB2_UpdateLinkTrade(void)
 {
-    if (AnimateTradeSequence() == TRUE)
+    if (AnimateTradeSequence())
     {
         DestroySprite(&gSprites[sTradeData->pokePicSpriteIdxs[TRADE_PLAYER]]);
         FreeSpriteOamMatrix(&gSprites[sTradeData->pokePicSpriteIdxs[TRADE_PARTNER]]);
@@ -4700,7 +4658,7 @@ void DrawTextOnTradeWindow(u8 windowId, const u8 *str, u8 speed)
     sTradeData->textColors[0] = TEXT_DYNAMIC_COLOR_6;
     sTradeData->textColors[1] = TEXT_COLOR_WHITE;
     sTradeData->textColors[2] = TEXT_COLOR_GREEN;
-    AddTextPrinterParameterized4(windowId, 1, 0, 2, 0, 0, sTradeData->textColors, speed, str);
+    AddTextPrinterParameterized4(windowId, 2, 0, 2, 0, 0, sTradeData->textColors, speed, str);
     CopyWindowToVram(windowId, 3);
 }
 
@@ -4714,20 +4672,12 @@ static void Task_AnimateWirelessSignal(u8 taskId)
 
     u16 paletteIdx = sWirelessSignalTiming[idx][0] * 16;
 
-    if (!signalComingBack)
-    {
-        if (paletteIdx == 256)
-            LoadPalette(sTradePal_Black, 0x30, 32);
-        else
-            LoadPalette(&sTradePal_WirelessSignalSend[paletteIdx], 0x30, 32);
-    }
+    if (paletteIdx == 256)
+        LoadPalette(sTradePal_Black, 0x30, 32);
+    else if (signalComingBack)
+        LoadPalette(&sTradePal_WirelessSignalReceive[paletteIdx], 0x30, 32);
     else
-    {
-        if (paletteIdx == 256)
-            LoadPalette(sTradePal_Black, 0x30, 32);
-        else
-            LoadPalette(&sTradePal_WirelessSignalReceive[paletteIdx], 0x30, 32);
-    }
+        LoadPalette(&sTradePal_WirelessSignalSend[paletteIdx], 0x30, 32);
 
     if (sWirelessSignalTiming[idx][0] == 0 && counter == 0)
         PlaySE(SE_M_HEAL_BELL);

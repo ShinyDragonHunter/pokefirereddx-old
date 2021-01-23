@@ -406,8 +406,6 @@ static bool8 TryGenerateWildMon(const struct WildPokemonInfo *wildMonInfo, u8 ar
         if (TryGetAbilityInfluencedWildMonIndex(wildMonInfo->wildPokemon, TYPE_ELECTRIC, ABILITY_STATIC, &wildMonIndex))
             break;
 
-        wildMonIndex = ChooseWildMonIndex_WaterRock();
-        break;
     case WILD_AREA_ROCKS:
         wildMonIndex = ChooseWildMonIndex_WaterRock();
         break;
@@ -843,9 +841,7 @@ bool8 UpdateRepelCounter(void)
 {
     u16 steps;
 
-    if (InBattlePike() || InBattlePyramid())
-        return FALSE;
-    if (InUnionRoom())
+    if (InBattlePike() || InBattlePyramid() || InUnionRoom())
         return FALSE;
 
     steps = VarGet(VAR_REPEL_STEP_COUNT);

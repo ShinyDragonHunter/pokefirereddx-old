@@ -73,12 +73,10 @@ void MapMusicMain(void)
 {
     switch (sMapMusicState)
     {
-    case 0:
-        break;
     case 1:
         sMapMusicState = 2;
         PlayBGM(sCurrentMapMusic);
-        break;
+    case 0:
     case 2:
     case 3:
     case 4:
@@ -386,11 +384,10 @@ void PlayCryInternal(u16 species, s8 pan, s8 volume, u8 priority, u8 mode)
 
     switch (mode)
     {
-    case 0:
-        break;
     case 1:
         length = 20;
         release = 225;
+    case 0:
         break;
     case 2:
         release = 225;

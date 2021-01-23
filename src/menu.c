@@ -879,15 +879,13 @@ void sub_8198204(const u8 *string, const u8 *string2, u8 a3, u8 a4, bool8 copyTo
         if (a3 != 0)
         {
             color[0] = TEXT_COLOR_TRANSPARENT;
-            color[1] = TEXT_COLOR_WHITE;
-            color[2] = TEXT_COLOR_DARK_GREY;
         }
         else
         {
             color[0] = TEXT_DYNAMIC_COLOR_6;
-            color[1] = TEXT_COLOR_WHITE;
-            color[2] = TEXT_COLOR_DARK_GREY;
         }
+        color[1] = TEXT_COLOR_WHITE;
+        color[2] = TEXT_COLOR_DARK_GREY;
         PutWindowTilemap(sWindowId);
         FillWindowPixelBuffer(sWindowId, PIXEL_FILL(15));
         if (string2 != NULL)
@@ -901,7 +899,7 @@ void sub_8198204(const u8 *string, const u8 *string2, u8 a3, u8 a4, bool8 copyTo
                       0,
                       string2);
         }
-        AddTextPrinterParameterized4(sWindowId, 1, 4, 1, 0, 0, color, 0, string);
+        AddTextPrinterParameterized4(sWindowId, 2, 4, 1, 0, 0, color, 0, string);
         if (copyToVram)
             CopyWindowToVram(sWindowId, 3);
     }
@@ -1336,17 +1334,7 @@ u8 sub_8198F58(u8 windowId, u8 fontId, u8 left, u8 top, u8 a4, u8 cursorHeight, 
     else
         sMenu.cursorPos = pos;
 
-    // Why call this when it's not gonna move?
-    ChangeListMenuCursorPosition(MENU_CURSOR_DELTA_NONE, MENU_CURSOR_DELTA_NONE);
     return sMenu.cursorPos;
-}
-
-// Unused
-u8 sub_8198FD4(u8 windowId, u8 fontId, u8 left, u8 top, u8 a4, u8 a5, u8 a6, u8 a7)
-{
-    u8 cursorHeight = GetMenuCursorDimensionByFont(fontId, 1);
-    u8 numChoices = a5 * a6;
-    return sub_8198F58(windowId, fontId, left, top, a4, cursorHeight, a5, a6, numChoices, a7);
 }
 
 void sub_8199060(u8 oldCursorPos, u8 newCursorPos)
@@ -1561,48 +1549,6 @@ s8 sub_81993D8(void)
     return MENU_NOTHING_CHOSEN;
 }
 
-//Unused
-s8 sub_8199484(void)
-{
-    u8 oldPos = sMenu.cursorPos;
-
-    if (JOY_NEW(A_BUTTON))
-    {
-        PlaySE(SE_SELECT);
-        return sMenu.cursorPos;
-    }
-    else if (JOY_NEW(B_BUTTON))
-    {
-        return MENU_B_PRESSED;
-    }
-    else if ((JOY_REPEAT(DPAD_ANY)) == DPAD_UP)
-    {
-        if (oldPos != ChangeGridMenuCursorPosition(0, -1))
-            PlaySE(SE_SELECT);
-        return MENU_NOTHING_CHOSEN;
-    }
-    else if ((JOY_REPEAT(DPAD_ANY)) == DPAD_DOWN)
-    {
-        if (oldPos != ChangeGridMenuCursorPosition(0, 1))
-            PlaySE(SE_SELECT);
-        return MENU_NOTHING_CHOSEN;
-    }
-    else if ((JOY_REPEAT(DPAD_ANY)) == DPAD_LEFT || GetLRKeysPressedAndHeld() == MENU_L_PRESSED)
-    {
-        if (oldPos != ChangeGridMenuCursorPosition(-1, 0))
-            PlaySE(SE_SELECT);
-        return MENU_NOTHING_CHOSEN;
-    }
-    else if ((JOY_REPEAT(DPAD_ANY)) == DPAD_RIGHT || GetLRKeysPressedAndHeld() == MENU_R_PRESSED)
-    {
-        if (oldPos != ChangeGridMenuCursorPosition(1, 0))
-            PlaySE(SE_SELECT);
-        return MENU_NOTHING_CHOSEN;
-    }
-
-    return MENU_NOTHING_CHOSEN;
-}
-
 u8 InitMenuInUpperLeftCorner(u8 windowId, u8 itemCount, u8 initialCursorPos, bool8 APressMuted)
 {
     s32 pos;
@@ -1637,7 +1583,7 @@ void PrintMenuTable(u8 windowId, u8 itemCount, const struct MenuAction *strs)
 
     for (i = 0; i < itemCount; i++)
     {
-        AddTextPrinterParameterized(windowId, 1, strs[i].text, 8, (i * 16) + 1, 0xFF, NULL);
+        AddTextPrinterParameterized(windowId, 2, strs[i].text, 8, (i * 16) + 1, 0xFF, NULL);
     }
 
     CopyWindowToVram(windowId, 2);
@@ -1702,7 +1648,7 @@ void PrintMenuGridTable(u8 windowId, u8 optionWidth, u8 columns, u8 rows, const 
     for (i = 0; i < rows; i++)
     {
         for (j = 0; j < columns; j++)
-            AddTextPrinterParameterized(windowId, 1, strs[(i * columns) + j].text, (optionWidth * j) + 8, (i * 16) + 1, 0xFF, NULL);
+            AddTextPrinterParameterized(windowId, 2, strs[(i * columns) + j].text, (optionWidth * j) + 8, (i * 16) + 1, 0xFF, NULL);
     }
     CopyWindowToVram(windowId, 2);
 }
@@ -1760,8 +1706,6 @@ u8 sub_8199944(u8 windowId, u8 optionWidth, u8 columns, u8 rows, u8 initialCurso
     else
         sMenu.cursorPos = pos;
 
-    // Why call this when it's not gonna move?
-    ChangeListMenuCursorPosition(MENU_CURSOR_DELTA_NONE, MENU_CURSOR_DELTA_NONE);
     return sMenu.cursorPos;
 }
 
@@ -2046,82 +1990,6 @@ void PrintPlayerNameOnWindow(u8 windowId, const u8 *src, u16 x, u16 y)
     StringExpandPlaceholders(gStringVar4, src);
 
     AddTextPrinterParameterized(windowId, 1, gStringVar4, x, y, 0xFF, 0);
-}
-
-// Unused. Similar to BlitBitmapRect4Bit.
-void sub_819A080(const struct Bitmap *src, struct Bitmap *dst, u16 srcX, u16 srcY, u16 dstX, u16 dstY, u16 width, u16 height)
-{
-    int loopSrcY, loopDstY, loopSrcX, loopDstX, xEnd, yEnd, multiplierSrcY, multiplierDstY;
-    const u8 *pixelsSrc;
-    u8 *pixelsDst;
-    u16 toOrr;
-
-    if (dst->width - dstX < width)
-        xEnd = dst->width - dstX + srcX;
-    else
-        xEnd = width + srcX;
-
-    if (dst->height - dstY < height)
-        yEnd = srcY + dst->height - dstY;
-    else
-        yEnd = srcY + height;
-
-    multiplierSrcY = (src->width + (src->width & 7)) >> 3;
-    multiplierDstY = (dst->width + (dst->width & 7)) >> 3;
-
-    for (loopSrcY = srcY, loopDstY = dstY; loopSrcY < yEnd; loopSrcY++, loopDstY++)
-    {
-        for (loopSrcX = srcX, loopDstX = dstX; loopSrcX < xEnd; loopSrcX++, loopDstX++)
-        {
-            pixelsSrc = src->pixels + ((loopSrcX >> 1) & 3) + ((loopSrcX >> 3) << 5) + (((loopSrcY >> 3) * multiplierSrcY) << 5) + ((u32)(loopSrcY << 0x1d) >> 0x1B);
-            pixelsDst = (void*) dst->pixels + ((loopDstX >> 1) & 3) + ((loopDstX >> 3) << 5) + ((( loopDstY >> 3) * multiplierDstY) << 5) + ((u32)(loopDstY << 0x1d) >> 0x1B);
-
-            if ((uintptr_t)pixelsDst & 0x1)
-            {
-                pixelsDst--;
-                if (loopDstX & 0x1)
-                {
-                    toOrr = *(vu16*)pixelsDst;
-                    toOrr &= 0x0fff;
-                    if (loopSrcX & 0x1)
-                        toOrr |= ((*pixelsSrc & 0xf0) << 8);
-                    else
-                        toOrr |= ((*pixelsSrc & 0x0f) << 12);
-                }
-                else
-                {
-                    toOrr = *(vu16*)pixelsDst;
-                    toOrr &= 0xf0ff;
-                    if (loopSrcX & 0x1)
-                        toOrr |= ((*pixelsSrc & 0xf0) << 4);
-                    else
-                        toOrr |= ((*pixelsSrc & 0x0f) << 8);
-                }
-            }
-            else
-            {
-                if (loopDstX & 1)
-                {
-                    toOrr = *(vu16*)pixelsDst;
-                    toOrr &= 0xff0f;
-                    if (loopSrcX & 1)
-                        toOrr |= ((*pixelsSrc & 0xf0) << 0);
-                    else
-                        toOrr |= ((*pixelsSrc & 0x0f) << 4);
-                }
-                else
-                {
-                    toOrr = *(vu16*)pixelsDst;
-                    toOrr &= 0xfff0;
-                    if (loopSrcX & 1)
-                        toOrr |= ((*pixelsSrc & 0xf0) >> 4);
-                    else
-                        toOrr |= ((*pixelsSrc & 0x0f) >> 0);
-                }
-            }
-            *(vu16*)pixelsDst = toOrr;
-        }
-    }
 }
 
 void sub_819A25C(u8 palOffset, u16 speciesId)

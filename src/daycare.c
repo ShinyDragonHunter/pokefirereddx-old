@@ -27,7 +27,6 @@
 // this file's functions
 static void ClearDaycareMonMail(struct DayCareMail *mail);
 static void SetInitialEggData(struct Pokemon *mon, u16 species, struct DayCare *daycare);
-static u8 ModifyBreedingScoreForOvalCharm(u8 score);
 static u8 GetDaycareCompatibilityScore(struct DayCare *daycare);
 static void DaycarePrintMonInfo(u8 windowId, s32 daycareSlotId, u8 y);
 
@@ -837,7 +836,7 @@ void CreateEgg(struct Pokemon *mon, u16 species, bool8 setHotSpringsLocation)
 
     CreateMon(mon, species, EGG_HATCH_LEVEL, USE_RANDOM_IVS, FALSE, 0, OT_ID_PLAYER_ID, 0);
     metLevel = 0;
-    ball = ITEM_POKE_BALL;
+    ball = BALL_POKE;
     language = LANGUAGE_JAPANESE;
     SetMonData(mon, MON_DATA_POKEBALL, &ball);
     SetMonData(mon, MON_DATA_NICKNAME, sJapaneseEggNickname);
@@ -864,7 +863,7 @@ static void SetInitialEggData(struct Pokemon *mon, u16 species, struct DayCare *
     personality = daycare->offspringPersonality;
     CreateMon(mon, species, EGG_HATCH_LEVEL, USE_RANDOM_IVS, TRUE, personality, OT_ID_PLAYER_ID, 0);
     metLevel = 0;
-    ball = ITEM_POKE_BALL;
+    ball = BALL_POKE;
     language = LANGUAGE_JAPANESE;
     SetMonData(mon, MON_DATA_POKEBALL, &ball);
     SetMonData(mon, MON_DATA_NICKNAME, sJapaneseEggNickname);
@@ -891,7 +890,24 @@ static bool8 TryProduceOrHatchEgg(struct DayCare *daycare)
     // Check if an egg should be produced
     if (daycare->offspringPersonality == 0 && validEggs == DAYCARE_MON_COUNT && (daycare->mons[1].steps & 0xFF) == 0xFF)
     {
-        u8 compatability = ModifyBreedingScoreForOvalCharm(GetDaycareCompatibilityScore(daycare));
+        u8 compatability = GetDaycareCompatibilityScore(daycare);
+
+        if (CheckBagHasItem(ITEM_OVAL_CHARM, 1))
+        {
+            switch (compatability)
+            {
+            case PARENTS_LOW_COMPATIBILITY:
+                compatability = 40;
+                break;
+            case PARENTS_MED_COMPATABILITY:
+                compatability = 80;
+                break;
+            case PARENTS_MAX_COMPATABILITY:
+                compatability = 88;
+                break;
+            }
+        }
+
         if (compatability > (Random() * 100u) / USHRT_MAX)
             TriggerPendingDaycareEgg();
     }
@@ -1012,23 +1028,6 @@ static bool8 EggGroupsOverlap(u16 *eggGroups1, u16 *eggGroups2)
     }
 
     return FALSE;
-}
-
-static u8 ModifyBreedingScoreForOvalCharm(u8 score)
-{
-    if (CheckBagHasItem(ITEM_OVAL_CHARM, 1))
-    {
-        switch (score)
-        {
-            case 20:
-                return 40;
-            case 50:
-                return 80;
-            case 70:
-                return 88;
-        }
-    }
-    return score;
 }
 
 static u8 GetDaycareCompatibilityScore(struct DayCare *daycare)

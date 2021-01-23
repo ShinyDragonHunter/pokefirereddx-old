@@ -25,15 +25,6 @@
 #include "data.h"
 #include "pokemon_summary_screen.h"
 
-struct TestingBar
-{
-    s32 maxValue;
-    s32 oldValue;
-    s32 receivedValue;
-    u32 unkC_0:5;
-    u32 unk10;
-};
-
 enum
 {   // Corresponds to gHealthboxElementsGfxTable (and the tables after it) in graphics.c
     // These are indexes into the tables, which are filled with 8x8 square pixel data.
@@ -195,7 +186,6 @@ static s32 CalcNewBarValue(s32 maxValue, s32 currValue, s32 receivedValue, s32 *
 static u8 GetScaledExpFraction(s32 currValue, s32 receivedValue, s32 maxValue, u8 scale);
 static void MoveBattleBarGraphically(u8 battlerId, u8 whichBar);
 static u8 CalcBarFilledPixels(s32 maxValue, s32 oldValue, s32 receivedValue, s32 *currValue, u8 *arg4, u8 scale);
-static void sub_8074F88(struct TestingBar *barInfo, s32 *arg1, u16 *arg2);
 
 // const rom data
 static const struct OamData sUnknown_0832C138 =
@@ -756,10 +746,6 @@ static const struct WindowTemplate sHealthboxWindowTemplate = {0, 0, 0, 8, 2, 0,
 
 // code
 
-static s32 DummiedOutFunction(s16 unused1, s16 unused2, s32 unused3)
-{
-    return 9;
-}
 void sub_8072308(s16 number, u16 *dest, bool8 unk)
 {
     s8 i, j;
@@ -976,18 +962,17 @@ static void SpriteCB_HealthBar(struct Sprite *sprite)
     {
     case 0:
         sprite->pos1.x = gSprites[healthboxSpriteId].pos1.x + 16;
-        sprite->pos1.y = gSprites[healthboxSpriteId].pos1.y;
         break;
     case 1:
         sprite->pos1.x = gSprites[healthboxSpriteId].pos1.x + 16;
-        sprite->pos1.y = gSprites[healthboxSpriteId].pos1.y;
         break;
     case 2:
     default:
         sprite->pos1.x = gSprites[healthboxSpriteId].pos1.x + 8;
-        sprite->pos1.y = gSprites[healthboxSpriteId].pos1.y;
         break;
     }
+    sprite->pos1.y = gSprites[healthboxSpriteId].pos1.y;
+
 
     sprite->pos2.x = gSprites[healthboxSpriteId].pos2.x;
     sprite->pos2.y = gSprites[healthboxSpriteId].pos2.y;
@@ -1077,10 +1062,10 @@ void InitBattlerHealthboxCoords(u8 battler)
         switch (GetBattlerPosition(battler))
         {
         case B_POSITION_PLAYER_LEFT:
-            x = 159, y = 75;
+            x = 159, y = 76;
             break;
         case B_POSITION_PLAYER_RIGHT:
-            x = 171, y = 100;
+            x = 171, y = 101;
             break;
         case B_POSITION_OPPONENT_LEFT:
             x = 44, y = 19;
@@ -1914,23 +1899,19 @@ static void UpdateNickInHealthbox(u8 healthboxSpriteId, struct Pokemon *mon)
     if ((species == SPECIES_NIDORAN_F || species == SPECIES_NIDORAN_M) && StringCompare(nickname, gSpeciesNames[species]) == 0)
         gender = 100;
 
-    // AddTextPrinterAndCreateWindowOnHealthbox's arguments are the same in all 3 cases.
-    // It's possible they may have been different in early development phases.
     switch (gender)
     {
     default:
         StringCopy(ptr, gText_DynColor2);
-        windowTileData = AddTextPrinterAndCreateWindowOnHealthbox(gDisplayedStringBattle, 0, 3, 2, &windowId);
         break;
     case MON_MALE:
         StringCopy(ptr, gText_DynColor2Male);
-        windowTileData = AddTextPrinterAndCreateWindowOnHealthbox(gDisplayedStringBattle, 0, 3, 2, &windowId);
         break;
     case MON_FEMALE:
         StringCopy(ptr, gText_DynColor1Female);
-        windowTileData = AddTextPrinterAndCreateWindowOnHealthbox(gDisplayedStringBattle, 0, 3, 2, &windowId);
         break;
     }
+    windowTileData = AddTextPrinterAndCreateWindowOnHealthbox(gDisplayedStringBattle, 0, 3, 2, &windowId);
 
     spriteTileNum = gSprites[healthboxSpriteId].oam.tileNum * TILE_SIZE_4BPP;
 
@@ -2441,42 +2422,6 @@ static u8 CalcBarFilledPixels(s32 maxValue, s32 oldValue, s32 receivedValue, s32
     }
 
     return filledPixels;
-}
-
-// These two functions seem as if they were made for testing the health bar.
-static s16 sub_8074F28(struct TestingBar *barInfo, s32 *currValue, u16 *arg2, s32 arg3)
-{
-    s16 ret, var;
-
-    ret = CalcNewBarValue(barInfo->maxValue,
-                    barInfo->oldValue,
-                    barInfo->receivedValue,
-                    currValue, B_HEALTHBAR_PIXELS / 8, 1);
-    sub_8074F88(barInfo, currValue, arg2);
-
-    if (barInfo->maxValue < B_HEALTHBAR_PIXELS)
-        var = *currValue >> 8;
-    else
-        var = *currValue;
-
-    DummiedOutFunction(barInfo->maxValue, var, arg3);
-
-    return ret;
-}
-
-static void sub_8074F88(struct TestingBar *barInfo, s32 *currValue, u16 *arg2)
-{
-    u8 sp8[6];
-    u16 sp10[6];
-    u8 i;
-
-    CalcBarFilledPixels(barInfo->maxValue, barInfo->oldValue,
-                barInfo->receivedValue, currValue, sp8, B_HEALTHBAR_PIXELS / 8);
-
-    for (i = 0; i < 6; i++)
-        sp10[i] = (barInfo->unkC_0 << 12) | (barInfo->unk10 + sp8[i]);
-
-    CpuCopy16(sp10, arg2, sizeof(sp10));
 }
 
 static u8 GetScaledExpFraction(s32 oldValue, s32 receivedValue, s32 maxValue, u8 scale)

@@ -266,10 +266,9 @@ static void Task_HandleMultichoiceGridInput(u8 taskId)
 
     switch (selection)
     {
-    case MENU_NOTHING_CHOSEN:
-        return;
     case MENU_B_PRESSED:
         if (tIgnoreBPress)
+    case MENU_NOTHING_CHOSEN:
             return;
         PlaySE(SE_SELECT);
         gSpecialVar_Result = MULTI_B_PRESSED;
@@ -533,13 +532,11 @@ static void Task_PokemonPicWindow(u8 taskId)
 
     switch (task->tState)
     {
-    case 0:
-        task->tState++;
-        break;
     case 1:
         break;
     case 2:
         FreeResourcesAndDestroySprite(&gSprites[task->tMonSpriteId], task->tMonSpriteId);
+    case 0:
         task->tState++;
         break;
     case 3:
@@ -615,31 +612,26 @@ void ClearToTransparentAndRemoveWindow(u8 windowId)
 
 static void DrawLinkServicesMultichoiceMenu(u8 multichoiceId)
 {
+    FillWindowPixelBuffer(0, PIXEL_FILL(1));
     switch (multichoiceId)
     {
     case MULTI_WIRELESS_NO_BERRY:
-        FillWindowPixelBuffer(0, PIXEL_FILL(1));
-        AddTextPrinterParameterized2(0, 1, sWirelessOptionsNoBerryCrush[Menu_GetCursorPos()], 0, NULL, 2, 1, 3);
+        AddTextPrinterParameterized2(0, 2, sWirelessOptionsNoBerryCrush[Menu_GetCursorPos()], 0, NULL, 2, 1, 3);
         break;
     case MULTI_CABLE_CLUB_WITH_RECORD_MIX:
-        FillWindowPixelBuffer(0, PIXEL_FILL(1));
-        AddTextPrinterParameterized2(0, 1, sCableClubOptions_WithRecordMix[Menu_GetCursorPos()], 0, NULL, 2, 1, 3);
+        AddTextPrinterParameterized2(0, 2, sCableClubOptions_WithRecordMix[Menu_GetCursorPos()], 0, NULL, 2, 1, 3);
         break;
     case MULTI_WIRELESS_NO_RECORD:
-        FillWindowPixelBuffer(0, PIXEL_FILL(1));
-        AddTextPrinterParameterized2(0, 1, sWirelessOptions_NoRecordMix[Menu_GetCursorPos()], 0, NULL, 2, 1, 3);
+        AddTextPrinterParameterized2(0, 2, sWirelessOptions_NoRecordMix[Menu_GetCursorPos()], 0, NULL, 2, 1, 3);
         break;
     case MULTI_WIRELESS_ALL_SERVICES:
-        FillWindowPixelBuffer(0, PIXEL_FILL(1));
-        AddTextPrinterParameterized2(0, 1, sWirelessOptions_AllServices[Menu_GetCursorPos()], 0, NULL, 2, 1, 3);
+        AddTextPrinterParameterized2(0, 2, sWirelessOptions_AllServices[Menu_GetCursorPos()], 0, NULL, 2, 1, 3);
         break;
     case MULTI_WIRELESS_NO_RECORD_BERRY:
-        FillWindowPixelBuffer(0, PIXEL_FILL(1));
-        AddTextPrinterParameterized2(0, 1, sWirelessOptions_NoRecordMixBerryCrush[Menu_GetCursorPos()], 0, NULL, 2, 1, 3);
+        AddTextPrinterParameterized2(0, 2, sWirelessOptions_NoRecordMixBerryCrush[Menu_GetCursorPos()], 0, NULL, 2, 1, 3);
         break;
     case MULTI_CABLE_CLUB_NO_RECORD_MIX:
-        FillWindowPixelBuffer(0, PIXEL_FILL(1));
-        AddTextPrinterParameterized2(0, 1, sCableClubOptions_NoRecordMix[Menu_GetCursorPos()], 0, NULL, 2, 1, 3);
+        AddTextPrinterParameterized2(0, 2, sCableClubOptions_NoRecordMix[Menu_GetCursorPos()], 0, NULL, 2, 1, 3);
         break;
     }
 }
@@ -662,14 +654,14 @@ static void CreateStartMenuForPokenavTutorial(void)
 {
     u8 windowId = CreateWindowFromRect(21, 0, 7, 18);
     SetStandardWindowBorderStyle(windowId, 0);
-    AddTextPrinterParameterized(windowId, 1, gText_MenuOptionPokedex, 8, 9, TEXT_SPEED_FF, NULL);
-    AddTextPrinterParameterized(windowId, 1, gText_MenuOptionPokemon, 8, 25, TEXT_SPEED_FF, NULL);
-    AddTextPrinterParameterized(windowId, 1, gText_MenuOptionBag, 8, 41, TEXT_SPEED_FF, NULL);
-    AddTextPrinterParameterized(windowId, 1, gText_MenuOptionPokenav, 8, 57, TEXT_SPEED_FF, NULL);
-    AddTextPrinterParameterized(windowId, 1, gSaveBlock2Ptr->playerName, 8, 73, TEXT_SPEED_FF, NULL);
-    AddTextPrinterParameterized(windowId, 1, gText_MenuOptionSave, 8, 89, TEXT_SPEED_FF, NULL);
-    AddTextPrinterParameterized(windowId, 1, gText_MenuOptionOption, 8, 105, TEXT_SPEED_FF, NULL);
-    AddTextPrinterParameterized(windowId, 1, gText_MenuOptionExit, 8, 121, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(windowId, 2, gText_MenuOptionPokedex, 8, 9, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(windowId, 2, gText_MenuOptionPokemon, 8, 25, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(windowId, 2, gText_MenuOptionBag, 8, 41, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(windowId, 2, gText_MenuOptionPokenav, 8, 57, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(windowId, 2, gSaveBlock2Ptr->playerName, 8, 73, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(windowId, 2, gText_MenuOptionSave, 8, 89, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(windowId, 2, gText_MenuOptionOption, 8, 105, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(windowId, 2, gText_MenuOptionExit, 8, 121, TEXT_SPEED_FF, NULL);
     sub_81983AC(windowId, 1, 0, 9, 16, ARRAY_COUNT(MultichoiceList_ForcedStartMenu), 0);
     InitMultichoiceNoWrap(FALSE, ARRAY_COUNT(MultichoiceList_ForcedStartMenu), windowId, MULTI_FORCED_START_MENU);
     CopyWindowToVram(windowId, 3);

@@ -2177,7 +2177,9 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
     if (hasFixedPersonality)
         personality = fixedPersonality;
     else
+    {
         personality = Random32();
+    }
 
     //Determine original trainer ID
     if (otIdType == OT_ID_RANDOM_NO_SHINY) //Pokemon cannot be shiny
@@ -2195,21 +2197,21 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
     }
     else //Player is the OT
     {
-        u32 rolls = 0;
         u32 shinyRolls = 0;
+        u32 rolls = 0;
 
         value = gSaveBlock2Ptr->playerTrainerId[0]
               | (gSaveBlock2Ptr->playerTrainerId[1] << 8)
               | (gSaveBlock2Ptr->playerTrainerId[2] << 16)
               | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
 
-        if (CheckBagHasItem(ITEM_SHINY_CHARM,1))
-            shinyRolls += SHINY_CHARM_REROLLS; //If you have the Shiny Charm, add 3 more rolls
-
         if (gIsFishingEncounter)
             shinyRolls += 1 + 2 * gChainFishingStreak; //1 + 2 rolls per streak count. max 41
 
-        if (shinyRolls)
+        if (CheckBagHasItem(ITEM_SHINY_CHARM, 1))
+            shinyRolls += SHINY_CHARM_REROLLS; //If you have the Shiny Charm, add 3 more rolls
+
+        if (shinyRolls && !hasFixedPersonality)
         {
             u32 shinyValue;
             do 
@@ -2217,7 +2219,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
                 personality = Random32();
                 shinyValue = HIHALF(value) ^ LOHALF(value) ^ HIHALF(personality) ^ LOHALF(personality);
                 rolls++;
-            } while (shinyValue >= SHINY_ODDS && rolls < SHINY_CHARM_REROLLS);
+            } while (shinyValue >= SHINY_ODDS && rolls < shinyRolls);
         }
     }
 
@@ -2238,7 +2240,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
     SetBoxMonData(boxMon, MON_DATA_MET_LOCATION, &value);
     SetBoxMonData(boxMon, MON_DATA_MET_LEVEL, &level);
     SetBoxMonData(boxMon, MON_DATA_MET_GAME, &gGameVersion);
-    value = ITEM_POKE_BALL;
+    value = BALL_POKE;
     SetBoxMonData(boxMon, MON_DATA_POKEBALL, &value);
     SetBoxMonData(boxMon, MON_DATA_OT_GENDER, &gSaveBlock2Ptr->playerGender);
 
@@ -5055,7 +5057,7 @@ bool8 PokemonUseItemEffects(struct Pokemon *mon, u16 item, u8 partyIndex, u8 mov
                                 friendship += var_34;
                             if (var_34 > 0)
                             {
-                                if (GetMonData(mon, MON_DATA_POKEBALL, NULL) == ITEM_LUXURY_BALL)
+                                if (GetMonData(mon, MON_DATA_POKEBALL, NULL) == BALL_LUXURY)
                                     friendship++;
                                 if (GetMonData(mon, MON_DATA_MET_LOCATION, NULL) == GetCurrentRegionMapSectionId())
                                     friendship++;
@@ -5081,7 +5083,7 @@ bool8 PokemonUseItemEffects(struct Pokemon *mon, u16 item, u8 partyIndex, u8 mov
                                 friendship += var_34;
                             if (var_34 > 0)
                             {
-                                if (GetMonData(mon, MON_DATA_POKEBALL, NULL) == ITEM_LUXURY_BALL)
+                                if (GetMonData(mon, MON_DATA_POKEBALL, NULL) == BALL_LUXURY)
                                     friendship++;
                                 if (GetMonData(mon, MON_DATA_MET_LOCATION, NULL) == GetCurrentRegionMapSectionId())
                                     friendship++;
@@ -5106,7 +5108,7 @@ bool8 PokemonUseItemEffects(struct Pokemon *mon, u16 item, u8 partyIndex, u8 mov
                                 friendship += var_34;
                             if (var_34 > 0)
                             {
-                                if (GetMonData(mon, MON_DATA_POKEBALL, NULL) == ITEM_LUXURY_BALL)
+                                if (GetMonData(mon, MON_DATA_POKEBALL, NULL) == BALL_LUXURY)
                                     friendship++;
                                 if (GetMonData(mon, MON_DATA_MET_LOCATION, NULL) == GetCurrentRegionMapSectionId())
                                     friendship++;
@@ -5768,7 +5770,7 @@ void AdjustFriendship(struct Pokemon *mon, u8 event)
             friendship += mod;
             if (mod > 0)
             {
-                if (GetMonData(mon, MON_DATA_POKEBALL, 0) == ITEM_LUXURY_BALL)
+                if (GetMonData(mon, MON_DATA_POKEBALL, 0) == BALL_LUXURY)
                     friendship++;
                 if (GetMonData(mon, MON_DATA_MET_LOCATION, 0) == GetCurrentRegionMapSectionId())
                     friendship++;
@@ -6491,7 +6493,7 @@ void SetWildMonHeldItem(void)
                 }
             }
             else if (gBaseStats[species].item1 == gBaseStats[species].item2 && gBaseStats[species].item1 != 0)
-	        {
+            {
                 SetMonData(&gEnemyParty[i], MON_DATA_HELD_ITEM, &gBaseStats[species].item1);
             }
 

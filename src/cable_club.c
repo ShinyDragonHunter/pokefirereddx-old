@@ -152,7 +152,7 @@ static u32 ExchangeDataAndGetLinkupStatus(u8 minPlayers, u8 maxPlayers)
 
 static bool32 CheckLinkErrored(u8 taskId)
 {
-    if (HasLinkErrorOccurred() == TRUE)
+    if (HasLinkErrorOccurred())
     {
         gTasks[taskId].func = Task_LinkupConnectionError;
         return TRUE;

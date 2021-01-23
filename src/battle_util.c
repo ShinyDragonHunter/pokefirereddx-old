@@ -297,9 +297,9 @@ void HandleAction_UseItem(void)
     ClearFuryCutterDestinyBondGrudge(gBattlerAttacker);
     gLastUsedItem = gBattleBufferB[gBattlerAttacker][1] | (gBattleBufferB[gBattlerAttacker][2] << 8);
 
-    if (IS_ITEM_BALL(gLastUsedItem))
+    if (ItemId_GetPocket(gLastUsedItem) == POCKET_POKE_BALLS) // is ball
     {
-        gBattlescriptCurrInstr = gBattlescriptsForBallThrow[ITEM_ID_TO_BALL_ID(gLastUsedItem)];
+        gBattlescriptCurrInstr = gBattlescriptsForBallThrow[ItemId_GetSecondaryId(gLastUsedItem)];
     }
     else if (gLastUsedItem == ITEM_POKE_DOLL || gLastUsedItem == ITEM_FLUFFY_TAIL)
     {

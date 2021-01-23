@@ -209,7 +209,7 @@ void AnimTask_HorizontalShake(u8 taskId);
 
 // battle_anim_throw.c
 void TryShinyAnimation(u8 battler, struct Pokemon *mon);
-u8 BallIdToGfxId(u16 ballId);
+u8 ItemIdToBallId(u16 ballId);
 u8 AnimateBallOpenParticles(u8 x, u8 y, u8 priority, u8 subpriority, u8 ballId);
 u8 LaunchBallFadeMonTask(bool8 unFadeLater, u8 battlerId, u32 selectedPalettes, u8 ballId);
 bool8 IsCriticalCapture(void);

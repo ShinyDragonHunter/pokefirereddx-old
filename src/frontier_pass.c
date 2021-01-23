@@ -347,12 +347,6 @@ static const union AnimCmd sSpriteAnim_857151C[] =
     ANIMCMD_END
 };
 
-static const union AnimCmd sSpriteAnim_8571524[] =
-{
-    ANIMCMD_FRAME(0, 0),
-    ANIMCMD_END
-};
-
 static const union AnimCmd sSpriteAnim_857152C[] =
 {
     ANIMCMD_FRAME(4, 0),
@@ -405,13 +399,13 @@ static const union AnimCmd sSpriteAnim_8571568[] =
 
 static const union AnimCmd *const sSpriteAnimTable_8571574[] =
 {
-    sSpriteAnim_8571524,
+    sSpriteAnim_857151C,
     sSpriteAnim_857152C
 };
 
 static const union AnimCmd *const sSpriteAnimTable_857157C[] =
 {
-    sSpriteAnim_8571524,
+    sSpriteAnim_857151C,
     sSpriteAnim_857152C,
     sSpriteAnim_8571534,
     sSpriteAnim_857153C,
@@ -910,6 +904,7 @@ static bool32 TryCallPassAreaFunction(u8 taskId, u8 cursorArea)
     {
     case CURSOR_AREA_RECORD:
         if (!sPassData->hasBattleRecord)
+    default:
             return FALSE;
         sPassData->unkE = 3;
         DestroyTask(taskId);
@@ -921,8 +916,6 @@ static bool32 TryCallPassAreaFunction(u8 taskId, u8 cursorArea)
         gTasks[taskId].func = Task_DoFadeEffect;
         gTasks[taskId].data[0] = FALSE;
         break;
-    default:
-        return FALSE;
     }
 
     sPassData->cursorX = sPassGfx->cursorSprite->pos1.x;
