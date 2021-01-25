@@ -11,6 +11,7 @@ struct WildPokemon
     u8 minLevel;
     u8 maxLevel;
     u16 species;
+    u8 form;
 };
 
 struct WildPokemonInfo

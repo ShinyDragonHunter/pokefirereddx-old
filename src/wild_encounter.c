@@ -338,14 +338,14 @@ static u8 PickWildMonNature(void)
     return Random() % NUM_NATURES;
 }
 
-static void CreateWildMon(u16 species, u8 level)
+static void CreateWildMon(u16 species, u8 level, u8 form)
 {
     bool32 checkCuteCharm;
 
     ZeroEnemyPartyMons();
     checkCuteCharm = TRUE;
 
-    switch (gBaseStats[species].genderRatio)
+    switch (gBaseStats[GetFormSpeciesId(species, form)].genderRatio)
     {
     case MON_MALE:
     case MON_FEMALE:
@@ -360,8 +360,10 @@ static void CreateWildMon(u16 species, u8 level)
         && Random() % 3 != 0)
     {
         u16 leadingMonSpecies = GetMonData(&gPlayerParty[0], MON_DATA_SPECIES);
+        u8 leadingMonForm = GetMonData(&gPlayerParty[0], MON_DATA_FORM);
+        u16 leadingMonFormSpecies = GetFormSpeciesId(leadingMonSpecies, leadingMonForm);
         u32 leadingMonPersonality = GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY);
-        u8 gender = GetGenderFromSpeciesAndPersonality(leadingMonSpecies, leadingMonPersonality);
+        u8 gender = GetGenderFromSpeciesAndPersonality(leadingMonFormSpecies, leadingMonPersonality);
 
         // misses mon is genderless check, although no genderless mon can have cute charm as ability
         if (gender == MON_FEMALE)
@@ -369,11 +371,11 @@ static void CreateWildMon(u16 species, u8 level)
         else
             gender = MON_FEMALE;
 
-        CreateMonWithGenderNatureLetter(&gEnemyParty[0], species, level, 32, gender, PickWildMonNature(), 0);
+        CreateMonWithGenderNatureLetter(&gEnemyParty[0], species, level, 32, gender, PickWildMonNature(), 0, form);
         return;
     }
 
-    CreateMonWithNature(&gEnemyParty[0], species, level, 32, PickWildMonNature());
+    CreateMonWithNature(&gEnemyParty[0], species, level, 32, PickWildMonNature(), form);
 }
 
 enum
@@ -417,7 +419,7 @@ static bool8 TryGenerateWildMon(const struct WildPokemonInfo *wildMonInfo, u8 ar
     if (gMapHeader.mapLayoutId != LAYOUT_BATTLE_FRONTIER_BATTLE_PIKE_ROOM_WILD_MONS && flags & WILD_CHECK_KEEN_EYE && !IsAbilityAllowingEncounter(level))
         return FALSE;
 
-    CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level);
+    CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level, wildMonInfo->wildPokemon[wildMonIndex].form);
     return TRUE;
 }
 
@@ -426,7 +428,7 @@ static u16 GenerateFishingWildMon(const struct WildPokemonInfo *wildMonInfo, u8 
     u8 wildMonIndex = ChooseWildMonIndex_Fishing(rod);
     u8 level = ChooseWildMonLevel(&wildMonInfo->wildPokemon[wildMonIndex]);
 
-    CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level);
+    CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level, wildMonInfo->wildPokemon[wildMonIndex].form);
     return wildMonInfo->wildPokemon[wildMonIndex].species;
 }
 
@@ -437,7 +439,7 @@ static bool8 SetUpMassOutbreakEncounter(u8 flags)
     if (flags & WILD_CHECK_REPEL && !IsWildLevelAllowedByRepel(gSaveBlock1Ptr->outbreakPokemonLevel))
         return FALSE;
 
-    CreateWildMon(gSaveBlock1Ptr->outbreakPokemonSpecies, gSaveBlock1Ptr->outbreakPokemonLevel);
+    CreateWildMon(gSaveBlock1Ptr->outbreakPokemonSpecies, gSaveBlock1Ptr->outbreakPokemonLevel, 0);
     for (i = 0; i < 4; i++)
         SetMonMoveSlot(&gEnemyParty[0], gSaveBlock1Ptr->outbreakPokemonMoves[i], i);
 
@@ -763,6 +765,7 @@ bool8 DoesCurrentMapHaveFishingMons(void)
 void FishingWildEncounter(u8 rod)
 {
     u16 species;
+    u8 form;
 
     gIsFishingEncounter = TRUE; //must be set before mon is created
     if (CheckFeebas())
@@ -770,7 +773,8 @@ void FishingWildEncounter(u8 rod)
         u8 level = ChooseWildMonLevel(&gWildFeebasRoute119Data);
 
         species = gWildFeebasRoute119Data.species;
-        CreateWildMon(species, level);
+        form = gWildFeebasRoute119Data.form;
+        CreateWildMon(species, level, form);
     }
     else
     {
@@ -904,13 +908,15 @@ static bool8 TryGetRandomWildMonIndexByType(const struct WildPokemon *wildMon, u
 {
     u8 validIndexes[numMon]; // variable length array, an interesting feature
     u8 i, validMonCount;
+    u16 formSpecies;
 
     for (i = 0; i < numMon; i++)
         validIndexes[i] = 0;
 
     for (validMonCount = 0, i = 0; i < numMon; i++)
     {
-        if (gBaseStats[wildMon[i].species].type1 == type || gBaseStats[wildMon[i].species].type2 == type)
+        formSpecies = GetFormSpeciesId(wildMon[i].species, wildMon[i].form);
+        if (gBaseStats[formSpecies].type1 == type || gBaseStats[formSpecies].type2 == type)
             validIndexes[validMonCount++] = i;
     }
 

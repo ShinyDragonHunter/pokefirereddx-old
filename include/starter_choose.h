@@ -7,7 +7,7 @@ extern const u32 gBirchGrassTilemap[];
 extern const u32 gBirchHelpGfx[];
 extern const u32 gPokeballSelection_Gfx[];
 
-u16 GetStarterPokemon(u16 chosenStarterId);
+u16 GetStarterPokemon(u16 chosenStarterId, bool8 wantForm);
 void CB2_ChooseStarter(void);
 
 #endif // GUARD_STARTER_CHOOSE_H

@@ -263,7 +263,7 @@ const struct CompressedSpriteSheet gPokeblockCase_SpriteSheet =
     gMenuPokeblockDevice_Gfx, 0x800, GFX_TAG_POKEBLOCK_CASE
 };
 
-const struct CompressedSpritePalette gPokeblockCase_SpritePal =
+const struct SpritePalette gPokeblockCase_SpritePal =
 {
     gMenuPokeblockDevice_Pal, GFX_TAG_POKEBLOCK_CASE
 };
@@ -634,7 +634,7 @@ static bool8 LoadPokeblockMenuGfx(void)
         }
         break;
     case 2:
-        LoadCompressedPalette(gMenuPokeblock_Pal, 0, 0xC0);
+        LoadPalette(gMenuPokeblock_Pal, 0, 0xC0);
         sPokeblockMenu->gfxState++;
         break;
     case 3:
@@ -642,7 +642,7 @@ static bool8 LoadPokeblockMenuGfx(void)
         sPokeblockMenu->gfxState++;
         break;
     case 4:
-        LoadCompressedSpritePalette(&gPokeblockCase_SpritePal);
+        LoadSpritePalette(&gPokeblockCase_SpritePal);
         sPokeblockMenu->gfxState++;
         break;
     case 5:

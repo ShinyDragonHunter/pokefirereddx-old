@@ -3380,7 +3380,7 @@ static void Cmd_getexp(void)
                     PREPARE_WORD_NUMBER_BUFFER(gBattleTextBuff3, 5, gBattleMoveDamage);
 
                     PrepareStringBattle(STRINGID_PKMNGAINEDEXP, gBattleStruct->expGetterBattlerId);
-                    MonGainEVs(&gPlayerParty[gBattleStruct->expGetterMonId], gBattleMons[gBattlerFainted].species);
+                    MonGainEVs(&gPlayerParty[gBattleStruct->expGetterMonId], gBattleMons[gBattlerFainted].species, gBattleMons[gBattlerFainted].form);
                 }
                 gBattleStruct->sentInPokes >>= 1;
                 gBattleScripting.getexpState++;
@@ -4574,6 +4574,7 @@ static void Cmd_switchindataupdate(void)
     struct BattlePokemon oldData;
     s32 i;
     u8 *monData;
+    u16 formSpecies;
 
     if (gBattleControllerExecFlags)
         return;
@@ -4587,9 +4588,10 @@ static void Cmd_switchindataupdate(void)
         monData[i] = gBattleBufferB[gActiveBattler][4 + i];
     }
 
-    gBattleMons[gActiveBattler].type1 = gBaseStats[gBattleMons[gActiveBattler].species].type1;
-    gBattleMons[gActiveBattler].type2 = gBaseStats[gBattleMons[gActiveBattler].species].type2;
-    gBattleMons[gActiveBattler].ability = GetAbilityBySpecies(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].abilityNum);
+    formSpecies = GetFormSpeciesId(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].form);
+    gBattleMons[gActiveBattler].type1 = gBaseStats[formSpecies].type1;
+    gBattleMons[gActiveBattler].type2 = gBaseStats[formSpecies].type2;
+    gBattleMons[gActiveBattler].ability = GetAbilityBySpecies(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].abilityNum, gBattleMons[gActiveBattler].form);
 
     // check knocked off item
     i = GetBattlerSide(gActiveBattler);
@@ -6094,14 +6096,15 @@ static void PutMonIconOnLvlUpBox(void)
     struct SpritePalette iconPalSheet;
 
     u16 species = GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_SPECIES);
+    u8 form = GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_FORM);
     u32 personality = GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_PERSONALITY);
 
-    const u8* iconPtr = GetMonIconPtr(species, personality);
+    const u8* iconPtr = GetMonIconPtr(species, personality, form);
     iconSheet.data = iconPtr;
     iconSheet.size = 0x200;
     iconSheet.tag = MON_ICON_LVLUP_BOX_TAG;
 
-    iconPal = GetValidMonIconPalettePtr(species);
+    iconPal = GetValidMonIconPalettePtr(species, form);
     iconPalSheet.data = iconPal;
     iconPalSheet.tag = MON_ICON_LVLUP_BOX_TAG;
 
@@ -8304,6 +8307,7 @@ static void Cmd_healpartystatus(void)
         for (i = 0; i < PARTY_SIZE; i++)
         {
             u16 species = GetMonData(&party[i], MON_DATA_SPECIES2);
+            u8 form = GetMonData(&party[i], MON_DATA_FORM);
             u8 abilityNum = GetMonData(&party[i], MON_DATA_ABILITY_NUM);
 
             if (species != SPECIES_NONE && species != SPECIES_EGG)
@@ -8317,7 +8321,7 @@ static void Cmd_healpartystatus(void)
                          && !(gAbsentBattlerFlags & gBitTable[gActiveBattler]))
                     ability = gBattleMons[gActiveBattler].ability;
                 else
-                    ability = GetAbilityBySpecies(species, abilityNum);
+                    ability = GetAbilityBySpecies(species, abilityNum, form);
 
                 if (ability != ABILITY_SOUNDPROOF)
                     toHeal |= (1 << i);
@@ -9759,6 +9763,7 @@ static u8 GetCatchingBattler(void)
 static void Cmd_handleballthrow(void)
 {
     u8 ballMultiplier = 10;
+    u8 form;
 
     if (gBattleControllerExecFlags)
         return;
@@ -9834,8 +9839,12 @@ static void Cmd_handleballthrow(void)
                     ballMultiplier = 30;
 				break;
             case BALL_MOON:
-                if (GetItemEvolutionTargetSpecies(gBattleMons[gBattlerTarget].species, ITEM_MOON_STONE))
-                    ballMultiplier = 40;
+                for (i = 0; i < EVOS_PER_MON; i++)
+                {
+                    if (gEvolutionTable[gBattleMons[gBattlerTarget].species][i].method == EVO_ITEM
+                     && gEvolutionTable[gBattleMons[gBattlerTarget].species][i].param == ITEM_MOON_STONE)
+                        ballMultiplier = 40;
+                }
 				break;
             case BALL_FAST:
                 // HGSS behavior
@@ -10213,7 +10222,8 @@ static void Cmd_trygivecaughtmonnick(void)
                            GetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerAttacker ^ BIT_SIDE]], MON_DATA_SPECIES),
                            GetMonGender(&gEnemyParty[gBattlerPartyIndexes[gBattlerAttacker ^ BIT_SIDE]]),
                            GetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerAttacker ^ BIT_SIDE]], MON_DATA_PERSONALITY, NULL),
-                           BattleMainCB2);
+                           BattleMainCB2,
+                           GetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerAttacker ^ BIT_SIDE]], MON_DATA_FORM));
 
             gBattleCommunication[MULTIUSE_STATE]++;
         }

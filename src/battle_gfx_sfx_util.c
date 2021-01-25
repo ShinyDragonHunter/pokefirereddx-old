@@ -548,6 +548,8 @@ void BattleLoadOpponentMonSpriteGfx(struct Pokemon *mon, u8 battlerId)
 {
     u32 monsPersonality, currentPersonality, otId;
     u16 species;
+    u8 form;
+    u16 formSpecies;
     u8 position;
     u16 paletteOffset;
 
@@ -556,31 +558,35 @@ void BattleLoadOpponentMonSpriteGfx(struct Pokemon *mon, u8 battlerId)
     if (gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies == SPECIES_NONE)
     {
         species = GetMonData(mon, MON_DATA_SPECIES);
+        form = GetMonData(mon, MON_DATA_FORM);
+        formSpecies = GetFormSpeciesId(species, form);
         currentPersonality = monsPersonality;
     }
     else
     {
         species = gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies;
+        form = 0;
+        formSpecies = GetFormSpeciesId(species, form);
         currentPersonality = gTransformedPersonalities[battlerId];
     }
 
     otId = GetMonData(mon, MON_DATA_OT_ID);
     position = GetBattlerPosition(battlerId);
-    HandleLoadSpecialPokePic(&gMonFrontPicTable[species],
+    HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies],
                                               gMonSpritesGfxPtr->sprites.ptr[position],
-                                              species, currentPersonality);
+                                              formSpecies, currentPersonality);
 
     paletteOffset = 0x100 + battlerId * 16;
 
     if (gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies == SPECIES_NONE)
         LoadPalette(GetMonFrontSpritePal(mon), paletteOffset, 0x20);
     else
-        LoadPalette(GetMonSpritePalFromSpeciesAndPersonality(species, otId, monsPersonality), paletteOffset, 0x20);
+        LoadPalette(GetMonSpritePalFromSpeciesAndPersonality(formSpecies, otId, monsPersonality), paletteOffset, 0x20);
 
     if (species == SPECIES_CASTFORM)
     {
         paletteOffset = 0x100 + battlerId * 16;
-        LoadPalette(gBattleStruct->castformPalette[gBattleMonForms[battlerId]], paletteOffset, 0x20);
+        LoadPalette(gBattleStruct->castformPalette[0], paletteOffset, 0x20);
     }
 
     // transform's pink color
@@ -595,6 +601,8 @@ void BattleLoadPlayerMonSpriteGfx(struct Pokemon *mon, u8 battlerId)
 {
     u32 monsPersonality, currentPersonality, otId;
     u16 species;
+    u8 form;
+    u16 formSpecies;
     u8 position;
     u16 paletteOffset;
 
@@ -603,32 +611,35 @@ void BattleLoadPlayerMonSpriteGfx(struct Pokemon *mon, u8 battlerId)
     if (gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies == SPECIES_NONE)
     {
         species = GetMonData(mon, MON_DATA_SPECIES);
+        form = GetMonData(mon, MON_DATA_FORM);
+        formSpecies = GetFormSpeciesId(species, form);
         currentPersonality = monsPersonality;
     }
     else
     {
         species = gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies;
+        formSpecies = species;
         currentPersonality = gTransformedPersonalities[battlerId];
     }
 
     otId = GetMonData(mon, MON_DATA_OT_ID);
     position = GetBattlerPosition(battlerId);
 
-    HandleLoadSpecialPokePic(&gMonBackPicTable[species],
+    HandleLoadSpecialPokePic(&gMonBackPicTable[formSpecies],
                                              gMonSpritesGfxPtr->sprites.ptr[position],
-                                             species, currentPersonality);
+                                             formSpecies, currentPersonality);
 
     paletteOffset = 0x100 + battlerId * 16;
 
     if (gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies == SPECIES_NONE)
         LoadPalette(GetMonFrontSpritePal(mon), paletteOffset, 0x20);
     else
-        LoadPalette(GetMonSpritePalFromSpeciesAndPersonality(species, otId, monsPersonality), paletteOffset, 0x20);
+        LoadPalette(GetMonSpritePalFromSpeciesAndPersonality(formSpecies, otId, monsPersonality), paletteOffset, 0x20);
 
     if (species == SPECIES_CASTFORM)
     {
         paletteOffset = 0x100 + battlerId * 16;
-        LoadPalette(gBattleStruct->castformPalette[gBattleMonForms[battlerId]], paletteOffset, 0x20);
+        LoadPalette(gBattleStruct->castformPalette[0], paletteOffset, 0x20);
     }
 
     // transform's pink color

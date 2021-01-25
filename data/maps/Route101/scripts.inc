@@ -185,25 +185,11 @@ Route101_Movement_BirchRunAway1: @ 81EBDE7
 	walk_fast_up
 	step_end
 
-@ Leftover data? This command is unused.
-	step_end
-
 Route101_Movement_BirchFaceZigzagoon: @ 81EBDEF
 	walk_in_place_fast_right
 	walk_in_place_fast_right
 	walk_in_place_fast_right
 	walk_in_place_fast_right
-	step_end
-
-Route101_Movement_Unused1: @ 81EBDF4
-	walk_up
-	walk_up
-	step_end
-
-Route101_Movement_Unused2: @ 81EBDF7
-	walk_up
-	walk_left
-	walk_up
 	step_end
 
 Route101_EventScript_Youngster:: @ 81EBDFB
@@ -215,6 +201,7 @@ Route101_EventScript_Boy:: @ 81EBE04
 	end
 
 Route101_EventScript_RouteSign:: @ 81EBE0D
+    special ChangeForm
 	giveitem ITEM_LEVEL_BALL, 99
 	giveitem ITEM_LURE_BALL, 99
 	giveitem ITEM_MOON_BALL, 99

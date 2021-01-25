@@ -182,6 +182,7 @@
 #define MON_DATA_SPEED2            86
 #define MON_DATA_SPATK2            87
 #define MON_DATA_SPDEF2            88
+#define MON_DATA_FORM              89
 
 #define MIN_LEVEL 1
 #define MAX_LEVEL 100

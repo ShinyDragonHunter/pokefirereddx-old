@@ -880,7 +880,7 @@ static void Task_ShowWinnerMonBanner(u8 taskId)
 
         pokePal = GetMonSpritePalStructFromOtIdPersonality(species, otId, personality);
         LoadSpritePalette(pokePal);
-        SetMultiuseSpriteTemplateToPokemon(species, B_POSITION_OPPONENT_LEFT);
+        SetMultiuseSpriteTemplateToPokemon(species, B_POSITION_OPPONENT_LEFT, 0);
         gMultiuseSpriteTemplate.paletteTag = pokePal->tag;
         spriteId = CreateSprite(&gMultiuseSpriteTemplate, 272, 80, 10);
         gSprites[spriteId].data[1] = species;
@@ -1082,7 +1082,7 @@ static void LoadContestMonIcon(u16 species, u8 monIndex, u8 srcOffset, u8 useDma
     else
         frameNum = 0;
 
-    iconPtr = GetMonIconPtr(species, personality);
+    iconPtr = GetMonIconPtr(species, personality, 0);
     iconPtr += srcOffset * 0x200 + 0x80;
     if (useDmaNow)
     {
@@ -1112,7 +1112,7 @@ static void LoadAllContestMonIconPalettes(void)
     for (i = 0; i < CONTESTANT_COUNT; i++)
     {
         species = gContestMons[i].species;
-        LoadPalette(gMonIconPalettes[gMonIconPaletteIndices[GetIconSpecies(species, 0)]], i * 0x10 + 0xA0, 0x20);
+        LoadPalette(gMonIconPalettes[gMonIconPaletteIndices[GetIconSpecies(species, 0, 0)]], i * 0x10 + 0xA0, 0x20);
     }
 }
 
@@ -2540,7 +2540,7 @@ void ShowContestEntryMonPic(void)
 
         palette = GetMonSpritePalStructFromOtIdPersonality(species, otId, personality);
         LoadSpritePalette(palette);
-        SetMultiuseSpriteTemplateToPokemon(species, 1);
+        SetMultiuseSpriteTemplateToPokemon(species, 1, 0);
         gMultiuseSpriteTemplate.paletteTag = palette->tag;
         spriteId = CreateSprite(&gMultiuseSpriteTemplate, (left + 1) * 8 + 32, (top * 8) + 40, 0);
 

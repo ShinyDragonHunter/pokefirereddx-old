@@ -66,7 +66,7 @@ static void CreateInitialRoamerMon(bool16 createLatios)
     else
         (&gSaveBlock1Ptr->roamer)->species = SPECIES_LATIOS;
 
-    CreateMon(&gEnemyParty[0], (&gSaveBlock1Ptr->roamer)->species, 40, 0x20, 0, 0, OT_ID_PLAYER_ID, 0);
+    CreateMon(&gEnemyParty[0], (&gSaveBlock1Ptr->roamer)->species, 40, 0x20, 0, 0, OT_ID_PLAYER_ID, 0, 0);
     (&gSaveBlock1Ptr->roamer)->level = 40;
     (&gSaveBlock1Ptr->roamer)->status = 0;
     (&gSaveBlock1Ptr->roamer)->active = TRUE;
@@ -174,7 +174,7 @@ void CreateRoamerMonInstance(void)
     mon = &gEnemyParty[0];
     ZeroEnemyPartyMons();
     roamer = &gSaveBlock1Ptr->roamer;
-    CreateMonWithIVsPersonality(mon, roamer->species, roamer->level, roamer->ivs, roamer->personality);
+    CreateMonWithIVsPersonality(mon, roamer->species, roamer->level, roamer->ivs, roamer->personality, 0);
     SetMonData(mon, MON_DATA_STATUS, &gSaveBlock1Ptr->roamer.status);
     SetMonData(mon, MON_DATA_HP, &gSaveBlock1Ptr->roamer.hp);
     SetMonData(mon, MON_DATA_COOL, &gSaveBlock1Ptr->roamer.cool);
