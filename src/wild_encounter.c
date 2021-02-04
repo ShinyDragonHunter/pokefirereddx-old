@@ -345,7 +345,7 @@ static void CreateWildMon(u16 species, u8 level, u8 form)
     ZeroEnemyPartyMons();
     checkCuteCharm = TRUE;
 
-    switch (gBaseStats[GetFormSpeciesId(species, form)].genderRatio)
+    switch (gBaseStats[GetFormSpecies(species, form)].genderRatio)
     {
     case MON_MALE:
     case MON_FEMALE:
@@ -361,7 +361,7 @@ static void CreateWildMon(u16 species, u8 level, u8 form)
     {
         u16 leadingMonSpecies = GetMonData(&gPlayerParty[0], MON_DATA_SPECIES);
         u8 leadingMonForm = GetMonData(&gPlayerParty[0], MON_DATA_FORM);
-        u16 leadingMonFormSpecies = GetFormSpeciesId(leadingMonSpecies, leadingMonForm);
+        u16 leadingMonFormSpecies = GetFormSpecies(leadingMonSpecies, leadingMonForm);
         u32 leadingMonPersonality = GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY);
         u8 gender = GetGenderFromSpeciesAndPersonality(leadingMonFormSpecies, leadingMonPersonality);
 
@@ -915,7 +915,7 @@ static bool8 TryGetRandomWildMonIndexByType(const struct WildPokemon *wildMon, u
 
     for (validMonCount = 0, i = 0; i < numMon; i++)
     {
-        formSpecies = GetFormSpeciesId(wildMon[i].species, wildMon[i].form);
+        formSpecies = GetFormSpecies(wildMon[i].species, wildMon[i].form);
         if (gBaseStats[formSpecies].type1 == type || gBaseStats[formSpecies].type2 == type)
             validIndexes[validMonCount++] = i;
     }

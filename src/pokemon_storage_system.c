@@ -127,7 +127,8 @@ struct PokemonStorageSystemData
     u16 field_B0[528 / 2];
     u16 field_2C0;
     u16 field_2C2;
-    u8 cursorMonForm;
+    u8 cursorMonForm:2;
+    u8 field_2C4:6; // Unused
     u8 field_2C5;
     u8 showPartyMenuState;
     u8 unk_02C7;
@@ -4029,7 +4030,7 @@ static void LoadCursorMonSprite(void)
 
 static void LoadCursorMonGfx(u16 species, u32 pid, u8 form)
 {
-    u16 formSpecies = GetFormSpeciesId(species, form);
+    u16 formSpecies = GetFormSpecies(species, form);
     if (sPSSData->cursorMonSprite == NULL)
         return;
 
@@ -6771,7 +6772,7 @@ static void SetCursorMonData(void *pokemon, u8 mode)
             sPSSData->cursorMonLevel = GetLevelFromBoxMonExp(boxMon);
             sPSSData->cursorMonMarkings = GetBoxMonData(boxMon, MON_DATA_MARKINGS);
             sPSSData->cursorMonPersonality = GetBoxMonData(boxMon, MON_DATA_PERSONALITY);
-            sPSSData->cursorMonPalette = GetMonSpritePalFromSpeciesAndPersonality(sPSSData->cursorMonSpecies, otId, sPSSData->cursorMonPersonality);
+            sPSSData->cursorMonPalette = GetMonSpritePalFromSpeciesAndPersonality(GetFormSpecies(sPSSData->cursorMonSpecies, sPSSData->cursorMonForm), otId, sPSSData->cursorMonPersonality);
             gender = GetGenderFromSpeciesAndPersonality(sPSSData->cursorMonSpecies, sPSSData->cursorMonPersonality);
             sPSSData->cursorMonItem = GetBoxMonData(boxMon, MON_DATA_HELD_ITEM);
         }

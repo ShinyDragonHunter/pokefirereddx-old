@@ -432,7 +432,7 @@ static u8 EggHatchCreateMonSprite(u8 a0, u8 switchID, u8 pokeID, u16* speciesLoc
             u16 species = GetMonData(mon, MON_DATA_SPECIES);
             u32 pid = GetMonData(mon, MON_DATA_PERSONALITY);
             form = GetMonData(mon, MON_DATA_FORM);
-            formSpecies = GetFormSpeciesId(species, form);
+            formSpecies = GetFormSpecies(species, form);
             HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies],
                                                       gMonSpritesGfxPtr->sprites.ptr[(a0 * 2) + 1],
                                                       formSpecies, pid);

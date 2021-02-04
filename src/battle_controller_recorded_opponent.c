@@ -527,7 +527,7 @@ static u32 CopyRecordedOpponentMonData(u8 monId, u8 *dst)
     switch (gBattleBufferA[gActiveBattler][1])
     {
     case REQUEST_ALL_BATTLE:
-        battleMon.species = GetMonData(&gEnemyParty[monId], MON_DATA_SPECIES);
+        battleMon.species = GetFormSpecies(GetMonData(&gEnemyParty[monId], MON_DATA_SPECIES), GetMonData(&gEnemyParty[monId], MON_DATA_FORM));
         battleMon.item = GetMonData(&gEnemyParty[monId], MON_DATA_HELD_ITEM);
         for (size = 0; size < MAX_MON_MOVES; size++)
         {
@@ -564,7 +564,7 @@ static u32 CopyRecordedOpponentMonData(u8 monId, u8 *dst)
             dst[size] = src[size];
         break;
     case REQUEST_SPECIES_BATTLE:
-        data16 = GetMonData(&gEnemyParty[monId], MON_DATA_SPECIES);
+        data16 = GetFormSpecies(GetMonData(&gEnemyParty[monId], MON_DATA_SPECIES), GetMonData(&gEnemyParty[monId], MON_DATA_FORM));
         dst[0] = data16;
         dst[1] = data16 >> 8;
         size = 2;
@@ -858,9 +858,8 @@ static void SetRecordedOpponentMonData(u8 monId)
     case REQUEST_ALL_BATTLE:
         {
             u8 iv;
-            u16 species = battlePokemon->species;
 
-            SetMonData(&gEnemyParty[monId], MON_DATA_SPECIES, &species);
+            SetMonData(&gEnemyParty[monId], MON_DATA_SPECIES, &battlePokemon->species);
             SetMonData(&gEnemyParty[monId], MON_DATA_HELD_ITEM, &battlePokemon->item);
             for (i = 0; i < MAX_MON_MOVES; i++)
             {

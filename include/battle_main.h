@@ -19,7 +19,6 @@ struct UnknownPokemonStruct4
     /*0x18*/ u32 personality;
     /*0x1C*/ u8 gender;
     /*0x1D*/ u8 language;
-             u8 form;
 };
 
 #define TYPE_NAME_LENGTH 6

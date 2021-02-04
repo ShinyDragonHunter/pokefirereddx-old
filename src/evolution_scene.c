@@ -206,11 +206,12 @@ void BeginEvolutionScene(struct Pokemon* mon, u16 speciesToEvolve, bool8 canStop
 
 void EvolutionScene(struct Pokemon* mon, u16 speciesToEvolve, bool8 canStopEvo, u8 partyID, u8 formToEvolve)
 {
-    u8 name[20], currForm;
-    u16 currSpecies, currFormSpecies, formSpeciesToEvolve;
+    u8 name[20];
+    u16 currSpecies;
     u32 trainerId, personality;
     const struct SpritePalette* pokePal;
-    u8 ID;
+    u8 ID, currForm;
+    u16 currFormSpecies, formSpeciesToEvolve;
 
     SetHBlankCallback(NULL);
     SetVBlankCallback(NULL);
@@ -255,10 +256,10 @@ void EvolutionScene(struct Pokemon* mon, u16 speciesToEvolve, bool8 canStopEvo, 
 
     // preEvo sprite
     currSpecies = GetMonData(mon, MON_DATA_SPECIES);
-    currForm = GetMonData(mon, MON_DATA_FORM);
-    currFormSpecies = GetFormSpeciesId(currSpecies, currForm);
     trainerId = GetMonData(mon, MON_DATA_OT_ID);
     personality = GetMonData(mon, MON_DATA_PERSONALITY);
+    currForm = GetMonData(mon, MON_DATA_FORM);
+    currFormSpecies = GetFormSpecies(currSpecies, currForm);
     DecompressPicFromTable(&gMonFrontPicTable[currFormSpecies],
                              gMonSpritesGfxPtr->sprites.ptr[1],
                              currFormSpecies);
@@ -274,7 +275,7 @@ void EvolutionScene(struct Pokemon* mon, u16 speciesToEvolve, bool8 canStopEvo, 
     gSprites[ID].invisible = TRUE;
 
     // postEvo sprite
-    formSpeciesToEvolve = GetFormSpeciesId(speciesToEvolve, formToEvolve);
+    formSpeciesToEvolve = GetFormSpecies(speciesToEvolve, formToEvolve);
     DecompressPicFromTable(&gMonFrontPicTable[formToEvolve],
                              gMonSpritesGfxPtr->sprites.ptr[3],
                              formToEvolve);
@@ -313,17 +314,19 @@ void EvolutionScene(struct Pokemon* mon, u16 speciesToEvolve, bool8 canStopEvo, 
 
 static void CB2_EvolutionSceneLoadGraphics(void)
 {
-    u8 ID, postEvoForm;
+    u8 ID;
     const struct SpritePalette* pokePal;
-    u16 postEvoSpecies, postEvoFormSpecies;
+    u16 postEvoSpecies;
     u32 trainerId, personality;
+    u8 postEvoForm;
+    u16 postEvoFormSpecies;
     struct Pokemon* Mon = &gPlayerParty[gTasks[sEvoStructPtr->evoTaskID].tPartyID];
 
     postEvoSpecies = gTasks[sEvoStructPtr->evoTaskID].tPostEvoSpecies;
-    postEvoForm = gTasks[sEvoStructPtr->evoTaskID].tPostEvoForm;
-    postEvoFormSpecies = GetFormSpeciesId(postEvoSpecies, postEvoForm);
     trainerId = GetMonData(Mon, MON_DATA_OT_ID);
     personality = GetMonData(Mon, MON_DATA_PERSONALITY);
+    postEvoForm = gTasks[sEvoStructPtr->evoTaskID].tPostEvoForm;
+    postEvoFormSpecies = GetFormSpecies(postEvoSpecies, postEvoForm);
 
     SetHBlankCallback(NULL);
     SetVBlankCallback(NULL);
@@ -389,7 +392,7 @@ static void CB2_TradeEvolutionSceneLoadGraphics(void)
     struct Pokemon* Mon = &gPlayerParty[gTasks[sEvoStructPtr->evoTaskID].tPartyID];
     u16 postEvoSpecies = gTasks[sEvoStructPtr->evoTaskID].tPostEvoSpecies;
     u8 postEvoForm = gTasks[sEvoStructPtr->evoTaskID].tPostEvoForm;
-    u16 postEvoFormSpecies = GetFormSpeciesId(postEvoSpecies, postEvoForm);
+    u16 postEvoFormSpecies = GetFormSpecies(postEvoSpecies, postEvoForm);
 
     switch (gMain.state)
     {
@@ -476,11 +479,11 @@ void TradeEvolutionScene(struct Pokemon* mon, u16 speciesToEvolve, u8 preEvoSpri
 {
     u8 name[20];
     u16 currSpecies;
-    u8 currForm;
-    u16 formSpeciesToEvolve = GetFormSpeciesId(speciesToEvolve, formToEvolve);
     u32 trainerId, personality;
     const struct SpritePalette* pokePal;
-    u8 ID;
+    u8 ID, currForm;
+    u16 formSpeciesToEvolve = GetFormSpecies(speciesToEvolve, formToEvolve);
+
 
     GetMonData(mon, MON_DATA_NICKNAME, name);
     StringCopy10(gStringVar1, name);
@@ -490,9 +493,9 @@ void TradeEvolutionScene(struct Pokemon* mon, u16 speciesToEvolve, u8 preEvoSpri
 
     // preEvo sprite
     currSpecies = GetMonData(mon, MON_DATA_SPECIES);
-    currForm = GetMonData(mon, MON_DATA_FORM);
     personality = GetMonData(mon, MON_DATA_PERSONALITY);
     trainerId = GetMonData(mon, MON_DATA_OT_ID);
+    currForm = GetMonData(mon, MON_DATA_FORM);
 
     sEvoStructPtr = AllocZeroed(sizeof(struct EvoInfo));
     sEvoStructPtr->preEvoSpriteID = preEvoSpriteID;

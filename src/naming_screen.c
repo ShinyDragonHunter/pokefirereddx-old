@@ -173,9 +173,9 @@ struct NamingScreenData
     u8 templateNum;
     u8 *destBuffer;
     u16 monSpecies;
-    u8 monForm;
     u16 monGender;
     u32 monPersonality;
+    u8 monForm;
     MainCallback returnCallback;
 };
 
@@ -406,9 +406,9 @@ void DoNamingScreen(u8 templateNum, u8 *destBuffer, u16 monSpecies, u16 monGende
     {
         sNamingScreen->templateNum = templateNum;
         sNamingScreen->monSpecies = monSpecies;
-        sNamingScreen->monForm = monForm;
         sNamingScreen->monGender = monGender;
         sNamingScreen->monPersonality = monPersonality;
+        sNamingScreen->monForm = monForm;
         sNamingScreen->destBuffer = destBuffer;
         sNamingScreen->returnCallback = returnCallback;
 
@@ -1915,7 +1915,7 @@ static void DrawTextEntry(void)
         temp[1] = gText_ExpandedPlaceholder_Empty[0];
         extraWidth = (IsWideLetter(temp[0]) == TRUE) ? 2 : 0;
 
-        AddTextPrinterParameterized(sNamingScreen->windows[WIN_TEXT_ENTRY], 1, temp, i * 8 + x + extraWidth, 1, 0xFF, NULL);
+        AddTextPrinterParameterized(sNamingScreen->windows[WIN_TEXT_ENTRY], 2, temp, i * 8 + x + extraWidth, 1, 0xFF, NULL);
     }
 
     TryDrawGenderIcon();
@@ -2060,27 +2060,6 @@ static bool8 IsWideLetter(u8 character)
             return FALSE;
     }
     return FALSE;
-}
-
-// Debug? Unused, and arguments aren't sensible for non-player screens.
-static void Debug_NamingScreenPlayer(void)
-{
-    DoNamingScreen(NAMING_SCREEN_PLAYER, gSaveBlock2Ptr->playerName, gSaveBlock2Ptr->playerGender, 0, 0, CB2_ReturnToFieldWithOpenMenu, 0);
-}
-
-static void Debug_NamingScreenBox(void)
-{
-    DoNamingScreen(NAMING_SCREEN_BOX, gSaveBlock2Ptr->playerName, gSaveBlock2Ptr->playerGender, 0, 0, CB2_ReturnToFieldWithOpenMenu, 0);
-}
-
-static void Debug_NamingScreenCaughtMon(void)
-{
-    DoNamingScreen(NAMING_SCREEN_CAUGHT_MON, gSaveBlock2Ptr->playerName, gSaveBlock2Ptr->playerGender, 0, 0, CB2_ReturnToFieldWithOpenMenu, 0);
-}
-
-static void Debug_NamingScreenNickname(void)
-{
-    DoNamingScreen(NAMING_SCREEN_NICKNAME, gSaveBlock2Ptr->playerName, gSaveBlock2Ptr->playerGender, 0, 0, CB2_ReturnToFieldWithOpenMenu, 0);
 }
 
 //--------------------------------------------------

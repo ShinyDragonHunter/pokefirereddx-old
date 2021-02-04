@@ -188,7 +188,7 @@ u16 CreatePicSprite2(u16 species, u32 otId, u32 personality, u8 flags, s16 x, s1
     u8 i;
     u8 spriteId;
     u8 flags2;
-    u16 formSpecies = GetFormSpeciesId(species, form);
+    u16 formSpecies = GetFormSpecies(species, form);
 
     for (i = 0; i < PICS_COUNT; i ++)
     {

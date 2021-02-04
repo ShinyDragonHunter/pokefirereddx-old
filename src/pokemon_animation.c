@@ -873,11 +873,7 @@ u8 GetSpeciesBackAnimSet(u16 species)
 // as 0xFFFFXXXX instead of the desired 0x02YYXXXX.
 // By dumb luck, this is not an issue in vanilla. However,
 // changing the link order revealed this bug.
-#if MODERN
 #define ANIM_SPRITE(taskId)   ((struct Sprite *)((gTasks[taskId].tPtrHi << 16) | ((u16)gTasks[taskId].tPtrLo)))
-#else
-#define ANIM_SPRITE(taskId)   ((struct Sprite *)((gTasks[taskId].tPtrHi << 16) | (gTasks[taskId].tPtrLo)))
-#endif //MODERN
 
 static void Task_HandleMonAnimation(u8 taskId)
 {
@@ -977,10 +973,10 @@ static void HandleStartAffineAnim(struct Sprite *sprite)
     if (sUnknown_03001274)
         InitSpriteAffineAnim(sprite);
 
-    if (!sprite->data[1])
-        StartSpriteAffineAnim(sprite, 1);
-    else
+    if (sprite->data[1])
         StartSpriteAffineAnim(sprite, 0);
+    else
+        StartSpriteAffineAnim(sprite, 1);
 
     CalcCenterToCornerVec(sprite, sprite->oam.shape, sprite->oam.size, sprite->oam.affineMode);
     sprite->affineAnimPaused = 1;
@@ -1034,10 +1030,10 @@ static void sub_817F77C(struct Sprite *sprite)
 
     if (sUnknown_03001274)
     {
-        if (!sprite->data[1])
-            sprite->hFlip = 1;
-        else
+        if (sprite->data[1])
             sprite->hFlip = 0;
+        else
+            sprite->hFlip = 1;
 
         FreeOamMatrix(sprite->oam.matrixNum);
         sprite->oam.matrixNum |= (sprite->hFlip << 3);

@@ -4588,7 +4588,7 @@ static void Cmd_switchindataupdate(void)
         monData[i] = gBattleBufferB[gActiveBattler][4 + i];
     }
 
-    formSpecies = GetFormSpeciesId(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].form);
+    formSpecies = GetFormSpecies(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].form);
     gBattleMons[gActiveBattler].type1 = gBaseStats[formSpecies].type1;
     gBattleMons[gActiveBattler].type2 = gBaseStats[formSpecies].type2;
     gBattleMons[gActiveBattler].ability = GetAbilityBySpecies(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].abilityNum, gBattleMons[gActiveBattler].form);
@@ -9763,7 +9763,6 @@ static u8 GetCatchingBattler(void)
 static void Cmd_handleballthrow(void)
 {
     u8 ballMultiplier = 10;
-    u8 form;
 
     if (gBattleControllerExecFlags)
         return;

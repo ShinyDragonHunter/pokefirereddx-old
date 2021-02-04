@@ -886,7 +886,7 @@ static void BufferArenaOpponentName(void)
 
 void DrawArenaRefereeTextBox(void)
 {
-    u8 width = 26;
+    u8 width = 27;
     u8 palNum = 7;
 
     FillBgTilemapBufferRect(0, 0,    254, 14, 1,  6, palNum);
@@ -916,7 +916,7 @@ void RemoveArenaRefereeTextBox(void)
     FillBgTilemapBufferRect(0, 3, 0, 14, 1, 1, palNum);
     height = 4;
     FillBgTilemapBufferRect(0, 4, 1, 14, 1, 1, palNum);
-    width = 26;
+    width = 27;
     FillBgTilemapBufferRect(0, 5, 2, 14, width, 1, palNum);
     FillBgTilemapBufferRect(0, 6, 28, 14, 1, 1, palNum);
     FillBgTilemapBufferRect(0, 7, 29, 14, 1, 1, palNum);

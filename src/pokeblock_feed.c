@@ -647,7 +647,7 @@ static bool8 LoadMonAndSceneGfx(struct Pokemon *mon)
     case 0:
         species = GetMonData(mon, MON_DATA_SPECIES2);
 	    form = GetMonData(mon, MON_DATA_FORM);
-        formSpecies = GetFormSpeciesId(species, form);
+        formSpecies = GetFormSpecies(species, form);
         personality = GetMonData(mon, MON_DATA_PERSONALITY);
         HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[1], formSpecies, personality);
         sPokeblockFeed->loadGfxState++;
@@ -655,7 +655,7 @@ static bool8 LoadMonAndSceneGfx(struct Pokemon *mon)
     case 1:
         species = GetMonData(mon, MON_DATA_SPECIES2);
 	    form = GetMonData(mon, MON_DATA_FORM);
-        formSpecies = GetFormSpeciesId(species, form);
+        formSpecies = GetFormSpecies(species, form);
         personality = GetMonData(mon, MON_DATA_PERSONALITY);
         trainerId = GetMonData(mon, MON_DATA_OT_ID);
         palette = GetMonSpritePalStructFromOtIdPersonality(formSpecies, trainerId, personality);

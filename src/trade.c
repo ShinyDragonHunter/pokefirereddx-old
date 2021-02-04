@@ -2623,7 +2623,7 @@ static void LoadTradeMonPic(u8 whichParty, u8 state)
     case 0:
         species = GetMonData(mon, MON_DATA_SPECIES2);
         form = GetMonData(mon, MON_DATA_FORM);
-        formSpecies = GetFormSpeciesId(species, form);
+        formSpecies = GetFormSpecies(species, form);
         personality = GetMonData(mon, MON_DATA_PERSONALITY);
 
         if (whichParty == TRADE_PLAYER)

@@ -3033,8 +3033,7 @@ static void BattleStartClearSetData(void)
     gBattleStruct->runTries = 0;
     gBattleStruct->safariGoNearCounter = 0;
     gBattleStruct->safariPkblThrowCounter = 0;
-    formSpecies = GetFormSpeciesId(GetMonData(&gEnemyParty[0], MON_DATA_SPECIES), GetMonData(&gEnemyParty[0], MON_DATA_FORM));
-    *(&gBattleStruct->safariCatchFactor) = gBaseStats[formSpecies].catchRate * 100 / 1275;
+    *(&gBattleStruct->safariCatchFactor) = gBaseStats[GetFormSpecies(GetMonData(&gEnemyParty[0], MON_DATA_SPECIES), GetMonData(&gEnemyParty[0], MON_DATA_FORM))].catchRate * 100 / 1275;
     gBattleStruct->safariEscapeFactor = 3;
     gBattleStruct->wildVictorySong = 0;
     gBattleStruct->moneyMultiplier = 1;
@@ -3270,7 +3269,7 @@ void FaintClearSetData(void)
 
     gBattleResources->flags->flags[gActiveBattler] = 0;
 
-    formSpecies = GetFormSpeciesId(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].form);
+    formSpecies = GetFormSpecies(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].form);
     gBattleMons[gActiveBattler].type1 = gBaseStats[formSpecies].type1;
     gBattleMons[gActiveBattler].type2 = gBaseStats[formSpecies].type2;
 
@@ -3340,7 +3339,7 @@ static void BattleIntroDrawTrainersOrMonsSprites(void)
             for (i = 0; i < sizeof(struct BattlePokemon); i++)
                 ptr[i] = gBattleBufferB[gActiveBattler][4 + i];
 
-            formSpecies = GetFormSpeciesId(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].form);
+            formSpecies = GetFormSpecies(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].form);
             gBattleMons[gActiveBattler].type1 = gBaseStats[formSpecies].type1;
             gBattleMons[gActiveBattler].type2 = gBaseStats[formSpecies].type2;
             gBattleMons[gActiveBattler].ability = GetAbilityBySpecies(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].abilityNum, gBattleMons[gActiveBattler].form);

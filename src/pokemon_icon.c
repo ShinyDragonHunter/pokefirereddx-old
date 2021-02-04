@@ -1029,7 +1029,7 @@ u8 CreateMonIcon(u16 species, void (*callback)(struct Sprite *), s16 x, s16 y, u
         .anims = sMonIconAnims,
         .affineAnims = sMonIconAffineAnims,
         .callback = callback,
-        .paletteTag = POKE_ICON_BASE_PAL_TAG + gMonIconPaletteIndices[GetFormSpeciesId(species, form)],
+        .paletteTag = POKE_ICON_BASE_PAL_TAG + gMonIconPaletteIndices[GetFormSpecies(species, form)],
     };
 
     if (species > NUM_SPECIES)
@@ -1081,7 +1081,7 @@ u16 GetIconSpecies(u16 species, u32 personality, u8 form)
         if (species > NUM_SPECIES)
             result = 260;
         else
-            result = GetFormSpeciesId(species, form);
+            result = GetFormSpecies(species, form);
     }
 
     return result;
@@ -1185,7 +1185,7 @@ u8 GetValidMonIconPalIndex(u16 species, u8 form)
 {
     if (species > NUM_SPECIES)
         species = 260;
-    return gMonIconPaletteIndices[GetFormSpeciesId(species, form)];
+    return gMonIconPaletteIndices[GetFormSpecies(species, form)];
 }
 
 u8 GetMonIconPaletteIndexFromSpecies(u16 species)
@@ -1197,7 +1197,7 @@ const u16* GetValidMonIconPalettePtr(u16 species, u8 form)
 {
     if (species > NUM_SPECIES)
         species = 260;
-    return gMonIconPaletteTable[gMonIconPaletteIndices[GetFormSpeciesId(species, form)]].data;
+    return gMonIconPaletteTable[gMonIconPaletteIndices[GetFormSpecies(species, form)]].data;
 }
 
 u8 UpdateMonIconFrame(struct Sprite *sprite)

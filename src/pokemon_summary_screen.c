@@ -164,12 +164,14 @@ static EWRAM_DATA struct PokemonSummaryScreenData
     u8 secondMoveIndex;
     bool8 lockMovesFlag; // This is used to prevent the player from changing position of moves in a battle or when trading.
     u8 bgDisplayOrder; // Determines the order page backgrounds are loaded while scrolling between them
-    u8 obedience; // Used to differentiate between Colosseum or XD when reading Orre metLocation IDs
+    u8 obedience:1; // Used to differentiate between Colosseum or XD when reading Orre metLocation IDs
+    u8 form:2;
+    u8 filler40CA:5;
     u8 windowIds[8];
     u8 spriteIds[SPRITE_ARR_ID_COUNT];
     bool8 unk40EF;
     s16 switchCounter; // Used for various switch statement cases that decompress/load graphics or pokemon data
-    u8 form:6;
+    u8 unk_filler4[6];
 } *sMonSummaryScreen = NULL;
 EWRAM_DATA u8 gLastViewedMonIndex = 0;
 static EWRAM_DATA u8 sMoveSlotToReplace = 0;
@@ -1323,14 +1325,12 @@ static void CopyMonToSummaryStruct(struct Pokemon *mon)
 static bool8 ExtractMonDataToSummaryStruct(struct Pokemon *mon)
 {
     u32 i;
-    u8 form;
     struct PokeSummary *sum = &sMonSummaryScreen->summary;
     // Spread the data extraction over multiple frames.
     switch (sMonSummaryScreen->switchCounter)
     {
     case 0:
         sum->species = GetMonData(mon, MON_DATA_SPECIES);
-        sMonSummaryScreen->form = GetMonData(mon, MON_DATA_FORM, NULL);
         sum->species2 = GetMonData(mon, MON_DATA_SPECIES2);
         sum->exp = GetMonData(mon, MON_DATA_EXP);
         sum->level = GetMonData(mon, MON_DATA_LEVEL);
@@ -1339,6 +1339,7 @@ static bool8 ExtractMonDataToSummaryStruct(struct Pokemon *mon)
         sum->pid = GetMonData(mon, MON_DATA_PERSONALITY);
         sum->sanity = GetMonData(mon, MON_DATA_SANITY_IS_BAD_EGG);
         sMonSummaryScreen->obedience = GetMonData(mon, MON_DATA_OBEDIENCE);
+        sMonSummaryScreen->form = GetMonData(mon, MON_DATA_FORM);
 
         if (sum->sanity)
             sum->isEgg = TRUE;
@@ -2554,7 +2555,7 @@ static void DrawExperienceProgressBar(struct Pokemon *unused)
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
     u16 *dst;
     u8 i;
-    u16 formSpecies = GetFormSpeciesId(summary->species, sMonSummaryScreen->form);
+    u16 formSpecies = GetFormSpecies(summary->species, sMonSummaryScreen->form);
 
     if (summary->level < MAX_LEVEL)
     {
@@ -2655,10 +2656,10 @@ static void PrintMonInfo(void)
     FillWindowPixelBuffer(PSS_LABEL_WINDOW_PORTRAIT_DEX_NUMBER, PIXEL_FILL(0));
     FillWindowPixelBuffer(PSS_LABEL_WINDOW_PORTRAIT_NICKNAME, PIXEL_FILL(0));
     FillWindowPixelBuffer(PSS_LABEL_WINDOW_PORTRAIT_SPECIES, PIXEL_FILL(0));
-    if (!sMonSummaryScreen->summary.isEgg)
-        PrintNotEggInfo();
-    else
+    if (sMonSummaryScreen->summary.isEgg)
         PrintEggInfo();
+    else
+        PrintNotEggInfo();
     ScheduleBgCopyTilemapToVram(0);
 }
 
@@ -3525,7 +3526,7 @@ static void PrintExpPointsNextLevel(void)
     PrintTextOnWindow(windowId, gStringVar1, x, 1, 0, 0);
 
     if (sum->level < MAX_LEVEL)
-        expToNextLevel = gExperienceTables[gBaseStats[GetFormSpeciesId(sum->species, sMonSummaryScreen->form)].growthRate][sum->level + 1] - sum->exp;
+        expToNextLevel = gExperienceTables[gBaseStats[GetFormSpecies(sum->species, sMonSummaryScreen->form)].growthRate][sum->level + 1] - sum->exp;
     else
         expToNextLevel = 0;
 
@@ -3894,7 +3895,7 @@ static void SetTypeSpritePosAndPal(u8 typeId, u8 x, u8 y, u8 spriteArrayId)
 static void SetMonTypeIcons(void)
 {
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
-    u16 formSpecies = GetFormSpeciesId(summary->species, sMonSummaryScreen->form);
+    u16 formSpecies = GetFormSpecies(summary->species, sMonSummaryScreen->form);
     if (summary->isEgg)
     {
         SetTypeSpritePosAndPal(TYPE_MYSTERY, 120, 48, SPRITE_ARR_ID_TYPE);
@@ -3943,16 +3944,16 @@ static void SetContestMoveTypeIcons(void)
 
 static void SetNewMoveTypeIcon(void)
 {
-    if (sMonSummaryScreen->newMove == MOVE_NONE)
-    {
-        SetSpriteInvisibility(SPRITE_ARR_ID_TYPE + 4, TRUE);
-    }
-    else
+    if (sMonSummaryScreen->newMove)
     {
         if (sMonSummaryScreen->currPageIndex == PSS_PAGE_BATTLE_MOVES)
             SetTypeSpritePosAndPal(gBattleMoves[sMonSummaryScreen->newMove].type, 85, 96, SPRITE_ARR_ID_TYPE + 4);
         else
             SetTypeSpritePosAndPal(NUMBER_OF_MON_TYPES + gContestMoves[sMonSummaryScreen->newMove].contestCategory, 85, 96, SPRITE_ARR_ID_TYPE + 4);
+    }
+    else
+    {
+        SetSpriteInvisibility(SPRITE_ARR_ID_TYPE + 4, TRUE);
     }
 }
 
@@ -3979,7 +3980,7 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
 {
     const struct SpritePalette *pal;
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
-    u16 formSpecies = GetFormSpeciesId(summary->species2, sMonSummaryScreen->form);
+    u16 formSpecies = GetFormSpecies(summary->species2, sMonSummaryScreen->form);
 
     switch (*state)
     {
@@ -4017,10 +4018,11 @@ static void PlayMonCry(void)
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
     if (!summary->isEgg)
     {
+        //Change these to what's commented out to support cries for forms.
         if (ShouldPlayNormalMonCry(&sMonSummaryScreen->currentMon))
-            PlayCry3(summary->species2, 0, 0);
+            PlayCry3(summary->species2, 0, 0); //PlayCry3(GetFormSpecies(summary->species2, sMonSummaryScreen->form), 0, 0);
         else
-            PlayCry3(summary->species2, 0, 11);
+            PlayCry3(summary->species2, 0, 11); //PlayCry3(GetFormSpecies(summary->species2, sMonSummaryScreen->form), 0, 11);
     }
 }
 
@@ -4028,7 +4030,7 @@ static u8 CreateMonSprite(struct Pokemon *unused)
 {
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
     u8 spriteId = CreateSprite(&gMultiuseSpriteTemplate, 40, 64, 5);
-    u16 formSpecies = GetFormSpeciesId(summary->species2, sMonSummaryScreen->form);
+    u16 formSpecies = GetFormSpecies(summary->species2, sMonSummaryScreen->form);
 
     FreeSpriteOamMatrix(&gSprites[spriteId]);
     gSprites[spriteId].data[0] = formSpecies;
@@ -4036,10 +4038,10 @@ static u8 CreateMonSprite(struct Pokemon *unused)
     gSprites[spriteId].callback = SpriteCB_Pokemon;
     gSprites[spriteId].oam.priority = 0;
 
-    if (!IsMonSpriteNotFlipped(formSpecies))
-        gSprites[spriteId].hFlip = TRUE;
-    else
+    if (IsMonSpriteNotFlipped(formSpecies))
         gSprites[spriteId].hFlip = FALSE;
+    else
+        gSprites[spriteId].hFlip = TRUE;
 
     return spriteId;
 }
