@@ -1041,7 +1041,7 @@ static void sub_817F77C(struct Sprite *sprite)
     }
     else
     {
-        sprite->affineAnims = gUnknown_082FF694;
+        sprite->affineAnims = gAffineAnims_BattleSpriteOpponentSide;
     }
 }
 

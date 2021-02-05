@@ -133,7 +133,7 @@ enum
     CONTROLLER_PRINTSTRING,
     CONTROLLER_PRINTSTRINGPLAYERONLY,
     CONTROLLER_CHOOSEACTION,
-    CONTROLLER_UNKNOWNYESNOBOX,
+    CONTROLLER_YESNOBOX,
     CONTROLLER_CHOOSEMOVE,
     CONTROLLER_OPENBAG,
     CONTROLLER_CHOOSEPOKEMON,
@@ -169,26 +169,22 @@ enum
     CONTROLLER_BATTLEANIMATION,
     CONTROLLER_LINKSTANDBYMSG,
     CONTROLLER_RESETACTIONMOVESELECTION,
-    CONTROLLER_55,
+    CONTROLLER_ENDLINKBATTLE,
     /*new controllers should go here*/
     CONTROLLER_TERMINATOR_NOP,
     CONTROLLER_CMDS_COUNT
 };
 
-extern struct UnusedControllerStruct gUnusedControllerStruct;
-
 // general functions
 void HandleLinkBattleSetup(void);
 void SetUpBattleVarsAndBirchZigzagoon(void);
-void sub_8032768(void);
-void sub_8033648(void);
+void InitBattleControllers(void);
+void TryReceiveLinkBattleData(void);
 void PrepareBufferDataTransferLink(u8 bufferId, u16 size, u8 *data);
 
 // emitters
 void BtlController_EmitGetMonData(u8 bufferId, u8 requestId, u8 monToCheck);
-void BtlController_EmitGetRawMonData(u8 bufferId, u8 monId, u8 bytes); // unused
 void BtlController_EmitSetMonData(u8 bufferId, u8 requestId, u8 monToCheck, u8 bytes, void *data);
-void BtlController_EmitSetRawMonData(u8 bufferId, u8 monId, u8 bytes, void *data); // unused
 void BtlController_EmitLoadMonSprite(u8 bufferId);
 void BtlController_EmitSwitchInAnim(u8 bufferId, u8 partyId, bool8 dontClearSubstituteBit);
 void BtlController_EmitReturnMonToBall(u8 bufferId, u8 arg1);
@@ -196,36 +192,24 @@ void BtlController_EmitDrawTrainerPic(u8 bufferId);
 void BtlController_EmitTrainerSlide(u8 bufferId);
 void BtlController_EmitTrainerSlideBack(u8 bufferId);
 void BtlController_EmitFaintAnimation(u8 bufferId);
-void BtlController_EmitPaletteFade(u8 bufferId); // unused
-void BtlController_EmitSuccessBallThrowAnim(u8 bufferId); // unused
 void BtlController_EmitBallThrowAnim(u8 bufferId, u8 caseId);
-void BtlController_EmitPause(u8 bufferId, u8 toWait, void *data); // unused
 void BtlController_EmitMoveAnimation(u8 bufferId, u16 move, u8 turnOfMove, u16 movePower, s32 dmg, u8 friendship, struct DisableStruct *disableStructPtr, u8 multihit);
 void BtlController_EmitPrintString(u8 bufferId, u16 stringId);
 void BtlController_EmitPrintSelectionString(u8 bufferId, u16 stringId);
 void BtlController_EmitChooseAction(u8 bufferId, u8 arg1, u16 arg2);
-void BtlController_EmitUnknownYesNoBox(u8 bufferId);
+void BtlController_EmitYesNoBox(u8 bufferId);
 void BtlController_EmitChooseMove(u8 bufferId, bool8 isDoubleBattle, bool8 NoPpNumber, struct ChooseMoveStruct *movePpData);
 void BtlController_EmitChooseItem(u8 bufferId, u8* arg1);
 void BtlController_EmitChoosePokemon(u8 bufferId, u8 caseId, u8 arg2, u8 abilityId, u8* arg4);
-void BtlController_EmitCmd23(u8 bufferId); // unused
-void BtlController_EmitHealthBarUpdate(u8 bufferId, u16 hpValue);
-void BtlController_EmitExpUpdate(u8 bufferId, u8 partyId, u16 expPoints);
+void BtlController_EmitHealthBarUpdate(u8 bufferId, s16 hpValue);
+void BtlController_EmitExpUpdate(u8 bufferId, u8 partyId, s16 expPoints);
 void BtlController_EmitStatusIconUpdate(u8 bufferId, u32 status1, u32 status2);
 void BtlController_EmitStatusAnimation(u8 bufferId, bool8 status2, u32 status);
-void BtlController_EmitStatusXor(u8 bufferId, u8 b); // unused
 void BtlController_EmitDataTransfer(u8 bufferId, u16 size, void *data);
-void BtlController_EmitDMA3Transfer(u8 bufferId, void *dst, u16 size, void *data); // unused
-void BtlController_EmitPlayBGM(u8 bufferId, u16 songId, void *unusedDumbDataParameter); // unused
-void BtlController_EmitCmd32(u8 bufferId, u16 size, void *c); // unused
 void BtlController_EmitTwoReturnValues(u8 bufferId, u8 arg1, u16 arg2);
 void BtlController_EmitChosenMonReturnValue(u8 bufferId, u8 b, u8 *c);
 void BtlController_EmitOneReturnValue(u8 bufferId, u16 arg1);
 void BtlController_EmitOneReturnValue_Duplicate(u8 bufferId, u16 b);
-void BtlController_EmitClearUnkVar(u8 bufferId); // unused
-void BtlController_EmitSetUnkVar(u8 bufferId, u8 b); // unused
-void BtlController_EmitClearUnkFlag(u8 bufferId); // unused
-void BtlController_EmitToggleUnkFlag(u8 bufferId); // unused
 void BtlController_EmitHitAnimation(u8 bufferId);
 void BtlController_EmitCmd42(u8 bufferId);
 void BtlController_EmitPlaySE(u8 bufferId, u16 songId);
@@ -238,19 +222,19 @@ void BtlController_EmitHidePartyStatusSummary(u8 bufferId);
 void BtlController_EmitEndBounceEffect(u8 bufferId);
 void BtlController_EmitSpriteInvisibility(u8 bufferId, bool8 isInvisible);
 void BtlController_EmitBattleAnimation(u8 bufferId, u8 animationId, u16 argument);
-void BtlController_EmitLinkStandbyMsg(u8 bufferId, u8 arg1, bool32 arg2);
+void BtlController_EmitLinkStandbyMsg(u8 bufferId, u8 arg1, bool32 record);
 void BtlController_EmitResetActionMoveSelection(u8 bufferId, u8 caseId);
-void BtlController_EmitCmd55(u8 bufferId, u8 battleOutcome);
+void BtlController_EmitEndLinkBattle(u8 bufferId, u8 battleOutcome);
 
 // player controller
 void SetControllerToPlayer(void);
-void nullsub_21(void);
+void BattleControllerDummy(void);
 void PlayerHandleGetRawMonData(void);
-void sub_80587B0(void);
-void sub_805CC00(struct Sprite *sprite);
+void SetBattleEndCallbacks(void);
+void SpriteCB_FreePlayerSpriteLoadMonSprite(struct Sprite *sprite);
 void CB2_SetUpReshowBattleScreenAfterMenu(void);
 void CB2_SetUpReshowBattleScreenAfterMenu2(void);
-void c3_0802FDF4(u8 taskId);
+void Task_PlayerController_RestoreBgmAfterCry(u8 taskId);
 void ActionSelectionCreateCursorAt(u8 cursorPos, u8 unused);
 void ActionSelectionDestroyCursorAt(u8 cursorPos);
 void InitMoveSelectionsVarsAndStrings(void);
