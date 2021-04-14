@@ -178,10 +178,10 @@ static const struct SpriteFrameImage sPicTable_SurfBlob[] = {
 
 static const union AnimCmd *const sAnimTable_SurfBlob[] =
 {
-    gObjectEventImageAnim_FaceSouth,
-    gObjectEventImageAnim_FaceNorth,
-    gObjectEventImageAnim_FaceWest,
-    gObjectEventImageAnim_FaceEast,
+    sAnim_FaceSouth,
+    sAnim_FaceNorth,
+    sAnim_FaceWest,
+    sAnim_FaceEast,
 };
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_SurfBlob = {
@@ -289,7 +289,7 @@ static const struct SpriteFrameImage sPicTable_JumpTallGrass[] = {
 
 static const union AnimCmd *const sAnimTable_JumpTallGrass[] =
 {
-    gObjectEventImageAnim_RockBreak,
+    sAnim_RockBreak,
 };
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_JumpTallGrass = {
@@ -973,7 +973,7 @@ const struct SpriteTemplate gFieldEffectObjectTemplate_SmallSparkle = {
 
 const struct SpritePalette gSpritePalette_SmallSparkle = {gFieldEffectPal_SmallSparkle, FLDEFF_PAL_TAG_SMALL_SPARKLE};
 
-const struct SpriteFrameImage  sPicTable_Rayquaza[] = {
+const struct SpriteFrameImage  sPicTable_RayquazaSpotlightEffect[] = {
     overworld_frame(gObjectEventPic_Rayquaza, 4, 4, 0),
 };
 
@@ -982,7 +982,7 @@ const struct SpriteTemplate gFieldEffectObjectTemplate_Rayquaza = {
     .paletteTag = 0xFFFF,
     .oam = &gObjectEventBaseOam_32x32,
     .anims = sAnimTable_Shadow,
-    .images = sPicTable_Rayquaza,
+    .images = sPicTable_RayquazaSpotlightEffect,
     .affineAnims = gDummySpriteAffineAnimTable,
     .callback = UpdateRayquazaSpotlightEffect,
 };

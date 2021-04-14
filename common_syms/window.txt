@@ -1,2 +1,2 @@
 gTransparentTileNumber
-gUnknown_03002F70
+gWindowBgTilemapBuffers

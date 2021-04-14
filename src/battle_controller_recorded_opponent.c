@@ -119,7 +119,7 @@ static void (*const sRecordedOpponentBufferCommands[CONTROLLER_CMDS_COUNT])(void
     [CONTROLLER_CLEARUNKFLAG]             = RecordedOpponentEndExecution,
     [CONTROLLER_TOGGLEUNKFLAG]            = RecordedOpponentEndExecution,
     [CONTROLLER_HITANIMATION]             = RecordedOpponentHandleHitAnimation,
-    [CONTROLLER_42]                       = RecordedOpponentEndExecution,
+    [CONTROLLER_CANTSWITCH]               = RecordedOpponentEndExecution,
     [CONTROLLER_PLAYSE]                   = RecordedOpponentHandlePlaySE,
     [CONTROLLER_PLAYFANFAREORBGM]         = RecordedOpponentHandlePlayFanfareOrBGM,
     [CONTROLLER_FAINTINGCRY]              = RecordedOpponentHandleFaintingCry,

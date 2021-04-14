@@ -941,7 +941,7 @@
 	.byte 0xb5
 	.endm
 
-	.macro happinesstodamagecalculation
+	.macro friendshiptodamagecalculation
 	.byte 0xb6
 	.endm
 
@@ -1316,7 +1316,7 @@
 	various \battler, 15
 	.endm
 	
-	.macro arenajudmengtstring id:req
+	.macro arenajudgmentstring id:req
 	various \id, VARIOUS_ARENA_JUDGMENT_STRING
 	.endm
 	

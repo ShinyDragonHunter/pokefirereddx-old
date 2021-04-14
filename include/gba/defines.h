@@ -1,5 +1,5 @@
-#ifndef GUARD_GBA_DEFINES
-#define GUARD_GBA_DEFINES
+#ifndef GUARD_GBA_DEFINES_H
+#define GUARD_GBA_DEFINES_H
 
 #include <stddef.h>
 
@@ -51,6 +51,8 @@
 #define BG_TILE_V_FLIP(n) (0x800 + (n))
 #define BG_TILE_HV_FLIP(n) (0xC00 + (n))
 
+#define NUM_BACKGROUNDS 4
+
 // text-mode BG
 #define OBJ_VRAM0      (VRAM + 0x10000)
 #define OBJ_VRAM0_SIZE 0x8000
@@ -75,4 +77,4 @@
 
 #define TOTAL_OBJ_TILE_COUNT 1024
 
-#endif // GUARD_GBA_DEFINES
+#endif // GUARD_GBA_DEFINES_H

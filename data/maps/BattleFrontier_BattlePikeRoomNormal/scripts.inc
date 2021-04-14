@@ -293,7 +293,7 @@ BattleFrontier_BattlePikeRoomNormal_EventScript_EnterStatusRoom:: @ 825D605
 	applymovement LOCALID_OBJ_1, BattleFrontier_BattlePikeRoomNormal_Movement_MonApproachPlayer
 	waitmovement 0
 	pike_getstatusmon
-	textcolor DARK_GREY
+	textcolor DARK_GRAY
 	copyvar VAR_0x8004, VAR_RESULT
 	compare VAR_0x8004, PIKE_STATUSMON_KIRLIA
 	call_if_eq BattleFrontier_BattlePikeRoomNormal_EventScript_KirliaAttack

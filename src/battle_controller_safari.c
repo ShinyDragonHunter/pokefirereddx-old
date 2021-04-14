@@ -67,7 +67,7 @@ static void SafariHandleSetUnkVar(void);
 static void SafariHandleClearUnkFlag(void);
 static void SafariHandleToggleUnkFlag(void);
 static void SafariHandleHitAnimation(void);
-static void SafariHandleCmd42(void);
+static void SafariHandleCantSwitch(void);
 static void SafariHandlePlaySE(void);
 static void SafariHandlePlayFanfareOrBGM(void);
 static void SafariHandleFaintingCry(void);
@@ -130,7 +130,7 @@ static void (*const sSafariBufferCommands[CONTROLLER_CMDS_COUNT])(void) =
     [CONTROLLER_CLEARUNKFLAG]             = SafariHandleClearUnkFlag,
     [CONTROLLER_TOGGLEUNKFLAG]            = SafariHandleToggleUnkFlag,
     [CONTROLLER_HITANIMATION]             = SafariHandleHitAnimation,
-    [CONTROLLER_42]                       = SafariHandleCmd42,
+    [CONTROLLER_CANTSWITCH]               = SafariHandleCantSwitch,
     [CONTROLLER_PLAYSE]                   = SafariHandlePlaySE,
     [CONTROLLER_PLAYFANFAREORBGM]         = SafariHandlePlayFanfareOrBGM,
     [CONTROLLER_FAINTINGCRY]              = SafariHandleFaintingCry,
@@ -469,7 +469,7 @@ static void SafariHandleChooseMove(void)
 
 static void SafariHandleChooseItem(void)
 {
-    BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 0x10, RGB_BLACK);
+    BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
     gBattlerControllerFuncs[gActiveBattler] = SafariOpenPokeblockCase;
     gBattlerInMenuId = gActiveBattler;
 }
@@ -575,7 +575,7 @@ static void SafariHandleHitAnimation(void)
     SafariBufferExecCompleted();
 }
 
-static void SafariHandleCmd42(void)
+static void SafariHandleCantSwitch(void)
 {
     SafariBufferExecCompleted();
 }

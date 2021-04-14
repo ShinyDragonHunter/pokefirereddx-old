@@ -887,7 +887,7 @@ gText_PlayerWhitedOut:: @ 8272DE3
 	.string "POKéMON!\p{PLAYER} whited out!$"
 
 gText_RegisteredTrainerinPokeNav:: @ 8272E0F
-	.string "{COLOR DARK_GREY}Registered {STR_VAR_1} {STR_VAR_2}\n"
+	.string "{COLOR DARK_GRAY}Registered {STR_VAR_1} {STR_VAR_2}\n"
 	.string "in the POKéNAV.$"
 
 gText_ComeBackWithSecretPower:: @ 8272E30

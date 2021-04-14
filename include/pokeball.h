@@ -1,6 +1,31 @@
 #ifndef GUARD_POKEBALL_H
 #define GUARD_POKEBALL_H
 
+enum
+{
+    BALL_MASTER,
+    BALL_ULTRA,
+    BALL_GREAT,
+    BALL_POKE,
+    BALL_SAFARI,
+    BALL_NET,
+    BALL_DIVE,
+    BALL_NEST,
+    BALL_REPEAT,
+    BALL_TIMER,
+    BALL_LUXURY,
+    BALL_PREMIER,
+    BALL_LEVEL,
+    BALL_LURE,
+    BALL_MOON,
+    BALL_FRIEND,
+    BALL_FAST,
+    BALL_HEAVY,
+    BALL_LOVE,
+    BALL_PARK,
+    POKEBALL_COUNT
+};
+
 enum {
     BALL_AFFINE_ANIM_0,
     BALL_ROTATE_RIGHT,
@@ -10,6 +35,8 @@ enum {
 };
 
 extern const struct SpriteTemplate gBallSpriteTemplates[];
+
+#define FIRST_BALL BALL_MASTER
 
 #define POKEBALL_PLAYER_SENDOUT     0xFF
 #define POKEBALL_OPPONENT_SENDOUT   0xFE

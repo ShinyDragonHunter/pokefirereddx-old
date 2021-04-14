@@ -29,7 +29,7 @@ BattleFrontier_OutsideWest_EventScript_FerryAttendant:: @ 823D3F0
 	end
 
 BattleFrontier_OutsideWest_EventScript_ChooseFerryDestination:: @ 823D416
-	multichoicedefault 18, 6, MULTI_SSTIDAL_BATTLE_FRONTIER, 2, 0
+	multichoicedefault 18, 6, MULTI_SSTIDAL_BATTLE_FRONTIER, 2, FALSE
 	switch VAR_RESULT
 	case 0, BattleFrontier_OutsideWest_EventScript_FerryToSlateport
 	case 1, BattleFrontier_OutsideWest_EventScript_FerryToLilycove
@@ -341,13 +341,13 @@ BattleFrontier_OutsideWest_Text_MayISeeYourTicket: @ 823D808
 	.string "May I see your TICKET?$"
 
 BattleFrontier_OutsideWest_Text_MustHaveTicketToBoard: @ 823D842
-	.string "{COLOR DARK_GREY}{PLAYER} doesn't have the TICKET…\p"
+	.string "{COLOR DARK_GRAY}{PLAYER} doesn't have the TICKET…\p"
 	.string "{COLOR RED}I'm terribly sorry.\p"
 	.string "You must have a TICKET to board\n"
 	.string "the ferry.$"
 
 BattleFrontier_OutsideWest_Text_WhereWouldYouLikeToGo: @ 823D89D
-	.string "{COLOR DARK_GREY}{PLAYER} flashed the TICKET.\p"
+	.string "{COLOR DARK_GRAY}{PLAYER} flashed the TICKET.\p"
 	.string "{COLOR RED}Perfect! That's all you need!\p"
 	.string "And where would you like to go?$"
 

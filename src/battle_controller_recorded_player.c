@@ -113,7 +113,7 @@ static void (*const sRecordedPlayerBufferCommands[CONTROLLER_CMDS_COUNT])(void) 
     [CONTROLLER_CLEARUNKFLAG]             = RecordedPlayerEndExecution,
     [CONTROLLER_TOGGLEUNKFLAG]            = RecordedPlayerEndExecution,
     [CONTROLLER_HITANIMATION]             = RecordedPlayerHandleHitAnimation,
-    [CONTROLLER_42]                       = RecordedPlayerEndExecution,
+    [CONTROLLER_CANTSWITCH]               = RecordedPlayerEndExecution,
     [CONTROLLER_PLAYSE]                   = RecordedPlayerHandlePlaySE,
     [CONTROLLER_PLAYFANFAREORBGM]         = RecordedPlayerHandlePlayFanfareOrBGM,
     [CONTROLLER_FAINTINGCRY]              = RecordedPlayerHandleFaintingCry,

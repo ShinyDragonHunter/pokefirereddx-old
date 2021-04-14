@@ -846,38 +846,40 @@
 	.endm
 
 	@ Displays a multichoice box from which the user can choose a selection, and blocks script execution until a selection is made. 
-	@ Lists of options are predefined (sMultichoiceLists) and the one to be used is specified with list. If b is set to a non-zero value, then the user will not be allowed to back out of the multichoice with the B button.
-	.macro multichoice x:req, y:req, list:req, b:req
+	@ Lists of options are predefined (sMultichoiceLists) and the one to be used is specified with multichoiceId.
+	@ If ignoreBPress is set to a non-zero value, then the user will not be allowed to back out of the multichoice with the B button.
+	.macro multichoice x:req, y:req, multichoiceId:req, ignoreBPress:req
 	.byte 0x6f
 	.byte \x
 	.byte \y
-	.byte \list
-	.byte \b
+	.byte \multichoiceId
+	.byte \ignoreBPress
 	.endm
 
 	@ Displays a multichoice box from which the user can choose a selection, and blocks script execution until a selection is made.
-	@ Lists of options are predefined (sMultichoiceLists) and the one to be used is specified with list. The default argument determines 
-	@ the initial position of the cursor when the box is first opened; it is zero-indexed, and if it is too large, it is treated as 0x00. 
-	@ If b is set to a non-zero value, then the user will not be allowed to back out of the multichoice with the B button.
-	.macro multichoicedefault x:req, y:req, list:req, default:req, b:req
+	@ Lists of options are predefined (sMultichoiceLists) and the one to be used is specified with multichoiceId.
+	@ The default argument determines the initial position of the cursor when the box is first opened; it is zero-indexed, and if it is too large, it is treated as 0x00. 
+	@ If ignoreBPress is set to a non-zero value, then the user will not be allowed to back out of the multichoice with the B button.
+	.macro multichoicedefault x:req, y:req, multichoiceId:req, default:req, ignoreBPress:req
 	.byte 0x70
 	.byte \x
 	.byte \y
-	.byte \list
+	.byte \multichoiceId
 	.byte \default
-	.byte \b
+	.byte \ignoreBPress
 	.endm
 
 	@ Displays a multichoice box from which the user can choose a selection, and blocks script execution until a selection is made.
-	@ Lists of options are predefined (sMultichoiceLists) and the one to be used is specified with list.
+	@ Lists of options are predefined (sMultichoiceLists) and the one to be used is specified with multichoiceId.
 	@ The per_row argument determines how many list items will be shown on a single row of the box.
-	.macro multichoicegrid x:req, y:req, list:req, per_row:req, B:req
+	@ If ignoreBPress is set to a non-zero value, then the user will not be allowed to back out of the multichoice with the B button.
+	.macro multichoicegrid x:req, y:req, multichoiceId:req, per_row:req, ignoreBPress:req
 	.byte 0x71
 	.byte \x
 	.byte \y
-	.byte \list
+	.byte \multichoiceId
 	.byte \per_row
-	.byte \B
+	.byte \ignoreBPress
 	.endm
 
 	@ Nopped in Emerald.
@@ -886,21 +888,21 @@
 	.endm
 
 	@ Nopped in Emerald, but still consumes parameters.
-	.macro erasebox byte1:req, byte2:req, byte3:req, byte4:req
+	.macro erasebox left:req, top:req, right:req, bottom:req
 	.byte 0x73
-	.byte \byte1
-	.byte \byte2
-	.byte \byte3
-	.byte \byte4
+	.byte \left
+	.byte \top
+	.byte \right
+	.byte \bottom
 	.endm
 
 	@ Nopped in Emerald, but still consumes parameters.
-	.macro drawboxtext byte1:req, byte2:req, byte3:req, byte4:req
+	.macro drawboxtext left:req, top:req, multichoiceId:req, ignoreBPress:req
 	.byte 0x74
-	.byte \byte1
-	.byte \byte2
-	.byte \byte3
-	.byte \byte4
+	.byte \left
+	.byte \top
+	.byte \multichoiceId
+	.byte \ignoreBPress
 	.endm
 
 	@ Displays a box containing the front sprite for the specified (species) Pokemon species.
@@ -1449,7 +1451,7 @@
 	.endm
 
 	@ Sets the colour of the text in standard message boxes. 0x00 produces blue (male) text, 0x01 produces red (female) text,
-	@ 0xFF resets to the default for the current object event, and all other values produce dark grey text.
+	@ 0xFF resets to the default for the current object event, and all other values produce dark gray text.
 	@ This has been adapted to include all 16 possible text colours.
 	@ See "textcolor script command values" at the bottom of this file for command values.
 	.macro textcolor color:req
@@ -1492,15 +1494,15 @@
 	.4byte \value
 	.endm
 
-	@ Makes the Pokemon in the specified slot of the player's party obedient. It will not randomly disobey orders in battle.
-	.macro setmonobedient slot:req
+	@ Sets the Pokemon in the specified slot of the player party's eventLegal bit.
+	.macro setmoneventlegal slot:req
 	.byte 0xcd
 	.2byte \slot
 	.endm
 
-	@ Checks if the Pokemon in the specified slot of the player's party is obedient. If the Pokemon is disobedient,
-	@ VAR_RESULT is TRUE. If the Pokemon is obedient (or if the specified slot is empty or invalid), VAR_RESULT is FALSE.
-	.macro checkmonobedience slot:req
+	@ Checks if the Pokemon in the specified slot of the player's party has its eventLegal bit set. If it isn't set,
+	@ VAR_RESULT is TRUE. If the bit is set (or if the specified slot is empty or invalid), VAR_RESULT is FALSE.
+	.macro checkmoneventlegal slot:req
 	.byte 0xce
 	.2byte \slot
 	.endm
@@ -1752,8 +1754,8 @@
     @ textcolor script command values
 	TRANSPARENT = 0
 	WHITE       = 1
-	DARK_GREY   = 2
-	LIGHT_GREY  = 3
+	DARK_GRAY   = 2
+	LIGHT_GRAY  = 3
 	RED         = 4
 	LIGHT_RED   = 5
 	GREEN       = 6

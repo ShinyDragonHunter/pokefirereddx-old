@@ -67,7 +67,7 @@ SouthernIsland_Interior_EventScript_Lati:: @ 8242AD0
 	call_if_eq SouthernIsland_Interior_EventScript_SetLatiosBattleVars
 	compare VAR_ROAMER_POKEMON, 0
 	call_if_ne SouthernIsland_Interior_EventScript_SetLatiasBattleVars
-	special CreateObedientEnemyMon
+	special CreateEventLegalEnemyMon
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
 	special BattleSetup_StartScriptedWildBattle
 	waitstate

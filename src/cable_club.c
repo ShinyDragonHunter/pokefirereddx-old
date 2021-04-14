@@ -82,7 +82,7 @@ static void Task_ReestablishLinkAwaitConfirmation(u8 taskId);
 
 static void CreateLinkupTask(u8 minPlayers, u8 maxPlayers)
 {
-    if (FindTaskIdByFunc(Task_LinkupStart) == 0xFF)
+    if (FindTaskIdByFunc(Task_LinkupStart) == TASK_NONE)
     {
         u8 taskId1;
 
@@ -615,7 +615,7 @@ void ValidateMixingGameLanguage(void)
 {
     u32 taskId = FindTaskIdByFunc(Task_ValidateMixingGameLanguage);
 
-    if (taskId == 0xFF)
+    if (taskId == TASK_NONE)
     {
         taskId = CreateTask(Task_ValidateMixingGameLanguage, 80);
         gTasks[taskId].tState = 0;
@@ -892,7 +892,7 @@ static void Task_StartWirelessCableClubBattle(u8 taskId)
             {
                 struct LinkPlayer *player = (struct LinkPlayer *)gBlockRecvBuffer[i];
                 gLinkPlayers[i] = *player;
-                sub_800B524(&gLinkPlayers[i]);
+                ConvertLinkPlayerName(&gLinkPlayers[i]);
                 ResetBlockReceivedFlag(i);
             }
             tState = 4;
@@ -1041,28 +1041,30 @@ static void Task_EnterCableClubSeat(u8 taskId)
     case 1:
         if (IsFieldMessageBoxHidden())
         {
-            sub_8087288();
+            SetInCableClubSeat();
             SetLocalLinkPlayerId(gSpecialVar_0x8005);
             task->tState = 2;
         }
         break;
     case 2:
-        switch (sub_8087214())
+        switch (GetCableClubPartnersReady())
         {
-        case 1:
+        case CABLE_SEAT_SUCCESS:
+            // Partners linked and ready, switch to relevant link function
             HideFieldMessageBox();
             task->tState = 0;
-            sub_80872C4();
+            SetStartedCableClubActivity();
             SwitchTaskToFollowupFunc(taskId);
-        case 0:
+        case CABLE_SEAT_WAITING:
             break;
-        case 2:
+        case CABLE_SEAT_FAILED:
             task->tState = 3;
             break;
         }
         break;
     case 3:
-        sub_808729C();
+        // Exit, failure
+        SetLinkWaitingForScript();
         sub_8197AE8(TRUE);
         DestroyTask(taskId);
         EnableBothScriptContexts();
@@ -1234,7 +1236,8 @@ static void sub_80B3AAC(u8 taskId)
 
 #define tTimer data[1]
 
-void sub_80B3AF8(u8 taskId)
+// Confirm that all cabled link players are connected
+void Task_ReconnectWithLinkPlayers(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
