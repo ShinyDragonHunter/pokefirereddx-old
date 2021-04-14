@@ -2,10 +2,6 @@
 
 An enhanced port of Pokémon FireRed and LeafGreen using Pokémon Emerald's engine as the base.
 
-It builds the following ROM:
-
-* [**pokeemerald.gba**] `sha1: f3ae088181bf583e55daf962a92bb46f4f1d07b7`
-
 To set up the repository, see [INSTALL.md](INSTALL.md).
 
 
