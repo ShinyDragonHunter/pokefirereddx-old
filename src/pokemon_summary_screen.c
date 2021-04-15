@@ -270,7 +270,6 @@ static void Task_PrintContestMoves(u8 taskId);
 static void PrintContestMoveDescription(u8 a);
 static void PrintMoveDetails(u16 a);
 static void PrintNewMoveDetailsOrCancelText(void);
-static void AddAndFillMoveNamesWindow(void);
 static void SwapMovesNamesPP(u8 moveIndex1, u8 moveIndex2);
 static void PrintHMMovesCantBeForgotten(void);
 static void ResetSpriteIds(void);
@@ -1952,7 +1951,6 @@ static void CloseMoveSelectMode(u8 taskId)
     PrintMoveDetails(0);
     TilemapFiveMovesDisplay(sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_BATTLE_MOVES][0], 3, TRUE);
     TilemapFiveMovesDisplay(sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_CONTEST_MOVES][0], 1, TRUE);
-//    AddAndFillMoveNamesWindow(); // This function seems to have no effect.
     if (sMonSummaryScreen->firstMoveIndex != MAX_MON_MOVES)
     {
         ClearWindowTilemap(PSS_LABEL_WINDOW_MOVES_POWER_ACC);
@@ -3038,46 +3036,44 @@ static void BufferMonTrainerMemo(void)
 
     if (InBattleFactory() || InSlateportBattleTent() || IsInGamePartnerMon())
     {
-        DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, gText_XNature);
+        DynamicPlaceholderTex2tUtil_ExpandPlaceholders(gStringVar4, gText_XNature);
     }
     else
     {
-        u16 mapsecShift = MAPSEC_LITTLEROOT_TOWN;
-        u16 maxMapsec = MAPSEC_NONE + mapsecShift;
-        u8 *metLevelString = Alloc(32);
-        u8 *metLocationString = Alloc(32);
-        GetMetLevelString(metLevelString);
-
-        if (sum->metGame == VERSION_CRYSTAL_DUST)
-        {
+        u16 mapsecShift = MAPSEC_LITTLEROOT_TOWN; // Region mapsections are a u8 and changing to a u16 would break compatibility,
+        if (sum->metGame == VERSION_CRYSTAL_DUST) // so we need to do a workaround for CrystalDust (Or other games)
+                                                  // which may replace IDs with their own.
+        {                                         // TODO: Look into Orange GBA compatiblity.
             if (sum->metLocation < KANTO_MAPSEC_START)
                 mapsecShift += JOHTO_MAPSEC_START;
         }
+        u16 maxMapsec = MAPSEC_NONE + mapsecShift; // Add the value of mapsecShift to get the end of non-vanilla mapsec IDs. 
+        u8 *metLevelString = Alloc(32);
+        u8 *metLocationString = Alloc(32);
+        GetMetLevelString(metLevelString);
 
         if (sum->metLocation < maxMapsec)
         {
             GetMapNameGeneric(metLocationString, sum->metLocation + mapsecShift);
             DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
         }
-        if (sum->metLocation == MAPSEC_AQUA_HIDEOUT_OLD)
+        // This map isn't in Emerald and both Team Aqua and Magma got their own maps with their own mapsec IDs.
+        if (sum->metLocation == MAPSEC_AQUA_HIDEOUT_OLD && !sum->metGame == VERSION_EMERALD)
         {
-            if (sum->metGame == VERSION_SAPPHIRE)
-		        GetMapNameGeneric(metLocationString, MAPSEC_AQUA_HIDEOUT);
-            else if (sum->metGame == VERSION_RUBY)
-		        GetMapNameGeneric(metLocationString, MAPSEC_MAGMA_HIDEOUT);
+		    GetMapNameGeneric(metLocationString, MAPSEC_SECRET_AREA + sum->metGame); // Do a bit of adding to get the correct metLocationString for Ruby and Sapphire.
         }
-		if (sum->metLocation == MAPSEC_ROUTE_130
-         && sum->metLevel
-         && (sum->species == SPECIES_WYNAUT
-         || sum->species == SPECIES_WOBBUFFET))
-		{
-			GetMapNameGeneric(metLocationString, MAPSEC_MIRAGE_ISLAND);
-		}
+        if (sum->metLocation == MAPSEC_ROUTE_130 && sum->metLevel
+         && (sum->species == SPECIES_MEWTWO // Heliodor has Mewtwo at this location
+         || sum->species == SPECIES_WOBBUFFET
+         || sum->species == SPECIES_WYNAUT)) // Check for Wynaut and Wobbuffet to get the Mirage Island metLocationString at Route 130
+        {
+            GetMapNameGeneric(metLocationString, MAPSEC_MIRAGE_ISLAND);
+        }
 
-        if (sum->metLocation == MAPSEC_BATTLE_FRONTIER)
+        if (sum->metLocation == MAPSEC_BATTLE_FRONTIER) // Battle Tower in RS
         {
             if (DidMonComeFromRS())
-		        DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_BattleTower);
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_BattleTower);
             else
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
         }
@@ -3217,7 +3213,6 @@ static void BufferMonTrainerMemo(void)
             // Colosseum Starter Espeon and Umbreon and Duking's Plusle
             case METLOC_IN_GAME_TRADE:
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, sum->OTName);
-
                 text = (sum->species == SPECIES_PLUSLE) ? gText_Receivedfrom : gText_OldFriend;
             default:
                 break;
@@ -3780,13 +3775,6 @@ static void PrintNewMoveDetailsOrCancelText(void)
         DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, sMovesPPLayout);
         PrintTextOnWindow(windowId2, gStringVar4, GetStringRightAlignXOffset(1, gStringVar4, 44), 65, 0, 12);
     }
-}
-
-static void AddAndFillMoveNamesWindow(void)
-{
-    u8 windowId = AddWindowFromTemplateList(sPageMovesTemplate, PSS_DATA_WINDOW_MOVE_NAMES);
-    FillWindowPixelRect(windowId, PIXEL_FILL(0), 0, 66, 72, 16);
-    CopyWindowToVram(windowId, 2);
 }
 
 static void SwapMovesNamesPP(u8 moveIndex1, u8 moveIndex2)
