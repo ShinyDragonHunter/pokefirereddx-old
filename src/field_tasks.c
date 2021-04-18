@@ -1,6 +1,7 @@
 #include "global.h"
 #include "bike.h"
 #include "clock.h"
+#include "day_night.h"
 #include "event_data.h"
 #include "field_camera.h"
 #include "field_effect_helpers.h"
@@ -120,6 +121,7 @@ static void Task_RunPerStepCallback(u8 taskId)
 #define tState           data[0]
 #define tAmbientCryState data[1]
 #define tAmbientCryDelay data[2]
+#define tForceTimeUpdate data[3]
 
 static void RunTimeBasedEvents(s16 *data)
 {
@@ -145,16 +147,33 @@ static void Task_RunTimeBasedEvents(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
+    ProcessImmediateTimeEvents();
+
     if (!ScriptContext2_IsEnabled())
     {
         RunTimeBasedEvents(data);
         UpdateAmbientCry(&tAmbientCryState, &tAmbientCryDelay);
     }
+
+    if (tForceTimeUpdate)
+    {
+        tForceTimeUpdate = 0;
+        DoTimeBasedEvents();
+    }
+}
+
+void ForceTimeBasedEvents(void)
+{
+    u8 taskId = FindTaskIdByFunc(Task_RunTimeBasedEvents);
+
+    if (taskId != 0xFF)
+        gTasks[taskId].tForceTimeUpdate = 1;
 }
 
 #undef tState
 #undef tAmbientCryState
 #undef tAmbientCryDelay
+#undef tForceTimeUpdate
 
 void SetUpFieldTasks(void)
 {
@@ -417,8 +436,6 @@ static void FortreeBridgePerStepCallback(u8 taskId)
     PlayerGetDestCoords(&x, &y);
     switch (data[1])
     {
-        default:
-            break;
         case 0:
             data[2] = x;
             data[3] = y;
@@ -488,6 +505,7 @@ static void FortreeBridgePerStepCallback(u8 taskId)
             {
                 data[1] = 1;
             }
+        default:
             break;
     }
 }
@@ -528,7 +546,7 @@ void SetSootopolisGymCrackedIceMetatiles(void)
     {
         for (y = 0; y < height; y++)
         {
-            if (IsIcePuzzleCoordVisited(x, y) == TRUE)
+            if (IsIcePuzzleCoordVisited(x, y))
                 MapGridSetMetatileIdAt(x + 7, y + 7, METATILE_SootopolisGym_Ice_Cracked);
         }
     }
@@ -556,7 +574,7 @@ static void SootopolisGymIcePerStepCallback(u8 taskId)
                 data[3] = y;
                 tileBehavior = MapGridGetMetatileBehaviorAt(x, y);
                 iceStepCount = GetVarPointer(VAR_ICE_STEP_COUNT);
-                if (MetatileBehavior_IsThinIce(tileBehavior) == TRUE)
+                if (MetatileBehavior_IsThinIce(tileBehavior))
                 {
                     (*iceStepCount)++;
                     data[6] = 4;
@@ -564,7 +582,7 @@ static void SootopolisGymIcePerStepCallback(u8 taskId)
                     data[4] = x;
                     data[5] = y;
                 }
-                else if (MetatileBehavior_IsCrackedIce(tileBehavior) == TRUE)
+                else if (MetatileBehavior_IsCrackedIce(tileBehavior))
                 {
                     *iceStepCount = 0;
                     data[6] = 4;
@@ -651,10 +669,10 @@ static void CrackedFloorPerStepCallback(u8 taskId)
     s16 *data = gTasks[taskId].data;
     PlayerGetDestCoords(&x, &y);
     behavior = MapGridGetMetatileBehaviorAt(x, y);
-    if (data[4] != 0 && (--data[4]) == 0)
+    if (data[4] && (--data[4]) == 0)
         SetCrackedFloorHoleMetatile(data[5], data[6]);
 
-    if (data[7] != 0 && (--data[7]) == 0)
+    if (data[7] && (--data[7]) == 0)
         SetCrackedFloorHoleMetatile(data[8], data[9]);
 
     if (MetatileBehavior_IsCrackedFloorHole(behavior))

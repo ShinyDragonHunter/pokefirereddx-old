@@ -366,7 +366,7 @@ static void AddHatchedMonToParty(u8 id)
 
     GetMonNickname2(mon, gStringVar1);
 
-    ball = ITEM_POKE_BALL;
+    ball = BALL_POKE;
     SetMonData(mon, MON_DATA_POKEBALL, &ball);
 
     caughtLvl = 0;
@@ -413,7 +413,6 @@ static u8 EggHatchCreateMonSprite(u8 a0, u8 switchID, u8 pokeID, u16* speciesLoc
     u8 spriteID = 0;
     struct Pokemon* mon = NULL;
     u8 form;
-    u16 formSpecies;
 
     if (a0 == 0)
     {
@@ -429,15 +428,14 @@ static u8 EggHatchCreateMonSprite(u8 a0, u8 switchID, u8 pokeID, u16* speciesLoc
     {
     case 0:
         {
-            u16 species = GetMonData(mon, MON_DATA_SPECIES);
+            u16 species = GetFormSpecies(GetMonData(mon, MON_DATA_SPECIES), 
+                                        GetMonData(mon, MON_DATA_FORM));
             u32 pid = GetMonData(mon, MON_DATA_PERSONALITY);
-            form = GetMonData(mon, MON_DATA_FORM);
-            formSpecies = GetFormSpecies(species, form);
-            HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies],
+            HandleLoadSpecialPokePic(&gMonFrontPicTable[species],
                                                       gMonSpritesGfxPtr->sprites.ptr[(a0 * 2) + 1],
-                                                      formSpecies, pid);
+                                                      species, pid);
             LoadSpritePalette(GetMonSpritePalStruct(mon));
-            *speciesLoc = species; // formSpecies
+            *speciesLoc = species;
         }
         break;
     case 1:
@@ -592,8 +590,9 @@ static void Task_EggHatchPlayBGM(u8 taskID)
 static void CB2_EggHatch_1(void)
 {
     u16 species;
-    u8 form, gender;
+    u8 gender;
     u32 personality;
+    u8 form;
 
     switch (sEggHatchData->CB2_state)
     {
@@ -668,9 +667,9 @@ static void CB2_EggHatch_1(void)
         case 0:
             GetMonNickname2(&gPlayerParty[sEggHatchData->eggPartyID], gStringVar3);
             species = GetMonData(&gPlayerParty[sEggHatchData->eggPartyID], MON_DATA_SPECIES);
-            form = GetMonData(&gPlayerParty[sEggHatchData->eggPartyID], MON_DATA_FORM);
             gender = GetMonGender(&gPlayerParty[sEggHatchData->eggPartyID]);
             personality = GetMonData(&gPlayerParty[sEggHatchData->eggPartyID], MON_DATA_PERSONALITY, 0);
+            form = GetMonData(&gPlayerParty[sEggHatchData->eggPartyID], MON_DATA_FORM);
             DoNamingScreen(NAMING_SCREEN_NICKNAME, gStringVar3, species, gender, personality, EggHatchSetMonNickname, form);
             break;
         case 1:
@@ -861,7 +860,7 @@ static void EggHatchPrintMessage(u8 windowId, u8* string, u8 x, u8 y, u8 speed)
     sEggHatchData->textColor[0] = 0;
     sEggHatchData->textColor[1] = 5;
     sEggHatchData->textColor[2] = 6;
-    AddTextPrinterParameterized4(windowId, 1, x, y, 0, 0, sEggHatchData->textColor, speed, string);
+    AddTextPrinterParameterized4(windowId, 2, x, y, 0, 0, sEggHatchData->textColor, speed, string);
 }
 
 u8 GetEggCyclesToSubtract(void)

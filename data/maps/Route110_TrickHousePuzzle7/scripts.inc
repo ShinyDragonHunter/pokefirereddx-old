@@ -1,75 +1,7 @@
 Route110_TrickHousePuzzle7_MapScripts:: @ 826E091
-	map_script MAP_SCRIPT_ON_RESUME, Route110_TrickHousePuzzle7_OnResume
 	map_script MAP_SCRIPT_ON_TRANSITION, Route110_TrickHousePuzzle7_OnTransition
-	map_script MAP_SCRIPT_ON_LOAD, Route110_TrickHousePuzzle7_OnLoad
 	map_script MAP_SCRIPT_ON_FRAME_TABLE, Route110_TrickHousePuzzle7_OnFrame
 	.byte 0
-
-@ Puzzle Room 7 in RSE uses whatever puzzle Mossdeep Gym uses
-@ Because Mossdeep Gym was redesigned for Emerald, theres a good deal of leftover script from the old R/S puzzle
-
-Route110_TrickHousePuzzle7_OnResume: @ 826E0A6
-	call Route110_TrickHousePuzzle7_EventScript_UpdateSwitchMetatiles
-	end
-
-Route110_TrickHousePuzzle7_EventScript_UpdateSwitchMetatiles:: @ 826E0AC
-	call_if_set FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_1, Route110_TrickHousePuzzle7_EventScript_SetSwitch1MetatilesOn
-	call_if_set FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_2, Route110_TrickHousePuzzle7_EventScript_SetSwitch2MetatilesOn
-	call_if_set FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_3, Route110_TrickHousePuzzle7_EventScript_SetSwitch3MetatilesOn
-	call_if_set FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_4, Route110_TrickHousePuzzle7_EventScript_SetSwitch4MetatilesOn
-	call_if_set FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_5, Route110_TrickHousePuzzle7_EventScript_SetSwitch5MetatilesOn
-	return
-
-@ Leftover from R/S, none of the below metatile scripts are ever called
-Route110_TrickHousePuzzle7_EventScript_SetSwitch1MetatilesOn:: @ 826E0DA
-	setmetatile 13, 17, METATILE_TrickHousePuzzle_Arrow_RedOnBlack_Up, 0
-	setmetatile 12, 16, METATILE_TrickHousePuzzle_Lever_On, 1
-	return
-
-Route110_TrickHousePuzzle7_EventScript_SetSwitch2MetatilesOn:: @ 826E0ED
-	setmetatile 12, 13, METATILE_TrickHousePuzzle_Arrow_RedOnBlack_Up, 0
-	setmetatile 12, 11, METATILE_TrickHousePuzzle_Lever_On, 1
-	return
-
-Route110_TrickHousePuzzle7_EventScript_SetSwitch3MetatilesOn:: @ 826E100
-	setmetatile 7, 12, METATILE_TrickHousePuzzle_Arrow_RedOnBlack_Up, 0
-	setmetatile 5, 10, METATILE_TrickHousePuzzle_Lever_On, 1
-	return
-
-Route110_TrickHousePuzzle7_EventScript_SetSwitch4MetatilesOn:: @ 826E113
-	setmetatile 6, 6, METATILE_TrickHousePuzzle_Arrow_RedOnBlack_Right_Alt, 0
-	setmetatile 4, 4, METATILE_TrickHousePuzzle_Lever_On, 1
-	return
-
-Route110_TrickHousePuzzle7_EventScript_SetSwitch5MetatilesOn:: @ 826E126
-	setmetatile 8, 4, METATILE_TrickHousePuzzle_Arrow_RedOnBlack_Left, 0
-	setmetatile 7, 5, METATILE_TrickHousePuzzle_Lever_On, 1
-	return
-
-Route110_TrickHousePuzzle7_EventScript_SetSwitch1MetatilesOff:: @ 826E139
-	setmetatile 13, 17, METATILE_TrickHousePuzzle_Arrow_RedOnBlack_Down, 0
-	setmetatile 12, 16, METATILE_TrickHousePuzzle_Lever_Off, 1
-	return
-
-Route110_TrickHousePuzzle7_EventScript_SetSwitch2MetatilesOff:: @ 826E14C
-	setmetatile 12, 13, METATILE_TrickHousePuzzle_Arrow_RedOnBlack_Left, 0
-	setmetatile 12, 11, METATILE_TrickHousePuzzle_Lever_Off, 1
-	return
-
-Route110_TrickHousePuzzle7_EventScript_SetSwitch3MetatilesOff:: @ 826E15F
-	setmetatile 7, 12, METATILE_TrickHousePuzzle_Arrow_RedOnBlack_Down, 0
-	setmetatile 5, 10, METATILE_TrickHousePuzzle_Lever_Off, 1
-	return
-
-Route110_TrickHousePuzzle7_EventScript_SetSwitch4MetatilesOff:: @ 826E172
-	setmetatile 6, 6, METATILE_TrickHousePuzzle_Arrow_RedOnBlack_Left_Alt, 0
-	setmetatile 4, 4, METATILE_TrickHousePuzzle_Lever_Off, 1
-	return
-
-Route110_TrickHousePuzzle7_EventScript_SetSwitch5MetatilesOff:: @ 826E185
-	setmetatile 8, 4, METATILE_TrickHousePuzzle_Arrow_RedOnBlack_Right, 0
-	setmetatile 7, 5, METATILE_TrickHousePuzzle_Lever_Off, 1
-	return
 
 Route110_TrickHousePuzzle7_OnTransition: @ 826E198
 	compare VAR_TRICK_HOUSE_PUZZLE_7_STATE_2, 1
@@ -79,14 +11,7 @@ Route110_TrickHousePuzzle7_OnTransition: @ 826E198
 	clearflag FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_3
 	clearflag FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_4
 	clearflag FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_5
-	end
-
 Route110_TrickHousePuzzle7_EventScript_TeleportedTransition:: @ 826E1B3
-	end
-
-Route110_TrickHousePuzzle7_OnLoad: @ 826E1B4
-	compare VAR_TRICK_HOUSE_PUZZLE_7_STATE_2, 1
-	call_if_eq Route110_TrickHousePuzzle7_EventScript_UpdateSwitchMetatiles
 	end
 
 Route110_TrickHousePuzzle7_OnFrame: @ 826E1C0
@@ -107,122 +32,6 @@ Route110_TrickHousePuzzle7_EventScript_Scroll:: @ 826E1D0
 Route110_TrickHousePuzzle7_EventScript_FoundScroll:: @ 826E1E2
 	setvar VAR_TRICK_HOUSE_PUZZLE_7_STATE, 1
 	goto Route110_TrickHousePuzzle_EventScript_FoundScroll
-	end
-
-@ Unused, leftover from R/S
-Route110_TrickHousePuzzle7_EventScript_TeleportPad:: @ 826E1ED
-	lockall
-	setvar VAR_TRICK_HOUSE_PUZZLE_7_STATE_2, 1
-	warpteleport MAP_ROUTE110_TRICK_HOUSE_PUZZLE7, 255, 3, 19
-	waitstate
-	releaseall
-	end
-
-@ All the below switch scripts are unused leftover from R/S
-Route110_TrickHousePuzzle7_EventScript_Switch1:: @ 826E1FE
-	lockall
-	delay 32
-	call_if_unset FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_1, Route110_TrickHousePuzzle7_EventScript_SetSwitch1MetatilesOn
-	call_if_set FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_1, Route110_TrickHousePuzzle7_EventScript_SetSwitch1MetatilesOff
-	special DrawWholeMapView
-	playse SE_CLICK
-	goto_if_unset FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_1, Route110_TrickHousePuzzle7_EventScript_SetSwitch1On
-	goto_if_set FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_1, Route110_TrickHousePuzzle7_EventScript_SetSwitch1Off
-	end
-
-Route110_TrickHousePuzzle7_EventScript_Switch2:: @ 826E22D
-	lockall
-	delay 32
-	call_if_unset FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_2, Route110_TrickHousePuzzle7_EventScript_SetSwitch2MetatilesOn
-	call_if_set FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_2, Route110_TrickHousePuzzle7_EventScript_SetSwitch2MetatilesOff
-	special DrawWholeMapView
-	playse SE_CLICK
-	goto_if_unset FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_2, Route110_TrickHousePuzzle7_EventScript_SetSwitch2On
-	goto_if_set FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_2, Route110_TrickHousePuzzle7_EventScript_SetSwitch2Off
-	end
-
-Route110_TrickHousePuzzle7_EventScript_Switch3:: @ 826E25C
-	lockall
-	delay 32
-	call_if_unset FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_3, Route110_TrickHousePuzzle7_EventScript_SetSwitch3MetatilesOn
-	call_if_set FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_3, Route110_TrickHousePuzzle7_EventScript_SetSwitch3MetatilesOff
-	special DrawWholeMapView
-	playse SE_CLICK
-	goto_if_unset FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_3, Route110_TrickHousePuzzle7_EventScript_SetSwitch3On
-	goto_if_set FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_3, Route110_TrickHousePuzzle7_EventScript_SetSwitch3Off
-	end
-
-Route110_TrickHousePuzzle7_EventScript_Switch4:: @ 826E28B
-	lockall
-	delay 32
-	call_if_unset FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_4, Route110_TrickHousePuzzle7_EventScript_SetSwitch4MetatilesOn
-	call_if_set FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_4, Route110_TrickHousePuzzle7_EventScript_SetSwitch4MetatilesOff
-	special DrawWholeMapView
-	playse SE_CLICK
-	goto_if_unset FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_4, Route110_TrickHousePuzzle7_EventScript_SetSwitch4On
-	goto_if_set FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_4, Route110_TrickHousePuzzle7_EventScript_SetSwitch4Off
-	end
-
-Route110_TrickHousePuzzle7_EventScript_Switch5:: @ 826E2BA
-	lockall
-	delay 32
-	call_if_unset FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_5, Route110_TrickHousePuzzle7_EventScript_SetSwitch5MetatilesOn
-	call_if_set FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_5, Route110_TrickHousePuzzle7_EventScript_SetSwitch5MetatilesOff
-	special DrawWholeMapView
-	playse SE_CLICK
-	goto_if_unset FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_5, Route110_TrickHousePuzzle7_EventScript_SetSwitch5On
-	goto_if_set FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_5, Route110_TrickHousePuzzle7_EventScript_SetSwitch5Off
-	end
-
-@ All the below switch scripts are unused leftover from R/S
-Route110_TrickHousePuzzle7_EventScript_SetSwitch1On:: @ 826E2E9
-	setflag FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_1
-	releaseall
-	end
-
-Route110_TrickHousePuzzle7_EventScript_SetSwitch1Off:: @ 826E2EE
-	clearflag FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_1
-	releaseall
-	end
-
-Route110_TrickHousePuzzle7_EventScript_SetSwitch2On:: @ 826E2F3
-	setflag FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_2
-	releaseall
-	end
-
-Route110_TrickHousePuzzle7_EventScript_SetSwitch2Off:: @ 826E2F8
-	clearflag FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_2
-	releaseall
-	end
-
-Route110_TrickHousePuzzle7_EventScript_SetSwitch3On:: @ 826E2FD
-	setflag FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_3
-	releaseall
-	end
-
-Route110_TrickHousePuzzle7_EventScript_SetSwitch3Off:: @ 826E302
-	clearflag FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_3
-	releaseall
-	end
-
-Route110_TrickHousePuzzle7_EventScript_SetSwitch4On:: @ 826E307
-	setflag FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_4
-	releaseall
-	end
-
-Route110_TrickHousePuzzle7_EventScript_SetSwitch4Off:: @ 826E30C
-	clearflag FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_4
-	releaseall
-	end
-
-Route110_TrickHousePuzzle7_EventScript_SetSwitch5On:: @ 826E311
-	setflag FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_5
-	releaseall
-	end
-
-Route110_TrickHousePuzzle7_EventScript_SetSwitch5Off:: @ 826E316
-	clearflag FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_5
-	releaseall
 	end
 
 @ From here is where the new, actually used puzzle scripts begin
@@ -268,19 +77,6 @@ Route110_TrickHousePuzzle7_EventScript_PurpleButton:: @ 826E35D
 	playse SE_REPEL
 	initrotatingtilepuzzle TRUE
 	moverotatingtileobjects 3
-	waitmovement 0
-	turnrotatingtileobjects
-	waitmovement 0
-	freerotatingtilepuzzle
-	end
-
-@ Unused
-Route110_TrickHousePuzzle7_EventScript_RedButton:: @ 826E373
-	playse SE_SWITCH
-	waitse
-	playse SE_REPEL
-	initrotatingtilepuzzle TRUE
-	moverotatingtileobjects 4
 	waitmovement 0
 	turnrotatingtileobjects
 	waitmovement 0
@@ -392,4 +188,3 @@ Route110_TrickHousePuzzle7_Text_EverettDefeat: @ 826E7AB
 Route110_TrickHousePuzzle7_Text_EverettPostBattle: @ 826E7C4
 	.string "I was hoping to switch places with you\n"
 	.string "when I beat you, but…$"
-

@@ -204,7 +204,7 @@ static void CB2_MysteryEventMenu(void)
     case 6:
         if (IsLinkConnectionEstablished())
         {
-            if (gReceivedRemoteLinkPlayers != 0)
+            if (gReceivedRemoteLinkPlayers)
             {
                 if (GetLinkPlayerDataExchangeStatusTimed(2, 2) == EXCHANGE_DIFF_SELECTIONS)
                 {
@@ -245,11 +245,9 @@ static void CB2_MysteryEventMenu(void)
             gMain.state++;
         }
         break;
-    case 9:
-        gMain.state++;
-        break;
     case 10:
         SetCloseLinkCallback();
+    case 9:
         gMain.state++;
         break;
     case 11:
@@ -315,5 +313,5 @@ static void PrintMysteryMenuText(u8 windowId, const u8 *text, u8 x, u8 y, s32 sp
     textColor[2] = 3;
 
     FillWindowPixelBuffer(windowId, PIXEL_FILL(textColor[0]));
-    AddTextPrinterParameterized4(windowId, 1, x, y, letterSpacing, lineSpacing, textColor, speed, text);
+    AddTextPrinterParameterized4(windowId, 2, x, y, letterSpacing, lineSpacing, textColor, speed, text);
 }

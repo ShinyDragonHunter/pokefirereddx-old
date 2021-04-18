@@ -61,7 +61,7 @@ gScriptCmdTable:: @ 81DB67C
 	.4byte ScrCmd_warpsilent                @ 0x3a
 	.4byte ScrCmd_warpdoor                  @ 0x3b
 	.4byte ScrCmd_warphole                  @ 0x3c
-	.4byte ScrCmd_warpteleport              @ 0x3d
+	.4byte ScrCmd_nop                       @ 0x3d
 	.4byte ScrCmd_setwarp                   @ 0x3e
 	.4byte ScrCmd_setdynamicwarp            @ 0x3f
 	.4byte ScrCmd_setdivewarp               @ 0x40
@@ -114,9 +114,9 @@ gScriptCmdTable:: @ 81DB67C
 	.4byte ScrCmd_multichoice               @ 0x6f
 	.4byte ScrCmd_multichoicedefault        @ 0x70
 	.4byte ScrCmd_multichoicegrid           @ 0x71
-	.4byte ScrCmd_drawbox                   @ 0x72
-	.4byte ScrCmd_erasebox                  @ 0x73
-	.4byte ScrCmd_drawboxtext               @ 0x74
+	.4byte ScrCmd_nop                       @ 0x72
+	.4byte ScrCmd_nop                       @ 0x73
+	.4byte ScrCmd_nop                       @ 0x74
 	.4byte ScrCmd_showmonpic                @ 0x75
 	.4byte ScrCmd_hidemonpic                @ 0x76
 	.4byte ScrCmd_showcontestwinner         @ 0x77
@@ -177,8 +177,8 @@ gScriptCmdTable:: @ 81DB67C
 	.4byte ScrCmd_waitdooranim              @ 0xae
 	.4byte ScrCmd_setdooropen               @ 0xaf
 	.4byte ScrCmd_setdoorclosed             @ 0xb0
-	.4byte ScrCmd_addelevmenuitem           @ 0xb1
-	.4byte ScrCmd_showelevmenu              @ 0xb2
+	.4byte ScrCmd_nop                       @ 0xb1
+	.4byte ScrCmd_nop                       @ 0xb2
 	.4byte ScrCmd_checkcoins                @ 0xb3
 	.4byte ScrCmd_addcoins                  @ 0xb4
 	.4byte ScrCmd_removecoins               @ 0xb5
@@ -209,7 +209,7 @@ gScriptCmdTable:: @ 81DB67C
 	.4byte ScrCmd_checkmoneventlegal        @ 0xce
 	.4byte ScrCmd_gotoram                   @ 0xcf
 	.4byte ScrCmd_nop                       @ 0xd0
-	.4byte ScrCmd_warpspinenter             @ 0xd1
+	.4byte ScrCmd_nop                       @ 0xd1
 	.4byte ScrCmd_setmonmetlocation         @ 0xd2
 	.4byte ScrCmd_moverotatingtileobjects   @ 0xd3
 	.4byte ScrCmd_turnrotatingtileobjects   @ 0xd4

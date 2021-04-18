@@ -132,7 +132,6 @@ void CB1_Overworld(void);
 void CB2_OverworldBasic(void);
 void CB2_Overworld(void);
 void SetMainCallback1(void (*cb)(void));
-void SetUnusedCallback(void *a0);
 void CB2_NewGame(void);
 void CB2_WhiteOut(void);
 void CB2_LoadMap(void);

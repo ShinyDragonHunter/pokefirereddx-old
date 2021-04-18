@@ -1041,19 +1041,17 @@ void ShowPokemonSummaryScreen(u8 mode, void *mons, u8 monIndex, u8 maxMonIndex, 
     case PSS_MODE_NORMAL:
     case PSS_MODE_BOX:
         sMonSummaryScreen->minPageIndex = 0;
-        sMonSummaryScreen->maxPageIndex = PSS_PAGE_COUNT - 1;
         break;
     case PSS_MODE_LOCK_MOVES:
         sMonSummaryScreen->minPageIndex = 0;
-        sMonSummaryScreen->maxPageIndex = PSS_PAGE_COUNT - 1;
         sMonSummaryScreen->lockMovesFlag = TRUE;
         break;
     case PSS_MODE_SELECT_MOVE:
         sMonSummaryScreen->minPageIndex = PSS_PAGE_BATTLE_MOVES;
-        sMonSummaryScreen->maxPageIndex = PSS_PAGE_COUNT - 1;
         sMonSummaryScreen->lockMonFlag = TRUE;
         break;
     }
+    sMonSummaryScreen->maxPageIndex = PSS_PAGE_COUNT - 1;
 
     sMonSummaryScreen->currPageIndex = sMonSummaryScreen->minPageIndex;
     SummaryScreen_SetAnimDelayTaskId(TASK_NONE);
@@ -1624,9 +1622,8 @@ static s8 AdvanceMonIndex(s8 delta)
 
     if (sMonSummaryScreen->currPageIndex == PSS_PAGE_INFO)
     {
-        if (delta == -1 && sMonSummaryScreen->curMonIndex == 0)
-            return -1;
-        else if (delta == 1 && sMonSummaryScreen->curMonIndex >= sMonSummaryScreen->maxMonIndex)
+        if ((delta == -1 && sMonSummaryScreen->curMonIndex == 0)
+         || (delta == 1 && sMonSummaryScreen->curMonIndex >= sMonSummaryScreen->maxMonIndex))
             return -1;
         else
             return sMonSummaryScreen->curMonIndex + delta;
@@ -1688,11 +1685,9 @@ static void ChangePage(u8 taskId, s8 delta)
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
     s16 *data = gTasks[taskId].data;
 
-    if (summary->isEgg)
-        return;
-    else if (delta == -1 && sMonSummaryScreen->currPageIndex == sMonSummaryScreen->minPageIndex)
-        return;
-    else if (delta == 1 && sMonSummaryScreen->currPageIndex == sMonSummaryScreen->maxPageIndex)
+    if (summary->isEgg
+     || (delta == -1 && sMonSummaryScreen->currPageIndex == sMonSummaryScreen->minPageIndex)
+     || (delta == 1 && sMonSummaryScreen->currPageIndex == sMonSummaryScreen->maxPageIndex))
         return;
 
     PlaySE(SE_SELECT);
@@ -1925,8 +1920,8 @@ static void ChangeSelectedMove(s16 *taskData, s8 direction, u8 *moveIndexPtr)
         HandleAppealJamTilemap(9, -3, move);
     }
     if (*moveIndexPtr != MAX_MON_MOVES
-        && newMoveIndex == MAX_MON_MOVES
-        && sMonSummaryScreen->newMove == MOVE_NONE)
+     && newMoveIndex == MAX_MON_MOVES
+     && sMonSummaryScreen->newMove == MOVE_NONE)
     {
         ClearWindowTilemap(PSS_LABEL_WINDOW_MOVES_POWER_ACC);
         ClearWindowTilemap(PSS_LABEL_WINDOW_MOVES_APPEAL_JAM);
@@ -2012,15 +2007,15 @@ static void ExitMovePositionSwitchMode(u8 taskId, bool8 swapMoves)
 
     if (swapMoves)
     {
-        if (!sMonSummaryScreen->isBoxMon)
-        {
-            struct Pokemon *mon = sMonSummaryScreen->monList.mons;
-            SwapMonMoves(&mon[sMonSummaryScreen->curMonIndex], sMonSummaryScreen->firstMoveIndex, sMonSummaryScreen->secondMoveIndex);
-        }
-        else
+        if (sMonSummaryScreen->isBoxMon)
         {
             struct BoxPokemon *boxMon = sMonSummaryScreen->monList.boxMons;
             SwapBoxMonMoves(&boxMon[sMonSummaryScreen->curMonIndex], sMonSummaryScreen->firstMoveIndex, sMonSummaryScreen->secondMoveIndex);
+        }
+        else
+        {
+            struct Pokemon *mon = sMonSummaryScreen->monList.mons;
+            SwapMonMoves(&mon[sMonSummaryScreen->curMonIndex], sMonSummaryScreen->firstMoveIndex, sMonSummaryScreen->secondMoveIndex);
         }
         CopyMonToSummaryStruct(&sMonSummaryScreen->currentMon);
         SwapMovesNamesPP(sMonSummaryScreen->firstMoveIndex, sMonSummaryScreen->secondMoveIndex);
@@ -3028,6 +3023,8 @@ static void BufferMonTrainerMemo(void)
 {
     struct PokeSummary *sum = &sMonSummaryScreen->summary;
     const u8 *text;
+    u16 mapsecShift;
+    u16 maxMapsec;
 
     DynamicPlaceholderTextUtil_Reset();
     DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, sMemoNatureTextColor);
@@ -3036,22 +3033,22 @@ static void BufferMonTrainerMemo(void)
 
     if (InBattleFactory() || InSlateportBattleTent() || IsInGamePartnerMon())
     {
-        DynamicPlaceholderTex2tUtil_ExpandPlaceholders(gStringVar4, gText_XNature);
+        DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, gText_XNature);
     }
     else
     {
-        u16 mapsecShift = MAPSEC_LITTLEROOT_TOWN; // Region mapsections are a u8 and changing to a u16 would break compatibility,
-        if (sum->metGame == VERSION_CRYSTAL_DUST) // so we need to do a workaround for CrystalDust (Or other games)
-                                                  // which may replace IDs with their own.
-        {                                         // TODO: Look into Orange GBA compatiblity.
-            if (sum->metLocation < KANTO_MAPSEC_START)
-                mapsecShift += JOHTO_MAPSEC_START;
-        }
-        u16 maxMapsec = MAPSEC_NONE + mapsecShift; // Add the value of mapsecShift to get the end of non-vanilla mapsec IDs. 
+        // Region mapsections cast as a u8 and casting as a u16 would break compatibility,
+        // so we need to do a workaround for CrystalDust (or other games) which may replace
+        // IDs with their own. TODO: Look into Orange GBA compatiblity.
+        u16 mapsecShift = MAPSEC_LITTLEROOT_TOWN;
+        // Add the value of mapsecShift to get the end of non-vanilla mapsec IDs.
+        u16 maxMapsec = MAPSEC_NONE + mapsecShift;
         u8 *metLevelString = Alloc(32);
         u8 *metLocationString = Alloc(32);
         GetMetLevelString(metLevelString);
 
+        if (sum->metGame == VERSION_CRYSTAL_DUST && sum->metLocation < KANTO_MAPSEC_START)
+            mapsecShift += JOHTO_MAPSEC_START;
         if (sum->metLocation < maxMapsec)
         {
             GetMapNameGeneric(metLocationString, sum->metLocation + mapsecShift);
@@ -3060,22 +3057,20 @@ static void BufferMonTrainerMemo(void)
         // This map isn't in Emerald and both Team Aqua and Magma got their own maps with their own mapsec IDs.
         if (sum->metLocation == MAPSEC_AQUA_HIDEOUT_OLD && !sum->metGame == VERSION_EMERALD)
         {
-		    GetMapNameGeneric(metLocationString, MAPSEC_SECRET_AREA + sum->metGame); // Do a bit of adding to get the correct metLocationString for Ruby and Sapphire.
+            // Do a bit of adding to get the correct metLocationString for Ruby and Sapphire.
+            GetMapNameGeneric(metLocationString, MAPSEC_SPECIAL_AREA + sum->metGame);
         }
         if (sum->metLocation == MAPSEC_ROUTE_130 && sum->metLevel
          && (sum->species == SPECIES_MEWTWO // Heliodor has Mewtwo at this location
-         || sum->species == SPECIES_WOBBUFFET
-         || sum->species == SPECIES_WYNAUT)) // Check for Wynaut and Wobbuffet to get the Mirage Island metLocationString at Route 130
+         || sum->species == SPECIES_WOBBUFFET // Check for Wobbuffet and Wynaut to get the Mirage Island metLocationString at Route 130
+         || sum->species == SPECIES_WYNAUT))
         {
             GetMapNameGeneric(metLocationString, MAPSEC_MIRAGE_ISLAND);
         }
-
-        if (sum->metLocation == MAPSEC_BATTLE_FRONTIER) // Battle Tower in RS
+        // Battle Tower in RS
+        if (DidMonComeFromRS() && sum->metLocation == MAPSEC_BATTLE_FRONTIER)
         {
-            if (DidMonComeFromRS())
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_BattleTower);
-            else
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
+            DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_BattleTower);
         }
 
         if (DoesMonOTMatchOwner())
@@ -3279,13 +3274,13 @@ static bool8 DoesMonOTMatchOwner(void)
 bool8 DidMonComeFromRS(void)
 {
     struct PokeSummary *sum = &sMonSummaryScreen->summary;
-    return sum->metGame > 0 && sum->metGame < VERSION_EMERALD;
+    return sum->metGame < VERSION_EMERALD;
 }
 
 bool8 DidMonComeFromRSE(void)
 {
     struct PokeSummary *sum = &sMonSummaryScreen->summary;
-    return sum->metGame > 0 && sum->metGame <= VERSION_EMERALD;
+    return sum->metGame < VERSION_FIRE_RED;
 }
 
 static bool8 IsInGamePartnerMon(void)
@@ -3416,8 +3411,8 @@ static void PrintHeldItemName(void)
     int x;
 
     if (sMonSummaryScreen->summary.item == ITEM_ENIGMA_BERRY
-        && IsMultiBattle()
-        && (sMonSummaryScreen->curMonIndex == 1 || sMonSummaryScreen->curMonIndex == 4 || sMonSummaryScreen->curMonIndex == 5))
+     && IsMultiBattle()
+     && (sMonSummaryScreen->curMonIndex == 1 || sMonSummaryScreen->curMonIndex == 4 || sMonSummaryScreen->curMonIndex == 5))
     {
         text = ItemId_GetName(ITEM_ENIGMA_BERRY);
     }
@@ -3536,7 +3531,7 @@ static void PrintBattleMoves(void)
         PrintNewMoveDetailsOrCancelText();
         if (sMonSummaryScreen->firstMoveIndex == MAX_MON_MOVES)
         {
-            if (sMonSummaryScreen->newMove != MOVE_NONE)
+            if (sMonSummaryScreen->newMove)
                 PrintMoveDetails(sMonSummaryScreen->newMove);
         }
         else

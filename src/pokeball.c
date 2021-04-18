@@ -1086,12 +1086,13 @@ static void SpriteCB_PokeballReleaseMon(struct Sprite *sprite)
         u8 battlerId = sprite->data[2];
         u32 r4 = (u16)sprite->data[3] | ((u16)sprite->data[4] << 16);
 
-        if (sprite->subpriority != 0)
+        if (sprite->subpriority)
             r5 = sprite->subpriority - 1;
         else
-            r5 = BALL_POKE;
+            r5 = 0;
 
         StartSpriteAnim(sprite, 1);
+        LoadBallGfx(BALL_POKE);
         AnimateBallOpenParticlesForPokeball(sprite->pos1.x, sprite->pos1.y - 5, sprite->oam.priority, r5);
         sprite->data[1] = LaunchBallFadeMonTaskForPokeball(1, battlerId, r4);
         sprite->callback = SpriteCB_ReleasedMonFlyOut;
@@ -1182,9 +1183,10 @@ static void SpriteCB_TradePokeball(struct Sprite *sprite)
         if (sprite->subpriority != 0)
             r6 = sprite->subpriority - 1;
         else
-            r6 = BALL_POKE;
+            r6 = 0;
 
         StartSpriteAnim(sprite, 1);
+        LoadBallGfx(BALL_POKE);
         AnimateBallOpenParticlesForPokeball(sprite->pos1.x, sprite->pos1.y - 5, sprite->oam.priority, r6);
         sprite->data[1] = LaunchBallFadeMonTaskForPokeball(1, r8, r5);
         sprite->callback = SpriteCB_TradePokeballSendOff;

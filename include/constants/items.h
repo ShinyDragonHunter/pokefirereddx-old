@@ -472,8 +472,6 @@
 #define ITEM_SHINY_CHARM 377
 #define ITEM_OVAL_CHARM 378
 
-#define NEW_BALL_START 378
-
 // Apricorn balls
 #define ITEM_LEVEL_BALL 379
 #define ITEM_LURE_BALL 380

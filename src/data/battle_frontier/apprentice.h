@@ -952,15 +952,12 @@ static void (* const sApprenticeFunctions[])(void) =
 {
     [APPRENTICE_FUNC_GAVE_LVLMODE]        = Script_GivenApprenticeLvlMode,
     [APPRENTICE_FUNC_SET_LVLMODE]         = Script_SetApprenticeLvlMode,
-    [APPRENTICE_FUNC_SET_ID]              = Script_SetApprenticeId,
     [APPRENTICE_FUNC_SHUFFLE_SPECIES]     = ShuffleApprenticeSpecies,
     [APPRENTICE_FUNC_RANDOMIZE_QUESTIONS] = Script_SetRandomQuestionData,
     [APPRENTICE_FUNC_ANSWERED_QUESTION]   = IncrementQuestionsAnswered,
-    [APPRENTICE_FUNC_IS_FINAL_QUESTION]   = IsFinalQuestion,
     [APPRENTICE_FUNC_MENU]                = Script_CreateApprenticeMenu,
     [APPRENTICE_FUNC_PRINT_MSG]           = Script_PrintApprenticeMessage,
     [APPRENTICE_FUNC_RESET]               = Script_ResetPlayerApprentice,
-    [APPRENTICE_FUNC_CHECK_GONE]          = GetShouldCheckApprenticeGone,
     [APPRENTICE_FUNC_GET_QUESTION]        = ApprenticeGetQuestion,
     [APPRENTICE_FUNC_GET_NUM_PARTY_MONS]  = GetNumApprenticePartyMonsAssigned,
     [APPRENTICE_FUNC_SET_PARTY_MON]       = SetApprenticePartyMon,
@@ -972,9 +969,7 @@ static void (* const sApprenticeFunctions[])(void) =
     [APPRENTICE_FUNC_OPEN_BAG]            = Script_ApprenticeOpenBagMenu,
     [APPRENTICE_FUNC_TRY_SET_HELD_ITEM]   = TrySetApprenticeHeldItem,
     [APPRENTICE_FUNC_SAVE]                = SaveApprentice,
-    [APPRENTICE_FUNC_SET_GFX_SAVED]       = SetSavedApprenticeTrainerGfxId,
     [APPRENTICE_FUNC_SET_GFX]             = SetPlayerApprenticeTrainerGfxId,
-    [APPRENTICE_FUNC_SHOULD_LEAVE]        = GetShouldApprenticeLeave,
     [APPRENTICE_FUNC_SHIFT_SAVED]         = ShiftSavedApprentices,
 };
 

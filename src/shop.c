@@ -1126,13 +1126,15 @@ static void Task_ReturnToItemListAfterItemPurchase(u8 taskId)
     if (JOY_NEW(A_BUTTON | B_BUTTON))
     {
         PlaySE(SE_SELECT);
-        if (tItemId == ITEM_POKE_BALL && tItemCount > 9 && AddBagItem(ITEM_PREMIER_BALL, 1))
+        if ((ItemId_GetPocket(tItemId) == POCKET_POKE_BALLS) 
+         && tItemCount > 9 
+         && AddBagItem(ITEM_PREMIER_BALL, tItemCount / 10))
         {
             BuyMenuDisplayMessage(taskId, gText_ThrowInPremierBall, BuyMenuReturnToItemList);
         }
         else
         {
-            BuyMenuReturnToItemList(taskId);
+            BuyMenuDisplayMessage(taskId, gText_ThrowInPremierBall, BuyMenuReturnToItemList);
         }
     }
 }

@@ -26,16 +26,10 @@ EWRAM_DATA static struct ScriptContext sMysteryEventScriptContext = {0};
 
 static bool32 CheckCompatibility(u16 a1, u32 a2, u16 a3, u32 a4)
 {
-    if (!(a1 & LANGUAGE_MASK))
-        return FALSE;
-
-    if (!(a2 & LANGUAGE_MASK))
-        return FALSE;
-
-    if (!(a3 & 0x4))
-        return FALSE;
-
-    if (!(a4 & VERSION_MASK))
+    if (!(a1 & LANGUAGE_MASK)
+     || !(a2 & LANGUAGE_MASK)
+     || !(a3 & 0x4)
+     || !(a4 & VERSION_MASK))
         return FALSE;
 
     return TRUE;
@@ -110,10 +104,10 @@ static bool32 IsRecordMixingGiftValid(void)
     int checksum = CalcRecordMixingGiftChecksum();
 
     if (data->unk0 == 0
-        || data->quantity == 0
-        || data->itemId == 0
-        || checksum == 0
-        || checksum != gSaveBlock1Ptr->recordMixingGift.checksum)
+     || data->quantity == 0
+     || data->itemId == 0
+     || checksum == 0
+     || checksum != gSaveBlock1Ptr->recordMixingGift.checksum)
         return FALSE;
     else
         return TRUE;
@@ -152,10 +146,10 @@ u16 GetRecordMixingGift(void)
     {
         u16 itemId = data->itemId;
         data->quantity--;
-        if (data->quantity == 0)
-            ClearRecordMixingGift();
-        else
+        if (data->quantity)
             gSaveBlock1Ptr->recordMixingGift.checksum = CalcRecordMixingGiftChecksum();
+        else
+            ClearRecordMixingGift();
 
         return itemId;
     }
@@ -226,19 +220,17 @@ bool8 MEScrCmd_setenigmaberry(struct ScriptContext *ctx)
     SetEnigmaBerry(berry);
     StringCopyN(gStringVar2, gSaveBlock1Ptr->enigmaBerry.berry.name, BERRY_NAME_LENGTH + 1);
 
+    str = gStringVar4;
     if (!haveBerry)
     {
-        str = gStringVar4;
         message = gText_MysteryGiftBerry;
     }
     else if (StringCompare(gStringVar1, gStringVar2))
     {
-        str = gStringVar4;
         message = gText_MysteryGiftBerryTransform;
     }
     else
     {
-        str = gStringVar4;
         message = gText_MysteryGiftBerryObtained;
     }
 
@@ -246,7 +238,7 @@ bool8 MEScrCmd_setenigmaberry(struct ScriptContext *ctx)
 
     ctx->data[2] = 2;
 
-    if (IsEnigmaBerryValid() == TRUE)
+    if (IsEnigmaBerryValid())
         VarSet(VAR_ENIGMA_BERRY_AVAILABLE, 1);
     else
         ctx->data[2] = 1;
@@ -353,14 +345,6 @@ bool8 MEScrCmd_addtrainer(struct ScriptContext *ctx)
     memcpy(&gSaveBlock2Ptr->frontier.ereaderTrainer, (void *)data, sizeof(gSaveBlock2Ptr->frontier.ereaderTrainer));
     ValidateEReaderTrainer();
     StringExpandPlaceholders(gStringVar4, gText_MysteryGiftNewTrainer);
-    ctx->data[2] = 2;
-    return FALSE;
-}
-
-bool8 MEScrCmd_enableresetrtc(struct ScriptContext *ctx)
-{
-    EnableResetRTC();
-    StringExpandPlaceholders(gStringVar4, gText_InGameClockUsable);
     ctx->data[2] = 2;
     return FALSE;
 }

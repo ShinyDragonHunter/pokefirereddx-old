@@ -53,12 +53,6 @@
 	special CallApprenticeFunction
 	.endm
 
-	@ Always returns TRUE. No side effect. May have been for debug or dummied for some other reason 
-	.macro apprentice_shouldcheckgone
-	setvar VAR_0x8004, APPRENTICE_FUNC_CHECK_GONE
-	special CallApprenticeFunction
-	.endm
-
 	@ Return the APPRENTICE_QUESTION_* value for the current question to ask
 	.macro apprentice_getquestion
 	setvar VAR_0x8004, APPRENTICE_FUNC_GET_QUESTION
@@ -138,12 +132,6 @@
 	@ Set the object event gfx for the Apprentice based on their trainer class
 	.macro apprentice_setgfx
 	setvar VAR_0x8004, APPRENTICE_FUNC_SET_GFX
-	special CallApprenticeFunction
-	.endm
-
-	@ Always returns TRUE. No side effect. May have been for debug or dummied for some other reason 
-	.macro apprentice_shouldleave
-	setvar VAR_0x8004, APPRENTICE_FUNC_SHOULD_LEAVE
 	special CallApprenticeFunction
 	.endm
 

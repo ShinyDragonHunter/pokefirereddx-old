@@ -488,7 +488,7 @@ void PrintMysteryGiftOrEReaderTopMenu(bool8 mg_or_ereader, bool32 usePickOkCance
         options = gJPText_DecideStop;
     }
 
-    AddTextPrinterParameterized4(0, 1, 4, 1, 0, 0, sMG_Ereader_TextColor_1, -1, header);
+    AddTextPrinterParameterized4(0, 2, 4, 1, 0, 0, sMG_Ereader_TextColor_1, -1, header);
     AddTextPrinterParameterized4(0, 0, GetStringRightAlignXOffset(0, options, 0xDE), 1, 0, 0, sMG_Ereader_TextColor_1, -1, options);
     CopyWindowToVram(0, 2);
     PutWindowTilemap(0);
@@ -539,7 +539,7 @@ void AddTextPrinterToWindow1(const u8 *str)
 {
     StringExpandPlaceholders(gStringVar4, str);
     FillWindowPixelBuffer(1, 0x11);
-    AddTextPrinterParameterized4(1, 1, 0, 1, 0, 0, sMG_Ereader_TextColor_2, 0, gStringVar4);
+    AddTextPrinterParameterized4(1, 2, 0, 1, 0, 0, sMG_Ereader_TextColor_2, 0, gStringVar4);
     DrawTextBorderOuter(1, 0x001, 0xF);
     PutWindowTilemap(1);
     CopyWindowToVram(1, 3);
@@ -682,7 +682,7 @@ s8 mevent_message_print_and_prompt_yes_no(u8 * textState, u16 * windowId, bool8 
             *windowId = AddWindow(&sWindowTemplate_PromptYesOrNo_Width20);
         }
         FillWindowPixelBuffer(*windowId, 0x11);
-        AddTextPrinterParameterized4(*windowId, 1, 0, 1, 0, 0, sMG_Ereader_TextColor_2, 0, gStringVar4);
+        AddTextPrinterParameterized4(*windowId, 2, 0, 1, 0, 0, sMG_Ereader_TextColor_2, 0, gStringVar4);
         DrawTextBorderOuter(*windowId, 0x001, 0x0F);
         CopyWindowToVram(*windowId, 2);
         PutWindowTilemap(*windowId);
@@ -743,7 +743,7 @@ static s32 HandleMysteryGiftListMenu(u8 * textState, u16 * windowId, bool32 cann
         }
         *windowId = AddWindow(&sMysteryGiftMenuWindowTemplate);
         FillWindowPixelBuffer(*windowId, 0x11);
-        AddTextPrinterParameterized4(*windowId, 1, 0, 1, 0, 0, sMG_Ereader_TextColor_2, 0, gStringVar4);
+        AddTextPrinterParameterized4(*windowId, 2, 0, 1, 0, 0, sMG_Ereader_TextColor_2, 0, gStringVar4);
         DrawTextBorderOuter(*windowId, 0x001, 0x0F);
         CopyWindowToVram(*windowId, 2);
         PutWindowTilemap(*windowId);
@@ -814,13 +814,13 @@ static bool32 HandleLoadWonderCardOrNews(u8 * state, bool32 cardOrNews)
     switch (*state)
     {
     case 0:
-        if (cardOrNews == 0)
+        if (cardOrNews)
         {
-            InitWonderCardResources(GetSavedWonderCard(), sav1_get_mevent_buffer_2());
+            InitWonderNewsResources(GetSavedWonderNews());
         }
         else
         {
-            InitWonderNewsResources(GetSavedWonderNews());
+            InitWonderCardResources(GetSavedWonderCard(), sav1_get_mevent_buffer_2());
         }
         (*state)++;
         break;
@@ -850,24 +850,24 @@ static bool32 HandleLoadWonderCardOrNews(u8 * state, bool32 cardOrNews)
 
 static bool32 DestroyNewsOrCard(bool32 cardOrNews)
 {
-    if (cardOrNews == 0)
+    if (cardOrNews)
     {
-        DestroyWonderCard();
+        DestroyWonderNews();
     }
     else
     {
-        DestroyWonderNews();
+        DestroyWonderCard();
     }
     return TRUE;
 }
 
 static bool32 TearDownCardOrNews_ReturnToTopMenu(bool32 cardOrNews, bool32 arg1)
 {
-    if (cardOrNews == 0)
+    if (cardOrNews)
     {
-        if (FadeOutFromWonderCard(arg1) != 0)
+        if (FadeOutFromWonderNews(arg1))
         {
-            DestroyWonderCardResources();
+            DestroyWonderNewsResources();
             return TRUE;
         }
         else
@@ -877,9 +877,9 @@ static bool32 TearDownCardOrNews_ReturnToTopMenu(bool32 cardOrNews, bool32 arg1)
     }
     else
     {
-        if (FadeOutFromWonderNews(arg1) != 0)
+        if (FadeOutFromWonderCard(arg1))
         {
-            DestroyWonderNewsResources();
+            DestroyWonderCardResources();
             return TRUE;
         }
         else
@@ -891,25 +891,25 @@ static bool32 TearDownCardOrNews_ReturnToTopMenu(bool32 cardOrNews, bool32 arg1)
 
 static s32 mevent_message_prompt_discard(u8 * textState, u16 * windowId, bool32 cardOrNews)
 {
-    if (cardOrNews == 0)
+    if (cardOrNews)
     {
-        return mevent_message_print_and_prompt_yes_no(textState, windowId, TRUE, gText_IfThrowAwayCardEventWontHappen);
+        return mevent_message_print_and_prompt_yes_no(textState, windowId, TRUE, gText_OkayToDiscardNews);
     }
     else
     {
-        return mevent_message_print_and_prompt_yes_no(textState, windowId, TRUE, gText_OkayToDiscardNews);
+        return mevent_message_print_and_prompt_yes_no(textState, windowId, TRUE, gText_IfThrowAwayCardEventWontHappen);
     }
 }
 
 static bool32 mevent_message_was_thrown_away(u8 * textState, bool32 cardOrNews)
 {
-    if (cardOrNews == 0)
+    if (cardOrNews)
     {
-        return MG_PrintTextOnWindow1AndWaitButton(textState, gText_WonderCardThrownAway);
+        return MG_PrintTextOnWindow1AndWaitButton(textState, gText_WonderNewsThrownAway);
     }
     else
     {
-        return MG_PrintTextOnWindow1AndWaitButton(textState, gText_WonderNewsThrownAway);
+        return MG_PrintTextOnWindow1AndWaitButton(textState, gText_WonderCardThrownAway);
     }
 }
 
@@ -1090,8 +1090,6 @@ static const u8 * mevent_message_stamp_card_etc_send_status(u32 * a0, u8 unused,
         result = gText_CommunicationError;
         break;
     case 12:
-        result = gText_GiftSentTo;
-        break;
     case 13:
         result = gText_GiftSentTo;
         break;
@@ -1314,10 +1312,6 @@ void task00_mystery_gift(u8 taskId)
             data->state = 7;
             break;
         case 1:
-            mevent_client_set_param(1);
-            mevent_client_inc_flag();
-            data->state = 7;
-            break;
         case -1u:
             mevent_client_set_param(1);
             mevent_client_inc_flag();
@@ -1349,10 +1343,6 @@ void task00_mystery_gift(u8 taskId)
             }
             break;
         case 1:
-            mevent_client_set_param(1);
-            mevent_client_inc_flag();
-            data->state = 7;
-            break;
         case -1u:
             mevent_client_set_param(1);
             mevent_client_inc_flag();
@@ -1370,10 +1360,6 @@ void task00_mystery_gift(u8 taskId)
             data->state = 7;
             break;
         case 1:
-            mevent_client_set_param(1);
-            mevent_client_inc_flag();
-            data->state = 7;
-            break;
         case -1u:
             mevent_client_set_param(1);
             mevent_client_inc_flag();
@@ -1555,8 +1541,6 @@ void task00_mystery_gift(u8 taskId)
             data->state = 24;
             break;
         case 1:
-            data->state = 21;
-            break;
         case -1u:
             data->state = 21;
             break;
@@ -1611,7 +1595,7 @@ void task00_mystery_gift(u8 taskId)
         }
         break;
     case 30:
-        if (gReceivedRemoteLinkPlayers != 0)
+        if (gReceivedRemoteLinkPlayers)
         {
             ClearScreenInBg0(1);
             data->state = 31;

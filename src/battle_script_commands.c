@@ -826,13 +826,13 @@ static const u8 sTerrainToType[] =
     [BATTLE_TERRAIN_PLAIN]      = TYPE_NORMAL,
 };
 
-// - ITEM_ULTRA_BALL skips Master Ball and ITEM_NONE
+// - BALL_ULTRA skips Master Ball and ITEM_NONE
 static const u8 sBallCatchBonuses[] =
 {
-    [ITEM_ULTRA_BALL - ITEM_ULTRA_BALL]  = 20, 
-    [ITEM_GREAT_BALL - ITEM_ULTRA_BALL]  = 15, 
-    [ITEM_POKE_BALL - ITEM_ULTRA_BALL]   = 10, 
-    [ITEM_SAFARI_BALL - ITEM_ULTRA_BALL] = 15
+    [BALL_ULTRA - BALL_ULTRA]  = 20, 
+    [BALL_GREAT - BALL_ULTRA]  = 15, 
+    [BALL_POKE - BALL_ULTRA]   = 10, 
+    [BALL_SAFARI - BALL_ULTRA] = 15
 };
 
 // In Battle Palace, moves are chosen based on the pokemons nature rather than by the player
@@ -1730,12 +1730,12 @@ static void Cmd_attackanimation(void)
         return;
 
     if ((gHitMarker & HITMARKER_NO_ANIMATIONS)
-        && gCurrentMove != MOVE_TRANSFORM
-        && gCurrentMove != MOVE_SUBSTITUTE
-        // In a wild double battle, use the teleport animation if two wild Pokémon are alive.
-        && !(gCurrentMove == MOVE_TELEPORT && WILD_DOUBLE_BATTLE 
-        && GetBattlerSide(gBattlerAttacker) == B_SIDE_OPPONENT 
-        && IsBattlerAlive(BATTLE_PARTNER(gBattlerAttacker))))
+     && gCurrentMove != MOVE_TRANSFORM
+     && gCurrentMove != MOVE_SUBSTITUTE
+    // In a wild double battle, use the teleport animation if two wild Pokémon are alive.
+     && !(gCurrentMove == MOVE_TELEPORT && WILD_DOUBLE_BATTLE 
+     && GetBattlerSide(gBattlerAttacker) == B_SIDE_OPPONENT 
+     && IsBattlerAlive(BATTLE_PARTNER(gBattlerAttacker))))
     {
         BattleScriptPush(gBattlescriptCurrInstr + 1);
         gBattlescriptCurrInstr = BattleScript_Pausex20;
@@ -1745,9 +1745,9 @@ static void Cmd_attackanimation(void)
     else
     {
         if ((gBattleMoves[gCurrentMove].target & MOVE_TARGET_BOTH
-             || gBattleMoves[gCurrentMove].target & MOVE_TARGET_FOES_AND_ALLY
-             || gBattleMoves[gCurrentMove].target & MOVE_TARGET_DEPENDS)
-            && gBattleScripting.animTargetsHit)
+         || gBattleMoves[gCurrentMove].target & MOVE_TARGET_FOES_AND_ALLY
+         || gBattleMoves[gCurrentMove].target & MOVE_TARGET_DEPENDS)
+         && gBattleScripting.animTargetsHit)
         {
             gBattlescriptCurrInstr++;
             return;
@@ -1760,7 +1760,7 @@ static void Cmd_attackanimation(void)
 
             if (gBattleMons[gBattlerTarget].status2 & STATUS2_SUBSTITUTE)
                 multihit = gMultiHitCounter;
-            else if (gMultiHitCounter != 0 && gMultiHitCounter != 1)
+            else if (gMultiHitCounter && gMultiHitCounter != 1)
             {
                 if (gBattleMons[gBattlerTarget].hp <= gBattleMoveDamage)
                     multihit = 1;
@@ -2320,8 +2320,8 @@ void SetMoveEffect(bool8 primary, u8 certain)
                 RESET_RETURN
             }
             if (IS_BATTLER_OF_TYPE(gEffectBattler, TYPE_FIRE)
-                && (gHitMarker & HITMARKER_IGNORE_SAFEGUARD)
-                && (primary || certain == MOVE_EFFECT_CERTAIN))
+             && (gHitMarker & HITMARKER_IGNORE_SAFEGUARD)
+             && (primary || certain == MOVE_EFFECT_CERTAIN))
             {
                 BattleScriptPush(gBattlescriptCurrInstr + 1);
                 gBattlescriptCurrInstr = BattleScript_BRNPrevention;
@@ -2404,8 +2404,8 @@ void SetMoveEffect(bool8 primary, u8 certain)
                 RESET_RETURN
             }
             if ((IS_BATTLER_OF_TYPE(gEffectBattler, TYPE_POISON) || IS_BATTLER_OF_TYPE(gEffectBattler, TYPE_STEEL))
-                && (gHitMarker & HITMARKER_IGNORE_SAFEGUARD)
-                && (primary || certain == MOVE_EFFECT_CERTAIN))
+             && (gHitMarker & HITMARKER_IGNORE_SAFEGUARD)
+             && (primary || certain == MOVE_EFFECT_CERTAIN))
             {
                 BattleScriptPush(gBattlescriptCurrInstr + 1);
                 gBattlescriptCurrInstr = BattleScript_PSNPrevention;
@@ -4660,8 +4660,8 @@ static void Cmd_jumpifcantswitch(void)
     gActiveBattler = GetBattlerForBattleScript(gBattlescriptCurrInstr[1] & ~(SWITCH_IGNORE_ESCAPE_PREVENTION));
 
     if (!(gBattlescriptCurrInstr[1] & SWITCH_IGNORE_ESCAPE_PREVENTION)
-        && ((gBattleMons[gActiveBattler].status2 & (STATUS2_WRAPPED | STATUS2_ESCAPE_PREVENTION))
-            || (gStatuses3[gActiveBattler] & STATUS3_ROOTED)))
+     && ((gBattleMons[gActiveBattler].status2 & (STATUS2_WRAPPED | STATUS2_ESCAPE_PREVENTION))
+     || (gStatuses3[gActiveBattler] & STATUS3_ROOTED)))
     {
         gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 2);
     }
@@ -9535,10 +9535,10 @@ static void Cmd_pickup(void)
                 ability = gBaseStats[species].abilities[0];
 
             if (ability == ABILITY_PICKUP
-                 && species != 0
-                 && species != SPECIES_EGG
-                 && heldItem == ITEM_NONE
-                 && (Random() % 10) == 0)
+             && species
+             && species != SPECIES_EGG
+             && !heldItem
+             && (!Random() % 10))
             {
                 if (InBattlePyramid())
                 {
@@ -9569,8 +9569,8 @@ static void Cmd_pickup(void)
                 }
             }
             else if (species == SPECIES_SHUCKLE
-                && heldItem >= FIRST_BERRY_INDEX
-                && heldItem <= LAST_BERRY_INDEX)
+             && heldItem >= FIRST_BERRY_INDEX
+             && heldItem <= LAST_BERRY_INDEX)
             {
                 if (!(Random() % 16))
                 {
@@ -9882,7 +9882,7 @@ static void Cmd_handleballthrow(void)
             }
         }
         else
-            ballMultiplier = sBallCatchBonuses[ball - ITEM_ULTRA_BALL];
+            ballMultiplier = sBallCatchBonuses[ball - BALL_ULTRA];
 
         odds = (catchRate * ballMultiplier / 10)
             * (gBattleMons[gBattlerTarget].maxHP * 3 - gBattleMons[gBattlerTarget].hp * 2)
@@ -9901,8 +9901,8 @@ static void Cmd_handleballthrow(void)
             }
             else
             {
-                if (gBattleResults.catchAttempts[ball - ITEM_ULTRA_BALL] < 0xFF)
-                    gBattleResults.catchAttempts[ball - ITEM_ULTRA_BALL]++;
+                if (gBattleResults.catchAttempts[ball - BALL_ULTRA] < 0xFF)
+                    gBattleResults.catchAttempts[ball - BALL_ULTRA]++;
             }
         }
 

@@ -377,7 +377,7 @@ void sub_801C178(u8 whichWindow)
             AddTextPrinterParameterized3(windowId, 3, x, 17, sTextColorTable[sWonderCardData->unk_0170->textPal1], 0, sWonderCardData->unk_01B4);
             if (sWonderCardData->unk_0000.unk_04 != 0)
             {
-                AddTextPrinterParameterized3(windowId, 1, 166, 17, sTextColorTable[sWonderCardData->unk_0170->textPal1], 0, sWonderCardData->unk_01DD);
+                AddTextPrinterParameterized3(windowId, 2, 166, 17, sTextColorTable[sWonderCardData->unk_0170->textPal1], 0, sWonderCardData->unk_01DD);
             }
             break;
         }
@@ -418,12 +418,12 @@ void sub_801C4C0(void)
 {
     u8 r7 = 0;
     sWonderCardData->unk_017C = 0xFF;
-    if (sWonderCardData->unk_014C.unk_06 != SPECIES_NONE)
+    if (sWonderCardData->unk_014C.unk_06)
     {
-        sWonderCardData->unk_017C = CreateMonIconNoPersonality(GetIconSpeciesNoPersonality(sWonderCardData->unk_014C.unk_06), SpriteCallbackDummy, 0xDC, 0x14, 0, FALSE);
+        sWonderCardData->unk_017C = CreateMonIconNoPersonality(GetIconSpeciesNoPersonality(sWonderCardData->unk_014C.unk_06), SpriteCallbackDummy, 0xDC, 0x14, 0);
         gSprites[sWonderCardData->unk_017C].oam.priority = 2;
     }
-    if (sWonderCardData->unk_0000.unk_09 != 0 && sWonderCardData->unk_0000.unk_08_0 == 1)
+    if (sWonderCardData->unk_0000.unk_09 && sWonderCardData->unk_0000.unk_08_0 == 1)
     {
         LoadCompressedSpriteSheetUsingHeap(&gUnknown_082F1D00);
         LoadSpritePalette(&gUnknown_082F1D08[sWonderCardData->unk_0170->textPal4]);
@@ -434,7 +434,7 @@ void sub_801C4C0(void)
             sWonderCardData->unk_017D[r7][0] = CreateSprite(&gUnknown_082F1D48, 0xd8 - 32 * r7, 0x90, 8);
             if (sWonderCardData->unk_014C.unk_08[0][r7] != 0)
             {
-                sWonderCardData->unk_017D[r7][1] = CreateMonIconNoPersonality(GetIconSpeciesNoPersonality(sWonderCardData->unk_014C.unk_08[0][r7]), SpriteCallbackDummy, 0xd8 - 32 * r7, 0x88, 0, 0);
+                sWonderCardData->unk_017D[r7][1] = CreateMonIconNoPersonality(GetIconSpeciesNoPersonality(sWonderCardData->unk_014C.unk_08[0][r7]), SpriteCallbackDummy, 0xd8 - 32 * r7, 0x88, 0);
             }
         }
     }
@@ -559,7 +559,7 @@ bool32 InitWonderNewsResources(const struct WonderNews * a0)
 
 void DestroyWonderNewsResources(void)
 {
-    if (sWonderNewsData != NULL)
+    if (sWonderNewsData)
     {
         *sWonderNewsData = (struct UnkStruct_203F3CC){};
         Free(sWonderNewsData);

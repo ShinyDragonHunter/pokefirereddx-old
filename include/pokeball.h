@@ -3,6 +3,7 @@
 
 enum
 {
+    BALL_NONE,
     BALL_MASTER,
     BALL_ULTRA,
     BALL_GREAT,

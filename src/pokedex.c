@@ -218,13 +218,13 @@ static bool8 LoadPokedexListPage(u8);
 static void LoadPokedexBgPalette(bool8);
 static void FreeWindowAndBgBuffers(void);
 static void CreatePokedexList(u8, u8);
-static void CreateMonDexNum(u16, u8, u8, u16);
-static void CreateCaughtBall(u16, u8, u8, u16);
+static void CreateMonDexNum(u16, u8, u8);
+static void CreateCaughtBall(u16, u8, u8);
 static u8 CreateMonName(u16, u8, u8);
-static void ClearMonListEntry(u8 x, u8 y, u16 unused);
-static void CreateMonSpritesAtPos(u16, u16);
+static void ClearMonListEntry(u8 x, u8 y);
+static void CreateMonSpritesAtPos(u16);
 static bool8 UpdateDexListScroll(u8, u8, u8);
-static u16 TryDoPokedexScroll(u16, u16);
+static u16 TryDoPokedexScroll(u16);
 static void UpdateSelectedMonSpriteId(void);
 static bool8 TryDoInfoScreenScroll(void);
 static u8 ClearMonSprites(void);
@@ -1709,7 +1709,7 @@ static void Task_HandlePokedexInput(u8 taskId)
         else
         {
             //Handle D-pad
-            sPokedexView->selectedPokemon = TryDoPokedexScroll(sPokedexView->selectedPokemon, 0xE);
+            sPokedexView->selectedPokemon = TryDoPokedexScroll(sPokedexView->selectedPokemon);
             if (sPokedexView->scrollTimer)
                 gTasks[taskId].func = Task_WaitForScroll;
         }
@@ -1745,14 +1745,14 @@ static void Task_HandlePokedexStartMenuInput(u8 taskId)
                 sPokedexView->selectedPokemon = 0;
                 sPokedexView->pokeBallRotation = POKEBALL_ROTATION_TOP;
                 ClearMonSprites();
-                CreateMonSpritesAtPos(sPokedexView->selectedPokemon, 0xE);
+                CreateMonSpritesAtPos(sPokedexView->selectedPokemon);
                 gMain.newKeys |= START_BUTTON;  //Exit menu
                 break;
             case 2: //LIST BOTTOM
                 sPokedexView->selectedPokemon = sPokedexView->pokemonListCount - 1;
                 sPokedexView->pokeBallRotation = sPokedexView->pokemonListCount * 16 + POKEBALL_ROTATION_BOTTOM;
                 ClearMonSprites();
-                CreateMonSpritesAtPos(sPokedexView->selectedPokemon, 0xE);
+                CreateMonSpritesAtPos(sPokedexView->selectedPokemon);
                 gMain.newKeys |= START_BUTTON;  //Exit menu
                 break;
             case 3: //CLOSE POKEDEX
@@ -1907,7 +1907,7 @@ static void Task_HandleSearchResultsInput(u8 taskId)
         else
         {
             //Handle D-pad
-            sPokedexView->selectedPokemon = TryDoPokedexScroll(sPokedexView->selectedPokemon, 0xE);
+            sPokedexView->selectedPokemon = TryDoPokedexScroll(sPokedexView->selectedPokemon);
             if (sPokedexView->scrollTimer)
                 gTasks[taskId].func = Task_WaitForSearchResultsScroll;
         }
@@ -1942,14 +1942,14 @@ static void Task_HandleSearchResultsStartMenuInput(u8 taskId)
                 sPokedexView->selectedPokemon = 0;
                 sPokedexView->pokeBallRotation = POKEBALL_ROTATION_TOP;
                 ClearMonSprites();
-                CreateMonSpritesAtPos(sPokedexView->selectedPokemon, 0xE);
+                CreateMonSpritesAtPos(sPokedexView->selectedPokemon);
                 gMain.newKeys |= START_BUTTON;
                 break;
             case 2: //LIST BOTTOM
                 sPokedexView->selectedPokemon = sPokedexView->pokemonListCount - 1;
                 sPokedexView->pokeBallRotation = sPokedexView->pokemonListCount * 16 + POKEBALL_ROTATION_BOTTOM;
                 ClearMonSprites();
-                CreateMonSpritesAtPos(sPokedexView->selectedPokemon, 0xE);
+                CreateMonSpritesAtPos(sPokedexView->selectedPokemon);
                 gMain.newKeys |= START_BUTTON;
                 break;
             case 3: //BACK TO POKEDEX
@@ -2094,7 +2094,7 @@ static bool8 LoadPokedexListPage(u8 page)
     case 3:
         if (page == PAGE_MAIN)
             CreatePokedexList(sPokedexView->dexMode, sPokedexView->dexOrder);
-        CreateMonSpritesAtPos(sPokedexView->selectedPokemon, 0xE);
+        CreateMonSpritesAtPos(sPokedexView->selectedPokemon);
         sPokedexView->menuIsOpen = FALSE;
         sPokedexView->menuY = 0;
         CopyBgTilemapBufferToVram(0);
@@ -2323,7 +2323,7 @@ static void PrintMonDexNumAndName(u8 windowId, u8 fontId, const u8* str, u8 left
 }
 
 // u16 ignored is passed but never used
-static void CreateMonListEntry(u8 position, u16 b, u16 ignored)
+static void CreateMonListEntry(u8 position, u16 b)
 {
     s16 entryNum;
     u16 i;
@@ -2338,21 +2338,21 @@ static void CreateMonListEntry(u8 position, u16 b, u16 ignored)
         {
             if (entryNum < 0 || entryNum >= NATIONAL_DEX_COUNT || sPokedexView->pokedexList[entryNum].dexNum == 0xFFFF)
             {
-                ClearMonListEntry(17, i * 2, ignored);
+                ClearMonListEntry(17, i * 2);
             }
             else
             {
-                ClearMonListEntry(17, i * 2, ignored);
+                ClearMonListEntry(17, i * 2);
                 if (sPokedexView->pokedexList[entryNum].seen)
                 {
-                    CreateMonDexNum(entryNum, 0x12, i * 2, ignored);
-                    CreateCaughtBall(sPokedexView->pokedexList[entryNum].owned, 0x11, i * 2, ignored);
+                    CreateMonDexNum(entryNum, 0x12, i * 2);
+                    CreateCaughtBall(sPokedexView->pokedexList[entryNum].owned, 0x11, i * 2);
                     CreateMonName(sPokedexView->pokedexList[entryNum].dexNum, 0x16, i * 2);
                 }
                 else
                 {
-                    CreateMonDexNum(entryNum, 0x12, i * 2, ignored);
-                    CreateCaughtBall(FALSE, 0x11, i * 2, ignored);
+                    CreateMonDexNum(entryNum, 0x12, i * 2);
+                    CreateCaughtBall(FALSE, 0x11, i * 2);
                     CreateMonName(0, 0x16, i * 2);
                 }
             }
@@ -2363,21 +2363,21 @@ static void CreateMonListEntry(u8 position, u16 b, u16 ignored)
         entryNum = b - 5;
         if (entryNum < 0 || entryNum >= NATIONAL_DEX_COUNT || sPokedexView->pokedexList[entryNum].dexNum == 0xFFFF)
         {
-            ClearMonListEntry(17, sPokedexView->listVOffset * 2, ignored);
+            ClearMonListEntry(17, sPokedexView->listVOffset * 2);
         }
         else
         {
-            ClearMonListEntry(17, sPokedexView->listVOffset * 2, ignored);
+            ClearMonListEntry(17, sPokedexView->listVOffset * 2);
             if (sPokedexView->pokedexList[entryNum].seen)
             {
-                CreateMonDexNum(entryNum, 18, sPokedexView->listVOffset * 2, ignored);
-                CreateCaughtBall(sPokedexView->pokedexList[entryNum].owned, 0x11, sPokedexView->listVOffset * 2, ignored);
+                CreateMonDexNum(entryNum, 18, sPokedexView->listVOffset * 2);
+                CreateCaughtBall(sPokedexView->pokedexList[entryNum].owned, 0x11, sPokedexView->listVOffset * 2);
                 CreateMonName(sPokedexView->pokedexList[entryNum].dexNum, 0x16, sPokedexView->listVOffset * 2);
             }
             else
             {
-                CreateMonDexNum(entryNum, 18, sPokedexView->listVOffset * 2, ignored);
-                CreateCaughtBall(FALSE, 17, sPokedexView->listVOffset * 2, ignored);
+                CreateMonDexNum(entryNum, 18, sPokedexView->listVOffset * 2);
+                CreateCaughtBall(FALSE, 17, sPokedexView->listVOffset * 2);
                 CreateMonName(0, 0x16, sPokedexView->listVOffset * 2);
             }
         }
@@ -2388,20 +2388,20 @@ static void CreateMonListEntry(u8 position, u16 b, u16 ignored)
         if (vOffset >= LIST_SCROLL_STEP)
             vOffset -= LIST_SCROLL_STEP;
         if (entryNum < 0 || entryNum >= NATIONAL_DEX_COUNT || sPokedexView->pokedexList[entryNum].dexNum == 0xFFFF)
-            ClearMonListEntry(17, vOffset * 2, ignored);
+            ClearMonListEntry(17, vOffset * 2);
         else
         {
-            ClearMonListEntry(17, vOffset * 2, ignored);
+            ClearMonListEntry(17, vOffset * 2);
             if (sPokedexView->pokedexList[entryNum].seen)
             {
-                CreateMonDexNum(entryNum, 18, vOffset * 2, ignored);
-                CreateCaughtBall(sPokedexView->pokedexList[entryNum].owned, 0x11, vOffset * 2, ignored);
+                CreateMonDexNum(entryNum, 18, vOffset * 2);
+                CreateCaughtBall(sPokedexView->pokedexList[entryNum].owned, 0x11, vOffset * 2);
                 CreateMonName(sPokedexView->pokedexList[entryNum].dexNum, 0x16, vOffset * 2);
             }
             else
             {
-                CreateMonDexNum(entryNum, 18, vOffset * 2, ignored);
-                CreateCaughtBall(FALSE, 0x11, vOffset * 2, ignored);
+                CreateMonDexNum(entryNum, 18, vOffset * 2);
+                CreateCaughtBall(FALSE, 0x11, vOffset * 2);
                 CreateMonName(0, 0x16, vOffset * 2);
             }
         }
@@ -2410,7 +2410,7 @@ static void CreateMonListEntry(u8 position, u16 b, u16 ignored)
     CopyWindowToVram(0, 2);
 }
 
-static void CreateMonDexNum(u16 entryNum, u8 left, u8 top, u16 unused)
+static void CreateMonDexNum(u16 entryNum, u8 left, u8 top)
 {
     u8 text[6];
     u16 dexNum;
@@ -2425,7 +2425,7 @@ static void CreateMonDexNum(u16 entryNum, u8 left, u8 top, u16 unused)
     PrintMonDexNumAndName(0, 7, text, left, top);
 }
 
-static void CreateCaughtBall(bool16 owned, u8 x, u8 y, u16 unused)
+static void CreateCaughtBall(bool16 owned, u8 x, u8 y)
 {
     if (owned)
         BlitBitmapToWindow(0, sCaughtBall_Gfx, x * 8, y * 8, 8, 16);
@@ -2446,13 +2446,13 @@ static u8 CreateMonName(u16 num, u8 left, u8 top)
     return StringLength(str);
 }
 
-static void ClearMonListEntry(u8 x, u8 y, u16 unused)
+static void ClearMonListEntry(u8 x, u8 y)
 {
     FillWindowPixelRect(0, PIXEL_FILL(0), x * 8, y * 8, 0x60, 16);
 }
 
 // u16 ignored is passed but never used
-static void CreateMonSpritesAtPos(u16 selectedMon, u16 ignored)
+static void CreateMonSpritesAtPos(u16 selectedMon)
 {
     u8 i;
     u16 dexNum;
@@ -2491,7 +2491,7 @@ static void CreateMonSpritesAtPos(u16 selectedMon, u16 ignored)
         gSprites[spriteId].data[5] = 32;
     }
 
-    CreateMonListEntry(0, selectedMon, ignored);
+    CreateMonListEntry(0, selectedMon);
     SetGpuReg(REG_OFFSET_BG2VOFS, sPokedexView->initialVOffset);
 
     sPokedexView->listVOffset = 0;
@@ -2578,7 +2578,7 @@ static void CreateScrollingPokemonSprite(u8 direction, u16 selectedMon)
 }
 
 // u16 ignored is passed but never used
-static u16 TryDoPokedexScroll(u16 selectedMon, u16 ignored)
+static u16 TryDoPokedexScroll(u16 selectedMon)
 {
     u8 scrollTimer;
     u8 scrollMonIncrement;
@@ -2591,7 +2591,7 @@ static u16 TryDoPokedexScroll(u16 selectedMon, u16 ignored)
         scrollDir = 1;
         selectedMon = GetNextPosition(1, selectedMon, 0, sPokedexView->pokemonListCount - 1);
         CreateScrollingPokemonSprite(1, selectedMon);
-        CreateMonListEntry(1, selectedMon, ignored);
+        CreateMonListEntry(1, selectedMon);
         PlaySE(SE_DEX_SCROLL);
     }
     else if ((JOY_HELD(DPAD_DOWN)) && (selectedMon < sPokedexView->pokemonListCount - 1))
@@ -2599,7 +2599,7 @@ static u16 TryDoPokedexScroll(u16 selectedMon, u16 ignored)
         scrollDir = 2;
         selectedMon = GetNextPosition(0, selectedMon, 0, sPokedexView->pokemonListCount - 1);
         CreateScrollingPokemonSprite(2, selectedMon);
-        CreateMonListEntry(2, selectedMon, ignored);
+        CreateMonListEntry(2, selectedMon);
         PlaySE(SE_DEX_SCROLL);
     }
     else if ((JOY_NEW(DPAD_LEFT)) && (selectedMon > 0))
@@ -2610,7 +2610,7 @@ static u16 TryDoPokedexScroll(u16 selectedMon, u16 ignored)
             selectedMon = GetNextPosition(1, selectedMon, 0, sPokedexView->pokemonListCount - 1);
         sPokedexView->pokeBallRotation += 16 * (selectedMon - startingPos);
         ClearMonSprites();
-        CreateMonSpritesAtPos(selectedMon, 0xE);
+        CreateMonSpritesAtPos(selectedMon);
         PlaySE(SE_DEX_PAGE);
     }
     else if ((JOY_NEW(DPAD_RIGHT)) && (selectedMon < sPokedexView->pokemonListCount - 1))
@@ -2620,7 +2620,7 @@ static u16 TryDoPokedexScroll(u16 selectedMon, u16 ignored)
             selectedMon = GetNextPosition(0, selectedMon, 0, sPokedexView->pokemonListCount - 1);
         sPokedexView->pokeBallRotation += 16 * (selectedMon - startingPos);
         ClearMonSprites();
-        CreateMonSpritesAtPos(selectedMon, 0xE);
+        CreateMonSpritesAtPos(selectedMon);
         PlaySE(SE_DEX_PAGE);
     }
 
@@ -4359,6 +4359,28 @@ u16 GetKantoPokedexCount(u8 caseID)
     return count;
 }
 
+u16 GetJohtoPokedexCount(u8 caseID)
+{
+    u16 count = 0;
+    u16 i;
+
+    for (i = 0; i < JOHTO_DEX_COUNT; i++)
+    {
+        switch (caseID)
+        {
+        case FLAG_GET_SEEN:
+            if (GetSetPokedexFlag(HoennToNationalOrder(i + 1), FLAG_GET_SEEN))
+                count++;
+            break;
+        case FLAG_GET_CAUGHT:
+            if (GetSetPokedexFlag(HoennToNationalOrder(i + 1), FLAG_GET_CAUGHT))
+                count++;
+            break;
+        }
+    }
+    return count;
+}
+
 bool16 HasAllHoennMons(void)
 {
     u16 i;
@@ -4380,6 +4402,19 @@ bool8 HasAllKantoMons(void)
     for (i = 0; i < KANTO_DEX_COUNT - 1; i++)
     {
         if (!GetSetPokedexFlag(i + 1, FLAG_GET_CAUGHT))
+            return FALSE;
+    }
+    return TRUE;
+}
+
+bool8 HasAllJohtoMons(void)
+{
+    u16 i;
+
+    // -1 excludes Celebi
+    for (i = KANTO_DEX_COUNT; i < JOHTO_DEX_COUNT - 1; i++)
+    {
+        if (!GetSetPokedexFlag(HoennToNationalOrder(i + 1), FLAG_GET_CAUGHT))
             return FALSE;
     }
     return TRUE;
@@ -4535,20 +4570,15 @@ static u16 GetNextPosition(u8 direction, u16 position, u16 min, u16 max)
 }
 
 // Unown and Spinda use the personality of the first seen individual of that species
-// All others use personality 0
+// All others use personality 0xFF
 static u32 GetPokedexMonPersonality(u16 species)
 {
-    if (species == SPECIES_UNOWN || species == SPECIES_SPINDA)
-    {
-        if (species == SPECIES_UNOWN)
-            return gSaveBlock2Ptr->pokedex.unownPersonality;
-        else
-            return gSaveBlock2Ptr->pokedex.spindaPersonality;
-    }
+    if (species == SPECIES_UNOWN)
+        return gSaveBlock2Ptr->pokedex.unownPersonality;
+    else if (species == SPECIES_SPINDA)
+        return gSaveBlock2Ptr->pokedex.spindaPersonality;
     else
-    {
         return 0xFF; // Changed from 0 so the Pokédex shows the default Pokémon pics instead of the female versions.
-    }
 }
 
 u16 CreateMonSpriteFromNationalDexNumber(u16 nationalNum, s16 x, s16 y, u16 paletteSlot)

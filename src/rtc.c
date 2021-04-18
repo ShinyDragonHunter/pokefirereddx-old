@@ -3,6 +3,7 @@
 #include "string_util.h"
 #include "text.h"
 
+
 // iwram bss
 static u16 sErrorStatus;
 static struct SiiRtcInfo sRtc;
@@ -56,7 +57,7 @@ u32 ConvertBcdToBinary(u8 bcd)
 
 bool8 IsLeapYear(u32 year)
 {
-    if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0))
+    if ((year % 4 == 0 && year % 100) || (year % 400 == 0))
         return TRUE;
 
     return FALSE;
@@ -131,10 +132,25 @@ void RtcGetInfo(struct SiiRtcInfo *rtc)
         RtcGetRawInfo(rtc);
 }
 
+void RtcGetInfoFast(struct SiiRtcInfo *rtc)
+{
+    if (sErrorStatus & RTC_ERR_FLAG_MASK)
+        *rtc = sRtcDummy;
+    else
+        RtcGetRawInfoFast(rtc);
+}
+
 void RtcGetDateTime(struct SiiRtcInfo *rtc)
 {
     RtcDisableInterrupts();
     SiiRtcGetDateTime(rtc);
+    RtcRestoreInterrupts();
+}
+
+void RtcGetTime(struct SiiRtcInfo *rtc)
+{
+    RtcDisableInterrupts();
+    SiiRtcGetTime(rtc);
     RtcRestoreInterrupts();
 }
 
@@ -149,6 +165,12 @@ void RtcGetRawInfo(struct SiiRtcInfo *rtc)
 {
     RtcGetStatus(rtc);
     RtcGetDateTime(rtc);
+}
+
+void RtcGetRawInfoFast(struct SiiRtcInfo *rtc)
+{
+    RtcGetStatus(rtc);
+    RtcGetTime(rtc);
 }
 
 u16 RtcCheckInfo(struct SiiRtcInfo *rtc)
@@ -290,6 +312,12 @@ void RtcCalcTimeDifference(struct SiiRtcInfo *rtc, struct Time *result, struct T
 void RtcCalcLocalTime(void)
 {
     RtcGetInfo(&sRtc);
+    RtcCalcTimeDifference(&sRtc, &gLocalTime, &gSaveBlock2Ptr->localTimeOffset);
+}
+
+void RtcCalcLocalTimeFast(void)
+{
+    RtcGetInfoFast(&sRtc);
     RtcCalcTimeDifference(&sRtc, &gLocalTime, &gSaveBlock2Ptr->localTimeOffset);
 }
 

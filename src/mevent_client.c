@@ -145,12 +145,9 @@ static u32 mainseq_4(struct mevent_client * svr)
         svr->mainseqno = 2;
         svr->flag = 0;
         break;
-    case 3:
-        svr->mainseqno = 3;
-        svr->flag = 0;
-        break;
     case 20:
         mevent_srv_sub_init_send(&svr->manager, 0x14, svr->sendBuffer, 0);
+    case 3:
         svr->mainseqno = 3;
         svr->flag = 0;
         break;

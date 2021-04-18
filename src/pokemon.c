@@ -10,6 +10,7 @@
 #include "battle_setup.h"
 #include "battle_tower.h"
 #include "data.h"
+#include "day_night.h"
 #include "event_data.h"
 #include "evolution_scene.h"
 #include "field_specials.h"
@@ -41,6 +42,7 @@
 #include "constants/abilities.h"
 #include "constants/battle_frontier.h"
 #include "constants/battle_move_effects.h"
+#include "constants/day_night.h"
 #include "constants/hold_effects.h"
 #include "constants/item_effects.h"
 #include "constants/items.h"
@@ -1968,6 +1970,24 @@ static const struct SpriteTemplate sTrainerBackSpriteTemplates[] =
         .affineAnims = gAffineAnims_BattleSpritePlayerSide,
         .callback = SpriteCB_BattleSpriteStartSlideLeft,
     },
+    [TRAINER_BACK_PIC_GOLD] = {
+        .tileTag = 0xFFFF,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_Gold,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_KRIS] = {
+        .tileTag = 0xFFFF,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_Kris,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
     [TRAINER_BACK_PIC_E_BRENDAN] = {
         .tileTag = 0xFFFF,
         .paletteTag = 0,
@@ -2277,7 +2297,6 @@ void CreateMonWithNature(struct Pokemon *mon, u16 species, u8 level, u8 fixedIV,
 void CreateMonWithGenderNatureLetter(struct Pokemon *mon, u16 species, u8 level, u8 fixedIV, u8 gender, u8 nature, u8 unownLetter, u8 form)
 {
     u32 personality;
-    u16 formSpecies = GetFormSpecies(species, form);
 
     if ((u8)(unownLetter - 1) < NUM_UNOWN_FORMS)
     {
@@ -2299,7 +2318,7 @@ void CreateMonWithGenderNatureLetter(struct Pokemon *mon, u16 species, u8 level,
             personality = Random32();
         }
         while (nature != GetNatureFromPersonality(personality)
-            || gender != GetGenderFromSpeciesAndPersonality(formSpecies, personality));
+            || gender != GetGenderFromSpeciesAndPersonality(GetFormSpecies(species, form), personality));
     }
 
     CreateMon(mon, species, level, fixedIV, 1, personality, OT_ID_PLAYER_ID, 0, form);
@@ -2674,7 +2693,7 @@ static u16 CalculateBoxMonChecksum(struct BoxPokemon *boxMon)
 
 #define CALC_STAT(base, iv, ev, statIndex, field)               \
 {                                                               \
-    u8 baseStat = gBaseStats[formSpecies].base;                     \
+    u8 baseStat = gBaseStats[species].base;                     \
     s32 n = (((2 * baseStat + iv + ev / 4) * level) / 100) + 5; \
     u8 nature = GetNature(mon);                                 \
     n = ModifyStatByNature(nature, n, statIndex);               \
@@ -2697,11 +2716,10 @@ void CalculateMonStats(struct Pokemon *mon)
     s32 spAttackEV = GetMonData(mon, MON_DATA_SPATK_EV, NULL);
     s32 spDefenseIV = GetMonData(mon, MON_DATA_SPDEF_IV, NULL);
     s32 spDefenseEV = GetMonData(mon, MON_DATA_SPDEF_EV, NULL);
-    u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
+    u16 species = GetFormSpecies(GetMonData(mon, MON_DATA_SPECIES, NULL), 
+                                GetMonData(mon, MON_DATA_FORM, NULL));
     s32 level = GetLevelFromMonExp(mon);
     s32 newMaxHP;
-    u8 form = GetMonData(mon, MON_DATA_FORM, NULL);
-    u16 formSpecies = GetFormSpecies(species, form);
 
     SetMonData(mon, MON_DATA_LEVEL, &level);
 
@@ -2711,7 +2729,7 @@ void CalculateMonStats(struct Pokemon *mon)
     }
     else
     {
-        s32 n = 2 * gBaseStats[formSpecies].baseHP + hpIV;
+        s32 n = 2 * gBaseStats[species].baseHP + hpIV;
         newMaxHP = (((n + hpEV / 4) * level) / 100) + level + 10;
     }
 
@@ -2729,7 +2747,7 @@ void CalculateMonStats(struct Pokemon *mon)
 
     if (species == SPECIES_SHEDINJA)
     {
-        if (currentHP != 0 || oldMaxHP == 0)
+        if (currentHP || oldMaxHP == 0)
             currentHP = 1;
         else
             return;
@@ -2738,7 +2756,7 @@ void CalculateMonStats(struct Pokemon *mon)
     {
         if (currentHP == 0 && oldMaxHP == 0)
             currentHP = newMaxHP;
-        else if (currentHP != 0)
+        else if (currentHP)
         {
             currentHP += newMaxHP - oldMaxHP;
             if (currentHP <= 0)
@@ -2770,12 +2788,12 @@ u8 GetLevelFromMonExp(struct Pokemon *mon)
 
 u8 GetLevelFromBoxMonExp(struct BoxPokemon *boxMon)
 {
-    u16 species = GetBoxMonData(boxMon, MON_DATA_SPECIES, NULL);
+    u16 species = GetFormSpecies(GetBoxMonData(boxMon, MON_DATA_SPECIES, NULL),
+                                GetBoxMonData(boxMon, MON_DATA_FORM, NULL));
     u32 exp = GetBoxMonData(boxMon, MON_DATA_EXP, NULL);
-    u8 form = GetBoxMonData(boxMon, MON_DATA_FORM, NULL);
     s32 level = 1;
 
-    while (level <= MAX_LEVEL && gExperienceTables[gBaseStats[GetFormSpecies(species, form)].growthRate][level] <= exp)
+    while (level <= MAX_LEVEL && gExperienceTables[gBaseStats[species].growthRate][level] <= exp)
         level++;
 
     return level - 1;
@@ -2840,23 +2858,22 @@ void GiveMonInitialMoveset(struct Pokemon *mon)
 
 void GiveBoxMonInitialMoveset(struct BoxPokemon *boxMon)
 {
-    u16 species = GetBoxMonData(boxMon, MON_DATA_SPECIES, NULL);
+    u16 species = GetFormSpecies(GetBoxMonData(boxMon, MON_DATA_SPECIES, NULL), 
+                                GetBoxMonData(boxMon, MON_DATA_FORM, NULL));
     s32 level = GetLevelFromBoxMonExp(boxMon);
-    u8 form = GetBoxMonData(boxMon, MON_DATA_FORM, NULL);
-    u16 formSpecies = GetFormSpecies(species, form);
     s32 i;
 
-    for (i = 0; gLevelUpLearnsets[formSpecies][i] != LEVEL_UP_END; i++)
+    for (i = 0; gLevelUpLearnsets[species][i] != LEVEL_UP_END; i++)
     {
         u16 moveLevel;
         u16 move;
 
-        moveLevel = (gLevelUpLearnsets[formSpecies][i] & LEVEL_UP_MOVE_LV);
+        moveLevel = (gLevelUpLearnsets[species][i] & LEVEL_UP_MOVE_LV);
 
         if (moveLevel > (level << 9))
             break;
 
-        move = (gLevelUpLearnsets[formSpecies][i] & LEVEL_UP_MOVE_ID);
+        move = (gLevelUpLearnsets[species][i] & LEVEL_UP_MOVE_ID);
 
         if (GiveMoveToBoxMon(boxMon, move) == MON_HAS_MAX_MOVES)
             DeleteFirstMoveAndGiveMoveToBoxMon(boxMon, move);
@@ -2865,10 +2882,9 @@ void GiveBoxMonInitialMoveset(struct BoxPokemon *boxMon)
 
 u16 MonTryLearningNewMove(struct Pokemon *mon, bool8 firstMove)
 {
-    u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
+    u16 species = GetFormSpecies(GetMonData(mon, MON_DATA_SPECIES, NULL),
+                                GetMonData(mon, MON_DATA_FORM, NULL));
     u8 level = GetMonData(mon, MON_DATA_LEVEL, NULL);
-    u8 form = GetMonData(mon, MON_DATA_FORM, NULL);
-    u16 formSpecies = GetFormSpecies(species, form);
 
     // since you can learn more than one move per level
     // the game needs to know whether you decided to
@@ -2878,13 +2894,13 @@ u16 MonTryLearningNewMove(struct Pokemon *mon, bool8 firstMove)
     {
         sLearningMoveTableID = 0;
     }
-    while (gLevelUpLearnsets[formSpecies][sLearningMoveTableID] != LEVEL_UP_END)
+    while (gLevelUpLearnsets[species][sLearningMoveTableID] != LEVEL_UP_END)
     {
         u16 moveLevel;
-        moveLevel = (gLevelUpLearnsets[formSpecies][sLearningMoveTableID] & LEVEL_UP_MOVE_LV);
+        moveLevel = (gLevelUpLearnsets[species][sLearningMoveTableID] & LEVEL_UP_MOVE_LV);
         while (moveLevel == (level << 9))
         {
-            gMoveToLearn = (gLevelUpLearnsets[formSpecies][sLearningMoveTableID] & LEVEL_UP_MOVE_ID);
+            gMoveToLearn = (gLevelUpLearnsets[species][sLearningMoveTableID] & LEVEL_UP_MOVE_ID);
             sLearningMoveTableID++;
             return GiveMoveToMon(mon, gMoveToLearn);
         }
@@ -2895,10 +2911,9 @@ u16 MonTryLearningNewMove(struct Pokemon *mon, bool8 firstMove)
 
 u16 MonTryLearningNewMoveEvolution(struct Pokemon *mon, bool8 firstMove)
 {
-    u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
+    u16 species = GetFormSpecies(GetMonData(mon, MON_DATA_SPECIES, NULL),
+                                GetMonData(mon, MON_DATA_FORM, NULL));
     u8 level = GetMonData(mon, MON_DATA_LEVEL, NULL);
-    u8 form = GetMonData(mon, MON_DATA_FORM, NULL);
-    u16 formSpecies = GetFormSpecies(species, form);
 
     // since you can learn more than one move per level
     // the game needs to know whether you decided to
@@ -2908,13 +2923,13 @@ u16 MonTryLearningNewMoveEvolution(struct Pokemon *mon, bool8 firstMove)
     {
         sLearningMoveTableID = 0;
     }
-    while (gLevelUpLearnsets[formSpecies][sLearningMoveTableID] != LEVEL_UP_END)
+    while (gLevelUpLearnsets[species][sLearningMoveTableID] != LEVEL_UP_END)
     {
         u16 moveLevel;
-        moveLevel = (gLevelUpLearnsets[formSpecies][sLearningMoveTableID] & LEVEL_UP_MOVE_LV);
+        moveLevel = (gLevelUpLearnsets[species][sLearningMoveTableID] & LEVEL_UP_MOVE_LV);
         while (moveLevel == 0 || moveLevel == (level << 9))
         {
-            gMoveToLearn = (gLevelUpLearnsets[formSpecies][sLearningMoveTableID] & LEVEL_UP_MOVE_ID);
+            gMoveToLearn = (gLevelUpLearnsets[species][sLearningMoveTableID] & LEVEL_UP_MOVE_ID);
             sLearningMoveTableID++;
             return GiveMoveToMon(mon, gMoveToLearn);
         }
@@ -3313,12 +3328,11 @@ u8 GetMonGender(struct Pokemon *mon)
 
 u8 GetBoxMonGender(struct BoxPokemon *boxMon)
 {
-    u16 species = GetBoxMonData(boxMon, MON_DATA_SPECIES, NULL);
+    u16 species = GetFormSpecies(GetBoxMonData(boxMon, MON_DATA_SPECIES, NULL),
+                                GetBoxMonData(boxMon, MON_DATA_FORM, NULL));
     u32 personality = GetBoxMonData(boxMon, MON_DATA_PERSONALITY, NULL);
-    u8 form = GetMonData(boxMon, MON_DATA_FORM, NULL);
-    u16 formSpecies = GetFormSpecies(species, form);
 
-    return GetGenderFromSpeciesAndPersonality(formSpecies, personality);
+    return GetGenderFromSpeciesAndPersonality(species, personality);
 }
 
 u8 GetGenderFromSpeciesAndPersonality(u16 formSpecies, u32 personality)
@@ -4321,8 +4335,8 @@ u8 GetMonsStateToDoubles(void)
     for (i = 0; i < gPlayerPartyCount; i++)
     {
         if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES2, NULL) != SPECIES_EGG
-         && GetMonData(&gPlayerParty[i], MON_DATA_HP, NULL) != 0
-         && GetMonData(&gPlayerParty[i], MON_DATA_SPECIES2, NULL) != SPECIES_NONE)
+         && GetMonData(&gPlayerParty[i], MON_DATA_HP, NULL)
+         && GetMonData(&gPlayerParty[i], MON_DATA_SPECIES2, NULL))
             aliveCount++;
     }
 
@@ -4337,8 +4351,8 @@ u8 GetMonsStateToDoubles_2(void)
     for (i = 0; i < PARTY_SIZE; i++)
     {
         u32 species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES2, NULL);
-        if (species != SPECIES_EGG && species != SPECIES_NONE
-         && GetMonData(&gPlayerParty[i], MON_DATA_HP, NULL) != 0)
+        if (species != SPECIES_EGG && species
+         && GetMonData(&gPlayerParty[i], MON_DATA_HP, NULL))
             aliveCount++;
     }
 
@@ -4420,7 +4434,7 @@ bool8 IsPlayerPartyAndPokemonStorageFull(void)
     s32 i;
 
     for (i = 0; i < PARTY_SIZE; i++)
-        if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES, NULL) == SPECIES_NONE)
+        if (!GetMonData(&gPlayerParty[i], MON_DATA_SPECIES, NULL))
             return FALSE;
 
     return IsPokemonStorageFull();
@@ -4432,7 +4446,7 @@ bool8 IsPokemonStorageFull(void)
 
     for (i = 0; i < TOTAL_BOXES_COUNT; i++)
         for (j = 0; j < IN_BOX_COUNT; j++)
-            if (GetBoxMonDataAt(i, j, MON_DATA_SPECIES) == SPECIES_NONE)
+            if (!GetBoxMonDataAt(i, j, MON_DATA_SPECIES))
                 return FALSE;
 
     return TRUE;
@@ -4445,7 +4459,7 @@ void GetSpeciesName(u8 *name, u16 species)
     for (i = 0; i <= POKEMON_NAME_LENGTH; i++)
     {
         if (species > NUM_SPECIES)
-            name[i] = gSpeciesNames[0][i];
+            name[i] = gSpeciesNames[SPECIES_NONE][i];
         else
             name[i] = gSpeciesNames[species][i];
 
@@ -4479,10 +4493,9 @@ void CopyPlayerPartyMonToBattleData(u8 battlerId, u8 partyIndex)
     u16* hpSwitchout;
     s32 i;
     u8 nickname[POKEMON_NAME_LENGTH * 2];
-    u16 formSpecies;
 
-    gBattleMons[battlerId].species = GetMonData(&gPlayerParty[partyIndex], MON_DATA_SPECIES, NULL);
-    gBattleMons[battlerId].form = GetMonData(&gPlayerParty[partyIndex], MON_DATA_FORM, NULL);
+    gBattleMons[battlerId].species = GetFormSpecies(GetMonData(&gPlayerParty[partyIndex], MON_DATA_SPECIES, NULL), 
+                                                    GetMonData(&gPlayerParty[partyIndex], MON_DATA_FORM, NULL));
     gBattleMons[battlerId].item = GetMonData(&gPlayerParty[partyIndex], MON_DATA_HELD_ITEM, NULL);
 
     for (i = 0; i < MAX_MON_MOVES; i++)
@@ -4513,9 +4526,8 @@ void CopyPlayerPartyMonToBattleData(u8 battlerId, u8 partyIndex)
     gBattleMons[battlerId].isEgg = GetMonData(&gPlayerParty[partyIndex], MON_DATA_IS_EGG, NULL);
     gBattleMons[battlerId].abilityNum = GetMonData(&gPlayerParty[partyIndex], MON_DATA_ABILITY_NUM, NULL);
     gBattleMons[battlerId].otId = GetMonData(&gPlayerParty[partyIndex], MON_DATA_OT_ID, NULL);
-    formSpecies = GetFormSpecies(gBattleMons[battlerId].species, gBattleMons[battlerId].form);
-    gBattleMons[battlerId].type1 = gBaseStats[formSpecies].type1;
-    gBattleMons[battlerId].type2 = gBaseStats[formSpecies].type2;
+    gBattleMons[battlerId].type1 = gBaseStats[gBattleMons[battlerId].species].type1;
+    gBattleMons[battlerId].type2 = gBaseStats[gBattleMons[battlerId].species].type2;
     gBattleMons[battlerId].ability = GetAbilityBySpecies(gBattleMons[battlerId].species, gBattleMons[battlerId].abilityNum, gBattleMons[battlerId].form);
     GetMonData(&gPlayerParty[partyIndex], MON_DATA_NICKNAME, nickname);
     StringCopy10(gBattleMons[battlerId].nickname, nickname);
@@ -4820,7 +4832,7 @@ bool8 PokemonUseItemEffects(struct Pokemon *mon, u16 item, u8 partyIndex, u8 mov
                         }
                         else // Decreasing EV (HP or Atk)
                         {
-                            if (dataSigned == 0)
+                            if (!dataSigned)
                             {
                                 // No EVs to lose, but make sure friendship updates anyway
                                 friendshipOnly = TRUE;
@@ -4867,7 +4879,7 @@ bool8 PokemonUseItemEffects(struct Pokemon *mon, u16 item, u8 partyIndex, u8 mov
                         }
                         else
                         {
-                            if (GetMonData(mon, MON_DATA_HP, NULL) == 0)
+                            if (!GetMonData(mon, MON_DATA_HP, NULL))
                             {
                                 itemEffectParam++;
                                 break;
@@ -4883,7 +4895,7 @@ bool8 PokemonUseItemEffects(struct Pokemon *mon, u16 item, u8 partyIndex, u8 mov
                             break;
                         case ITEM6_HEAL_HP_HALF:
                             dataUnsigned = GetMonData(mon, MON_DATA_MAX_HP, NULL) / 2;
-                            if (dataUnsigned == 0)
+                            if (!dataUnsigned)
                                 dataUnsigned = 1;
                             break;
                         case ITEM6_HEAL_HP_LVL_UP:
@@ -4940,10 +4952,10 @@ bool8 PokemonUseItemEffects(struct Pokemon *mon, u16 item, u8 partyIndex, u8 mov
                                 if (dataUnsigned != CalculatePPWithBonus(moveId, GetMonData(mon, MON_DATA_PP_BONUSES, NULL), temp2))
                                 {
                                     dataUnsigned += itemEffect[itemEffectParam];
-                                    moveId = GetMonData(mon, MON_DATA_MOVE1 + temp2, NULL); // Redundant
+                                    //moveId = GetMonData(mon, MON_DATA_MOVE1 + temp2, NULL); // Redundant
                                     if (dataUnsigned > CalculatePPWithBonus(moveId, GetMonData(mon, MON_DATA_PP_BONUSES, NULL), temp2))
                                     {
-                                        moveId = GetMonData(mon, MON_DATA_MOVE1 + temp2, NULL); // Redundant
+                                        //moveId = GetMonData(mon, MON_DATA_MOVE1 + temp2, NULL); // Redundant
                                         dataUnsigned = CalculatePPWithBonus(moveId, GetMonData(mon, MON_DATA_PP_BONUSES, NULL), temp2);
                                     }
                                     SetMonData(mon, MON_DATA_PP1 + temp2, &dataUnsigned);
@@ -5050,7 +5062,7 @@ bool8 PokemonUseItemEffects(struct Pokemon *mon, u16 item, u8 partyIndex, u8 mov
                         }
                         else // Decreasing EV
                         {
-                            if (dataSigned == 0)
+                            if (!dataSigned)
                             {
                                 // No EVs to lose, but make sure friendship updates anyway
                                 friendshipOnly = TRUE;
@@ -5317,7 +5329,8 @@ u16 GetEvolutionTargetSpecies(struct Pokemon *mon, u8 mode, u16 evolutionItem, u
 {
     int i;
     u16 targetSpecies = 0;
-    u16 species = GetMonData(mon, MON_DATA_SPECIES, 0);
+    u16 species = GetFormSpecies(GetMonData(mon, MON_DATA_SPECIES, 0), 
+                                GetMonData(mon, MON_DATA_FORM, 0));
     u16 heldItem = GetMonData(mon, MON_DATA_HELD_ITEM, 0);
     u32 personality = GetMonData(mon, MON_DATA_PERSONALITY, 0);
     u8 level;
@@ -5325,8 +5338,6 @@ u16 GetEvolutionTargetSpecies(struct Pokemon *mon, u8 mode, u16 evolutionItem, u
     u8 beauty = GetMonData(mon, MON_DATA_BEAUTY, 0);
     u16 upperPersonality = personality >> 16;
     u8 holdEffect;
-    u8 form = GetMonData(mon, MON_DATA_FORM, 0);
-    u16 formSpecies = GetFormSpecies(species, form);
     *targetForm = 0;
 
     if (heldItem == ITEM_ENIGMA_BERRY)
@@ -5346,88 +5357,88 @@ u16 GetEvolutionTargetSpecies(struct Pokemon *mon, u8 mode, u16 evolutionItem, u
 
         for (i = 0; i < EVOS_PER_MON; i++)
         {
-            switch (gEvolutionTable[formSpecies][i].method)
+            switch (gEvolutionTable[species][i].method)
             {
             case EVO_FRIENDSHIP:
                 if (friendship >= 220)
                 {
-                    *targetForm = GetFormFromFormSpecies(gEvolutionTable[formSpecies][i].targetSpecies);
-                    targetSpecies = GetFormSpecies(gEvolutionTable[formSpecies][i].targetSpecies, 0);
+                    *targetForm = GetFormFromFormSpecies(gEvolutionTable[species][i].targetSpecies);
+                    targetSpecies = GetFormSpecies(gEvolutionTable[species][i].targetSpecies, 0);
                 }
                 break;
             case EVO_FRIENDSHIP_DAY:
                 RtcCalcLocalTime();
-                if (gLocalTime.hours >= 12 && gLocalTime.hours < 24 && friendship >= 220)
+                if (GetCurrentTimeOfDay() != TIME_NIGHT && friendship >= 220)
                 {
-                    *targetForm = GetFormFromFormSpecies(gEvolutionTable[formSpecies][i].targetSpecies);
-                    targetSpecies = GetFormSpecies(gEvolutionTable[formSpecies][i].targetSpecies, 0);
+                    *targetForm = GetFormFromFormSpecies(gEvolutionTable[species][i].targetSpecies);
+                    targetSpecies = GetFormSpecies(gEvolutionTable[species][i].targetSpecies, 0);
                 }
                 break;
             case EVO_FRIENDSHIP_NIGHT:
                 RtcCalcLocalTime();
-                if (gLocalTime.hours >= 0 && gLocalTime.hours < 12 && friendship >= 220)
+               if (GetCurrentTimeOfDay() == TIME_NIGHT && friendship >= 220)
                 {
-                    *targetForm = GetFormFromFormSpecies(gEvolutionTable[formSpecies][i].targetSpecies);
-                    targetSpecies = GetFormSpecies(gEvolutionTable[formSpecies][i].targetSpecies, 0);
+                    *targetForm = GetFormFromFormSpecies(gEvolutionTable[species][i].targetSpecies);
+                    targetSpecies = GetFormSpecies(gEvolutionTable[species][i].targetSpecies, 0);
                 }
                 break;
             case EVO_LEVEL:
-                if (gEvolutionTable[formSpecies][i].param <= level)
+                if (gEvolutionTable[species][i].param <= level)
                 {
-                    *targetForm = GetFormFromFormSpecies(gEvolutionTable[formSpecies][i].targetSpecies);
-                    targetSpecies = GetFormSpecies(gEvolutionTable[formSpecies][i].targetSpecies, 0);
+                    *targetForm = GetFormFromFormSpecies(gEvolutionTable[species][i].targetSpecies);
+                    targetSpecies = GetFormSpecies(gEvolutionTable[species][i].targetSpecies, 0);
                 }
                 break;
             case EVO_LEVEL_ATK_GT_DEF:
-                if (gEvolutionTable[formSpecies][i].param <= level)
+                if (gEvolutionTable[species][i].param <= level)
                     if (GetMonData(mon, MON_DATA_ATK, 0) > GetMonData(mon, MON_DATA_DEF, 0))
                     {
-                        *targetForm = GetFormFromFormSpecies(gEvolutionTable[formSpecies][i].targetSpecies);
-                        targetSpecies = GetFormSpecies(gEvolutionTable[formSpecies][i].targetSpecies, 0);
+                        *targetForm = GetFormFromFormSpecies(gEvolutionTable[species][i].targetSpecies);
+                        targetSpecies = GetFormSpecies(gEvolutionTable[species][i].targetSpecies, 0);
                     }
                 break;
             case EVO_LEVEL_ATK_EQ_DEF:
-                if (gEvolutionTable[formSpecies][i].param <= level)
+                if (gEvolutionTable[species][i].param <= level)
                     if (GetMonData(mon, MON_DATA_ATK, 0) == GetMonData(mon, MON_DATA_DEF, 0))
                     {
-                        *targetForm = GetFormFromFormSpecies(gEvolutionTable[formSpecies][i].targetSpecies);
-                        targetSpecies = GetFormSpecies(gEvolutionTable[formSpecies][i].targetSpecies, 0);
+                        *targetForm = GetFormFromFormSpecies(gEvolutionTable[species][i].targetSpecies);
+                        targetSpecies = GetFormSpecies(gEvolutionTable[species][i].targetSpecies, 0);
                     }
                 break;
             case EVO_LEVEL_ATK_LT_DEF:
-                if (gEvolutionTable[formSpecies][i].param <= level)
+                if (gEvolutionTable[species][i].param <= level)
                     if (GetMonData(mon, MON_DATA_ATK, 0) < GetMonData(mon, MON_DATA_DEF, 0))
                     {
-                        *targetForm = GetFormFromFormSpecies(gEvolutionTable[formSpecies][i].targetSpecies);
-                        targetSpecies = GetFormSpecies(gEvolutionTable[formSpecies][i].targetSpecies, 0);
+                        *targetForm = GetFormFromFormSpecies(gEvolutionTable[species][i].targetSpecies);
+                        targetSpecies = GetFormSpecies(gEvolutionTable[species][i].targetSpecies, 0);
                     }
                 break;
             case EVO_LEVEL_SILCOON:
-                if (gEvolutionTable[formSpecies][i].param <= level && (upperPersonality % 10) <= 4)
+                if (gEvolutionTable[species][i].param <= level && (upperPersonality % 10) <= 4)
                 {
-                    *targetForm = GetFormFromFormSpecies(gEvolutionTable[formSpecies][i].targetSpecies);
-                    targetSpecies = GetFormSpecies(gEvolutionTable[formSpecies][i].targetSpecies, 0);
+                    *targetForm = GetFormFromFormSpecies(gEvolutionTable[species][i].targetSpecies);
+                    targetSpecies = GetFormSpecies(gEvolutionTable[species][i].targetSpecies, 0);
                 }
                 break;
             case EVO_LEVEL_CASCOON:
-                if (gEvolutionTable[formSpecies][i].param <= level && (upperPersonality % 10) > 4)
+                if (gEvolutionTable[species][i].param <= level && (upperPersonality % 10) > 4)
                 {
-                    *targetForm = GetFormFromFormSpecies(gEvolutionTable[formSpecies][i].targetSpecies);
-                    targetSpecies = GetFormSpecies(gEvolutionTable[formSpecies][i].targetSpecies, 0);
+                    *targetForm = GetFormFromFormSpecies(gEvolutionTable[species][i].targetSpecies);
+                    targetSpecies = GetFormSpecies(gEvolutionTable[species][i].targetSpecies, 0);
                 }
                 break;
             case EVO_LEVEL_NINJASK:
-                if (gEvolutionTable[formSpecies][i].param <= level)
+                if (gEvolutionTable[species][i].param <= level)
                 {
-                    *targetForm = GetFormFromFormSpecies(gEvolutionTable[formSpecies][i].targetSpecies);
-                    targetSpecies = GetFormSpecies(gEvolutionTable[formSpecies][i].targetSpecies, 0);
+                    *targetForm = GetFormFromFormSpecies(gEvolutionTable[species][i].targetSpecies);
+                    targetSpecies = GetFormSpecies(gEvolutionTable[species][i].targetSpecies, 0);
                 }
                 break;
             case EVO_BEAUTY:
-                if (gEvolutionTable[formSpecies][i].param <= beauty)
+                if (gEvolutionTable[species][i].param <= beauty)
                 {
-                    *targetForm = GetFormFromFormSpecies(gEvolutionTable[formSpecies][i].targetSpecies);
-                    targetSpecies = GetFormSpecies(gEvolutionTable[formSpecies][i].targetSpecies, 0);
+                    *targetForm = GetFormFromFormSpecies(gEvolutionTable[species][i].targetSpecies);
+                    targetSpecies = GetFormSpecies(gEvolutionTable[species][i].targetSpecies, 0);
                 }
                 break;
             }
@@ -5436,19 +5447,19 @@ u16 GetEvolutionTargetSpecies(struct Pokemon *mon, u8 mode, u16 evolutionItem, u
     case EVO_MODE_TRADE:
         for (i = 0; i < EVOS_PER_MON; i++)
         {
-            switch (gEvolutionTable[formSpecies][i].method)
+            switch (gEvolutionTable[species][i].method)
             {
             case EVO_TRADE:
-                *targetForm = GetFormFromFormSpecies(gEvolutionTable[formSpecies][i].targetSpecies);
-                targetSpecies = GetFormSpecies(gEvolutionTable[formSpecies][i].targetSpecies, 0);
+                *targetForm = GetFormFromFormSpecies(gEvolutionTable[species][i].targetSpecies);
+                targetSpecies = GetFormSpecies(gEvolutionTable[species][i].targetSpecies, 0);
                 break;
             case EVO_TRADE_ITEM:
-                if (gEvolutionTable[formSpecies][i].param == heldItem)
+                if (gEvolutionTable[species][i].param == heldItem)
                 {
                     heldItem = 0;
                     SetMonData(mon, MON_DATA_HELD_ITEM, &heldItem);
-                    *targetForm = GetFormFromFormSpecies(gEvolutionTable[formSpecies][i].targetSpecies);
-                    targetSpecies = GetFormSpecies(gEvolutionTable[formSpecies][i].targetSpecies, 0);
+                    *targetForm = GetFormFromFormSpecies(gEvolutionTable[species][i].targetSpecies);
+                    targetSpecies = GetFormSpecies(gEvolutionTable[species][i].targetSpecies, 0);
                 }
                 break;
             }
@@ -5458,11 +5469,11 @@ u16 GetEvolutionTargetSpecies(struct Pokemon *mon, u8 mode, u16 evolutionItem, u
     case EVO_MODE_ITEM_CHECK:
         for (i = 0; i < EVOS_PER_MON; i++)
         {
-            if (gEvolutionTable[formSpecies][i].method == EVO_ITEM
-             && gEvolutionTable[formSpecies][i].param == evolutionItem)
+            if (gEvolutionTable[species][i].method == EVO_ITEM
+             && gEvolutionTable[species][i].param == evolutionItem)
             {
-                *targetForm = GetFormFromFormSpecies(gEvolutionTable[formSpecies][i].targetSpecies);
-                targetSpecies = GetFormSpecies(gEvolutionTable[formSpecies][i].targetSpecies, 0);
+                *targetForm = GetFormFromFormSpecies(gEvolutionTable[species][i].targetSpecies);
+                targetSpecies = GetFormSpecies(gEvolutionTable[species][i].targetSpecies, 0);
                 break;
             }
         }
@@ -5604,14 +5615,6 @@ u16 SpeciesToCryId(u16 species)
                                                                                 \
         personality >>= 8;                                                      \
     }                                                                           \
-}
-
-static void DrawSpindaSpotsUnused(u16 species, u32 personality, u8 *dest)
-{
-    if (species == SPECIES_SPINDA
-        && dest != gMonSpritesGfxPtr->sprites.ptr[0]
-        && dest != gMonSpritesGfxPtr->sprites.ptr[2])
-        DRAW_SPINDA_SPOTS;
 }
 
 void DrawSpindaSpots(u16 species, u32 personality, u8 *dest, bool8 isFrontPic)
@@ -5977,7 +5980,7 @@ void UpdatePartyPokerusTime(u16 days)
                 else
                     pokerus -= days;
 
-                if (pokerus == 0)
+                if (!pokerus)
                     pokerus = 0x10;
 
                 SetMonData(&gPlayerParty[i], MON_DATA_POKERUS, &pokerus);
@@ -6002,7 +6005,7 @@ void PartySpreadPokerus(struct Pokemon *party)
                     if (pokerus & 0xF)
                     {
                         // Spread to adjacent party members.
-                        if (i != 0 && !(GetMonData(&party[i - 1], MON_DATA_POKERUS, 0) & 0xF0))
+                        if (i && !(GetMonData(&party[i - 1], MON_DATA_POKERUS, 0) & 0xF0))
                             SetMonData(&party[i - 1], MON_DATA_POKERUS, &curPokerus);
                         if (i != (PARTY_SIZE - 1) && !(GetMonData(&party[i + 1], MON_DATA_POKERUS, 0) & 0xF0))
                         {
@@ -6018,17 +6021,16 @@ void PartySpreadPokerus(struct Pokemon *party)
 
 bool8 TryIncrementMonLevel(struct Pokemon *mon)
 {
-    u16 species = GetMonData(mon, MON_DATA_SPECIES, 0);
+    u16 species = GetFormSpecies(GetMonData(mon, MON_DATA_SPECIES, 0),
+                                GetMonData(mon, MON_DATA_FORM, 0));
     u8 nextLevel = GetMonData(mon, MON_DATA_LEVEL, 0) + 1;
     u32 expPoints = GetMonData(mon, MON_DATA_EXP, 0);
-    u8 form = GetMonData(mon, MON_DATA_FORM, 0);
-    u16 formSpecies = GetFormSpecies(species, form);
-    if (expPoints > gExperienceTables[gBaseStats[formSpecies].growthRate][MAX_LEVEL])
+    if (expPoints > gExperienceTables[gBaseStats[species].growthRate][MAX_LEVEL])
     {
-        expPoints = gExperienceTables[gBaseStats[formSpecies].growthRate][MAX_LEVEL];
+        expPoints = gExperienceTables[gBaseStats[species].growthRate][MAX_LEVEL];
         SetMonData(mon, MON_DATA_EXP, &expPoints);
     }
-    if (nextLevel > MAX_LEVEL || expPoints < gExperienceTables[gBaseStats[formSpecies].growthRate][nextLevel])
+    if (nextLevel > MAX_LEVEL || expPoints < gExperienceTables[gBaseStats[species].growthRate][nextLevel])
     {
         return FALSE;
     }
@@ -6041,10 +6043,9 @@ bool8 TryIncrementMonLevel(struct Pokemon *mon)
 
 u32 CanMonLearnTMHM(struct Pokemon *mon, u8 tm)
 {
-    u16 species = GetMonData(mon, MON_DATA_SPECIES2, 0);
-    u8 form = GetMonData(mon, MON_DATA_FORM, 0);
-    u16 formSpecies = GetFormSpecies(species, form);
-    return CanSpeciesLearnTMHM(formSpecies, tm);
+    u16 species = GetFormSpecies(GetMonData(mon, MON_DATA_SPECIES2, 0),
+                                GetMonData(mon, MON_DATA_FORM, 0));
+    return CanSpeciesLearnTMHM(species, tm);
 }
 
 u32 CanSpeciesLearnTMHM(u16 species, u8 tm)
@@ -6069,10 +6070,9 @@ u8 GetMoveRelearnerMoves(struct Pokemon *mon, u16 *moves)
 {
     u16 learnedMoves[MAX_MON_MOVES];
     u8 numMoves = 0;
-    u16 species = GetMonData(mon, MON_DATA_SPECIES, 0);
+    u16 species = GetFormSpecies(GetMonData(mon, MON_DATA_SPECIES, 0),
+                                GetMonData(mon, MON_DATA_FORM, 0));
     u8 level = GetMonData(mon, MON_DATA_LEVEL, 0);
-    u8 form = GetMonData(mon, MON_DATA_FORM, 0);
-    u16 formSpecies = GetFormSpecies(species, form);
     int i, j, k;
 
     for (i = 0; i < MAX_MON_MOVES; i++)
@@ -6082,23 +6082,23 @@ u8 GetMoveRelearnerMoves(struct Pokemon *mon, u16 *moves)
     {
         u16 moveLevel;
 
-        if (gLevelUpLearnsets[formSpecies][i] == LEVEL_UP_END)
+        if (gLevelUpLearnsets[species][i] == LEVEL_UP_END)
             break;
 
-        moveLevel = gLevelUpLearnsets[formSpecies][i] & LEVEL_UP_MOVE_LV;
+        moveLevel = gLevelUpLearnsets[species][i] & LEVEL_UP_MOVE_LV;
 
         if (moveLevel <= (level << 9))
         {
-            for (j = 0; j < MAX_MON_MOVES && learnedMoves[j] != (gLevelUpLearnsets[formSpecies][i] & LEVEL_UP_MOVE_ID); j++)
+            for (j = 0; j < MAX_MON_MOVES && learnedMoves[j] != (gLevelUpLearnsets[species][i] & LEVEL_UP_MOVE_ID); j++)
                 ;
 
             if (j == MAX_MON_MOVES)
             {
-                for (k = 0; k < numMoves && moves[k] != (gLevelUpLearnsets[formSpecies][i] & LEVEL_UP_MOVE_ID); k++)
+                for (k = 0; k < numMoves && moves[k] != (gLevelUpLearnsets[species][i] & LEVEL_UP_MOVE_ID); k++)
                     ;
 
                 if (k == numMoves)
-                    moves[numMoves++] = gLevelUpLearnsets[formSpecies][i] & LEVEL_UP_MOVE_ID;
+                    moves[numMoves++] = gLevelUpLearnsets[species][i] & LEVEL_UP_MOVE_ID;
             }
         }
     }
@@ -6123,9 +6123,8 @@ u8 GetNumberOfRelearnableMoves(struct Pokemon *mon)
     u16 learnedMoves[MAX_MON_MOVES];
     u16 moves[MAX_LEVEL_UP_MOVES];
     u8 numMoves = 0;
-    u16 species = GetMonData(mon, MON_DATA_SPECIES2, 0);
-    u8 form = GetMonData(mon, MON_DATA_FORM, 0);
-    u16 formSpecies = GetFormSpecies(species, form);
+    u16 species = GetFormSpecies(GetMonData(mon, MON_DATA_SPECIES2, 0),
+                                GetMonData(mon, MON_DATA_FORM, 0));
     u8 level = GetMonData(mon, MON_DATA_LEVEL, 0);
     int i, j, k;
 
@@ -6139,23 +6138,23 @@ u8 GetNumberOfRelearnableMoves(struct Pokemon *mon)
     {
         u16 moveLevel;
 
-        if (gLevelUpLearnsets[formSpecies][i] == LEVEL_UP_END)
+        if (gLevelUpLearnsets[species][i] == LEVEL_UP_END)
             break;
 
-        moveLevel = gLevelUpLearnsets[formSpecies][i] & LEVEL_UP_MOVE_LV;
+        moveLevel = gLevelUpLearnsets[species][i] & LEVEL_UP_MOVE_LV;
 
         if (moveLevel <= (level << 9))
         {
-            for (j = 0; j < MAX_MON_MOVES && learnedMoves[j] != (gLevelUpLearnsets[formSpecies][i] & LEVEL_UP_MOVE_ID); j++)
+            for (j = 0; j < MAX_MON_MOVES && learnedMoves[j] != (gLevelUpLearnsets[species][i] & LEVEL_UP_MOVE_ID); j++)
                 ;
 
             if (j == MAX_MON_MOVES)
             {
-                for (k = 0; k < numMoves && moves[k] != (gLevelUpLearnsets[formSpecies][i] & LEVEL_UP_MOVE_ID); k++)
+                for (k = 0; k < numMoves && moves[k] != (gLevelUpLearnsets[species][i] & LEVEL_UP_MOVE_ID); k++)
                     ;
 
                 if (k == numMoves)
-                    moves[numMoves++] = gLevelUpLearnsets[formSpecies][i] & LEVEL_UP_MOVE_ID;
+                    moves[numMoves++] = gLevelUpLearnsets[species][i] & LEVEL_UP_MOVE_ID;
             }
         }
     }
@@ -6304,12 +6303,11 @@ static void Task_PlayMapChosenOrBattleBGM(u8 taskId)
 
 const u16 *GetMonFrontSpritePal(struct Pokemon *mon)
 {
-    u16 species = GetMonData(mon, MON_DATA_SPECIES2, 0);
-    u8 form = GetMonData(mon, MON_DATA_FORM, 0);
-    u16 formSpecies = GetFormSpecies(species, form);
+    u16 species = GetFormSpecies(GetMonData(mon, MON_DATA_SPECIES2, 0),
+                                GetMonData(mon, MON_DATA_FORM, 0));
     u32 otId = GetMonData(mon, MON_DATA_OT_ID, 0);
     u32 personality = GetMonData(mon, MON_DATA_PERSONALITY, 0);
-    return GetMonSpritePalFromSpeciesAndPersonality(formSpecies, otId, personality);
+    return GetMonSpritePalFromSpeciesAndPersonality(species, otId, personality);
 }
 
 const u16 *GetMonSpritePalFromSpeciesAndPersonality(u16 formSpecies, u32 otId, u32 personality)
@@ -6317,7 +6315,7 @@ const u16 *GetMonSpritePalFromSpeciesAndPersonality(u16 formSpecies, u32 otId, u
     u32 shinyValue;
 
     if (formSpecies > NUM_SPECIES)
-        return gMonPaletteTable[0].data;
+        return gMonPaletteTable[SPECIES_NONE].data;
 
     shinyValue = HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality);
     if (shinyValue < SHINY_ODDS)
@@ -6328,12 +6326,11 @@ const u16 *GetMonSpritePalFromSpeciesAndPersonality(u16 formSpecies, u32 otId, u
 
 const struct SpritePalette *GetMonSpritePalStruct(struct Pokemon *mon)
 {
-    u16 species = GetMonData(mon, MON_DATA_SPECIES2, 0);
-    u8 form = GetMonData(mon, MON_DATA_FORM, 0);
-    u16 formSpecies = GetFormSpecies(species, form);
+    u16 species = GetFormSpecies(GetMonData(mon, MON_DATA_SPECIES2, 0),
+                                GetMonData(mon, MON_DATA_FORM, 0));
     u32 otId = GetMonData(mon, MON_DATA_OT_ID, 0);
     u32 personality = GetMonData(mon, MON_DATA_PERSONALITY, 0);
-    return GetMonSpritePalStructFromOtIdPersonality(formSpecies, otId, personality);
+    return GetMonSpritePalStructFromOtIdPersonality(species, otId, personality);
 }
 
 const struct SpritePalette *GetMonSpritePalStructFromOtIdPersonality(u16 formSpecies, u32 otId , u32 personality)
@@ -6454,54 +6451,51 @@ static s32 GetWildMonTableIdInAlteringCave(u16 species)
 
 void SetWildMonHeldItem(void)
 {
-    u16 rnd, var1, var2, count, i;
+    u16 count, i;
 
     if (!(gBattleTypeFlags & (BATTLE_TYPE_TRAINER | BATTLE_TYPE_PYRAMID | BATTLE_TYPE_PIKE)))
     {
-        rnd = Random() % 100;
-        var1 = 45;
-        var2 = 95;
-        if (!GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG, 0)
-            && GetMonAbility(&gPlayerParty[0]) == ABILITY_COMPOUND_EYES)
-        {
-            var1 = 20;
-            var2 = 80;
-        }
         count = (WILD_DOUBLE_BATTLE) ? 2 : 1;
         for (i = 0; i < count; i++)
         {
-            u16 species = GetMonData(&gEnemyParty[i], MON_DATA_SPECIES, 0);
-            u8 form = GetMonData(&gEnemyParty[i], MON_DATA_FORM, 0);
-            u16 formSpecies = GetFormSpecies(species, form);
+            u16 rnd = Random() % 100;
+            u16 species = GetFormSpecies(GetMonData(&gEnemyParty[i], MON_DATA_SPECIES, 0),
+                                        GetMonData(&gEnemyParty[i], MON_DATA_FORM, 0));
+            u16 var1 = 45;
+            u16 var2 = 95;
+            if (!GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG, 0)
+             && GetMonAbility(&gPlayerParty[0]) == ABILITY_COMPOUND_EYES)
+            {
+                var1 = 20;
+                var2 = 80;
+            }
             if (gMapHeader.mapLayoutId == LAYOUT_ALTERING_CAVE)
             {
-                s32 alteringCaveId = GetWildMonTableIdInAlteringCave(formSpecies);
-                if (alteringCaveId != 0)
+                s32 alteringCaveId = GetWildMonTableIdInAlteringCave(species);
+                if (alteringCaveId)
                 {
                     if (rnd < var2)
                         return;
-
                     SetMonData(&gEnemyParty[i], MON_DATA_HELD_ITEM, &sAlteringCaveWildMonHeldItems[alteringCaveId].item);
                 }
             }
-            else if (gBaseStats[formSpecies].item1 == gBaseStats[formSpecies].item2 && gBaseStats[formSpecies].item1 != 0)
+            else if (gBaseStats[species].item1 == gBaseStats[species].item2 && gBaseStats[species].item1)
             {
-                SetMonData(&gEnemyParty[i], MON_DATA_HELD_ITEM, &gBaseStats[formSpecies].item1);
+                SetMonData(&gEnemyParty[i], MON_DATA_HELD_ITEM, &gBaseStats[species].item1);
             }
-
             if (rnd < var1)
                 return;
             if (rnd < var2)
-                SetMonData(&gEnemyParty[i], MON_DATA_HELD_ITEM, &gBaseStats[formSpecies].item1);
+                SetMonData(&gEnemyParty[i], MON_DATA_HELD_ITEM, &gBaseStats[species].item1);
             else
-                SetMonData(&gEnemyParty[i], MON_DATA_HELD_ITEM, &gBaseStats[formSpecies].item2);
+                SetMonData(&gEnemyParty[i], MON_DATA_HELD_ITEM, &gBaseStats[species].item2);
         }
     }
 }
 
 u16 GetFormSpecies(u16 species, u8 form)
 {
-    if (gFormSpeciesTables[species] != NULL)
+    if (gFormSpeciesTables[species])
         return gFormSpeciesTables[species][form];
     else
         return species;
@@ -6511,7 +6505,7 @@ u8 GetFormFromFormSpecies(u16 formSpecies)
 {
     u8 targetForm = 0;
 
-    if (gFormSpeciesTables[formSpecies] != NULL)
+    if (gFormSpeciesTables[formSpecies])
     {
         for (targetForm = 0; targetForm < ARRAY_COUNT(gFormSpeciesTables[formSpecies]); targetForm++) 
         {
@@ -6635,7 +6629,7 @@ void DoMonFrontSpriteAnimation(struct Sprite* sprite, u16 species, bool8 noCry, 
             if (HasTwoFramesAnimation(species))
                 StartSpriteAnim(sprite, 1);
         }
-        if (sMonAnimationDelayTable[species - 1] != 0)
+        if (sMonAnimationDelayTable[species - 1])
         {
             u8 taskId = CreateTask(Task_AnimateAfterDelay, 0);
             STORE_PTR_IN_TASK(sprite, taskId, 0);
@@ -6654,7 +6648,7 @@ void PokemonSummaryDoMonAnimation(struct Sprite* sprite, u16 species, bool8 oneF
 {
     if (!oneFrame && HasTwoFramesAnimation(species))
         StartSpriteAnim(sprite, 1);
-    if (sMonAnimationDelayTable[species - 1] != 0)
+    if (sMonAnimationDelayTable[species - 1])
     {
         u8 taskId = CreateTask(Task_PokemonSummaryAnimateAfterDelay, 0);
         STORE_PTR_IN_TASK(sprite, taskId, 0);
@@ -6698,11 +6692,11 @@ u8 sub_806EF08(u8 arg0)
     {
     case 0:
     case 2:
-        var = (arg0 != 0) ? 1 : 3;
+        var = (arg0) ? 1 : 3;
         break;
     case 1:
     case 3:
-        var = (arg0 != 0) ? 2 : 0;
+        var = (arg0) ? 2 : 0;
         break;
     }
     for (i = 0; i < MAX_LINK_PLAYERS; i++)
@@ -6721,11 +6715,11 @@ u8 sub_806EF84(u8 arg0, u8 arg1)
     {
     case 0:
     case 2:
-        var = (arg0 != 0) ? 1 : 3;
+        var = (arg0) ? 1 : 3;
         break;
     case 1:
     case 3:
-        var = (arg0 != 0) ? 2 : 0;
+        var = (arg0) ? 2 : 0;
         break;
     }
     for (i = 0; i < MAX_LINK_PLAYERS; i++)
@@ -6783,9 +6777,8 @@ bool8 HasTwoFramesAnimation(u16 species)
 
 static bool8 ShouldSkipFriendshipChange(void)
 {
-    if (gMain.inBattle && gBattleTypeFlags & (BATTLE_TYPE_FRONTIER))
-        return TRUE;
-    if (!gMain.inBattle && (InBattlePike() || InBattlePyramid()))
+    if ((gMain.inBattle && gBattleTypeFlags & (BATTLE_TYPE_FRONTIER))
+    || (!gMain.inBattle && (InBattlePike() || InBattlePyramid())))
         return TRUE;
     return FALSE;
 }
@@ -6886,16 +6879,16 @@ struct Unknown_806F160_Struct *sub_806F2AC(u8 id, u8 arg1)
 
     if (flags & 2)
     {
-        if (structPtr->frameImages != NULL)
+        if (structPtr->frameImages)
             FREE_AND_SET_NULL(structPtr->frameImages);
-        if (structPtr->templates != NULL)
+        if (structPtr->templates)
             FREE_AND_SET_NULL(structPtr->templates);
     }
     if (flags & 1)
     {
-        if (structPtr->byteArrays != NULL)
+        if (structPtr->byteArrays)
             FREE_AND_SET_NULL(structPtr->byteArrays);
-        if (structPtr->bytes != NULL)
+        if (structPtr->bytes)
             FREE_AND_SET_NULL(structPtr->bytes);
     }
 
@@ -6919,7 +6912,7 @@ void sub_806F47C(u8 id)
 
     id %= 2;
     structPtr = gUnknown_020249B4[id];
-    if (structPtr == NULL)
+    if (!structPtr)
         return;
 
     if (structPtr->magic != 0xA3)
@@ -6929,13 +6922,13 @@ void sub_806F47C(u8 id)
     else
     {
 
-        if (structPtr->frameImages != NULL)
+        if (structPtr->frameImages)
             FREE_AND_SET_NULL(structPtr->frameImages);
-        if (structPtr->templates != NULL)
+        if (structPtr->templates)
             FREE_AND_SET_NULL(structPtr->templates);
-        if (structPtr->byteArrays != NULL)
+        if (structPtr->byteArrays)
             FREE_AND_SET_NULL(structPtr->byteArrays);
-        if (structPtr->bytes != NULL)
+        if (structPtr->bytes)
             FREE_AND_SET_NULL(structPtr->bytes);
 
         memset(structPtr, 0, sizeof(struct Unknown_806F160_Struct));

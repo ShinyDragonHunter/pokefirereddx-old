@@ -1008,6 +1008,7 @@ static void SpriteCB_Ball_Arc(struct Sprite *sprite)
             sprite->callback = SpriteCB_Ball_MonShrink;
 
             ballId = ItemIdToBallId(ItemId_GetSecondaryId(gLastUsedItem));
+
             AnimateBallOpenParticles(sprite->pos1.x, sprite->pos1.y - 5, 1, 28, ballId);
             LaunchBallFadeMonTask(FALSE, gBattleAnimTarget, 14, ballId);
         }
@@ -1627,6 +1628,7 @@ static void SpriteCB_Ball_Release_Step(struct Sprite *sprite)
     sprite->callback = SpriteCB_Ball_Release_Wait;
 
     ballId = ItemIdToBallId(ItemId_GetSecondaryId(gLastUsedItem));
+
     AnimateBallOpenParticles(sprite->pos1.x, sprite->pos1.y - 5, 1, 28, ballId);
     LaunchBallFadeMonTask(TRUE, gBattleAnimTarget, 14, ballId);
 
@@ -2349,7 +2351,7 @@ static void DestroyBallOpenAnimationParticle(struct Sprite *sprite)
         {
             for (i = 0; i < POKEBALL_COUNT; i++)
             {
-                if (FuncIsActiveTask(sBallParticleAnimationFuncs[i]) == TRUE)
+                if (FuncIsActiveTask(sBallParticleAnimationFuncs[i]))
                     break;
             }
 

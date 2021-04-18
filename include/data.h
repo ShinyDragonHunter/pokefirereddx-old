@@ -80,6 +80,8 @@ extern const struct SpriteFrameImage gTrainerBackPicTable_Red[];
 extern const struct SpriteFrameImage gTrainerBackPicTable_Leaf[];
 extern const struct SpriteFrameImage gTrainerBackPicTable_PokeDude[];
 extern const struct SpriteFrameImage gTrainerBackPicTable_OldMan[];
+extern const struct SpriteFrameImage gTrainerBackPicTable_Gold[];
+extern const struct SpriteFrameImage gTrainerBackPicTable_Kris[];
 extern const struct SpriteFrameImage gTrainerBackPicTable_EBrendan[];
 extern const struct SpriteFrameImage gTrainerBackPicTable_EMay[];
 extern const struct SpriteFrameImage gTrainerBackPicTable_RSBrendan[];

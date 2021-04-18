@@ -194,7 +194,6 @@ extern const u8 gText_TellHimTheWords[];
 static const u8 sPCIconOff_Gfx[] = INCBIN_U8("graphics/naming_screen/pc_icon/off.4bpp");
 static const u8 sPCIconOn_Gfx[] = INCBIN_U8("graphics/naming_screen/pc_icon/on.4bpp");
 static const u16 sKeyboard_Pal[] = INCBIN_U16("graphics/naming_screen/keyboard.gbapal");
-static const u16 sUnused_Pal[] = INCBIN_U16("graphics/naming_screen/unused.gbapal");
 
 static const u8 *const sTransferredToPCMessages[] =
 {
@@ -734,7 +733,7 @@ static void DisplaySentToPCMessage(void)
     StringExpandPlaceholders(gStringVar4, sTransferredToPCMessages[stringToDisplay]);
     DrawDialogueFrame(0, 0);
     gTextFlags.canABSpeedUpPrint = TRUE;
-    AddTextPrinterParameterized2(0, 1, gStringVar4, GetPlayerTextSpeedDelay(), 0, 2, 1, 3);
+    AddTextPrinterParameterized2(0, 2, gStringVar4, GetPlayerTextSpeedDelay(), 0, 2, 1, 3);
     CopyWindowToVram(0, 3);
 }
 
@@ -1033,9 +1032,9 @@ static void SpriteCB_Cursor(struct Sprite *sprite)
         sprite->invisible = TRUE;
 
     if (sprite->invisible 
-       || !(sprite->sFlashing)
-       || sprite->sX != sprite->sPrevX 
-       || sprite->sY != sprite->sPrevY)
+     || !(sprite->sFlashing)
+     || sprite->sX != sprite->sPrevX 
+     || sprite->sY != sprite->sPrevY)
     {
         sprite->sColor = 0;
         sprite->sColorIncr = 2;
@@ -1708,7 +1707,7 @@ static void HandleDpadMovement(struct Task *task)
 static void DrawNormalTextEntryBox(void)
 {
     FillWindowPixelBuffer(sNamingScreen->windows[WIN_TEXT_ENTRY_BOX], PIXEL_FILL(1));
-    AddTextPrinterParameterized(sNamingScreen->windows[WIN_TEXT_ENTRY_BOX], 1, sNamingScreen->template->title, 8, 1, 0, 0);
+    AddTextPrinterParameterized(sNamingScreen->windows[WIN_TEXT_ENTRY_BOX], 2, sNamingScreen->template->title, 8, 1, 0, 0);
     PutWindowTilemap(sNamingScreen->windows[WIN_TEXT_ENTRY_BOX]);
 }
 
@@ -1719,7 +1718,7 @@ static void DrawMonTextEntryBox(void)
     StringCopy(buffer, gSpeciesNames[sNamingScreen->monSpecies]);
     StringAppendN(buffer, sNamingScreen->template->title, 15);
     FillWindowPixelBuffer(sNamingScreen->windows[WIN_TEXT_ENTRY_BOX], PIXEL_FILL(1));
-    AddTextPrinterParameterized(sNamingScreen->windows[WIN_TEXT_ENTRY_BOX], 1, buffer, 8, 1, 0, 0);
+    AddTextPrinterParameterized(sNamingScreen->windows[WIN_TEXT_ENTRY_BOX], 2, buffer, 8, 1, 0, 0);
     PutWindowTilemap(sNamingScreen->windows[WIN_TEXT_ENTRY_BOX]);
 }
 
@@ -1775,7 +1774,7 @@ static void DrawGenderIcon(void)
             StringCopy(text, gText_FemaleSymbol);
             isFemale = TRUE;
         }
-        AddTextPrinterParameterized3(sNamingScreen->windows[WIN_TEXT_ENTRY], 1, 0x68, 1, sGenderColors[isFemale], -1, text);
+        AddTextPrinterParameterized3(sNamingScreen->windows[WIN_TEXT_ENTRY], 2, 0x68, 1, sGenderColors[isFemale], -1, text);
     }
 }
 

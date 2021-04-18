@@ -1188,8 +1188,6 @@ void Task_BagMenu_HandleInput(u8 taskId)
         ListMenuGetScrollAndRow(data[0], scrollPos, cursorPos);
         switch (listPosition)
         {
-            case LIST_NOTHING_CHOSEN:
-                break;
             case LIST_CANCEL:
                 if (gBagPositionStruct.location == ITEMMENULOCATION_BERRY_BLENDER_CRUSH)
                 {
@@ -1199,6 +1197,7 @@ void Task_BagMenu_HandleInput(u8 taskId)
                 PlaySE(SE_SELECT);
                 gSpecialVar_ItemId = ITEM_NONE;
                 gTasks[taskId].func = Task_FadeAndCloseBagMenu;
+            case LIST_NOTHING_CHOSEN:
                 break;
             default: // A_BUTTON
                 PlaySE(SE_SELECT);
@@ -1403,14 +1402,13 @@ static void Task_HandleSwappingItemsInput(u8 taskId)
             sub_80D4FEC(gBagPositionStruct.cursorPosition[gBagPositionStruct.pocket]);
             switch (input)
             {
-                case LIST_NOTHING_CHOSEN:
-                    break;
                 case LIST_CANCEL:
                     PlaySE(SE_SELECT);
                     if (JOY_NEW(A_BUTTON))
                         sub_81AC498(taskId);
                     else
                         sub_81AC590(taskId);
+                case LIST_NOTHING_CHOSEN:
                     break;
                 default:
                     PlaySE(SE_SELECT);

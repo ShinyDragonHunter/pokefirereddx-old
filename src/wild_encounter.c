@@ -355,15 +355,14 @@ static void CreateWildMon(u16 species, u8 level, u8 form)
     }
 
     if (checkCuteCharm
-        && !GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG)
-        && GetMonAbility(&gPlayerParty[0]) == ABILITY_CUTE_CHARM
-        && Random() % 3 != 0)
+     && !GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG)
+     && GetMonAbility(&gPlayerParty[0]) == ABILITY_CUTE_CHARM
+     && Random() % 3)
     {
-        u16 leadingMonSpecies = GetMonData(&gPlayerParty[0], MON_DATA_SPECIES);
-        u8 leadingMonForm = GetMonData(&gPlayerParty[0], MON_DATA_FORM);
-        u16 leadingMonFormSpecies = GetFormSpecies(leadingMonSpecies, leadingMonForm);
+        u16 leadingMonSpecies = GetFormSpecies(GetMonData(&gPlayerParty[0], MON_DATA_SPECIES),
+                                            GetMonData(&gPlayerParty[0], MON_DATA_FORM));
         u32 leadingMonPersonality = GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY);
-        u8 gender = GetGenderFromSpeciesAndPersonality(leadingMonFormSpecies, leadingMonPersonality);
+        u8 gender = GetGenderFromSpeciesAndPersonality(leadingMonSpecies, leadingMonPersonality);
 
         // misses mon is genderless check, although no genderless mon can have cute charm as ability
         if (gender == MON_FEMALE)
@@ -479,16 +478,13 @@ static bool8 DoWildEncounterRateTest(u32 encounterRate, bool8 ignoreAbility)
 
         if (ability == ABILITY_STENCH && gMapHeader.mapLayoutId == LAYOUT_BATTLE_FRONTIER_BATTLE_PYRAMID_FLOOR)
             encounterRate = encounterRate * 3 / 4;
-        else if (ability == ABILITY_STENCH)
+        else if (ability == ABILITY_STENCH
+         || ability == ABILITY_WHITE_SMOKE
+         || (ability == ABILITY_SAND_VEIL && gSaveBlock1Ptr->weather == WEATHER_SANDSTORM))
             encounterRate /= 2;
-        else if (ability == ABILITY_ILLUMINATE)
+        else if (ability == ABILITY_ILLUMINATE
+         || ability == ABILITY_ARENA_TRAP)
             encounterRate *= 2;
-        else if (ability == ABILITY_WHITE_SMOKE)
-            encounterRate /= 2;
-        else if (ability == ABILITY_ARENA_TRAP)
-            encounterRate *= 2;
-        else if (ability == ABILITY_SAND_VEIL && gSaveBlock1Ptr->weather == WEATHER_SANDSTORM)
-            encounterRate /= 2;
     }
     if (encounterRate > 2880)
         encounterRate = 2880;
@@ -559,11 +555,9 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
     {
         if (MetatileBehavior_IsLandWildEncounter(currMetaTileBehavior))
         {
-            if (gWildMonHeaders[headerId].landMonsInfo == NULL)
-                return FALSE;
-            else if (previousMetaTileBehavior != currMetaTileBehavior && !DoGlobalWildEncounterDiceRoll())
-                return FALSE;
-            else if (DoWildEncounterRateTest(gWildMonHeaders[headerId].landMonsInfo->encounterRate, FALSE) != TRUE)
+            if (gWildMonHeaders[headerId].landMonsInfo == NULL
+             || (previousMetaTileBehavior != currMetaTileBehavior && !DoGlobalWildEncounterDiceRoll())
+             || DoWildEncounterRateTest(gWildMonHeaders[headerId].landMonsInfo->encounterRate, FALSE) != TRUE)
                 return FALSE;
 
             if (TryStartRoamerEncounter())
@@ -604,15 +598,12 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
             }
         }
         else if (MetatileBehavior_IsWaterWildEncounter(currMetaTileBehavior)
-                 || (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING) && MetatileBehavior_IsBridge(currMetaTileBehavior)))
+         || (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING) && MetatileBehavior_IsBridge(currMetaTileBehavior)))
         {
-            if (AreLegendariesInSootopolisPreventingEncounters())
-                return FALSE;
-            else if (gWildMonHeaders[headerId].waterMonsInfo == NULL)
-                return FALSE;
-            else if (previousMetaTileBehavior != currMetaTileBehavior && !DoGlobalWildEncounterDiceRoll())
-                return FALSE;
-            else if (DoWildEncounterRateTest(gWildMonHeaders[headerId].waterMonsInfo->encounterRate, FALSE) != TRUE)
+            if (AreLegendariesInSootopolisPreventingEncounters()
+             || gWildMonHeaders[headerId].waterMonsInfo == NULL
+             || (previousMetaTileBehavior != currMetaTileBehavior && !DoGlobalWildEncounterDiceRoll())
+             || DoWildEncounterRateTest(gWildMonHeaders[headerId].waterMonsInfo->encounterRate, FALSE) != TRUE)
                 return FALSE;
 
             if (TryStartRoamerEncounter())
@@ -642,7 +633,7 @@ bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavi
 
 bool8 TryDoDoubleWildBattle(void)
 {
-    if (GetSafariZoneFlag() 
+    if (GetSafariZoneFlag()
      || GetMonsStateToDoubles() != PLAYER_HAS_TWO_USABLE_MONS)
         return FALSE;
     else if ((Random() % 100) + 1 < B_DOUBLE_WILD_CHANCE)
@@ -929,11 +920,9 @@ static bool8 TryGetRandomWildMonIndexByType(const struct WildPokemon *wildMon, u
 
 static bool8 TryGetAbilityInfluencedWildMonIndex(const struct WildPokemon *wildMon, u8 type, u8 ability, u8 *monIndex)
 {
-    if (GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG))
-        return FALSE;
-    else if (GetMonAbility(&gPlayerParty[0]) != ability)
-        return FALSE;
-    else if (Random() % 2 != 0)
+    if (GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG)
+     || GetMonAbility(&gPlayerParty[0]) != ability
+     || Random() % 2)
         return FALSE;
 
     return TryGetRandomWildMonIndexByType(wildMon, type, LAND_WILD_COUNT, monIndex);

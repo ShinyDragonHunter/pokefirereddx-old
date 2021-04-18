@@ -2,6 +2,7 @@
 #include "sprite.h"
 #include "main.h"
 #include "palette.h"
+#include "day_night.h"
 
 #define MAX_SPRITE_COPY_REQUESTS 64
 
@@ -1611,6 +1612,27 @@ u8 LoadSpritePalette(const struct SpritePalette *palette)
     }
 }
 
+u8 LoadSpritePaletteDayNight(const struct SpritePalette *palette)
+{
+    u8 index = IndexOfSpritePaletteTag(palette->tag);
+
+    if (index != 0xFF)
+        return index;
+
+    index = IndexOfSpritePaletteTag(0xFFFF);
+
+    if (index == 0xFF)
+    {
+        return 0xFF;
+    }
+    else
+    {
+        sSpritePaletteTags[index] = palette->tag;
+        DoLoadSpritePalette(palette->data, index * 16);
+        return index;
+    }
+}
+
 void LoadSpritePalettes(const struct SpritePalette *palettes)
 {
     u8 i;
@@ -1620,6 +1642,11 @@ void LoadSpritePalettes(const struct SpritePalette *palettes)
 }
 
 void DoLoadSpritePalette(const u16 *src, u16 paletteOffset)
+{
+    LoadPalette(src, paletteOffset + 0x100, 32);
+}
+
+void DoLoadSpritePaletteDayNight(const u16 *src, u16 paletteOffset)
 {
     LoadPalette(src, paletteOffset + 0x100, 32);
 }

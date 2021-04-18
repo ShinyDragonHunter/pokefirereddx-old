@@ -1,6 +1,7 @@
 #include "global.h"
 #include "battle_pyramid.h"
 #include "bg.h"
+#include "day_night.h"
 #include "fieldmap.h"
 #include "fldeff.h"
 #include "fldeff_misc.h"
@@ -451,10 +452,10 @@ static bool32 SavedMapViewIsEmpty(void)
         marker |= gSaveBlock1Ptr->mapView[i];
 
 
-    if (!marker)
-        return TRUE;
-    else
+    if (marker)
         return FALSE;
+    else
+        return TRUE;
 }
 
 static void ClearSavedMapView(void)
@@ -477,7 +478,7 @@ static void LoadSavedMapView(void)
         y = gSaveBlock1Ptr->pos.y;
         for (i = y; i < y + 14; i++)
         {
-            if (i == y && i != 0)
+            if (i == y && i)
                 yMode = 0;
             else if (i == y + 13 && i != gMapHeader.mapLayout->height - 1)
                 yMode = 1;
@@ -677,7 +678,7 @@ static struct MapConnection *GetIncomingConnection(u8 direction, int x, int y)
     struct MapConnection *connection;
     const struct MapConnections *connections = gMapHeader.connections;
 
-    if (connections == NULL || connections->connections == NULL)
+    if (!connections || !connections->connections)
         return NULL;
 
     count = connections->count;
@@ -753,11 +754,7 @@ struct MapConnection *GetConnectionAtCoords(s16 x, s16 y)
     struct MapConnection *connection;
     int i;
     u8 direction;
-    if (!gMapHeader.connections)
-    {
-        return NULL;
-    }
-    else
+    if (gMapHeader.connections)
     {
         count = gMapHeader.connections->count;
         connection = gMapHeader.connections->connections;
@@ -777,6 +774,10 @@ struct MapConnection *GetConnectionAtCoords(s16 x, s16 y)
                 return connection;
             }
         }
+    }
+    else
+    {
+        return NULL;
     }
     return NULL;
 }
@@ -815,12 +816,12 @@ static bool8 SkipCopyingMetatileFromSavedMap(u16* mapMetatilePtr, u16 mapWidth, 
     if (yMode == 0xFF)
         return FALSE;
 
-    if (yMode == 0)
-        mapMetatilePtr -= mapWidth;
-    else
+    if (yMode)
         mapMetatilePtr += mapWidth;
+    else
+        mapMetatilePtr -= mapWidth;
 
-    if (IsLargeBreakableDecoration(*mapMetatilePtr & METATILE_ID_MASK, yMode) == TRUE)
+    if (IsLargeBreakableDecoration(*mapMetatilePtr & METATILE_ID_MASK, yMode))
         return TRUE;
     return FALSE;
 }
@@ -829,10 +830,10 @@ static void CopyTilesetToVram(struct Tileset const *tileset, u16 numTiles, u16 o
 {
     if (tileset)
     {
-        if (!tileset->isCompressed)
-            LoadBgTiles(2, tileset->tiles, numTiles * 32, offset);
-        else
+        if (tileset->isCompressed)
             DecompressAndCopyTileDataToVram(2, tileset->tiles, numTiles * 32, offset, 0);
+        else
+            LoadBgTiles(2, tileset->tiles, numTiles * 32, offset);
     }
 }
 
@@ -840,10 +841,10 @@ static void CopyTilesetToVramUsingHeap(struct Tileset const *tileset, u16 numTil
 {
     if (tileset)
     {
-        if (!tileset->isCompressed)
-            LoadBgTiles(2, tileset->tiles, numTiles * 32, offset);
-        else
+        if (tileset->isCompressed)
             DecompressAndLoadBgGfxUsingHeap(2, tileset->tiles, numTiles * 32, offset, 0);
+        else
+            LoadBgTiles(2, tileset->tiles, numTiles * 32, offset);
     }
 }
 
@@ -863,19 +864,22 @@ void LoadTilesetPalette(struct Tileset const *tileset, u16 destOffset, u16 size)
 
     if (tileset)
     {
-        if (tileset->isSecondary == FALSE)
+        if (!tileset->isSecondary)
         {
+            gPaletteOverrides[0] = tileset->paletteOverrides;
             LoadPalette(&black, destOffset, 2);
-            LoadPalette(((u16*)tileset->palettes) + 1, destOffset + 1, size - 2);
+            LoadPaletteDayNight(((u16*)tileset->palettes) + 1, destOffset + 1, size - 2);
             FieldmapPaletteDummy(destOffset + 1, (size - 2) >> 1);
         }
-        else if (tileset->isSecondary == TRUE)
+        else if (tileset->isSecondary)
         {
-            LoadPalette(((u16*)tileset->palettes) + (NUM_PALS_IN_PRIMARY * 16), destOffset, size);
+            gPaletteOverrides[1] = tileset->paletteOverrides;
+            LoadPaletteDayNight(((u16*)tileset->palettes) + (NUM_PALS_IN_PRIMARY * 16), destOffset, size);
             FieldmapPaletteDummy(destOffset, size >> 1);
         }
         else
         {
+            gPaletteOverrides[2] = tileset->paletteOverrides;
             LoadCompressedPalette((u32*)tileset->palettes, destOffset, size);
             FieldmapPaletteDummy(destOffset, size >> 1);
         }

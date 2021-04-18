@@ -128,22 +128,17 @@ struct
     {HOENN_TRAINER_CLASS_SCHOOL_KID, TRAINER_ENCOUNTER_MUSIC_MALE},
 };
 
-static const u16 sPrizeListRareCandy1[]  = {ITEM_RARE_CANDY,       ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
-static const u16 sPrizeListLuxuryBall1[] = {ITEM_LUXURY_BALL,      ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
-static const u16 sPrizeListMaxRevive1[]  = {ITEM_MAX_REVIVE,       ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
-static const u16 sPrizeListMaxEther1[]   = {ITEM_MAX_ETHER,        ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
-static const u16 sPrizeListElixir1[]     = {ITEM_ELIXIR,           ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
+static const u16 sPrizeListRareCandy[]  = {ITEM_RARE_CANDY,       ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
+static const u16 sPrizeListLuxuryBall[] = {ITEM_LUXURY_BALL,      ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
+static const u16 sPrizeListMaxRevive[]  = {ITEM_MAX_REVIVE,       ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
+static const u16 sPrizeListMaxEther[]   = {ITEM_MAX_ETHER,        ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
+static const u16 sPrizeListElixir[]     = {ITEM_ELIXIR,           ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
 static const u16 sPrizeListRoar[]        = {ITEM_TM05_ROAR,        ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
 static const u16 sPrizeListSludgeBomb[]  = {ITEM_TM36_SLUDGE_BOMB, ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
 static const u16 sPrizeListToxic[]       = {ITEM_TM06_TOXIC,       ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
 static const u16 sPrizeListSunnyDay[]    = {ITEM_TM11_SUNNY_DAY,   ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
 static const u16 sPrizeListEarthQuake[]  = {ITEM_TM26_EARTHQUAKE,  ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
 
-static const u16 sPrizeListRareCandy2[]  = {ITEM_RARE_CANDY,       ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
-static const u16 sPrizeListLuxuryBall2[] = {ITEM_LUXURY_BALL,      ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
-static const u16 sPrizeListMaxRevive2[]  = {ITEM_MAX_REVIVE,       ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
-static const u16 sPrizeListMaxEther2[]   = {ITEM_MAX_ETHER,        ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
-static const u16 sPrizeListElixir2[]     = {ITEM_ELIXIR,           ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
 static const u16 sPrizeListBrickBreak[]  = {ITEM_TM31_BRICK_BREAK, ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
 static const u16 sPrizeListTorment[]     = {ITEM_TM41_TORMENT,     ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
 static const u16 sPrizeListSkillSwap[]   = {ITEM_TM48_SKILL_SWAP,  ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
@@ -152,11 +147,11 @@ static const u16 sPrizeListAttract[]     = {ITEM_TM45_ATTRACT,     ITEM_ETHER, I
 
 static const u16 *const sPrizeLists1[NUM_TRAINER_HILL_PRIZE_LISTS] =
 {
-	sPrizeListRareCandy1,
-	sPrizeListLuxuryBall1,
-	sPrizeListMaxRevive1,
-	sPrizeListMaxEther1,
-	sPrizeListElixir1,
+	sPrizeListRareCandy,
+	sPrizeListLuxuryBall,
+	sPrizeListMaxRevive,
+	sPrizeListMaxEther,
+	sPrizeListElixir,
 	sPrizeListRoar,
 	sPrizeListSludgeBomb,
 	sPrizeListToxic,
@@ -166,11 +161,11 @@ static const u16 *const sPrizeLists1[NUM_TRAINER_HILL_PRIZE_LISTS] =
 
 static const u16 *const sPrizeLists2[NUM_TRAINER_HILL_PRIZE_LISTS] =
 {
-	sPrizeListRareCandy2,
-	sPrizeListLuxuryBall2,
-	sPrizeListMaxRevive2,
-	sPrizeListMaxEther2,
-	sPrizeListElixir2,
+	sPrizeListRareCandy,
+	sPrizeListLuxuryBall,
+	sPrizeListMaxRevive,
+	sPrizeListMaxEther,
+	sPrizeListElixir,
 	sPrizeListBrickBreak,
 	sPrizeListTorment,
 	sPrizeListSkillSwap,
@@ -538,9 +533,8 @@ static void GetInEReaderMode(void)
 
 bool8 InTrainerHillChallenge(void)
 {
-    if (VarGet(VAR_TRAINER_HILL_IS_ACTIVE) == 0)
-        return FALSE;
-    else if (gSaveBlock1Ptr->trainerHill.spokeToOwner)
+    if (VarGet(VAR_TRAINER_HILL_IS_ACTIVE) == 0
+     || gSaveBlock1Ptr->trainerHill.spokeToOwner)
         return FALSE;
     else if (GetCurrentTrainerHillMapId() != 0)
         return TRUE;
@@ -574,12 +568,12 @@ void PrintOnTrainerHillRecordsWindow(void)
     SetUpDataStruct();
     FillWindowPixelBuffer(0, PIXEL_FILL(0));
     x = GetStringCenterAlignXOffset(1, gText_TimeBoard, 0xD0);
-    AddTextPrinterParameterized3(0, 1, x, 2, sRecordWinColors, TEXT_SPEED_FF, gText_TimeBoard);
+    AddTextPrinterParameterized3(0, 2, x, 2, sRecordWinColors, TEXT_SPEED_FF, gText_TimeBoard);
 
     y = 18;
     for (i = 0; i < 4; i++)
     {
-        AddTextPrinterParameterized3(0, 1, 0, y, sRecordWinColors, TEXT_SPEED_FF, sTagMatchStrings[i]);
+        AddTextPrinterParameterized3(0, 2, 0, y, sRecordWinColors, TEXT_SPEED_FF, sTagMatchStrings[i]);
         y += 15;
         total = GetTimerValue(&gSaveBlock1Ptr->trainerHillTimes[i]);
         minutes = total / (60 * 60);
@@ -592,7 +586,7 @@ void PrintOnTrainerHillRecordsWindow(void)
         ConvertIntToDecimalStringN(gStringVar3, secondsFraction, STR_CONV_MODE_LEADING_ZEROS, 2);
         StringExpandPlaceholders(StringCopy(gStringVar4, gText_TimeCleared), gText_XMinYDotZSec);
         x = GetStringRightAlignXOffset(1, gStringVar4, 0xD0);
-        AddTextPrinterParameterized3(0, 1, x, y, sRecordWinColors, TEXT_SPEED_FF, gStringVar4);
+        AddTextPrinterParameterized3(0, 2, x, y, sRecordWinColors, TEXT_SPEED_FF, gStringVar4);
         y += 17;
     }
 
@@ -873,14 +867,6 @@ void FillHillTrainersParties(void)
     ZeroEnemyPartyMons();
     CreateNPCTrainerHillParty(gTrainerBattleOpponent_A, 0);
     CreateNPCTrainerHillParty(gTrainerBattleOpponent_B, 3);
-}
-
-// This function is unused, but my best guess is
-// it was supposed to return AI scripts for trainer
-// hill trainers.
-u32 GetTrainerHillAIFlags(void)
-{
-    return (AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY);
 }
 
 u8 GetTrainerEncounterMusicIdInTrainerHill(u16 trainerId)

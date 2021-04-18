@@ -416,12 +416,8 @@
 	.endm
 
 	@ Clone of warp that uses a teleport effect. It is apparently only used in R/S/E.
-	.macro warpteleport map:req, warp:req, X:req, Y:req
+	.macro warpteleport
 	.byte 0x3d
-	map \map
-	.byte \warp
-	.2byte \X
-	.2byte \Y
 	.endm
 
 	@ Sets the warp destination to be used later.
@@ -887,22 +883,14 @@
 	.byte 0x72
 	.endm
 
-	@ Nopped in Emerald, but still consumes parameters.
-	.macro erasebox left:req, top:req, right:req, bottom:req
+	@ Nopped in Emerald.
+	.macro erasebox
 	.byte 0x73
-	.byte \left
-	.byte \top
-	.byte \right
-	.byte \bottom
 	.endm
 
-	@ Nopped in Emerald, but still consumes parameters.
-	.macro drawboxtext left:req, top:req, multichoiceId:req, ignoreBPress:req
+	@ Nopped in Emerald.
+	.macro drawboxtext
 	.byte 0x74
-	.byte \left
-	.byte \top
-	.byte \multichoiceId
-	.byte \ignoreBPress
 	.endm
 
 	@ Displays a box containing the front sprite for the specified (species) Pokemon species.
@@ -943,7 +931,7 @@
 	.byte \textTop
 	.endm
 
-	@ Gives the player one of the specified (species) Pokemon at level level holding item. The trailing 0s are unused parameters
+	@ Gives the player one of the specified (species) Pokemon (with form) at level level holding item.
 	.macro givemon species:req, level:req, item:req, form=0
 	.byte 0x79
 	.2byte \species
@@ -1310,12 +1298,8 @@
 	.endm
 
 	@ In Emerald, this command consumes its parameters and does nothing. In FireRed, this command is a nop.
-	.macro addelevmenuitem a:req, b:req, c:req, d:req
+	.macro addelevmenuitem
 	.byte 0xb1
-	.byte \a
-	.2byte \b
-	.2byte \c
-	.2byte \d
 	.endm
 
 	@ In FireRed and Emerald, this command is a nop.

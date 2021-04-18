@@ -370,6 +370,12 @@ const u16 gTrainerPaletteFRLGPlayer[] = INCBIN_U16("graphics/trainers/palettes/r
 
 const u32 gTrainerFrontPicLeaf[] = INCBIN_U32("graphics/trainers/front_pics/leaf_front_pic.4bpp.lz");
 
+const u32 gTrainerFrontPicGold[] = INCBIN_U32("graphics/trainers/front_pics/gold_front_pic.4bpp.lz");
+const u16 gTrainerPaletteGold[] = INCBIN_U16("graphics/trainers/palettes/gold.gbapal");
+
+const u32 gTrainerFrontPicKris[] = INCBIN_U32("graphics/trainers/front_pics/kris_front_pic.4bpp.lz");
+const u16 gTrainerPaletteKris[] = INCBIN_U16("graphics/trainers/palettes/kris.gbapal");
+
 #if UK
 const u32 gTrainerFrontPicEBrendan[] = INCBIN_U32("graphics/trainers/front_pics/e_brendan_front_pic_uk.4bpp.lz");
 #else
@@ -394,6 +400,8 @@ const u8 gTrainerBackPicRed[] = INCBIN_U8("graphics/trainers/back_pics/red_back_
 const u8 gTrainerBackPicLeaf[] = INCBIN_U8("graphics/trainers/back_pics/leaf_back_pic.4bpp");
 const u8 gTrainerBackPicPokeDude[] = INCBIN_U8("graphics/trainers/back_pics/pokedude_back_pic.4bpp");
 const u8 gTrainerBackPicOldMan[] = INCBIN_U8("graphics/trainers/back_pics/old_man_back_pic.4bpp");
+const u8 gTrainerBackPicGold[] = INCBIN_U8("graphics/trainers/back_pics/gold_back_pic.4bpp");
+const u8 gTrainerBackPicKris[] = INCBIN_U8("graphics/trainers/back_pics/kris_back_pic.4bpp");
 const u8 gTrainerBackPicEBrendan[] = INCBIN_U8("graphics/trainers/back_pics/e_brendan_back_pic.4bpp");
 const u8 gTrainerBackPicEMay[] = INCBIN_U8("graphics/trainers/back_pics/e_may_back_pic.4bpp");
 const u8 gTrainerBackPicRSBrendan[] = INCBIN_U8("graphics/trainers/back_pics/rs_brendan_back_pic.4bpp");

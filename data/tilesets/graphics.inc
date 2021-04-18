@@ -22,6 +22,10 @@ gTilesetPalettes_Petalburg:: @ 833A704
 	.incbin "data/tilesets/secondary/petalburg/palettes/15.gbapal"
 
 	.align 2
+gTilesetPalOverride_Petalburg06::
+	.incbin "data/tilesets/secondary/petalburg/palettes/06_over.gbapal"
+
+	.align 2
 gTilesetTiles_Rustboro:: @ 833A904
 	.incbin "data/tilesets/secondary/rustboro/tiles.4bpp.lz"
 
@@ -482,29 +486,6 @@ gTilesetPalettes_PokemonFanClub:: @ 83566D4
 	.incbin "data/tilesets/secondary/pokemon_fan_club/palettes/15.gbapal"
 
 	.align 2
-gTilesetTiles_Unused1:: @ 83568D4
-	.incbin "data/tilesets/secondary/unused_1/tiles.4bpp.lz"
-
-	.align 2
-gTilesetPalettes_Unused1:: @ 8356920
-	.incbin "data/tilesets/secondary/unused_1/palettes/00.gbapal"
-	.incbin "data/tilesets/secondary/unused_1/palettes/01.gbapal"
-	.incbin "data/tilesets/secondary/unused_1/palettes/02.gbapal"
-	.incbin "data/tilesets/secondary/unused_1/palettes/03.gbapal"
-	.incbin "data/tilesets/secondary/unused_1/palettes/04.gbapal"
-	.incbin "data/tilesets/secondary/unused_1/palettes/05.gbapal"
-	.incbin "data/tilesets/secondary/unused_1/palettes/06.gbapal"
-	.incbin "data/tilesets/secondary/unused_1/palettes/07.gbapal"
-	.incbin "data/tilesets/secondary/unused_1/palettes/08.gbapal"
-	.incbin "data/tilesets/secondary/unused_1/palettes/09.gbapal"
-	.incbin "data/tilesets/secondary/unused_1/palettes/10.gbapal"
-	.incbin "data/tilesets/secondary/unused_1/palettes/11.gbapal"
-	.incbin "data/tilesets/secondary/unused_1/palettes/12.gbapal"
-	.incbin "data/tilesets/secondary/unused_1/palettes/13.gbapal"
-	.incbin "data/tilesets/secondary/unused_1/palettes/14.gbapal"
-	.incbin "data/tilesets/secondary/unused_1/palettes/15.gbapal"
-
-	.align 2
 gTilesetTiles_MeteorFalls:: @ 8356B20
 	.incbin "data/tilesets/secondary/meteor_falls/tiles.4bpp.lz"
 
@@ -715,10 +696,6 @@ gTilesetPalettes_RusturfTunnel:: @ 8365008
 	.incbin "data/tilesets/secondary/rusturf_tunnel/palettes/15.gbapal"
 
 	.align 2
-@ unused compressed copy of tiles
-	.incbin "data/tilesets/secondary/secret_base/brown_cave/unused_tiles.4bpp.lz"
-
-	.align 2
 gTilesetPalettes_SecretBaseBrownCave:: @ 8365788
 	.incbin "data/tilesets/secondary/secret_base/brown_cave/palettes/00.gbapal"
 	.incbin "data/tilesets/secondary/secret_base/brown_cave/palettes/01.gbapal"
@@ -736,10 +713,6 @@ gTilesetPalettes_SecretBaseBrownCave:: @ 8365788
 	.incbin "data/tilesets/secondary/secret_base/brown_cave/palettes/13.gbapal"
 	.incbin "data/tilesets/secondary/secret_base/brown_cave/palettes/14.gbapal"
 	.incbin "data/tilesets/secondary/secret_base/brown_cave/palettes/15.gbapal"
-
-	.align 2
-@ unused compressed copy of tiles
-	.incbin "data/tilesets/secondary/secret_base/tree/unused_tiles.4bpp.lz"
 
 	.align 2
 gTilesetPalettes_SecretBaseTree:: @ 8365EAC
@@ -761,10 +734,6 @@ gTilesetPalettes_SecretBaseTree:: @ 8365EAC
 	.incbin "data/tilesets/secondary/secret_base/tree/palettes/15.gbapal"
 
 	.align 2
-@ unused compressed copy of tiles
-	.incbin "data/tilesets/secondary/secret_base/shrub/unused_tiles.4bpp.lz"
-
-	.align 2
 gTilesetPalettes_SecretBaseShrub:: @ 8366614
 	.incbin "data/tilesets/secondary/secret_base/shrub/palettes/00.gbapal"
 	.incbin "data/tilesets/secondary/secret_base/shrub/palettes/01.gbapal"
@@ -782,10 +751,6 @@ gTilesetPalettes_SecretBaseShrub:: @ 8366614
 	.incbin "data/tilesets/secondary/secret_base/shrub/palettes/13.gbapal"
 	.incbin "data/tilesets/secondary/secret_base/shrub/palettes/14.gbapal"
 	.incbin "data/tilesets/secondary/secret_base/shrub/palettes/15.gbapal"
-
-	.align 2
-@ unused compressed copy of tiles
-	.incbin "data/tilesets/secondary/secret_base/blue_cave/unused_tiles.4bpp.lz"
 
 	.align 2
 gTilesetPalettes_SecretBaseBlueCave:: @ 8366C30
@@ -807,10 +772,6 @@ gTilesetPalettes_SecretBaseBlueCave:: @ 8366C30
 	.incbin "data/tilesets/secondary/secret_base/blue_cave/palettes/15.gbapal"
 
 	.align 2
-@ unused compressed copy of tiles
-	.incbin "data/tilesets/secondary/secret_base/yellow_cave/unused_tiles.4bpp.lz"
-
-	.align 2
 gTilesetPalettes_SecretBaseYellowCave:: @ 8367368
 	.incbin "data/tilesets/secondary/secret_base/yellow_cave/palettes/00.gbapal"
 	.incbin "data/tilesets/secondary/secret_base/yellow_cave/palettes/01.gbapal"
@@ -828,10 +789,6 @@ gTilesetPalettes_SecretBaseYellowCave:: @ 8367368
 	.incbin "data/tilesets/secondary/secret_base/yellow_cave/palettes/13.gbapal"
 	.incbin "data/tilesets/secondary/secret_base/yellow_cave/palettes/14.gbapal"
 	.incbin "data/tilesets/secondary/secret_base/yellow_cave/palettes/15.gbapal"
-
-	.align 2
-@ unused compressed copy of tiles
-	.incbin "data/tilesets/secondary/secret_base/red_cave/unused_tiles.4bpp.lz"
 
 	.align 2
 gTilesetPalettes_SecretBaseRedCave:: @ 83679A0
@@ -1059,29 +1016,6 @@ gTilesetPalettes_MauvilleGameCorner:: @ 8374288
 	.incbin "data/tilesets/secondary/mauville_game_corner/palettes/13.gbapal"
 	.incbin "data/tilesets/secondary/mauville_game_corner/palettes/14.gbapal"
 	.incbin "data/tilesets/secondary/mauville_game_corner/palettes/15.gbapal"
-
-	.align 2
-gTilesetTiles_Unused2:: @ 8374488
-	.incbin "data/tilesets/secondary/unused_2/tiles.4bpp.lz"
-
-	.align 2
-gTilesetPalettes_Unused2:: @ 83749B0
-	.incbin "data/tilesets/secondary/unused_2/palettes/00.gbapal"
-	.incbin "data/tilesets/secondary/unused_2/palettes/01.gbapal"
-	.incbin "data/tilesets/secondary/unused_2/palettes/02.gbapal"
-	.incbin "data/tilesets/secondary/unused_2/palettes/03.gbapal"
-	.incbin "data/tilesets/secondary/unused_2/palettes/04.gbapal"
-	.incbin "data/tilesets/secondary/unused_2/palettes/05.gbapal"
-	.incbin "data/tilesets/secondary/unused_2/palettes/06.gbapal"
-	.incbin "data/tilesets/secondary/unused_2/palettes/07.gbapal"
-	.incbin "data/tilesets/secondary/unused_2/palettes/08.gbapal"
-	.incbin "data/tilesets/secondary/unused_2/palettes/09.gbapal"
-	.incbin "data/tilesets/secondary/unused_2/palettes/10.gbapal"
-	.incbin "data/tilesets/secondary/unused_2/palettes/11.gbapal"
-	.incbin "data/tilesets/secondary/unused_2/palettes/12.gbapal"
-	.incbin "data/tilesets/secondary/unused_2/palettes/13.gbapal"
-	.incbin "data/tilesets/secondary/unused_2/palettes/14.gbapal"
-	.incbin "data/tilesets/secondary/unused_2/palettes/15.gbapal"
 
 	.align 2
 gTilesetTiles_RustboroGym:: @ 8374BB0

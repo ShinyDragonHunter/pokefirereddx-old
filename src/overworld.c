@@ -6,6 +6,7 @@
 #include "bg.h"
 #include "cable_club.h"
 #include "clock.h"
+#include "day_night.h"
 #include "event_data.h"
 #include "event_object_movement.h"
 #include "event_scripts.h"
@@ -176,7 +177,6 @@ static u8 GetAdjustedInitialDirection(struct InitialPlayerAvatarState *, u8, u16
 static u16 GetCenterScreenMetatileBehavior(void);
 
 // IWRAM bss vars
-static void *sUnusedOverworldCallback;
 static u8 sPlayerLinkStates[MAX_LINK_PLAYERS];
 // This callback is called with a player's key code. It then returns an
 // adjusted key code, effectively intercepting the input before anything
@@ -215,11 +215,6 @@ static const struct WarpData sDummyWarpData =
     .warpId = -1,
     .x = -1,
     .y = -1,
-};
-
-static const u32 sUnusedData[] =
-{
-    1200, 3600, 1200, 2400, 50, 80, -44, 44
 };
 
 const struct UCoords32 gDirectionToVectors[] =
@@ -747,10 +742,10 @@ const struct MapConnection *GetMapConnection(u8 dir)
     s32 count = gMapHeader.connections->count;
     const struct MapConnection *connection = gMapHeader.connections->connections;
 
-    if (connection == NULL)
+    if (!connection)
         return NULL;
 
-    for(i = 0; i < count; i++, connection++)
+    for (i = 0; i < count; i++, connection++)
         if (connection->direction == dir)
             return connection;
 
@@ -761,7 +756,7 @@ static bool8 SetDiveWarp(u8 dir, u16 x, u16 y)
 {
     const struct MapConnection *connection = GetMapConnection(dir);
 
-    if (connection != NULL)
+    if (connection)
     {
         SetWarpDestination(connection->mapGroup, connection->mapNum, -1, x, y);
     }
@@ -853,7 +848,7 @@ static void LoadMapFromWarp(bool32 a1)
     ResetCyclingRoadChallengeData();
     RestartWildEncounterImmunitySteps();
     TryUpdateRandomTrainerRematches(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum);
-    if (a1 != TRUE)
+    if (!a1)
         DoTimeBasedEvents();
     SetSav1WeatherFromCurrMapHeader();
     ChooseAmbientCrySpecies();
@@ -871,7 +866,7 @@ static void LoadMapFromWarp(bool32 a1)
     else
         InitMap();
 
-    if (a1 != TRUE && isIndoors)
+    if (!a1 && isIndoors)
     {
         UpdateTVScreensOnMap(gBackupMapLayout.width, gBackupMapLayout.height);
         InitSecretBaseAppearance(TRUE);
@@ -920,7 +915,7 @@ static u8 GetAdjustedInitialTransitionFlags(struct InitialPlayerAvatarState *pla
         return PLAYER_AVATAR_FLAG_UNDERWATER;
     else if (MetatileBehavior_IsSurfableWaterOrUnderwater(metatileBehavior))
         return PLAYER_AVATAR_FLAG_SURFING;
-    else if (Overworld_IsBikingAllowed() != TRUE)
+    else if (!Overworld_IsBikingAllowed())
         return PLAYER_AVATAR_FLAG_ON_FOOT;
     else if (playerStruct->transitionFlags == PLAYER_AVATAR_FLAG_MACH_BIKE)
         return PLAYER_AVATAR_FLAG_MACH_BIKE;
@@ -932,24 +927,21 @@ static u8 GetAdjustedInitialTransitionFlags(struct InitialPlayerAvatarState *pla
 
 static u8 GetAdjustedInitialDirection(struct InitialPlayerAvatarState *playerStruct, u8 transitionFlags, u16 metatileBehavior, u8 mapType)
 {
-    if (FlagGet(FLAG_SYS_CRUISE_MODE) && mapType == MAP_TYPE_OCEAN_ROUTE)
+    if ((FlagGet(FLAG_SYS_CRUISE_MODE) && mapType == MAP_TYPE_OCEAN_ROUTE)
+     || MetatileBehavior_IsWestArrowWarp(metatileBehavior))
         return DIR_EAST;
-    else if (MetatileBehavior_IsDeepSouthWarp(metatileBehavior))
+    else if (MetatileBehavior_IsDeepSouthWarp(metatileBehavior)
+     || MetatileBehavior_IsSouthArrowWarp(metatileBehavior))
         return DIR_NORTH;
-    else if (MetatileBehavior_IsNonAnimDoor(metatileBehavior) || MetatileBehavior_IsDoor(metatileBehavior))
+    else if (MetatileBehavior_IsNonAnimDoor(metatileBehavior)
+     || MetatileBehavior_IsDoor(metatileBehavior)
+     || MetatileBehavior_IsNorthArrowWarp(metatileBehavior))
         return DIR_SOUTH;
-    else if (MetatileBehavior_IsSouthArrowWarp(metatileBehavior))
-        return DIR_NORTH;
-    else if (MetatileBehavior_IsNorthArrowWarp(metatileBehavior))
-        return DIR_SOUTH;
-    else if (MetatileBehavior_IsWestArrowWarp(metatileBehavior))
-        return DIR_EAST;
     else if (MetatileBehavior_IsEastArrowWarp(metatileBehavior))
         return DIR_WEST;
     else if ((playerStruct->transitionFlags == PLAYER_AVATAR_FLAG_UNDERWATER  && transitionFlags == PLAYER_AVATAR_FLAG_SURFING)
-          || (playerStruct->transitionFlags == PLAYER_AVATAR_FLAG_SURFING && transitionFlags == PLAYER_AVATAR_FLAG_UNDERWATER))
-        return playerStruct->direction;
-    else if (MetatileBehavior_IsLadder(metatileBehavior))
+     || (playerStruct->transitionFlags == PLAYER_AVATAR_FLAG_SURFING && transitionFlags == PLAYER_AVATAR_FLAG_UNDERWATER)
+     || MetatileBehavior_IsLadder(metatileBehavior))
         return playerStruct->direction;
     else
         return DIR_SOUTH;
@@ -962,10 +954,10 @@ static u16 GetCenterScreenMetatileBehavior(void)
 
 bool32 Overworld_IsBikingAllowed(void)
 {
-    if (!(gMapHeader.flags & MAP_ALLOW_CYCLING))
-        return FALSE;
-    else
+    if ((gMapHeader.flags & MAP_ALLOW_CYCLING))
         return TRUE;
+    else
+        return FALSE;
 }
 
 void SetDefaultFlashLevel(void)
@@ -999,12 +991,6 @@ void SetCurrentMapLayout(u16 mapLayoutId)
 void SetObjectEventLoadFlag(u8 flag)
 {
     sObjectEventLoadFlag = flag;
-}
-
-// Unused, sObjectEventLoadFlag is read directly
-static u8 GetObjectEventLoadFlag(void)
-{
-    return sObjectEventLoadFlag;
 }
 
 static bool16 ShouldLegendaryMusicPlayAtLocation(struct WarpData *warp)
@@ -1042,9 +1028,8 @@ static bool16 ShouldLegendaryMusicPlayAtLocation(struct WarpData *warp)
 
 static bool16 NoMusicInSotopolisWithLegendaries(struct WarpData *warp)
 {
-    if (VarGet(VAR_SKY_PILLAR_STATE) != 1)
-        return FALSE;
-    else if (warp->mapGroup != MAP_GROUP(SOOTOPOLIS_CITY))
+    if (VarGet(VAR_SKY_PILLAR_STATE)
+     || warp->mapGroup != MAP_GROUP(SOOTOPOLIS_CITY))
         return FALSE;
     else if (warp->mapNum == MAP_NUM(SOOTOPOLIS_CITY))
         return TRUE;
@@ -1054,9 +1039,8 @@ static bool16 NoMusicInSotopolisWithLegendaries(struct WarpData *warp)
 
 static bool16 IsInfiltratedWeatherInstitute(struct WarpData *warp)
 {
-    if (VarGet(VAR_WEATHER_INSTITUTE_STATE))
-        return FALSE;
-    else if (warp->mapGroup != MAP_GROUP(ROUTE119_WEATHER_INSTITUTE_1F))
+    if (VarGet(VAR_WEATHER_INSTITUTE_STATE)
+     || warp->mapGroup != MAP_GROUP(ROUTE119_WEATHER_INSTITUTE_1F))
         return FALSE;
     else if (warp->mapNum == MAP_NUM(ROUTE119_WEATHER_INSTITUTE_1F)
      || warp->mapNum == MAP_NUM(ROUTE119_WEATHER_INSTITUTE_2F))
@@ -1067,11 +1051,9 @@ static bool16 IsInfiltratedWeatherInstitute(struct WarpData *warp)
 
 static bool16 IsInflitratedSpaceCenter(struct WarpData *warp)
 {
-    if (VarGet(VAR_MOSSDEEP_CITY_STATE) == 0)
-        return FALSE;
-    else if (VarGet(VAR_MOSSDEEP_CITY_STATE) > 2)
-        return FALSE;
-    else if (warp->mapGroup != MAP_GROUP(MOSSDEEP_CITY_SPACE_CENTER_1F))
+    if (!VarGet(VAR_MOSSDEEP_CITY_STATE)
+     || VarGet(VAR_MOSSDEEP_CITY_STATE) > 2
+     || warp->mapGroup != MAP_GROUP(MOSSDEEP_CITY_SPACE_CENTER_1F))
         return FALSE;
     else if (warp->mapNum == MAP_NUM(MOSSDEEP_CITY_SPACE_CENTER_1F)
      || warp->mapNum == MAP_NUM(MOSSDEEP_CITY_SPACE_CENTER_2F))
@@ -1175,7 +1157,9 @@ static void TransitionMapMusic(void)
         u16 currentMusic = GetCurrentMapMusic();
         if (newMusic != MUS_ABNORMAL_WEATHER && newMusic != MUS_NONE)
         {
-            if (currentMusic == MUS_UNDERWATER || currentMusic == MUS_SURF || currentMusic == MUS_RG_SURF)
+            if (currentMusic == MUS_UNDERWATER
+             || currentMusic == MUS_SURF
+             || currentMusic == MUS_RG_SURF)
                 return;
             if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
                 newMusic = MUS_RG_SURF;
@@ -1485,12 +1469,6 @@ void SetMainCallback1(MainCallback cb)
     gMain.callback1 = cb;
 }
 
-// This function is never called.
-void SetUnusedCallback(void *func)
-{
-    sUnusedOverworldCallback = func;
-}
-
 static bool8 RunFieldCallback(void)
 {
     if (gFieldCallback2)
@@ -1778,6 +1756,7 @@ static void VBlankCB_Field(void)
     FieldUpdateBgTilemapScroll();
     TransferPlttBuffer();
     TransferTilesetAnimsBuffer();
+    CheckClockForImmediateTimeEvents();
 }
 
 static void InitCurrentFlashLevelScanlineEffect(void)
@@ -2641,12 +2620,6 @@ u32 GetCableClubPartnersReady(void)
     if (AreAllPlayersInLinkState(PLAYER_LINK_STATE_READY))
         return CABLE_SEAT_SUCCESS;
     return CABLE_SEAT_WAITING;
-}
-
-// Unused
-static bool32 IsAnyPlayerExitingCableClub(void)
-{
-    return IsAnyPlayerInLinkState(PLAYER_LINK_STATE_EXITING_ROOM);
 }
 
 u16 SetInCableClubSeat(void)

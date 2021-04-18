@@ -8,6 +8,7 @@
 #include "contest_util.h"
 #include "contest_painting.h"
 #include "data.h"
+#include "day_night.h"
 #include "decoration.h"
 #include "decoration_inventory.h"
 #include "event_data.h"
@@ -615,10 +616,10 @@ bool8 ScrCmd_setflashradius(struct ScriptContext *ctx)
 
 static bool8 IsPaletteNotActive(void)
 {
-    if (!gPaletteFade.active)
-        return TRUE;
-    else
+    if (gPaletteFade.active)
         return FALSE;
+    else
+        return TRUE;
 }
 
 bool8 ScrCmd_fadescreen(struct ScriptContext *ctx)
@@ -662,10 +663,10 @@ static bool8 RunPauseTimer(void)
 {
     sPauseCounter--;
 
-    if (sPauseCounter == 0)
-        return TRUE;
-    else
+    if (sPauseCounter)
         return FALSE;
+    else
+        return TRUE;
 }
 
 bool8 ScrCmd_delay(struct ScriptContext *ctx)
@@ -696,6 +697,7 @@ bool8 ScrCmd_gettime(struct ScriptContext *ctx)
     gSpecialVar_0x8000 = gLocalTime.hours;
     gSpecialVar_0x8001 = gLocalTime.minutes;
     gSpecialVar_0x8002 = gLocalTime.seconds;
+    gSpecialVar_0x8003 = GetCurrentTimeOfDay();
     return FALSE;
 }
 
@@ -788,21 +790,6 @@ bool8 ScrCmd_warphole(struct ScriptContext *ctx)
     else
         SetWarpDestination(mapGroup, mapNum, -1, x - 7, y - 7);
     DoFallWarp();
-    ResetInitialPlayerAvatarState();
-    return TRUE;
-}
-
-// RS mossdeep gym warp, unused in Emerald
-bool8 ScrCmd_warpteleport(struct ScriptContext *ctx)
-{
-    u8 mapGroup = ScriptReadByte(ctx);
-    u8 mapNum = ScriptReadByte(ctx);
-    u8 warpId = ScriptReadByte(ctx);
-    u16 x = VarGet(ScriptReadHalfword(ctx));
-    u16 y = VarGet(ScriptReadHalfword(ctx));
-
-    SetWarpDestination(mapGroup, mapNum, warpId, x, y);
-    DoTeleportTileWarp();
     ResetInitialPlayerAvatarState();
     return TRUE;
 }
@@ -979,7 +966,7 @@ bool8 ScrCmd_fadeinbgm(struct ScriptContext *ctx)
 {
     u8 speed = ScriptReadByte(ctx);
 
-    if (speed != 0)
+    if (speed)
         FadeInBGM(4 * speed);
     else
         FadeInBGM(4);
@@ -1017,7 +1004,7 @@ bool8 ScrCmd_waitmovement(struct ScriptContext *ctx)
 {
     u16 localId = VarGet(ScriptReadHalfword(ctx));
 
-    if (localId != 0)
+    if (localId)
         sMovingNpcId = localId;
     sMovingNpcMapBank = gSaveBlock1Ptr->location.mapGroup;
     sMovingNpcMapId = gSaveBlock1Ptr->location.mapNum;
@@ -1031,7 +1018,7 @@ bool8 ScrCmd_waitmovement_at(struct ScriptContext *ctx)
     u8 mapBank;
     u8 mapId;
 
-    if (localId != 0)
+    if (localId)
         sMovingNpcId = localId;
     mapBank = ScriptReadByte(ctx);
     mapId = ScriptReadByte(ctx);
@@ -1269,7 +1256,7 @@ bool8 ScrCmd_message(struct ScriptContext *ctx)
 {
     const u8 *msg = (const u8 *)ScriptReadWord(ctx);
 
-    if (msg == NULL)
+    if (!msg)
         msg = (const u8 *)ctx->data[0];
     ShowFieldMessage(msg);
     return FALSE;
@@ -1279,7 +1266,7 @@ bool8 ScrCmd_pokenavcall(struct ScriptContext *ctx)
 {
     const u8 *msg = (const u8 *)ScriptReadWord(ctx);
 
-    if (msg == NULL)
+    if (!msg)
         msg = (const u8 *)ctx->data[0];
     ShowPokenavFieldMessage(msg);
     return FALSE;
@@ -1289,7 +1276,7 @@ bool8 ScrCmd_messageautoscroll(struct ScriptContext *ctx)
 {
     const u8 *msg = (const u8 *)ScriptReadWord(ctx);
 
-    if (msg == NULL)
+    if (!msg)
         msg = (const u8 *)ctx->data[0];
     gTextFlags.autoScroll = TRUE;
     gTextFlags.forceMidTextSpeed = TRUE;
@@ -1302,7 +1289,7 @@ bool8 ScrCmd_messageinstant(struct ScriptContext *ctx)
 {
     const u8 *msg = (const u8 *)ScriptReadWord(ctx);
 
-    if (msg == NULL)
+    if (!msg)
         msg = (const u8 *)ctx->data[0];
     LoadMessageBoxAndBorderGfx();
     DrawDialogueFrame(0, 1);
@@ -1324,9 +1311,8 @@ bool8 ScrCmd_closemessage(struct ScriptContext *ctx)
 
 static bool8 WaitForAorBPress(void)
 {
-    if (JOY_NEW(A_BUTTON))
-        return TRUE;
-    if (JOY_NEW(B_BUTTON))
+    if (JOY_NEW(A_BUTTON) 
+     || JOY_NEW(B_BUTTON))
         return TRUE;
     return FALSE;
 }
@@ -1390,17 +1376,6 @@ bool8 ScrCmd_multichoicedefault(struct ScriptContext *ctx)
     }
 }
 
-bool8 ScrCmd_drawbox(struct ScriptContext *ctx)
-{
-    /*u8 left = ScriptReadByte(ctx);
-    u8 top = ScriptReadByte(ctx);
-    u8 right = ScriptReadByte(ctx);
-    u8 bottom = ScriptReadByte(ctx);
-
-    MenuDrawTextWindow(left, top, right, bottom);*/
-    return FALSE;
-}
-
 bool8 ScrCmd_multichoicegrid(struct ScriptContext *ctx)
 {
     u8 left = ScriptReadByte(ctx);
@@ -1420,32 +1395,6 @@ bool8 ScrCmd_multichoicegrid(struct ScriptContext *ctx)
     }
 }
 
-bool8 ScrCmd_erasebox(struct ScriptContext *ctx)
-{
-    u8 left = ScriptReadByte(ctx);
-    u8 top = ScriptReadByte(ctx);
-    u8 right = ScriptReadByte(ctx);
-    u8 bottom = ScriptReadByte(ctx);
-
-    // Menu_EraseWindowRect(left, top, right, bottom);
-    return FALSE;
-}
-
-bool8 ScrCmd_drawboxtext(struct ScriptContext *ctx)
-{
-    u8 left = ScriptReadByte(ctx);
-    u8 top = ScriptReadByte(ctx);
-    u8 multichoiceId = ScriptReadByte(ctx);
-    bool8 ignoreBPress = ScriptReadByte(ctx);
-
-    /*if (Multichoice(left, top, multichoiceId, ignoreBPress) == TRUE)
-    {
-        ScriptContext1_Stop();
-        return TRUE;
-    }*/
-    return FALSE;
-}
-
 bool8 ScrCmd_showmonpic(struct ScriptContext *ctx)
 {
     u16 species = VarGet(ScriptReadHalfword(ctx));
@@ -1460,7 +1409,7 @@ bool8 ScrCmd_hidemonpic(struct ScriptContext *ctx)
 {
     bool8 (*func)(void) = ScriptMenu_GetPicboxWaitFunc();
 
-    if (func == NULL)
+    if (!func)
         return FALSE;
     SetupNativeScript(ctx, func);
     return TRUE;
@@ -1946,10 +1895,10 @@ bool8 ScrCmd_setberrytree(struct ScriptContext *ctx)
     u8 berry = ScriptReadByte(ctx);
     u8 growthStage = ScriptReadByte(ctx);
 
-    if (berry == 0)
-        PlantBerryTree(treeId, 0, growthStage, FALSE);
-    else
+    if (berry)
         PlantBerryTree(treeId, berry, growthStage, FALSE);
+    else
+        PlantBerryTree(treeId, 0, growthStage, FALSE);
     return FALSE;
 }
 
@@ -2009,10 +1958,10 @@ bool8 ScrCmd_setfieldeffectarg(struct ScriptContext *ctx)
 
 static bool8 WaitForFieldEffectFinish(void)
 {
-    if (!FieldEffectActiveListContains(sFieldEffectScriptId))
-        return TRUE;
-    else
+    if (FieldEffectActiveListContains(sFieldEffectScriptId))
         return FALSE;
+    else
+        return TRUE;
 }
 
 bool8 ScrCmd_waitfieldeffect(struct ScriptContext *ctx)
@@ -2060,10 +2009,10 @@ bool8 ScrCmd_setmetatile(struct ScriptContext *ctx)
 
     x += 7;
     y += 7;
-    if (!isImpassable)
-        MapGridSetMetatileIdAt(x, y, tileId);
-    else
+    if (isImpassable)
         MapGridSetMetatileIdAt(x, y, tileId | METATILE_COLLISION_MASK);
+    else
+        MapGridSetMetatileIdAt(x, y, tileId);
     return FALSE;
 }
 
@@ -2092,10 +2041,10 @@ bool8 ScrCmd_closedoor(struct ScriptContext *ctx)
 
 static bool8 IsDoorAnimationStopped(void)
 {
-    if (!FieldIsDoorAnimationRunning())
-        return TRUE;
-    else
+    if (FieldIsDoorAnimationRunning())
         return FALSE;
+    else
+        return TRUE;
 }
 
 bool8 ScrCmd_waitdooranim(struct ScriptContext *ctx)
@@ -2123,26 +2072,6 @@ bool8 ScrCmd_setdoorclosed(struct ScriptContext *ctx)
     x += 7;
     y += 7;
     FieldSetDoorClosed(x, y);
-    return FALSE;
-}
-
-// Below two are functions for elevators in RS, do nothing in Emerald
-bool8 ScrCmd_addelevmenuitem(struct ScriptContext *ctx)
-{
-    u8 v3 = ScriptReadByte(ctx);
-    u16 v5 = VarGet(ScriptReadHalfword(ctx));
-    u16 v7 = VarGet(ScriptReadHalfword(ctx));
-    u16 v9 = VarGet(ScriptReadHalfword(ctx));
-
-    //ScriptAddElevatorMenuItem(v3, v5, v7, v9);
-    return FALSE;
-}
-
-bool8 ScrCmd_showelevmenu(struct ScriptContext *ctx)
-{
-    /*ScriptShowElevatorMenu();
-    ScriptContext1_Stop();
-    return TRUE;*/
     return FALSE;
 }
 
@@ -2256,23 +2185,6 @@ bool8 ScrCmd_gotoram(struct ScriptContext *ctx)
         ScriptJump(ctx, script);
     }
     return FALSE;
-}
-
-// Unused
-// For the warp used by the Aqua Hideout, see DoTeleportTileWarp
-bool8 ScrCmd_warpspinenter(struct ScriptContext *ctx)
-{
-    u8 mapGroup = ScriptReadByte(ctx);
-    u8 mapNum = ScriptReadByte(ctx);
-    u8 warpId = ScriptReadByte(ctx);
-    u16 x = VarGet(ScriptReadHalfword(ctx));
-    u16 y = VarGet(ScriptReadHalfword(ctx));
-
-    SetWarpDestination(mapGroup, mapNum, warpId, x, y);
-    SetSpinStartFacingDir(GetPlayerFacingDirection());
-    DoSpinEnterWarp();
-    ResetInitialPlayerAvatarState();
-    return TRUE;
 }
 
 bool8 ScrCmd_setmonmetlocation(struct ScriptContext *ctx)

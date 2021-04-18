@@ -98,7 +98,7 @@ u8 SiiRtcProbe(void)
     errorCode = 0;
 
     if ((rtc.status & (SIIRTCINFO_POWER | SIIRTCINFO_24HOUR)) == SIIRTCINFO_POWER
-     || (rtc.status & (SIIRTCINFO_POWER | SIIRTCINFO_24HOUR)) == 0)
+     || (!rtc.status & (SIIRTCINFO_POWER | SIIRTCINFO_24HOUR)))
     {
         // The RTC is in 12-hour mode. Reset it and switch to 24-hour mode.
 
