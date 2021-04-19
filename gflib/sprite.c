@@ -1628,7 +1628,7 @@ u8 LoadSpritePaletteDayNight(const struct SpritePalette *palette)
     else
     {
         sSpritePaletteTags[index] = palette->tag;
-        DoLoadSpritePalette(palette->data, index * 16);
+        DoLoadSpritePaletteDayNight(palette->data, index * 16);
         return index;
     }
 }
@@ -1648,7 +1648,7 @@ void DoLoadSpritePalette(const u16 *src, u16 paletteOffset)
 
 void DoLoadSpritePaletteDayNight(const u16 *src, u16 paletteOffset)
 {
-    LoadPalette(src, paletteOffset + 0x100, 32);
+    LoadPaletteDayNight(src, paletteOffset + 0x100, 32);
 }
 
 u8 AllocSpritePalette(u16 tag)

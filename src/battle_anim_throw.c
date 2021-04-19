@@ -781,11 +781,10 @@ void AnimTask_SwitchOutBallEffect(u8 taskId)
     u32 selectedPalettes;
 
     spriteId = gBattlerSpriteIds[gBattleAnimAttacker];
-    if (GetBattlerSide(gBattleAnimAttacker) == B_SIDE_PLAYER)
-        ball = GetMonData(&gPlayerParty[gBattlerPartyIndexes[gBattleAnimAttacker]], MON_DATA_POKEBALL);
-    else
+    if (GetBattlerSide(gBattleAnimAttacker))
         ball = GetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattleAnimAttacker]], MON_DATA_POKEBALL);
-
+    else
+        ball = GetMonData(&gPlayerParty[gBattlerPartyIndexes[gBattleAnimAttacker]], MON_DATA_POKEBALL);
     ballId = ItemIdToBallId(ball);
     switch (gTasks[taskId].data[0])
     {
@@ -1133,7 +1132,7 @@ static void CB_CriticalCaptureThrownBallMovement(struct Sprite *sprite)
 
         break;
     case 1:
-        if (bounceCount < 3 || sprite->pos2.x != 0)
+        if (bounceCount < 3 || sprite->pos2.x)
             sprite->pos2.x--;
 
         if (--sprite->data[5] <= 0)
@@ -1791,10 +1790,10 @@ static void PokeBallOpenParticleAnimation(u8 taskId)
 
 static void PokeBallOpenParticleAnimation_Step1(struct Sprite *sprite)
 {
-    if (sprite->data[1] == 0)
-        sprite->callback = PokeBallOpenParticleAnimation_Step2;
-    else
+    if (sprite->data[1])
         sprite->data[1]--;
+    else
+        sprite->callback = PokeBallOpenParticleAnimation_Step2;
 }
 
 static void PokeBallOpenParticleAnimation_Step2(struct Sprite *sprite)
@@ -2208,7 +2207,7 @@ static void MoonBallOpenParticleAnimation(u8 taskId)
     gSprites[spriteId].oam.priority = priority;
     gSprites[spriteId].data[0] = Random() % 256;
     gSprites[spriteId].data[2] = 0x70 + Random() % 0x50;
-    gSprites[spriteId].data[3] = Random() % 2 == 0 ? -1 : 1;
+    gSprites[spriteId].data[3] = !Random() % 2 ? -1 : 1;
     gSprites[spriteId].data[4] = 1 + (Random() % 3);
     IncrBallParticleCount();
     StartSpriteAnim(&gSprites[spriteId], Random() % 2);
@@ -2337,17 +2336,14 @@ static void DestroyBallOpenAnimationParticle(struct Sprite *sprite)
 {
     s32 i, j;
 
-    if (!gMain.inBattle)
-    {
-        if (sprite->data[7] == 1)
-            DestroySpriteAndFreeResources(sprite);
-        else
-            DestroySprite(sprite);
-    }
-    else
+    if (gMain.inBattle)
     {
         gBattleSpritesDataPtr->animationData->numBallParticles--;
-        if (gBattleSpritesDataPtr->animationData->numBallParticles == 0)
+        if (gBattleSpritesDataPtr->animationData->numBallParticles)
+        {
+            DestroySprite(sprite);
+        }
+        else
         {
             for (i = 0; i < POKEBALL_COUNT; i++)
             {
@@ -2366,10 +2362,13 @@ static void DestroyBallOpenAnimationParticle(struct Sprite *sprite)
 
             DestroySprite(sprite);
         }
+    }
+    else
+    {
+        if (sprite->data[7] == 1)
+            DestroySpriteAndFreeResources(sprite);
         else
-        {
             DestroySprite(sprite);
-        }
     }
 }
 
@@ -2473,7 +2472,7 @@ void AnimTask_SwapMonSpriteToFromSubstitute(u8 taskId)
     case 0:
         gTasks[taskId].data[11] = gBattleAnimArgs[0];
         gTasks[taskId].data[0] += 0x500;
-        if (GetBattlerSide(gBattleAnimAttacker) != B_SIDE_PLAYER)
+        if (GetBattlerSide(gBattleAnimAttacker))
             gSprites[spriteId].pos2.x += gTasks[taskId].data[0] >> 8;
         else
             gSprites[spriteId].pos2.x -= gTasks[taskId].data[0] >> 8;
@@ -2489,13 +2488,13 @@ void AnimTask_SwapMonSpriteToFromSubstitute(u8 taskId)
         break;
     case 2:
         gTasks[taskId].data[0] += 0x500;
-        if (GetBattlerSide(gBattleAnimAttacker) != B_SIDE_PLAYER)
+        if (GetBattlerSide(gBattleAnimAttacker))
             gSprites[spriteId].pos2.x -= gTasks[taskId].data[0] >> 8;
         else
             gSprites[spriteId].pos2.x += gTasks[taskId].data[0] >> 8;
 
         gTasks[taskId].data[0] &= 0xFF;
-        if (GetBattlerSide(gBattleAnimAttacker) != B_SIDE_PLAYER)
+        if (GetBattlerSide(gBattleAnimAttacker))
         {
             if (gSprites[spriteId].pos2.x <= 0)
             {
@@ -2643,7 +2642,7 @@ static void Task_ShinyStars(u8 taskId)
     y = GetBattlerSpriteCoord(battler, BATTLER_COORD_Y);
 
     starIdx = gTasks[taskId].tStarIdx;
-    if (starIdx == 0) // Big star
+    if (!starIdx) // Big star
     {
         spriteId = CreateSprite(&gWishStarSpriteTemplate, x, y, 5);
     }
@@ -2668,13 +2667,12 @@ static void Task_ShinyStars(u8 taskId)
         gSprites[spriteId].pos2.x = -32;
         gSprites[spriteId].pos2.y = 32;
         gSprites[spriteId].invisible = TRUE;
-        if (gTasks[taskId].tStarIdx == 0)
+        if (!gTasks[taskId].tStarIdx)
         {
-            if (GetBattlerSide(battler) == B_SIDE_PLAYER)
-                pan = -64;
-            else
+            if (GetBattlerSide(battler))
                 pan = 63;
-
+            else
+                pan = -64;
             PlaySE12WithPanning(SE_SHINY, pan);
         }
     }

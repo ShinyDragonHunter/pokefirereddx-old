@@ -501,7 +501,7 @@ static void FortreeBridgePerStepCallback(u8 taskId)
                 case 7:
                     break;
             }
-            if (data[6] == 0)
+            if (!data[6])
             {
                 data[1] = 1;
             }
@@ -593,7 +593,7 @@ static void SootopolisGymIcePerStepCallback(u8 taskId)
             }
             break;
         case 2:
-            if (data[6] != 0)
+            if (data[6])
             {
                 data[6]--;
             }
@@ -745,7 +745,7 @@ static void Task_MuddySlope(u8 taskId)
                 {
                     for (i = 4; i < 14; i += 3)
                     {
-                        if (data[i] == 0)
+                        if (!data[i])
                         {
                             data[i] = 32;
                             data[i + 1] = x;

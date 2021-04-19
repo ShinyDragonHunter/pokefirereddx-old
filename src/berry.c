@@ -37,14 +37,26 @@ static const u8 sBerryDescriptionPart1_Aspear[] = _("The hard BERRY is dense wit
 static const u8 sBerryDescriptionPart2_Aspear[] = _("juice. It is quite sour.");
 static const u8 sBerryDescriptionPart1_Leppa[] = _("Grows slower than CHERI and others.");
 static const u8 sBerryDescriptionPart2_Leppa[] = _("The smaller the BERRY, the tastier.");
+#if UK
+static const u8 sBerryDescriptionPart1_Oran[] = _("A peculiar BERRY with a mix of flavours.");
+#else
 static const u8 sBerryDescriptionPart1_Oran[] = _("A peculiar BERRY with a mix of flavors.");
+#endif
 static const u8 sBerryDescriptionPart2_Oran[] = _("BERRIES grow in half a day.");
+#if UK
+static const u8 sBerryDescriptionPart1_Persim[] = _("Loves sunlight. The BERRY's colour");
+#else
 static const u8 sBerryDescriptionPart1_Persim[] = _("Loves sunlight. The BERRY's color");
+#endif
 static const u8 sBerryDescriptionPart2_Persim[] = _("grows vivid when exposed to the sun.");
 static const u8 sBerryDescriptionPart1_Lum[] = _("Slow to grow. If raised with loving");
 static const u8 sBerryDescriptionPart2_Lum[] = _("care, it may grow two BERRIES.");
 static const u8 sBerryDescriptionPart1_Sitrus[] = _("Closely related to ORAN. The large");
+#if UK
+static const u8 sBerryDescriptionPart2_Sitrus[] = _("BERRY has a well-rounded flavour.");
+#else
 static const u8 sBerryDescriptionPart2_Sitrus[] = _("BERRY has a well-rounded flavor.");
+#endif
 static const u8 sBerryDescriptionPart1_Figy[] = _("The BERRY, which looks chewed up,");
 static const u8 sBerryDescriptionPart2_Figy[] = _("brims with spicy substances.");
 static const u8 sBerryDescriptionPart1_Wiki[] = _("The BERRY is said to have grown lumpy");
@@ -95,13 +107,14 @@ static const u8 sBerryDescriptionPart1_Durin[] = _("Bitter to even look at. It i
 static const u8 sBerryDescriptionPart2_Durin[] = _("bitter, no one has ever eaten it as is.");
 static const u8 sBerryDescriptionPart1_Belue[] = _("It is glossy and looks delicious, but");
 static const u8 sBerryDescriptionPart2_Belue[] = _("it is awfully sour. Takes time to grow.");
-static const u8 sBerryDescriptionPart1_Liechi[] = _("A mysterious BERRY. It is rumored to");
+#if UK
+static const u8 sBerryDescriptionPart1_LiechiGanlonSalacPetaya[] = _("A mysterious BERRY. It is rumored to");
+#else
+static const u8 sBerryDescriptionPart1_LiechiGanlonSalacPetaya[] = _("A mysterious BERRY. It is rumoured to");
+#endif
 static const u8 sBerryDescriptionPart2_Liechi[] = _("contain the power of the sea.");
-static const u8 sBerryDescriptionPart1_Ganlon[] = _("A mysterious BERRY. It is rumored to");
 static const u8 sBerryDescriptionPart2_Ganlon[] = _("contain the power of the land.");
-static const u8 sBerryDescriptionPart1_Salac[] = _("A mysterious BERRY. It is rumored to");
 static const u8 sBerryDescriptionPart2_Salac[] = _("contain the power of the sky.");
-static const u8 sBerryDescriptionPart1_Petaya[] = _("A mysterious BERRY. It is rumored to");
 static const u8 sBerryDescriptionPart2_Petaya[] = _("contain the power of all living things.");
 static const u8 sBerryDescriptionPart1_Apicot[] = _("A very mystifying BERRY. No telling");
 static const u8 sBerryDescriptionPart2_Apicot[] = _("what may happen or how it can be used.");
@@ -751,7 +764,7 @@ const struct Berry gBerries[] =
         .size = 111,
         .maxYield = 2,
         .minYield = 1,
-        .description1 = sBerryDescriptionPart1_Liechi,
+        .description1 = sBerryDescriptionPart1_LiechiGanlonSalacPetaya,
         .description2 = sBerryDescriptionPart2_Liechi,
         .stageDuration = 24,
         .spicy = 40,
@@ -769,7 +782,7 @@ const struct Berry gBerries[] =
         .size = 33,
         .maxYield = 2,
         .minYield = 1,
-        .description1 = sBerryDescriptionPart1_Ganlon,
+        .description1 = sBerryDescriptionPart1_LiechiGanlonSalacPetaya,
         .description2 = sBerryDescriptionPart2_Ganlon,
         .stageDuration = 24,
         .spicy = 0,
@@ -787,7 +800,7 @@ const struct Berry gBerries[] =
         .size = 95,
         .maxYield = 2,
         .minYield = 1,
-        .description1 = sBerryDescriptionPart1_Salac,
+        .description1 = sBerryDescriptionPart1_LiechiGanlonSalacPetaya,
         .description2 = sBerryDescriptionPart2_Salac,
         .stageDuration = 24,
         .spicy = 0,
@@ -805,7 +818,7 @@ const struct Berry gBerries[] =
         .size = 237,
         .maxYield = 2,
         .minYield = 1,
-        .description1 = sBerryDescriptionPart1_Petaya,
+        .description1 = sBerryDescriptionPart1_LiechiGanlonSalacPetaya,
         .description2 = sBerryDescriptionPart2_Petaya,
         .stageDuration = 24,
         .spicy = 40,
@@ -937,12 +950,6 @@ const struct BerryCrushBerryData gBerryCrush_BerryData[] = {
 
 const struct BerryTree gBlankBerryTree = {};
 
-// unused
-void ClearEnigmaBerries(void)
-{
-    CpuFill16(0, &gSaveBlock1Ptr->enigmaBerry, sizeof(gSaveBlock1Ptr->enigmaBerry));
-}
-
 void SetEnigmaBerry(u8 *src)
 {
     u32 i;
@@ -968,11 +975,9 @@ static u32 GetEnigmaBerryChecksum(struct EnigmaBerry *enigmaBerry)
 
 bool32 IsEnigmaBerryValid(void)
 {
-    if (!gSaveBlock1Ptr->enigmaBerry.berry.stageDuration)
-        return FALSE;
-    if (!gSaveBlock1Ptr->enigmaBerry.berry.maxYield)
-        return FALSE;
-    if (GetEnigmaBerryChecksum(&gSaveBlock1Ptr->enigmaBerry) != gSaveBlock1Ptr->enigmaBerry.checksum)
+    if (!gSaveBlock1Ptr->enigmaBerry.berry.stageDuration
+     || !gSaveBlock1Ptr->enigmaBerry.berry.maxYield
+     || GetEnigmaBerryChecksum(&gSaveBlock1Ptr->enigmaBerry) != gSaveBlock1Ptr->enigmaBerry.checksum)
         return FALSE;
     return TRUE;
 }
@@ -1021,7 +1026,7 @@ bool32 ObjectEventInteractionWaterBerryTree(void)
 bool8 IsPlayerFacingEmptyBerryTreePatch(void)
 {
     if (GetObjectEventScriptPointerPlayerFacing() == BerryTreeScript
-     && GetStageByBerryTreeId(GetObjectEventBerryTreeId(gSelectedObjectEvent)) == BERRY_STAGE_NO_BERRY)
+     && !GetStageByBerryTreeId(GetObjectEventBerryTreeId(gSelectedObjectEvent)))
         return TRUE;
     else
         return FALSE;
@@ -1092,7 +1097,7 @@ void BerryTreeTimeUpdate(s32 minutes)
             {
                 s32 time = minutes;
 
-                while (time != 0)
+                while (time)
                 {
                     if (tree->minutesUntilNextStage > time)
                     {
@@ -1211,7 +1216,7 @@ static u8 CalcBerryYieldInternal(u16 max, u16 min, u8 water)
     u32 minRand;
     u32 rand;
  
-    if (water == 0)
+    if (!water)
         return min;
  
     diff = max - min + 1;

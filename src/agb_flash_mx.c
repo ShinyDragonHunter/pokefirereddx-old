@@ -164,7 +164,7 @@ u16 ProgramFlashSector_MX(u16 sectorNum, u8 *src)
 
     result = EraseFlashSector_MX(sectorNum);
 
-    if (result != 0)
+    if (result)
         return result;
 
     SwitchFlashBank(sectorNum / SECTORS_PER_BANK);
@@ -181,7 +181,7 @@ u16 ProgramFlashSector_MX(u16 sectorNum, u8 *src)
     {
         result = ProgramByte(src, dest);
 
-        if (result != 0)
+        if (result)
             break;
 
         gFlashNumRemainingBytes--;

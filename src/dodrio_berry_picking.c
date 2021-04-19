@@ -544,11 +544,7 @@ static const u8 sUnsharedColumns[MAX_RFU_PLAYERS][MAX_RFU_PLAYERS] =
     {4, 6},
     {3, 5, 7},
     {2, 4, 6, 8},
-#ifndef BUGFIX
-    {1, 3, 5, 6, 9}, // BUG: Column 6 is shared, 7 is not. As a result, the player in column 7 will have their difficulty influenced by their neighbors
-#else
     {1, 3, 5, 7, 9},
-#endif
 };
 
 
@@ -647,7 +643,7 @@ void StartDodrioBerryPicking(u16 partyId, void (*exitCallback)(void))
 {
     sExitingGame = FALSE;
 
-    if (gReceivedRemoteLinkPlayers != 0 && (sGame = AllocZeroed(sizeof(*sGame))))
+    if (gReceivedRemoteLinkPlayers && (sGame = AllocZeroed(sizeof(*sGame))))
     {
         ResetTasksAndSprites();
         InitDodrioGame(sGame);
@@ -718,7 +714,7 @@ static void InitDodrioGame(struct DodrioGame * game)
         game->playersAttemptingPick[i][1] = PLAYER_NONE;
     }
 
-    game->isLeader = GetMultiplayerId() == 0 ? TRUE : FALSE;
+    game->isLeader = !GetMultiplayerId() ? TRUE : FALSE;
     game->numPlayers = GetLinkPlayerCount();
     game->posToPlayerId[0] = GetMultiplayerId();
     for (i = 1; i < game->numPlayers; i++)
@@ -757,7 +753,7 @@ static void Task_StartDodrioGame(u8 taskId)
     case 3:
         if (IsLinkTaskFinished())
         {
-            if (gReceivedRemoteLinkPlayers != 0)
+            if (gReceivedRemoteLinkPlayers)
             {
                 LoadWirelessStatusIndicatorSpriteGfx();
                 CreateWirelessStatusIndicatorSprite(0, 0);
@@ -909,7 +905,7 @@ static void PlayGame_Leader(void)
             {
                 if (JOY_NEW(DPAD_UP))
                 {
-                    if (sGame->players[0].comm.pickState == PICK_NONE)
+                    if (!sGame->players[0].comm.pickState)
                     {
                         sGame->players[0].comm.ateBerry = FALSE;
                         sGame->players[0].comm.pickState = UpdatePickStateQueue(PICK_MIDDLE);
@@ -917,7 +913,7 @@ static void PlayGame_Leader(void)
                 }
                 else if (JOY_NEW(DPAD_RIGHT))
                 {
-                    if (sGame->players[0].comm.pickState == PICK_NONE)
+                    if (!sGame->players[0].comm.pickState)
                     {
                         sGame->players[0].comm.ateBerry = FALSE;
                         sGame->players[0].comm.pickState = UpdatePickStateQueue(PICK_RIGHT);
@@ -925,7 +921,7 @@ static void PlayGame_Leader(void)
                 }
                 else if (JOY_NEW(DPAD_LEFT))
                 {
-                    if (sGame->players[0].comm.pickState == PICK_NONE)
+                    if (!sGame->players[0].comm.pickState)
                     {
                         sGame->players[0].comm.ateBerry = FALSE;
                         sGame->players[0].comm.pickState = UpdatePickStateQueue(PICK_LEFT);
@@ -953,21 +949,21 @@ static void PlayGame_Member(void)
     {
         if (JOY_NEW(DPAD_UP))
         {
-            if (sGame->players[sGame->multiplayerId].comm.pickState == PICK_NONE)
+            if (!sGame->players[sGame->multiplayerId].comm.pickState)
             {
                 sGame->player.comm.pickState = PICK_MIDDLE;
             }
         }
         else if (JOY_NEW(DPAD_RIGHT))
         {
-            if (sGame->players[sGame->multiplayerId].comm.pickState == PICK_NONE)
+            if (!sGame->players[sGame->multiplayerId].comm.pickState)
             {
                 sGame->player.comm.pickState = PICK_RIGHT;
             }
         }
         else if (JOY_NEW(DPAD_LEFT))
         {
-            if (sGame->players[sGame->multiplayerId].comm.pickState == PICK_NONE)
+            if (!sGame->players[sGame->multiplayerId].comm.pickState)
             {
                 sGame->player.comm.pickState = PICK_LEFT;
             }
@@ -990,7 +986,7 @@ static void WaitEndGame_Leader(void)
 
     UpdateFallingBerries();
     HandleSound_Leader();
-    if (ReadyToEndGame_Leader() == TRUE)
+    if (ReadyToEndGame_Leader())
     {
         SetMaxBerriesPickedInRow();
         SetGameFunc(FUNC_INIT_RESULTS);
@@ -1000,7 +996,7 @@ static void WaitEndGame_Leader(void)
         sGame->allReadyToEnd = TRUE;
         for (i = 1; i < sGame->numPlayers; i++)
         {
-            if (sGame->readyToEnd[i] != TRUE)
+            if (!sGame->readyToEnd[i])
             {
                 sGame->allReadyToEnd = FALSE;
                 break;
@@ -1012,7 +1008,7 @@ static void WaitEndGame_Leader(void)
 static void WaitEndGame_Member(void)
 {
     HandleSound_Member();
-    if (ReadyToEndGame_Member() == TRUE)
+    if (ReadyToEndGame_Member())
         SetGameFunc(FUNC_INIT_RESULTS);
 }
 
@@ -1098,7 +1094,8 @@ static void InitResults_Member(void)
         }
         break;
     default:
-        if (WaitFanfare(TRUE)) {
+        if (WaitFanfare(TRUE))
+        {
             sGame->maxBerriesPickedInRow = sGame->berryResults[sGame->multiplayerId][BERRY_IN_ROW];
             SetGameFunc(FUNC_RESULTS);
             FadeOutAndPlayNewMapMusic(MUS_RG_VICTORY_WILD, 4);
@@ -1275,7 +1272,7 @@ static void EndLink(void)
             sGame->state++;
         break;
     default:
-        if (gReceivedRemoteLinkPlayers == 0)
+        if (!gReceivedRemoteLinkPlayers)
         {
             SetGameFunc(FUNC_EXIT);
         }
@@ -1368,7 +1365,7 @@ static void ResetGame(void)
         CreateDodrioGameTask(Task_NewGameIntro);
         ResetGfxState();
         InitDodrioGame(sGame);
-        if (gReceivedRemoteLinkPlayers == 0)
+        if (!gReceivedRemoteLinkPlayers)
             sGame->numPlayers = 1;
 
         SetRandomPrize();
@@ -1382,7 +1379,7 @@ static void Task_NewGameIntro(u8 taskId)
     switch (sGame->state)
     {
     case 0:
-        if (SlideTreeBordersOut() == TRUE)
+        if (SlideTreeBordersOut())
             sGame->state++;
         break;
     case 1:
@@ -1390,7 +1387,7 @@ static void Task_NewGameIntro(u8 taskId)
         sGame->state++;
         break;
     case 2:
-        if (DoStatusBarIntro() == TRUE)
+        if (DoStatusBarIntro())
             sGame->state++;
         break;
     default:
@@ -1486,15 +1483,12 @@ static void RecvLinkData_Gameplay(void)
 
     for (i = 0; i < numPlayers; i++)
     {
-        if (sGame->players[i].comm.pickState != PICK_NONE && sGame->inputState[i] == INPUTSTATE_NONE)
+        if (sGame->players[i].comm.pickState && sGame->inputState[i] == INPUTSTATE_NONE)
         {
             sGame->inputState[i] = INPUTSTATE_TRY_PICK;
         }
         switch (sGame->inputState[i])
         {
-        case INPUTSTATE_NONE:
-        default:
-            break;
         case INPUTSTATE_TRY_PICK:
         case INPUTSTATE_PICKED:
         case INPUTSTATE_ATE_BERRY:
@@ -1506,6 +1500,8 @@ static void RecvLinkData_Gameplay(void)
                 sGame->players[i].comm.ateBerry = FALSE;
                 sGame->players[i].comm.missedBerry = FALSE;
             }
+        case INPUTSTATE_NONE:
+        default:
             break;
         case INPUTSTATE_BAD_MISS:
             // Tried to pick with no berry in range, long delay until next input
@@ -1567,7 +1563,7 @@ static void RecvLinkData_Leader(void)
     switch (sGame->funcId)
     {
     case FUNC_WAIT_START:
-        if (AllPlayersReadyToStart() == TRUE)
+        if (AllPlayersReadyToStart())
         {
             ResetReadyToStart();
             sGame->startGame = TRUE;
@@ -1651,7 +1647,7 @@ static void SendLinkData_Member(void)
         sGame->startGame = TRUE;
         break;
     case FUNC_PLAY_GAME:
-        if (sGame->player.comm.pickState != PICK_NONE)
+        if (sGame->player.comm.pickState)
         {
             SendPacket_PickState(sGame->player.comm.pickState);
         }
@@ -1665,12 +1661,12 @@ static void SendLinkData_Member(void)
 
 static void HandleSound_Leader(void)
 {
-    if (sGame->players[sGame->multiplayerId].comm.pickState == PICK_NONE)
+    if (!sGame->players[sGame->multiplayerId].comm.pickState)
     {
         if (!IsSEPlaying())
             sGame->playingPickSound = FALSE;
     }
-    else if (sGame->players[sGame->multiplayerId].comm.ateBerry == TRUE)
+    else if (sGame->players[sGame->multiplayerId].comm.ateBerry)
     {
         if (!sGame->playingPickSound)
         {
@@ -1679,7 +1675,7 @@ static void HandleSound_Leader(void)
             sGame->playingPickSound = TRUE;
         }
     }
-    else if (sGame->players[sGame->multiplayerId].comm.missedBerry == TRUE)
+    else if (sGame->players[sGame->multiplayerId].comm.missedBerry)
     {
         if (!sGame->playingPickSound && !IsSEPlaying())
         {
@@ -1689,7 +1685,7 @@ static void HandleSound_Leader(void)
         }
     }
 
-    if (sGame->endSoundState == 0 && sGame->numGraySquares >= NUM_STATUS_SQUARES)
+    if (!sGame->endSoundState && sGame->numGraySquares >= NUM_STATUS_SQUARES)
     {
         // Ready to play game over sound
         StopMapMusic();
@@ -1708,13 +1704,13 @@ static void HandleSound_Member(void)
     u8 berryStart = sGame->berryColStart;
     u8 berryEnd = sGame->berryColEnd;
     u8 i;
-    if (sGame->players[sGame->multiplayerId].comm.pickState == PICK_NONE)
+    if (!sGame->players[sGame->multiplayerId].comm.pickState)
     {
-        if (sGame->players[sGame->multiplayerId].comm.ateBerry != TRUE 
-         && sGame->players[sGame->multiplayerId].comm.missedBerry != TRUE)
+        if (!sGame->players[sGame->multiplayerId].comm.ateBerry 
+         && !sGame->players[sGame->multiplayerId].comm.missedBerry)
             sGame->playingPickSound = 0;
     }
-    else if (sGame->players[sGame->multiplayerId].comm.ateBerry == TRUE)
+    else if (sGame->players[sGame->multiplayerId].comm.ateBerry)
     {
         if (!sGame->playingPickSound)
         {
@@ -1723,7 +1719,7 @@ static void HandleSound_Member(void)
             sGame->playingPickSound = TRUE;
         }
     }
-    else if (sGame->players[sGame->multiplayerId].comm.missedBerry == TRUE)
+    else if (sGame->players[sGame->multiplayerId].comm.missedBerry)
     {
         if (!sGame->playingPickSound && !IsSEPlaying())
         {
@@ -1748,7 +1744,7 @@ static void HandleSound_Member(void)
             sGame->playingSquishSound[i] = FALSE;
         }
     }
-    if (sGame->endSoundState == 0 && sGame->numGraySquares >= NUM_STATUS_SQUARES)
+    if (!sGame->endSoundState && sGame->numGraySquares >= NUM_STATUS_SQUARES)
     {
         // Ready to play game over sound
         StopMapMusic();
@@ -1807,7 +1803,7 @@ static bool32 SlideTreeBordersOut(void)
 {
     u8 x = sGame->timer / 4;
     sGame->timer++;
-    if (x != 0 && sGame->timer % 4 == 0)
+    if (x && !sGame->timer % 4)
     {
         if (x < sTreeBorderXPos[sGame->numPlayers - 1])
         {
@@ -1837,7 +1833,7 @@ static void InitFirstWaveOfBerries(void)
     for (i = berryStart; i < berryEnd; i++)
     {
         struct DodrioGame_Berries * berries = &sGame->player.berries;
-        berries->fallDist[i] = (i % 2 == 0) ? 1 : 0;
+        berries->fallDist[i] = (!i % 2) ? 1 : 0;
         berries->ids[i] = BERRY_BLUE;
     }
 }
@@ -1859,7 +1855,7 @@ static void HandlePickBerries(void)
     for (i = 0; i < numPlayers; i++)
     {
         u8 *pickState = &sGame->players[i].comm.pickState;
-        if (*pickState != PICK_NONE && sGame->inputState[i] == INPUTSTATE_TRY_PICK)
+        if (*pickState && sGame->inputState[i] == INPUTSTATE_TRY_PICK)
         {
             // Player is attempting to pick a berry
             for (j = berryStart; j < berryEnd; j++)
@@ -1872,7 +1868,7 @@ static void HandlePickBerries(void)
                     break;
 
                 // Check berry pick attempt
-                if (TryPickBerry(i, *pickState, column) == TRUE)
+                if (TryPickBerry(i, *pickState, column))
                 {
                     // Attempt was successful
                     for (k = 0; k < ARRAY_COUNT(sGame->playersAttemptingPick[0]); k++)
@@ -1887,7 +1883,7 @@ static void HandlePickBerries(void)
                     }
                     break;
                 }
-                if (sGame->players[i].comm.missedBerry == TRUE)
+                if (sGame->players[i].comm.missedBerry)
                     break;
             }
         }
@@ -2047,7 +2043,7 @@ static void UpdateFallingBerries(void)
                     sGame->playingSquishSound[i] = TRUE;
                     PlaySE(SE_BALLOON_RED + game->player.berries.ids[i]);
                 }
-                if (sGame->numGraySquares < NUM_STATUS_SQUARES || otherBerryMissed == TRUE)
+                if (sGame->numGraySquares < NUM_STATUS_SQUARES || otherBerryMissed)
                 {
                     otherBerryMissed = TRUE;
                     sGame->playingSquishSound[i] = FALSE;
@@ -2119,7 +2115,7 @@ static void UpdateBerrySprites(void)
         struct DodrioGame_Player *player = &sGame->players[sGame->multiplayerId];
         u8 column = sActiveColumnMap[sGame->numPlayers - 1][sGame->multiplayerId][i];
 
-        if (player->berries.fallDist[column] != 0)
+        if (player->berries.fallDist[column])
             SetBerryInvisibility(i, FALSE);
         else
             SetBerryInvisibility(i, TRUE);
@@ -2225,9 +2221,8 @@ static bool32 AllPlayersReadyToStart(void)
 
     numPlayers = numPlayers; // Needed to force compiler to keep loop below
 
-#ifdef BUGFIX
     i = 1; // i isn't reset, loop below never runs. As a result, game can begin before all players ready
-#endif
+
     for (; i < numPlayers; i++)
     {
         if (sGame->readyToStart[i] == FALSE)
@@ -2306,7 +2301,7 @@ static u8 GetNewBerryId(u8 playerId, u8 column)
     u8 middlePlayer = sDodrioNeighborMap[numPlayersIdx][playerId][1];
     u8 rightPlayer = sDodrioNeighborMap[numPlayersIdx][playerId][2];
 
-    for (i = 0; sUnsharedColumns[numPlayersIdx][i] != 0; i++)
+    for (i = 0; sUnsharedColumns[numPlayersIdx][i]; i++)
     {
         // If only one player can use this column, just use their difficulty
         if (column == sUnsharedColumns[numPlayersIdx][i])
@@ -2522,7 +2517,7 @@ static void UpdateBerriesPickedInRow(bool32 picked)
     if (sGame->numPlayers != MAX_RFU_PLAYERS)
         return;
 
-    if (picked == TRUE)
+    if (picked)
     {
         if (++sGame->berriesPickedInRow > sGame->maxBerriesPickedInRow)
             sGame->maxBerriesPickedInRow = sGame->berriesPickedInRow;
@@ -2622,7 +2617,7 @@ static u8 UpdatePickStateQueue(u8 pickState)
     u8 i, nextState;
 
     nextState = sGame->pickStateQueue[ARRAY_COUNT(sGame->pickStateQueue) - 1];
-    for (i = ARRAY_COUNT(sGame->pickStateQueue) - 1; i != 0; i--)
+    for (i = ARRAY_COUNT(sGame->pickStateQueue) - 1; i; i--)
         sGame->pickStateQueue[i] = sGame->pickStateQueue[i - 1];
     sGame->pickStateQueue[0] = pickState;
     return nextState;
@@ -2632,7 +2627,11 @@ static u8 UpdatePickStateQueue(u8 pickState)
 // other players to respond to the "Play again?" prompt
 static void HandleWaitPlayAgainInput(void)
 {
-    if (sGame->inputDelay[sGame->multiplayerId] == 0)
+    if (sGame->inputDelay[sGame->multiplayerId])
+    {
+        sGame->inputDelay[sGame->multiplayerId]--;
+    }
+    else
     {
         if (JOY_NEW(DPAD_UP))
         {
@@ -2656,10 +2655,6 @@ static void HandleWaitPlayAgainInput(void)
         {
             sGame->players[sGame->multiplayerId].comm.pickState = PICK_NONE;
         }
-    }
-    else
-    {
-        sGame->inputDelay[sGame->multiplayerId]--;
     }
 }
 
@@ -2768,10 +2763,8 @@ static u32 SetScoreResults(void)
 {
     u8 i, ranking = 0, nextRanking = 0, playersRanked = 0;
     u8 numPlayers = sGame->numPlayers;
-
-    GetHighestScore(); // Useless call
     
-    if (GetHighestScore() == 0)
+    if (!GetHighestScore())
     {
         // No one scored any points, put everyone in last place with a score of 0.
         // Presumably this was supposed to then return, as the assignments in this
@@ -2968,84 +2961,16 @@ static void PrintRecordsText(u8 windowId, s32 width)
     SetStdFrame(windowId, 0x21D, 0xD0);
     DrawTextBorderOuter(windowId, 0x21D, 0xD);
     FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
-    AddTextPrinterParameterized(windowId, 1, gText_BerryPickingRecords, GetStringCenterAlignXOffset(1, gText_BerryPickingRecords, width * 8), 1, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(windowId, 2, gText_BerryPickingRecords, GetStringCenterAlignXOffset(1, gText_BerryPickingRecords, width * 8), 1, TEXT_SPEED_FF, NULL);
     for (i = 0; i < NUM_RECORD_TYPES; i++)
     {
         ConvertIntToDecimalStringN(gStringVar1, recordNums[i], STR_CONV_MODE_LEFT_ALIGN, sRecordNumMaxDigits[i]);
         numWidth = GetStringWidth(1, gStringVar1, -1);
-        AddTextPrinterParameterized(windowId, 1, sRecordsTexts[i], 0, sRecordTextYCoords[i][0], TEXT_SPEED_FF, NULL);
+        AddTextPrinterParameterized(windowId, 2, sRecordsTexts[i], 0, sRecordTextYCoords[i][0], TEXT_SPEED_FF, NULL);
         x = (width * 8) - numWidth;
-        AddTextPrinterParameterized(windowId, 1, gStringVar1, x, sRecordNumYCoords[i][0], TEXT_SPEED_FF, NULL);
+        AddTextPrinterParameterized(windowId, 2, gStringVar1, x, sRecordNumYCoords[i][0], TEXT_SPEED_FF, NULL);
     }
     PutWindowTilemap(windowId);
-}
-
-// Debug functions?
-static const u16 sDebug_BerryResults[MAX_RFU_PLAYERS][4] =
-{
-    {
-        [BERRY_BLUE]   = MAX_BERRIES,
-        [BERRY_GREEN]  = 0,
-        [BERRY_GOLD]   = 90,
-        [BERRY_MISSED] = MAX_BERRIES
-    }, 
-    {
-        [BERRY_BLUE]   = MAX_BERRIES,
-        [BERRY_GREEN]  = MAX_BERRIES,
-        [BERRY_GOLD]   = 70,
-        [BERRY_MISSED] = MAX_BERRIES
-    }, 
-    {
-        [BERRY_BLUE]   = MAX_BERRIES,
-        [BERRY_GREEN]  = 0,
-        [BERRY_GOLD]   = MAX_BERRIES,
-        [BERRY_MISSED] = 0
-    }, 
-    {
-        [BERRY_BLUE]   = MAX_BERRIES,
-        [BERRY_GREEN]  = MAX_BERRIES,
-        [BERRY_GOLD]   = 60,
-        [BERRY_MISSED] = 0
-    },
-    {
-        [BERRY_BLUE]   = MAX_BERRIES, 
-        [BERRY_GREEN]  = MAX_BERRIES,
-        [BERRY_GOLD]   = MAX_BERRIES,
-        [BERRY_MISSED] = 0
-    },
-};
-
-static const u8 sJPText_Vowels[] = _("あいうえおかき");
-static const u8 sText_ABCDEFG[] = _("ABCDEFG");
-static const u8 sText_0123456[] = _("0123456");
-
-static const u8 *const sDebug_PlayerNames[] =
-{
-    sJPText_Vowels,
-    sJPText_Vowels,
-    sJPText_Vowels,
-    sText_ABCDEFG,
-    sText_0123456
-};
-
-static void Debug_UpdateNumPlayers(void)
-{
-    sGame->numPlayers = GetLinkPlayerCount();
-}
-
-static void Debug_SetPlayerNamesAndResults(void)
-{
-    u8 i, playerId;
-
-    for (playerId = sGame->numPlayers; playerId < ARRAY_COUNT(sDebug_PlayerNames); playerId++)
-        StringCopy(gLinkPlayers[playerId].name, sDebug_PlayerNames[playerId]);
-
-    sGame->numPlayers = MAX_RFU_PLAYERS;
-    for (i = 0; i < NUM_BERRY_TYPES; i++)
-    {
-        for (playerId = 0; playerId < sGame->numPlayers; playerId++)
-            sGame->berryResults[playerId][i] = sDebug_BerryResults[playerId][i];
-    }
 }
 
 struct ReadyToStartPacket
@@ -3709,10 +3634,9 @@ static void SpriteCB_Dodrio(struct Sprite *sprite)
 {
     switch (sprite->sState)
     {
-    case 0:
-        break;
     case 1:
         DoDodrioMissedAnim(sprite);
+    case 0:
         break;
     case 2:
         DoDodrioIntroAnim(sprite);
@@ -3774,7 +3698,7 @@ static u32 DoDodrioIntroAnim(struct Sprite *sprite)
     u8 pickState = (++sprite->sTimer / FRAMES_PER_STATE) % NUM_INTRO_PICK_STATES;
 
     // Play a sound effect at the start of each head extension
-    if (sprite->sTimer % FRAMES_PER_STATE == 0 && pickState != PICK_NONE)
+    if (!sprite->sTimer % FRAMES_PER_STATE && pickState)
         PlaySE(SE_M_CHARM);
 
     if (sprite->sTimer >= FRAMES_PER_STATE * NUM_INTRO_PICK_STATES * 2)
@@ -4082,7 +4006,7 @@ static void SpriteCB_Cloud(struct Sprite *sprite)
     u8 i;
     static const u8 moveDelays[] = {30, 20};
 
-    if (sprite->sFrozen != TRUE)
+    if (!sprite->sFrozen)
     {
         for (i = 0; i < NUM_CLOUDS; i++)
         {
@@ -4390,7 +4314,7 @@ static void LoadGfx(void)
         sGfx->state++;
         break;
     case 1:
-        if (LoadBgGfx() == TRUE)
+        if (LoadBgGfx())
             sGfx->state++;
         break;
     case 2:
@@ -4450,7 +4374,7 @@ static void ShowNames(void)
             if (playerId == GetMultiplayerId())
                 colorsId = COLORID_BLUE;
             name = GetPlayerName(playerId);
-            AddTextPrinterParameterized3(sGfx->windowIds[i], 1, left, 1, sTextColorTable[colorsId], -1, name);
+            AddTextPrinterParameterized3(sGfx->windowIds[i], 2, left, 1, sTextColorTable[colorsId], -1, name);
             CopyWindowToVram(sGfx->windowIds[i], 2);
             window.baseBlock += 0xE;
             DrawMessageWindow(&window);
@@ -4503,7 +4427,7 @@ static void PrintRankedScores(u8 numPlayers_)
     }
 
     // Sort player ids by ranking
-    if (GetHighestScore() != 0)
+    if (GetHighestScore())
     {
         do
         {
@@ -4522,7 +4446,7 @@ static void PrintRankedScores(u8 numPlayers_)
     // Put any player with a score of 0 at lowest ranking
     for (i = 0; i < numPlayers; i++)
     {
-        if (scoreResults[i].score == 0)
+        if (!scoreResults[i].score)
             scoreResults[i].ranking = numPlayers - 1;
     }
 
@@ -4534,15 +4458,15 @@ static void PrintRankedScores(u8 numPlayers_)
         u8 playerId = playersByRanking[i];
         u32 points = scoreResults[playerId].score;
 
-        AddTextPrinterParameterized(sGfx->windowIds[1], 1, sRankingTexts[scoreResults[playerId].ranking], 8, sRankingYCoords[i], -1, NULL);
+        AddTextPrinterParameterized(sGfx->windowIds[1], 2, sRankingTexts[scoreResults[playerId].ranking], 8, sRankingYCoords[i], -1, NULL);
         if (playerId == GetMultiplayerId())
             colorsId = COLORID_BLUE;
         name = GetPlayerName(playerId);
-        AddTextPrinterParameterized3(sGfx->windowIds[1], 1, 28, sRankingYCoords[i], sTextColorTable[colorsId], -1, name);
+        AddTextPrinterParameterized3(sGfx->windowIds[1], 2, 28, sRankingYCoords[i], sTextColorTable[colorsId], -1, name);
         ConvertIntToDecimalStringN(numString, points, STR_CONV_MODE_LEFT_ALIGN, 7);
         numWidth = GetStringWidth(1, numString, -1);
-        AddTextPrinterParameterized(sGfx->windowIds[1], 1, numString, x - numWidth, sRankingYCoords[i], -1, NULL);
-        AddTextPrinterParameterized(sGfx->windowIds[1], 1, gText_SpacePoints, x, sRankingYCoords[i], -1, NULL);
+        AddTextPrinterParameterized(sGfx->windowIds[1], 2, numString, x - numWidth, sRankingYCoords[i], -1, NULL);
+        AddTextPrinterParameterized(sGfx->windowIds[1], 2, gText_SpacePoints, x, sRankingYCoords[i], -1, NULL);
     }
 }
 
@@ -4573,8 +4497,8 @@ static void ShowResults(void)
         FillWindowPixelBuffer(sGfx->windowIds[1], PIXEL_FILL(1));
         strWidth = GetStringWidth(1, gText_BerryPickingResults, -1);
         x = (224 - strWidth) / 2;
-        AddTextPrinterParameterized(sGfx->windowIds[0], 1, gText_BerryPickingResults, x, 1, -1, NULL);
-        AddTextPrinterParameterized(sGfx->windowIds[1], 1, gText_10P30P50P50P, 68, 17, -1, NULL);
+        AddTextPrinterParameterized(sGfx->windowIds[0], 2, gText_BerryPickingResults, x, 1, -1, NULL);
+        AddTextPrinterParameterized(sGfx->windowIds[1], 2, gText_10P30P50P50P, 68, 17, -1, NULL);
         for (i = 0; i < numPlayers; i++)
         {
             u8 colorsId = COLORID_GRAY;
@@ -4582,7 +4506,7 @@ static void ShowResults(void)
                 colorsId = COLORID_BLUE;
 
             name = GetPlayerName(i);
-            AddTextPrinterParameterized3(sGfx->windowIds[1], 1, 0, sResultsYCoords[i], sTextColorTable[colorsId], -1, name);
+            AddTextPrinterParameterized3(sGfx->windowIds[1], 2, 0, sResultsYCoords[i], sTextColorTable[colorsId], -1, name);
             for (j = 0; j < 4; j++)
             {
                 u32 width;
@@ -4593,10 +4517,10 @@ static void ShowResults(void)
                 width = GetStringWidth(1, gStringVar4, -1);
                 
                 // If player got the most of a berry type, highlight their number in red 
-                if (maxBerriesPicked == berriesPicked && maxBerriesPicked != 0)
-                    AddTextPrinterParameterized3(sGfx->windowIds[1], 1, sResultsXCoords[j] - width, sResultsYCoords[i], sTextColorTable[COLORID_RED], -1, gStringVar4);
+                if (maxBerriesPicked == berriesPicked && maxBerriesPicked)
+                    AddTextPrinterParameterized3(sGfx->windowIds[1], 2, sResultsXCoords[j] - width, sResultsYCoords[i], sTextColorTable[COLORID_RED], -1, gStringVar4);
                 else
-                    AddTextPrinterParameterized(sGfx->windowIds[1], 1, gStringVar4, sResultsXCoords[j] - width, sResultsYCoords[i], -1, NULL);
+                    AddTextPrinterParameterized(sGfx->windowIds[1], 2, gStringVar4, sResultsXCoords[j] - width, sResultsYCoords[i], -1, NULL);
             }
         }
         CopyWindowToVram(sGfx->windowIds[0], 2);
@@ -4747,10 +4671,10 @@ static void Msg_WantToPlayAgain(void)
         // Print text
         FillWindowPixelBuffer(sGfx->windowIds[WIN_PLAY_AGAIN], PIXEL_FILL(1));
         FillWindowPixelBuffer(sGfx->windowIds[WIN_YES_NO], PIXEL_FILL(1));
-        AddTextPrinterParameterized(sGfx->windowIds[WIN_PLAY_AGAIN], 1, gText_WantToPlayAgain, 0, 5, -1, NULL);
-        AddTextPrinterParameterized(sGfx->windowIds[WIN_YES_NO], 1, gText_Yes, 8, 1, -1, NULL);
-        AddTextPrinterParameterized(sGfx->windowIds[WIN_YES_NO], 1, gText_No, 8, 17, -1, NULL);
-        AddTextPrinterParameterized(sGfx->windowIds[WIN_YES_NO], 1, gText_SelectorArrow2, 0, 1, -1, NULL);
+        AddTextPrinterParameterized(sGfx->windowIds[WIN_PLAY_AGAIN], 2, gText_WantToPlayAgain, 0, 5, -1, NULL);
+        AddTextPrinterParameterized(sGfx->windowIds[WIN_YES_NO], 2, gText_Yes, 8, 1, -1, NULL);
+        AddTextPrinterParameterized(sGfx->windowIds[WIN_YES_NO], 2, gText_No, 8, 17, -1, NULL);
+        AddTextPrinterParameterized(sGfx->windowIds[WIN_YES_NO], 2, gText_SelectorArrow2, 0, 1, -1, NULL);
         CopyWindowToVram(sGfx->windowIds[WIN_PLAY_AGAIN], 2);
         CopyWindowToVram(sGfx->windowIds[WIN_YES_NO], 2);
         sGfx->state++;
@@ -4771,9 +4695,9 @@ static void Msg_WantToPlayAgain(void)
         if (y == PLAY_AGAIN_NONE)
             y = PLAY_AGAIN_YES;
         FillWindowPixelBuffer(sGfx->windowIds[WIN_YES_NO], PIXEL_FILL(1));
-        AddTextPrinterParameterized(sGfx->windowIds[WIN_YES_NO], 1, gText_Yes, 8, 1, -1, NULL);
-        AddTextPrinterParameterized(sGfx->windowIds[WIN_YES_NO], 1, gText_No, 8, 17, -1, NULL);
-        AddTextPrinterParameterized(sGfx->windowIds[WIN_YES_NO], 1, gText_SelectorArrow2, 0, ((y - 1) * 16) + 1, -1, NULL);
+        AddTextPrinterParameterized(sGfx->windowIds[WIN_YES_NO], 2, gText_Yes, 8, 1, -1, NULL);
+        AddTextPrinterParameterized(sGfx->windowIds[WIN_YES_NO], 2, gText_No, 8, 17, -1, NULL);
+        AddTextPrinterParameterized(sGfx->windowIds[WIN_YES_NO], 2, gText_SelectorArrow2, 0, ((y - 1) * 16) + 1, -1, NULL);
         CopyWindowToVram(sGfx->windowIds[WIN_YES_NO], 3);
         
         // Increment state only if A or B button have been pressed.
@@ -4789,10 +4713,8 @@ static void Msg_WantToPlayAgain(void)
             PlaySE(SE_SELECT);
             switch (sGfx->cursorSelection)
             {
-            case PLAY_AGAIN_NONE:
-                sGfx->cursorSelection = PLAY_AGAIN_NO;
-                break;
             case PLAY_AGAIN_YES:
+            case PLAY_AGAIN_NONE:
                 sGfx->cursorSelection = PLAY_AGAIN_NO;
                 break;
             case PLAY_AGAIN_NO:
@@ -4826,7 +4748,7 @@ static void Msg_SavingDontTurnOff(void)
     {
     case 0:
         DrawDialogueFrame(0, FALSE);
-        AddTextPrinterParameterized2(0, 1, gText_SavingDontTurnOffPower, 0, NULL, 2, 1, 3);
+        AddTextPrinterParameterized2(0, 2, gText_SavingDontTurnOffPower, 0, NULL, 2, 1, 3);
         sGfx->state++;
         break;
     case 1:
@@ -4864,7 +4786,7 @@ static void Msg_CommunicationStandby(void)
         break;
     case 1:
         FillWindowPixelBuffer(sGfx->windowIds[0], PIXEL_FILL(1));
-        AddTextPrinterParameterized(sGfx->windowIds[0], 1, gText_CommunicationStandby3, 0, 5, -1, NULL);
+        AddTextPrinterParameterized(sGfx->windowIds[0], 2, gText_CommunicationStandby3, 0, 5, -1, NULL);
         CopyWindowToVram(sGfx->windowIds[0], 2);
         sGfx->state++;
         break;
@@ -4904,7 +4826,7 @@ static void Msg_SomeoneDroppedOut(void)
         break;
     case 1:
         FillWindowPixelBuffer(sGfx->windowIds[0], PIXEL_FILL(1));
-        AddTextPrinterParameterized(sGfx->windowIds[0], 1, gText_SomeoneDroppedOut, 0, 5, -1, NULL);
+        AddTextPrinterParameterized(sGfx->windowIds[0], 2, gText_SomeoneDroppedOut, 0, 5, -1, NULL);
         CopyWindowToVram(sGfx->windowIds[0], 2);
         sGfx->state++;
         break;
@@ -4954,7 +4876,7 @@ static void (*GetGfxFunc(void))(void)
 
 static bool32 IsGfxFuncActive(void)
 {
-    if (sGfx->finished == TRUE)
+    if (sGfx->finished)
         return FALSE;
     else
         return TRUE;
@@ -5006,7 +4928,7 @@ static bool32 LoadBgGfx(void)
         DecompressAndCopyTileDataToVram(BG_TREE_LEFT, sTreeBorder_Gfx, 0, 0, 0);
         break;
     case 4:
-        if (FreeTempTileDataBuffersIfPossible() == TRUE)
+        if (FreeTempTileDataBuffersIfPossible())
             return FALSE;
         break;
     case 5:

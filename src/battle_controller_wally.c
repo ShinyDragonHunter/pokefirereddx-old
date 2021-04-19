@@ -446,7 +446,7 @@ static u32 CopyWallyMonData(u8 monId, u8 *dst)
     switch (gBattleBufferA[gActiveBattler][1])
     {
     case REQUEST_ALL_BATTLE:
-        battleMon.species = GetFormSpecies(GetMonData(&gPlayerParty[monId], MON_DATA_SPECIES), GetMonData(&gPlayerParty[monId], MON_DATA_FORM));
+        battleMon.species = GetMonData(&gPlayerParty[monId], MON_DATA_SPECIES);
         battleMon.item = GetMonData(&gPlayerParty[monId], MON_DATA_HELD_ITEM);
         for (size = 0; size < MAX_MON_MOVES; size++)
         {
@@ -483,7 +483,7 @@ static u32 CopyWallyMonData(u8 monId, u8 *dst)
             dst[size] = src[size];
         break;
     case REQUEST_SPECIES_BATTLE:
-        data16 = GetFormSpecies(GetMonData(&gPlayerParty[monId], MON_DATA_SPECIES), GetMonData(&gPlayerParty[monId], MON_DATA_FORM));
+        data16 = GetMonData(&gPlayerParty[monId], MON_DATA_SPECIES);
         dst[0] = data16;
         dst[1] = data16 >> 8;
         size = 2;
@@ -1442,12 +1442,11 @@ static void WallyHandleIntroTrainerBallThrow(void)
 static void StartSendOutAnim(u8 battlerId)
 {
     u16 species = GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerId]], MON_DATA_SPECIES);
-    u8 form = GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerId]], MON_DATA_FORM);
 
     gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies = 0;
     gBattlerPartyIndexes[battlerId] = gBattleBufferA[battlerId][1];
     gBattleControllerData[battlerId] = CreateInvisibleSpriteWithCallback(SpriteCB_WaitForBattlerBallReleaseAnim);
-    SetMultiuseSpriteTemplateToPokemon(species, GetBattlerPosition(battlerId), form);
+    SetMultiuseSpriteTemplateToPokemon(species, GetBattlerPosition(battlerId), 0);
     gBattlerSpriteIds[battlerId] = CreateSprite(&gMultiuseSpriteTemplate,
                                         GetBattlerSpriteCoord(battlerId, 2),
                                         GetBattlerSpriteDefault_Y(battlerId),
@@ -1460,7 +1459,7 @@ static void StartSendOutAnim(u8 battlerId)
     gSprites[gBattlerSpriteIds[battlerId]].data[2] = species;
     gSprites[gBattlerSpriteIds[battlerId]].oam.paletteNum = battlerId;
 
-    StartSpriteAnim(&gSprites[gBattlerSpriteIds[battlerId]], gBattleMonForms[battlerId]);
+    StartSpriteAnim(&gSprites[gBattlerSpriteIds[battlerId]], 0);
     gSprites[gBattlerSpriteIds[battlerId]].invisible = TRUE;
     gSprites[gBattlerSpriteIds[battlerId]].callback = SpriteCallbackDummy;
     gSprites[gBattleControllerData[battlerId]].data[0] = DoPokeballSendOutAnimation(0, POKEBALL_PLAYER_SENDOUT);

@@ -769,7 +769,7 @@ struct MapConnection *GetConnectionAtCoords(s16 x, s16 y)
             {
                 continue;
             }
-            if (IsPosInConnectingMap(connection, x - 7, y - 7) == TRUE)
+            if (IsPosInConnectingMap(connection, x - 7, y - 7))
             {
                 return connection;
             }

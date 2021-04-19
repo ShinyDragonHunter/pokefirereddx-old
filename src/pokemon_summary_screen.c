@@ -1041,17 +1041,19 @@ void ShowPokemonSummaryScreen(u8 mode, void *mons, u8 monIndex, u8 maxMonIndex, 
     case PSS_MODE_NORMAL:
     case PSS_MODE_BOX:
         sMonSummaryScreen->minPageIndex = 0;
+        sMonSummaryScreen->maxPageIndex = PSS_PAGE_COUNT - 1;
         break;
     case PSS_MODE_LOCK_MOVES:
         sMonSummaryScreen->minPageIndex = 0;
+        sMonSummaryScreen->maxPageIndex = PSS_PAGE_COUNT - 1;
         sMonSummaryScreen->lockMovesFlag = TRUE;
         break;
     case PSS_MODE_SELECT_MOVE:
         sMonSummaryScreen->minPageIndex = PSS_PAGE_BATTLE_MOVES;
+        sMonSummaryScreen->maxPageIndex = PSS_PAGE_COUNT - 1;
         sMonSummaryScreen->lockMonFlag = TRUE;
         break;
     }
-    sMonSummaryScreen->maxPageIndex = PSS_PAGE_COUNT - 1;
 
     sMonSummaryScreen->currPageIndex = sMonSummaryScreen->minPageIndex;
     SummaryScreen_SetAnimDelayTaskId(TASK_NONE);
@@ -1622,7 +1624,7 @@ static s8 AdvanceMonIndex(s8 delta)
 
     if (sMonSummaryScreen->currPageIndex == PSS_PAGE_INFO)
     {
-        if ((delta == -1 && sMonSummaryScreen->curMonIndex == 0)
+        if ((delta == -1 && !sMonSummaryScreen->curMonIndex)
          || (delta == 1 && sMonSummaryScreen->curMonIndex >= sMonSummaryScreen->maxMonIndex))
             return -1;
         else
@@ -1674,7 +1676,7 @@ static bool8 IsValidToViewInMulti(struct Pokemon* mon)
 {
     if (!GetMonData(mon, MON_DATA_SPECIES))
         return FALSE;
-    else if (sMonSummaryScreen->curMonIndex != 0 || !GetMonData(mon, MON_DATA_IS_EGG))
+    else if (sMonSummaryScreen->curMonIndex || !GetMonData(mon, MON_DATA_IS_EGG))
         return TRUE;
     else
         return FALSE;
@@ -1707,19 +1709,19 @@ static void PssScrollRight(u8 taskId) // Scroll right
     s16 *data = gTasks[taskId].data;
     if (data[0] == 0)
     {
-        if (sMonSummaryScreen->bgDisplayOrder == 0)
-        {
-            data[1] = 1;
-            SetBgAttribute(1, BG_ATTR_PRIORITY, 1);
-            SetBgAttribute(2, BG_ATTR_PRIORITY, 2);
-            ScheduleBgCopyTilemapToVram(1);
-        }
-        else
+        if (sMonSummaryScreen->bgDisplayOrder)
         {
             data[1] = 2;
             SetBgAttribute(2, BG_ATTR_PRIORITY, 1);
             SetBgAttribute(1, BG_ATTR_PRIORITY, 2);
             ScheduleBgCopyTilemapToVram(2);
+        }
+        else
+        {
+            data[1] = 1;
+            SetBgAttribute(1, BG_ATTR_PRIORITY, 1);
+            SetBgAttribute(2, BG_ATTR_PRIORITY, 2);
+            ScheduleBgCopyTilemapToVram(1);
         }
         ChangeBgX(data[1], 0, 0);
         SetBgTilemapBuffer(data[1], sMonSummaryScreen->bgTilemapBuffers[sMonSummaryScreen->currPageIndex][0]);
@@ -1748,12 +1750,12 @@ static void PssScrollRightEnd(u8 taskId) // display right
 static void PssScrollLeft(u8 taskId) // Scroll left
 {
     s16 *data = gTasks[taskId].data;
-    if (data[0] == 0)
+    if (!data[0])
     {
-        if (sMonSummaryScreen->bgDisplayOrder == 0)
-            data[1] = 2;
-        else
+        if (sMonSummaryScreen->bgDisplayOrder)
             data[1] = 1;
+        else
+            data[1] = 2;
         ChangeBgX(data[1], 0x10000, 0);
     }
     ChangeBgX(data[1], 0x2000, 2);
@@ -1765,17 +1767,17 @@ static void PssScrollLeft(u8 taskId) // Scroll left
 static void PssScrollLeftEnd(u8 taskId) // display left
 {
     s16 *data = gTasks[taskId].data;
-    if (sMonSummaryScreen->bgDisplayOrder == 0)
-    {
-        SetBgAttribute(1, BG_ATTR_PRIORITY, 1);
-        SetBgAttribute(2, BG_ATTR_PRIORITY, 2);
-        ScheduleBgCopyTilemapToVram(2);
-    }
-    else
+    if (sMonSummaryScreen->bgDisplayOrder)
     {
         SetBgAttribute(2, BG_ATTR_PRIORITY, 1);
         SetBgAttribute(1, BG_ATTR_PRIORITY, 2);
         ScheduleBgCopyTilemapToVram(1);
+    }
+    else
+    {
+        SetBgAttribute(1, BG_ATTR_PRIORITY, 1);
+        SetBgAttribute(2, BG_ATTR_PRIORITY, 2);
+        ScheduleBgCopyTilemapToVram(2);
     }
     if (sMonSummaryScreen->currPageIndex > 1)
     {
@@ -1847,7 +1849,7 @@ static void Task_HandleInput_MoveSelect(u8 taskId)
         else if (JOY_NEW(A_BUTTON))
         {
             if (sMonSummaryScreen->lockMovesFlag
-             || (sMonSummaryScreen->newMove == MOVE_NONE && sMonSummaryScreen->firstMoveIndex == MAX_MON_MOVES))
+             || (!sMonSummaryScreen->newMove && sMonSummaryScreen->firstMoveIndex == MAX_MON_MOVES))
             {
                 PlaySE(SE_SELECT);
                 CloseMoveSelectMode(taskId);
@@ -1875,7 +1877,7 @@ static bool8 HasMoreThanOneMove(void)
     u8 i;
     for (i = 1; i < MAX_MON_MOVES; i++)
     {
-        if (sMonSummaryScreen->summary.moves[i] != 0)
+        if (sMonSummaryScreen->summary.moves[i])
             return TRUE;
     }
     return FALSE;
@@ -1902,14 +1904,14 @@ static void ChangeSelectedMove(s16 *taskData, s8 direction, u8 *moveIndexPtr)
             break;
         }
         move = sMonSummaryScreen->summary.moves[newMoveIndex];
-        if (move != 0)
+        if (move)
             break;
     }
     DrawContestMoveHearts(move);
     ScheduleBgCopyTilemapToVram(1);
     ScheduleBgCopyTilemapToVram(2);
     PrintMoveDetails(move);
-    if ((*moveIndexPtr == MAX_MON_MOVES && sMonSummaryScreen->newMove == MOVE_NONE)
+    if ((*moveIndexPtr == MAX_MON_MOVES && !sMonSummaryScreen->newMove)
         || taskData[1] == 1)
     {
         ClearWindowTilemap(PSS_LABEL_WINDOW_PORTRAIT_SPECIES);
@@ -2165,7 +2167,7 @@ static void Task_HandleReplaceMoveInput(u8 taskId)
 static bool8 CanReplaceMove(void)
 {
     if (sMonSummaryScreen->firstMoveIndex == MAX_MON_MOVES
-        || sMonSummaryScreen->newMove == MOVE_NONE
+        || !sMonSummaryScreen->newMove
         || IsMoveHm(sMonSummaryScreen->summary.moves[sMonSummaryScreen->firstMoveIndex]) != TRUE)
         return TRUE;
     else
@@ -2457,7 +2459,7 @@ static void HandleStatusTilemap(u16 a, s16 b)
 {
     if (b > sStatusTilemapCtrl1.field_6)
         b = sStatusTilemapCtrl1.field_6;
-    if (b == 0 || b == sStatusTilemapCtrl1.field_6)
+    if (!b || b == sStatusTilemapCtrl1.field_6)
     {
         ChangeTilemap(&sStatusTilemapCtrl1, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][0], b, FALSE);
         ChangeTilemap(&sStatusTilemapCtrl2, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_INFO][0], b, FALSE);
@@ -2560,7 +2562,7 @@ static void DrawExperienceProgressBar(struct Pokemon *unused)
         // There are 8 tiles that make up the bar, and each tile has 8 "ticks". Hence, the numerator
         // is multiplied by 64.
         numExpProgressBarTicks = expSinceLastLevel * 64 / expBetweenLevels;
-        if (numExpProgressBarTicks == 0 && expSinceLastLevel != 0)
+        if (!numExpProgressBarTicks && expSinceLastLevel)
             numExpProgressBarTicks = 1;
     }
     else
@@ -2642,7 +2644,7 @@ static void ResetWindows(void)
 
 static void PrintTextOnWindow(u8 windowId, const u8 *string, u8 x, u8 y, u8 lineSpacing, u8 colorId)
 {
-    AddTextPrinterParameterized4(windowId, 1, x, y, 0, lineSpacing, sTextColors[colorId], 0, string);
+    AddTextPrinterParameterized4(windowId, 2, x, y, 0, lineSpacing, sTextColors[colorId], 0, string);
 }
 
 static void PrintMonInfo(void)
@@ -2818,7 +2820,7 @@ static void PutPageWindowTilemaps(u8 page)
         PutWindowTilemap(PSS_LABEL_WINDOW_BATTLE_MOVES_TITLE);
         if (sMonSummaryScreen->mode == PSS_MODE_SELECT_MOVE)
         {
-            if (sMonSummaryScreen->newMove != MOVE_NONE || sMonSummaryScreen->firstMoveIndex != MAX_MON_MOVES)
+            if (sMonSummaryScreen->newMove || sMonSummaryScreen->firstMoveIndex != MAX_MON_MOVES)
                 PutWindowTilemap(PSS_LABEL_WINDOW_MOVES_POWER_ACC);
         }
         else
@@ -2830,7 +2832,7 @@ static void PutPageWindowTilemaps(u8 page)
         PutWindowTilemap(PSS_LABEL_WINDOW_CONTEST_MOVES_TITLE);
         if (sMonSummaryScreen->mode == PSS_MODE_SELECT_MOVE)
         {
-            if (sMonSummaryScreen->newMove != MOVE_NONE || sMonSummaryScreen->firstMoveIndex != MAX_MON_MOVES)
+            if (sMonSummaryScreen->newMove || sMonSummaryScreen->firstMoveIndex != MAX_MON_MOVES)
                 PutWindowTilemap(PSS_LABEL_WINDOW_MOVES_APPEAL_JAM);
         }
         else
@@ -2866,7 +2868,7 @@ static void ClearPageWindowTilemaps(u8 page)
     case PSS_PAGE_BATTLE_MOVES:
         if (sMonSummaryScreen->mode == PSS_MODE_SELECT_MOVE)
         {
-            if (sMonSummaryScreen->newMove != MOVE_NONE || sMonSummaryScreen->firstMoveIndex != MAX_MON_MOVES)
+            if (sMonSummaryScreen->newMove || sMonSummaryScreen->firstMoveIndex != MAX_MON_MOVES)
                 ClearWindowTilemap(PSS_LABEL_WINDOW_MOVES_POWER_ACC);
         }
         else
@@ -2877,7 +2879,7 @@ static void ClearPageWindowTilemaps(u8 page)
     case PSS_PAGE_CONTEST_MOVES:
         if (sMonSummaryScreen->mode == PSS_MODE_SELECT_MOVE)
         {
-            if (sMonSummaryScreen->newMove != MOVE_NONE || sMonSummaryScreen->firstMoveIndex != MAX_MON_MOVES)
+            if (sMonSummaryScreen->newMove || sMonSummaryScreen->firstMoveIndex != MAX_MON_MOVES)
                 ClearWindowTilemap(PSS_LABEL_WINDOW_MOVES_APPEAL_JAM);
         }
         else
@@ -3023,8 +3025,6 @@ static void BufferMonTrainerMemo(void)
 {
     struct PokeSummary *sum = &sMonSummaryScreen->summary;
     const u8 *text;
-    u16 mapsecShift;
-    u16 maxMapsec;
 
     DynamicPlaceholderTextUtil_Reset();
     DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, sMemoNatureTextColor);
@@ -3037,8 +3037,8 @@ static void BufferMonTrainerMemo(void)
     }
     else
     {
-        // Region mapsections cast as a u8 and casting as a u16 would break compatibility,
-        // so we need to do a workaround for CrystalDust (or other games) which may replace
+        // Region mapsections cast as a u8 and trying to cast as a u16 would break compatibility,
+        // so we need to do a workaround for CrystalDust (or other hacks) which may replace
         // IDs with their own. TODO: Look into Orange GBA compatiblity.
         u16 mapsecShift = MAPSEC_LITTLEROOT_TOWN;
         // Add the value of mapsecShift to get the end of non-vanilla mapsec IDs.
@@ -3047,28 +3047,33 @@ static void BufferMonTrainerMemo(void)
         u8 *metLocationString = Alloc(32);
         GetMetLevelString(metLevelString);
 
-        if (sum->metGame == VERSION_CRYSTAL_DUST && sum->metLocation < KANTO_MAPSEC_START)
+        if (sum->metGame == VERSION_CRYSTAL_DUST
+         && sum->metLocation < KANTO_MAPSEC_START)
             mapsecShift += JOHTO_MAPSEC_START;
         if (sum->metLocation < maxMapsec)
         {
             GetMapNameGeneric(metLocationString, sum->metLocation + mapsecShift);
             DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
         }
-        // This map isn't in Emerald and both Team Aqua and Magma got their own maps with their own mapsec IDs.
-        if (sum->metLocation == MAPSEC_AQUA_HIDEOUT_OLD && !sum->metGame == VERSION_EMERALD)
+        // This map isn't in Emerald and both Team Aqua and Magma got their own maps with their own mapsec IDs,
+        // so we can use these to get the respective map name for the game version.
+        if (sum->metLocation == MAPSEC_AQUA_HIDEOUT_OLD
+         && !sum->metGame == VERSION_EMERALD)
         {
-            // Do a bit of adding to get the correct metLocationString for Ruby and Sapphire.
+            // MAPSEC_SPECIAL_AREA + sum->metGame = MAPSEC_AQUA_HIDEOUT if Sapphire,
+            // MAPSEC_SPECIAL_AREA + sum->metGame = MAPSEC_MAGMA_HIDEOUT if Ruby.
             GetMapNameGeneric(metLocationString, MAPSEC_SPECIAL_AREA + sum->metGame);
         }
         if (sum->metLocation == MAPSEC_ROUTE_130 && sum->metLevel
-         && (sum->species == SPECIES_MEWTWO // Heliodor has Mewtwo at this location
-         || sum->species == SPECIES_WOBBUFFET // Check for Wobbuffet and Wynaut to get the Mirage Island metLocationString at Route 130
-         || sum->species == SPECIES_WYNAUT))
+         && (sum->species == SPECIES_MEWTWO // Heliodor has Mewtwo at this location.
+         || sum->species == SPECIES_WOBBUFFET // Check for Wobbuffet and Wynaut to get the
+         || sum->species == SPECIES_WYNAUT)) // Mirage Island metLocationString at Route 130.
         {
             GetMapNameGeneric(metLocationString, MAPSEC_MIRAGE_ISLAND);
         }
         // Battle Tower in RS
-        if (DidMonComeFromRS() && sum->metLocation == MAPSEC_BATTLE_FRONTIER)
+        if (DidMonComeFromRS()
+         && sum->metLocation == MAPSEC_BATTLE_FRONTIER)
         {
             DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_BattleTower);
         }
@@ -3239,7 +3244,7 @@ static void BufferNatureString(void)
 static void GetMetLevelString(u8 *output)
 {
     u8 level = sMonSummaryScreen->summary.metLevel;
-    if (level == 0)
+    if (!level)
         level = EGG_HATCH_LEVEL;
     ConvertIntToDecimalStringN(output, level, STR_CONV_MODE_LEFT_ALIGN, 3);
     DynamicPlaceholderTextUtil_SetPlaceholderPtr(3, output);
@@ -3640,7 +3645,7 @@ static void PrintMovePowerAndAccuracy(u16 moveIndex)
 
         PrintTextOnWindow(PSS_LABEL_WINDOW_MOVES_POWER_ACC, text, 53, 1, 0, 0);
 
-        if (gBattleMoves[moveIndex].accuracy == 0)
+        if (!gBattleMoves[moveIndex].accuracy)
         {
             text = gText_ThreeDashes;
         }
@@ -3693,7 +3698,7 @@ static void Task_PrintContestMoves(u8 taskId)
     case 6:
         if (sMonSummaryScreen->mode == PSS_MODE_SELECT_MOVE)
         {
-            if (sMonSummaryScreen->newMove != MOVE_NONE || sMonSummaryScreen->firstMoveIndex != MAX_MON_MOVES)
+            if (sMonSummaryScreen->newMove || sMonSummaryScreen->firstMoveIndex != MAX_MON_MOVES)
                 PrintContestMoveDescription(sMonSummaryScreen->firstMoveIndex);
         }
         break;
@@ -3713,7 +3718,7 @@ static void PrintContestMoveDescription(u8 moveSlot)
     else
         move = sMonSummaryScreen->summary.moves[moveSlot];
 
-    if (move != MOVE_NONE)
+    if (move)
     {
         u8 windowId = AddWindowFromTemplateList(sPageMovesTemplate, PSS_DATA_WINDOW_MOVE_DESCRIPTION);
         PrintTextOnWindow(windowId, gContestEffectDescriptionPointers[gContestMoves[move].effect], 6, 1, 0, 0);
@@ -3724,7 +3729,7 @@ static void PrintMoveDetails(u16 move)
 {
     u8 windowId = AddWindowFromTemplateList(sPageMovesTemplate, PSS_DATA_WINDOW_MOVE_DESCRIPTION);
     FillWindowPixelBuffer(windowId, PIXEL_FILL(0));
-    if (move != MOVE_NONE)
+    if (move)
     {
         if (sMonSummaryScreen->currPageIndex == PSS_MODE_BOX)
         {
@@ -3750,11 +3755,7 @@ static void PrintNewMoveDetailsOrCancelText(void)
     u8 windowId1 = AddWindowFromTemplateList(sPageMovesTemplate, PSS_DATA_WINDOW_MOVE_NAMES);
     u8 windowId2 = AddWindowFromTemplateList(sPageMovesTemplate, PSS_DATA_WINDOW_MOVE_PP);
 
-    if (sMonSummaryScreen->newMove == MOVE_NONE)
-    {
-        PrintTextOnWindow(windowId1, gText_Cancel, 0, 65, 0, 1);
-    }
-    else
+    if (sMonSummaryScreen->newMove)
     {
         u16 move = sMonSummaryScreen->newMove;
 
@@ -3769,6 +3770,10 @@ static void PrintNewMoveDetailsOrCancelText(void)
         DynamicPlaceholderTextUtil_SetPlaceholderPtr(1, gStringVar1);
         DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, sMovesPPLayout);
         PrintTextOnWindow(windowId2, gStringVar4, GetStringRightAlignXOffset(1, gStringVar4, 44), 65, 0, 12);
+    }
+    else
+    {
+        PrintTextOnWindow(windowId1, gText_Cancel, 0, 65, 0, 1);
     }
 }
 

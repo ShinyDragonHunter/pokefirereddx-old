@@ -754,13 +754,6 @@ static const union AnimCmd sAnim_Timer[] =
     ANIMCMD_END
 };
 
-static const union AnimCmd sAnim_PlayerBerry[] =
-{
-    ANIMCMD_FRAME(0, 0), 
-    ANIMCMD_END
-};
-
-
 static const union AffineAnimCmd sAffineAnim_PlayerBerry_0[] =
 {
     AFFINEANIMCMD_FRAME(256, 256, 0, 0),
@@ -795,11 +788,6 @@ static const union AnimCmd *const sAnims_Sparkle[] =
 static const union AnimCmd *const sAnims_Timer[] =
 {
     sAnim_Timer
-};
-
-static const union AnimCmd *const sAnims_PlayerBerry[] =
-{
-    sAnim_PlayerBerry
 };
 
 static const union AffineAnimCmd *const sAffineAnims_PlayerBerry[] =
@@ -857,7 +845,7 @@ static const struct SpriteTemplate sSpriteTemplate_PlayerBerry =
     .tileTag = TAG_PLAYER1_BERRY, 
     .paletteTag = TAG_PLAYER1_BERRY, 
     .oam = &gOamData_AffineDouble_ObjNormal_32x32, 
-    .anims = sAnims_PlayerBerry, 
+    .anims = sAnims_CrusherBase, 
     .images = NULL, 
     .affineAnims = sAffineAnims_PlayerBerry, 
     .callback = SpriteCallbackDummy
@@ -1285,9 +1273,7 @@ static s32 HideGameDisplay(void)
             return 0;
         // fall through
         // This will call BeginNormalPaletteFade() twice.
-#ifdef BUGFIX
         break;
-#endif
     case 2:
         BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
         UpdatePaletteFade();
@@ -1564,7 +1550,7 @@ static bool32 AreEffectsFinished(struct BerryCrushGame *game, struct BerryCrushG
             return FALSE;
     }
 
-    if (game->vibration != 0)
+    if (game->vibration)
         game->vibration = 0;
 
     return TRUE;
@@ -1623,14 +1609,14 @@ static void PrintResultsText(struct BerryCrushGame * game, u8 page, u8 sp14, u8 
         {
         case RESULTS_PAGE_PRESSES:
             playerId = results->playerIdsRanked[page][i];
-            if (i != 0 && results->stats[page][i] != results->stats[page][i - 1])
+            if (i && results->stats[page][i] != results->stats[page][i - 1])
                 ranking = i;
             ConvertIntToDecimalStringN(gStringVar4, results->stats[page][i], STR_CONV_MODE_RIGHT_ALIGN, 4);
             StringAppend(gStringVar4, sResultsTexts[page]);
             break;
         case RESULTS_PAGE_RANDOM:
             playerId = results->playerIdsRanked[page][i];
-            if (i != 0 && results->stats[page][i] != results->stats[page][i - 1])
+            if (i && results->stats[page][i] != results->stats[page][i - 1])
                 ranking = i;
             ConvertIntToDecimalStringN(gStringVar1, results->stats[page][i] >> 4, STR_CONV_MODE_RIGHT_ALIGN, 3);
             xOffset = 0;
@@ -2219,7 +2205,7 @@ static u32 Cmd_WaitPaletteFade(struct BerryCrushGame *game, u8 *args)
     case 0:
         if (UpdatePaletteFade())
             return 0;
-        if(args[0] != 0)
+        if(args[0])
             game->cmdState++;
         else
             game->cmdState = 3;
@@ -2258,11 +2244,11 @@ static u32 Cmd_PrintMessage(struct BerryCrushGame *game, u8 *args)
         if (args[1] & F_MSG_EXPAND)
         {
             StringExpandPlaceholders(gStringVar4, sMessages[args[0]]);
-            AddTextPrinterParameterized2(0, 1, gStringVar4, game->textSpeed, 0, 2, 1, 3);
+            AddTextPrinterParameterized2(0, 2, gStringVar4, game->textSpeed, 0, 2, 1, 3);
         }
         else
         {
-            AddTextPrinterParameterized2(0, 1, sMessages[args[0]], game->textSpeed, 0, 2, 1, 3);
+            AddTextPrinterParameterized2(0, 2, sMessages[args[0]], game->textSpeed, 0, 2, 1, 3);
         }
         CopyWindowToVram(0, 3);
         break;
@@ -2271,7 +2257,7 @@ static u32 Cmd_PrintMessage(struct BerryCrushGame *game, u8 *args)
         {
             // If no wait keys are given, skip
             // waiting state below
-            if (keys == 0)
+            if (!keys)
                 game->cmdState++;
             break;
         }
@@ -2724,7 +2710,7 @@ static void HandlePlayerInput(struct BerryCrushGame *game)
     }
 
     // Only send data to other players if you are the leader or you pressed A
-    if (game->localId != 0 && !game->localState.pushedAButton)
+    if (game->localId && !game->localState.pushedAButton)
         return;
     game->localState.sendFlag = SEND_GAME_STATE;
     
@@ -2749,13 +2735,7 @@ static void HandlePlayerInput(struct BerryCrushGame *game)
     // depending on how many A presses there were in that time (including the bonus)
     if (game->timer % 15 == 0)
     {
-        // BUG: The wrong field is used twice below
-        // As a result, only a sparkleAmount of 0, 1, or 4 is attainable
-        #ifdef BUGFIX
         #define field sparkleAmount
-        #else
-        #define field sparkleCounter
-        #endif
 
         if (game->sparkleCounter < sSparkleThresholds[game->playerCount - 2][0])
             game->sparkleAmount = 0;
@@ -2916,7 +2896,7 @@ static u32 Cmd_FinishGame(struct BerryCrushGame *game, u8 *args)
         SetGpuReg(REG_OFFSET_BG3VOFS, -game->vibration);
         if (++game->gfx.counter < game->gfx.numVibrations)
             return 0;
-        if (game->gfx.vibrationIdx != 0)
+        if (game->gfx.vibrationIdx)
         {
             game->gfx.vibrationIdx--;
             game->gfx.numVibrations = sIntroOutroVibrationData[game->gfx.vibrationIdx][0];
@@ -3061,7 +3041,7 @@ static u32 Cmd_TabulateResults(struct BerryCrushGame *game, u8 *args)
             switch (game->results.randomPageId)
             {
             case RESULTS_PAGE_NEATNESS:
-                if (game->players[i].numAPresses != 0)
+                if (game->players[i].numAPresses)
                 {
                     // Calculate percentage of inputs that were in largest "neat" streak 
                     // "Neat" inputs are those done at a regular interval
@@ -3078,7 +3058,7 @@ static u32 Cmd_TabulateResults(struct BerryCrushGame *game, u8 *args)
                 }
                 break;
             case RESULTS_PAGE_COOPERATIVE:
-                if (game->players[i].numAPresses != 0)
+                if (game->players[i].numAPresses)
                 {
                     // Calculate percentage of inputs that were
                     // done at the same time as another player
@@ -3190,7 +3170,7 @@ static u32 Cmd_ShowResults(struct BerryCrushGame *game, u8 *args)
         game->gfx.counter = 30;
         break;
     case 2:
-        if (game->gfx.counter != 0)
+        if (game->gfx.counter)
         {
             game->gfx.counter--;
             return 0;
@@ -3242,7 +3222,7 @@ static u32 Cmd_SaveGame(struct BerryCrushGame *game, u8 *args)
         if (!IsLinkTaskFinished())
             return 0;
         DrawDialogueFrame(0, 0);
-        AddTextPrinterParameterized2(0, 1, gText_SavingDontTurnOffPower, 0, 0, 2, 1, 3);
+        AddTextPrinterParameterized2(0, 2, gText_SavingDontTurnOffPower, 0, 0, 2, 1, 3);
         CopyWindowToVram(0, 3);
         CreateTask(Task_LinkSave, 0);
         break;
@@ -3280,18 +3260,18 @@ static u32 Cmd_AskPlayAgain(struct BerryCrushGame *game, u8 *args)
         if (input != -2)
         {
             memset(game->sendCmd, 0, sizeof(game->sendCmd));
-            if (input == 0)
+            if (input)
+            {
+                // Selected No
+                game->playAgainState = PLAY_AGAIN_NO;
+            }
+            else
             {
                 // Selected Yes
                 if (HasAtLeastOneBerry())
                     game->playAgainState = PLAY_AGAIN_YES;
                 else
                     game->playAgainState = PLAY_AGAIN_NO_BERRIES;
-            }
-            else
-            {
-                // Selected No
-                game->playAgainState = PLAY_AGAIN_NO;
             }
 
             // Close Yes/No and start communication
@@ -3391,9 +3371,9 @@ static u32 Cmd_StopGame(struct BerryCrushGame *game, u8 *args)
     case 0:
         DrawDialogueFrame(0, 0);
         if (game->playAgainState == PLAY_AGAIN_NO_BERRIES)
-            AddTextPrinterParameterized2(0, 1, sMessages[MSG_NO_BERRIES], game->textSpeed, 0, 2, 1, 3);
+            AddTextPrinterParameterized2(0, 2, sMessages[MSG_NO_BERRIES], game->textSpeed, 0, 2, 1, 3);
         else
-            AddTextPrinterParameterized2(0, 1, sMessages[MSG_DROPPED], game->textSpeed, 0, 2, 1, 3);
+            AddTextPrinterParameterized2(0, 2, sMessages[MSG_DROPPED], game->textSpeed, 0, 2, 1, 3);
         CopyWindowToVram(0, 3);
         break;
     case 1:
@@ -3402,7 +3382,7 @@ static u32 Cmd_StopGame(struct BerryCrushGame *game, u8 *args)
         game->gfx.counter = 120;
         break;
     case 2:
-        if (game->gfx.counter != 0)
+        if (game->gfx.counter)
             game->gfx.counter--;
         else
         {
@@ -3428,7 +3408,7 @@ static u32 Cmd_CloseLink(struct BerryCrushGame *game, u8 *args)
         SetCloseLinkCallback();
         break;
     case 2:
-        if (gReceivedRemoteLinkPlayers != 0)
+        if (gReceivedRemoteLinkPlayers)
             return 0;
         game->nextCmd = CMD_QUIT;
         RunOrScheduleCommand(CMD_HIDE_GAME, SCHEDULE_CMD, NULL);

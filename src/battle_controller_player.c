@@ -2423,10 +2423,10 @@ static void PlayerHandlePrintString(void)
 
 static void PlayerHandlePrintSelectionString(void)
 {
-    if (GetBattlerSide(gActiveBattler) == B_SIDE_PLAYER)
-        PlayerHandlePrintString();
-    else
+    if (GetBattlerSide(gActiveBattler))
         PlayerBufferExecCompleted();
+    else
+        PlayerHandlePrintString();
 }
 
 static void HandleChooseActionAfterDma3(void)
@@ -2457,17 +2457,17 @@ static void PlayerHandleChooseAction(void)
 
 static void PlayerHandleYesNoBox(void)
 {
-    if (GetBattlerSide(gActiveBattler) == B_SIDE_PLAYER)
+    if (GetBattlerSide(gActiveBattler))
+    {
+        PlayerBufferExecCompleted();
+    }
+    else
     {
         HandleBattleWindow(0x18, 8, 0x1D, 0xD, 0);
         BattlePutTextOnWindow(gText_BattleYesNoChoice, 12);
         gMultiUsePlayerCursor = 1;
         BattleCreateYesNoCursorAt(1);
         gBattlerControllerFuncs[gActiveBattler] = PlayerHandleYesNoInput;
-    }
-    else
-    {
-        PlayerBufferExecCompleted();
     }
 }
 
@@ -2720,10 +2720,10 @@ static void PlayerHandlePlaySE(void)
 {
     s8 pan;
 
-    if (GetBattlerSide(gActiveBattler) == B_SIDE_PLAYER)
-        pan = SOUND_PAN_ATTACKER;
-    else
+    if (GetBattlerSide(gActiveBattler))
         pan = SOUND_PAN_TARGET;
+    else
+        pan = SOUND_PAN_ATTACKER;
 
     PlaySE12WithPanning(gBattleBufferA[gActiveBattler][1] | (gBattleBufferA[gActiveBattler][2] << 8), pan);
     PlayerBufferExecCompleted();
@@ -2850,7 +2850,7 @@ static void Task_StartSendOutAnim(u8 taskId)
 
 static void PlayerHandleDrawPartyStatusSummary(void)
 {
-    if (gBattleBufferA[gActiveBattler][1] != 0 && GetBattlerSide(gActiveBattler) == B_SIDE_PLAYER)
+    if (gBattleBufferA[gActiveBattler][1] && !GetBattlerSide(gActiveBattler))
     {
         PlayerBufferExecCompleted();
     }
@@ -2861,7 +2861,7 @@ static void PlayerHandleDrawPartyStatusSummary(void)
         gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].partyStatusDelayTimer = 0;
 
         // If intro, skip the delay after drawing
-        if (gBattleBufferA[gActiveBattler][2] != 0)
+        if (gBattleBufferA[gActiveBattler][2])
             gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].partyStatusDelayTimer = 93;
 
         gBattlerControllerFuncs[gActiveBattler] = EndDrawPartyStatusSummary;

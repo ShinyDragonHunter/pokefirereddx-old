@@ -56,7 +56,6 @@ struct ResetRtcInputMap
     /*0x4*/ u16 maxVal;
     /*0x6*/ u8 left;
     /*0x7*/ u8 right;
-    /*0x8*/ u8 unk; // never read
 };
 
 static void CB2_ResetRtcScreen(void);
@@ -92,7 +91,7 @@ static const struct WindowTemplate sWindowTemplates[] =
         .bg = 0, 
         .tilemapLeft = 2, 
         .tilemapTop = 15, 
-        .width = 27, 
+        .width = 26, 
         .height = 4, 
         .paletteNum = 15, 
         .baseBlock = 0xE9
@@ -118,7 +117,6 @@ static const struct ResetRtcInputMap sInputMap[] =
         .maxVal = 9999,
         .left = 0,
         .right = 2,
-        .unk = 0,
     },
     [SELECTION_HOURS - 1] = {
         .dataIndex = DATAIDX_HOURS,
@@ -126,7 +124,6 @@ static const struct ResetRtcInputMap sInputMap[] =
         .maxVal = 23,
         .left = 1,
         .right = 3,
-        .unk = 0,
     },
     [SELECTION_MINS - 1] = {
         .dataIndex = DATAIDX_MINS,
@@ -134,7 +131,6 @@ static const struct ResetRtcInputMap sInputMap[] =
         .maxVal = 59,
         .left = 2,
         .right = 4,
-        .unk = 0,
     },
     [SELECTION_SECS - 1] = {
         .dataIndex = DATAIDX_SECS,
@@ -142,7 +138,6 @@ static const struct ResetRtcInputMap sInputMap[] =
         .maxVal = 59,
         .left = 3,
         .right = 5,
-        .unk = 0,
     },
     [SELECTION_CONFIRM - 1] = {
         .dataIndex = DATAIDX_CONFIRM,
@@ -150,7 +145,6 @@ static const struct ResetRtcInputMap sInputMap[] =
         .maxVal = 0,
         .left = 4,
         .right = 0,
-        .unk = 6,
     },
 };
 
@@ -237,40 +231,30 @@ static void SpriteCB_Cursor_UpOrRight(struct Sprite *sprite)
     if (state != sprite->sState)
     {
         sprite->sState = state;
+
+        sprite->invisible = FALSE;
+        sprite->animNum = ARROW_UP;
+        sprite->animDelayCounter = 0;
+
         switch (state)
         {
         case SELECTION_DAYS:
-            sprite->invisible = FALSE;
-            sprite->animNum = ARROW_UP;
-            sprite->animDelayCounter = 0;
             sprite->pos1.x = 53;
             sprite->pos1.y = 68;
             break;
         case SELECTION_HOURS:
-            sprite->invisible = FALSE;
-            sprite->animNum = ARROW_UP;
-            sprite->animDelayCounter = 0;
             sprite->pos1.x = 86;
             sprite->pos1.y = 68;
             break;
         case SELECTION_MINS:
-            sprite->invisible = FALSE;
-            sprite->animNum = ARROW_UP;
-            sprite->animDelayCounter = 0;
             sprite->pos1.x = 101;
             sprite->pos1.y = 68;
             break;
         case SELECTION_SECS:
-            sprite->invisible = FALSE;
-            sprite->animNum = ARROW_UP;
-            sprite->animDelayCounter = 0;
             sprite->pos1.x = 116;
             sprite->pos1.y = 68;
             break;
         case SELECTION_CONFIRM:
-            sprite->invisible = FALSE;
-            sprite->animNum = ARROW_RIGHT;
-            sprite->animDelayCounter = 0;
             sprite->pos1.x = 153;
             sprite->pos1.y = 80;
             break;
@@ -381,14 +365,14 @@ static void PrintTime(u8 windowId, u8 x, u8 y, u16 days, u8 hours, u8 minutes, u
     ConvertIntToDecimalStringN(gStringVar1, seconds, STR_CONV_MODE_LEADING_ZEROS, 2);
     dest = StringCopy(dest, gStringVar1);
 
-    AddTextPrinterParameterized(windowId, 1, gStringVar4, x, y, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(windowId, 2, gStringVar4, x, y, TEXT_SPEED_FF, NULL);
 }
 
 static void ShowChooseTimeWindow(u8 windowId, u16 days, u8 hours, u8 minutes, u8 seconds)
 {
     DrawStdFrameWithCustomTileAndPalette(windowId, FALSE, 0x214, 0xE);
     PrintTime(windowId, 0, 1, days, hours, minutes, seconds);
-    AddTextPrinterParameterized(windowId, 1, gText_Confirm2, 126, 1, 0, NULL);
+    AddTextPrinterParameterized(windowId, 2, gText_Confirm2, 126, 1, 0, NULL);
     ScheduleBgCopyTilemapToVram(0);
 }
 
@@ -563,7 +547,7 @@ static void VBlankCB(void)
 static void ShowMessage(const u8 *str)
 {
     DrawDialogFrameWithCustomTileAndPalette(1, FALSE, 0x200, 0xF);
-    AddTextPrinterParameterized(1, 1, str, 0, 1, 0, NULL);
+    AddTextPrinterParameterized(1, 2, str, 0, 1, 0, NULL);
     ScheduleBgCopyTilemapToVram(0);
 }
 
@@ -578,7 +562,7 @@ static void Task_ShowResetRtcPrompt(u8 taskId)
     case 0:
         DrawStdFrameWithCustomTileAndPalette(0, FALSE, 0x214, 0xE);
 
-        AddTextPrinterParameterized(0, 1, gText_PresentTime, 0, 1, TEXT_SPEED_FF, 0);
+        AddTextPrinterParameterized(0, 2, gText_PresentTime, 0, 1, TEXT_SPEED_FF, 0);
         PrintTime(
             0,
             0,
@@ -588,7 +572,7 @@ static void Task_ShowResetRtcPrompt(u8 taskId)
             gLocalTime.minutes,
             gLocalTime.seconds);
 
-        AddTextPrinterParameterized(0, 1, gText_PreviousTime, 0, 33, TEXT_SPEED_FF, 0);
+        AddTextPrinterParameterized(0, 2, gText_PreviousTime, 0, 33, TEXT_SPEED_FF, 0);
         PrintTime(
             0,
             0,

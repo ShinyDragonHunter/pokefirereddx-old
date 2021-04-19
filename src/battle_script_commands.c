@@ -9703,9 +9703,9 @@ static void Cmd_pursuitrelated(void)
     gActiveBattler = GetBattlerAtPosition(GetBattlerPosition(gBattlerAttacker) ^ BIT_FLANK);
 
     if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE
-        && !(gAbsentBattlerFlags & gBitTable[gActiveBattler])
-        && gChosenActionByBattler[gActiveBattler] == B_ACTION_USE_MOVE
-        && gChosenMoveByBattler[gActiveBattler] == MOVE_PURSUIT)
+     && !(gAbsentBattlerFlags & gBitTable[gActiveBattler])
+     && gChosenActionByBattler[gActiveBattler] == B_ACTION_USE_MOVE
+     && gChosenMoveByBattler[gActiveBattler] == MOVE_PURSUIT)
     {
         gActionsByTurnOrder[gActiveBattler] = 11;
         gCurrentMove = MOVE_PURSUIT;
@@ -10182,14 +10182,14 @@ static void Cmd_trygivecaughtmonnick(void)
         BattleCreateYesNoCursorAt(0);
         break;
     case 1:
-        if (JOY_NEW(DPAD_UP) && gBattleCommunication[CURSOR_POSITION] != 0)
+        if (JOY_NEW(DPAD_UP) && gBattleCommunication[CURSOR_POSITION])
         {
             PlaySE(SE_SELECT);
             BattleDestroyYesNoCursorAt(gBattleCommunication[CURSOR_POSITION]);
             gBattleCommunication[CURSOR_POSITION] = 0;
             BattleCreateYesNoCursorAt(0);
         }
-        if (JOY_NEW(DPAD_DOWN) && gBattleCommunication[CURSOR_POSITION] == 0)
+        if (JOY_NEW(DPAD_DOWN) && !gBattleCommunication[CURSOR_POSITION])
         {
             PlaySE(SE_SELECT);
             BattleDestroyYesNoCursorAt(gBattleCommunication[CURSOR_POSITION]);
@@ -10199,14 +10199,14 @@ static void Cmd_trygivecaughtmonnick(void)
         if (JOY_NEW(A_BUTTON))
         {
             PlaySE(SE_SELECT);
-            if (gBattleCommunication[CURSOR_POSITION] == 0)
+            if (gBattleCommunication[CURSOR_POSITION])
             {
-                gBattleCommunication[MULTIUSE_STATE]++;
-                BeginFastPaletteFade(3);
+                gBattleCommunication[MULTIUSE_STATE] = 4;
             }
             else
             {
-                gBattleCommunication[MULTIUSE_STATE] = 4;
+                gBattleCommunication[MULTIUSE_STATE]++;
+                BeginFastPaletteFade(3);
             }
         }
         else if (JOY_NEW(B_BUTTON))

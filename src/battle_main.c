@@ -649,12 +649,10 @@ static void CB2_InitBattleInternal(void)
     SetVBlankCallback(VBlankCB_Battle);
     SetUpBattleVarsAndBirchZigzagoon();
 
-    if (gBattleTypeFlags & BATTLE_TYPE_MULTI && gBattleTypeFlags & BATTLE_TYPE_BATTLE_TOWER)
+    if ((gBattleTypeFlags & BATTLE_TYPE_MULTI && gBattleTypeFlags & BATTLE_TYPE_BATTLE_TOWER)
+     || (gBattleTypeFlags & BATTLE_TYPE_MULTI && gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)
+     || gBattleTypeFlags & BATTLE_TYPE_MULTI)
         SetMainCallback2(CB2_HandleStartMultiPartnerBattle);
-    else if (gBattleTypeFlags & BATTLE_TYPE_MULTI && gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)
-        SetMainCallback2(CB2_HandleStartMultiPartnerBattle);
-    else if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
-        SetMainCallback2(CB2_HandleStartMultiBattle);
     else
         SetMainCallback2(CB2_HandleStartBattle);
 
@@ -682,16 +680,16 @@ static void CB2_InitBattleInternal(void)
         u16 hp = GetMonData(&(party)[(i)], MON_DATA_HP);            \
         u32 status = GetMonData(&(party)[(i)], MON_DATA_STATUS);    \
                                                                     \
-        if (species == SPECIES_NONE)                                \
+        if (!species)                                               \
             continue;                                               \
                                                                     \
-        if (species != SPECIES_EGG && hp != 0 && status == 0)       \
+        if (species != SPECIES_EGG && hp && !status)                \
             (flags) |= 1 << (i) * 2;                                \
                                                                     \
-        if (hp != 0 && (species == SPECIES_EGG || status != 0))     \
+        if (hp && (species == SPECIES_EGG || status))               \
             (flags) |= 2 << (i) * 2;                                \
                                                                     \
-        if (species != SPECIES_EGG && hp == 0)                      \
+        if (species != SPECIES_EGG && !hp)                          \
             (flags) |= 3 << (i) * 2;                                \
     }
 
@@ -859,14 +857,14 @@ static void FindLinkBattleMaster(u8 numPlayers, u8 multiPlayerId)
     // If player 1 is playing the minimum version, player 1 is master.
     if (gBlockRecvBuffer[0][0] == 0x100)
     {
-        if (multiPlayerId == 0)
+        if (!multiPlayerId)
             gBattleTypeFlags |= BATTLE_TYPE_IS_MASTER | BATTLE_TYPE_TRAINER;
         else
             gBattleTypeFlags |= BATTLE_TYPE_TRAINER;
         found++;
     }
 
-    if (found == 0)
+    if (!found)
     {
         // If multiple different versions are being used, player 1 is master.
         s32 i;
@@ -879,14 +877,14 @@ static void FindLinkBattleMaster(u8 numPlayers, u8 multiPlayerId)
 
         if (i == numPlayers)
         {
-            if (multiPlayerId == 0)
+            if (!multiPlayerId)
                 gBattleTypeFlags |= BATTLE_TYPE_IS_MASTER | BATTLE_TYPE_TRAINER;
             else
                 gBattleTypeFlags |= BATTLE_TYPE_TRAINER;
             found++;
         }
 
-        if (found == 0)
+        if (!found)
         {
             // Lowest index player with the highest game version is master.
             for (i = 0; i < numPlayers; i++)
@@ -3270,7 +3268,7 @@ static void BattleIntroDrawTrainersOrMonsSprites(void)
     for (gActiveBattler = 0; gActiveBattler < gBattlersCount; gActiveBattler++)
     {
         if ((gBattleTypeFlags & BATTLE_TYPE_SAFARI)
-         && GetBattlerSide(gActiveBattler) == B_SIDE_PLAYER)
+         && !GetBattlerSide(gActiveBattler))
         {
             ptr = (u8 *)&gBattleMons[gActiveBattler];
             for (i = 0; i < sizeof(struct BattlePokemon); i++)
@@ -4449,7 +4447,7 @@ u8 GetWhoStrikesFirst(u8 battler1, u8 battler2, bool8 ignoreChosenMoves)
     // badge boost
     if (!(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_FRONTIER))
      && FlagGet(FLAG_BADGE03_GET)
-     && GetBattlerSide(battler1) == B_SIDE_PLAYER)
+     && !GetBattlerSide(battler1))
     {
         speedBattler1 = (speedBattler1 * 110) / 100;
     }
@@ -4483,7 +4481,7 @@ u8 GetWhoStrikesFirst(u8 battler1, u8 battler2, bool8 ignoreChosenMoves)
     // badge boost
     if (!(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_FRONTIER))
      && FlagGet(FLAG_BADGE03_GET)
-     && GetBattlerSide(battler2) == B_SIDE_PLAYER)
+     && !GetBattlerSide(battler2))
     {
         speedBattler2 = (speedBattler2 * 110) / 100;
     }
@@ -4526,7 +4524,7 @@ u8 GetWhoStrikesFirst(u8 battler1, u8 battler2, bool8 ignoreChosenMoves)
     }
 
     // both move priorities are different than 0
-    if (gBattleMoves[moveBattler1].priority != 0 || gBattleMoves[moveBattler2].priority != 0)
+    if (gBattleMoves[moveBattler1].priority || gBattleMoves[moveBattler2].priority)
     {
         // both priorities are the same
         if (gBattleMoves[moveBattler1].priority == gBattleMoves[moveBattler2].priority)
@@ -4682,12 +4680,12 @@ static void TurnValuesCleanUp(bool8 var0)
             if (gDisableStructs[gActiveBattler].rechargeTimer)
             {
                 gDisableStructs[gActiveBattler].rechargeTimer--;
-                if (gDisableStructs[gActiveBattler].rechargeTimer == 0)
+                if (!gDisableStructs[gActiveBattler].rechargeTimer)
                     gBattleMons[gActiveBattler].status2 &= ~(STATUS2_RECHARGE);
             }
         }
 
-        if (gDisableStructs[gActiveBattler].substituteHP == 0)
+        if (!gDisableStructs[gActiveBattler].substituteHP)
             gBattleMons[gActiveBattler].status2 &= ~(STATUS2_SUBSTITUTE);
     }
 
@@ -4740,7 +4738,7 @@ static void CheckFocusPunch_ClearVarsBeforeTurnStarts(void)
 
 static void RunTurnActionsFunctions(void)
 {
-    if (gBattleOutcome != 0)
+    if (gBattleOutcome)
         gCurrentActionFuncId = B_ACTION_FINISHED;
 
     *(&gBattleStruct->savedTurnActionNumber) = gCurrentTurnActionNumber;
@@ -4901,9 +4899,9 @@ static void HandleEndTurn_FinishBattle(void)
         {
             for (gActiveBattler = 0; gActiveBattler < gBattlersCount; gActiveBattler++)
             {
-                if (GetBattlerSide(gActiveBattler) == B_SIDE_PLAYER)
+                if (!GetBattlerSide(gActiveBattler))
                 {
-                    if (gBattleResults.playerMon1Species == SPECIES_NONE)
+                    if (!gBattleResults.playerMon1Species)
                     {
                         gBattleResults.playerMon1Species = GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPECIES, NULL);
                         GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_NICKNAME, gBattleResults.playerMon1Name);

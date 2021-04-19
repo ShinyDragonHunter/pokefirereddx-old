@@ -1461,10 +1461,10 @@ static void RecordedPlayerHandlePlaySE(void)
 {
     s8 pan;
 
-    if (GetBattlerSide(gActiveBattler) == B_SIDE_PLAYER)
-        pan = SOUND_PAN_ATTACKER;
-    else
+    if (GetBattlerSide(gActiveBattler))
         pan = SOUND_PAN_TARGET;
+    else
+        pan = SOUND_PAN_ATTACKER;
 
     PlaySE12WithPanning(gBattleBufferA[gActiveBattler][1] | (gBattleBufferA[gActiveBattler][2] << 8), pan);
     RecordedPlayerBufferExecCompleted();
@@ -1571,7 +1571,7 @@ static void Task_StartSendOutAnim(u8 taskId)
 
 static void RecordedPlayerHandleDrawPartyStatusSummary(void)
 {
-    if (gBattleBufferA[gActiveBattler][1] != 0 && GetBattlerSide(gActiveBattler) == B_SIDE_PLAYER)
+    if (gBattleBufferA[gActiveBattler][1] && !GetBattlerSide(gActiveBattler))
     {
         RecordedPlayerBufferExecCompleted();
     }
@@ -1581,7 +1581,7 @@ static void RecordedPlayerHandleDrawPartyStatusSummary(void)
         gBattlerStatusSummaryTaskId[gActiveBattler] = CreatePartyStatusSummarySprites(gActiveBattler, (struct HpAndStatus *)&gBattleBufferA[gActiveBattler][4], gBattleBufferA[gActiveBattler][1], gBattleBufferA[gActiveBattler][2]);
         gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].partyStatusDelayTimer = 0;
 
-        if (gBattleBufferA[gActiveBattler][2] != 0)
+        if (gBattleBufferA[gActiveBattler][2])
             gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].partyStatusDelayTimer = 93;
 
         gBattlerControllerFuncs[gActiveBattler] = EndDrawPartyStatusSummary;

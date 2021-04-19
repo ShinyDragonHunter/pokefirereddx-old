@@ -662,7 +662,7 @@ u32 CountPlayerTrainerStars(void)
 
     if (GetGameStat(GAME_STAT_ENTERED_HOF))
         stars++;
-    if (HasAllJohtoMons())
+    if (HasAllKantoMons())
         stars++;
     if (HasAllMons())
         stars++;
@@ -1435,7 +1435,7 @@ static void PrintBattleFacilityStringOnCard(void)
     {
     case CARD_TYPE_RS:
         if (sData->hasBattleTowerWins)
-            PrintStatOnBackOfCard(5, gText_BattleTower, sData->textBattleFacilityStat, sTrainerCardTextColors);
+            PrintStatOnBackOfCard(5, gText_BattleTower, sData->textBattleFacilityStat, sTrainerCardStatColors);
         break;
     default:
         if (sData->trainerCard.frontierBP)

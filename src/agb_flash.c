@@ -30,7 +30,7 @@ void SwitchFlashBank(u8 bankNum)
 #define DELAY()                  \
 do {                             \
     vu16 i;                      \
-    for (i = 20000; i != 0; i--) \
+    for (i = 20000; i; i--) \
         ;                        \
 } while (0)
 
@@ -64,7 +64,7 @@ u16 ReadFlashId(void)
 
 void FlashTimerIntr(void)
 {
-    if (sTimerCount != 0 && --sTimerCount == 0)
+    if (sTimerCount && --sTimerCount == 0)
         gFlashTimeoutFlag = 1;
 }
 
@@ -120,7 +120,7 @@ void SetReadFlash1(u16 *dest)
 
     i = ((s32)SetReadFlash1 - (s32)ReadFlash1) >> 1;
 
-    while (i != 0)
+    while (i)
     {
         *dest++ = *src++;
         i--;
@@ -130,7 +130,7 @@ void SetReadFlash1(u16 *dest)
 // Using volatile here to make sure the flash memory will ONLY be read as bytes, to prevent any compiler optimizations.
 void ReadFlash_Core(vu8 *src, u8 *dest, u32 size)
 {
-    while (size-- != 0)
+    while (size--)
     {
         *dest++ = *src++;
     }
@@ -159,7 +159,7 @@ void ReadFlash(u16 sectorNum, u32 offset, u8 *dest, u32 size)
 
     i = ((s32)ReadFlash - (s32)ReadFlash_Core) >> 1;
 
-    while (i != 0)
+    while (i)
     {
         *funcDest++ = *funcSrc++;
         i--;
@@ -174,7 +174,7 @@ void ReadFlash(u16 sectorNum, u32 offset, u8 *dest, u32 size)
 
 u32 VerifyFlashSector_Core(u8 *src, u8 *tgt, u32 size)
 {
-    while (size-- != 0)
+    while (size--)
     {
         if (*tgt++ != *src++)
             return (u32)(tgt - 1);
@@ -207,7 +207,7 @@ u32 VerifyFlashSector(u16 sectorNum, u8 *src)
 
     i = ((s32)VerifyFlashSector - (s32)VerifyFlashSector_Core) >> 1;
 
-    while (i != 0)
+    while (i)
     {
         *funcDest++ = *funcSrc++;
         i--;
@@ -244,7 +244,7 @@ u32 VerifyFlashSectorNBytes(u16 sectorNum, u8 *src, u32 n)
 
     i = ((s32)VerifyFlashSector - (s32)VerifyFlashSector_Core) >> 1;
 
-    while (i != 0)
+    while (i)
     {
         *funcDest++ = *funcSrc++;
         i--;
@@ -265,11 +265,11 @@ u32 ProgramFlashSectorAndVerify(u16 sectorNum, u8 *src)
     for (i = 0; i < 3; i++)
     {
         result = ProgramFlashSector(sectorNum, src);
-        if (result != 0)
+        if (result)
             continue;
 
         result = VerifyFlashSector(sectorNum, src);
-        if (result == 0)
+        if (!result)
             break;
     }
 
@@ -284,11 +284,11 @@ u32 ProgramFlashSectorAndVerifyNBytes(u16 sectorNum, u8 *src, u32 n)
     for (i = 0; i < 3; i++)
     {
         result = ProgramFlashSector(sectorNum, src);
-        if (result != 0)
+        if (result)
             continue;
 
         result = VerifyFlashSectorNBytes(sectorNum, src, n);
-        if (result == 0)
+        if (!result)
             break;
     }
 

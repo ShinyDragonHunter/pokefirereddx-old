@@ -639,7 +639,7 @@ static u16 GetSumOfPlayerPartyLevel(u8 numMons)
     {
         u32 species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES2);
 
-        if (species != SPECIES_EGG && species != SPECIES_NONE && GetMonData(&gPlayerParty[i], MON_DATA_HP) != 0)
+        if (species != SPECIES_EGG && species && GetMonData(&gPlayerParty[i], MON_DATA_HP))
         {
             sum += GetMonData(&gPlayerParty[i], MON_DATA_LEVEL);
             if (--numMons == 0)
@@ -869,13 +869,13 @@ static void CB2_EndFirstBattle(void)
 
 static void TryUpdateGymLeaderRematchFromWild(void)
 {
-    if (GetGameStat(GAME_STAT_WILD_BATTLES) % 60 == 0)
+    if (!GetGameStat(GAME_STAT_WILD_BATTLES) % 60)
         UpdateGymLeaderRematch();
 }
 
 static void TryUpdateGymLeaderRematchFromTrainer(void)
 {
-    if (GetGameStat(GAME_STAT_TRAINER_BATTLES) % 20 == 0)
+    if (!GetGameStat(GAME_STAT_TRAINER_BATTLES) % 20)
         UpdateGymLeaderRematch();
 }
 
@@ -926,17 +926,17 @@ void ResetTrainerOpponentIds(void)
 static void InitTrainerBattleVariables(void)
 {
     sTrainerBattleMode = 0;
-    if (gApproachingTrainerId == 0)
-    {
-        sTrainerAIntroSpeech = NULL;
-        sTrainerADefeatSpeech = NULL;
-        sTrainerABattleScriptRetAddr = NULL;
-    }
-    else
+    if (gApproachingTrainerId)
     {
         sTrainerBIntroSpeech = NULL;
         sTrainerBDefeatSpeech = NULL;
         sTrainerBBattleScriptRetAddr = NULL;
+    }
+    else
+    {
+        sTrainerAIntroSpeech = NULL;
+        sTrainerADefeatSpeech = NULL;
+        sTrainerABattleScriptRetAddr = NULL;
     }
     sTrainerObjectEventLocalId = 0;
     sTrainerVictorySpeech = NULL;
@@ -1001,7 +1001,7 @@ static void TrainerBattleLoadArgs(const struct TrainerBattleParameter *specs, co
 
 void SetMapVarsToTrainer(void)
 {
-    if (sTrainerObjectEventLocalId != 0)
+    if (sTrainerObjectEventLocalId)
     {
         gSpecialVar_LastTalked = sTrainerObjectEventLocalId;
         gSelectedObjectEvent = GetObjectEventIdByLocalIdAndMap(sTrainerObjectEventLocalId, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup);
@@ -1023,14 +1023,14 @@ const u8 *BattleSetup_ConfigureTrainerBattle(const u8 *data)
         SetMapVarsToTrainer();
         return EventScript_TryDoDoubleTrainerBattle;
     case TRAINER_BATTLE_CONTINUE_SCRIPT:
-        if (gApproachingTrainerId == 0)
+        if (gApproachingTrainerId)
         {
-            TrainerBattleLoadArgs(sContinueScriptBattleParams, data);
-            SetMapVarsToTrainer();
+            TrainerBattleLoadArgs(sTrainerBContinueScriptBattleParams, data);
         }
         else
         {
-            TrainerBattleLoadArgs(sTrainerBContinueScriptBattleParams, data);
+            TrainerBattleLoadArgs(sContinueScriptBattleParams, data);
+            SetMapVarsToTrainer();
         }
         return EventScript_TryDoNormalTrainerBattle;
     case TRAINER_BATTLE_CONTINUE_SCRIPT_NO_MUSIC:
@@ -1053,16 +1053,16 @@ const u8 *BattleSetup_ConfigureTrainerBattle(const u8 *data)
         gTrainerBattleOpponent_A = GetRematchTrainerId(gTrainerBattleOpponent_A);
         return EventScript_TryDoRematchBattle;
     case TRAINER_BATTLE_PYRAMID:
-        if (gApproachingTrainerId == 0)
+        if (gApproachingTrainerId)
+        {
+            TrainerBattleLoadArgs(sTrainerBOrdinaryBattleParams, data);
+            gTrainerBattleOpponent_B = LocalIdToPyramidTrainerId(gSpecialVar_LastTalked);
+        }
+        else
         {
             TrainerBattleLoadArgs(sOrdinaryBattleParams, data);
             SetMapVarsToTrainer();
             gTrainerBattleOpponent_A = LocalIdToPyramidTrainerId(gSpecialVar_LastTalked);
-        }
-        else
-        {
-            TrainerBattleLoadArgs(sTrainerBOrdinaryBattleParams, data);
-            gTrainerBattleOpponent_B = LocalIdToPyramidTrainerId(gSpecialVar_LastTalked);
         }
         return EventScript_TryDoNormalTrainerBattle;
     case TRAINER_BATTLE_SET_TRAINER_A:
@@ -1072,27 +1072,27 @@ const u8 *BattleSetup_ConfigureTrainerBattle(const u8 *data)
         TrainerBattleLoadArgs(sTrainerBOrdinaryBattleParams, data);
         return NULL;
     case TRAINER_BATTLE_HILL:
-        if (gApproachingTrainerId == 0)
+        if (gApproachingTrainerId)
+        {
+            TrainerBattleLoadArgs(sTrainerBOrdinaryBattleParams, data);
+            gTrainerBattleOpponent_B = LocalIdToHillTrainerId(gSpecialVar_LastTalked);
+        }
+        else
         {
             TrainerBattleLoadArgs(sOrdinaryBattleParams, data);
             SetMapVarsToTrainer();
             gTrainerBattleOpponent_A = LocalIdToHillTrainerId(gSpecialVar_LastTalked);
         }
-        else
-        {
-            TrainerBattleLoadArgs(sTrainerBOrdinaryBattleParams, data);
-            gTrainerBattleOpponent_B = LocalIdToHillTrainerId(gSpecialVar_LastTalked);
-        }
         return EventScript_TryDoNormalTrainerBattle;
     default:
-        if (gApproachingTrainerId == 0)
+        if (gApproachingTrainerId)
+        {
+            TrainerBattleLoadArgs(sTrainerBOrdinaryBattleParams, data);
+        }
+        else
         {
             TrainerBattleLoadArgs(sOrdinaryBattleParams, data);
             SetMapVarsToTrainer();
-        }
-        else
-        {
-            TrainerBattleLoadArgs(sTrainerBOrdinaryBattleParams, data);
         }
         return EventScript_TryDoNormalTrainerBattle;
     }
@@ -1152,7 +1152,7 @@ bool8 GetTrainerFlag(void)
 
 static void SetBattledTrainersFlags(void)
 {
-    if (gTrainerBattleOpponent_B != 0)
+    if (gTrainerBattleOpponent_B)
         FlagSet(GetTrainerBFlag());
     FlagSet(GetTrainerAFlag());
 }
@@ -1287,7 +1287,7 @@ void ShowTrainerIntroSpeech(void)
 {
     if (InBattlePyramid())
     {
-        if (gNoOfApproachingTrainers == 0 || gNoOfApproachingTrainers == 1)
+        if (!gNoOfApproachingTrainers || gNoOfApproachingTrainers == 1)
             CopyPyramidTrainerSpeechBefore(LocalIdToPyramidTrainerId(gSpecialVar_LastTalked));
         else
             CopyPyramidTrainerSpeechBefore(LocalIdToPyramidTrainerId(gObjectEvents[gApproachingTrainers[gApproachingTrainerId].objectEventId].localId));
@@ -1296,7 +1296,7 @@ void ShowTrainerIntroSpeech(void)
     }
     else if (InTrainerHillChallenge())
     {
-        if (gNoOfApproachingTrainers == 0 || gNoOfApproachingTrainers == 1)
+        if (!gNoOfApproachingTrainers || gNoOfApproachingTrainers == 1)
             CopyTrainerHillTrainerText(TRAINER_HILL_TEXT_INTRO, LocalIdToHillTrainerId(gSpecialVar_LastTalked));
         else
             CopyTrainerHillTrainerText(TRAINER_HILL_TEXT_INTRO, LocalIdToHillTrainerId(gObjectEvents[gApproachingTrainers[gApproachingTrainerId].objectEventId].localId));
@@ -1311,7 +1311,7 @@ void ShowTrainerIntroSpeech(void)
 
 const u8 *BattleSetup_GetScriptAddrAfterBattle(void)
 {
-    if (sTrainerBattleEndScript != NULL)
+    if (sTrainerBattleEndScript)
         return sTrainerBattleEndScript;
     else
         return EventScript_TestSignpostMsg;
@@ -1322,7 +1322,7 @@ const u8 *BattleSetup_GetTrainerPostBattleScript(void)
     if (sShouldCheckTrainerBScript)
     {
         sShouldCheckTrainerBScript = FALSE;
-        if (sTrainerBBattleScriptRetAddr != NULL)
+        if (sTrainerBBattleScriptRetAddr)
         {
             gWhichTrainerToFaceAfterBattle = 1;
             return sTrainerBBattleScriptRetAddr;
@@ -1330,7 +1330,7 @@ const u8 *BattleSetup_GetTrainerPostBattleScript(void)
     }
     else
     {
-        if (sTrainerABattleScriptRetAddr != NULL)
+        if (sTrainerABattleScriptRetAddr)
         {
             gWhichTrainerToFaceAfterBattle = 0;
             return sTrainerABattleScriptRetAddr;
@@ -1350,10 +1350,10 @@ void PlayTrainerEncounterMusic(void)
     u16 trainerId;
     u16 music;
 
-    if (gApproachingTrainerId == 0)
-        trainerId = gTrainerBattleOpponent_A;
-    else
+    if (gApproachingTrainerId)
         trainerId = gTrainerBattleOpponent_B;
+    else
+        trainerId = gTrainerBattleOpponent_A;
 
     if (sTrainerBattleMode != TRAINER_BATTLE_CONTINUE_SCRIPT_NO_MUSIC
         && sTrainerBattleMode != TRAINER_BATTLE_CONTINUE_SCRIPT_DOUBLE_NO_MUSIC)
@@ -1408,18 +1408,18 @@ void PlayTrainerEncounterMusic(void)
 
 static const u8 *ReturnEmptyStringIfNull(const u8 *string)
 {
-    if (string == NULL)
-        return gText_EmptyString2;
-    else
+    if (string)
         return string;
+    else
+        return gText_EmptyString2;
 }
 
 static const u8 *GetIntroSpeechOfApproachingTrainer(void)
 {
-    if (gApproachingTrainerId == 0)
-        return ReturnEmptyStringIfNull(sTrainerAIntroSpeech);
-    else
+    if (gApproachingTrainerId)
         return ReturnEmptyStringIfNull(sTrainerBIntroSpeech);
+    else
+        return ReturnEmptyStringIfNull(sTrainerAIntroSpeech);
 }
 
 const u8 *GetTrainerALoseText(void)
@@ -1486,7 +1486,7 @@ static bool32 sub_80B1D94(s32 rematchTableId)
     if (rematchTableId >= REMATCH_ELITE_FOUR_ENTRIES)
         return TRUE;
     else if (rematchTableId == REMATCH_WALLY_3)
-        return (FlagGet(FLAG_DEFEATED_WALLY_VICTORY_ROAD) == FALSE);
+        return (!FlagGet(FLAG_DEFEATED_WALLY_VICTORY_ROAD));
     else
         return FALSE;
 }
@@ -1499,9 +1499,8 @@ static void SetRematchIdForTrainer(const struct RematchTrainer *table, u32 table
     {
         u16 trainerId = table[tableId].trainerIds[i];
 
-        if (trainerId == 0)
-            break;
-        if (!HasTrainerBeenFought(trainerId))
+        if (!trainerId
+         || !HasTrainerBeenFought(trainerId))
             break;
     }
 
@@ -1517,7 +1516,7 @@ static bool32 UpdateRandomTrainerRematches(const struct RematchTrainer *table, u
     {
         if (table[i].mapGroup == mapGroup && table[i].mapNum == mapNum && !sub_80B1D94(i))
         {
-            if (gSaveBlock1Ptr->trainerRematches[i] != 0)
+            if (gSaveBlock1Ptr->trainerRematches[i])
             {
                 // Trainer already wants a rematch. Don't bother updating it.
                 ret = TRUE;
@@ -1546,7 +1545,7 @@ static bool32 DoesSomeoneWantRematchIn_(const struct RematchTrainer *table, u16 
 
     for (i = 0; i < REMATCH_TABLE_ENTRIES; i++)
     {
-        if (table[i].mapGroup == mapGroup && table[i].mapNum == mapNum && gSaveBlock1Ptr->trainerRematches[i] != 0)
+        if (table[i].mapGroup == mapGroup && table[i].mapNum == mapNum && gSaveBlock1Ptr->trainerRematches[i])
             return TRUE;
     }
 
@@ -1570,11 +1569,9 @@ static bool8 IsFirstTrainerIdReadyForRematch(const struct RematchTrainer *table,
 {
     s32 tableId = FirstBattleTrainerIdToRematchTableId(table, firstBattleTrainerId);
 
-    if (tableId == -1)
-        return FALSE;
-    if (tableId >= MAX_REMATCH_ENTRIES)
-        return FALSE;
-    if (gSaveBlock1Ptr->trainerRematches[tableId] == 0)
+    if (tableId == -1
+     || tableId >= MAX_REMATCH_ENTRIES
+     || !gSaveBlock1Ptr->trainerRematches[tableId])
         return FALSE;
 
     return TRUE;
@@ -1584,11 +1581,9 @@ static bool8 IsTrainerReadyForRematch_(const struct RematchTrainer *table, u16 t
 {
     s32 tableId = TrainerIdToRematchTableId(table, trainerId);
 
-    if (tableId == -1)
-        return FALSE;
-    if (tableId >= MAX_REMATCH_ENTRIES)
-        return FALSE;
-    if (gSaveBlock1Ptr->trainerRematches[tableId] == 0)
+    if (tableId == -1
+     || tableId >= MAX_REMATCH_ENTRIES
+     || !gSaveBlock1Ptr->trainerRematches[tableId])
         return FALSE;
 
     return TRUE;
@@ -1606,7 +1601,7 @@ static u16 GetRematchTrainerIdFromTable(const struct RematchTrainer *table, u16 
     trainerEntry = &table[tableId];
     for (i = 1; i < REMATCHES_COUNT; i++)
     {
-        if (trainerEntry->trainerIds[i] == 0) // previous entry was this trainer's last one
+        if (!trainerEntry->trainerIds[i]) // previous entry was this trainer's last one
             return trainerEntry->trainerIds[i - 1];
         if (!HasTrainerBeenFought(trainerEntry->trainerIds[i]))
             return trainerEntry->trainerIds[i];
@@ -1627,9 +1622,8 @@ static u16 GetLastBeatenRematchTrainerIdFromTable(const struct RematchTrainer *t
     trainerEntry = &table[tableId];
     for (i = 1; i < REMATCHES_COUNT; i++)
     {
-        if (trainerEntry->trainerIds[i] == 0) // previous entry was this trainer's last one
-            return trainerEntry->trainerIds[i - 1];
-        if (!HasTrainerBeenFought(trainerEntry->trainerIds[i]))
+        if (!HasTrainerBeenFought(trainerEntry->trainerIds[i])
+         || !trainerEntry->trainerIds[i]) // previous entry was this trainer's last one
             return trainerEntry->trainerIds[i - 1];
     }
 
@@ -1671,9 +1665,8 @@ static bool8 WasSecondRematchWon(const struct RematchTrainer *table, u16 firstBa
 {
     s32 tableId = FirstBattleTrainerIdToRematchTableId(table, firstBattleTrainerId);
 
-    if (tableId == -1)
-        return FALSE;
-    if (!HasTrainerBeenFought(table[tableId].trainerIds[1]))
+    if (tableId == -1
+     || !HasTrainerBeenFought(table[tableId].trainerIds[1]))
         return FALSE;
 
     return TRUE;
@@ -1785,9 +1778,8 @@ u16 CountBattledRematchTeams(u16 trainerId)
 
     for (i = 1; i < REMATCHES_COUNT; i++)
     {
-        if (gRematchTable[trainerId].trainerIds[i] == 0)
-            break;
-        if (!HasTrainerBeenFought(gRematchTable[trainerId].trainerIds[i]))
+        if (!gRematchTable[trainerId].trainerIds[i]
+         || !HasTrainerBeenFought(gRematchTable[trainerId].trainerIds[i]))
             break;
     }
 

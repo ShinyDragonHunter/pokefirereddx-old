@@ -434,13 +434,12 @@ const u8 gInitialMovementTypeFacingDirections[] = {
 #include "data/object_events/object_event_graphics_info_pointers.h"
 
 static const struct SpritePalette sObjectEventSpritePalettes[] = {
+    {gObjectEventPal_Brendan,               OBJ_EVENT_PAL_TAG_BRENDAN},
+    {gObjectEventPal_BridgeReflection,      OBJ_EVENT_PAL_TAG_BRIDGE_REFLECTION},
     {gObjectEventPal_Npc1,                  OBJ_EVENT_PAL_TAG_NPC_1},
     {gObjectEventPal_Npc2,                  OBJ_EVENT_PAL_TAG_NPC_2},
     {gObjectEventPal_Npc3,                  OBJ_EVENT_PAL_TAG_NPC_3},
     {gObjectEventPal_Npc4,                  OBJ_EVENT_PAL_TAG_NPC_4},
-    {gObjectEventPal_Brendan,               OBJ_EVENT_PAL_TAG_BRENDAN},
-    {gObjectEventPal_BridgeReflection,      OBJ_EVENT_PAL_TAG_BRIDGE_REFLECTION},
-    {gObjectEventPal_PlayerUnderwater,      OBJ_EVENT_PAL_TAG_PLAYER_UNDERWATER},
     {gObjectEventPal_QuintyPlump,           OBJ_EVENT_PAL_TAG_QUINTY_PLUMP},
     {gObjectEventPal_Truck,                 OBJ_EVENT_PAL_TAG_TRUCK},
     {gObjectEventPal_Vigoroth,              OBJ_EVENT_PAL_TAG_VIGOROTH},
@@ -449,6 +448,7 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_MovingBox,             OBJ_EVENT_PAL_TAG_MOVING_BOX},
     {gObjectEventPal_CableCar,              OBJ_EVENT_PAL_TAG_CABLE_CAR},
     {gObjectEventPal_SSTidal,               OBJ_EVENT_PAL_TAG_SSTIDAL},
+    {gObjectEventPal_PlayerUnderwater,      OBJ_EVENT_PAL_TAG_PLAYER_UNDERWATER},
     {gObjectEventPal_Kyogre,                OBJ_EVENT_PAL_TAG_KYOGRE},
     {gObjectEventPal_Groudon,               OBJ_EVENT_PAL_TAG_GROUDON},
     {gObjectEventPal_SubmarineShadow,       OBJ_EVENT_PAL_TAG_SUBMARINE_SHADOW},
@@ -460,14 +460,13 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_Lugia,                 OBJ_EVENT_PAL_TAG_LUGIA},
     {gObjectEventPal_RubySapphireBrendan,   OBJ_EVENT_PAL_TAG_RS_BRENDAN},
     {gObjectEventPal_RubySapphireMay,       OBJ_EVENT_PAL_TAG_RS_MAY},
-    {NULL,                                  0x0000},
+    {NULL,                                  0xFFFF},
 };
 
 #include "data/object_events/berry_tree_graphics_tables.h"
 #include "data/field_effects/field_effect_objects.h"
 
 static const s16 sMovementDelaysMedium[] = {32, 64,  96, 128};
-static const s16 sMovementDelaysLong[] =   {32, 64, 128, 192}; // Unused
 static const s16 sMovementDelaysShort[] =  {32, 48,  64,  80};
 
 #include "data/object_events/movement_type_func_tables.h"
@@ -1029,11 +1028,11 @@ static u8 InitObjectEventStateFromTemplate(struct ObjectEventTemplate *template,
     SetObjectEventDynamicGraphicsId(objectEvent);
     if (gRangedMovementTypes[objectEvent->movementType])
     {
-        if (objectEvent->rangeX == 0)
+        if (!objectEvent->rangeX)
         {
             objectEvent->rangeX++;
         }
-        if (objectEvent->rangeY == 0)
+        if (!objectEvent->rangeY)
         {
             objectEvent->rangeY++;
         }
@@ -1085,7 +1084,6 @@ void RemoveObjectEventByLocalIdAndMap(u8 localId, u8 mapNum, u8 mapGroup)
 static void RemoveObjectEventInternal(struct ObjectEvent *objectEvent)
 {
     u8 paletteNum;
-
 
     struct SpriteFrameImage image;
     image.size = GetObjectEventGraphicsInfo(objectEvent->graphicsId)->size;
@@ -1320,7 +1318,7 @@ void TrySpawnObjectEvents(s16 cameraX, s16 cameraY)
     u8 i;
     u8 objectCount;
 
-    if (gMapHeader.events != NULL)
+    if (gMapHeader.events)
     {
         s16 left = gSaveBlock1Ptr->pos.x - 2;
         s16 right = gSaveBlock1Ptr->pos.x + 17;
@@ -1376,11 +1374,10 @@ static void RemoveObjectEventIfOutsideView(struct ObjectEvent *objectEvent)
     s16 top =    gSaveBlock1Ptr->pos.y;
     s16 bottom = gSaveBlock1Ptr->pos.y + 16;
 
-    if (objectEvent->currentCoords.x >= left && objectEvent->currentCoords.x <= right
+    if ((objectEvent->currentCoords.x >= left && objectEvent->currentCoords.x <= right
      && objectEvent->currentCoords.y >= top && objectEvent->currentCoords.y <= bottom)
-        return;
-    if (objectEvent->initialCoords.x >= left && objectEvent->initialCoords.x <= right
-     && objectEvent->initialCoords.y >= top && objectEvent->initialCoords.y <= bottom)
+     || (objectEvent->initialCoords.x >= left && objectEvent->initialCoords.x <= right
+     && objectEvent->initialCoords.y >= top && objectEvent->initialCoords.y <= bottom))
         return;
     RemoveObjectEvent(objectEvent);
 }
@@ -1483,7 +1480,7 @@ void ObjectEventSetGraphicsId(struct ObjectEvent *objectEvent, u8 graphicsId)
     graphicsInfo = GetObjectEventGraphicsInfo(graphicsId);
     sprite = &gSprites[objectEvent->spriteId];
     paletteSlot = graphicsInfo->paletteSlot;
-    if (paletteSlot == 0)
+    if (!paletteSlot)
     {
         PatchObjectPalette(graphicsInfo->paletteTag, graphicsInfo->paletteSlot);
     }
@@ -1683,7 +1680,7 @@ void LoadObjectEventPalette(u16 paletteTag)
 {
     u16 i = FindObjectEventPaletteIndexByTag(paletteTag);
 
-    if (i != OBJ_EVENT_PAL_TAG_NONE) // always true
+//    if (i != OBJ_EVENT_PAL_TAG_NONE) // always true
         LoadSpritePaletteIfTagExists(&sObjectEventSpritePalettes[i]);
 }
 
@@ -1692,7 +1689,7 @@ static u8 LoadSpritePaletteIfTagExists(const struct SpritePalette *spritePalette
     if (IndexOfSpritePaletteTag(spritePalette->tag) != 0xFF)
         return 0xFF;
 
-    return LoadSpritePalette(spritePalette);
+    return LoadSpritePaletteDayNight(spritePalette);
 }
 
 void PatchObjectPalette(u16 paletteTag, u8 paletteSlot)
@@ -1716,7 +1713,7 @@ static u8 FindObjectEventPaletteIndexByTag(u16 tag)
 {
     u8 i;
 
-    for (i = 0; sObjectEventSpritePalettes[i].tag != OBJ_EVENT_PAL_TAG_NONE; i++)
+    for (i = 0; sObjectEventSpritePalettes[i].tag != 0xFFFF; i++)
     {
         if (sObjectEventSpritePalettes[i].tag == tag)
         {
@@ -1921,19 +1918,6 @@ void CameraObjectSetFollowedSpriteId(u8 spriteId)
         camera->sLinkedSpriteId = spriteId;
         CameraObjectReset1();
     }
-}
-
-// Unused
-static u8 CameraObjectGetFollowedSpriteId(void)
-{
-    struct Sprite *camera;
-
-    camera = FindCameraSprite();
-    if (camera == NULL)
-    {
-        return MAX_SPRITES;
-    }
-    return camera->sLinkedSpriteId;
 }
 
 void CameraObjectReset2(void)
@@ -4403,13 +4387,6 @@ void MoveCoords(u8 direction, s16 *x, s16 *y)
 {
     *x += sDirectionToVectors[direction].x;
     *y += sDirectionToVectors[direction].y;
-}
-
-// Unused
-static void MoveCoordsInMapCoordIncrement(u8 direction, s16 *x, s16 *y)
-{
-    *x += sDirectionToVectors[direction].x << 4;
-    *y += sDirectionToVectors[direction].y << 4;
 }
 
 static void MoveCoordsInDirection(u32 dir, s16 *x, s16 *y, s16 deltaX, s16 deltaY)

@@ -61,9 +61,7 @@ u8 GetCurrentTimeOfDay(void)
 
 u8 GetTimeOfDay(s8 hours)
 {
-    if (hours < HOUR_MORNING)
-        return TIME_NIGHT;
-    else if (hours < HOUR_DAY)
+    if (hours < HOUR_DAY)
         return TIME_MORNING;
     else if (hours < HOUR_NIGHT)
         return TIME_DAY;
@@ -158,7 +156,17 @@ void ProcessImmediateTimeEvents(void)
 
     if (ShouldTintOverworld())
     {
-        if (!sDNSystemControl.retintPhase)
+        if (sDNSystemControl.retintPhase)
+        {
+            sDNSystemControl.retintPhase = 0;
+            TintPalette_CustomToneWithCopy(gPlttBufferPreDN + (BG_PLTT_SIZE / 2), gPlttBufferUnfaded + (BG_PLTT_SIZE / 2), OBJ_PLTT_SIZE / 2, sDNSystemControl.currRGBTint[0], sDNSystemControl.currRGBTint[1], sDNSystemControl.currRGBTint[2], TRUE);
+            LoadPaletteOverrides();
+
+            if (gWeatherPtr->palProcessingState != WEATHER_PAL_STATE_SCREEN_FADING_IN &&
+                gWeatherPtr->palProcessingState != WEATHER_PAL_STATE_SCREEN_FADING_OUT)
+                CpuCopy16(gPlttBufferUnfaded, gPlttBufferFaded, PLTT_SIZE);
+        }
+        else
         {
             hour = gLocalTime.hours;
             hourPhase = gLocalTime.minutes / MINUTES_PER_TINT_PERIOD;
@@ -175,16 +183,6 @@ void ProcessImmediateTimeEvents(void)
                 TintPalette_CustomToneWithCopy(gPlttBufferPreDN, gPlttBufferUnfaded, BG_PLTT_SIZE / 2, sDNSystemControl.currRGBTint[0], sDNSystemControl.currRGBTint[1], sDNSystemControl.currRGBTint[2], TRUE);
                 sDNSystemControl.retintPhase = 1;
             }
-        }
-        else
-        {
-            sDNSystemControl.retintPhase = 0;
-            TintPalette_CustomToneWithCopy(gPlttBufferPreDN + (BG_PLTT_SIZE / 2), gPlttBufferUnfaded + (BG_PLTT_SIZE / 2), OBJ_PLTT_SIZE / 2, sDNSystemControl.currRGBTint[0], sDNSystemControl.currRGBTint[1], sDNSystemControl.currRGBTint[2], TRUE);
-            LoadPaletteOverrides();
-
-            if (gWeatherPtr->palProcessingState != WEATHER_PAL_STATE_SCREEN_FADING_IN &&
-                gWeatherPtr->palProcessingState != WEATHER_PAL_STATE_SCREEN_FADING_OUT)
-                CpuCopy16(gPlttBufferUnfaded, gPlttBufferFaded, PLTT_SIZE);
         }
     }
 

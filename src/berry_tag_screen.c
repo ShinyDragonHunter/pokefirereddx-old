@@ -200,11 +200,9 @@ static void CB2_InitBerryTagScreen(void)
 {
     while (1)
     {
-        if (MenuHelpers_CallLinkSomething() == TRUE)
-            break;
-        if (InitBerryTagScreen() == TRUE)
-            break;
-        if (MenuHelpers_LinkSomething() == TRUE)
+        if (MenuHelpers_CallLinkSomething()
+         || InitBerryTagScreen()
+         || MenuHelpers_LinkSomething())
             break;
     }
 }
@@ -333,16 +331,11 @@ static bool8 LoadBerryTagGfx(void)
         sBerryTag->gfxState++;
         break;
     case 3:
-        if (gSaveBlock2Ptr->playerGender == MALE)
-        {
-            for (i = 0; i < ARRAY_COUNT(sBerryTag->tilemapBuffers[1]); i++)
-                sBerryTag->tilemapBuffers[1][i] = 0x4042;
-        }
-        else
-        {
-            for (i = 0; i < ARRAY_COUNT(sBerryTag->tilemapBuffers[1]); i++)
+        for (i = 0; i < ARRAY_COUNT(sBerryTag->tilemapBuffers[1]); i++)
+            if (gSaveBlock2Ptr->playerGender)
                 sBerryTag->tilemapBuffers[1][i] = 0x5042;
-        }
+            else
+                sBerryTag->tilemapBuffers[1][i] = 0x4042;
         sBerryTag->gfxState++;
         break;
     case 4:
@@ -376,7 +369,7 @@ static void HandleInitWindows(void)
 
 static void PrintTextInBerryTagScreen(u8 windowId, const u8 *text, u8 x, u8 y, s32 speed, u8 colorStructId)
 {
-    AddTextPrinterParameterized4(windowId, 1, x, y, 0, 0, sTextColors[colorStructId], speed, text);
+    AddTextPrinterParameterized4(windowId, 2, x, y, 0, 0, sTextColors[colorStructId], speed, text);
 }
 
 static void AddBerryTagTextToBg0(void)
@@ -409,8 +402,8 @@ static void PrintBerryNumberAndName(void)
 static void PrintBerrySize(void)
 {
     const struct Berry *berry = GetBerryInfo(sBerryTag->berryId);
-    AddTextPrinterParameterized(WIN_SIZE_FIRM, 1, gText_SizeSlash, 0, 1, TEXT_SPEED_FF, NULL);
-    if (berry->size != 0)
+    AddTextPrinterParameterized(WIN_SIZE_FIRM, 2, gText_SizeSlash, 0, 1, TEXT_SPEED_FF, NULL);
+    if (berry->size)
     {
         u32 inches, fraction;
 
@@ -423,34 +416,34 @@ static void PrintBerrySize(void)
         ConvertIntToDecimalStringN(gStringVar1, inches, STR_CONV_MODE_LEFT_ALIGN, 2);
         ConvertIntToDecimalStringN(gStringVar2, fraction, STR_CONV_MODE_LEFT_ALIGN, 2);
         StringExpandPlaceholders(gStringVar4, gText_Var1DotVar2);
-        AddTextPrinterParameterized(WIN_SIZE_FIRM, 1, gStringVar4, 0x28, 1, 0, NULL);
+        AddTextPrinterParameterized(WIN_SIZE_FIRM, 2, gStringVar4, 0x28, 1, 0, NULL);
     }
     else
     {
-        AddTextPrinterParameterized(WIN_SIZE_FIRM, 1, gText_ThreeMarks, 0x28, 1, 0, NULL);
+        AddTextPrinterParameterized(WIN_SIZE_FIRM, 2, gText_ThreeMarks, 0x28, 1, 0, NULL);
     }
 }
 
 static void PrintBerryFirmness(void)
 {
     const struct Berry *berry = GetBerryInfo(sBerryTag->berryId);
-    AddTextPrinterParameterized(WIN_SIZE_FIRM, 1, gText_FirmSlash, 0, 0x11, TEXT_SPEED_FF, NULL);
-    if (berry->firmness != 0)
-        AddTextPrinterParameterized(WIN_SIZE_FIRM, 1, sBerryFirmnessStrings[berry->firmness - 1], 0x28, 0x11, 0, NULL);
+    AddTextPrinterParameterized(WIN_SIZE_FIRM, 2, gText_FirmSlash, 0, 0x11, TEXT_SPEED_FF, NULL);
+    if (berry->firmness)
+        AddTextPrinterParameterized(WIN_SIZE_FIRM, 2, sBerryFirmnessStrings[berry->firmness - 1], 0x28, 0x11, 0, NULL);
     else
-        AddTextPrinterParameterized(WIN_SIZE_FIRM, 1, gText_ThreeMarks, 0x28, 0x11, 0, NULL);
+        AddTextPrinterParameterized(WIN_SIZE_FIRM, 2, gText_ThreeMarks, 0x28, 0x11, 0, NULL);
 }
 
 static void PrintBerryDescription1(void)
 {
     const struct Berry *berry = GetBerryInfo(sBerryTag->berryId);
-    AddTextPrinterParameterized(WIN_DESC, 1, berry->description1, 0, 1, 0, NULL);
+    AddTextPrinterParameterized(WIN_DESC, 2, berry->description1, 0, 1, 0, NULL);
 }
 
 static void PrintBerryDescription2(void)
 {
     const struct Berry *berry = GetBerryInfo(sBerryTag->berryId);
-    AddTextPrinterParameterized(WIN_DESC, 1, berry->description2, 0, 0x11, 0, NULL);
+    AddTextPrinterParameterized(WIN_DESC, 2, berry->description2, 0, 0x11, 0, NULL);
 }
 
 static void CreateBerrySprite(void)
@@ -681,6 +674,6 @@ static void Task_DisplayAnotherBerry(u8 taskId)
     ChangeBgY(1, 0x1000, data[1]);
     ChangeBgY(2, 0x1000, data[1]);
 
-    if (data[0] == 0)
+    if (!data[0])
         gTasks[taskId].func = Task_HandleInput;
 }

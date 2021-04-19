@@ -103,11 +103,13 @@ static const union AnimCmd sAnim_VineDropLeft[] =
     ANIMCMD_FRAME(2, 8),
     ANIMCMD_FRAME(3, 8),
     ANIMCMD_FRAME(4, 8),
+    ANIMCMD_FRAME(5, 8),
     ANIMCMD_END,
 };
 
 static const union AnimCmd sAnim_VineRiseLeft[] =
 {
+    ANIMCMD_FRAME(5, 8),
     ANIMCMD_FRAME(4, 8),
     ANIMCMD_FRAME(3, 8),
     ANIMCMD_FRAME(2, 8),
@@ -123,26 +125,18 @@ static const union AnimCmd sAnim_VineDropRight[] =
     ANIMCMD_FRAME(2, 8, .hFlip = TRUE),
     ANIMCMD_FRAME(3, 8, .hFlip = TRUE),
     ANIMCMD_FRAME(4, 8, .hFlip = TRUE),
+    ANIMCMD_FRAME(5, 8, .hFlip = TRUE),
     ANIMCMD_END,
 };
 
 static const union AnimCmd sAnim_VineRiseRight[] =
 {
+    ANIMCMD_FRAME(5, 8, .hFlip = TRUE),
     ANIMCMD_FRAME(4, 8, .hFlip = TRUE),
     ANIMCMD_FRAME(3, 8, .hFlip = TRUE),
     ANIMCMD_FRAME(2, 8, .hFlip = TRUE),
     ANIMCMD_FRAME(1, 8, .hFlip = TRUE),
     ANIMCMD_FRAME(0, 8, .hFlip = TRUE),
-    ANIMCMD_END,
-};
-
-static const union AnimCmd sAnim_SecretPowerShrub[] =
-{
-    ANIMCMD_FRAME(0, 8),
-    ANIMCMD_FRAME(1, 8),
-    ANIMCMD_FRAME(2, 8),
-    ANIMCMD_FRAME(3, 8),
-    ANIMCMD_FRAME(4, 8),
     ANIMCMD_END,
 };
 
@@ -157,11 +151,6 @@ static const union AnimCmd *const sAnimTable_SecretPowerTree[] =
     sAnim_VineRiseLeft,
     sAnim_VineDropRight,
     sAnim_VineRiseRight,
-};
-
-static const union AnimCmd *const sAnimTable_SecretPowerShrub[] =
-{
-    sAnim_SecretPowerShrub,
 };
 
 static const struct SpriteFrameImage sPicTable_SecretPowerCave[] =
@@ -219,7 +208,7 @@ static const struct SpriteTemplate sSpriteTemplate_SecretPowerShrub =
     .tileTag = 0xFFFF,
     .paletteTag = FLDEFF_PAL_TAG_SECRET_POWER_PLANT,
     .oam = &sOam_SecretPower,
-    .anims = sAnimTable_SecretPowerShrub,
+    .anims = sAnimTable_SecretPowerCave,
     .images = sPicTable_SecretPowerShrub,
     .affineAnims = gDummySpriteAffineAnimTable,
     .callback = SpriteCB_ShrubEntranceInit,
@@ -392,7 +381,7 @@ static void Task_ComputerScreenOpenEffect(u8 taskId)
         }
         SetGpuReg(REG_OFFSET_WIN0H, WIN_RANGE(task->tWinLeft, task->tWinRight));
 
-        if (task->tWinLeft != 0)
+        if (task->tWinLeft)
             return;
         break;
     case 3:
@@ -557,7 +546,7 @@ bool8 SetUpFieldMove_SecretPower(void)
     GetXYCoordsOneStepInFrontOfPlayer(&gPlayerFacingPosition.x, &gPlayerFacingPosition.y);
     mb = MapGridGetMetatileBehaviorAt(gPlayerFacingPosition.x, gPlayerFacingPosition.y);
 
-    if (MetatileBehavior_IsSecretBaseCave(mb) == TRUE)
+    if (MetatileBehavior_IsSecretBaseCave(mb))
     {
         SetCurrentSecretBase();
         gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;
@@ -565,7 +554,7 @@ bool8 SetUpFieldMove_SecretPower(void)
         return TRUE;
     }
 
-    if (MetatileBehavior_IsSecretBaseTree(mb) == TRUE)
+    if (MetatileBehavior_IsSecretBaseTree(mb))
     {
         SetCurrentSecretBase();
         gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;
@@ -573,7 +562,7 @@ bool8 SetUpFieldMove_SecretPower(void)
         return TRUE;
     }
 
-    if (MetatileBehavior_IsSecretBaseShrub(mb) == TRUE)
+    if (MetatileBehavior_IsSecretBaseShrub(mb))
     {
         SetCurrentSecretBase();
         gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;
@@ -704,7 +693,7 @@ static void SpriteCB_TreeEntranceOpen(struct Sprite *sprite)
 
     if (sprite->data[0] >= 40)
     {
-        if (gFieldEffectArguments[7] == 0 || gFieldEffectArguments[7] == 2)
+        if (!gFieldEffectArguments[7] || gFieldEffectArguments[7] == 2)
             ToggleSecretBaseEntranceMetatile();
 
         sprite->data[0] = 0;
@@ -868,7 +857,7 @@ static void Task_PopSecretBaseBalloon(u8 taskId)
     else
         data[3]++;
 
-    if (data[3] == 0)
+    if (!data[3])
     {
         if (data[4] == 2)
             DoBalloonSoundEffect(data[0]);
@@ -900,16 +889,6 @@ static void DoBalloonSoundEffect(s16 metatileId)
         PlaySE(SE_MUD_BALL);
         break;
     }
-}
-
-bool8 FldEff_Nop47(void)
-{
-    return FALSE;
-}
-
-bool8 FldEff_Nop48(void)
-{
-    return FALSE;
 }
 
 static void DoSecretBaseBreakableDoorEffect(s16 x, s16 y)
@@ -1183,18 +1162,17 @@ bool8 IsLargeBreakableDecoration(u16 metatileId, bool8 checkBase)
     if (!CurMapIsSecretBase())
         return FALSE;
 
-    if (!checkBase)
+    if (checkBase)
     {
-        if (metatileId == METATILE_SecretBase_SandOrnament_Top || metatileId == METATILE_SecretBase_SandOrnament_TopWall)
-            return TRUE;
-        if (metatileId == METATILE_SecretBase_BreakableDoor_TopClosed)
+        if (metatileId == METATILE_SecretBase_SandOrnament_Base1
+         || metatileId == METATILE_SecretBase_BreakableDoor_BottomClosed)
             return TRUE;
     }
     else
     {
-        if (metatileId == METATILE_SecretBase_SandOrnament_Base1)
-            return TRUE;
-        if (metatileId == METATILE_SecretBase_BreakableDoor_BottomClosed)
+        if (metatileId == METATILE_SecretBase_SandOrnament_Top
+         || metatileId == METATILE_SecretBase_SandOrnament_TopWall
+         || metatileId == METATILE_SecretBase_BreakableDoor_TopClosed)
             return TRUE;
     }
 
@@ -1214,7 +1192,7 @@ static void Task_FieldPoisonEffect(u8 taskId)
         break;
     case 1:
         data[1] -= 2;
-        if (data[1] == 0)
+        if (!data[1])
             data[0]++;
         break;
     case 2:
