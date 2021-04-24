@@ -28,8 +28,9 @@ void ClearMailStruct(struct MailStruct *mail)
     for (i = 0; i < TRAINER_ID_LENGTH; i++)
         mail->trainerId[i] = 0;
 
-    mail->species = SPECIES_BULBASAUR;
+    mail->species = SPECIES_NONE;
     mail->itemId = ITEM_NONE;
+    mail->form = 0;
 }
 
 bool8 MonHasMail(struct Pokemon *mon)
@@ -47,6 +48,7 @@ u8 GiveMailToMon(struct Pokemon *mon, u16 itemId)
     u8 id, i;
     u16 species;
     u32 personality;
+    u8 form;
 
     heldItem[0] = itemId;
     heldItem[1] = itemId >> 8;
@@ -68,7 +70,8 @@ u8 GiveMailToMon(struct Pokemon *mon, u16 itemId)
 
             species = GetBoxMonData(&mon->box, MON_DATA_SPECIES);
             personality = GetBoxMonData(&mon->box, MON_DATA_PERSONALITY);
-            gSaveBlock1Ptr->mail[id].species = SpeciesToMailSpecies(species, personality);
+            form = GetBoxMonData(&mon->box, MON_DATA_FORM);
+            gSaveBlock1Ptr->mail[id].species = SpeciesToMailSpecies(species, personality, form);
             gSaveBlock1Ptr->mail[id].itemId = itemId;
             SetMonData(mon, MON_DATA_MAIL, &id);
             SetMonData(mon, MON_DATA_HELD_ITEM, heldItem);
@@ -79,7 +82,7 @@ u8 GiveMailToMon(struct Pokemon *mon, u16 itemId)
     return MAIL_NONE;
 }
 
-u16 SpeciesToMailSpecies(u16 species, u32 personality)
+u16 SpeciesToMailSpecies(u16 species, u32 personality, u8 form)
 {
     if (species == SPECIES_UNOWN)
     {
@@ -87,10 +90,10 @@ u16 SpeciesToMailSpecies(u16 species, u32 personality)
         return species;
     }
 
-    return species;
+    return GetFormSpecies(species, form);
 }
 
-u16 MailSpeciesToSpecies(u16 mailSpecies, u16 *buffer)
+u16 MailSpeciesToSpecies(u16 mailSpecies, u16 *buffer, u8 mailForm)
 {
     u16 result;
 
@@ -101,7 +104,7 @@ u16 MailSpeciesToSpecies(u16 mailSpecies, u16 *buffer)
     }
     else
     {
-        result = mailSpecies;
+        result = GetFormSpecies(mailSpecies, mailForm);
     }
 
     return result;

@@ -2460,6 +2460,15 @@ extern const u8 gMonIcon_UnownExclamationMark[];
 extern const u32 gMonFrontPic_UnownQuestionMark[];
 extern const u32 gMonBackPic_UnownQuestionMark[];
 extern const u8 gMonIcon_UnownQuestionMark[];
+extern const u32 gMonFrontPic_DeoxysSpeed[];
+extern const u32 gMonBackPic_DeoxysSpeed[];
+extern const u8 gMonIcon_DeoxysSpeed[];
+extern const u32 gMonFrontPic_DeoxysAttack[];
+extern const u32 gMonBackPic_DeoxysAttack[];
+extern const u8 gMonIcon_DeoxysAttack[];
+extern const u32 gMonFrontPic_DeoxysDefense[];
+extern const u32 gMonBackPic_DeoxysDefense[];
+extern const u8 gMonIcon_DeoxysDefense[];
 
 extern const u32 gMonFrontPic_CircledQuestionMark[];
 extern const u32 gMonBackPic_CircledQuestionMark[];
@@ -3767,7 +3776,7 @@ extern const u8 gNamingScreenCursor_Gfx[];
 extern const u8 gNamingScreenInputArrow_Gfx[];
 extern const u8 gNamingScreenUnderscore_Gfx[];
 
-extern const u32 gUnknown_08D9BA44[];
+extern const u32 gPokeblockFeedBg_Tilemap[];
 
 extern const u32 gConfetti_Gfx[];
 extern const u32 gConfetti_Pal[];
@@ -4570,12 +4579,12 @@ extern const u32 gPokedexAreaScreenAreaUnknown_Gfx[];
 extern const u16 gPokedexAreaScreenAreaUnknown_Pal[];
 
 // Pokemon Storage System
-extern const u32 gPSSMenu_Gfx[];
-extern const u16 gPSSMenu_Pal[];
+extern const u32 gStorageSystemMenu_Gfx[];
+extern const u16 gStorageSystemPartyMenu_Pal[];
+extern const u32 gStorageSystemPartyMenu_Tilemap[];
 extern const u32 gWallpaperIcon_Plusle[];
 extern const u32 gWallpaperIcon_Cross[];
 extern const u32 gWallpaperIcon_Bolt[];
-extern const u32 gUnknown_08DD36C8[];
 extern const u32 gWallpaperTiles_Ribbon[];
 extern const u32 gWallpaperTilemap_Ribbon[];
 extern const u16 gWallpaperPalettes_Ribbon[][16];

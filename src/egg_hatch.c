@@ -36,6 +36,7 @@
 #include "data.h"
 #include "battle.h" // to get rid of later
 #include "constants/rgb.h"
+#include "constants/region_map_sections.h"
 
 struct EggHatchData
 {
@@ -290,12 +291,11 @@ static const s16 sEggShardVelocities[][2] =
 static void CreateHatchedMon(struct Pokemon *egg, struct Pokemon *temp)
 {
     u16 species;
-    u8 form;
     u32 personality, pokerus;
     u8 i, friendship, language, gameMet, markings, isEventLegal;
     u16 moves[MAX_MON_MOVES];
     u32 ivs[NUM_STATS];
-
+    u8 form;
 
     species = GetMonData(egg, MON_DATA_SPECIES);
     form = GetMonData(egg, MON_DATA_FORM); 
@@ -331,7 +331,9 @@ static void CreateHatchedMon(struct Pokemon *egg, struct Pokemon *temp)
     language = GAME_LANGUAGE;
     SetMonData(temp, MON_DATA_LANGUAGE, &language);
 
-    gameMet = GAME_VERSION;
+    if (GetMonData(egg, MON_DATA_MET_LOCATION) != METLOC_SPECIAL_EGG)
+        gameMet = GAME_VERSION;
+
     SetMonData(temp, MON_DATA_MET_GAME, &gameMet);
     SetMonData(temp, MON_DATA_MARKINGS, &markings);
 

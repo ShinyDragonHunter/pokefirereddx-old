@@ -109,9 +109,6 @@ void AgbMain()
 
     gSoftResetDisabled = FALSE;
 
-    if (gFlashMemoryPresent != TRUE)
-        SetMainCallback2(NULL);
-
     gLinkTransferringData = FALSE;
     gUnknown_03000000 = 0xFC0;
 

@@ -1,6 +1,7 @@
 	.align 2
 gCryTable:: @ 869DCF4
 	cry Cry_Bulbasaur
+	cry Cry_Bulbasaur
 	cry Cry_Ivysaur
 	cry Cry_Venusaur
 	cry Cry_Charmander

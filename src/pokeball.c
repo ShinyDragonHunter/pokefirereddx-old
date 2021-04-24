@@ -696,7 +696,7 @@ static void sub_8075970(struct Sprite *sprite)
 #define tCryTaskSpecies         data[0]
 #define tCryTaskPan             data[1]
 #define tCryTaskWantedCry       data[2]
-#define tCryTaskBattler            data[3]
+#define tCryTaskBattler         data[3]
 #define tCryTaskMonSpriteId     data[4]
 #define tCryTaskMonPtr1         data[5]
 #define tCryTaskMonPtr2         data[6]

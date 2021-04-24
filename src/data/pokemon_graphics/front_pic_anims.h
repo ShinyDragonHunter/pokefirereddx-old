@@ -6223,7 +6223,7 @@ const union AnimCmd *const *const gMonFrontAnimsPtrTable[] =
     ANIM_CMD(JIRACHI),
     ANIM_CMD_FULL(DEOXYS, sAnims_NONE),
     ANIM_CMD(CHIMECHO),
-    ANIM_CMD(EGG),
+    ANIM_CMD_FULL(EGG, sAnims_NONE),
     ANIM_CMD_FULL(UNOWN_B, sAnims_NONE),
     ANIM_CMD_FULL(UNOWN_C, sAnims_NONE),
     ANIM_CMD_FULL(UNOWN_D, sAnims_NONE),
@@ -6251,6 +6251,9 @@ const union AnimCmd *const *const gMonFrontAnimsPtrTable[] =
     ANIM_CMD_FULL(UNOWN_Z, sAnims_NONE),
     ANIM_CMD_FULL(UNOWN_EMARK, sAnims_NONE),
     ANIM_CMD_FULL(UNOWN_QMARK, sAnims_NONE),
+    ANIM_CMD_FULL(DEOXYS_SPEED, sAnims_NONE),
+    ANIM_CMD_FULL(DEOXYS_ATTACK, sAnims_NONE),
+    ANIM_CMD_FULL(DEOXYS_DEFENSE, sAnims_NONE),
 };
 
 #undef ANIM_CMD

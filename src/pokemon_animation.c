@@ -212,6 +212,7 @@ static bool32 sIsSummaryAnim;
 
 static const u8 sSpeciesToBackAnimSet[] =
 {
+    [SPECIES_NONE]       = BACK_ANIM_H_VIBRATE,
     [SPECIES_BULBASAUR]  = BACK_ANIM_DIP_RIGHT_SIDE,
     [SPECIES_IVYSAUR]    = BACK_ANIM_H_SLIDE,
     [SPECIES_VENUSAUR]   = BACK_ANIM_H_SHAKE,
@@ -598,6 +599,9 @@ static const u8 sSpeciesToBackAnimSet[] =
     [SPECIES_JIRACHI]    = BACK_ANIM_CONVEX_DOUBLE_ARC,
     [SPECIES_DEOXYS]     = BACK_ANIM_SHRINK_GROW_VIBRATE,
     [SPECIES_CHIMECHO]   = BACK_ANIM_CONVEX_DOUBLE_ARC,
+    [SPECIES_DEOXYS_SPEED]  = BACK_ANIM_JOLT_RIGHT,
+    [SPECIES_DEOXYS_ATTACK] = BACK_ANIM_GROW_STUTTER,
+    [SPECIES_DEOXYS_DEFENSE] = BACK_ANIM_DIP_RIGHT_SIDE,
 };
 
 // Equivalent to struct YellowFlashData, but doesn't match as a struct
@@ -885,7 +889,7 @@ static void SetPosForRotation(struct Sprite *sprite, u16 index, s16 amplitudeX, 
 u8 GetSpeciesBackAnimSet(u16 species)
 {
     if (sSpeciesToBackAnimSet[species] != BACK_ANIM_NONE)
-        return sSpeciesToBackAnimSet[species] - 1;
+        return sSpeciesToBackAnimSet[species];
     else
         return 0;
 }
@@ -909,7 +913,7 @@ static void Task_HandleMonAnimation(u8 taskId)
     u32 i;
     struct Sprite *sprite = ANIM_SPRITE(taskId);
 
-    if (gTasks[taskId].tState == 0)
+    if (!gTasks[taskId].tState)
     {
         gTasks[taskId].tBattlerId = sprite->data[0];
         gTasks[taskId].tSpeciesId = sprite->data[2];
@@ -951,7 +955,7 @@ void StartMonSummaryAnimation(struct Sprite *sprite, u8 frontAnimId)
 
 void LaunchAnimationTaskForBackSprite(struct Sprite *sprite, u8 backAnimSet)
 {
-    u8 nature, taskId, animId, battlerId;
+    u8 nature, taskId, animId, battlerId, form;
 
     taskId = CreateTask(Task_HandleMonAnimation, 128);
     gTasks[taskId].tPtrHi = (u32)(sprite) >> 16;

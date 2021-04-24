@@ -1541,7 +1541,8 @@ static u32 CopyPlayerMonData(u8 monId, u8 *dst)
     switch (gBattleBufferA[gActiveBattler][1])
     {
     case REQUEST_ALL_BATTLE:
-        battleMon.species = GetFormSpecies(GetMonData(&gPlayerParty[monId], MON_DATA_SPECIES), GetMonData(&gPlayerParty[monId], MON_DATA_FORM));
+        battleMon.species = GetFormSpecies(GetMonData(&gPlayerParty[monId], MON_DATA_SPECIES),
+                            GetMonData(&gPlayerParty[monId], MON_DATA_FORM));
         battleMon.item = GetMonData(&gPlayerParty[monId], MON_DATA_HELD_ITEM);
         for (size = 0; size < MAX_MON_MOVES; size++)
         {
@@ -1578,7 +1579,8 @@ static u32 CopyPlayerMonData(u8 monId, u8 *dst)
             dst[size] = src[size];
         break;
     case REQUEST_SPECIES_BATTLE:
-        data16 = GetFormSpecies(GetMonData(&gPlayerParty[monId], MON_DATA_SPECIES), GetMonData(&gPlayerParty[monId], MON_DATA_FORM));
+        data16 = GetFormSpecies(GetMonData(&gPlayerParty[monId], MON_DATA_SPECIES),
+                                GetMonData(&gPlayerParty[monId], MON_DATA_FORM));
         dst[0] = data16;
         dst[1] = data16 >> 8;
         size = 2;
@@ -2137,7 +2139,7 @@ static void StartSendOutAnim(u8 battlerId, bool8 dontClearSubstituteBit)
     gSprites[gBattleControllerData[battlerId]].data[2] = battlerId;
 
     gSprites[gBattlerSpriteIds[battlerId]].data[0] = battlerId;
-    gSprites[gBattlerSpriteIds[battlerId]].data[2] = species;
+    gSprites[gBattlerSpriteIds[battlerId]].data[2] = GetFormSpecies(species, form);
     gSprites[gBattlerSpriteIds[battlerId]].oam.paletteNum = battlerId;
 
     StartSpriteAnim(&gSprites[gBattlerSpriteIds[battlerId]], gBattleMonForms[battlerId]);
@@ -2434,7 +2436,7 @@ static void HandleChooseActionAfterDma3(void)
     if (!IsDma3ManagerBusyWithBgCopy())
     {
         gBattle_BG0_X = 0;
-        gBattle_BG0_Y = 160;
+        gBattle_BG0_Y = DISPLAY_HEIGHT;
         gBattlerControllerFuncs[gActiveBattler] = HandleInputChooseAction;
     }
 }
@@ -2476,7 +2478,7 @@ static void HandleChooseMoveAfterDma3(void)
     if (!IsDma3ManagerBusyWithBgCopy())
     {
         gBattle_BG0_X = 0;
-        gBattle_BG0_Y = 320;
+        gBattle_BG0_Y = DISPLAY_HEIGHT * 2;
         gBattlerControllerFuncs[gActiveBattler] = HandleInputChooseMove;
     }
 }

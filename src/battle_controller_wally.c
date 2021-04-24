@@ -1178,7 +1178,7 @@ static void HandleChooseActionAfterDma3(void)
     if (!IsDma3ManagerBusyWithBgCopy())
     {
         gBattle_BG0_X = 0;
-        gBattle_BG0_Y = 160;
+        gBattle_BG0_Y = DISPLAY_HEIGHT;
         gBattlerControllerFuncs[gActiveBattler] = WallyHandleActions;
     }
 }
@@ -1216,7 +1216,7 @@ static void WallyHandleChooseMove(void)
         if (!IsDma3ManagerBusyWithBgCopy())
         {
             gBattle_BG0_X = 0;
-            gBattle_BG0_Y = 0x140;
+            gBattle_BG0_Y = DISPLAY_HEIGHT * 2;
             gBattleStruct->wallyMovesState++;
         }
         break;

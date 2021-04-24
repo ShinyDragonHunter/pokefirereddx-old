@@ -290,7 +290,7 @@ const struct SpriteTemplate gDiveBallSpriteTemplate =
     .callback = AnimDiveBall,
 };
 
-static const union AffineAnimCmd sAnim_Unused_085964A8[] =
+static const union AffineAnimCmd sAnim_Unused[] =
 {
     AFFINEANIMCMD_FRAME(0x100, 0x0, 0, 0),
     AFFINEANIMCMD_FRAME(0x0, 0x20, 0, 12),
@@ -299,9 +299,9 @@ static const union AffineAnimCmd sAnim_Unused_085964A8[] =
 };
 
 // Unused
-static const union AffineAnimCmd *const sAnims_Unused_085964C8[] =
+static const union AffineAnimCmd *const sAnims_Unused[] =
 {
-    sAnim_Unused_085964A8,
+    sAnim_Unused,
 };
 
 const struct SpriteTemplate gDiveWaterSplashSpriteTemplate =
@@ -496,7 +496,7 @@ static void AnimFlyBallAttack(struct Sprite *sprite)
 {
     if (GetBattlerSide(gBattleAnimAttacker) != B_SIDE_PLAYER)
     {
-        sprite->pos1.x = 272;
+        sprite->pos1.x = DISPLAY_WIDTH + 32;
         sprite->pos1.y = -32;
         StartSpriteAffineAnim(sprite, 1);
     }
@@ -528,8 +528,8 @@ static void AnimFlyBallAttack_Step(struct Sprite *sprite)
     }
 
     if (sprite->pos1.x + sprite->pos2.x < -32
-        || sprite->pos1.x + sprite->pos2.x > 272
-        || sprite->pos1.y + sprite->pos2.y > 160)
+        || sprite->pos1.x + sprite->pos2.x > DISPLAY_WIDTH + 32
+        || sprite->pos1.y + sprite->pos2.y > DISPLAY_HEIGHT)
     {
         gSprites[GetAnimBattlerSpriteId(ANIM_ATTACKER)].invisible = FALSE;
         DestroyAnimSprite(sprite);

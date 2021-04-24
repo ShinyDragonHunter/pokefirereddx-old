@@ -49,16 +49,16 @@ static void AnimTask_LoadMistTiles_Step(u8);
 static void AnimTask_Hail2(u8);
 static bool8 GenerateHailParticle(u8 hailStructId, u8 affineAnimNum, u8 taskId, u8 c);
 
-static const union AnimCmd sAnim_Unused_08595A48[] =
+static const union AnimCmd sAnim_Unused[] =
 {
     ANIMCMD_FRAME(0, 5, .hFlip = TRUE),
     ANIMCMD_FRAME(1, 5, .hFlip = TRUE),
     ANIMCMD_JUMP(0),
 };
 
-static const union AnimCmd *const sAnims_Unused_08595A54[] =
+static const union AnimCmd *const sAnims_Unused[] =
 {
-    sAnim_Unused_08595A48,
+    sAnim_Unused,
 };
 
 // Unused
@@ -696,8 +696,8 @@ static void AnimSwirlingSnowball(struct Sprite *sprite)
         sprite->data[0] = 1;
         AnimFastTranslateLinear(sprite);
 
-        if ((u32)(sprite->pos1.x + sprite->pos2.x + 16) > 272
-         || sprite->pos1.y + sprite->pos2.y > 160
+        if ((u32)(sprite->pos1.x + sprite->pos2.x + 16) > DISPLAY_WIDTH + 32
+         || sprite->pos1.y + sprite->pos2.y > DISPLAY_HEIGHT
          || sprite->pos1.y + sprite->pos2.y < -16)
             break;
     }
@@ -762,7 +762,7 @@ static void AnimSwirlingSnowball_End(struct Sprite *sprite)
     sprite->data[0] = 1;
     AnimFastTranslateLinear(sprite);
 
-    if ((u32)(sprite->pos1.x + sprite->pos2.x + 16) > 272
+    if ((u32)(sprite->pos1.x + sprite->pos2.x + 16) > DISPLAY_WIDTH + 32
      || sprite->pos1.y + sprite->pos2.y > 256
      || sprite->pos1.y + sprite->pos2.y < -16)
         DestroyAnimSprite(sprite);
@@ -816,8 +816,8 @@ static void AnimMoveParticleBeyondTarget(struct Sprite *sprite)
     {
         sprite->data[0] = 1;
         AnimFastTranslateLinear(sprite);
-        if ((u32)(sprite->pos1.x + sprite->pos2.x + 16) > 272
-         || sprite->pos1.y + sprite->pos2.y > 160
+        if ((u32)(sprite->pos1.x + sprite->pos2.x + 16) > DISPLAY_WIDTH + 32
+         || sprite->pos1.y + sprite->pos2.y > DISPLAY_HEIGHT
          || sprite->pos1.y + sprite->pos2.y < -16)
             break;
     }
@@ -846,8 +846,8 @@ static void AnimWiggleParticleTowardsTarget(struct Sprite *sprite)
     sprite->data[7] = (sprite->data[7] + sprite->data[6]) & 0xFF;
     if (sprite->data[0] == 1)
     {
-        if ((u32)(sprite->pos1.x + sprite->pos2.x + 16) > 272
-         || sprite->pos1.y + sprite->pos2.y > 160
+        if ((u32)(sprite->pos1.x + sprite->pos2.x + 16) > DISPLAY_WIDTH + 32
+         || sprite->pos1.y + sprite->pos2.y > DISPLAY_HEIGHT
          || sprite->pos1.y + sprite->pos2.y < -16)
             DestroyAnimSprite(sprite);
     }

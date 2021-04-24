@@ -3217,13 +3217,13 @@ u16 TV_GetSomeOtherSpeciesAlreadySeenByPlayer(u16 passedSpecies)
     u16 species;
     u16 initSpecies;
 
-    species = (Random() % (NUM_SPECIES - 1)) + 1;
+    species = (Random() % (NUM_SPECIES)) + 1;
     initSpecies = species;
     while (GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_SEEN) != TRUE || species == passedSpecies)
     {
-        if (species == SPECIES_NONE + 1)
+        if (species == SPECIES_NONE)
         {
-            species = NUM_SPECIES - 1;
+            species = NUM_SPECIES;
         }
         else
         {

@@ -1,4 +1,4 @@
-const u16 *const gLevelUpLearnsets[NUM_SPECIES] =
+const u16 *const gLevelUpLearnsets[SPECIES_COUNT] =
 {
     [SPECIES_NONE] = sBulbasaurLevelUpLearnset,
     [SPECIES_BULBASAUR] = sBulbasaurLevelUpLearnset,
@@ -412,4 +412,7 @@ const u16 *const gLevelUpLearnsets[NUM_SPECIES] =
     [SPECIES_JIRACHI] = sJirachiLevelUpLearnset,
     [SPECIES_DEOXYS] = sDeoxysLevelUpLearnset,
     [SPECIES_CHIMECHO] = sChimechoLevelUpLearnset,
+    [SPECIES_DEOXYS_SPEED] = sDeoxysSpeedLevelUpLearnset,
+    [SPECIES_DEOXYS_ATTACK] = sDeoxysAttackLevelUpLearnset,
+    [SPECIES_DEOXYS_DEFENSE] = sDeoxysDefenseLevelUpLearnset,
 };

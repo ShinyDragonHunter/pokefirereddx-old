@@ -210,12 +210,6 @@ bool8 WaitFanfare(bool8 stop)
     }
 }
 
-// Unused
-void StopFanfareByFanfareNum(u8 fanfareNum)
-{
-    m4aSongNumStop(sFanfares[fanfareNum].songNum);
-}
-
 void PlayFanfare(u16 songNum)
 {
     s32 i;
@@ -347,6 +341,14 @@ void PlayCry4(u16 species, s8 pan, u8 mode)
     }
 }
 
+void PlayCry5(u16 species, u8 mode)
+{
+    m4aMPlayVolumeControl(&gMPlayInfo_BGM, 0xFFFF, 85);
+    PlayCryInternal(species, 0, CRY_VOLUME, 10, mode);
+    gPokemonCryBGMDuckingCounter = 2;
+    RestoreBGMVolumeAfterPokemonCry();
+}
+
 void PlayCry6(u16 species, s8 pan, u8 mode) // not present in R/S
 {
     if (mode == 1)
@@ -359,14 +361,6 @@ void PlayCry6(u16 species, s8 pan, u8 mode) // not present in R/S
         PlayCryInternal(species, pan, CRY_VOLUME, 10, mode);
         gPokemonCryBGMDuckingCounter = 2;
     }
-}
-
-void PlayCry5(u16 species, u8 mode)
-{
-    m4aMPlayVolumeControl(&gMPlayInfo_BGM, 0xFFFF, 85);
-    PlayCryInternal(species, 0, CRY_VOLUME, 10, mode);
-    gPokemonCryBGMDuckingCounter = 2;
-    RestoreBGMVolumeAfterPokemonCry();
 }
 
 void PlayCryInternal(u16 species, s8 pan, s8 volume, u8 priority, u8 mode)
@@ -421,7 +415,7 @@ void PlayCryInternal(u16 species, s8 pan, s8 volume, u8 priority, u8 mode)
         release = 220;
         pitch = 15555;
         chorus = 192;
-        volume = 70;
+        volume = 90;
         break;
     case 7:
         length = 10;

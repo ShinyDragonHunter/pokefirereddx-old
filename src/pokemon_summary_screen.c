@@ -47,6 +47,14 @@
 #include "constants/rgb.h"
 #include "constants/songs.h"
 
+enum {
+    PSS_PAGE_INFO,
+    PSS_PAGE_SKILLS,
+    PSS_PAGE_BATTLE_MOVES,
+    PSS_PAGE_CONTEST_MOVES,
+    PSS_PAGE_COUNT,
+};
+
 // Screen titles (upper left)
 #define PSS_LABEL_WINDOW_POKEMON_INFO_TITLE 0
 #define PSS_LABEL_WINDOW_POKEMON_SKILLS_TITLE 1
@@ -247,7 +255,6 @@ static void PrintMonTrainerMemo(void);
 static void BufferNatureString(void);
 static void GetMetLevelString(u8 *a);
 static bool8 DoesMonOTMatchOwner(void);
-static bool8 DidMonComeFromRS(void);
 static bool8 IsInGamePartnerMon(void);
 static void PrintEggOTName(void);
 static void PrintEggOTID(void);
@@ -1030,25 +1037,24 @@ void ShowPokemonSummaryScreen(u8 mode, void *mons, u8 monIndex, u8 maxMonIndex, 
     sMonSummaryScreen->maxMonIndex = maxMonIndex;
     sMonSummaryScreen->callback = callback;
 
-
-    if (mode == PSS_MODE_BOX)
+    if (mode == SUMMARY_MODE_BOX)
         sMonSummaryScreen->isBoxMon = TRUE;
     else
         sMonSummaryScreen->isBoxMon = FALSE;
 
     switch (mode)
     {
-    case PSS_MODE_NORMAL:
-    case PSS_MODE_BOX:
+    case SUMMARY_MODE_NORMAL:
+    case SUMMARY_MODE_BOX:
         sMonSummaryScreen->minPageIndex = 0;
         sMonSummaryScreen->maxPageIndex = PSS_PAGE_COUNT - 1;
         break;
-    case PSS_MODE_LOCK_MOVES:
+    case SUMMARY_MODE_LOCK_MOVES:
         sMonSummaryScreen->minPageIndex = 0;
         sMonSummaryScreen->maxPageIndex = PSS_PAGE_COUNT - 1;
         sMonSummaryScreen->lockMovesFlag = TRUE;
         break;
-    case PSS_MODE_SELECT_MOVE:
+    case SUMMARY_MODE_SELECT_MOVE:
         sMonSummaryScreen->minPageIndex = PSS_PAGE_BATTLE_MOVES;
         sMonSummaryScreen->maxPageIndex = PSS_PAGE_COUNT - 1;
         sMonSummaryScreen->lockMonFlag = TRUE;
@@ -1058,7 +1064,7 @@ void ShowPokemonSummaryScreen(u8 mode, void *mons, u8 monIndex, u8 maxMonIndex, 
     sMonSummaryScreen->currPageIndex = sMonSummaryScreen->minPageIndex;
     SummaryScreen_SetAnimDelayTaskId(TASK_NONE);
 
-    if (gMonSpritesGfxPtr == NULL)
+    if (!gMonSpritesGfxPtr)
         sub_806F2AC(0, 0);
 
     SetMainCallback2(CB2_InitSummaryScreen);
@@ -1066,7 +1072,7 @@ void ShowPokemonSummaryScreen(u8 mode, void *mons, u8 monIndex, u8 maxMonIndex, 
 
 void ShowSelectMovePokemonSummaryScreen(struct Pokemon *mons, u8 monIndex, u8 maxMonIndex, void (*callback)(void), u16 newMove)
 {
-    ShowPokemonSummaryScreen(PSS_MODE_SELECT_MOVE, mons, monIndex, maxMonIndex, callback);
+    ShowPokemonSummaryScreen(SUMMARY_MODE_SELECT_MOVE, mons, monIndex, maxMonIndex, callback);
     sMonSummaryScreen->newMove = newMove;
 }
 
@@ -1094,7 +1100,7 @@ static void VBlank(void)
 
 static void CB2_InitSummaryScreen(void)
 {
-    while (MenuHelpers_CallLinkSomething() != TRUE && LoadGraphics() != TRUE && MenuHelpers_LinkSomething() != TRUE);
+    while (!MenuHelpers_CallLinkSomething() && !LoadGraphics() && !MenuHelpers_LinkSomething());
 }
 
 static bool8 LoadGraphics(void)
@@ -1130,7 +1136,7 @@ static bool8 LoadGraphics(void)
         gMain.state++;
         break;
     case 6:
-        if (DecompressGraphics() != FALSE)
+        if (DecompressGraphics())
             gMain.state++;
         break;
     case 7:
@@ -1147,7 +1153,7 @@ static bool8 LoadGraphics(void)
         gMain.state++;
         break;
     case 10:
-        if (ExtractMonDataToSummaryStruct(&sMonSummaryScreen->currentMon) != 0)
+        if (ExtractMonDataToSummaryStruct(&sMonSummaryScreen->currentMon))
             gMain.state++;
         break;
     case 11:
@@ -1201,7 +1207,7 @@ static bool8 LoadGraphics(void)
         gMain.state++;
         break;
     case 22:
-        if (sMonSummaryScreen->mode != PSS_MODE_SELECT_MOVE)
+        if (sMonSummaryScreen->mode != SUMMARY_MODE_SELECT_MOVE)
             CreateTask(Task_HandleInput, 0);
         else
             CreateTask(Task_SetHandleReplaceMoveInput, 0);
@@ -1360,7 +1366,7 @@ static bool8 ExtractMonDataToSummaryStruct(struct Pokemon *mon)
         sum->currentHP = GetMonData(mon, MON_DATA_HP);
         sum->maxHP = GetMonData(mon, MON_DATA_MAX_HP);
 
-        if (sMonSummaryScreen->monList.mons == gPlayerParty || sMonSummaryScreen->mode == PSS_MODE_BOX || sMonSummaryScreen->unk40EF)
+        if (sMonSummaryScreen->monList.mons == gPlayerParty || sMonSummaryScreen->mode == SUMMARY_MODE_BOX || sMonSummaryScreen->unk40EF)
         {
             sum->atk = GetMonData(mon, MON_DATA_ATK);
             sum->def = GetMonData(mon, MON_DATA_DEF);
@@ -1438,7 +1444,7 @@ static void BeginCloseSummaryScreen(u8 taskId)
 
 static void CloseSummaryScreen(u8 taskId)
 {
-    if (MenuHelpers_CallLinkSomething() != TRUE && !gPaletteFade.active)
+    if (!MenuHelpers_CallLinkSomething() && !gPaletteFade.active)
     {
         SetMainCallback2(sMonSummaryScreen->callback);
         gLastViewedMonIndex = sMonSummaryScreen->curMonIndex;
@@ -1456,7 +1462,7 @@ static void CloseSummaryScreen(u8 taskId)
 
 static void Task_HandleInput(u8 taskId)
 {
-    if (MenuHelpers_CallLinkSomething() != TRUE && !gPaletteFade.active)
+    if (!MenuHelpers_CallLinkSomething() && !gPaletteFade.active)
     {
         if (JOY_NEW(DPAD_UP))
         {
@@ -1522,7 +1528,7 @@ static void ChangeSummaryPokemon(u8 taskId, s8 delta)
                 else
                     delta = 3;
             }
-            monId = sub_80D214C(sMonSummaryScreen->monList.boxMons, sMonSummaryScreen->curMonIndex, sMonSummaryScreen->maxMonIndex, delta);
+            monId = AdvanceStorageMonIndex(sMonSummaryScreen->monList.boxMons, sMonSummaryScreen->curMonIndex, sMonSummaryScreen->maxMonIndex, delta);
         }
         else if (IsMultiBattle())
         {
@@ -1608,7 +1614,7 @@ static void Task_ChangeSummaryMon(u8 taskId)
         gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].data[2] = 0;
         break;
     default:
-        if (MenuHelpers_CallLinkSomething() == 0 && FuncIsActiveTask(Task_ShowStatusWindow) == 0)
+        if (!MenuHelpers_CallLinkSomething() && !FuncIsActiveTask(Task_ShowStatusWindow))
         {
             data[0] = 0;
             gTasks[taskId].func = Task_HandleInput;
@@ -1674,9 +1680,9 @@ static s8 AdvanceMultiBattleMonIndex(s8 delta)
 
 static bool8 IsValidToViewInMulti(struct Pokemon* mon)
 {
-    if (!GetMonData(mon, MON_DATA_SPECIES))
-        return FALSE;
-    else if (sMonSummaryScreen->curMonIndex || !GetMonData(mon, MON_DATA_IS_EGG))
+//    if (!GetMonData(mon, MON_DATA_SPECIES))
+//        return FALSE;
+    if (sMonSummaryScreen->curMonIndex || !GetMonData(mon, MON_DATA_IS_EGG))
         return TRUE;
     else
         return FALSE;
@@ -1707,7 +1713,7 @@ static void ChangePage(u8 taskId, s8 delta)
 static void PssScrollRight(u8 taskId) // Scroll right
 {
     s16 *data = gTasks[taskId].data;
-    if (data[0] == 0)
+    if (!data[0])
     {
         if (sMonSummaryScreen->bgDisplayOrder)
         {
@@ -1834,7 +1840,7 @@ static void Task_HandleInput_MoveSelect(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
-    if (MenuHelpers_CallLinkSomething() != 1)
+    if (!MenuHelpers_CallLinkSomething())
     {
         if (JOY_NEW(DPAD_UP))
         {
@@ -1973,7 +1979,7 @@ static void Task_HandleInput_MovePositionSwitch(u8 taskId)
 {
     s16* data = gTasks[taskId].data;
 
-    if (MenuHelpers_CallLinkSomething() != TRUE)
+    if (!MenuHelpers_CallLinkSomething())
     {
         if (JOY_NEW(DPAD_UP))
         {
@@ -2114,9 +2120,9 @@ static void Task_HandleReplaceMoveInput(u8 taskId)
 {
     s16* data = gTasks[taskId].data;
 
-    if (MenuHelpers_CallLinkSomething() != TRUE)
+    if (!MenuHelpers_CallLinkSomething())
     {
-        if (gPaletteFade.active != TRUE)
+        if (!gPaletteFade.active)
         {
             if (JOY_NEW(DPAD_UP))
             {
@@ -2167,8 +2173,8 @@ static void Task_HandleReplaceMoveInput(u8 taskId)
 static bool8 CanReplaceMove(void)
 {
     if (sMonSummaryScreen->firstMoveIndex == MAX_MON_MOVES
-        || !sMonSummaryScreen->newMove
-        || IsMoveHm(sMonSummaryScreen->summary.moves[sMonSummaryScreen->firstMoveIndex]) != TRUE)
+     || !sMonSummaryScreen->newMove
+     || !IsMoveHm(sMonSummaryScreen->summary.moves[sMonSummaryScreen->firstMoveIndex]))
         return TRUE;
     else
         return FALSE;
@@ -2330,15 +2336,15 @@ static void ChangeTilemap(const struct TilemapCtrl *unkStruct, u16 *dest, u8 c, 
     CpuFill16(unkStruct->field_4, alloced, unkStruct->field_6 * 2 * unkStruct->field_7);
     if (unkStruct->field_6 != c)
     {
-        if (!d)
+        if (d)
         {
             for (i = 0; i < unkStruct->field_7; i++)
-                CpuCopy16(&unkStruct->gfx[c + unkStruct->field_6 * i], &alloced[unkStruct->field_6 * i], (unkStruct->field_6 - c) * 2);
+                CpuCopy16(&unkStruct->gfx[unkStruct->field_6 * i], &alloced[c + unkStruct->field_6 * i], (unkStruct->field_6 - c) * 2);
         }
         else
         {
             for (i = 0; i < unkStruct->field_7; i++)
-                CpuCopy16(&unkStruct->gfx[unkStruct->field_6 * i], &alloced[c + unkStruct->field_6 * i], (unkStruct->field_6 - c) * 2);
+                CpuCopy16(&unkStruct->gfx[c + unkStruct->field_6 * i], &alloced[unkStruct->field_6 * i], (unkStruct->field_6 - c) * 2);
         }
     }
 
@@ -2352,7 +2358,7 @@ static void HandlePowerAccTilemap(u16 a, s16 b)
 {
     if (b > sBattleMoveTilemapCtrl.field_6)
         b = sBattleMoveTilemapCtrl.field_6;
-    if (b == 0 || b == sBattleMoveTilemapCtrl.field_6)
+    if (!b || b == sBattleMoveTilemapCtrl.field_6)
     {
         ChangeTilemap(&sBattleMoveTilemapCtrl, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_BATTLE_MOVES][0], b, TRUE);
     }
@@ -2404,7 +2410,7 @@ static void HandleAppealJamTilemap(u16 a, s16 b, u16 move)
     if (b > sContestMoveTilemapCtrl.field_6)
         b = sContestMoveTilemapCtrl.field_6;
 
-    if (b == 0 || b == sContestMoveTilemapCtrl.field_6)
+    if (!b || b == sContestMoveTilemapCtrl.field_6)
     {
         ChangeTilemap(&sContestMoveTilemapCtrl, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_CONTEST_MOVES][0], b, TRUE);
     }
@@ -2818,7 +2824,7 @@ static void PutPageWindowTilemaps(u8 page)
         break;
     case PSS_PAGE_BATTLE_MOVES:
         PutWindowTilemap(PSS_LABEL_WINDOW_BATTLE_MOVES_TITLE);
-        if (sMonSummaryScreen->mode == PSS_MODE_SELECT_MOVE)
+        if (sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE)
         {
             if (sMonSummaryScreen->newMove || sMonSummaryScreen->firstMoveIndex != MAX_MON_MOVES)
                 PutWindowTilemap(PSS_LABEL_WINDOW_MOVES_POWER_ACC);
@@ -2830,7 +2836,7 @@ static void PutPageWindowTilemaps(u8 page)
         break;
     case PSS_PAGE_CONTEST_MOVES:
         PutWindowTilemap(PSS_LABEL_WINDOW_CONTEST_MOVES_TITLE);
-        if (sMonSummaryScreen->mode == PSS_MODE_SELECT_MOVE)
+        if (sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE)
         {
             if (sMonSummaryScreen->newMove || sMonSummaryScreen->firstMoveIndex != MAX_MON_MOVES)
                 PutWindowTilemap(PSS_LABEL_WINDOW_MOVES_APPEAL_JAM);
@@ -2866,7 +2872,7 @@ static void ClearPageWindowTilemaps(u8 page)
         ClearWindowTilemap(PSS_LABEL_WINDOW_POKEMON_SKILLS_EXP);
         break;
     case PSS_PAGE_BATTLE_MOVES:
-        if (sMonSummaryScreen->mode == PSS_MODE_SELECT_MOVE)
+        if (sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE)
         {
             if (sMonSummaryScreen->newMove || sMonSummaryScreen->firstMoveIndex != MAX_MON_MOVES)
                 ClearWindowTilemap(PSS_LABEL_WINDOW_MOVES_POWER_ACC);
@@ -2877,7 +2883,7 @@ static void ClearPageWindowTilemaps(u8 page)
         }
         break;
     case PSS_PAGE_CONTEST_MOVES:
-        if (sMonSummaryScreen->mode == PSS_MODE_SELECT_MOVE)
+        if (sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE)
         {
             if (sMonSummaryScreen->newMove || sMonSummaryScreen->firstMoveIndex != MAX_MON_MOVES)
                 ClearWindowTilemap(PSS_LABEL_WINDOW_MOVES_APPEAL_JAM);
@@ -3055,14 +3061,16 @@ static void BufferMonTrainerMemo(void)
             GetMapNameGeneric(metLocationString, sum->metLocation + mapsecShift);
             DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
         }
-        // This map isn't in Emerald and both Team Aqua and Magma got their own maps with their own mapsec IDs,
-        // so we can use these to get the respective map name for the game version.
-        if (sum->metLocation == MAPSEC_AQUA_HIDEOUT_OLD
-         && !sum->metGame == VERSION_EMERALD)
+        if (sum->metGame < VERSION_EMERALD)
         {
-            // MAPSEC_SPECIAL_AREA + sum->metGame = MAPSEC_AQUA_HIDEOUT if Sapphire,
-            // MAPSEC_SPECIAL_AREA + sum->metGame = MAPSEC_MAGMA_HIDEOUT if Ruby.
-            GetMapNameGeneric(metLocationString, MAPSEC_SPECIAL_AREA + sum->metGame);
+            // This map isn't in Emerald and both Team Aqua and Magma got their own maps with their own mapsec IDs,
+            // so we can use these to get the respective map name for the game exclusive enemy team.
+            if (sum->metLocation == MAPSEC_AQUA_HIDEOUT_OLD)
+                // MAPSEC_AQUA_HIDEOUT if Sapphire, MAPSEC_MAGMA_HIDEOUT if Ruby.
+                GetMapNameGeneric(metLocationString, MAPSEC_SPECIAL_AREA + sum->metGame);
+	        else if (sum->metLocation == MAPSEC_BATTLE_FRONTIER)
+                // Battle Tower in RS.
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_BattleTower);
         }
         if (sum->metLocation == MAPSEC_ROUTE_130 && sum->metLevel
          && (sum->species == SPECIES_MEWTWO // Heliodor has Mewtwo at this location.
@@ -3070,12 +3078,6 @@ static void BufferMonTrainerMemo(void)
          || sum->species == SPECIES_WYNAUT)) // Mirage Island metLocationString at Route 130.
         {
             GetMapNameGeneric(metLocationString, MAPSEC_MIRAGE_ISLAND);
-        }
-        // Battle Tower in RS
-        if (DidMonComeFromRS()
-         && sum->metLocation == MAPSEC_BATTLE_FRONTIER)
-        {
-            DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_BattleTower);
         }
 
         if (DoesMonOTMatchOwner())
@@ -3276,18 +3278,6 @@ static bool8 DoesMonOTMatchOwner(void)
         return TRUE;
 }
 
-bool8 DidMonComeFromRS(void)
-{
-    struct PokeSummary *sum = &sMonSummaryScreen->summary;
-    return sum->metGame < VERSION_EMERALD;
-}
-
-bool8 DidMonComeFromRSE(void)
-{
-    struct PokeSummary *sum = &sMonSummaryScreen->summary;
-    return sum->metGame < VERSION_FIRE_RED;
-}
-
 static bool8 IsInGamePartnerMon(void)
 {
     if ((gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER) && gMain.inBattle)
@@ -3339,7 +3329,7 @@ static void PrintEggMemo(void)
     const u8 *text;
     struct PokeSummary *sum = &sMonSummaryScreen->summary;
 
-    if (sMonSummaryScreen->summary.sanity != 1)
+    if (!sMonSummaryScreen->summary.sanity)
     {
         if (sum->metLocation == METLOC_FATEFUL_ENCOUNTER)
             text = gText_PeculiarEggNicePlace;
@@ -3353,7 +3343,7 @@ static void PrintEggMemo(void)
             }
             else
             {
-                text = (DidMonComeFromRSE()) ? gText_EggFromHotSprings : gText_EggFromTraveler;
+                text = (sum->metGame < VERSION_FIRE_RED) ? gText_EggFromHotSprings : gText_EggFromTraveler;
             }
         }
     }
@@ -3531,7 +3521,7 @@ static void PrintBattleMoves(void)
     PrintMoveNameAndPP(2);
     PrintMoveNameAndPP(3);
 
-    if (sMonSummaryScreen->mode == PSS_MODE_SELECT_MOVE)
+    if (sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE)
     {
         PrintNewMoveDetailsOrCancelText();
         if (sMonSummaryScreen->firstMoveIndex == MAX_MON_MOVES)
@@ -3565,11 +3555,11 @@ static void Task_PrintBattleMoves(u8 taskId)
         PrintMoveNameAndPP(3);
         break;
     case 5:
-        if (sMonSummaryScreen->mode == PSS_MODE_SELECT_MOVE)
+        if (sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE)
             PrintNewMoveDetailsOrCancelText();
         break;
     case 6:
-        if (sMonSummaryScreen->mode == PSS_MODE_SELECT_MOVE)
+        if (sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE)
         {
             if (sMonSummaryScreen->firstMoveIndex == MAX_MON_MOVES)
                 data[1] = sMonSummaryScreen->newMove;
@@ -3578,9 +3568,9 @@ static void Task_PrintBattleMoves(u8 taskId)
         }
         break;
     case 7:
-        if (sMonSummaryScreen->mode == PSS_MODE_SELECT_MOVE)
+        if (sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE)
         {
-            if (sMonSummaryScreen->newMove != MOVE_NONE || sMonSummaryScreen->firstMoveIndex != MAX_MON_MOVES)
+            if (sMonSummaryScreen->newMove || sMonSummaryScreen->firstMoveIndex != MAX_MON_MOVES)
                 PrintMoveDetails(data[1]);
         }
         break;
@@ -3601,7 +3591,7 @@ static void PrintMoveNameAndPP(u8 moveIndex)
     u8 ppValueWindowId = AddWindowFromTemplateList(sPageMovesTemplate, PSS_DATA_WINDOW_MOVE_PP);
     u16 move = summary->moves[moveIndex];
 
-    if (move != 0)
+    if (move)
     {
         pp = CalculatePPWithBonus(move, summary->ppBonuses, moveIndex);
         PrintTextOnWindow(moveNameWindowId, gMoveNames[move], 0, moveIndex * 16 + 1, 0, 1);
@@ -3629,7 +3619,7 @@ static void PrintMoveNameAndPP(u8 moveIndex)
 static void PrintMovePowerAndAccuracy(u16 moveIndex)
 {
     const u8 *text;
-    if (moveIndex != 0)
+    if (moveIndex)
     {
         FillWindowPixelRect(PSS_LABEL_WINDOW_MOVES_POWER_ACC, PIXEL_FILL(0), 53, 0, 19, 32);
 
@@ -3645,14 +3635,14 @@ static void PrintMovePowerAndAccuracy(u16 moveIndex)
 
         PrintTextOnWindow(PSS_LABEL_WINDOW_MOVES_POWER_ACC, text, 53, 1, 0, 0);
 
-        if (!gBattleMoves[moveIndex].accuracy)
-        {
-            text = gText_ThreeDashes;
-        }
-        else
+        if (gBattleMoves[moveIndex].accuracy)
         {
             ConvertIntToDecimalStringN(gStringVar1, gBattleMoves[moveIndex].accuracy, STR_CONV_MODE_RIGHT_ALIGN, 3);
             text = gStringVar1;
+        }
+        else
+        {
+            text = gText_ThreeDashes;
         }
 
         PrintTextOnWindow(PSS_LABEL_WINDOW_MOVES_POWER_ACC, text, 53, 17, 0, 0);
@@ -3666,7 +3656,7 @@ static void PrintContestMoves(void)
     PrintMoveNameAndPP(2);
     PrintMoveNameAndPP(3);
 
-    if (sMonSummaryScreen->mode == PSS_MODE_SELECT_MOVE)
+    if (sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE)
     {
         PrintNewMoveDetailsOrCancelText();
         PrintContestMoveDescription(sMonSummaryScreen->firstMoveIndex);
@@ -3692,11 +3682,11 @@ static void Task_PrintContestMoves(u8 taskId)
         PrintMoveNameAndPP(3);
         break;
     case 5:
-        if (sMonSummaryScreen->mode == PSS_MODE_SELECT_MOVE)
+        if (sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE)
             PrintNewMoveDetailsOrCancelText();
         break;
     case 6:
-        if (sMonSummaryScreen->mode == PSS_MODE_SELECT_MOVE)
+        if (sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE)
         {
             if (sMonSummaryScreen->newMove || sMonSummaryScreen->firstMoveIndex != MAX_MON_MOVES)
                 PrintContestMoveDescription(sMonSummaryScreen->firstMoveIndex);
@@ -3731,7 +3721,7 @@ static void PrintMoveDetails(u16 move)
     FillWindowPixelBuffer(windowId, PIXEL_FILL(0));
     if (move)
     {
-        if (sMonSummaryScreen->currPageIndex == PSS_MODE_BOX)
+        if (sMonSummaryScreen->currPageIndex == SUMMARY_MODE_BOX)
         {
             PrintMovePowerAndAccuracy(move);
             PrintTextOnWindow(windowId, gMoveDescriptionPointers[move - 1], 6, 1, 0, 0);
@@ -3904,7 +3894,7 @@ static void SetMoveTypeIcons(void)
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
     for (i = 0; i < MAX_MON_MOVES; i++)
     {
-        if (summary->moves[i] != MOVE_NONE)
+        if (summary->moves[i])
             SetTypeSpritePosAndPal(gBattleMoves[summary->moves[i]].type, 85, 32 + (i * 16), i + SPRITE_ARR_ID_TYPE);
         else
             SetSpriteInvisibility(i + SPRITE_ARR_ID_TYPE, TRUE);
@@ -3917,7 +3907,7 @@ static void SetContestMoveTypeIcons(void)
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
     for (i = 0; i < MAX_MON_MOVES; i++)
     {
-        if (summary->moves[i] != MOVE_NONE)
+        if (summary->moves[i])
             SetTypeSpritePosAndPal(NUMBER_OF_MON_TYPES + gContestMoves[summary->moves[i]].contestCategory, 85, 32 + (i * 16), i + SPRITE_ARR_ID_TYPE);
         else
             SetSpriteInvisibility(i + SPRITE_ARR_ID_TYPE, TRUE);
@@ -4079,7 +4069,7 @@ static void CreateMonMarkingsSprite(struct Pokemon *mon)
     struct Sprite *sprite = CreateMonMarkingAllCombosSprite(TAG_MON_MARKINGS, TAG_MON_MARKINGS, sSummaryMarkingsPalette);
 
     sMonSummaryScreen->markingsSprite = sprite;
-    if (sprite != NULL)
+    if (sprite)
     {
         StartSpriteAnim(sprite, GetMonData(mon, MON_DATA_MARKINGS));
         sMonSummaryScreen->markingsSprite->pos1.x = 60;
@@ -4114,7 +4104,7 @@ static void CreateSetStatusSprite(void)
         *spriteId = CreateSprite(&sSpriteTemplate_StatusCondition, 64, 152, 0);
 
     statusAnim = GetMonAilment(&sMonSummaryScreen->currentMon);
-    if (statusAnim != 0)
+    if (statusAnim)
     {
         StartSpriteAnim(&gSprites[*spriteId], statusAnim - 1);
         SetSpriteInvisibility(SPRITE_ARR_ID_STATUS, FALSE);

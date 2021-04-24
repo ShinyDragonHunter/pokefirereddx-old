@@ -1572,7 +1572,7 @@ const struct MonCoords gMonFrontPicCoords[] =
     },
     [SPECIES_WAILORD] =
     {
-        .size = 0x87,
+        .size = 0x88,
         .y_offset = 10,
     },
     [SPECIES_SKITTY] =
@@ -2022,7 +2022,7 @@ const struct MonCoords gMonFrontPicCoords[] =
     },
     [SPECIES_KYOGRE] =
     {
-        .size = 0x87,
+        .size = 0x88,
         .y_offset = 4,
     },
     [SPECIES_GROUDON] =
@@ -2053,7 +2053,7 @@ const struct MonCoords gMonFrontPicCoords[] =
     [SPECIES_DEOXYS] =
     {
         .size = 0x88,
-        .y_offset = 1,
+        .y_offset = 0,
     },
     [SPECIES_CHIMECHO] =
     {
@@ -2199,5 +2199,20 @@ const struct MonCoords gMonFrontPicCoords[] =
     {
         .size = 0x35,
         .y_offset = 13,
+    },
+    [SPECIES_DEOXYS_SPEED] =
+    {
+        .size = 0x88,
+        .y_offset = 1,
+    },
+    [SPECIES_DEOXYS_ATTACK] =
+    {
+        .size = 0x88,
+        .y_offset = 0,
+    },
+    [SPECIES_DEOXYS_DEFENSE] =
+    {
+        .size = 0x88,
+        .y_offset = 2,
     },
 };

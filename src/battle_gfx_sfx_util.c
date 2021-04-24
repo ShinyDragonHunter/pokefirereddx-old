@@ -570,10 +570,10 @@ void BattleLoadOpponentMonSpriteGfx(struct Pokemon *mon, u8 battlerId)
         currentPersonality = monsPersonality;
         form = GetMonData(mon, MON_DATA_FORM);
     }
-    formSpecies = GetFormSpecies(species, form);
 
     otId = GetMonData(mon, MON_DATA_OT_ID);
     position = GetBattlerPosition(battlerId);
+    formSpecies = GetFormSpecies(species, form);
 
     HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies],
                                               gMonSpritesGfxPtr->sprites.ptr[position],
@@ -615,18 +615,18 @@ void BattleLoadPlayerMonSpriteGfx(struct Pokemon *mon, u8 battlerId)
     {
         species = gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies;
         currentPersonality = gTransformedPersonalities[battlerId];
-        formSpecies = species;
+        form = 0;
     }
     else
     {
         species = GetMonData(mon, MON_DATA_SPECIES);
         currentPersonality = monsPersonality;
         form = GetMonData(mon, MON_DATA_FORM);
-        formSpecies = GetFormSpecies(species, form);
     }
 
     otId = GetMonData(mon, MON_DATA_OT_ID);
     position = GetBattlerPosition(battlerId);
+    formSpecies = GetFormSpecies(species, form);
 
     HandleLoadSpecialPokePic(&gMonBackPicTable[formSpecies],
                                              gMonSpritesGfxPtr->sprites.ptr[position],

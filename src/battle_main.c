@@ -589,22 +589,22 @@ static void CB2_InitBattleInternal(void)
     CpuFill32(0, (void*)(VRAM), VRAM_SIZE);
 
     SetGpuReg(REG_OFFSET_MOSAIC, 0);
-    SetGpuReg(REG_OFFSET_WIN0H, 240);
-    SetGpuReg(REG_OFFSET_WIN0V, 0x5051);
+    SetGpuReg(REG_OFFSET_WIN0H, DISPLAY_WIDTH);
+    SetGpuReg(REG_OFFSET_WIN0V, WIN_RANGE(DISPLAY_HEIGHT / 2, DISPLAY_HEIGHT / 2 + 1));
     SetGpuReg(REG_OFFSET_WININ, 0);
     SetGpuReg(REG_OFFSET_WINOUT, 0);
 
-    gBattle_WIN0H = 240;
+    gBattle_WIN0H = DISPLAY_WIDTH;
 
     if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER && gPartnerTrainerId != TRAINER_STEVEN_PARTNER)
     {
-        gBattle_WIN0V = 159;
-        gBattle_WIN1H = 240;
+        gBattle_WIN0V = DISPLAY_HEIGHT - 1;
+        gBattle_WIN1H = DISPLAY_WIDTH;
         gBattle_WIN1V = 32;
     }
     else
     {
-        gBattle_WIN0V = 0x5051;
+        gBattle_WIN0V = WIN_RANGE(DISPLAY_HEIGHT / 2, DISPLAY_HEIGHT / 2 + 1);
         ScanlineEffect_Clear();
 
         i = 0;
@@ -2654,7 +2654,7 @@ void SpriteCB_FaintOpponentMon(struct Sprite *sprite)
     {
         yOffset = gCastformFrontSpriteCoords[gBattleMonForms[battler]].y_offset;
     }
-    else if (species > NUM_SPECIES)
+    else if (GetFormSpecies(species, 0) > NUM_SPECIES)
     {
         yOffset = gMonFrontPicCoords[SPECIES_NONE].y_offset;
     }
@@ -2903,7 +2903,6 @@ static void BattleStartClearSetData(void)
     s32 i;
     u32 j;
     u8 *dataPtr;
-    u16 formSpecies;
 
     TurnValuesCleanUp(FALSE);
     SpecialStatusesClear();
@@ -3523,7 +3522,7 @@ static void BattleIntroOpponent1SendsOutMonAnimation(void)
 
 static void BattleIntroRecordMonsToDex(void)
 {
-    if (gBattleControllerExecFlags == 0)
+    if (!gBattleControllerExecFlags)
     {
         for (gActiveBattler = 0; gActiveBattler < gBattlersCount; gActiveBattler++)
         {
@@ -4979,8 +4978,8 @@ static void TryEvolvePokemon(void)
             if (gLeveledUpInBattle & gBitTable[i])
             {
                 u16 species;
-                u8 form;
                 u8 levelUpBits = gLeveledUpInBattle;
+                u8 form;
 
                 levelUpBits &= ~(gBitTable[i]);
                 gLeveledUpInBattle = levelUpBits;
