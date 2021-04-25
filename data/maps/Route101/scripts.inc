@@ -125,9 +125,6 @@ Route101_Movement_ZigzagoonChase1: @ 81EBDB5
 	walk_fast_up
 	step_end
 
-@ Leftover data? This command is unused.
-	step_end
-
 Route101_Movement_ZigzagoonFaceBirch: @ 81EBDBD
 	walk_in_place_fast_left
 	walk_in_place_fast_left
@@ -201,15 +198,7 @@ Route101_EventScript_Boy:: @ 81EBE04
 	end
 
 Route101_EventScript_RouteSign:: @ 81EBE0D
-    special ChangeForm
-	giveitem ITEM_LEVEL_BALL, 99
-	giveitem ITEM_LURE_BALL, 99
-	giveitem ITEM_MOON_BALL, 99
-	giveitem ITEM_FRIEND_BALL, 99
-	giveitem ITEM_FAST_BALL, 99
-	giveitem ITEM_HEAVY_BALL, 99
-	giveitem ITEM_LOVE_BALL, 99
-	giveitem ITEM_PARK_BALL, 99
+	msgbox Route101_Text_RouteSign, MSGBOX_SIGN
 	end
 
 Route101_EventScript_BirchsBag:: @ 81EBE16
