@@ -557,7 +557,7 @@ void DrawMainBattleBackground(void)
         default:
             LZDecompressVram(gBattleTerrainTable[gBattleTerrain].tileset, (void*)(BG_CHAR_ADDR(2)));
             LZDecompressVram(gBattleTerrainTable[gBattleTerrain].tilemap, (void*)(BG_SCREEN_ADDR(26)));
-            LoadCompressedPalette(gBattleTerrainTable[gBattleTerrain].palette, 0x20, 0x60);
+            LoadCompressedPaletteDayNight(gBattleTerrainTable[gBattleTerrain].palette, 0x20, 0x60);
             break;
         }
     }
@@ -581,11 +581,13 @@ static void DrawLinkBattleParticipantPokeballs(u8 taskId, u8 multiplayerId, u8 b
 
     if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
     {
-        pokeballStatuses = 0x3F & gTasks[taskId].data[3];
         if (gTasks[taskId].data[5] != 0)
         {
             switch (multiplayerId)
             {
+            case 0:
+                pokeballStatuses = 0x3F & gTasks[taskId].data[3];
+                break;
             case 1:
                 pokeballStatuses = (0xFC0 & gTasks[taskId].data[4]) >> 6;
                 break;
@@ -993,7 +995,7 @@ bool8 LoadChosenBattleElement(u8 caseId)
                 LoadCompressedPalette(gBattleTerrainPalette_StadiumDrake, 0x20, 0x60);
                 break;
             default:
-                LoadCompressedPalette(gBattleTerrainTable[gBattleTerrain].palette, 0x20, 0x60);
+                LoadCompressedPaletteDayNight(gBattleTerrainTable[gBattleTerrain].palette, 0x20, 0x60);
                 break;
             }
         }

@@ -426,22 +426,21 @@ static u8 EggHatchCreateMonSprite(u8 a0, u8 switchID, u8 pokeID, u16* speciesLoc
         mon = &gPlayerParty[pokeID];
         r5 = 3;
     }
+
+    form = GetMonData(mon, MON_DATA_FORM);
     switch (switchID)
     {
     case 0:
         {
-            u16 species = GetFormSpecies(GetMonData(mon, MON_DATA_SPECIES), 
-                                        GetMonData(mon, MON_DATA_FORM));
+            u16 species = GetMonData(mon, MON_DATA_SPECIES);
             u32 pid = GetMonData(mon, MON_DATA_PERSONALITY);
-            HandleLoadSpecialPokePic(&gMonFrontPicTable[species],
-                                                      gMonSpritesGfxPtr->sprites.ptr[(a0 * 2) + 1],
-                                                      species, pid);
+            u16 formSpecies = (species, form);
+            HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[(a0 * 2) + 1], formSpecies, pid, form);
             LoadSpritePalette(GetMonSpritePalStruct(mon));
-            *speciesLoc = species;
+            *speciesLoc = formSpecies;
         }
         break;
     case 1:
-        form = GetMonData(mon, MON_DATA_FORM);
         SetMultiuseSpriteTemplateToPokemon(GetMonSpritePalStruct(mon)->tag, r5, form);
         spriteID = CreateSprite(&gMultiuseSpriteTemplate, 120, 75, 6);
         gSprites[spriteID].invisible = TRUE;

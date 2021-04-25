@@ -3840,7 +3840,7 @@ static void LoadDisplayMonGfx(u16 species, u32 pid, u8 form)
 
     if (species)
     {
-        LoadSpecialPokePic(&gMonFrontPicTable[formSpecies], sStorage->tileBuffer, formSpecies, pid, TRUE);
+        LoadSpecialPokePic(&gMonFrontPicTable[formSpecies], sStorage->tileBuffer, formSpecies, pid, TRUE, form);
         CpuCopy32(sStorage->tileBuffer,sStorage->displayMonTilePtr, MON_PIC_SIZE);
         LoadPalette(sStorage->displayMonPalette, sStorage->displayMonPalOffset, 0x20);
         sStorage->displayMonSprite->invisible = FALSE;

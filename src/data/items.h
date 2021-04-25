@@ -4621,7 +4621,7 @@ const struct Item gItems[] =
         .importance = 1,
         .pocket = POCKET_POKE_BALLS,
         .type = BALL_HEAVY,
-        .battleUsage = 2,
+        .battleUsage = ITEM_B_USE_OTHER,
         .battleUseFunc = ItemUseInBattle_PokeBall,
         .secondaryId = BALL_HEAVY,
     },

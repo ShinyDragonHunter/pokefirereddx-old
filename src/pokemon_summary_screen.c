@@ -1680,8 +1680,8 @@ static s8 AdvanceMultiBattleMonIndex(s8 delta)
 
 static bool8 IsValidToViewInMulti(struct Pokemon* mon)
 {
-//    if (!GetMonData(mon, MON_DATA_SPECIES))
-//        return FALSE;
+    if (!GetMonData(mon, MON_DATA_SPECIES))
+        return FALSE;
     if (sMonSummaryScreen->curMonIndex || !GetMonData(mon, MON_DATA_IS_EGG))
         return TRUE;
     else
@@ -3053,8 +3053,7 @@ static void BufferMonTrainerMemo(void)
         u8 *metLocationString = Alloc(32);
         GetMetLevelString(metLevelString);
 
-        if (sum->metGame == VERSION_CRYSTAL_DUST
-         && sum->metLocation < KANTO_MAPSEC_START)
+        if (sum->metGame == VERSION_CRYSTAL_DUST && sum->metLocation < KANTO_MAPSEC_START)
             mapsecShift += JOHTO_MAPSEC_START;
         if (sum->metLocation < maxMapsec)
         {
@@ -3961,17 +3960,17 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
     case 0:
         if (gMain.inBattle)
         {
-            HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[1], formSpecies, summary->pid);
+            HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[1], formSpecies, summary->pid, sMonSummaryScreen->form);
         }
         else
         {
             if (gMonSpritesGfxPtr != NULL)
             {
-                HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[1], formSpecies, summary->pid);
+                HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[1], formSpecies, summary->pid, sMonSummaryScreen->form);
             }
             else
             {
-                HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], sub_806F4F8(0, 1), formSpecies, summary->pid);
+                HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], sub_806F4F8(0, 1), formSpecies, summary->pid, sMonSummaryScreen->form);
             }
         }
         (*state)++;

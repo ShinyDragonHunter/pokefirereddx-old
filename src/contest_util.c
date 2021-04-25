@@ -872,11 +872,7 @@ static void Task_ShowWinnerMonBanner(u8 taskId)
         personality = gContestMons[i].personality;
         otId = gContestMons[i].otId;
 
-        HandleLoadSpecialPokePic(
-            &gMonFrontPicTable[species],
-            gMonSpritesGfxPtr->sprites.ptr[1],
-            species,
-            personality);
+        HandleLoadSpecialPokePic(&gMonFrontPicTable[species], gMonSpritesGfxPtr->sprites.ptr[1], species, personality, 0);
 
         pokePal = GetMonSpritePalStructFromOtIdPersonality(species, otId, personality);
         LoadSpritePalette(pokePal);
@@ -2494,9 +2490,9 @@ bool8 GiveMonArtistRibbon(void)
 
     hasArtistRibbon = GetMonData(&gPlayerParty[gContestMonPartyIndex], MON_DATA_ARTIST_RIBBON);
     if (!hasArtistRibbon
-        && gContestFinalStandings[gContestPlayerMonIndex] == 0
-        && gSpecialVar_ContestRank == CONTEST_RANK_MASTER
-        && gContestMonTotalPoints[gContestPlayerMonIndex] >= 800)
+     && gContestFinalStandings[gContestPlayerMonIndex] == 0
+     && gSpecialVar_ContestRank == CONTEST_RANK_MASTER
+     && gContestMonTotalPoints[gContestPlayerMonIndex] >= 800)
     {
         hasArtistRibbon = 1;
         SetMonData(&gPlayerParty[gContestMonPartyIndex], MON_DATA_ARTIST_RIBBON, &hasArtistRibbon);
@@ -2536,7 +2532,7 @@ void ShowContestEntryMonPic(void)
         taskId = CreateTask(Task_ShowContestEntryMonPic, 0x50);
         gTasks[taskId].data[0] = 0;
         gTasks[taskId].data[1] = species;
-        HandleLoadSpecialPokePic(&gMonFrontPicTable[species], gMonSpritesGfxPtr->sprites.ptr[1], species, personality);
+        HandleLoadSpecialPokePic(&gMonFrontPicTable[species], gMonSpritesGfxPtr->sprites.ptr[1], species, personality, 0);
 
         palette = GetMonSpritePalStructFromOtIdPersonality(species, otId, personality);
         LoadSpritePalette(palette);

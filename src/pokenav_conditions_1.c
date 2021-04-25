@@ -518,6 +518,8 @@ void ConditionGraphDrawMonPic(s16 index, u8 arg1)
 {
     u16 boxId, monId, species;
     u32 personality, tid;
+    u8 form;
+    u16 formSpecies;
     struct PokenavSub11 *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_CONDITION_GRAPH);
     struct PokenavSub18 *monListPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_MON_LIST);
 
@@ -529,7 +531,9 @@ void ConditionGraphDrawMonPic(s16 index, u8 arg1)
     species = GetBoxOrPartyMonData(boxId, monId, MON_DATA_SPECIES2, NULL);
     tid = GetBoxOrPartyMonData(boxId, monId, MON_DATA_OT_ID, NULL);
     personality = GetBoxOrPartyMonData(boxId, monId, MON_DATA_PERSONALITY, NULL);
-    LoadSpecialPokePic(&gMonFrontPicTable[species], structPtr->monPicGfx[arg1], species, personality, TRUE);
+    form = GetBoxOrPartyMonData(boxId, monId, MON_DATA_FORM, NULL);
+    formSpecies = GetFormSpecies(species, form);
+    LoadSpecialPokePic(&gMonFrontPicTable[formSpecies], structPtr->monPicGfx[arg1], formSpecies, personality, TRUE, form);
 }
 
 u16 GetMonListCount(void)

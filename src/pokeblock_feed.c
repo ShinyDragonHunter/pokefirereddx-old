@@ -723,28 +723,24 @@ static void HandleInitBackgrounds(void)
 static bool8 LoadMonAndSceneGfx(struct Pokemon *mon)
 {
     u16 species;
+    u32 personality, trainerId;
     u8 form;
     u16 formSpecies;
-    u32 personality, trainerId;
     const struct SpritePalette *palette;
 
+    species = GetMonData(mon, MON_DATA_SPECIES2);
+    personality = GetMonData(mon, MON_DATA_PERSONALITY);
+	form = GetMonData(mon, MON_DATA_FORM);
+    formSpecies = GetFormSpecies(species, form);
     switch (sPokeblockFeed->loadGfxState)
     {
     case 0:
         // Load mon gfx
-        species = GetMonData(mon, MON_DATA_SPECIES2);
-	    form = GetMonData(mon, MON_DATA_FORM);
-        formSpecies = GetFormSpecies(species, form);
-        personality = GetMonData(mon, MON_DATA_PERSONALITY);
-        HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[1], formSpecies, personality);
+        HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[1], formSpecies, personality, form);
         sPokeblockFeed->loadGfxState++;
         break;
     case 1:
         // Load mon palette
-        species = GetMonData(mon, MON_DATA_SPECIES2);
-	    form = GetMonData(mon, MON_DATA_FORM);
-        formSpecies = GetFormSpecies(species, form);
-        personality = GetMonData(mon, MON_DATA_PERSONALITY);
         trainerId = GetMonData(mon, MON_DATA_OT_ID);
         palette = GetMonSpritePalStructFromOtIdPersonality(formSpecies, trainerId, personality);
 

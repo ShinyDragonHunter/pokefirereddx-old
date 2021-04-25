@@ -263,10 +263,6 @@ Route117_PokemonDayCare_Movement_RetrieveDaycareMon: @ 8291F47
 	walk_slow_down
 	step_end
 
-@ Unused. Possibly a commented script, or a typo end added to the above Movement script
-Route117_PokemonDayCare_EventScript_UnusedEnd:: @ 8291F5B
-	end
-
 Route117_PokemonDayCare_EventScript_TwoMonsInDaycare:: @ 8291F5C
 	msgbox Route117_PokemonDayCare_Text_GoodToSeeYou, MSGBOX_DEFAULT
 	setvar VAR_0x8004, 0
@@ -276,19 +272,6 @@ Route117_PokemonDayCare_EventScript_TwoMonsInDaycare:: @ 8291F5C
 	msgbox Route117_PokemonDayCare_Text_TakeYourMonBack, MSGBOX_YESNO
 	compare VAR_RESULT, YES
 	goto_if_eq Route117_PokemonDayCare_EventScript_TryRetrieveMon
-	msgbox Route117_PokemonDayCare_Text_ComeAgain, MSGBOX_DEFAULT
-	release
-	end
-
-@ Unused
-Route117_PokemonDayCare_EventScript_UnusedRetrieveMon:: @ 8291F95
-	special ShowDaycareLevelMenu
-	waitstate
-	compare VAR_RESULT, 2
-	goto_if_eq Route117_PokemonDayCare_EventScript_ComeAgain
-	copyvar VAR_0x8004, VAR_RESULT
-	specialvar VAR_RESULT, TakePokemonFromDaycare
-	msgbox Route117_PokemonDayCare_Text_HeresYourMon, MSGBOX_DEFAULT
 	msgbox Route117_PokemonDayCare_Text_ComeAgain, MSGBOX_DEFAULT
 	release
 	end
@@ -342,11 +325,6 @@ Route117_Text_FriendlyWithOtherTrainersMon: @ 82921E5
 	.string "{STR_VAR_2}'s {STR_VAR_3}.\p"
 	.string "I may even have seen it receiving\n"
 	.string "a piece of MAIL.$"
-
-@ Unused
-Route117_Text_SeeWifeIfYouWantToPickUpMon: @ 829225A
-	.string "If you want to pick up your POKéMON,\n"
-	.string "have a word with my wife.$"
 
 Route117_Text_YourMonsAreDoingFine: @ 8292299
 	.string "Ah, it's you! Your {STR_VAR_1} and\n"

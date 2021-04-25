@@ -497,6 +497,9 @@ const u16 gSpeciesToHoennPokedexNum[] = // Assigns all species to the Hoenn Dex 
     SPECIES_TO_HOENN(JIRACHI),
     SPECIES_TO_HOENN(DEOXYS),
     SPECIES_TO_HOENN(CHIMECHO),
+    SPECIES_TO_HOENN(DEOXYS_SPEED),
+    SPECIES_TO_HOENN(DEOXYS_ATTACK),
+    SPECIES_TO_HOENN(DEOXYS_DEFENSE),
 };
 
 const u16 gSpeciesToNationalPokedexNum[] = // Assigns all species to the National Dex Index (Summary No. for National Dex)
@@ -913,6 +916,9 @@ const u16 gSpeciesToNationalPokedexNum[] = // Assigns all species to the Nationa
     SPECIES_TO_NATIONAL(JIRACHI),
     SPECIES_TO_NATIONAL(DEOXYS),
     SPECIES_TO_NATIONAL(CHIMECHO),
+    SPECIES_TO_NATIONAL(DEOXYS_SPEED),
+    SPECIES_TO_NATIONAL(DEOXYS_ATTACK),
+    SPECIES_TO_NATIONAL(DEOXYS_DEFENSE),
 };
 
 const u16 gHoennToNationalOrder[] = // Assigns Hoenn Dex Pokémon (Using National Dex Index)
@@ -1119,8 +1125,8 @@ const u16 gHoennToNationalOrder[] = // Assigns Hoenn Dex Pokémon (Using Nationa
     HOENN_TO_NATIONAL(RAYQUAZA),
     HOENN_TO_NATIONAL(JIRACHI),
     HOENN_TO_NATIONAL(DEOXYS),
-    HOENN_TO_NATIONAL(NONE),
-    HOENN_TO_NATIONAL(BULBASAUR), // Pokémon from here onwards are UNSEEN in the HoennDex.
+    HOENN_TO_NATIONAL(NONE), // Pokémon from here onwards are UNSEEN in the HoennDex.
+    HOENN_TO_NATIONAL(BULBASAUR),
     HOENN_TO_NATIONAL(IVYSAUR),
     HOENN_TO_NATIONAL(VENUSAUR),
     HOENN_TO_NATIONAL(CHARMANDER),
@@ -1329,6 +1335,9 @@ const u16 gHoennToNationalOrder[] = // Assigns Hoenn Dex Pokémon (Using Nationa
     HOENN_TO_NATIONAL(OLD_UNOWN_X),
     HOENN_TO_NATIONAL(OLD_UNOWN_Y),
     HOENN_TO_NATIONAL(OLD_UNOWN_Z),
+    HOENN_TO_NATIONAL(DEOXYS_SPEED),
+    HOENN_TO_NATIONAL(DEOXYS_ATTACK),
+    HOENN_TO_NATIONAL(DEOXYS_DEFENSE),
 };
 
 const struct SpindaSpot gSpindaSpotGraphics[] =
@@ -1397,7 +1406,7 @@ static const u8 sMonFrontAnimIdsTable[] =
     [SPECIES_METAPOD]     = ANIM_SWING_CONCAVE,
     [SPECIES_BUTTERFREE]  = ANIM_H_SLIDE_WOBBLE,
     [SPECIES_WEEDLE]      = ANIM_H_SLIDE_SLOW,
-    [SPECIES_KAKUNA]      = ANIM_GLOW_YELLOW,
+    [SPECIES_KAKUNA]      = ANIM_GLOW_ORANGE,
     [SPECIES_BEEDRILL]    = ANIM_H_VIBRATE,
     [SPECIES_PIDGEY]      = ANIM_V_STRETCH,
     [SPECIES_PIDGEOTTO]   = ANIM_V_STRETCH,
@@ -1774,7 +1783,7 @@ static const u8 sMonFrontAnimIdsTable[] =
     [SPECIES_DEOXYS_DEFENSE] = ANIM_V_SQUISH_AND_BOUNCE_SLOW,
 };
 
-static const u8 sMonAnimationDelayTable[NUM_SPECIES] =
+static const u8 sMonAnimationDelayTable[SPECIES_COUNT] =
 {
     [SPECIES_WEEDLE]     = 10,
     [SPECIES_KAKUNA]     = 20,
@@ -4452,7 +4461,7 @@ void GetSpeciesName(u8 *name, u16 species)
         if (species > NUM_SPECIES)
             name[i] = gSpeciesNames[SPECIES_NONE][i];
         else
-            name[i] = gSpeciesNames[GetFormSpecies(species, 0)][i];
+            name[i] = gSpeciesNames[species][i];
 
         if (name[i] == EOS)
             break;
@@ -5560,7 +5569,7 @@ u16 SpeciesToCryId(u16 species)
         return SPECIES_UNOWN;
 
     if (species > SPECIES_OLD_UNOWN_Z)
-        return species - (26);
+        return species - (25);
     return species;
 }
 
@@ -6306,7 +6315,7 @@ const u16 *GetMonSpritePalFromSpeciesAndPersonality(u16 species, u32 otId, u32 p
 {
     u32 shinyValue;
 
-    if (GetFormSpecies(species, 0) > NUM_SPECIES)
+    if (species > NUM_SPECIES)
         return gMonPaletteTable[SPECIES_NONE].data;
 
     shinyValue = HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality);

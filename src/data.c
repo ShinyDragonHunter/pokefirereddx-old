@@ -301,7 +301,7 @@ const union AnimCmd *const gUnknown_082FF70C[] =
 #define SPECIES_PAL(species, pal) [SPECIES_##species] = {pal, SPECIES_##species}
 #define SPECIES_SHINY_PAL(species, pal) [SPECIES_##species] = {pal, SPECIES_##species + SPECIES_SHINY_TAG}
 
-const bool8 SpeciesHasGenderDifference[NUM_SPECIES] =
+const bool8 SpeciesHasGenderDifference[SPECIES_COUNT] =
 {
     [SPECIES_VENUSAUR] = TRUE,
     [SPECIES_BUTTERFREE] = TRUE,

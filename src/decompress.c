@@ -59,17 +59,16 @@ void LoadCompressedSpritePaletteOverrideBuffer(const struct CompressedSpritePale
     LoadSpritePalette(&dest);
 }
 
-void DecompressPicFromTable(const struct CompressedSpriteSheet *src, void* buffer, s32 species)
+void DecompressPicFromTable(const struct CompressedSpriteSheet *src, void* buffer, s32 species, s32 form)
 {
-    s32 formSpecies = GetFormSpecies(species, 0);
-
-    if (formSpecies > NUM_SPECIES)
+    if (species > NUM_SPECIES && !form)
         LZ77UnCompWram(gMonFrontPicTable[SPECIES_NONE].data, buffer);
     else
         LZ77UnCompWram(src->data, buffer);
+
 }
 
-void HandleLoadSpecialPokePic(const struct CompressedSpriteSheet *src, void *dest, s32 species, u32 personality)
+void HandleLoadSpecialPokePic(const struct CompressedSpriteSheet *src, void *dest, s32 species, u32 personality, s32 form)
 {
     bool8 isFrontPic;
 
@@ -78,13 +77,11 @@ void HandleLoadSpecialPokePic(const struct CompressedSpriteSheet *src, void *des
     else
         isFrontPic = FALSE; // backPic
 
-    LoadSpecialPokePic(src, dest, species, personality, isFrontPic);
+    LoadSpecialPokePic(src, dest, species, personality, isFrontPic, form);
 }
 
-void LoadSpecialPokePic(const struct CompressedSpriteSheet *src, void *dest, s32 species, u32 personality, bool8 isFrontPic)
+void LoadSpecialPokePic(const struct CompressedSpriteSheet *src, void *dest, s32 species, u32 personality, bool8 isFrontPic, s32 form)
 {
-    s32 formSpecies = GetFormSpecies(species, 0);
-
     if (species == SPECIES_UNOWN)
     {
         u16 i = GET_UNOWN_LETTER(personality);
@@ -100,7 +97,7 @@ void LoadSpecialPokePic(const struct CompressedSpriteSheet *src, void *dest, s32
         else
             LZ77UnCompWram(gMonBackPicTable[i].data, dest);
     }
-    else if (formSpecies > NUM_SPECIES) // is species unknown? draw the ? icon
+    else if (species > NUM_SPECIES && !form)
         LZ77UnCompWram(gMonFrontPicTable[SPECIES_NONE].data, dest);
     else if (SpeciesHasGenderDifference[species]
      && GetGenderFromSpeciesAndPersonality(species, personality) == MON_FEMALE)

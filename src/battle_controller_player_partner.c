@@ -1274,7 +1274,7 @@ static void PlayerPartnerHandleDrawTrainerPic(void)
     // Use back pic only if the partner is Steven
     if (gPartnerTrainerId == TRAINER_STEVEN_PARTNER)
     {
-        LoadPalette(gTrainerBackPicPaletteTable[trainerPicId].data, 0x100 + 16 * gActiveBattler, 32);
+        LoadPaletteDayNight(gTrainerBackPicPaletteTable[trainerPicId].data, 0x100 + 16 * gActiveBattler, 32);
         SetMultiuseSpriteTemplateToTrainerBack(trainerPicId, GetBattlerPosition(gActiveBattler));
         gBattlerSpriteIds[gActiveBattler] = CreateSprite(&gMultiuseSpriteTemplate, xPos, yPos, GetBattlerSpriteSubpriority(gActiveBattler));
 
@@ -1468,8 +1468,8 @@ static void PlayerPartnerHandleChoosePokemon(void)
         for (chosenMonId = 3; chosenMonId < 6; chosenMonId++)
         {
             if (GetMonData(&gPlayerParty[chosenMonId], MON_DATA_HP) != 0
-                && chosenMonId != gBattlerPartyIndexes[playerMonIdentity]
-                && chosenMonId != gBattlerPartyIndexes[selfIdentity])
+             && chosenMonId != gBattlerPartyIndexes[playerMonIdentity]
+             && chosenMonId != gBattlerPartyIndexes[selfIdentity])
             {
                 break;
             }
@@ -1635,12 +1635,12 @@ static void PlayerPartnerHandleIntroTrainerBallThrow(void)
     if (gPartnerTrainerId == TRAINER_STEVEN_PARTNER)
     {
         u8 spriteId = TRAINER_BACK_PIC_OLD_MAN;
-        LoadPalette(gTrainerBackPicPaletteTable[spriteId].data, 0x100 + paletteNum * 16, 32);
+        LoadPaletteDayNight(gTrainerBackPicPaletteTable[spriteId].data, 0x100 + paletteNum * 16, 32);
     }
     else
     {
         u8 spriteId = GetFrontierTrainerFrontSpriteId(gPartnerTrainerId);
-        LoadPalette(gTrainerFrontPicPaletteTable[spriteId].data, 0x100 + paletteNum * 16, 32);
+        LoadPaletteDayNight(gTrainerFrontPicPaletteTable[spriteId].data, 0x100 + paletteNum * 16, 32);
     }
 
 

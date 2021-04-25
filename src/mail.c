@@ -473,7 +473,11 @@ void ReadMail(struct MailStruct *mail, void (*exitCallback)(void), bool8 hasText
             break;
     }
     species = MailSpeciesToSpecies(mail->species, buffer, mail->form);
-    if (species > SPECIES_NONE && species < NUM_SPECIES)
+    if (mail->species > NUM_SPECIES && !mail->form)
+    {
+        sMailRead->iconType = ICON_TYPE_NONE;
+    }
+    else
     {
         switch (sMailRead->mailType)
         {
@@ -487,10 +491,6 @@ void ReadMail(struct MailStruct *mail, void (*exitCallback)(void), bool8 hasText
                 sMailRead->iconType = ICON_TYPE_NONE;
                 break;
         }
-    }
-    else
-    {
-        sMailRead->iconType = ICON_TYPE_NONE;
     }
     sMailRead->mail = mail;
     sMailRead->exitCallback = exitCallback;
@@ -693,14 +693,14 @@ static void PrintMailText(void)
         if (sMailRead->message[i][0] == EOS || sMailRead->message[i][0] == CHAR_SPACE)
             continue;
 
-        AddTextPrinterParameterized3(0, 1, sMailRead->layout->lines[i].xOffset + sMailRead->layout->wordsXPos, y + sMailRead->layout->wordsYPos, sTextColors, 0, sMailRead->message[i]);
+        AddTextPrinterParameterized3(0, 2, sMailRead->layout->lines[i].xOffset + sMailRead->layout->wordsXPos, y + sMailRead->layout->wordsYPos, sTextColors, 0, sMailRead->message[i]);
         y += sMailRead->layout->lines[i].height;
     }
     bufptr = StringCopy(signature, gText_FromSpace);
     StringCopy(bufptr, sMailRead->playerName);
     box_x = GetStringCenterAlignXOffset(1, signature, sMailRead->signatureWidth) + 104;
     box_y = sMailRead->layout->signatureYPos + 88;
-    AddTextPrinterParameterized3(0, 1, box_x, box_y, sTextColors, 0, signature);
+    AddTextPrinterParameterized3(0, 2, box_x, box_y, sTextColors, 0, signature);
     CopyWindowToVram(0, 3);
     CopyWindowToVram(1, 3);
 }

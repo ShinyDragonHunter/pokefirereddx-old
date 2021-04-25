@@ -622,7 +622,7 @@ static void SetBattlePartyIds(void)
                     else
                     {
                         if (GetMonData(&gPlayerParty[j], MON_DATA_HP)
-                         && GetMonData(&gPlayerParty[j], MON_DATA_SPECIES)  // Probably a typo by Game Freak. The rest use SPECIES2.
+                         && GetMonData(&gPlayerParty[j], MON_DATA_SPECIES2)
                          && GetMonData(&gPlayerParty[j], MON_DATA_SPECIES2) != SPECIES_EGG
                          && !GetMonData(&gPlayerParty[j], MON_DATA_IS_EGG)
                          && gBattlerPartyIndexes[i - 2] != j)
