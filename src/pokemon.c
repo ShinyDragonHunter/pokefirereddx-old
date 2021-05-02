@@ -5630,7 +5630,7 @@ void EvolutionRenameMon(struct Pokemon *mon, u16 oldSpecies, u16 newSpecies)
     u8 language;
     GetMonData(mon, MON_DATA_NICKNAME, gStringVar1);
     language = GetMonData(mon, MON_DATA_LANGUAGE, &language);
-    if (language == LANGUAGE_JAPANESE && !StringCompare(gJapaneseSpeciesNames[oldSpecies], gStringVar1))
+    if (language == LANGUAGE_JAPANESE && !StringCompareWithoutExtCtrlCodes(gJapaneseSpeciesNames[oldSpecies], gStringVar1))
         SetMonData(mon, MON_DATA_NICKNAME, gJapaneseSpeciesNames[newSpecies]);
     else if (language == LANGUAGE_ENGLISH && !StringCompare(gSpeciesNames[oldSpecies], gStringVar1))
         SetMonData(mon, MON_DATA_NICKNAME, gSpeciesNames[newSpecies]);

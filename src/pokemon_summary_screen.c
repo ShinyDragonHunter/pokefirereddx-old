@@ -3201,7 +3201,7 @@ static void PrintEggState(void)
         text = gText_EggWillHatchSoon;
     else if (sum->friendship <= 40)
         text = gText_EggWillTakeSomeTime;
-    else if (sum->friendship >= 41 || sMonSummaryScreen->summary.sanity)
+    else if (sMonSummaryScreen->summary.sanity || sum->friendship >= 41)
         text = gText_EggWillTakeALongTime;
 
     PrintTextOnWindow(AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_ABILITY), text, 0, 1, 0, 0);
@@ -3223,7 +3223,7 @@ static void PrintEggMemo(void)
         text = gText_PeculiarEggNicePlace;
     else if (!DoesMonOTMatchOwner())
         text = gText_PeculiarEggTrade;
-    else if (sum->metLocation != JOHTO_MAPSEC_GOLDENROD_CITY - JOHTO_MAPSEC_START || sMonSummaryScreen->summary.sanity)
+    else if (sMonSummaryScreen->summary.sanity || sum->metLocation != JOHTO_MAPSEC_GOLDENROD_CITY - JOHTO_MAPSEC_START)
         text = gText_OddEggFoundByCouple;
     else
         text = gText_EggFromPokecomCenter;
@@ -3865,13 +3865,14 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
 static void PlayMonCry(void)
 {
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
+//    u16 formSpecies = GetFormSpecies(summary->species2, sMonSummaryScreen->form);
     if (!summary->isEgg)
     {
-        //Change these to what's commented out to support cries for forms.
+        // Change these to what's commented out to support cries for forms.
         if (ShouldPlayNormalMonCry(&sMonSummaryScreen->currentMon))
-            PlayCry3(summary->species2, 0, 0); //PlayCry3(GetFormSpecies(summary->species2, sMonSummaryScreen->form), 0, 0);
+            PlayCry3(summary->species2, 0, 0); // PlayCry3(formSpecies, 0, 0);
         else
-            PlayCry3(summary->species2, 0, 11); //PlayCry3(GetFormSpecies(summary->species2, sMonSummaryScreen->form), 0, 11);
+            PlayCry3(summary->species2, 0, 11); // PlayCry3(formSpecies, 0, 11);
     }
 }
 
