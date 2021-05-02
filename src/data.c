@@ -386,5 +386,7 @@ const bool8 SpeciesHasGenderDifference[SPECIES_COUNT] =
 #include "data/trainer_parties.h"
 #include "data/text/trainer_class_names.h"
 #include "data/trainers.h"
+#include "data/text/japanese_species_names.h"
 #include "data/text/species_names.h"
+#include "data/text/german_species_names.h"
 #include "data/text/move_names.h"

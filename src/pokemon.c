@@ -3606,7 +3606,7 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
             data[1] = EXT_CTRL_CODE_JPN;
 
             for (retVal = 2, i = 0;
-                i < 5 && boxMon->nickname[i] != EOS;
+                i < JAPANESE_NAME_LENGTH && boxMon->nickname[i] != EOS;
                 data[retVal] = boxMon->nickname[i], retVal++, i++) {}
 
             data[retVal++] = EXT_CTRL_CODE_BEGIN;
@@ -4306,7 +4306,7 @@ u8 CalculatePlayerPartyCount(void)
     gPlayerPartyCount = 0;
 
     while (gPlayerPartyCount < PARTY_SIZE
-        && GetMonData(&gPlayerParty[gPlayerPartyCount], MON_DATA_SPECIES, NULL))
+     && GetMonData(&gPlayerParty[gPlayerPartyCount], MON_DATA_SPECIES, NULL))
     {
         gPlayerPartyCount++;
     }
@@ -4319,7 +4319,7 @@ u8 CalculateEnemyPartyCount(void)
     gEnemyPartyCount = 0;
 
     while (gEnemyPartyCount < PARTY_SIZE
-        && GetMonData(&gEnemyParty[gEnemyPartyCount], MON_DATA_SPECIES, NULL))
+     && GetMonData(&gEnemyParty[gEnemyPartyCount], MON_DATA_SPECIES, NULL))
     {
         gEnemyPartyCount++;
     }
@@ -5632,9 +5632,9 @@ void EvolutionRenameMon(struct Pokemon *mon, u16 oldSpecies, u16 newSpecies)
     language = GetMonData(mon, MON_DATA_LANGUAGE, &language);
     if (language == LANGUAGE_JAPANESE && !StringCompareWithoutExtCtrlCodes(gJapaneseSpeciesNames[oldSpecies], gStringVar1))
         SetMonData(mon, MON_DATA_NICKNAME, gJapaneseSpeciesNames[newSpecies]);
-    else if (language == LANGUAGE_ENGLISH && !StringCompare(gSpeciesNames[oldSpecies], gStringVar1))
+    if (language == LANGUAGE_ENGLISH && !StringCompare(gSpeciesNames[oldSpecies], gStringVar1))
         SetMonData(mon, MON_DATA_NICKNAME, gSpeciesNames[newSpecies]);
-    else if (language == LANGUAGE_GERMAN && !StringCompare(gGermanSpeciesNames[oldSpecies], gStringVar1))
+    if (language == LANGUAGE_GERMAN && !StringCompare(gGermanSpeciesNames[oldSpecies], gStringVar1))
         SetMonData(mon, MON_DATA_NICKNAME, gGermanSpeciesNames[newSpecies]);
 
 }
