@@ -103,27 +103,27 @@ static void SetUpItemUseCallback(u8 taskId)
         type = gTasks[taskId].tEnigmaBerryType - 1;
     else
         type = ItemId_GetType(gSpecialVar_ItemId) - 1;
-    if (!InBattlePyramid())
-    {
-        gBagMenu->exitCallback = sItemUseCallbacks[type];
-        Task_FadeAndCloseBagMenu(taskId);
-    }
-    else
+    if (InBattlePyramid())
     {
         gPyramidBagResources->callback2 = sItemUseCallbacks[type];
         CloseBattlePyramidBagAndSetCallback(taskId);
+    }
+    else
+    {
+        gBagMenu->exitCallback = sItemUseCallbacks[type];
+        Task_FadeAndCloseBagMenu(taskId);
     }
 }
 
 static void SetUpItemUseOnFieldCallback(u8 taskId)
 {
-    if (gTasks[taskId].tUsingRegisteredKeyItem != TRUE)
+    if (gTasks[taskId].tUsingRegisteredKeyItem)
+        sItemUseOnFieldCB(taskId);
+    else
     {
         gFieldCallback = FieldCB_UseItemOnField;
         SetUpItemUseCallback(taskId);
     }
-    else
-        sItemUseOnFieldCB(taskId);
 }
 
 static void FieldCB_UseItemOnField(void)
@@ -141,15 +141,15 @@ static void Task_CallItemUseOnFieldCallback(u8 taskId)
 static void DisplayCannotUseItemMessage(u8 taskId, bool8 isUsingRegisteredKeyItemOnField, const u8 *str)
 {
     StringExpandPlaceholders(gStringVar4, str);
-    if (!isUsingRegisteredKeyItemOnField)
-    {
-        if (!InBattlePyramid())
-            DisplayItemMessage(taskId, 1, gStringVar4, BagMenu_InitListsMenu);
-        else
-            DisplayItemMessageInBattlePyramid(taskId, gText_DadsAdvice, Task_CloseBattlePyramidBagMessage);
-    }
-    else
+    if (isUsingRegisteredKeyItemOnField)
         DisplayItemMessageOnField(taskId, gStringVar4, Task_CloseCantUseKeyItemMessage);
+    else
+    {
+        if (InBattlePyramid())
+            DisplayItemMessageInBattlePyramid(taskId, gText_DadsAdvice, Task_CloseBattlePyramidBagMessage);
+        else
+            DisplayItemMessage(taskId, 2, gStringVar4, BagMenu_InitListsMenu);
+    }
 }
 
 static void DisplayDadsAdviceCannotUseItemMessage(u8 taskId, bool8 isUsingRegisteredKeyItemOnField)
@@ -206,7 +206,7 @@ void ItemUseOutOfBattle_Bike(u8 taskId)
         DisplayCannotDismountBikeMessage(taskId, tUsingRegisteredKeyItem);
     else
     {
-        if (Overworld_IsBikingAllowed() && IsBikingDisallowedByPlayer() == 0)
+        if (Overworld_IsBikingAllowed() && !IsBikingDisallowedByPlayer())
         {
             sItemUseOnFieldCB = ItemUseOnFieldCB_Bike;
             SetUpItemUseOnFieldCallback(taskId);
@@ -235,22 +235,19 @@ static bool32 CanFish(void)
     GetXYCoordsOneStepInFrontOfPlayer(&x, &y);
     tileBehavior = MapGridGetMetatileBehaviorAt(x, y);
 
-    if (MetatileBehavior_IsWaterfall(tileBehavior))
+    if (MetatileBehavior_IsWaterfall(tileBehavior)
+     || TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_UNDERWATER))
         return FALSE;
 
-    if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_UNDERWATER))
-        return FALSE;
-
-    if (!TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
+    if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
     {
-        if (IsPlayerFacingSurfableFishableWater())
+        if ((MetatileBehavior_IsSurfableWaterOrUnderwater(tileBehavior) && !MapGridIsImpassableAt(x, y))
+         || MetatileBehavior_8089510(tileBehavior))
             return TRUE;
     }
     else
     {
-        if (MetatileBehavior_IsSurfableWaterOrUnderwater(tileBehavior) && !MapGridIsImpassableAt(x, y))
-            return TRUE;
-        if (MetatileBehavior_8089510(tileBehavior))
+        if (IsPlayerFacingSurfableFishableWater())
             return TRUE;
     }
 
@@ -466,14 +463,7 @@ static void SetDistanceOfClosestHiddenItem(u8 taskId, s16 itemDistanceX, s16 ite
     s16 *data = gTasks[taskId].data;
     s16 oldItemAbsX, oldItemAbsY, newItemAbsX, newItemAbsY;
 
-    if (tItemFound == FALSE)
-    {
-        // No other items found yet, set this one
-        tItemDistanceX = itemDistanceX;
-        tItemDistanceY = itemDistanceY;
-        tItemFound = TRUE;
-    }
-    else
+    if (tItemFound)
     {
         // Other items have been found, check if this one is closer
 
@@ -518,6 +508,13 @@ static void SetDistanceOfClosestHiddenItem(u8 taskId, s16 itemDistanceX, s16 ite
                 tItemDistanceY = itemDistanceY;
             }
         }
+    }
+    else
+    {
+        // No other items found yet, set this one
+        tItemDistanceX = itemDistanceX;
+        tItemDistanceY = itemDistanceY;
+        tItemFound = TRUE;
     }
 }
 
@@ -586,7 +583,7 @@ static void Task_StandingOnHiddenItem(u8 taskId)
     s16 *data = gTasks[taskId].data;
 
     if (ObjectEventCheckHeldMovementStatus(&gObjectEvents[GetObjectEventIdByLocalIdAndMap(OBJ_EVENT_ID_PLAYER, 0, 0)])
-    || tItemFound == FALSE)
+     || tItemFound == FALSE)
     {
         // Spin player around on item
         PlayerFaceHiddenItem(sClockwiseDirections[tFacingDir]);
@@ -646,13 +643,13 @@ void ItemUseOutOfBattle_CoinCase(u8 taskId)
     ConvertIntToDecimalStringN(gStringVar1, GetCoins(), STR_CONV_MODE_LEFT_ALIGN, 4);
     StringExpandPlaceholders(gStringVar4, gText_CoinCase);
 
-    if (!gTasks[taskId].tUsingRegisteredKeyItem)
+    if (gTasks[taskId].tUsingRegisteredKeyItem)
     {
-        DisplayItemMessage(taskId, 1, gStringVar4, BagMenu_InitListsMenu);
+        DisplayItemMessageOnField(taskId, gStringVar4, Task_CloseCantUseKeyItemMessage);
     }
     else
     {
-        DisplayItemMessageOnField(taskId, gStringVar4, Task_CloseCantUseKeyItemMessage);
+        DisplayItemMessage(taskId, 2, gStringVar4, BagMenu_InitListsMenu);
     }
 }
 
@@ -661,13 +658,13 @@ void ItemUseOutOfBattle_PowderJar(u8 taskId)
     ConvertIntToDecimalStringN(gStringVar1, GetBerryPowder(), STR_CONV_MODE_LEFT_ALIGN, 5);
     StringExpandPlaceholders(gStringVar4, gText_PowderQty);
 
-    if (!gTasks[taskId].tUsingRegisteredKeyItem)
+    if (gTasks[taskId].tUsingRegisteredKeyItem)
     {
-        DisplayItemMessage(taskId, 1, gStringVar4, BagMenu_InitListsMenu);
+        DisplayItemMessageOnField(taskId, gStringVar4, Task_CloseCantUseKeyItemMessage);
     }
     else
     {
-        DisplayItemMessageOnField(taskId, gStringVar4, Task_CloseCantUseKeyItemMessage);
+        DisplayItemMessage(taskId, 2, gStringVar4, BagMenu_InitListsMenu);
     }
 }
 
@@ -779,9 +776,9 @@ void ItemUseOutOfBattle_RareCandy(u8 taskId)
 void ItemUseOutOfBattle_TMHM(u8 taskId)
 {
     if (gSpecialVar_ItemId >= ITEM_HM01_CUT)
-        DisplayItemMessage(taskId, 1, gText_BootedUpHM, BootUpSoundTMHM); // HM
+        DisplayItemMessage(taskId, 2, gText_BootedUpHM, BootUpSoundTMHM); // HM
     else
-        DisplayItemMessage(taskId, 1, gText_BootedUpTM, BootUpSoundTMHM); // TM
+        DisplayItemMessage(taskId, 2, gText_BootedUpTM, BootUpSoundTMHM); // TM
 }
 
 static void BootUpSoundTMHM(u8 taskId)
@@ -796,7 +793,7 @@ static void Task_ShowTMHMContainedMessage(u8 taskId)
     {
         StringCopy(gStringVar1, gMoveNames[ItemIdToBattleMoveId(gSpecialVar_ItemId)]);
         StringExpandPlaceholders(gStringVar4, gText_TMHMContainedVar1);
-        DisplayItemMessage(taskId, 1, gStringVar4, UseTMHMYesNo);
+        DisplayItemMessage(taskId, 2, gStringVar4, UseTMHMYesNo);
     }
 }
 
@@ -833,7 +830,7 @@ void ItemUseOutOfBattle_Repel(u8 taskId)
     if (VarGet(VAR_REPEL_STEP_COUNT) == 0)
         gTasks[taskId].func = Task_StartUseRepel;
     else if (!InBattlePyramid())
-        DisplayItemMessage(taskId, 1, gText_RepelEffectsLingered, BagMenu_InitListsMenu);
+        DisplayItemMessage(taskId, 2, gText_RepelEffectsLingered, BagMenu_InitListsMenu);
     else
         DisplayItemMessageInBattlePyramid(taskId, gText_RepelEffectsLingered, Task_CloseBattlePyramidBagMessage);
 }
@@ -856,10 +853,10 @@ static void Task_UseRepel(u8 taskId)
     {
         VarSet(VAR_REPEL_STEP_COUNT, ItemId_GetHoldEffectParam(gSpecialVar_ItemId));
         RemoveUsedItem();
-        if (!InBattlePyramid())
-            DisplayItemMessage(taskId, 1, gStringVar4, BagMenu_InitListsMenu);
-        else
+        if (InBattlePyramid())
             DisplayItemMessageInBattlePyramid(taskId, gStringVar4, Task_CloseBattlePyramidBagMessage);
+        else
+            DisplayItemMessage(taskId, 2, gStringVar4, BagMenu_InitListsMenu);
     }
 }
 
@@ -868,10 +865,10 @@ static void Task_UsedBlackWhiteFlute(u8 taskId)
     if(++gTasks[taskId].data[8] > 7)
     {
         PlaySE(SE_GLASS_FLUTE);
-        if (!InBattlePyramid())
-            DisplayItemMessage(taskId, 1, gStringVar4, BagMenu_InitListsMenu);
-        else
+        if (InBattlePyramid())
             DisplayItemMessageInBattlePyramid(taskId, gStringVar4, Task_CloseBattlePyramidBagMessage);
+        else
+            DisplayItemMessage(taskId, 1, gStringVar4, BagMenu_InitListsMenu);
     }
 }
 
@@ -941,30 +938,30 @@ void ItemUseInBattle_PokeBall(u8 taskId)
     if (IsBattlerAlive(GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT))
      && IsBattlerAlive(GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT))) // There are two present Pokémon.
     {
-        DisplayItemMessage(taskId, 1, gText_ImpossibleToAim, BagMenu_InitListsMenu);
+        DisplayItemMessage(taskId, 2, gText_ImpossibleToAim, BagMenu_InitListsMenu);
     }
     else if (gBattlerInMenuId == GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT)
      && IsBattlerAlive(GetBattlerAtPosition(B_POSITION_PLAYER_LEFT))) // Attempting to throw a Ball with the second Pokémon while both are alive.
     {
-        DisplayItemMessage(taskId, 1, gText_CantThrowBall, BagMenu_InitListsMenu);
+        DisplayItemMessage(taskId, 2, gText_CantThrowBall, BagMenu_InitListsMenu);
     }
-    else if (IsPlayerPartyAndPokemonStorageFull() == FALSE) // have room for Pokémon?
+    else if (!IsPlayerPartyAndPokemonStorageFull()) // have room for Pokémon?
     {
         RemoveBagItem(gSpecialVar_ItemId, 1);
         Task_FadeAndCloseBagMenu(taskId);
     }
     else
-        DisplayItemMessage(taskId, 1, gText_BoxFull, BagMenu_InitListsMenu);
+        DisplayItemMessage(taskId, 2, gText_BoxFull, BagMenu_InitListsMenu);
 }
 
 static void Task_CloseStatIncreaseMessage(u8 taskId)
 {
     if (JOY_NEW(A_BUTTON | B_BUTTON))
     {
-        if (!InBattlePyramid())
-            Task_FadeAndCloseBagMenu(taskId);
-        else
+        if (InBattlePyramid())
             CloseBattlePyramidBagAndSetCallback(taskId);
+        else
+            Task_FadeAndCloseBagMenu(taskId);
     }
 }
 
@@ -974,10 +971,10 @@ static void Task_UseStatIncreaseItem(u8 taskId)
     {
         PlaySE(SE_USE_ITEM);
         RemoveBagItem(gSpecialVar_ItemId, 1);
-        if (!InBattlePyramid())
-            DisplayItemMessage(taskId, 1, UseStatIncreaseItem(gSpecialVar_ItemId), Task_CloseStatIncreaseMessage);
-        else
+        if (InBattlePyramid())
             DisplayItemMessageInBattlePyramid(taskId, UseStatIncreaseItem(gSpecialVar_ItemId), Task_CloseStatIncreaseMessage);
+        else
+            DisplayItemMessage(taskId, 2, UseStatIncreaseItem(gSpecialVar_ItemId), Task_CloseStatIncreaseMessage);
     }
 }
 
@@ -986,12 +983,12 @@ void ItemUseInBattle_StatIncrease(u8 taskId)
 {
     u16 partyId = gBattlerPartyIndexes[gBattlerInMenuId];
 
-    if (ExecuteTableBasedItemEffect(&gPlayerParty[partyId], gSpecialVar_ItemId, partyId, 0) != FALSE)
+    if (ExecuteTableBasedItemEffect(&gPlayerParty[partyId], gSpecialVar_ItemId, partyId, 0))
     {
-        if (!InBattlePyramid())
-            DisplayItemMessage(taskId, 1, gText_WontHaveEffect, BagMenu_InitListsMenu);
-        else
+        if (InBattlePyramid())
             DisplayItemMessageInBattlePyramid(taskId, gText_WontHaveEffect, Task_CloseBattlePyramidBagMessage);
+        else
+            DisplayItemMessage(taskId, 2, gText_WontHaveEffect, BagMenu_InitListsMenu);
     }
     else
     {
@@ -1002,15 +999,15 @@ void ItemUseInBattle_StatIncrease(u8 taskId)
 
 static void ItemUseInBattle_ShowPartyMenu(u8 taskId)
 {
-    if (!InBattlePyramid())
-    {
-        gBagMenu->exitCallback = ChooseMonForInBattleItem;
-        Task_FadeAndCloseBagMenu(taskId);
-    }
-    else
+    if (InBattlePyramid())
     {
         gPyramidBagResources->callback2 = ChooseMonForInBattleItem;
         CloseBattlePyramidBagAndSetCallback(taskId);
+    }
+    else
+    {
+        gBagMenu->exitCallback = ChooseMonForInBattleItem;
+        Task_FadeAndCloseBagMenu(taskId);
     }
 }
 
@@ -1030,17 +1027,17 @@ void ItemUseInBattle_PPRecovery(u8 taskId)
 void ItemUseInBattle_Escape(u8 taskId)
 {
 
-    if((gBattleTypeFlags & BATTLE_TYPE_TRAINER) == FALSE)
+    if ((gBattleTypeFlags & BATTLE_TYPE_TRAINER))
     {
-        RemoveUsedItem();
-        if (!InBattlePyramid())
-            DisplayItemMessage(taskId, 1, gStringVar4, Task_FadeAndCloseBagMenu);
-        else
-            DisplayItemMessageInBattlePyramid(taskId, gStringVar4, CloseBattlePyramidBagAndSetCallback);
+        DisplayDadsAdviceCannotUseItemMessage(taskId, gTasks[taskId].tUsingRegisteredKeyItem);
     }
     else
     {
-        DisplayDadsAdviceCannotUseItemMessage(taskId, gTasks[taskId].tUsingRegisteredKeyItem);
+        RemoveUsedItem();
+        if (InBattlePyramid())
+            DisplayItemMessageInBattlePyramid(taskId, gStringVar4, CloseBattlePyramidBagAndSetCallback);
+        else
+            DisplayItemMessage(taskId, 2, gStringVar4, Task_FadeAndCloseBagMenu);
     }
 }
 

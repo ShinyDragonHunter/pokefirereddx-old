@@ -1,6 +1,5 @@
 #include "global.h"
 #include "battle.h"
-#include "data.h"
 #include "pokemon.h"
 #include "pokemon_animation.h"
 #include "sprite.h"
@@ -212,7 +211,7 @@ static bool32 sIsSummaryAnim;
 
 static const u8 sSpeciesToBackAnimSet[] =
 {
-    [SPECIES_NONE]       = BACK_ANIM_H_VIBRATE,
+    [SPECIES_NONE]       = BACK_ANIM_NONE,
     [SPECIES_BULBASAUR]  = BACK_ANIM_DIP_RIGHT_SIDE,
     [SPECIES_IVYSAUR]    = BACK_ANIM_H_SLIDE,
     [SPECIES_VENUSAUR]   = BACK_ANIM_H_SHAKE,
@@ -599,7 +598,7 @@ static const u8 sSpeciesToBackAnimSet[] =
     [SPECIES_JIRACHI]    = BACK_ANIM_CONVEX_DOUBLE_ARC,
     [SPECIES_DEOXYS]     = BACK_ANIM_SHRINK_GROW_VIBRATE,
     [SPECIES_CHIMECHO]   = BACK_ANIM_CONVEX_DOUBLE_ARC,
-    [SPECIES_DEOXYS_SPEED]  = BACK_ANIM_JOLT_RIGHT,
+    [SPECIES_DEOXYS_SPEED]  = BACK_ANIM_CONVEX_DOUBLE_ARC,
     [SPECIES_DEOXYS_ATTACK] = BACK_ANIM_GROW_STUTTER,
     [SPECIES_DEOXYS_DEFENSE] = BACK_ANIM_DIP_RIGHT_SIDE,
 };
@@ -888,10 +887,10 @@ static void SetPosForRotation(struct Sprite *sprite, u16 index, s16 amplitudeX, 
 
 u8 GetSpeciesBackAnimSet(u16 species)
 {
-    if (sSpeciesToBackAnimSet[species] != BACK_ANIM_NONE)
-        return sSpeciesToBackAnimSet[species];
+    if (sSpeciesToBackAnimSet[species])
+        return sSpeciesToBackAnimSet[species] - 1;
     else
-        return 0;
+        return BACK_ANIM_NONE;
 }
 
 #define tState  data[0]
@@ -901,11 +900,6 @@ u8 GetSpeciesBackAnimSet(u16 species)
 #define tBattlerId data[4]
 #define tSpeciesId data[5]
 
-// BUG: In vanilla, tPtrLo is read as an s16, so if bit 15 of the
-// address were to be set it would cause the pointer to be read
-// as 0xFFFFXXXX instead of the desired 0x02YYXXXX.
-// By dumb luck, this is not an issue in vanilla. However,
-// changing the link order revealed this bug.
 #define ANIM_SPRITE(taskId)   ((struct Sprite *)((gTasks[taskId].tPtrHi << 16) | ((u16)gTasks[taskId].tPtrLo)))
 
 static void Task_HandleMonAnimation(u8 taskId)
@@ -913,7 +907,7 @@ static void Task_HandleMonAnimation(u8 taskId)
     u32 i;
     struct Sprite *sprite = ANIM_SPRITE(taskId);
 
-    if (!gTasks[taskId].tState)
+    if (gTasks[taskId].tState == 0)
     {
         gTasks[taskId].tBattlerId = sprite->data[0];
         gTasks[taskId].tSpeciesId = sprite->data[2];
@@ -1075,9 +1069,7 @@ static void ResetSpriteAfterAnim(struct Sprite *sprite)
         sprite->oam.affineMode = ST_OAM_AFFINE_OFF;
     }
     else
-    {
         sprite->affineAnims = gAffineAnims_BattleSpriteOpponentSide;
-    }
 }
 
 static void Anim_CircularStretchTwice(struct Sprite *sprite)
@@ -1265,15 +1257,15 @@ static void Anim_GrowVibrate(struct Sprite *sprite)
     {
         s16 index = (sprite->data[2] * 256 / 40) % 256;
 
-        if (sprite->data[2] % 2 == 0)
-        {
-            sprite->data[4] = Sin(index, 32) + 256;
-            sprite->data[5] = Sin(index, 32) + 256;
-        }
-        else
+        if (sprite->data[2] % 2)
         {
             sprite->data[4] = Sin(index, 8) + 256;
             sprite->data[5] = Sin(index, 8) + 256;
+        }
+        else
+        {
+            sprite->data[4] = Sin(index, 32) + 256;
+            sprite->data[5] = Sin(index, 32) + 256;
         }
 
         HandleSetAffineData(sprite, sprite->data[4], sprite->data[5], 0);
@@ -1306,27 +1298,27 @@ static void Zigzag(struct Sprite *sprite)
 
     if (sZigzagData[sprite->data[3]][2] == sprite->data[2])
     {
-        if (sZigzagData[sprite->data[3]][2] == 0)
-        {
-            sprite->callback = WaitAnimEnd;
-        }
-        else
+        if (sZigzagData[sprite->data[3]][2])
         {
             sprite->data[3]++;
             sprite->data[2] = 0;
         }
+        else
+        {
+            sprite->callback = WaitAnimEnd;
+        }
     }
 
-    if (sZigzagData[sprite->data[3]][2] == 0)
-    {
-        sprite->callback = WaitAnimEnd;
-    }
-    else
+    if (sZigzagData[sprite->data[3]][2])
     {
         sprite->pos2.x += sZigzagData[sprite->data[3]][0];
         sprite->pos2.y += sZigzagData[sprite->data[3]][1];
         sprite->data[2]++;
         TryFlipX(sprite);
+    }
+    else
+    {
+        sprite->callback = WaitAnimEnd;
     }
 }
 
@@ -4066,6 +4058,8 @@ static void VerticalShakeLowTwice(struct Sprite *sprite)
     u8 var2 = var5;
     if (var5 != (u8)-1)
         var5 = sprite->data[7];
+    else
+        var5 = (u8)-1; // needed to match
 
     var6 = sVerticalShakeData[sprite->data[5]][1];
     var7 = 0;
@@ -4968,18 +4962,18 @@ static void ShrinkGrowVibrate(struct Sprite *sprite)
         s8 posY_signed;
         s32 posY;
         s16 index = (u16)(sprite->data[2] % sprite->data[6] * 256) / sprite->data[6] % 256;
-        if (sprite->data[2] % 2 == 0)
-        {
-            sprite->data[4] = Sin(index, 32) + 256;
-            sprite->data[5] = Sin(index, 32) + 256;
-            posY_unsigned = Sin(index, 32);
-            posY_signed = posY_unsigned;
-        }
-        else
+        if (sprite->data[2] % 2)
         {
             sprite->data[4] = Sin(index, 8) + 256;
             sprite->data[5] = Sin(index, 8) + 256;
             posY_unsigned = Sin(index, 8);
+            posY_signed = posY_unsigned;
+        }
+        else
+        {
+            sprite->data[4] = Sin(index, 32) + 256;
+            sprite->data[5] = Sin(index, 32) + 256;
+            posY_unsigned = Sin(index, 32);
             posY_signed = posY_unsigned;
         }
 

@@ -68,10 +68,10 @@ u8 GiveMailToMon(struct Pokemon *mon, u16 itemId)
             for (i = 0; i < TRAINER_ID_LENGTH; i++)
                 gSaveBlock1Ptr->mail[id].trainerId[i] = gSaveBlock2Ptr->playerTrainerId[i];
 
-            species = GetBoxMonData(&mon->box, MON_DATA_SPECIES);
+            species = GetFormSpecies(GetBoxMonData(&mon->box, MON_DATA_SPECIES),
+                                    GetBoxMonData(&mon->box, MON_DATA_FORM));
             personality = GetBoxMonData(&mon->box, MON_DATA_PERSONALITY);
-            form = GetBoxMonData(&mon->box, MON_DATA_FORM);
-            gSaveBlock1Ptr->mail[id].species = SpeciesToMailSpecies(species, personality, form);
+            gSaveBlock1Ptr->mail[id].species = SpeciesToMailSpecies(species, personality);
             gSaveBlock1Ptr->mail[id].itemId = itemId;
             SetMonData(mon, MON_DATA_MAIL, &id);
             SetMonData(mon, MON_DATA_HELD_ITEM, heldItem);
@@ -82,7 +82,7 @@ u8 GiveMailToMon(struct Pokemon *mon, u16 itemId)
     return MAIL_NONE;
 }
 
-u16 SpeciesToMailSpecies(u16 species, u32 personality, u8 form)
+u16 SpeciesToMailSpecies(u16 species, u32 personality)
 {
     if (species == SPECIES_UNOWN)
     {
@@ -90,10 +90,10 @@ u16 SpeciesToMailSpecies(u16 species, u32 personality, u8 form)
         return species;
     }
 
-    return GetFormSpecies(species, form);
+    return species;
 }
 
-u16 MailSpeciesToSpecies(u16 mailSpecies, u16 *buffer, u8 mailForm)
+u16 MailSpeciesToSpecies(u16 mailSpecies, u16 *buffer)
 {
     u16 result;
 
@@ -104,7 +104,7 @@ u16 MailSpeciesToSpecies(u16 mailSpecies, u16 *buffer, u8 mailForm)
     }
     else
     {
-        result = GetFormSpecies(mailSpecies, mailForm);
+        result = mailSpecies;
     }
 
     return result;

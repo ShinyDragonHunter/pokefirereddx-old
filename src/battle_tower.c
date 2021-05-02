@@ -356,57 +356,57 @@ static const u8 *const sPartnerApprenticeTexts5[] =
 
 static const u8 *const sPartnerApprenticeTexts6[] =
 {
-     PARTNER_TEXTS(Apprentice6)
+    PARTNER_TEXTS(Apprentice6)
 };
 
 static const u8 *const sPartnerApprenticeTexts7[] =
 {
-     PARTNER_TEXTS(Apprentice7)
+    PARTNER_TEXTS(Apprentice7)
 };
 
 static const u8 *const sPartnerApprenticeTexts8[] =
 {
-     PARTNER_TEXTS(Apprentice8)
+    PARTNER_TEXTS(Apprentice8)
 };
 
 static const u8 *const sPartnerApprenticeTexts9[] =
 {
-     PARTNER_TEXTS(Apprentice9)
+    PARTNER_TEXTS(Apprentice9)
 };
 
 static const u8 *const sPartnerApprenticeTexts10[] =
 {
-     PARTNER_TEXTS(Apprentice10)
+    PARTNER_TEXTS(Apprentice10)
 };
 
 static const u8 *const sPartnerApprenticeTexts11[] =
 {
-     PARTNER_TEXTS(Apprentice11)
+    PARTNER_TEXTS(Apprentice11)
 };
 
 static const u8 *const sPartnerApprenticeTexts12[] =
 {
-     PARTNER_TEXTS(Apprentice12)
+    PARTNER_TEXTS(Apprentice12)
 };
 
 static const u8 *const sPartnerApprenticeTexts13[] =
 {
-     PARTNER_TEXTS(Apprentice13)
+    PARTNER_TEXTS(Apprentice13)
 };
 
 static const u8 *const sPartnerApprenticeTexts14[] =
 {
-     PARTNER_TEXTS(Apprentice14)
+    PARTNER_TEXTS(Apprentice14)
 };
 
 static const u8 *const sPartnerApprenticeTexts15[] =
 {
-     PARTNER_TEXTS(Apprentice15)
+    PARTNER_TEXTS(Apprentice15)
 };
 
 static const u8 *const sPartnerApprenticeTexts16[] =
 {
-     PARTNER_TEXTS(Apprentice16)
+    PARTNER_TEXTS(Apprentice16)
 };
 
 static const u8 *const sPartnerTextsLass[] =
@@ -968,16 +968,16 @@ static bool8 ChooseSpecialBattleTowerTrainer(void)
         validMons = 0;
         for (j = 0; j < MAX_FRONTIER_PARTY_SIZE; j++)
         {
-            if (gSaveBlock2Ptr->frontier.towerRecords[i].party[j].species != 0
+            if (gSaveBlock2Ptr->frontier.towerRecords[i].party[j].species
                 && gSaveBlock2Ptr->frontier.towerRecords[i].party[j].level <= GetFrontierEnemyMonLevel(lvlMode))
                 validMons++;
         }
 
         if (validMons >= sBattleTowerPartySizes[battleMode]
-            && gSaveBlock2Ptr->frontier.towerRecords[i].winStreak == winStreak
-            && gSaveBlock2Ptr->frontier.towerRecords[i].lvlMode == lvlMode
-            && recordHasData
-            && gSaveBlock2Ptr->frontier.towerRecords[i].checksum == checksum)
+         && gSaveBlock2Ptr->frontier.towerRecords[i].winStreak == winStreak
+         && gSaveBlock2Ptr->frontier.towerRecords[i].lvlMode == lvlMode
+         && recordHasData
+         && gSaveBlock2Ptr->frontier.towerRecords[i].checksum == checksum)
         {
             trainerIds[idsCount] = i + TRAINER_RECORD_MIXING_FRIEND;
             idsCount++;
@@ -989,9 +989,9 @@ static bool8 ChooseSpecialBattleTowerTrainer(void)
         ValidateApprenticesChecksums();
         for (i = 0; i < APPRENTICE_COUNT; i++)
         {
-            if (gSaveBlock2Ptr->apprentices[i].lvlMode != 0
-                && sApprenticeChallengeThreshold[gSaveBlock2Ptr->apprentices[i].numQuestions] == winStreak
-                && gSaveBlock2Ptr->apprentices[i].lvlMode - 1 == lvlMode)
+            if (gSaveBlock2Ptr->apprentices[i].lvlMode
+             && sApprenticeChallengeThreshold[gSaveBlock2Ptr->apprentices[i].numQuestions] == winStreak
+             && gSaveBlock2Ptr->apprentices[i].lvlMode - 1 == lvlMode)
             {
                 trainerIds[idsCount] = i + TRAINER_RECORD_MIXING_APPRENTICE;
                 idsCount++;
@@ -999,7 +999,7 @@ static bool8 ChooseSpecialBattleTowerTrainer(void)
         }
     }
 
-    if (idsCount != 0)
+    if (idsCount)
     {
         gTrainerBattleOpponent_A = trainerIds[Random() % idsCount];
         return TRUE;
@@ -2056,7 +2056,7 @@ static void SaveBattleTowerRecord(void)
 
     for (i = 0; i < MAX_FRONTIER_PARTY_SIZE; i++)
     {
-        if (gSaveBlock2Ptr->frontier.selectedPartyMons[i] != 0)
+        if (gSaveBlock2Ptr->frontier.selectedPartyMons[i])
             ConvertPokemonToBattleTowerPokemon(&gPlayerParty[gSaveBlock2Ptr->frontier.selectedPartyMons[i] - 1], &playerRecord->party[i]);
     }
 
@@ -2071,7 +2071,7 @@ static void SaveTowerChallenge(void)
     u16 battleMode = VarGet(VAR_FRONTIER_BATTLE_MODE);
     s32 challengeNum = (signed)(gSaveBlock2Ptr->frontier.towerWinStreaks[battleMode][lvlMode] / 7);
 
-    if (gSpecialVar_0x8005 == 0 && (challengeNum > 1 || gSaveBlock2Ptr->frontier.curChallengeBattleNum != 0))
+    if (gSpecialVar_0x8005 == 0 && (challengeNum > 1 || gSaveBlock2Ptr->frontier.curChallengeBattleNum))
         SaveBattleTowerRecord();
 
     gSaveBlock2Ptr->frontier.challengeStatus = gSpecialVar_0x8005;

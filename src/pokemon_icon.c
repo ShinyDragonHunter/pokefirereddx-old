@@ -1040,8 +1040,7 @@ u8 CreateMonIcon(u16 species, void (*callback)(struct Sprite *), s16 x, s16 y, u
         .paletteTag = POKE_ICON_BASE_PAL_TAG + gMonIconPaletteIndices[GetFormSpecies(species, form)],
     };
 
-    if (species > NUM_SPECIES && !form)
-        iconTemplate.paletteTag = POKE_ICON_BASE_PAL_TAG;
+    iconTemplate.paletteTag = POKE_ICON_BASE_PAL_TAG;
 
     spriteId = CreateMonIconSprite(&iconTemplate, x, y, subpriority);
 
@@ -1050,10 +1049,9 @@ u8 CreateMonIcon(u16 species, void (*callback)(struct Sprite *), s16 x, s16 y, u
     return spriteId;
 }
 
-u8 CreateMonIconNoPersonality(u16 species, void (*callback)(struct Sprite *), s16 x, s16 y, u8 subpriority, u8 form)
+u8 CreateMonIconNoPersonality(u16 species, void (*callback)(struct Sprite *), s16 x, s16 y, u8 subpriority)
 {
     u8 spriteId;
-    u16 formSpecies = GetFormSpecies(species, form);
     struct MonIconSpriteTemplate iconTemplate =
     {
         .oam = &sMonIconOamData,
@@ -1061,10 +1059,10 @@ u8 CreateMonIconNoPersonality(u16 species, void (*callback)(struct Sprite *), s1
         .anims = sMonIconAnims,
         .affineAnims = sMonIconAffineAnims,
         .callback = callback,
-        .paletteTag = POKE_ICON_BASE_PAL_TAG + gMonIconPaletteIndices[formSpecies],
+        .paletteTag = POKE_ICON_BASE_PAL_TAG + gMonIconPaletteIndices[species],
     };
 
-    iconTemplate.image = GetMonIconTiles(formSpecies);
+    iconTemplate.image = GetMonIconTiles(species);
     spriteId = CreateMonIconSprite(&iconTemplate, x, y, subpriority);
 
     UpdateMonIconFrame(&gSprites[spriteId]);
@@ -1087,10 +1085,7 @@ u16 GetIconSpecies(u16 species, u32 personality, u8 form)
     }
     else
     {
-        if (species > NUM_SPECIES && !form)
-            result = INVALID_ICON_SPECIES;
-        else
-            result = GetFormSpecies(species, form);
+        result = GetFormSpecies(species, form);
     }
 
     return result;
@@ -1104,11 +1099,11 @@ u16 GetUnownLetterByPersonality(u32 personality)
         return 0;
 }
 
-u16 GetIconSpeciesNoPersonality(u16 species, u8 form)
+u16 GetIconSpeciesNoPersonality(u16 species)
 {
     u16 value;
 
-    if (MailSpeciesToSpecies(species, &value, 0) == SPECIES_UNOWN)
+    if (MailSpeciesToSpecies(species, &value) == SPECIES_UNOWN)
     {
         if (value)
             value += (SPECIES_UNOWN_B - 1);
@@ -1118,9 +1113,7 @@ u16 GetIconSpeciesNoPersonality(u16 species, u8 form)
     }
     else
     {
-        if (species > NUM_SPECIES && !form)
-            species = INVALID_ICON_SPECIES;
-        return GetIconSpecies(species, 0, form);
+        return GetIconSpecies(species, 0, 0);
     }
 }
 
@@ -1192,8 +1185,6 @@ void sub_80D304C(u16 offset)
 
 u8 GetValidMonIconPalIndex(u16 species, u8 form)
 {
-    if (species > NUM_SPECIES && !form)
-        species = INVALID_ICON_SPECIES;
     return gMonIconPaletteIndices[GetFormSpecies(species, form)];
 }
 
@@ -1204,8 +1195,6 @@ u8 GetMonIconPaletteIndexFromSpecies(u16 species)
 
 const u16* GetValidMonIconPalettePtr(u16 species, u8 form)
 {
-    if (species > NUM_SPECIES && !form)
-        species = INVALID_ICON_SPECIES;
     return gMonIconPaletteTable[gMonIconPaletteIndices[GetFormSpecies(species, form)]].data;
 }
 
@@ -1213,7 +1202,11 @@ u8 UpdateMonIconFrame(struct Sprite *sprite)
 {
     u8 result = 0;
 
-    if (sprite->animDelayCounter == 0)
+    if (sprite->animDelayCounter)
+    {
+        sprite->animDelayCounter--;
+    }
+    else
     {
         s16 frame = sprite->anims[sprite->animNum][sprite->animCmdIndex].frame.imageValue;
 
@@ -1236,10 +1229,6 @@ u8 UpdateMonIconFrame(struct Sprite *sprite)
             result = sprite->animCmdIndex;
             break;
         }
-    }
-    else
-    {
-        sprite->animDelayCounter--;
     }
     return result;
 }

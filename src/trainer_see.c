@@ -21,7 +21,7 @@
 #include "constants/trainer_types.h"
 
 extern const struct SpritePalette sObjectEventSpritePalettes[];
-extern const struct SpritePalette gSpritePalette_GeneralFieldEffect0;
+extern const struct SpritePalette gObjectEventPal_Npc1;
 
 // this file's functions
 static u8 CheckTrainer(u8 objectEventId);
@@ -380,7 +380,7 @@ static u8 CheckPathBetweenTrainerAndPlayer(struct ObjectEvent *trainerObj, u8 ap
     u8 i;
     u8 collision;
 
-    if (approachDistance == 0)
+    if (!approachDistance)
         return 0;
 
     x = trainerObj->currentCoords.x;
@@ -429,10 +429,10 @@ static void StartTrainerApproach(TaskFunc followupFunc)
     u8 taskId;
     TaskFunc taskFunc;
 
-    if (gApproachingTrainerId == 0)
-        taskId = gApproachingTrainers[0].taskId;
-    else
+    if (gApproachingTrainerId)
         taskId = gApproachingTrainers[1].taskId;
+    else
+        taskId = gApproachingTrainers[0].taskId;
 
     taskFunc = Task_RunTrainerSeeFuncList;
     SetTaskFuncWithFollowupFunc(taskId, taskFunc, followupFunc);
@@ -672,17 +672,17 @@ void TryPrepareSecondApproachingTrainer(void)
 {
     if (gNoOfApproachingTrainers == 2)
     {
-        if (gApproachingTrainerId == 0)
+        if (gApproachingTrainerId)
+        {
+            gApproachingTrainerId = 0;
+            gSpecialVar_Result = FALSE;
+        }
+        else
         {
             gApproachingTrainerId++;
             gSpecialVar_Result = TRUE;
             UnfreezeObjectEvents();
             FreezeObjectEventsExceptOne(gApproachingTrainers[1].objectEventId);
-        }
-        else
-        {
-            gApproachingTrainerId = 0;
-            gSpecialVar_Result = FALSE;
         }
     }
     else
@@ -703,8 +703,6 @@ u8 FldEff_ExclamationMarkIcon(void)
     u8 spriteId, paletteNum;
 
     LoadObjectEventPalette(OBJ_EVENT_PAL_TAG_BRENDAN);
-    UpdatePaletteGammaType(IndexOfSpritePaletteTag(OBJ_EVENT_PAL_TAG_BRENDAN), GAMMA_ALT);
-    UpdateSpritePaletteWithWeather(IndexOfSpritePaletteTag(OBJ_EVENT_PAL_TAG_BRENDAN));
     spriteId = CreateSpriteAtEnd(&sSpriteTemplate_ExclamationQuestionMark, 0, 0, 0x52);
 
     if (spriteId != MAX_SPRITES)
@@ -718,8 +716,6 @@ u8 FldEff_QuestionMarkIcon(void)
     u8 spriteId;
 
     LoadObjectEventPalette(OBJ_EVENT_PAL_TAG_BRENDAN);
-    UpdatePaletteGammaType(IndexOfSpritePaletteTag(OBJ_EVENT_PAL_TAG_BRENDAN), GAMMA_ALT);
-    UpdateSpritePaletteWithWeather(IndexOfSpritePaletteTag(OBJ_EVENT_PAL_TAG_BRENDAN));
     spriteId = CreateSpriteAtEnd(&sSpriteTemplate_ExclamationQuestionMark, 0, 0, 0x52);
 
     if (spriteId != MAX_SPRITES)
@@ -732,9 +728,7 @@ u8 FldEff_HeartIcon(void)
 {
     u8 spriteId;
 
-    LoadSpritePalette(&gSpritePalette_GeneralFieldEffect0);
-    UpdatePaletteGammaType(IndexOfSpritePaletteTag(0x1004), GAMMA_ALT);
-    UpdateSpritePaletteWithWeather(IndexOfSpritePaletteTag(0x1004));
+    LoadSpritePalette(&gObjectEventPal_Npc1);
     spriteId = CreateSpriteAtEnd(&sSpriteTemplate_HeartIcon, 0, 0, 0x52);
 
     if (spriteId != MAX_SPRITES)
@@ -795,20 +789,20 @@ static void SpriteCB_TrainerIcons(struct Sprite *sprite)
 
 u8 GetCurrentApproachingTrainerObjectEventId(void)
 {
-    if (gApproachingTrainerId == 0)
-        return gApproachingTrainers[0].objectEventId;
-    else
+    if (gApproachingTrainerId)
         return gApproachingTrainers[1].objectEventId;
+    else
+        return gApproachingTrainers[0].objectEventId;
 }
 
 u8 GetChosenApproachingTrainerObjectEventId(u8 arrayId)
 {
     if (arrayId >= ARRAY_COUNT(gApproachingTrainers))
         return 0;
-    else if (arrayId == 0)
-        return gApproachingTrainers[0].objectEventId;
-    else
+    else if (arrayId)
         return gApproachingTrainers[1].objectEventId;
+    else
+        return gApproachingTrainers[0].objectEventId;
 }
 
 void PlayerFaceTrainerAfterBattle(void)
@@ -819,16 +813,14 @@ void PlayerFaceTrainerAfterBattle(void)
     {
         objEvent = &gObjectEvents[gApproachingTrainers[gWhichTrainerToFaceAfterBattle].objectEventId];
         gPostBattleMovementScript[0] = GetFaceDirectionMovementAction(GetOppositeDirection(objEvent->facingDirection));
-        gPostBattleMovementScript[1] = MOVEMENT_ACTION_STEP_END;
-        ScriptMovement_StartObjectMovementScript(OBJ_EVENT_ID_PLAYER, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, gPostBattleMovementScript);
     }
     else
     {
         objEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
         gPostBattleMovementScript[0] = GetFaceDirectionMovementAction(objEvent->facingDirection);
-        gPostBattleMovementScript[1] = MOVEMENT_ACTION_STEP_END;
-        ScriptMovement_StartObjectMovementScript(OBJ_EVENT_ID_PLAYER, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, gPostBattleMovementScript);
     }
+    gPostBattleMovementScript[1] = MOVEMENT_ACTION_STEP_END;
+    ScriptMovement_StartObjectMovementScript(OBJ_EVENT_ID_PLAYER, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, gPostBattleMovementScript);
 
     SetMovingNpcId(OBJ_EVENT_ID_PLAYER);
 }

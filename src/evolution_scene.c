@@ -264,7 +264,7 @@ void EvolutionScene(struct Pokemon* mon, u16 postEvoSpecies, bool8 canStopEvo, u
     personality = GetMonData(mon, MON_DATA_PERSONALITY);
     currForm = GetMonData(mon, MON_DATA_FORM);
     currFormSpecies = GetFormSpecies(currSpecies, currForm);
-    DecompressPicFromTable(&gMonFrontPicTable[currFormSpecies], gMonSpritesGfxPtr->sprites.ptr[1], currFormSpecies, currForm);
+    DecompressPicFromTable(&gMonFrontPicTable[currFormSpecies], gMonSpritesGfxPtr->sprites.ptr[1], currFormSpecies);
     pokePal = GetMonSpritePalStructFromOtIdPersonality(currFormSpecies, trainerId, personality);
     LoadPalette(pokePal->data, 0x110, 0x20);
 
@@ -278,8 +278,8 @@ void EvolutionScene(struct Pokemon* mon, u16 postEvoSpecies, bool8 canStopEvo, u
 
     // postEvo sprite
     postEvoFormSpecies = GetFormSpecies(postEvoSpecies, postEvoForm);
-    DecompressPicFromTable(&gMonFrontPicTable[postEvoFormSpecies], gMonSpritesGfxPtr->sprites.ptr[3], postEvoFormSpecies, postEvoForm);
-    pokePal = GetMonSpritePalStructFromOtIdPersonality(postEvoForm, trainerId, personality);
+    DecompressPicFromTable(&gMonFrontPicTable[postEvoFormSpecies], gMonSpritesGfxPtr->sprites.ptr[3], postEvoFormSpecies);
+    pokePal = GetMonSpritePalStructFromOtIdPersonality(postEvoFormSpecies, trainerId, personality);
     LoadPalette(pokePal->data, 0x120, 0x20);
 
     SetMultiuseSpriteTemplateToPokemon(postEvoSpecies, 3, postEvoForm);
@@ -317,9 +317,9 @@ static void CB2_EvolutionSceneLoadGraphics(void)
     const struct SpritePalette* pokePal;
     u16 postEvoSpecies;
     u32 trainerId, personality;
+    struct Pokemon* Mon = &gPlayerParty[gTasks[sEvoStructPtr->evoTaskId].tPartyId];
     u8 postEvoForm;
     u16 postEvoFormSpecies;
-    struct Pokemon* Mon = &gPlayerParty[gTasks[sEvoStructPtr->evoTaskId].tPartyId];
 
     postEvoSpecies = gTasks[sEvoStructPtr->evoTaskId].tPostEvoSpecies;
     trainerId = GetMonData(Mon, MON_DATA_OT_ID);
@@ -358,7 +358,7 @@ static void CB2_EvolutionSceneLoadGraphics(void)
     FreeAllSpritePalettes();
     gReservedSpritePaletteCount = 4;
 
-    DecompressPicFromTable(&gMonFrontPicTable[postEvoFormSpecies], gMonSpritesGfxPtr->sprites.ptr[3], postEvoFormSpecies, postEvoForm);
+    DecompressPicFromTable(&gMonFrontPicTable[postEvoFormSpecies], gMonSpritesGfxPtr->sprites.ptr[3], postEvoFormSpecies);
     pokePal = GetMonSpritePalStructFromOtIdPersonality(postEvoFormSpecies, trainerId, personality);
 
     LoadPalette(pokePal->data, 0x120, 0x20);
@@ -430,7 +430,7 @@ static void CB2_TradeEvolutionSceneLoadGraphics(void)
             const struct SpritePalette* pokePal;
             u32 trainerId = GetMonData(Mon, MON_DATA_OT_ID);
             u32 personality = GetMonData(Mon, MON_DATA_PERSONALITY);
-            DecompressPicFromTable(&gMonFrontPicTable[postEvoFormSpecies], gMonSpritesGfxPtr->sprites.ptr[3], postEvoFormSpecies, postEvoForm);
+            DecompressPicFromTable(&gMonFrontPicTable[postEvoFormSpecies], gMonSpritesGfxPtr->sprites.ptr[3], postEvoFormSpecies);
             pokePal = GetMonSpritePalStructFromOtIdPersonality(postEvoFormSpecies, trainerId, personality);
             LoadPalette(pokePal->data, 0x120, 0x20);
             gMain.state++;
@@ -494,7 +494,7 @@ void TradeEvolutionScene(struct Pokemon* mon, u16 postEvoSpecies, u8 preEvoSprit
     sEvoStructPtr = AllocZeroed(sizeof(struct EvoInfo));
     sEvoStructPtr->preEvoSpriteId = preEvoSpriteId;
 
-    DecompressPicFromTable(&gMonFrontPicTable[postEvoFormSpecies], gMonSpritesGfxPtr->sprites.ptr[1], postEvoFormSpecies, postEvoForm);
+    DecompressPicFromTable(&gMonFrontPicTable[postEvoFormSpecies], gMonSpritesGfxPtr->sprites.ptr[1], postEvoFormSpecies);
 
     pokePal = GetMonSpritePalStructFromOtIdPersonality(postEvoFormSpecies, trainerId, personality);
     LoadPalette(pokePal->data, 0x120, 0x20);
@@ -564,7 +564,14 @@ static void CreateShedinja(u16 preEvoSpecies, struct Pokemon* mon)
 
         CopyMon(&gPlayerParty[gPlayerPartyCount], mon, sizeof(struct Pokemon));
         SetMonData(&gPlayerParty[gPlayerPartyCount], MON_DATA_SPECIES, &gEvolutionTable[preEvoSpecies][1].targetSpecies);
-        SetMonData(&gPlayerParty[gPlayerPartyCount], MON_DATA_NICKNAME, gSpeciesNames[gEvolutionTable[preEvoSpecies][1].targetSpecies]);
+
+        if (GetMonData(mon, MON_DATA_LANGUAGE) == LANGUAGE_JAPANESE)
+            SetMonData(&gPlayerParty[gPlayerPartyCount], MON_DATA_NICKNAME, gJapaneseSpeciesNames[gEvolutionTable[preEvoSpecies][1].targetSpecies]);
+        else if (GetMonData(mon, MON_DATA_LANGUAGE) == LANGUAGE_GERMAN)
+            SetMonData(&gPlayerParty[gPlayerPartyCount], MON_DATA_NICKNAME, gGermanSpeciesNames[gEvolutionTable[preEvoSpecies][1].targetSpecies]);
+        else
+            SetMonData(&gPlayerParty[gPlayerPartyCount], MON_DATA_NICKNAME, gSpeciesNames[gEvolutionTable[preEvoSpecies][1].targetSpecies]);
+
         SetMonData(&gPlayerParty[gPlayerPartyCount], MON_DATA_HELD_ITEM, &data);
         SetMonData(&gPlayerParty[gPlayerPartyCount], MON_DATA_MARKINGS, &data);
         SetMonData(&gPlayerParty[gPlayerPartyCount], MON_DATA_ENCRYPT_SEPARATOR, &data);
@@ -589,9 +596,13 @@ static void CreateShedinja(u16 preEvoSpecies, struct Pokemon* mon)
         GetSetPokedexFlag(SpeciesToNationalPokedexNum(evos[1].targetSpecies), FLAG_SET_CAUGHT);
 
         if (GetMonData(shedinja, MON_DATA_SPECIES) == SPECIES_SHEDINJA
-         && GetMonData(shedinja, MON_DATA_LANGUAGE) == LANGUAGE_JAPANESE
          && GetMonData(mon, MON_DATA_SPECIES) == SPECIES_NINJASK)
-            SetMonData(shedinja, MON_DATA_NICKNAME, sText_ShedinjaJapaneseName);
+        {
+            if (GetMonData(shedinja, MON_DATA_LANGUAGE) == LANGUAGE_JAPANESE)
+                SetMonData(shedinja, MON_DATA_NICKNAME, gJapaneseSpeciesNames[SPECIES_SHEDINJA]);
+            else if (GetMonData(shedinja, MON_DATA_LANGUAGE) == LANGUAGE_GERMAN)
+                SetMonData(shedinja, MON_DATA_NICKNAME, gGermanSpeciesNames[SPECIES_SHEDINJA]);
+        }
     }
 }
 
@@ -649,9 +660,9 @@ static void Task_EvolutionScene(u8 taskId)
 
     // check if B Button was held, so the evolution gets stopped
     if (gMain.heldKeys == B_BUTTON
-        && gTasks[taskId].tState == EVOSTATE_WAIT_CYCLE_MON_SPRITE
-        && gTasks[sEvoGraphicsTaskId].isActive
-        && gTasks[taskId].tBits & TASK_BIT_CAN_STOP)
+     && gTasks[taskId].tState == EVOSTATE_WAIT_CYCLE_MON_SPRITE
+     && gTasks[sEvoGraphicsTaskId].isActive
+     && gTasks[taskId].tBits & TASK_BIT_CAN_STOP)
     {
         gTasks[taskId].tState = EVOSTATE_CANCEL;
         gTasks[sEvoGraphicsTaskId].tEvoStopped = TRUE;

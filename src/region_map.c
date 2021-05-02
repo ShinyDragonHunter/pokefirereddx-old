@@ -509,8 +509,8 @@ void InitRegionMapData(struct RegionMap *regionMap, const struct BgTemplate *tem
     gRegionMap = regionMap;
     gRegionMap->initStep = 0;
     gRegionMap->zoomed = zoomed;
-    gRegionMap->inputCallback = zoomed == TRUE ? ProcessRegionMapInput_Zoomed : ProcessRegionMapInput_Full;
-    if (template != NULL)
+    gRegionMap->inputCallback = zoomed ? ProcessRegionMapInput_Zoomed : ProcessRegionMapInput_Full;
+    if (template)
     {
         gRegionMap->bgNum = template->bg;
         gRegionMap->charBaseIdx = template->charBaseIndex;
@@ -574,17 +574,17 @@ bool8 LoadRegionMapGfx(void)
         GetMapName(gRegionMap->mapSecName, gRegionMap->mapSecId, MAP_NAME_LENGTH);
         break;
     case 6:
-        if (gRegionMap->zoomed == FALSE)
-        {
-            CalcZoomScrollParams(0, 0, 0, 0, 0x100, 0x100, 0);
-        }
-        else
+        if (gRegionMap->zoomed)
         {
             gRegionMap->scrollX = gRegionMap->cursorPosX * 8 - 0x34;
             gRegionMap->scrollY = gRegionMap->cursorPosY * 8 - 0x44;
             gRegionMap->zoomedCursorPosX = gRegionMap->cursorPosX;
             gRegionMap->zoomedCursorPosY = gRegionMap->cursorPosY;
             CalcZoomScrollParams(gRegionMap->scrollX, gRegionMap->scrollY, 0x38, 0x48, 0x80, 0x80, 0);
+        }
+        else
+        {
+            CalcZoomScrollParams(0, 0, 0, 0, 0x100, 0x100, 0);
         }
         break;
     case 7:
@@ -618,13 +618,13 @@ void sub_8123030(u16 color, u32 coeff)
 
 void FreeRegionMapIconResources(void)
 {
-    if (gRegionMap->cursorSprite != NULL)
+    if (gRegionMap->cursorSprite)
     {
         DestroySprite(gRegionMap->cursorSprite);
         FreeSpriteTilesByTag(gRegionMap->cursorTileTag);
         FreeSpritePaletteByTag(gRegionMap->cursorPaletteTag);
     }
-    if (gRegionMap->playerIconSprite != NULL)
+    if (gRegionMap->playerIconSprite)
     {
         DestroySprite(gRegionMap->playerIconSprite);
         FreeSpriteTilesByTag(gRegionMap->playerIconTileTag);
@@ -684,7 +684,7 @@ static u8 MoveRegionMapCursor_Full(void)
 {
     u16 mapSecId;
 
-    if (gRegionMap->cursorMovementFrameCounter != 0)
+    if (gRegionMap->cursorMovementFrameCounter)
         return MAP_INPUT_MOVE_CONT;
 
     if (gRegionMap->cursorDeltaX > 0)
@@ -969,9 +969,9 @@ static void InitMapBasedOnPlayerLocation(void)
     struct WarpData *warp;
 
     if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(SS_TIDAL_CORRIDOR)
-        && (gSaveBlock1Ptr->location.mapNum == MAP_NUM(SS_TIDAL_CORRIDOR)
-            || gSaveBlock1Ptr->location.mapNum == MAP_NUM(SS_TIDAL_LOWER_DECK)
-            || gSaveBlock1Ptr->location.mapNum == MAP_NUM(SS_TIDAL_ROOMS)))
+     && (gSaveBlock1Ptr->location.mapNum == MAP_NUM(SS_TIDAL_CORRIDOR)
+     || gSaveBlock1Ptr->location.mapNum == MAP_NUM(SS_TIDAL_LOWER_DECK)
+     || gSaveBlock1Ptr->location.mapNum == MAP_NUM(SS_TIDAL_ROOMS)))
     {
         RegionMap_InitializeStateBasedOnSSTidalLocation();
         return;
@@ -1044,7 +1044,7 @@ static void InitMapBasedOnPlayerLocation(void)
     xOnMap = x;
 
     dimensionScale = mapWidth / gRegionMapEntries[gRegionMap->mapSecId].width;
-    if (dimensionScale == 0)
+    if (!dimensionScale)
     {
         dimensionScale = 1;
     }
@@ -1055,7 +1055,7 @@ static void InitMapBasedOnPlayerLocation(void)
     }
 
     dimensionScale = mapHeight / gRegionMapEntries[gRegionMap->mapSecId].height;
-    if (dimensionScale == 0)
+    if (!dimensionScale)
     {
         dimensionScale = 1;
     }
@@ -1135,14 +1135,14 @@ static void RegionMap_InitializeStateBasedOnSSTidalLocation(void)
 
         gRegionMap->mapSecId = mapHeader->regionMapSectionId;
         dimensionScale = mapHeader->mapLayout->width / gRegionMapEntries[gRegionMap->mapSecId].width;
-        if (dimensionScale == 0)
+        if (!dimensionScale)
             dimensionScale = 1;
         x = xOnMap / dimensionScale;
         if (x >= gRegionMapEntries[gRegionMap->mapSecId].width)
             x = gRegionMapEntries[gRegionMap->mapSecId].width - 1;
 
         dimensionScale = mapHeader->mapLayout->height / gRegionMapEntries[gRegionMap->mapSecId].height;
-        if (dimensionScale == 0)
+        if (!dimensionScale)
             dimensionScale = 1;
         y = yOnMap / dimensionScale;
         if (y >= gRegionMapEntries[gRegionMap->mapSecId].height)
@@ -1327,7 +1327,7 @@ static bool8 RegionMap_IsMapSecIdInNextRow(u16 y)
 
 static void SpriteCB_CursorMapFull(struct Sprite *sprite)
 {
-    if (gRegionMap->cursorMovementFrameCounter != 0)
+    if (gRegionMap->cursorMovementFrameCounter)
     {
         sprite->pos1.x += 2 * gRegionMap->cursorDeltaX;
         sprite->pos1.y += 2 * gRegionMap->cursorDeltaY;
@@ -1355,17 +1355,17 @@ void CreateRegionMapCursor(u16 tileTag, u16 paletteTag)
     palette.tag = paletteTag;
     template.paletteTag = paletteTag;
     gRegionMap->cursorPaletteTag = paletteTag;
-    if (!gRegionMap->zoomed)
-    {
-        sheet.data = gRegionMap->cursorSmallImage;
-        sheet.size = sizeof(gRegionMap->cursorSmallImage);
-        template.callback = SpriteCB_CursorMapFull;
-    }
-    else
+    if (gRegionMap->zoomed)
     {
         sheet.data = gRegionMap->cursorLargeImage;
         sheet.size = sizeof(gRegionMap->cursorLargeImage);
         template.callback = SpriteCB_CursorMapZoomed;
+    }
+    else
+    {
+        sheet.data = gRegionMap->cursorSmallImage;
+        sheet.size = sizeof(gRegionMap->cursorSmallImage);
+        template.callback = SpriteCB_CursorMapFull;
     }
     LoadSpriteSheet(&sheet);
     LoadSpritePalette(&palette);
@@ -1373,7 +1373,7 @@ void CreateRegionMapCursor(u16 tileTag, u16 paletteTag)
     if (spriteId != MAX_SPRITES)
     {
         gRegionMap->cursorSprite = &gSprites[spriteId];
-        if (gRegionMap->zoomed == TRUE)
+        if (gRegionMap->zoomed)
         {
             gRegionMap->cursorSprite->oam.size = SPRITE_SIZE(32x32);
             gRegionMap->cursorSprite->pos1.x -= 8;
@@ -1394,7 +1394,7 @@ void CreateRegionMapCursor(u16 tileTag, u16 paletteTag)
 
 static void FreeRegionMapCursorSprite(void)
 {
-    if (gRegionMap->cursorSprite != NULL)
+    if (gRegionMap->cursorSprite)
     {
         DestroySprite(gRegionMap->cursorSprite);
         FreeSpriteTilesByTag(gRegionMap->cursorTileTag);
@@ -1451,7 +1451,7 @@ void CreateRegionMapPlayerIcon(u16 tileTag, u16 paletteTag)
 
 static void HideRegionMapPlayerIcon(void)
 {
-    if (gRegionMap->playerIconSprite != NULL)
+    if (gRegionMap->playerIconSprite)
     {
         gRegionMap->playerIconSprite->invisible = TRUE;
         gRegionMap->playerIconSprite->callback = SpriteCallbackDummy;
@@ -1460,9 +1460,9 @@ static void HideRegionMapPlayerIcon(void)
 
 static void UnhideRegionMapPlayerIcon(void)
 {
-    if (gRegionMap->playerIconSprite != NULL)
+    if (gRegionMap->playerIconSprite)
     {
-        if (gRegionMap->zoomed == TRUE)
+        if (gRegionMap->zoomed)
         {
             gRegionMap->playerIconSprite->pos1.x = gRegionMap->playerIconSpritePosX * 16 - 0x30;
             gRegionMap->playerIconSprite->pos1.y = gRegionMap->playerIconSpritePosY * 16 - 0x42;
@@ -1545,19 +1545,24 @@ u8 *GetMapName(u8 *dest, u16 regionMapId, u16 padLength)
     {
         str = StringCopy(dest, gRegionMapEntries[regionMapId].name);
     }
-    else if (regionMapId >= JOHTO_MAPSEC_START && regionMapId < JOHTO_MAPSEC_END)
+    else if (regionMapId > METLOC_FATEFUL_ENCOUNTER && regionMapId < JOHTO_MAPSEC_END)
     {
-        str = StringCopy(dest, gJohtoRegionMapNames[regionMapId - JOHTO_MAPSEC_START]);
+        if (regionMapId < JOHTO_MAPSEC_END)
+            str = StringCopy(dest, gJohtoRegionMapNames[regionMapId - JOHTO_MAPSEC_START]);
+        if (regionMapId < ORRE_MAPSEC_END)
+            str = StringCopy(dest, gOrreRegionMapNames[regionMapId - ORRE_MAPSEC_START]);
+        if (regionMapId < XD_ORRE_MAPSEC_END)
+            str = StringCopy(dest, gXDOrreRegionMapNames[regionMapId - XD_ORRE_MAPSEC_START]);
     }
     else
     {
-        if (padLength == 0)
+        if (!padLength)
         {
             padLength = 18;
         }
         return StringFill(dest, CHAR_SPACE, padLength);
     }
-    if (padLength != 0)
+    if (padLength)
     {
         for (i = str - dest; i < padLength; i++)
         {

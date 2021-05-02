@@ -39,6 +39,7 @@
 #include "task.h"
 #include "text.h"
 #include "tv.h"
+#include "util.h"
 #include "window.h"
 #include "constants/items.h"
 #include "constants/moves.h"
@@ -172,12 +173,11 @@ static EWRAM_DATA struct PokemonSummaryScreenData
     u8 secondMoveIndex;
     bool8 lockMovesFlag; // This is used to prevent the player from changing position of moves in a battle or when trading.
     u8 bgDisplayOrder; // Determines the order page backgrounds are loaded while scrolling between them
-    u8 eventLegal:1; // Used to differentiate between Colosseum or XD when reading Orre metLocation IDs
     u8 form:2;
-    u8 filler40CA:5;
+    u8 filler40CA:6;
     u8 windowIds[8];
     u8 spriteIds[SPRITE_ARR_ID_COUNT];
-    bool8 unk40EF;
+    bool8 eventLegal; // Used to differentiate between Colosseum or XD when reading Orre metLocation IDs
     s16 switchCounter; // Used for various switch statement cases that decompress/load graphics or pokemon data
     u8 unk_filler4[6];
 } *sMonSummaryScreen = NULL;
@@ -1076,12 +1076,6 @@ void ShowSelectMovePokemonSummaryScreen(struct Pokemon *mons, u8 monIndex, u8 ma
     sMonSummaryScreen->newMove = newMove;
 }
 
-void ShowPokemonSummaryScreenSet40EF(u8 mode, struct BoxPokemon *mons, u8 monIndex, u8 maxMonIndex, void (*callback)(void))
-{
-    ShowPokemonSummaryScreen(mode, mons, monIndex, maxMonIndex, callback);
-    sMonSummaryScreen->unk40EF = TRUE;
-}
-
 static void MainCB2(void)
 {
     RunTasks();
@@ -1344,8 +1338,8 @@ static bool8 ExtractMonDataToSummaryStruct(struct Pokemon *mon)
         sum->item = GetMonData(mon, MON_DATA_HELD_ITEM);
         sum->pid = GetMonData(mon, MON_DATA_PERSONALITY);
         sum->sanity = GetMonData(mon, MON_DATA_SANITY_IS_BAD_EGG);
-        sMonSummaryScreen->eventLegal = GetMonData(mon, MON_DATA_EVENT_LEGAL);
         sMonSummaryScreen->form = GetMonData(mon, MON_DATA_FORM);
+        sMonSummaryScreen->eventLegal = GetMonData(mon, MON_DATA_EVENT_LEGAL);
 
         if (sum->sanity)
             sum->isEgg = TRUE;
@@ -1365,23 +1359,11 @@ static bool8 ExtractMonDataToSummaryStruct(struct Pokemon *mon)
         sum->nature = GetNature(mon);
         sum->currentHP = GetMonData(mon, MON_DATA_HP);
         sum->maxHP = GetMonData(mon, MON_DATA_MAX_HP);
-
-        if (sMonSummaryScreen->monList.mons == gPlayerParty || sMonSummaryScreen->mode == SUMMARY_MODE_BOX || sMonSummaryScreen->unk40EF)
-        {
-            sum->atk = GetMonData(mon, MON_DATA_ATK);
-            sum->def = GetMonData(mon, MON_DATA_DEF);
-            sum->spatk = GetMonData(mon, MON_DATA_SPATK);
-            sum->spdef = GetMonData(mon, MON_DATA_SPDEF);
-            sum->speed = GetMonData(mon, MON_DATA_SPEED);
-        }
-        else
-        {
-            sum->atk = GetMonData(mon, MON_DATA_ATK2);
-            sum->def = GetMonData(mon, MON_DATA_DEF2);
-            sum->spatk = GetMonData(mon, MON_DATA_SPATK2);
-            sum->spdef = GetMonData(mon, MON_DATA_SPDEF2);
-            sum->speed = GetMonData(mon, MON_DATA_SPEED2);
-        }
+        sum->atk = GetMonData(mon, MON_DATA_ATK);
+        sum->def = GetMonData(mon, MON_DATA_DEF);
+        sum->spatk = GetMonData(mon, MON_DATA_SPATK);
+        sum->spdef = GetMonData(mon, MON_DATA_SPDEF);
+        sum->speed = GetMonData(mon, MON_DATA_SPEED);
         break;
     case 3:
         GetMonData(mon, MON_DATA_OT_NAME, sum->OTName);
@@ -1453,7 +1435,7 @@ static void CloseSummaryScreen(u8 taskId)
         FreeAllSpritePalettes();
         StopCryAndClearCrySongs();
         m4aMPlayVolumeControl(&gMPlayInfo_BGM, 0xFFFF, 0x100);
-        if (gMonSpritesGfxPtr == NULL)
+        if (!gMonSpritesGfxPtr)
             sub_806F47C(0);
         FreeSummaryScreen();
         DestroyTask(taskId);
@@ -1918,7 +1900,7 @@ static void ChangeSelectedMove(s16 *taskData, s8 direction, u8 *moveIndexPtr)
     ScheduleBgCopyTilemapToVram(2);
     PrintMoveDetails(move);
     if ((*moveIndexPtr == MAX_MON_MOVES && !sMonSummaryScreen->newMove)
-        || taskData[1] == 1)
+     || taskData[1] == 1)
     {
         ClearWindowTilemap(PSS_LABEL_WINDOW_PORTRAIT_SPECIES);
         if (!gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_STATUS]].invisible)
@@ -1929,7 +1911,7 @@ static void ChangeSelectedMove(s16 *taskData, s8 direction, u8 *moveIndexPtr)
     }
     if (*moveIndexPtr != MAX_MON_MOVES
      && newMoveIndex == MAX_MON_MOVES
-     && sMonSummaryScreen->newMove == MOVE_NONE)
+     && !sMonSummaryScreen->newMove)
     {
         ClearWindowTilemap(PSS_LABEL_WINDOW_MOVES_POWER_ACC);
         ClearWindowTilemap(PSS_LABEL_WINDOW_MOVES_APPEAL_JAM);
@@ -2599,7 +2581,7 @@ static void DrawContestMoveHearts(u16 move)
     u16 *tilemap = sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_CONTEST_MOVES][1];
     u8 i;
 
-    if (move != MOVE_NONE)
+    if (move)
     {
         u8 effectValue = gContestEffects[gContestMoves[move].effect].appeal;
         if (effectValue != 0xFF)
@@ -3047,44 +3029,58 @@ static void BufferMonTrainerMemo(void)
         // so we need to do a workaround for CrystalDust (or other hacks) which may replace
         // IDs with their own. TODO: Look into Orange GBA compatiblity.
         u16 mapsecShift = MAPSEC_LITTLEROOT_TOWN;
-        // Add the value of mapsecShift to get the end of non-vanilla mapsec IDs.
-        u16 maxMapsec = MAPSEC_NONE + mapsecShift;
+        u16 maxMapsec = MAPSEC_NONE;
         u8 *metLevelString = Alloc(32);
         u8 *metLocationString = Alloc(32);
         GetMetLevelString(metLevelString);
 
         if (sum->metGame == VERSION_CRYSTAL_DUST && sum->metLocation < KANTO_MAPSEC_START)
-            mapsecShift += JOHTO_MAPSEC_START;
+        {
+            mapsecShift = JOHTO_MAPSEC_START;
+            maxMapsec = JOHTO_MAPSEC_END;
+        }
+        if (sum->metGame == VERSION_GAMECUBE)
+        {
+            mapsecShift = ORRE_MAPSEC_START;
+            maxMapsec = ORRE_MAPSEC_END;
+
+            if (sMonSummaryScreen->eventLegal)
+            {
+                mapsecShift = XD_ORRE_MAPSEC_START;
+                maxMapsec = XD_ORRE_MAPSEC_END;
+            }
+        }
         if (sum->metLocation < maxMapsec)
         {
             GetMapNameGeneric(metLocationString, sum->metLocation + mapsecShift);
             DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
         }
+
+        if (sMonSummaryScreen->eventLegal)
+            DynamicPlaceholderTextUtil_SetPlaceholderPtr(5, gText_EventLegal);
+
         if (sum->metGame < VERSION_EMERALD)
         {
             // This map isn't in Emerald and both Team Aqua and Magma got their own maps with their own mapsec IDs,
             // so we can use these to get the respective map name for the game exclusive enemy team.
             if (sum->metLocation == MAPSEC_AQUA_HIDEOUT_OLD)
-                // MAPSEC_AQUA_HIDEOUT if Sapphire, MAPSEC_MAGMA_HIDEOUT if Ruby.
-                GetMapNameGeneric(metLocationString, MAPSEC_SPECIAL_AREA + sum->metGame);
-	        else if (sum->metLocation == MAPSEC_BATTLE_FRONTIER)
-                // Battle Tower in RS.
+                GetMapNameGeneric(metLocationString, MAPSEC_SPECIAL_AREA + sum->metGame); // MAPSEC_AQUA_HIDEOUT if Sapphire, MAPSEC_MAGMA_HIDEOUT if Ruby.
+            // Battle Tower in RS.
+            else if (sum->metLocation == MAPSEC_BATTLE_FRONTIER)
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_BattleTower);
         }
-        if (sum->metLocation == MAPSEC_ROUTE_130 && sum->metLevel
-         && (sum->species == SPECIES_MEWTWO // Heliodor has Mewtwo at this location.
+        if (sum->metLocation == MAPSEC_ROUTE_130 && sum->metLevel && (sum->species == SPECIES_MEWTWO // Heliodor has Mewtwo at this location.
          || sum->species == SPECIES_WOBBUFFET // Check for Wobbuffet and Wynaut to get the
          || sum->species == SPECIES_WYNAUT)) // Mirage Island metLocationString at Route 130.
         {
             GetMapNameGeneric(metLocationString, MAPSEC_MIRAGE_ISLAND);
         }
-
         if (DoesMonOTMatchOwner())
         {
-            if (sum->metLevel)
-                text = (sum->metLocation >= maxMapsec) ? gText_XNatureMetSomewhereAt : gText_XNatureMetAtYZ;
-            else
-                text = (sum->metLocation >= maxMapsec) ? gText_XNatureHatchedSomewhereAt : gText_XNatureHatchedAtYZ;
+            text = (sum->metLevel) ? gText_XNatureMetAtYZ : gText_XNatureHatchedAtYZ;
+
+            if (sum->metLocation >= maxMapsec)
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_SomewhereAt);
         }
         else if (sum->metLocation == METLOC_FATEFUL_ENCOUNTER)
         {
@@ -3092,136 +3088,27 @@ static void BufferMonTrainerMemo(void)
         }
         else if (sum->metLocation != METLOC_IN_GAME_TRADE)
         {
-            text = (sum->metLocation >= maxMapsec) ? gText_XNatureObtainedInTrade : gText_XNatureProbablyMetAt;
-        }
-
-        // Pokémon from XD have the eventLegal bit set, we can use this to differentiate between that and Colosseum.
-        else if (sum->metGame == VERSION_GAMECUBE)
-        {
-            text = (sum->metLocation >= maxMapsec) ? gText_XNatureMetDistantLand : gText_XNatureProbablyMetAt; // Generic distant land text
-
-            switch (sum->metLocation)
-            {
-            // XD starter Eevee
-            case 0:
-                text = gText_ObtainedFromDad;
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, sum->OTName);
-                break;
-            // Outskirt Stand
-            case 1: case 164:
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_OutskirtStand);
-                break;
-            // Phenac City
-            case 3: case 94: case 96: case 97: case 100: case 107: case 128:
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_PhenacCity);
-                break;
-            // Mayor's House
-            case 5:
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_MayorsHouse);
-                break;
-            //Cipher Lab
-            case 8: case 9: case 10: case 11:
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_CipherLab);
-                break;
-            // Colosseum: RealgamTwr Dome; XD: Pyrite Town
-            case 15: case 109: case 110: case 111: case 116: case 119:
-                if (sMonSummaryScreen->eventLegal)
-                    DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_PyriteTown);
-                else
-            // Do these three display as Realgam Tower instead in game?
-            // RealgamTwr Dome
-            case 104: case 106: case 113:
-                    DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_RealgamTwr_Dome);
-                break;
-            // Pyrite Building
-            case 25: case 28:
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_PyriteBldg);
-                break;
-            // Pyrite Cave
-            case 29: case 31: case 32:
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_PyriteCave);
-                break;
-            // Miror's Hideout
-            case 30:
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_MirorsHideout);
-                break;
-            // Agate Village
-            case 39:
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_AgateVillage);
-                break;
-            // The Under
-            case 47: case 55:
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_TheUnder);
-                break;
-            // The Under Subway
-            case 58:
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_TheUnderSubway);
-                break;
-            // Realgam Tower
-            case 59: case 115: case 117:
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_RealgamTower);
-                break;
-            // Colosseum: Laboratory; XD: Cipher Key Lair
-            case 67: case 68: case 69:
-                if (sMonSummaryScreen->eventLegal)
-                    DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_Laboratory);
-                else
-            // Cipher Key Lair
-            case 64: case 65: case 66: case 70: case 71:
-                    DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_CipherKeyLair);
-                break;
-            // Colosseum: Mt. Battle; XD: Citadark Isle
-            case 73: case 74: case 75: case 76: case 77: case 80: case 81: case 84: case 85: case 87: case 88:
-                if (sMonSummaryScreen->eventLegal)
-                    DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_CitadarkIsle);
-                else
-            // Mt. Battle
-            case 16:
-                    DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_MtBattle);
-                break;
-            // Rock Poké Spot
-            case 90:
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_Rock);
-                break;
-            // Oasis Poké Spot
-            case 91:
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_Oasis);
-                break;
-            // Cave Poké Spot
-            case 92:
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gPCText_Cave);
-                break;
-            // Tower Colosseum
-            case 118:
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_TowerColosseum);
-                break;
-            // Deep Colosseum
-            case 125:
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_DeepColosseum);
-                break;
-            // Snagem Hideout
-            case 132: case 133: case 134:
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_SnagemHideout);
-                break;
-            // Pokémon HQ Lab
-            case 143:
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_PokemonHQLab);
-                break;
-            // Gateon Port
-            case 153: case 162:
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_GateonPort);
-                break;
-            // Colosseum Starter Espeon and Umbreon and Duking's Plusle
-            case METLOC_IN_GAME_TRADE:
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, sum->OTName);
-                text = (sum->species == SPECIES_PLUSLE) ? gText_Receivedfrom : gText_OldFriend;
-            default:
-                break;
-            }
+            if (sum->metLocation >= maxMapsec)
+                text = (sum->metGame == VERSION_GAMECUBE) ? gText_XNatureMetDistantLand : gText_XNatureObtainedInTrade;
+            else
+                text = gText_XNatureProbablyMetAt;
         }
         else
         {
-            text = gText_XNatureObtainedInTrade;
+            text = (sum->metGame == VERSION_GAMECUBE) ? gText_XNatureMetDistantLand : gText_XNatureObtainedInTrade;
+        }
+        if (sum->metGame == VERSION_GAMECUBE)
+        {
+            if (sum->metLocation == XD_ORRE_METLOC_STARTER_EEVEE - XD_ORRE_MAPSEC_START)
+            {
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, sum->OTName);
+                text = gText_ObtainedFromDad;
+            }
+            else if (sum->metLocation == ORRE_METLOC_STARTER_AND_PLUSLE - ORRE_MAPSEC_START)
+            {
+                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, sum->OTName);
+                text = (sum->species == SPECIES_PLUSLE) ? gText_Receivedfrom : gText_OldFriend;
+            }
         }
 
         DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, text);
@@ -3239,7 +3126,6 @@ static void BufferNatureString(void)
 {
     struct PokemonSummaryScreenData *sumStruct = sMonSummaryScreen;
     DynamicPlaceholderTextUtil_SetPlaceholderPtr(2, gNatureNamePointers[sumStruct->summary.nature]);
-    DynamicPlaceholderTextUtil_SetPlaceholderPtr(5, gText_EmptyString5);
 }
 
 static void GetMetLevelString(u8 *output)
@@ -3309,15 +3195,13 @@ static void PrintEggState(void)
     const u8 *text;
     struct PokeSummary *sum = &sMonSummaryScreen->summary;
 
-    if (sMonSummaryScreen->summary.sanity)
-        text = gText_EggWillTakeALongTime;
-    else if (sum->friendship <= 5)
+    if (sum->friendship <= 5)
         text = gText_EggAboutToHatch;
     else if (sum->friendship <= 10)
         text = gText_EggWillHatchSoon;
     else if (sum->friendship <= 40)
         text = gText_EggWillTakeSomeTime;
-    else
+    else if (sum->friendship >= 41 || sMonSummaryScreen->summary.sanity)
         text = gText_EggWillTakeALongTime;
 
     PrintTextOnWindow(AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_ABILITY), text, 0, 1, 0, 0);
@@ -3328,28 +3212,21 @@ static void PrintEggMemo(void)
     const u8 *text;
     struct PokeSummary *sum = &sMonSummaryScreen->summary;
 
-    if (!sMonSummaryScreen->summary.sanity)
+    if (sum->metLocation == METLOC_SPECIAL_EGG)
     {
-        if (sum->metLocation == METLOC_FATEFUL_ENCOUNTER)
-            text = gText_PeculiarEggNicePlace;
-        else if (!DoesMonOTMatchOwner())
-            text = gText_PeculiarEggTrade;
-        else if (sum->metLocation == METLOC_SPECIAL_EGG)
-        {
-            if (sum->metGame == VERSION_CRYSTAL_DUST)
-            {
-                text = gText_EggFromElm;
-            }
-            else
-            {
-                text = (sum->metGame < VERSION_FIRE_RED) ? gText_EggFromHotSprings : gText_EggFromTraveler;
-            }
-        }
+        if (sum->metGame == VERSION_CRYSTAL_DUST)
+            text = gText_EggFromElm;
+        else
+            text = (sum->metGame < VERSION_FIRE_RED) ? gText_EggFromHotSprings : gText_EggFromTraveler;
     }
+    else if (sum->metLocation == METLOC_FATEFUL_ENCOUNTER)
+        text = gText_PeculiarEggNicePlace;
+    else if (!DoesMonOTMatchOwner())
+        text = gText_PeculiarEggTrade;
+    else if (sum->metLocation != JOHTO_MAPSEC_GOLDENROD_CITY - JOHTO_MAPSEC_START || sMonSummaryScreen->summary.sanity)
+        text = gText_OddEggFoundByCouple;
     else
-    {
-        text = (sum->metLocation == MAPSEC_RUSTBORO_CITY) ? gText_EggFromPokecomCenter : gText_OddEggFoundByCouple;
-    }
+        text = gText_EggFromPokecomCenter;
 
     PrintTextOnWindow(AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_MEMO), text, 0, 1, 0, 0);
 }
@@ -3960,17 +3837,17 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
     case 0:
         if (gMain.inBattle)
         {
-            HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[1], formSpecies, summary->pid, sMonSummaryScreen->form);
+            HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[1], formSpecies, summary->pid);
         }
         else
         {
-            if (gMonSpritesGfxPtr != NULL)
+            if (gMonSpritesGfxPtr)
             {
-                HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[1], formSpecies, summary->pid, sMonSummaryScreen->form);
+                HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[1], formSpecies, summary->pid);
             }
             else
             {
-                HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], sub_806F4F8(0, 1), formSpecies, summary->pid, sMonSummaryScreen->form);
+                HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], sub_806F4F8(0, 1), formSpecies, summary->pid);
             }
         }
         (*state)++;
@@ -3978,6 +3855,7 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
     case 1:
         pal = GetMonSpritePalStructFromOtIdPersonality(formSpecies, summary->OTID, summary->pid);
         LoadSpritePalette(pal);
+        NudgePalette(0x100 + IndexOfSpritePaletteTag(pal->tag)* 16, 16, GetColorationFromMon(mon));
         SetMultiuseSpriteTemplateToPokemon(pal->tag, 1, sMonSummaryScreen->form);
         (*state)++;
         return 0xFF;

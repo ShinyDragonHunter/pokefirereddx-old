@@ -54,10 +54,6 @@ BirthIsland_Exterior_EventScript_Triangle:: @ 8267F83
 	case 3, BirthIsland_Exterior_EventScript_NotSolved
 	end
 
-BirthIsland_Exterior_EventScript_NotSolved:: @ 8267FBB
-	release
-	end
-
 BirthIsland_Exterior_EventScript_Deoxys:: @ 8267FC1
 	waitse
 	setfieldeffectargument 0, LOCALID_DEOXYS_ROCK
@@ -90,15 +86,12 @@ BirthIsland_Exterior_EventScript_Deoxys:: @ 8267FC1
 	compare VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED
 	goto_if_eq BirthIsland_Exterior_EventScript_RanFromDeoxys
 	setflag FLAG_BATTLED_DEOXYS
+BirthIsland_Exterior_EventScript_NotSolved:: @ 8267FBB
 	release
 	end
 
 BirthIsland_Exterior_EventScript_DefeatedDeoxys:: @ 826803B
 	setflag FLAG_DEFEATED_DEOXYS
-	setvar VAR_0x8004, SPECIES_DEOXYS
-	goto Common_EventScript_LegendaryFlewAway
-	end
-
 BirthIsland_Exterior_EventScript_RanFromDeoxys:: @ 8268049
 	setvar VAR_0x8004, SPECIES_DEOXYS
 	goto Common_EventScript_LegendaryFlewAway

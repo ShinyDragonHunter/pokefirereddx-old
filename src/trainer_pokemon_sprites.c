@@ -66,17 +66,17 @@ static bool16 DecompressPic(u16 species, u32 personality, bool8 isFrontPic, u8 *
 {
     if (isTrainer)
     {
-        DecompressPicFromTable(&gTrainerFrontPicTable[species], dest, species, 0);
+        DecompressPicFromTable(&gTrainerFrontPicTable[species], dest, species);
     }
     else
-    {   
+    {
         if (isFrontPic)
         {
-            LoadSpecialPokePic(&gMonFrontPicTable[species], dest, species, personality, isFrontPic, 0);
+            LoadSpecialPokePic(&gMonFrontPicTable[species], dest, species, personality, isFrontPic);
         }
         else
         {
-            LoadSpecialPokePic(&gMonBackPicTable[species], dest, species, personality, isFrontPic, 0);
+            LoadSpecialPokePic(&gMonBackPicTable[species], dest, species, personality, isFrontPic);
         }
     }
     return FALSE;

@@ -161,10 +161,6 @@ FarawayIsland_Interior_EventScript_Mew:: @ 8267DF2
 
 FarawayIsland_Interior_EventScript_MewDefeated:: @ 8267E96
 	setflag FLAG_DEFEATED_MEW
-	setvar VAR_0x8004, SPECIES_MEW
-	goto Common_EventScript_LegendaryFlewAway
-	end
-
 FarawayIsland_Interior_EventScript_PlayerOrMewRan:: @ 8267EA4
 	setvar VAR_0x8004, SPECIES_MEW
 	goto Common_EventScript_LegendaryFlewAway

@@ -581,7 +581,7 @@ static void DrawLinkBattleParticipantPokeballs(u8 taskId, u8 multiplayerId, u8 b
 
     if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
     {
-        if (gTasks[taskId].data[5] != 0)
+        if (gTasks[taskId].data[5])
         {
             switch (multiplayerId)
             {
@@ -682,7 +682,7 @@ static void DrawLinkBattleVsScreenOutcomeText(void)
     }
     else if (gBattleOutcome == B_OUTCOME_WON)
     {
-        if (gLinkPlayers[gBattleScripting.multiplayerId].id != 0)
+        if (gLinkPlayers[gBattleScripting.multiplayerId].id)
         {
             BattlePutTextOnWindow(gText_Win, 0x17);
             BattlePutTextOnWindow(gText_Loss, 0x16);
@@ -695,7 +695,7 @@ static void DrawLinkBattleVsScreenOutcomeText(void)
     }
     else
     {
-        if (gLinkPlayers[gBattleScripting.multiplayerId].id != 0)
+        if (gLinkPlayers[gBattleScripting.multiplayerId].id)
         {
             BattlePutTextOnWindow(gText_Win, 0x16);
             BattlePutTextOnWindow(gText_Loss, 0x17);
@@ -751,7 +751,7 @@ void InitLinkBattleVsScreen(u8 taskId)
             u8 opponentId = playerId ^ BIT_SIDE;
             u8 opponentId_copy = opponentId;
 
-            if (gLinkPlayers[playerId].id != 0)
+            if (gLinkPlayers[playerId].id)
                 opponentId = playerId, playerId = opponentId_copy;
 
             name = gLinkPlayers[playerId].name;
@@ -775,7 +775,7 @@ void InitLinkBattleVsScreen(u8 taskId)
         gTasks[taskId].data[0]++;
         break;
     case 2:
-        if (gTasks[taskId].data[5] != 0)
+        if (gTasks[taskId].data[5])
         {
             gBattle_BG1_X = -(20) - (Sin2(gTasks[taskId].data[1]) / 32);
             gBattle_BG2_X = -(140) - (Sin2(gTasks[taskId].data[2]) / 32);
@@ -790,14 +790,14 @@ void InitLinkBattleVsScreen(u8 taskId)
             gBattle_BG2_Y = (Cos2(gTasks[taskId].data[2]) / 32) - 164;
         }
 
-        if (gTasks[taskId].data[2] != 0)
+        if (gTasks[taskId].data[2])
         {
             gTasks[taskId].data[2] -= 2;
             gTasks[taskId].data[1] += 2;
         }
         else
         {
-            if (gTasks[taskId].data[5] != 0)
+            if (gTasks[taskId].data[5])
                 DrawLinkBattleVsScreenOutcomeText();
 
             PlaySE(SE_M_HARDEN);
@@ -852,30 +852,15 @@ void DrawBattleEntryBackground(void)
             CopyBgTilemapBufferToVram(2);
         }
     }
+    else if (GetCurrentMapBattleScene() == MAP_BATTLE_SCENE_NORMAL)
+    {
+        LZDecompressVram(gBattleTerrainTable[gBattleTerrain].entryTileset, (void*)(BG_CHAR_ADDR(1)));
+        LZDecompressVram(gBattleTerrainTable[gBattleTerrain].entryTilemap, (void*)(BG_SCREEN_ADDR(28)));
+    }
     else
     {
-        if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
-        {
-            u8 trainerClass = gTrainers[gTrainerBattleOpponent_A].trainerClass;
-            if (trainerClass == TRAINER_CLASS_LEADER 
-             || trainerClass == TRAINER_CLASS_CHAMPION)
-            {
-                LZDecompressVram(gBattleTerrainAnimTiles_Building, (void*)(BG_CHAR_ADDR(1)));
-                LZDecompressVram(gBattleTerrainAnimTilemap_Building, (void*)(BG_SCREEN_ADDR(28)));
-                return;
-            }
-        }
-
-        if (GetCurrentMapBattleScene() == MAP_BATTLE_SCENE_NORMAL)
-        {
-            LZDecompressVram(gBattleTerrainTable[gBattleTerrain].entryTileset, (void*)(BG_CHAR_ADDR(1)));
-            LZDecompressVram(gBattleTerrainTable[gBattleTerrain].entryTilemap, (void*)(BG_SCREEN_ADDR(28)));
-        }
-        else
-        {
-            LZDecompressVram(gBattleTerrainAnimTiles_Building, (void*)(BG_CHAR_ADDR(1)));
-            LZDecompressVram(gBattleTerrainAnimTilemap_Building, (void*)(BG_SCREEN_ADDR(28)));
-        }
+        LZDecompressVram(gBattleTerrainAnimTiles_Building, (void*)(BG_CHAR_ADDR(1)));
+        LZDecompressVram(gBattleTerrainAnimTilemap_Building, (void*)(BG_SCREEN_ADDR(28)));
     }
 }
 
@@ -900,20 +885,7 @@ bool8 LoadChosenBattleElement(u8 caseId)
         {
             LZDecompressVram(gBattleTerrainTiles_Building, (void*)(BG_CHAR_ADDR(2)));
         }
-        else
-        {
-            if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
-            {
-                u8 trainerClass = gTrainers[gTrainerBattleOpponent_A].trainerClass;
-                if (trainerClass == TRAINER_CLASS_LEADER
-                 || trainerClass == TRAINER_CLASS_CHAMPION)
-                {
-                    LZDecompressVram(gBattleTerrainTiles_Building, (void*)(BG_CHAR_ADDR(2)));
-                    break;
-                }
-            }
-        }
-        if (GetCurrentMapBattleScene() == MAP_BATTLE_SCENE_NORMAL)
+        else if (GetCurrentMapBattleScene() == MAP_BATTLE_SCENE_NORMAL)
         {
             LZDecompressVram(gBattleTerrainTable[gBattleTerrain].tileset, (void*)(BG_CHAR_ADDR(2)));
         }
@@ -927,26 +899,13 @@ bool8 LoadChosenBattleElement(u8 caseId)
         {
             LZDecompressVram(gBattleTerrainTilemap_Building, (void*)(BG_SCREEN_ADDR(26)));
         }
+        else if (GetCurrentMapBattleScene() == MAP_BATTLE_SCENE_NORMAL)
+        {
+            LZDecompressVram(gBattleTerrainTable[gBattleTerrain].tilemap, (void*)(BG_SCREEN_ADDR(26)));
+        }
         else
         {
-            if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
-            {
-                u8 trainerClass = gTrainers[gTrainerBattleOpponent_A].trainerClass;
-                if (trainerClass == TRAINER_CLASS_LEADER
-                 || trainerClass == TRAINER_CLASS_CHAMPION)
-                {
-                    LZDecompressVram(gBattleTerrainTilemap_Building, (void*)(BG_SCREEN_ADDR(26)));
-                    break;
-                }
-            }
-            if (GetCurrentMapBattleScene() == MAP_BATTLE_SCENE_NORMAL)
-            {
-                LZDecompressVram(gBattleTerrainTable[gBattleTerrain].tilemap, (void*)(BG_SCREEN_ADDR(26)));
-            }
-            else
-            {
-                LZDecompressVram(gBattleTerrainTilemap_Building, (void*)(BG_SCREEN_ADDR(26)));
-            }
+            LZDecompressVram(gBattleTerrainTilemap_Building, (void*)(BG_SCREEN_ADDR(26)));
         }
         break;
     case 5:

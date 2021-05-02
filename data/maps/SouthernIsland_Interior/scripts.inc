@@ -67,6 +67,8 @@ SouthernIsland_Interior_EventScript_Lati:: @ 8242AD0
 	call_if_eq SouthernIsland_Interior_EventScript_SetLatiosBattleVars
 	compare VAR_ROAMER_POKEMON, 0
 	call_if_ne SouthernIsland_Interior_EventScript_SetLatiasBattleVars
+	setvar VAR_0x8005, 50 @ level
+	setvar VAR_0x8006, ITEM_SOUL_DEW
 	special CreateEventLegalEnemyMon
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
 	special BattleSetup_StartScriptedWildBattle
@@ -85,10 +87,6 @@ SouthernIsland_Interior_EventScript_Lati:: @ 8242AD0
 
 SouthernIsland_Interior_EventScript_LatiDefeated:: @ 8242B81
 	setflag FLAG_DEFEATED_LATIAS_OR_LATIOS
-	copyvar VAR_0x8004, VAR_TEMP_4
-	goto Common_EventScript_LegendaryFlewAway
-	end
-
 SouthernIsland_Interior_EventScript_RanFromLati:: @ 8242B8F
 	copyvar VAR_0x8004, VAR_TEMP_4
 	goto Common_EventScript_LegendaryFlewAway
@@ -101,14 +99,10 @@ SouthernIsland_Interior_EventScript_Sign:: @ 8242B9A
 
 SouthernIsland_Interior_EventScript_SetLatiosBattleVars:: @ 8242BA4
 	setvar VAR_0x8004, SPECIES_LATIOS
-	setvar VAR_0x8005, 50 @ level
-	setvar VAR_0x8006, ITEM_SOUL_DEW
 	return
 
 SouthernIsland_Interior_EventScript_SetLatiasBattleVars:: @ 8242BB7
 	setvar VAR_0x8004, SPECIES_LATIAS
-	setvar VAR_0x8005, 50 @ level
-	setvar VAR_0x8006, ITEM_SOUL_DEW
 	return
 
 SouthernIsland_Interior_Movement_CameraPanUp: @ 8242BCA

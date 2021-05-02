@@ -2654,10 +2654,6 @@ void SpriteCB_FaintOpponentMon(struct Sprite *sprite)
     {
         yOffset = gCastformFrontSpriteCoords[gBattleMonForms[battler]].y_offset;
     }
-    else if (species > NUM_SPECIES)
-    {
-        yOffset = gMonFrontPicCoords[SPECIES_NONE].y_offset;
-    }
     else
     {
         yOffset = gMonFrontPicCoords[species].y_offset;
@@ -2723,7 +2719,7 @@ void SpriteCb_OpponentMonFromBall(struct Sprite *sprite)
     {
         if (!(gHitMarker & HITMARKER_NO_ANIMATIONS) || gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK))
         {
-            if (HasTwoFramesAnimation(sprite->sSpeciesId))
+            if (sprite->sSpeciesId != SPECIES_CASTFORM)
                 StartSpriteAnim(sprite, 1);
         }
         BattleAnimateFrontSprite(sprite, sprite->sSpeciesId, TRUE, 1);

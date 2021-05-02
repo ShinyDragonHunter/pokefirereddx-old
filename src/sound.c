@@ -174,11 +174,9 @@ void FadeInNewMapMusic(u16 songNum, u8 speed)
 
 bool8 IsNotWaitingForBGMStop(void)
 {
-    if (sMapMusicState == 6)
-        return FALSE;
-    if (sMapMusicState == 5)
-        return FALSE;
-    if (sMapMusicState == 7)
+    if (sMapMusicState == 5
+     || sMapMusicState == 6
+     || sMapMusicState == 7)
         return FALSE;
     return TRUE;
 }
@@ -201,10 +199,10 @@ bool8 WaitFanfare(bool8 stop)
     }
     else
     {
-        if (!stop)
-            m4aMPlayContinue(&gMPlayInfo_BGM);
-        else
+        if (stop)
             m4aSongNumStart(MUS_DUMMY);
+        else
+            m4aMPlayContinue(&gMPlayInfo_BGM);
 
         return TRUE;
     }
@@ -251,16 +249,15 @@ static void Task_Fanfare(u8 taskId)
 
 static void CreateFanfareTask(void)
 {
-    if (FuncIsActiveTask(Task_Fanfare) != TRUE)
+    if (!FuncIsActiveTask(Task_Fanfare))
         CreateTask(Task_Fanfare, 80);
 }
 
 void FadeInNewBGM(u16 songNum, u8 speed)
 {
-    if (gDisableMusic)
-        songNum = 0;
-    if (songNum == MUS_NONE)
-        songNum = 0;
+    if (gDisableMusic
+     || songNum == MUS_NONE)
+        songNum = MUS_DUMMY;
     m4aSongNumStart(songNum);
     m4aMPlayImmInit(&gMPlayInfo_BGM);
     m4aMPlayVolumeControl(&gMPlayInfo_BGM, 0xFFFF, 0);
@@ -275,9 +272,8 @@ void FadeOutBGMTemporarily(u8 speed)
 
 bool8 IsBGMPausedOrStopped(void)
 {
-    if (gMPlayInfo_BGM.status & MUSICPLAYER_STATUS_PAUSE)
-        return TRUE;
-    if (!(gMPlayInfo_BGM.status & MUSICPLAYER_STATUS_TRACK))
+    if (gMPlayInfo_BGM.status & MUSICPLAYER_STATUS_PAUSE
+     || !(gMPlayInfo_BGM.status & MUSICPLAYER_STATUS_TRACK))
         return TRUE;
     return FALSE;
 }
@@ -521,16 +517,15 @@ static void Task_DuckBGMForPokemonCry(u8 taskId)
 
 static void RestoreBGMVolumeAfterPokemonCry(void)
 {
-    if (FuncIsActiveTask(Task_DuckBGMForPokemonCry) != TRUE)
+    if (!FuncIsActiveTask(Task_DuckBGMForPokemonCry))
         CreateTask(Task_DuckBGMForPokemonCry, 80);
 }
 
 void PlayBGM(u16 songNum)
 {
-    if (gDisableMusic)
-        songNum = 0;
-    if (songNum == MUS_NONE)
-        songNum = 0;
+    if (gDisableMusic
+     || songNum == MUS_NONE)
+        songNum = MUS_DUMMY;
     m4aSongNumStart(songNum);
 }
 
@@ -570,27 +565,24 @@ void SE12PanpotControl(s8 pan)
 
 bool8 IsSEPlaying(void)
 {
-    if ((gMPlayInfo_SE1.status & MUSICPLAYER_STATUS_PAUSE) && (gMPlayInfo_SE2.status & MUSICPLAYER_STATUS_PAUSE))
-        return FALSE;
-    if (!(gMPlayInfo_SE1.status & MUSICPLAYER_STATUS_TRACK) && !(gMPlayInfo_SE2.status & MUSICPLAYER_STATUS_TRACK))
+    if (((gMPlayInfo_SE1.status & MUSICPLAYER_STATUS_PAUSE) && (gMPlayInfo_SE2.status & MUSICPLAYER_STATUS_PAUSE))
+     || (!(gMPlayInfo_SE1.status & MUSICPLAYER_STATUS_TRACK) && !(gMPlayInfo_SE2.status & MUSICPLAYER_STATUS_TRACK)))
         return FALSE;
     return TRUE;
 }
 
 bool8 IsBGMPlaying(void)
 {
-    if (gMPlayInfo_BGM.status & MUSICPLAYER_STATUS_PAUSE)
-        return FALSE;
-    if (!(gMPlayInfo_BGM.status & MUSICPLAYER_STATUS_TRACK))
+    if (gMPlayInfo_BGM.status & MUSICPLAYER_STATUS_PAUSE
+     || !(gMPlayInfo_BGM.status & MUSICPLAYER_STATUS_TRACK))
         return FALSE;
     return TRUE;
 }
 
 bool8 IsSpecialSEPlaying(void)
 {
-    if (gMPlayInfo_SE3.status & MUSICPLAYER_STATUS_PAUSE)
-        return FALSE;
-    if (!(gMPlayInfo_SE3.status & MUSICPLAYER_STATUS_TRACK))
+    if (gMPlayInfo_SE3.status & MUSICPLAYER_STATUS_PAUSE
+     || !(gMPlayInfo_SE3.status & MUSICPLAYER_STATUS_TRACK))
         return FALSE;
     return TRUE;
 }

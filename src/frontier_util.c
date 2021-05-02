@@ -2078,7 +2078,7 @@ static void CheckPartyIneligibility(void)
                 StringAppend(gStringVar1, gText_LineBreak);
             else
                 StringAppend(gStringVar1, gText_Space2);
-            StringAppend(gStringVar1, gText_Are2);
+            StringAppend(gStringVar1, gText_Are);
         }
     }
     else

@@ -472,8 +472,8 @@ void ReadMail(struct MailStruct *mail, void (*exitCallback)(void), bool8 hasText
             sMailRead->layout = &sMailLayouts_Wide[sMailRead->mailType];
             break;
     }
-    species = MailSpeciesToSpecies(mail->species, buffer, mail->form);
-    if (mail->species > NUM_SPECIES && !mail->form)
+    species = MailSpeciesToSpecies(GetFormSpecies(sMailRead->mail->species, sMailRead->mail->form), buffer);
+    if (species > NUM_SPECIES && !sMailRead->mail->form)
     {
         sMailRead->iconType = ICON_TYPE_NONE;
     }
@@ -501,8 +501,6 @@ void ReadMail(struct MailStruct *mail, void (*exitCallback)(void), bool8 hasText
 static bool8 MailReadBuildGraphics(void)
 {
     u16 icon;
-    u8 form;
-    u16 formIcon = GetFormSpecies(icon, form);
 
     switch (gMain.state)
     {
@@ -604,16 +602,16 @@ static bool8 MailReadBuildGraphics(void)
             gPaletteFade.bufferTransferDisabled = TRUE;
             break;
         case 17:
-            icon = GetIconSpeciesNoPersonality(sMailRead->mail->species, sMailRead->mail->form);
+            icon = GetIconSpeciesNoPersonality(GetFormSpecies(sMailRead->mail->species, sMailRead->mail->form));
             switch (sMailRead->iconType)
             {
             case ICON_TYPE_BEAD:
-                LoadMonIconPalette(formIcon);
-                sMailRead->monIconSpriteId = CreateMonIconNoPersonality(icon, SpriteCallbackDummy, 96, 128, 0, form);
+                LoadMonIconPalette(icon);
+                sMailRead->monIconSpriteId = CreateMonIconNoPersonality(icon, SpriteCallbackDummy, 96, 128, 0);
                 break;
             case ICON_TYPE_DREAM:
-                LoadMonIconPalette(formIcon);
-                sMailRead->monIconSpriteId = CreateMonIconNoPersonality(icon, SpriteCallbackDummy, 40, 128, 0, form);
+                LoadMonIconPalette(icon);
+                sMailRead->monIconSpriteId = CreateMonIconNoPersonality(icon, SpriteCallbackDummy, 40, 128, 0);
                 break;
             }
             break;
@@ -748,7 +746,7 @@ static void CB2_ExitMailReadFreeVars(void)
         {
         case ICON_TYPE_BEAD:
         case ICON_TYPE_DREAM:
-            FreeMonIconPalette(GetIconSpeciesNoPersonality(sMailRead->mail->species, sMailRead->mail->form));
+            FreeMonIconPalette(GetIconSpeciesNoPersonality(GetFormSpecies(sMailRead->mail->species, sMailRead->mail->form)));
             FreeAndDestroyMonIconSprite(&gSprites[sMailRead->monIconSpriteId]);
         }
         memset(sMailRead, 0, sizeof(*sMailRead));

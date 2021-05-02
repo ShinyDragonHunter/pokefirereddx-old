@@ -442,27 +442,27 @@ static const u8 sText_EmptyString8[] = _("");
 static const u8 sText_FoePkmnPrefix2[] = _("Foe");
 static const u8 sText_AllyPkmnPrefix[] = _("Ally");
 static const u8 sText_AttackerUsedX[] = _("{B_ATK_NAME_WITH_PREFIX} used\n{B_BUFF1}!");
-static const u8 sText_HP2[] = _("HP");
-static const u8 sText_Attack2[] = _("ATTACK");
+static const u8 sText_HP[] = _("HP");
+static const u8 sText_Attack[] = _("ATTACK");
 #if UK
-static const u8 sText_Defense2[] = _("DEFENCE");
+static const u8 sText_Defense[] = _("DEFENCE");
 #else
-static const u8 sText_Defense2[] = _("DEFENSE");
+static const u8 sText_Defense[] = _("DEFENSE");
 #endif
 static const u8 sText_Speed[] = _("SPEED");
-static const u8 sText_SpAtk2[] = _("SP. ATK");
-static const u8 sText_SpDef2[] = _("SP. DEF");
+static const u8 sText_SpAtk[] = _("SP. ATK");
+static const u8 sText_SpDef[] = _("SP. DEF");
 static const u8 sText_Accuracy[] = _("accuracy");
 static const u8 sText_Evasiveness[] = _("evasiveness");
 
 const u8 * const gStatNamesTable[NUM_BATTLE_STATS] =
 {
-    [STAT_HP]      = sText_HP2,
-    [STAT_ATK]     = sText_Attack2,
-    [STAT_DEF]     = sText_Defense2,
+    [STAT_HP]      = sText_HP,
+    [STAT_ATK]     = sText_Attack,
+    [STAT_DEF]     = sText_Defense,
     [STAT_SPEED]   = sText_Speed,
-    [STAT_SPATK]   = sText_SpAtk2,
-    [STAT_SPDEF]   = sText_SpDef2,
+    [STAT_SPATK]   = sText_SpAtk,
+    [STAT_SPDEF]   = sText_SpDef,
     [STAT_ACC]     = sText_Accuracy,
     [STAT_EVASION] = sText_Evasiveness,
 };
@@ -1314,19 +1314,6 @@ const u8 gText_BattleSwitchWhich3[] = _("{UP_ARROW}");
 const u8 gText_BattleSwitchWhich4[] = _("{ESCAPE 4}");
 const u8 gText_BattleSwitchWhich5[] = _("-");
 
-static const u8 sText_HP[] = _("HP");
-static const u8 sText_Attack[] = _("ATTACK");
-static const u8 sText_Defense[] = _("DEFENSE");
-static const u8 sText_SpAtk[] = _("SP. ATK");
-static const u8 sText_SpDef[] = _("SP. DEF");
-
-// Unused
-static const u8 * const sStatNamesTable2[] =
-{
-    sText_HP, sText_SpAtk, sText_Attack,
-    sText_SpDef, sText_Defense, sText_Speed
-};
-
 const u8 gText_SafariBalls[] = _("{HIGHLIGHT DARK_GRAY}SAFARI BALLS");
 const u8 gText_SafariBallLeft[] = _("{HIGHLIGHT DARK_GRAY}Left: $" "{HIGHLIGHT DARK_GRAY}");
 const u8 gText_Sleep[] = _("sleep");
@@ -1342,7 +1329,6 @@ const u8 gText_Space2[] = _(" ");
 const u8 gText_LineBreak[] = _("\l");
 const u8 gText_NewLine[] = _("\n");
 const u8 gText_Are[] = _("are");
-const u8 gText_Are2[] = _("are");
 const u8 gText_BadEgg[] = _("Bad EGG");
 const u8 gText_BattleWallyName[] = _("WALLY");
 const u8 gText_Win[] = _("{HIGHLIGHT TRANSPARENT}Win");
@@ -2078,7 +2064,7 @@ static const u8* TryGetStatusString(u8 *src)
 }
 
 #define HANDLE_NICKNAME_STRING_CASE(battlerId, monIndex)                \
-    if (GetBattlerSide(battlerId) != B_SIDE_PLAYER)                     \
+    if (GetBattlerSide(battlerId))                                      \
     {                                                                   \
         if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)                     \
             toCpy = sText_FoePkmnPrefix;                                \
@@ -2682,7 +2668,7 @@ void BattlePutTextOnWindow(const u8 *text, u8 windowId)
     else
         gTextFlags.autoScroll = FALSE;
 
-    if (windowId == 0 || windowId == 0x16)
+    if (!windowId || windowId == 0x16)
     {
         if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK))
             speed = 1;
@@ -2744,7 +2730,7 @@ u8 GetCurrentPpToMaxPpState(u8 currentPp, u8 maxPp)
     }
     else
     {
-        if (currentPp == 0)
+        if (!currentPp)
             return 2;
         if (currentPp <= maxPp / 4)
             return 1;

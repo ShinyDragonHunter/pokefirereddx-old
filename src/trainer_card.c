@@ -666,8 +666,7 @@ u32 CountPlayerTrainerStars(void)
         stars++;
     if (HasAllMons())
         stars++;
-    if ((gSaveBlock2Ptr->berryPick.berriesPicked > 199
-     && gSaveBlock2Ptr->pokeJump.jumpsInRow > 199)
+    if ((gSaveBlock2Ptr->berryPick.berriesPicked > 199 && gSaveBlock2Ptr->pokeJump.jumpsInRow > 199)
      || (HasAllFrontierSymbols()))
         stars++;
 
@@ -705,8 +704,7 @@ static u8 GetKantoTrainerStars(struct TrainerCard *trainerCard)
         stars++;
     if (trainerCard->hasAllMons)
         stars++;
-    if ((gSaveBlock2Ptr->berryPick.berriesPicked > 199
-     && gSaveBlock2Ptr->pokeJump.jumpsInRow > 199)
+    if ((gSaveBlock2Ptr->berryPick.berriesPicked > 199 && gSaveBlock2Ptr->pokeJump.jumpsInRow > 199)
      || HasAllFrontierSymbols())
         stars++;
 

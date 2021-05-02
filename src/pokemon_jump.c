@@ -2723,7 +2723,7 @@ static void CreateJumpMonSprite(struct PokemonJumpGfx *jumpGfx, struct PokemonJu
 
     if (buffer && unusedBuffer)
     {
-        HandleLoadSpecialPokePic(&gMonFrontPicTable[monInfo->species], buffer, monInfo->species, monInfo->personality, 0);
+        HandleLoadSpecialPokePic(&gMonFrontPicTable[monInfo->species], buffer, monInfo->species, monInfo->personality);
 
         spriteSheet.data = buffer;
         spriteSheet.tag = multiplayerId;

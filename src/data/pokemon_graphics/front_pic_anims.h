@@ -6252,7 +6252,7 @@ const union AnimCmd *const *const gMonFrontAnimsPtrTable[] =
     ANIM_CMD_FULL(UNOWN_EMARK, sAnims_NONE),
     ANIM_CMD_FULL(UNOWN_QMARK, sAnims_NONE),
     ANIM_CMD_FULL(DEOXYS_SPEED, sAnims_NONE),
-    ANIM_CMD_FULL(DEOXYS_ATTACK, sAnims_NONE),
+    ANIM_CMD_FULL(DEOXYS_ATTACK, sAnims_VENUSAUR),
     ANIM_CMD_FULL(DEOXYS_DEFENSE, sAnims_NONE),
 };
 

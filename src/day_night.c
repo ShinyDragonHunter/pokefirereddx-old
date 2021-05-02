@@ -85,8 +85,9 @@ static void LoadPaletteOverrides(void)
         {
             while (curr->slot != PALOVER_LIST_TERM && curr->palette)
             {
-                if ((curr->startHour < curr->endHour && hour >= curr->startHour && hour < curr->endHour) ||
-                    (curr->startHour > curr->endHour && (hour >= curr->startHour || hour < curr->endHour)))
+                if ((curr->startHour < curr->endHour && hour >= curr->startHour && hour < curr->endHour)
+                 || (curr->startHour > curr->endHour && (hour >= curr->startHour
+                 || hour < curr->endHour)))
                 {
                     for (j = 0, src = curr->palette, dest = gPlttBufferUnfaded + (curr->slot * 16); j < 16; j++, src++, dest++)
                     {
@@ -162,8 +163,8 @@ void ProcessImmediateTimeEvents(void)
             TintPalette_CustomToneWithCopy(gPlttBufferPreDN + (BG_PLTT_SIZE / 2), gPlttBufferUnfaded + (BG_PLTT_SIZE / 2), OBJ_PLTT_SIZE / 2, sDNSystemControl.currRGBTint[0], sDNSystemControl.currRGBTint[1], sDNSystemControl.currRGBTint[2], TRUE);
             LoadPaletteOverrides();
 
-            if (gWeatherPtr->palProcessingState != WEATHER_PAL_STATE_SCREEN_FADING_IN &&
-                gWeatherPtr->palProcessingState != WEATHER_PAL_STATE_SCREEN_FADING_OUT)
+            if (gWeatherPtr->palProcessingState != WEATHER_PAL_STATE_SCREEN_FADING_IN
+             && gWeatherPtr->palProcessingState != WEATHER_PAL_STATE_SCREEN_FADING_OUT)
                 CpuCopy16(gPlttBufferUnfaded, gPlttBufferFaded, PLTT_SIZE);
         }
         else
@@ -173,7 +174,8 @@ void ProcessImmediateTimeEvents(void)
 
             period = (hour * TINT_PERIODS_PER_HOUR) + hourPhase;
 
-            if (!sDNSystemControl.initialized || sDNSystemControl.prevTintPeriod != period)
+            if (!sDNSystemControl.initialized
+             || sDNSystemControl.prevTintPeriod != period)
             {
                 sDNSystemControl.initialized = TRUE;
                 sDNSystemControl.prevTintPeriod = sDNSystemControl.currTintPeriod = period;

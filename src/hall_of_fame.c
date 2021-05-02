@@ -331,7 +331,7 @@ static const struct HallofFameMon sDummyFameMon =
 {
     .tid = 0x3EA03EA, 
     .personality = 0, 
-    .species = SPECIES_NONE, 
+    .species = SPECIES_NONE,
     .lvl = 0, 
     .nick = {0}
 };

@@ -152,32 +152,6 @@ extern const u8 gText_PutAway[];
 extern const u8 gText_Toss2[];
 extern const u8 gText_Hoenn[];
 
-// Colosseum/XD met location strings
-extern const u8 gText_OutskirtStand[];
-extern const u8 gText_PhenacCity[];
-extern const u8 gText_MayorsHouse[];
-extern const u8 gText_CipherLab[];
-extern const u8 gText_PyriteTown[];
-extern const u8 gText_MtBattle[];
-extern const u8 gText_PyriteBldg[];
-extern const u8 gText_PyriteCave[];
-extern const u8 gText_MirorsHideout[];
-extern const u8 gText_AgateVillage[];
-extern const u8 gText_TheUnder[];
-extern const u8 gText_TheUnderSubway[];
-extern const u8 gText_RealgamTower[];
-extern const u8 gText_CipherKeyLair[];
-extern const u8 gText_Laboratory[];
-extern const u8 gText_CitadarkIsle[];
-extern const u8 gText_Rock[];
-extern const u8 gText_Oasis[];
-extern const u8 gText_RealgamTwr_Dome[];
-extern const u8 gText_TowerColosseum[];
-extern const u8 gText_DeepColosseum[];
-extern const u8 gText_SnagemHideout[];
-extern const u8 gText_PokemonHQLab[];
-extern const u8 gText_GateonPort[];
-
 extern const u8 gText_FlyToWhere[];
 extern const u8 gText_PokemonLeague[];
 extern const u8 gText_PokemonCenter[];
@@ -980,10 +954,10 @@ extern const u8 gText_Jam[];
 extern const u8 gText_OTSlash[];
 extern const u8 gText_IDNumber2[];
 extern const u8 gText_XNature[];
+extern const u8 gText_EventLegal[];
+extern const u8 gText_SomewhereAt[];
 extern const u8 gText_XNatureHatchedAtYZ[];
-extern const u8 gText_XNatureHatchedSomewhereAt[];
 extern const u8 gText_XNatureMetAtYZ[];
-extern const u8 gText_XNatureMetSomewhereAt[];
 extern const u8 gText_XNatureFatefulEncounter[];
 extern const u8 gText_XNatureProbablyMetAt[];
 
@@ -995,7 +969,6 @@ extern const u8 gText_XNatureObtainedInTrade[];
 extern const u8 gText_XNatureMetDistantLand[];
 extern const u8 gText_ObtainedFromDad[];
 
-extern const u8 gText_EmptyString5[];
 extern const u8 gText_EggWillTakeALongTime[];
 extern const u8 gText_EggAboutToHatch[];
 extern const u8 gText_EggWillHatchSoon[];
@@ -1380,7 +1353,6 @@ extern const u8 gText_LineBreak[];
 extern const u8 gText_Space[];
 extern const u8 gText_Space2[];
 extern const u8 gText_Are[];
-extern const u8 gText_Are2[];
 extern const u8 gText_123Dot[][3];
 
 // Frontier util.

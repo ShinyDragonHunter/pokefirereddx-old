@@ -898,7 +898,7 @@ void AnimTask_ThrowBall_StandingTrainer(u8 taskId)
 
     if (gBattleTypeFlags & BATTLE_TYPE_WALLY_TUTORIAL)
     {
-        x = 32;
+        x = 28;
         y = 11;
     }
     else
@@ -1554,13 +1554,13 @@ static void SpriteCB_Ball_FadeOut(struct Sprite *sprite)
 
 static void DestroySpriteAfterOneFrame(struct Sprite *sprite)
 {
-    if (sprite->sFrame == 0)
-        sprite->sFrame = -1;
-    else
+    if (sprite->sFrame)
     {
         FreeSpriteOamMatrix(sprite);
         DestroySprite(sprite);
     }
+    else
+        sprite->sFrame = -1;
 }
 #undef sFrame
 
@@ -2390,17 +2390,17 @@ u8 LaunchBallFadeMonTask(bool8 unfadeLater, u8 battler, u32 selectedPalettes, u8
     gTasks[taskId].tPaletteLo = selectedPalettes;
     gTasks[taskId].tPaletteHi = selectedPalettes >> 16;
 
-    if (!unfadeLater)
-    {
-        BlendPalette(battler * 16 + 0x100, 16, 0, gBallOpenFadeColors[ballId]);
-        gTasks[taskId].tdCoeff = 1;
-    }
-    else
+    if (unfadeLater)
     {
         BlendPalette(battler * 16 + 0x100, 16, 16, gBallOpenFadeColors[ballId]);
         gTasks[taskId].tCoeff = 16;
         gTasks[taskId].tdCoeff = -1;
         gTasks[taskId].func = Task_FadeMon_ToNormal;
+    }
+    else
+    {
+        BlendPalette(battler * 16 + 0x100, 16, 0, gBallOpenFadeColors[ballId]);
+        gTasks[taskId].tdCoeff = 1;
     }
 
     BeginNormalPaletteFade(selectedPalettes, 0, 0, 16, RGB(31, 31, 31));
@@ -2751,7 +2751,6 @@ void AnimTask_LoadPokeblockGfx(u8 taskId)
 
     LoadCompressedSpriteSheetUsingHeap(&gBattleAnimPicTable[ANIM_TAG_POKEBLOCK - ANIM_SPRITES_START]);
     LoadCompressedSpritePaletteUsingHeap(&gBattleAnimPaletteTable[ANIM_TAG_POKEBLOCK - ANIM_SPRITES_START]);
-    paletteIndex = IndexOfSpritePaletteTag(ANIM_TAG_POKEBLOCK); // unused
     DestroyAnimVisualTask(taskId);
 }
 

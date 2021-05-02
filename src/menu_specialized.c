@@ -1046,12 +1046,11 @@ void GetConditionMenuMonGfx(void *tilesDst, void *palDst, u16 boxId, u16 monId, 
 
     if (partyId != numMons)
     {
-        u16 species = GetBoxOrPartyMonData(boxId, monId, MON_DATA_SPECIES2, NULL);
+        u16 species = GetFormSpecies(GetBoxOrPartyMonData(boxId, monId, MON_DATA_SPECIES2, NULL),
+                                    GetBoxOrPartyMonData(boxId, monId, MON_DATA_FORM, NULL));
         u32 trainerId = GetBoxOrPartyMonData(boxId, monId, MON_DATA_OT_ID, NULL);
         u32 personality = GetBoxOrPartyMonData(boxId, monId, MON_DATA_PERSONALITY, NULL);
-        u8 form = GetBoxOrPartyMonData(boxId, monId, MON_DATA_FORM, NULL);
-        u16 formSpecies = GetFormSpecies(species, form);
-        LoadSpecialPokePic(&gMonFrontPicTable[formSpecies], tilesDst, formSpecies, personality, TRUE, form);
+        LoadSpecialPokePic(&gMonFrontPicTable[species], tilesDst, species, personality, TRUE);
     }
 }
 

@@ -2315,7 +2315,25 @@ const u8 gJirachiPokedexText[] = _(
     "enemies.");
 
 const u8 gDeoxysPokedexText[] = _(
-    "A POKéMON that mutated from an\n"
-    "extraterrestrial virus exposed to a laser\n"
-    "beam. Its body is configured for superior\n"
-    "agility and speed.");
+    "An alien space virus that fell to earth\n"
+    "on a meteor that suddenly underwent a DNA\n"
+    "mutation to become this POKéMON. It can\n"
+    "fool enemies by altering its appearance.");
+
+const u8 gDeoxysSpeedPokedexText[] = _(
+    "DEOXYS when it has transformed into one\n"
+    "of its alternate forms. Its body is\n"
+    "configured for superior speed and agility\n."
+    "It appears where auroras are seen.");
+
+const u8 gDeoxysAttackPokedexText[] = _(
+    "DEOXYS when it has transformed into one\n"
+    "of its alternate forms. Its body is\n"
+    "configured to be aggressive. It can fire\n"
+    "lasers from the organ on its chest.");
+
+const u8 gDeoxysDefensePokedexText[] = _(
+    "DEOXYS when it has transformed into one\n"
+    "of its alternate forms. Its body is\n"
+    "configured to deflect and absorb enemy\n"
+    "attacks, leaving not even a scratch.");

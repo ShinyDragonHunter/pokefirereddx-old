@@ -2599,9 +2599,9 @@ static void LoadTradeMonPic(u8 whichParty, u8 state)
     int pos = 0;
     struct Pokemon *mon = NULL;
     u16 species;
+    u32 personality;
     u8 form;
     u16 formSpecies;
-    u32 personality;
 
     if (whichParty == TRADE_PLAYER)
     {
@@ -2619,17 +2619,17 @@ static void LoadTradeMonPic(u8 whichParty, u8 state)
     {
     case 0:
         species = GetMonData(mon, MON_DATA_SPECIES2);
+        personality = GetMonData(mon, MON_DATA_PERSONALITY);
         form = GetMonData(mon, MON_DATA_FORM);
         formSpecies = GetFormSpecies(species, form);
-        personality = GetMonData(mon, MON_DATA_PERSONALITY);
 
         if (whichParty == TRADE_PLAYER)
-            HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[1], formSpecies, personality, form);
+            HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[1], formSpecies, personality);
         else
-            HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[whichParty * 2 + 1], formSpecies, personality, form);
+            HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[whichParty * 2 + 1], formSpecies, personality);
 
         LoadSpritePalette(GetMonSpritePalStruct(mon));
-        sTradeData->monSpecies[whichParty] = species;
+        sTradeData->monSpecies[whichParty] = formSpecies;
         sTradeData->monPersonalities[whichParty] = personality;
         break;
     case 1:
@@ -3559,7 +3559,7 @@ static bool8 AnimateTradeSequenceCable(void)
     case 65:
         if (gSprites[sTradeData->unk_D3].callback == SpriteCallbackDummy)
         {
-            HandleLoadSpecialPokePic(&gMonFrontPicTable[sTradeData->monSpecies[TRADE_PARTNER]], gMonSpritesGfxPtr->sprites.ptr[3], sTradeData->monSpecies[TRADE_PARTNER], sTradeData->monPersonalities[TRADE_PARTNER], formTarget);
+            HandleLoadSpecialPokePic(&gMonFrontPicTable[sTradeData->monSpecies[TRADE_PARTNER]], gMonSpritesGfxPtr->sprites.ptr[3], sTradeData->monSpecies[TRADE_PARTNER], sTradeData->monPersonalities[TRADE_PARTNER]);
         }
         break;
     case 66:
@@ -4069,7 +4069,7 @@ static bool8 AnimateTradeSequenceWireless(void)
     case 65:
         if (gSprites[sTradeData->unk_D3].callback == SpriteCallbackDummy)
         {
-            HandleLoadSpecialPokePic(&gMonFrontPicTable[sTradeData->monSpecies[TRADE_PARTNER]], gMonSpritesGfxPtr->sprites.ptr[3], sTradeData->monSpecies[TRADE_PARTNER], sTradeData->monPersonalities[TRADE_PARTNER], formTarget);
+            HandleLoadSpecialPokePic(&gMonFrontPicTable[sTradeData->monSpecies[TRADE_PARTNER]], gMonSpritesGfxPtr->sprites.ptr[3], sTradeData->monSpecies[TRADE_PARTNER], sTradeData->monPersonalities[TRADE_PARTNER]);
             sTradeData->state++;
         }
         break;

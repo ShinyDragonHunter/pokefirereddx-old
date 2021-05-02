@@ -11,9 +11,11 @@
 #include "sound.h"
 #include "sprite.h"
 #include "trig.h"
+#include "util.h"
 #include "constants/event_objects.h"
 #include "constants/field_effects.h"
 #include "constants/songs.h"
+#include "constants/rgb.h"
 
 static void UpdateObjectReflectionSprite(struct Sprite *);
 static void LoadObjectReflectionPalette(struct ObjectEvent *objectEvent, struct Sprite *sprite);
@@ -100,7 +102,7 @@ void LoadSpecialReflectionPalette(struct Sprite *sprite)
     TintPalette_CustomTone(gReflectionPaletteBuffer, 16, Q_8_8(1.0), Q_8_8(1.0), Q_8_8(3.5));
     reflectionPalette.data = gReflectionPaletteBuffer;
     reflectionPalette.tag = GetSpritePaletteTagByPaletteNum(sprite->oam.paletteNum) + 0x1000;
-    LoadSpritePalette(&reflectionPalette);
+    LoadSpritePaletteDayNight(&reflectionPalette);
     sprite->oam.paletteNum = IndexOfSpritePaletteTag(reflectionPalette.tag);
     UpdatePaletteGammaType(sprite->oam.paletteNum, GAMMA_ALT);
     UpdateSpritePaletteWithWeather(sprite->oam.paletteNum);
@@ -137,7 +139,7 @@ static void UpdateObjectReflectionSprite(struct Sprite *reflectionSprite)
         if (objectEvent->hideReflection)
             reflectionSprite->invisible = TRUE;
 
-        if (reflectionSprite->sIsStillReflection == FALSE)
+        if (!reflectionSprite->sIsStillReflection)
         {
             // Sets the reflection sprite's rot/scale matrix to the appropriate
             // matrix based on whether or not the main sprite is horizontally flipped.
@@ -341,14 +343,14 @@ void UpdateTallGrassFieldEffect(struct Sprite *sprite)
         // Check if the object that triggered the effect has moved away
         objectEvent = &gObjectEvents[objectEventId];
         if ((objectEvent->currentCoords.x != sprite->sX 
-          || objectEvent->currentCoords.y != sprite->sY) 
-        && (objectEvent->previousCoords.x != sprite->sX
+         || objectEvent->currentCoords.y != sprite->sY) 
+         && (objectEvent->previousCoords.x != sprite->sX
          || objectEvent->previousCoords.y != sprite->sY))
             sprite->sObjectMoved = TRUE;
 
         // Metatile behavior var re-used
         metatileBehavior = 0;
-        if (sprite->animCmdIndex == 0)
+        if (!sprite->animCmdIndex)
             metatileBehavior = 4;
 
         UpdateObjectEventSpriteInvisibility(sprite, FALSE);
@@ -385,10 +387,10 @@ u8 FindTallGrassFieldEffectSpriteId(u8 localId, u8 mapNum, u8 mapGroup, s16 x, s
         {
             sprite = &gSprites[i];
             if (sprite->callback == UpdateTallGrassFieldEffect 
-                && (x == sprite->sX && y == sprite->sY) 
-                && localId == (u8)(sprite->sLocalId) 
-                && mapNum == (sprite->sMapNum & 0xFF) 
-                && mapGroup == sprite->sMapGroup)
+             && (x == sprite->sX && y == sprite->sY) 
+             && localId == (u8)(sprite->sLocalId) 
+             && mapNum == (sprite->sMapNum & 0xFF) 
+             && mapGroup == sprite->sMapGroup)
                 return i;
         }
     }
@@ -456,8 +458,8 @@ void UpdateLongGrassFieldEffect(struct Sprite *sprite)
         // Check if the object that triggered the effect has moved away
         objectEvent = &gObjectEvents[objectEventId];
         if ((objectEvent->currentCoords.x != sprite->data[1] 
-          || objectEvent->currentCoords.y != sprite->data[2]) 
-        && (objectEvent->previousCoords.x != sprite->data[1] 
+         || objectEvent->currentCoords.y != sprite->data[2]) 
+         && (objectEvent->previousCoords.x != sprite->data[1] 
          || objectEvent->previousCoords.y != sprite->data[2]))
             sprite->sObjectMoved = TRUE;
 
@@ -1071,10 +1073,10 @@ static void UpdateBobbingEffect(struct ObjectEvent *playerObj, struct Sprite *pl
         if (bobState != BOB_JUST_MON)
         {
             // Update bobbing position of player
-            if (!GetSurfBlob_HasPlayerOffset(sprite))
-                playerSprite->pos2.y = sprite->pos2.y;
-            else
+            if (GetSurfBlob_HasPlayerOffset(sprite))
                 playerSprite->pos2.y = sprite->tPlayerOffset + sprite->pos2.y;
+            else
+                playerSprite->pos2.y = sprite->pos2.y;
             sprite->pos1.x = playerSprite->pos1.x;
             sprite->pos1.y = playerSprite->pos1.y + 8;
         }
@@ -1346,10 +1348,8 @@ bool8 UpdateRevealDisguise(struct ObjectEvent *objectEvent)
 {
     struct Sprite *sprite;
 
-    if (objectEvent->directionSequenceIndex == 2)
-        return TRUE;
-
-    if (objectEvent->directionSequenceIndex == 0)
+    if (!objectEvent->directionSequenceIndex
+     || objectEvent->directionSequenceIndex == 2)
         return TRUE;
 
     sprite = &gSprites[objectEvent->fieldEffectSpriteId];
@@ -1616,7 +1616,6 @@ static void UpdateGrassFieldEffectSubpriority(struct Sprite *sprite, u8 z, u8 of
 {
     u8 i;
     s16 var, xhi, lyhi, yhi, ylo;
-    const struct ObjectEventGraphicsInfo *graphicsInfo; // Unused Variable
     struct Sprite *linkedSprite;
 
     SetObjectSubpriorityByZCoord(z, sprite, offset);
@@ -1625,7 +1624,6 @@ static void UpdateGrassFieldEffectSubpriority(struct Sprite *sprite, u8 z, u8 of
         struct ObjectEvent *objectEvent = &gObjectEvents[i];
         if (objectEvent->active)
         {
-            graphicsInfo = GetObjectEventGraphicsInfo(objectEvent->graphicsId);
             linkedSprite = &gSprites[objectEvent->spriteId];
             xhi = sprite->pos1.x + sprite->centerToCornerVecX;
             var = sprite->pos1.x - sprite->centerToCornerVecX;

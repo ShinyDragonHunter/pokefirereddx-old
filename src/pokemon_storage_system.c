@@ -34,6 +34,7 @@
 #include "text.h"
 #include "text_window.h"
 #include "trig.h"
+#include "util.h"
 #include "walda_phrase.h"
 #include "window.h"
 #include "constants/items.h"
@@ -403,18 +404,14 @@ struct PokemonStorageSystemData
     s16 scrollSpeed;
     u16 scrollTimer;
     u8 wallpaperOffset;
-    u8 scrollUnused1; // Never read
-    u8 scrollToBoxIdUnused; // Never read
-    u16 scrollUnused2; // Never read
-    s16 scrollDirectionUnused; // Never read.
-    u16 scrollUnused3; // Never read
-    u16 scrollUnused4; // Never read
-    u16 scrollUnused5; // Never read
-    u16 scrollUnused6; // Never read
+    u32 scrollUnused1; // Never read
+    s16 scrollDirectionUnused; // Never read
+    u32 displayMonOtId;
+    u32 scrollUnused2; // Never read
     u8 filler1[22];
     u8 boxTitleTiles[1024];
     u8 boxTitleCycleId;
-    u8 wallpaperLoadState; // Written to, but never read.
+    u8 wallpaperLoadUnused; // Never read
     u8 wallpaperLoadBoxId;
     s8 wallpaperLoadDir;
     u16 boxTitlePal[16];
@@ -425,7 +422,7 @@ struct PokemonStorageSystemData
     struct Sprite *arrowSprites[2];
     u32 wallpaperPalBits;
     u8 filler2[80]; // Unused
-    u16 unkUnused1; // Never read.
+    u16 unkUnused1; // Never read
     s16 wallpaperSetId;
     s16 wallpaperId;
     u16 wallpaperTilemap[360];
@@ -451,14 +448,14 @@ struct PokemonStorageSystemData
     s16 iconScrollSpeed;
     u16 iconScrollNumIncoming;
     u8 iconScrollCurColumn;
-    s8 iconScrollDirection; // Unnecessary duplicate of scrollDirection
+    s8 iconScrollUnused1; // Never read
     u8 iconScrollState;
-    u8 iconScrollToBoxId; // Unnecessary duplicate of scrollToBoxId
+    u8 iconScrollUnused2; // Never read
     struct WindowTemplate menuWindow;
     struct StorageMenu menuItems[7];
     u8 menuItemsCount;
     u8 menuWidth;
-    u8 menuUnusedField; // Never read.
+    u8 menuUnusedField; // Never read
     u16 menuWindowId;
     struct Sprite *cursorSprite;
     struct Sprite *cursorShadowSprite;
@@ -3618,10 +3615,7 @@ static void Task_ChangeScreen(u8 taskId)
         maxMonIndex = sStorage->summaryMaxPos;
         mode = sStorage->summaryScreenMode;
         FreePokeStorageData();
-        if (mode == SUMMARY_MODE_NORMAL && boxMons == &sSavedMovingMon.box)
-            ShowPokemonSummaryScreenSet40EF(mode, boxMons, monIndex, maxMonIndex, CB2_ReturnToPokeStorage);
-        else
-            ShowPokemonSummaryScreen(mode, boxMons, monIndex, maxMonIndex, CB2_ReturnToPokeStorage);
+        ShowPokemonSummaryScreen(mode, boxMons, monIndex, maxMonIndex, CB2_ReturnToPokeStorage);
         break;
     case SCREEN_CHANGE_NAME_BOX:
         FreePokeStorageData();
@@ -3840,9 +3834,10 @@ static void LoadDisplayMonGfx(u16 species, u32 pid, u8 form)
 
     if (species)
     {
-        LoadSpecialPokePic(&gMonFrontPicTable[formSpecies], sStorage->tileBuffer, formSpecies, pid, TRUE, form);
-        CpuCopy32(sStorage->tileBuffer,sStorage->displayMonTilePtr, MON_PIC_SIZE);
+        LoadSpecialPokePic(&gMonFrontPicTable[formSpecies], sStorage->tileBuffer, formSpecies, pid, TRUE);
+        CpuCopy32(sStorage->tileBuffer, sStorage->displayMonTilePtr, MON_PIC_SIZE);
         LoadPalette(sStorage->displayMonPalette, sStorage->displayMonPalOffset, 0x20);
+        NudgePalette(sStorage->displayMonPalOffset, 16, GetColoration(sStorage->displayMonOtId, sStorage->displayMonPersonality));
         sStorage->displayMonSprite->invisible = FALSE;
     }
     else
@@ -6722,6 +6717,7 @@ static void SetDisplayMonData(void *pokemon, u8 mode)
             sStorage->displayMonMarkings = GetMonData(mon, MON_DATA_MARKINGS);
             sStorage->displayMonPersonality = GetMonData(mon, MON_DATA_PERSONALITY);
             sStorage->displayMonForm = GetMonData(mon, MON_DATA_FORM);
+            sStorage->displayMonOtId = GetMonData(mon, MON_DATA_OT_ID);
             sStorage->displayMonPalette = GetMonFrontSpritePal(mon);
             gender = GetMonGender(mon);
             sStorage->displayMonItemId = GetMonData(mon, MON_DATA_HELD_ITEM);
@@ -6747,7 +6743,8 @@ static void SetDisplayMonData(void *pokemon, u8 mode)
             sStorage->displayMonMarkings = GetBoxMonData(boxMon, MON_DATA_MARKINGS);
             sStorage->displayMonPersonality = GetBoxMonData(boxMon, MON_DATA_PERSONALITY);
             sStorage->displayMonForm = GetBoxMonData(pokemon, MON_DATA_FORM);
-            sStorage->displayMonPalette = GetMonSpritePalFromSpeciesAndPersonality(GetFormSpecies(sStorage->displayMonSpecies, sStorage->displayMonForm), otId, sStorage->displayMonPersonality);
+            sStorage->displayMonPalette = GetMonSpritePalFromSpeciesAndPersonality(GetFormSpecies(sStorage->displayMonSpecies, sStorage->displayMonForm), sStorage->displayMonOtId, sStorage->displayMonPersonality);
+            sStorage->displayMonOtId = otId;
             gender = GetGenderFromSpeciesAndPersonality(sStorage->displayMonSpecies, sStorage->displayMonPersonality);
             sStorage->displayMonItemId = GetBoxMonData(boxMon, MON_DATA_HELD_ITEM);
         }
@@ -8791,7 +8788,7 @@ static bool8 IsItemIconAnimActive(void)
         if (sStorage->itemIcons[i].active)
         {
             if (!sStorage->itemIcons[i].sprite->affineAnimEnded 
-              && sStorage->itemIcons[i].sprite->affineAnimBeginning)
+             && sStorage->itemIcons[i].sprite->affineAnimBeginning)
                 return TRUE;
             if (sStorage->itemIcons[i].sprite->callback != SpriteCallbackDummy 
              && sStorage->itemIcons[i].sprite->callback != SpriteCB_ItemIcon_SetPosToCursor)
@@ -9033,7 +9030,7 @@ static bool8 UpdateItemInfoWindowSlideIn(void)
 {
     s32 i, pos;
 
-    if (sStorage->itemInfoWindowOffset == 0)
+    if (!sStorage->itemInfoWindowOffset)
         return FALSE;
 
     sStorage->itemInfoWindowOffset--;
@@ -9052,7 +9049,7 @@ static bool8 UpdateItemInfoWindowSlideOut(void)
     if (sStorage->itemInfoWindowOffset == 22)
         return FALSE;
 
-    if (sStorage->itemInfoWindowOffset == 0)
+    if (!sStorage->itemInfoWindowOffset)
         FillBgTilemapBufferRect(0, 0, 21, 12, 1, 9, 17);
 
     sStorage->itemInfoWindowOffset++;
@@ -9589,10 +9586,9 @@ struct TilemapUtil
     const void *savedTilemap; // Only written in unused function
     const void *tilemap;
     u16 altWidth;
-    u16 altHeight; // Never read
+    u16 tilemapUtilUnused1; // Never read
     u16 width;
-    u16 height; // Never read
-    u16 rowSize; // Never read
+    u32 tilemapUtilunused2; // Never read
     u8 tileSize;
     u8 bg;
     bool8 active;
@@ -9650,18 +9646,15 @@ static void TilemapUtil_SetMap(u8 id, u8 bg, const void *tilemap, u16 width, u16
     sTilemapUtil[id].tilemap = tilemap;
     sTilemapUtil[id].bg = bg;
     sTilemapUtil[id].width = width;
-    sTilemapUtil[id].height = height;
 
     bgScreenSize = GetBgAttribute(bg, BG_ATTR_SCREENSIZE);
     bgType = GetBgAttribute(bg, BG_ATTR_TYPE);
     sTilemapUtil[id].altWidth = sTilemapDimensions[bgType][bgScreenSize].width;
-    sTilemapUtil[id].altHeight = sTilemapDimensions[bgType][bgScreenSize].height;
     if (bgType)
         sTilemapUtil[id].tileSize = 1;
     else
         sTilemapUtil[id].tileSize = 2;
 
-    sTilemapUtil[id].rowSize = sTilemapUtil[id].tileSize * width;
     sTilemapUtil[id].cur.width = width;
     sTilemapUtil[id].cur.height = height;
     sTilemapUtil[id].cur.x = 0;

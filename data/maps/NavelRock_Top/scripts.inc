@@ -80,10 +80,6 @@ NavelRock_Top_EventScript_HoOh:: @ 826916F
 
 NavelRock_Top_EventScript_DefeatedHoOh:: @ 8269217
 	setflag FLAG_DEFEATED_HO_OH
-	setvar VAR_0x8004, SPECIES_HO_OH
-	goto Common_EventScript_LegendaryFlewAway
-	end
-
 NavelRock_Top_EventScript_RanFromHoOh:: @ 8269225
 	setvar VAR_0x8004, SPECIES_HO_OH
 	goto Common_EventScript_LegendaryFlewAway

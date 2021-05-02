@@ -106,7 +106,7 @@ bool8 RunScriptCommand(struct ScriptContext *ctx)
                 return FALSE;
             }
 
-            if ((*func)(ctx) == TRUE)
+            if ((*func)(ctx))
                 return TRUE;
         }
     }
@@ -186,10 +186,10 @@ bool8 ScriptContext2_IsEnabled(void)
 
 bool8 ScriptContext1_IsScriptSetUp(void)
 {
-    if (sScriptContext1Status == 0)
-        return TRUE;
-    else
+    if (sScriptContext1Status)
         return FALSE;
+    else
+        return TRUE;
 }
 
 void ScriptContext1_Init(void)
@@ -200,10 +200,8 @@ void ScriptContext1_Init(void)
 
 bool8 ScriptContext2_RunScript(void)
 {
-    if (sScriptContext1Status == 2)
-        return FALSE;
-
-    if (sScriptContext1Status == 1)
+    if (sScriptContext1Status == 1
+     || sScriptContext1Status == 2)
         return FALSE;
 
     ScriptContext2_Enable();
@@ -241,7 +239,7 @@ void ScriptContext2_RunNewScript(const u8 *ptr)
 {
     InitScriptContext(&sScriptContext2, gScriptCmdTable, gScriptCmdTableEnd);
     SetupBytecodeScript(&sScriptContext2, ptr);
-    while (RunScriptCommand(&sScriptContext2) == TRUE);
+    while (RunScriptCommand(&sScriptContext2));
 }
 
 u8 *MapHeaderGetScriptTable(u8 tag)
@@ -375,13 +373,10 @@ const u8 *GetRamScript(u8 objectId, const u8 *script)
 {
     struct RamScriptData *scriptData = &gSaveBlock1Ptr->ramScript.data;
     gRamScriptRetAddr = NULL;
-    if (scriptData->magic != RAM_SCRIPT_MAGIC)
-        return script;
-    if (scriptData->mapGroup != gSaveBlock1Ptr->location.mapGroup)
-        return script;
-    if (scriptData->mapNum != gSaveBlock1Ptr->location.mapNum)
-        return script;
-    if (scriptData->objectId != objectId)
+    if (scriptData->magic != RAM_SCRIPT_MAGIC
+     || scriptData->mapGroup != gSaveBlock1Ptr->location.mapGroup
+     || scriptData->mapNum != gSaveBlock1Ptr->location.mapNum
+     || scriptData->objectId != objectId)
         return script;
     if (CalculateRamScriptChecksum() != gSaveBlock1Ptr->ramScript.checksum)
     {
@@ -398,15 +393,11 @@ const u8 *GetRamScript(u8 objectId, const u8 *script)
 bool32 ValidateSavedRamScript(void)
 {
     struct RamScriptData *scriptData = &gSaveBlock1Ptr->ramScript.data;
-    if (scriptData->magic != RAM_SCRIPT_MAGIC)
-        return FALSE;
-    if (scriptData->mapGroup != 0xFF)
-        return FALSE;
-    if (scriptData->mapNum != 0xFF)
-        return FALSE;
-    if (scriptData->objectId != 0xFF)
-        return FALSE;
-    if (CalculateRamScriptChecksum() != gSaveBlock1Ptr->ramScript.checksum)
+    if (scriptData->magic != RAM_SCRIPT_MAGIC
+     || scriptData->mapGroup != 0xFF
+     || scriptData->mapNum != 0xFF
+     || scriptData->objectId != 0xFF
+     || CalculateRamScriptChecksum() != gSaveBlock1Ptr->ramScript.checksum)
         return FALSE;
     return TRUE;
 }
@@ -414,15 +405,11 @@ bool32 ValidateSavedRamScript(void)
 u8 *GetSavedRamScriptIfValid(void)
 {
     struct RamScriptData *scriptData = &gSaveBlock1Ptr->ramScript.data;
-    if (!ValidateReceivedWonderCard())
-        return NULL;
-    if (scriptData->magic != RAM_SCRIPT_MAGIC)
-        return NULL;
-    if (scriptData->mapGroup != 0xFF)
-        return NULL;
-    if (scriptData->mapNum != 0xFF)
-        return NULL;
-    if (scriptData->objectId != 0xFF)
+    if (!ValidateReceivedWonderCard()
+     || scriptData->magic != RAM_SCRIPT_MAGIC
+     || scriptData->mapGroup != 0xFF
+     || scriptData->mapNum != 0xFF
+     || scriptData->objectId != 0xFF)
         return NULL;
     if (CalculateRamScriptChecksum() != gSaveBlock1Ptr->ramScript.checksum)
     {

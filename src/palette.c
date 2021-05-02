@@ -711,18 +711,18 @@ bool32 LerpColors(u16 *rgbDest, const u16 *rgb1, const u16 *rgb2, u8 coeff)
 
     memcpy(rgbTemp, rgb1, sizeof(rgbTemp));
 
-    if (rgb1[0] != rgb2[0] ||
-        rgb1[1] != rgb2[1] ||
-        rgb1[2] != rgb2[2])
+    if (rgb1[0] != rgb2[0]
+     || rgb1[1] != rgb2[1]
+     || rgb1[2] != rgb2[2])
     {
         rgbTemp[0] = (((rgb2[0] - rgb1[0]) * coeff) / TINT_PERIODS_PER_HOUR) + rgb1[0];
         rgbTemp[1] = (((rgb2[1] - rgb1[1]) * coeff) / TINT_PERIODS_PER_HOUR) + rgb1[1];
         rgbTemp[2] = (((rgb2[2] - rgb1[2]) * coeff) / TINT_PERIODS_PER_HOUR) + rgb1[2];
     }
 
-    if (rgbTemp[0] != rgbDest[0] ||
-        rgbTemp[1] != rgbDest[1] ||
-        rgbTemp[2] != rgbDest[2])
+    if (rgbTemp[0] != rgbDest[0]
+     || rgbTemp[1] != rgbDest[1]
+     || rgbTemp[2] != rgbDest[2])
     {
         ret = TRUE;
         memcpy(rgbDest, rgbTemp, sizeof(rgbTemp));

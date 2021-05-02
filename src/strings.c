@@ -244,7 +244,7 @@ const u8 gText_PlayerUsedVar2[] = _("{PLAYER} used the\n{STR_VAR_2}.{PAUSE_UNTIL
 const u8 gText_RepelEffectsLingered[] = _("But the effects of a REPEL\nlingered from earlier.{PAUSE_UNTIL_PRESS}");
 const u8 gText_UsedVar2WildLured[] = _("{PLAYER} used the\n{STR_VAR_2}.\pWild POKéMON will be lured.{PAUSE_UNTIL_PRESS}");
 const u8 gText_UsedVar2WildRepelled[] = _("{PLAYER} used the\n{STR_VAR_2}.\pWild POKéMON will be repelled.{PAUSE_UNTIL_PRESS}");
-const u8 gText_ImpossibleToAim[] = _("It's impossible to aim\nwhen there are two POKéMON!{PAUSE_UNTIL_PRESS}");
+const u8 gText_ImpossibleToAim[] = _("It's impossible to aim when there are\ntwo POKéMON!{PAUSE_UNTIL_PRESS}");
 const u8 gText_CantThrowBall[] = _("You can't throw a BALL right now.{PAUSE_UNTIL_PRESS}");
 const u8 gText_BoxFull[] = _("The BOX is full.{PAUSE_UNTIL_PRESS}");
 const u8 gText_PowderQty[] = _("POWDER QTY: {STR_VAR_1}{PAUSE_UNTIL_PRESS}");
@@ -501,7 +501,6 @@ const u8 gText_Status[] = _("STATUS");
 const u8 gText_ExpPoints[] = _("EXP. POINTS");
 const u8 gText_NextLv[] = _("NEXT LV.");
 const u8 gText_RibbonsVar1[] = _("RIBBONS: {STR_VAR_1}");
-const u8 gText_EmptyString5[] = _("");
 const u8 gText_Events[] = _("EVENTS"); // Unused
 const u8 gText_Switch[] = _("SWITCH");
 const u8 gText_PkmnInfo[] = _("POKéMON INFO");
@@ -509,40 +508,38 @@ const u8 gText_PkmnSkills[] = _("POKéMON SKILLS");
 const u8 gText_BattleMoves[] = _("BATTLE MOVES");
 const u8 gText_ContestMoves[] = _("C0NTEST MOVES");
 const u8 gText_Info[] = _("INFO");
-const u8 gText_EggWillTakeALongTime[] = _("It looks like this EGG will\ntake a long time to hatch.");
-const u8 gText_EggWillTakeSomeTime[] = _("What will hatch from this?\nIt will take some time.");
-const u8 gText_EggWillHatchSoon[] = _("It moves occasionally.\nIt should hatch soon.");
 const u8 gText_EggAboutToHatch[] = _("It's making sounds.\nIt's about to hatch!");
+const u8 gText_EggWillHatchSoon[] = _("It moves occasionally.\nIt should hatch soon.");
+const u8 gText_EggWillTakeSomeTime[] = _("What will hatch from this?\nIt will take some time.");
+const u8 gText_EggWillTakeALongTime[] = _("It looks like this EGG will\ntake a long time to hatch.");
 const u8 gText_HMMovesCantBeForgotten2[] = _("HM moves can't be\nforgotten now.");
-const u8 gText_XNatureMetAtYZ[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\nmet at {LV_2}{DYNAMIC 0}{DYNAMIC 3}{DYNAMIC 1},\n{DYNAMIC 0}{DYNAMIC 4}{DYNAMIC 1}.");
-const u8 gText_XNatureHatchedAtYZ[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\nhatched at {LV_2}{DYNAMIC 0}{DYNAMIC 3}{DYNAMIC 1},\n{DYNAMIC 0}{DYNAMIC 4}{DYNAMIC 1}.");
-
-const u8 gText_XNatureObtainedInTrade[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\nobtained in a trade.");
-
-const u8 gText_XNatureMetDistantLand[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\nmet in a distant land.");
-const u8 gText_ObtainedFromDad[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\nGiven to {DYNAMIC 4} by\nhis dad.");
-
-const u8 gText_XNatureFatefulEncounter[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\nobtained in a fateful\nencounter at {LV_2}{DYNAMIC 0}{DYNAMIC 3}{DYNAMIC 1}.");
-const u8 gText_XNatureProbablyMetAt[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\nprobably met at {LV_2}{DYNAMIC 0}{DYNAMIC 3}{DYNAMIC 1},\n{DYNAMIC 0}{DYNAMIC 4}{DYNAMIC 1}.");
-
-const u8 gText_Receivedfrom[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\nreceived from {DYNAMIC 4}.");
-const u8 gText_OldFriend[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\n{DYNAMIC 4}'s old friend.");
-
-const u8 gText_XNature[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature");
-const u8 gText_XNatureMetSomewhereAt[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\nmet somewhere at {LV_2}{DYNAMIC 0}{DYNAMIC 3}{DYNAMIC 1}.");
-const u8 gText_XNatureHatchedSomewhereAt[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\nhatched somewhere at {LV_2}{DYNAMIC 0}{DYNAMIC 3}{DYNAMIC 1}.");
-const u8 gText_PeculiarEggNicePlace[] = _("A peculiar POKéMON EGG\nobtained at the nice place.");
-const u8 gText_PeculiarEggTrade[] = _("A peculiar POKéMON EGG\nobtained in a trade.");
+const u8 gText_XNatureMetAtYZ[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1} nature,\n{DYNAMIC 5}met at {LV_2}{DYNAMIC 0}{DYNAMIC 3}{DYNAMIC 1},\n{DYNAMIC 0}{DYNAMIC 4}{DYNAMIC 1}.");
+const u8 gText_XNatureHatchedAtYZ[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1} nature,\n{DYNAMIC 5}hatched at {LV_2}{DYNAMIC 0}{DYNAMIC 3}{DYNAMIC 1},\n{DYNAMIC 0}{DYNAMIC 4}{DYNAMIC 1}.");
+const u8 gText_SomewhereAt[] = _("somewhere");
+const u8 gText_EventLegal[] = _("event legal, ");
+const u8 gText_XNatureFatefulEncounter[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1} nature,\nobtained in a fateful\nencounter at {LV_2}{DYNAMIC 0}{DYNAMIC 3}{DYNAMIC 1}.");
+const u8 gText_XNatureMetDistantLand[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1} nature,\n{DYNAMIC 5}met in a distant land.");
+const u8 gText_XNatureObtainedInTrade[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1} nature{DYNAMIC 5},\nobtained in a trade.");
+const u8 gText_XNatureProbablyMetAt[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1} nature{DYNAMIC 5},\nprobably met at {LV_2}{DYNAMIC 0}{DYNAMIC 3}{DYNAMIC 1},\n{DYNAMIC 0}{DYNAMIC 4}{DYNAMIC 1}.");
+const u8 gText_ObtainedFromDad[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1} nature,\n{DYNAMIC 5}given to {DYNAMIC 4} by\nhis dad.");
+const u8 gText_Receivedfrom[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1} nature,\n{DYNAMIC 5}received from {DYNAMIC 4}.");
+const u8 gText_OldFriend[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1} nature,\n{DYNAMIC 5}{DYNAMIC 4}'s old friend.");
+const u8 gText_XNature[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1} nature");
 const u8 gText_EggFromElm[] = _("A POKéMON EGG obtained\nfrom PROF. ELM.");
 const u8 gText_EggFromHotSprings[] = _("A POKéMON EGG obtained\nat the hot springs.");
 #if UK
 const u8 gText_EggFromTraveler[] = _("An odd POKéMON EGG\nobtained from a traveller.");
-const u8 gText_EggFromPokecomCenter[] = _("An odd POKéMON EGG\nobtained at the POKéCOM\nCENTRE in GOLDENROD CITY.");
 #else
 const u8 gText_EggFromTraveler[] = _("An odd POKéMON EGG\nobtained from a traveler.");
+#endif
+const u8 gText_PeculiarEggNicePlace[] = _("A peculiar POKéMON EGG\nobtained at the nice place.");
+const u8 gText_PeculiarEggTrade[] = _("A peculiar POKéMON EGG\nobtained in a trade.");
+const u8 gText_OddEggFoundByCouple[] = _("An odd POKéMON EGG found\nby the DAY CARE couple.");
+#if UK
+const u8 gText_EggFromPokecomCenter[] = _("An odd POKéMON EGG\nobtained at the POKéCOM\nCENTRE in GOLDENROD CITY.");
+#else
 const u8 gText_EggFromPokecomCenter[] = _("An odd POKéMON EGG\nobtained at the POKéCOM\nCENTER in GOLDENROD CITY.");
 #endif
-const u8 gText_OddEggFoundByCouple[] = _("An odd POKéMON EGG found\nby the DAY CARE couple.");
 const u8 gText_ApostropheSBase[] = _("'s BASE");
 const u8 gText_OkayToDeleteFromRegistry[] = _("Is it okay to delete {STR_VAR_1}\nfrom the REGISTRY?");
 const u8 gText_RegisteredDataDeleted[] = _("The registered data was deleted.{PAUSE_UNTIL_PRESS}");
@@ -1104,32 +1101,6 @@ const u8 gText_GamePlayCannotBeContinued[] = _("{COLOR RED}“Game play cannot b
 const u8 gText_CheckCompleted[] = _("Check completed.\nAttempting to save again.\nPlease wait.");
 const u8 gText_SaveCompleteGameCannotContinue[] = _("Save completed.\n{COLOR RED}“Game play cannot be continued.\nReturning to the title screen.”");
 const u8 gText_SaveCompletePressA[] = _("Save completed.\n{COLOR RED}“Please press the A Button.”");
-
-// Colosseum/XD met locations strings
-const u8 gText_OutskirtStand[] = _("OUTSKIRT STAND");
-const u8 gText_PhenacCity[] = _("PHENAC CITY");
-const u8 gText_MayorsHouse[] = _("MAYOR'S HOUSE");
-const u8 gText_CipherLab[] = _("CIPHER LAB");
-const u8 gText_PyriteTown[] = _("PYRITE TOWN");
-const u8 gText_MtBattle[] = _("MT. BATTLE");
-const u8 gText_PyriteBldg[] = _("PYRITE BLDG");
-const u8 gText_PyriteCave[] = _("PYRITE CAVE");
-const u8 gText_MirorsHideout[] = _("MIROR'S HIDEOUT");
-const u8 gText_AgateVillage[] = _("AGATE VILLAGE");
-const u8 gText_TheUnder[] = _("THE UNDER");
-const u8 gText_TheUnderSubway[] = _("THE UNDER SUBWAY");
-const u8 gText_RealgamTower[] = _("REALGAM TOWER");
-const u8 gText_CipherKeyLair[] = _("CIPHER KEY LAIR");
-const u8 gText_Laboratory[] = _("LABORATORY");
-const u8 gText_CitadarkIsle[] = _("CITADARK ISLE");
-const u8 gText_Rock[] = _("ROCK");
-const u8 gText_Oasis[] = _("OASIS");
-const u8 gText_RealgamTwr_Dome[] = _("REALGAMTWR DOME");
-const u8 gText_TowerColosseum[] = _("TOWER COLOSSEUM");
-const u8 gText_DeepColosseum[] = _("DEEP COLOSSEUM");
-const u8 gText_SnagemHideout[] = _("SNAGEM HIDEOUT");
-const u8 gText_PokemonHQLab[] = _("POKéMON HQ LAB");
-const u8 gText_GateonPort[] = _("GATEON PORT");
 
 const u8 gText_ResetRTCConfirmCancel[] = _("Reset RTC?\nA: Confirm, B: Cancel");
 const u8 gText_PresentTime[] = _("Present time in game");
