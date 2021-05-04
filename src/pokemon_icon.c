@@ -1040,7 +1040,8 @@ u8 CreateMonIcon(u16 species, void (*callback)(struct Sprite *), s16 x, s16 y, u
         .paletteTag = POKE_ICON_BASE_PAL_TAG + gMonIconPaletteIndices[GetFormSpecies(species, form)],
     };
 
-    iconTemplate.paletteTag = POKE_ICON_BASE_PAL_TAG;
+    if (species > NUM_SPECIES && !form)
+        iconTemplate.paletteTag = POKE_ICON_BASE_PAL_TAG;
 
     spriteId = CreateMonIconSprite(&iconTemplate, x, y, subpriority);
 
@@ -1085,7 +1086,10 @@ u16 GetIconSpecies(u16 species, u32 personality, u8 form)
     }
     else
     {
-        result = GetFormSpecies(species, form);
+        if (species > NUM_SPECIES && !form)
+            result = INVALID_ICON_SPECIES;
+        else
+            result = GetFormSpecies(species, form);
     }
 
     return result;

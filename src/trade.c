@@ -250,10 +250,10 @@ static bool32 sub_80771BC(void)
 {
     if (gPlayerCurrActivity == ACTIVITY_29)
     {
-        if (gRfuSlotStatusNI[sub_800E87C(lman.acceptSlot_flag)]->send.state == 0)
-            return TRUE;
-        else
+        if (gRfuSlotStatusNI[sub_800E87C(lman.acceptSlot_flag)]->send.state)
             return FALSE;
+        else
+            return TRUE;
     }
     else
     {
@@ -1060,7 +1060,7 @@ static bool8 BufferTradeParties(void)
 
                     if (!StringCompareWithoutExtCtrlCodes(name, gJapaneseSpeciesNames[SPECIES_SHEDINJA]))
                     {
-                        SetMonData(mon, MON_DATA_NICKNAME, gJapaneseSpeciesNames[SPECIES_SHEDINJA]);
+                        SetMonData(mon, MON_DATA_NICKNAME, gSpeciesNames[SPECIES_SHEDINJA]);
                     }
                 }
             }
@@ -1270,7 +1270,7 @@ static void CB1_SendOrReactToLinkTradeData(void)
             UpdateLinkTradeFlags(mpId, status);
     }
 
-    if (mpId == 0)
+    if (!mpId)
         QueueLinkTradeData();
 }
 
@@ -1281,7 +1281,7 @@ static u8 GetNewTradeMenuPosition(u8 oldPosition, u8 direction)
 
     for (i = 0; i < PARTY_SIZE; i++)
     {
-        if (sTradeMenuData->monPresent[sTradeNextSelectedMonTable[oldPosition][direction][i]] == TRUE)
+        if (sTradeMenuData->monPresent[sTradeNextSelectedMonTable[oldPosition][direction][i]])
         {
             newPosition = sTradeNextSelectedMonTable[oldPosition][direction][i];
             break;
@@ -1411,6 +1411,9 @@ static void TradeMenuProcessInput_SelectedMon(void)
             break;
         case CANT_TRADE_NATIONAL:
         case CANT_TRADE_INVALID_MON:
+            QueueAction(QUEUE_DELAY_MSG, QUEUE_MON_CANT_BE_TRADED);
+            sTradeMenuData->tradeMenuFunc = TRADEMENUFUNC_REDRAW_MAIN_MENU;
+            break;
         case CANT_TRADE_EGG_YET:
         case CANT_TRADE_EGG_YET2:
             QueueAction(QUEUE_DELAY_MSG, QUEUE_EGG_CANT_BE_TRADED);
@@ -2281,19 +2284,20 @@ static u32 CanTradeSelectedMon(struct Pokemon *playerParty, int partyCount, int 
         species[i] = GetMonData(&playerParty[i], MON_DATA_SPECIES);
     }
 
-    // Cant trade Eggs or non-Hoenn mons if player doesn't have National Dex
+    // Can't trade Eggs or non-Kanto mons if player doesn't have National Dex
     if (!IsNationalPokedexEnabled())
     {
         if (species2[monIdx] == SPECIES_EGG)
             return CANT_TRADE_EGG_YET;
 
-        if (!IsSpeciesInHoennDex(species2[monIdx]))
+        if (species2[monIdx] > KANTO_DEX_COUNT)
             return CANT_TRADE_NATIONAL;
     }
 
     player = &gLinkPlayers[GetMultiplayerId() ^ 1];
-    if ((player->version & 0xFF) != VERSION_RUBY
-     && (player->version & 0xFF) != VERSION_SAPPHIRE)
+    if ((player->version & 0xFF) != VERSION_SAPPHIRE
+     && (player->version & 0xFF) != VERSION_RUBY
+     && (player->version & 0xFF) != VERSION_EMERALD)
     {
         // Does partner not have National Dex
         if (!(player->progressFlagsCopy & 0xF))
@@ -2301,7 +2305,7 @@ static u32 CanTradeSelectedMon(struct Pokemon *playerParty, int partyCount, int 
             if (species2[monIdx] == SPECIES_EGG)
                 return CANT_TRADE_EGG_YET2;
 
-            if (!IsSpeciesInHoennDex(species2[monIdx]))
+            if (species2[monIdx] > KANTO_DEX_COUNT)
                 return CANT_TRADE_INVALID_MON;
         }
     }
@@ -2334,37 +2338,23 @@ static u32 CanTradeSelectedMon(struct Pokemon *playerParty, int partyCount, int 
 
 s32 GetGameProgressForLinkTrade(void)
 {
-    // isGameFrLg could have been a bool but they use 2 and > 0 instead
-    // possible other checks (for other game versions?) were planned/removed
-    s32 isGameFrLg;
-    u16 version;
+    u16 version = (gLinkPlayers[GetMultiplayerId() ^ 1].version & 0xFF);
 
-    if (gReceivedRemoteLinkPlayers)
+    // If trading with players that aren't playing FRLG, both players must be champion
+    if (gReceivedRemoteLinkPlayers && version < VERSION_FIRE_RED && version > VERSION_LEAF_GREEN)
     {
-        isGameFrLg = 0;
-        version = (gLinkPlayers[GetMultiplayerId() ^ 1].version & 0xFF);
-
-        if (version < VERSION_FIRE_RED)
-            isGameFrLg = 0;
-        else if (version == VERSION_FIRE_RED || version == VERSION_LEAF_GREEN)
-            isGameFrLg = 2;
-
-        // If trading with FRLG, both players must be champion
-        if (isGameFrLg > 0)
+        // Is player champion
+        if (gLinkPlayers[GetMultiplayerId()].progressFlagsCopy & 0xF0)
         {
-            // Is player champion
-            if (gLinkPlayers[GetMultiplayerId()].progressFlagsCopy & 0xF0)
-            {
-                // Is partner champion
-                if (gLinkPlayers[GetMultiplayerId() ^ 1].progressFlagsCopy & 0xF0)
-                    return TRADE_BOTH_PLAYERS_READY;
-                else
-                    return TRADE_PARTNER_NOT_READY;
-            }
+            // Is partner champion
+            if (gLinkPlayers[GetMultiplayerId() ^ 1].progressFlagsCopy & 0xF0)
+                return TRADE_BOTH_PLAYERS_READY;
             else
-            {
-                return TRADE_PLAYER_NOT_READY;
-            }
+                return TRADE_PARTNER_NOT_READY;
+        }
+        else
+        {
+            return TRADE_PLAYER_NOT_READY;
         }
     }
     return TRADE_BOTH_PLAYERS_READY;
@@ -2386,9 +2376,9 @@ int GetUnionRoomTradeMessageId(struct GFtgtGnameSub rfuPlayer, struct GFtgtGname
     bool8 playerIsChampion = rfuPlayer.isChampion;
     bool8 partnerHasNationalDex = rfuPartner.hasNationalDex;
     bool8 partnerIsChampion = rfuPartner.isChampion;
-    u8 r1 = rfuPartner.version;
+    u8 partnerVersion = rfuPartner.version;
 
-    if (r1 != VERSION_EMERALD)
+    if (partnerVersion < VERSION_FIRE_RED && partnerVersion > VERSION_LEAF_GREEN)
     {
         if (!playerIsChampion)
         {
@@ -2432,18 +2422,18 @@ int GetUnionRoomTradeMessageId(struct GFtgtGnameSub rfuPlayer, struct GFtgtGname
             return UR_TRADE_MSG_EGG_CANT_BE_TRADED;
         }
 
-        if (!IsSpeciesInHoennDex(playerSpecies2))
+        if (playerSpecies2 > SPECIES_MEW)
         {
             return UR_TRADE_MSG_MON_CANT_BE_TRADED_2;
         }
 
-        if (!IsSpeciesInHoennDex(partnerSpecies))
+        if (partnerSpecies > SPECIES_MEW)
         {
             return UR_TRADE_MSG_PARTNERS_MON_CANT_BE_TRADED;
         }
     }
 
-    if (!partnerHasNationalDex && !IsSpeciesInHoennDex(playerSpecies2))
+    if (!partnerHasNationalDex && playerSpecies2 > SPECIES_MEW)
     {
         return UR_TRADE_MSG_PARTNER_CANT_ACCEPT_MON;
     }
@@ -2465,10 +2455,10 @@ int CanRegisterMonForTradingBoard(struct GFtgtGnameSub rfuPlayer, u16 species2, 
     if (species2 == SPECIES_EGG)
         return CANT_REGISTER_EGG;
 
-    if (IsSpeciesInHoennDex(species2))
-        return CAN_REGISTER_MON;
+    if (species2 > SPECIES_MEW && species2 != SPECIES_EGG)
+        return CANT_REGISTER_MON;
 
-    return CANT_REGISTER_MON;
+    return CAN_REGISTER_MON;
 }
 
 static void sub_807AA28(struct Sprite *sprite)
@@ -3155,9 +3145,9 @@ static void BufferTradeSceneStrings(void)
     }
     else
     {
-        ingameTrade = &sIngameTrades[gSpecialVar_0x8004];
-        StringCopy(gStringVar1, ingameTrade->otName);
-        StringCopy10(gStringVar3, ingameTrade->nickname);
+        GetMonData(&gEnemyParty[0], MON_DATA_OT_NAME, gStringVar1);
+        GetMonData(&gEnemyParty[0], MON_DATA_NICKNAME, name);
+        StringCopy10(gStringVar3, name);
         GetMonData(&gPlayerParty[gSpecialVar_0x8005], MON_DATA_NICKNAME, name);
         StringCopy10(gStringVar2, name);
     }

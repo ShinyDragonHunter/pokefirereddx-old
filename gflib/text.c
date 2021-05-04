@@ -183,7 +183,7 @@ bool16 AddTextPrinter(struct TextPrinterTemplate *printerTemplate, u8 speed, voi
     gTempTextPrinter.japanese = 0;
 
     GenerateFontHalfRowLookupTable(printerTemplate->fgColor, printerTemplate->bgColor, printerTemplate->shadowColor);
-    if (speed != TEXT_SPEED_FF && speed != 0)
+    if (speed != TEXT_SPEED_FF && speed)
     {
         --gTempTextPrinter.textSpeed;
         gTextPrinters[printerTemplate->windowId] = gTempTextPrinter;
@@ -542,7 +542,7 @@ void ClearTextSpan(struct TextPrinter *textPrinter, u32 width)
     struct TextGlyph *glyph;
     u8* glyphHeight;
 
-    if (gLastTextBgColor != 0)
+    if (gLastTextBgColor)
     {
         window = &gWindows[textPrinter->printerTemplate.windowId];
         pixels_data.pixels = window->tileData;
@@ -566,7 +566,7 @@ u16 Font0Func(struct TextPrinter *textPrinter)
 {
     struct TextPrinterSubStruct *subStruct = (struct TextPrinterSubStruct *)(&textPrinter->subStructFields);
 
-    if (subStruct->hasGlyphIdBeenSet == FALSE)
+    if (!subStruct->hasGlyphIdBeenSet)
     {
         subStruct->glyphId = 0;
         subStruct->hasGlyphIdBeenSet = TRUE;
@@ -578,7 +578,7 @@ u16 Font1Func(struct TextPrinter *textPrinter)
 {
     struct TextPrinterSubStruct *subStruct = (struct TextPrinterSubStruct *)(&textPrinter->subStructFields);
 
-    if (subStruct->hasGlyphIdBeenSet == FALSE)
+    if (!subStruct->hasGlyphIdBeenSet)
     {
         subStruct->glyphId = 1;
         subStruct->hasGlyphIdBeenSet = TRUE;
@@ -590,7 +590,7 @@ u16 Font2Func(struct TextPrinter *textPrinter)
 {
     struct TextPrinterSubStruct *subStruct = (struct TextPrinterSubStruct *)(&textPrinter->subStructFields);
 
-    if (subStruct->hasGlyphIdBeenSet == FALSE)
+    if (!subStruct->hasGlyphIdBeenSet)
     {
         subStruct->glyphId = 2;
         subStruct->hasGlyphIdBeenSet = TRUE;
@@ -602,7 +602,7 @@ u16 Font3Func(struct TextPrinter *textPrinter)
 {
     struct TextPrinterSubStruct *subStruct = (struct TextPrinterSubStruct *)(&textPrinter->subStructFields);
 
-    if (subStruct->hasGlyphIdBeenSet == FALSE)
+    if (!subStruct->hasGlyphIdBeenSet)
     {
         subStruct->glyphId = 3;
         subStruct->hasGlyphIdBeenSet = TRUE;
@@ -614,7 +614,7 @@ u16 Font4Func(struct TextPrinter *textPrinter)
 {
     struct TextPrinterSubStruct *subStruct = (struct TextPrinterSubStruct *)(&textPrinter->subStructFields);
 
-    if (subStruct->hasGlyphIdBeenSet == FALSE)
+    if (!subStruct->hasGlyphIdBeenSet)
     {
         subStruct->glyphId = 4;
         subStruct->hasGlyphIdBeenSet = TRUE;
@@ -626,7 +626,7 @@ u16 Font5Func(struct TextPrinter *textPrinter)
 {
     struct TextPrinterSubStruct *subStruct = (struct TextPrinterSubStruct *)(&textPrinter->subStructFields);
 
-    if (subStruct->hasGlyphIdBeenSet == FALSE)
+    if (!subStruct->hasGlyphIdBeenSet)
     {
         subStruct->glyphId = 5;
         subStruct->hasGlyphIdBeenSet = TRUE;
@@ -638,7 +638,7 @@ u16 Font7Func(struct TextPrinter *textPrinter)
 {
     struct TextPrinterSubStruct *subStruct = (struct TextPrinterSubStruct *)(&textPrinter->subStructFields);
 
-    if (subStruct->hasGlyphIdBeenSet == FALSE)
+    if (!subStruct->hasGlyphIdBeenSet)
     {
         subStruct->glyphId = 7;
         subStruct->hasGlyphIdBeenSet = TRUE;
@@ -650,7 +650,7 @@ u16 Font8Func(struct TextPrinter *textPrinter)
 {
     struct TextPrinterSubStruct *subStruct = (struct TextPrinterSubStruct *)(&textPrinter->subStructFields);
 
-    if (subStruct->hasGlyphIdBeenSet == FALSE)
+    if (!subStruct->hasGlyphIdBeenSet)
     {
         subStruct->glyphId = 8;
         subStruct->hasGlyphIdBeenSet = TRUE;
@@ -680,7 +680,7 @@ void TextPrinterDrawDownArrow(struct TextPrinter *textPrinter)
 
     if (!gTextFlags.autoScroll)
     {
-        if (subStruct->downArrowDelay != 0)
+        if (subStruct->downArrowDelay)
         {
             subStruct->downArrowDelay--;
         }
@@ -788,7 +788,7 @@ void DrawDownArrow(u8 windowId, u16 x, u16 y, u8 bgColor, bool8 drawArrow, u8 *c
 {
     const u8 *arrowTiles;
 
-    if (*counter != 0)
+    if (*counter)
     {
         --*counter;
     }
@@ -1102,7 +1102,7 @@ u16 RenderText(struct TextPrinter *textPrinter)
             textPrinter->state = 0;
         return 3;
     case 6:
-        if (textPrinter->delayCounter != 0)
+        if (textPrinter->delayCounter)
             textPrinter->delayCounter--;
         else
             textPrinter->state = 0;
@@ -1223,7 +1223,7 @@ s32 GetStringWidth(u8 fontId, const u8 *str, s16 letterSpacing)
     minGlyphWidth = 0;
 
     func = GetFontWidthFunc(fontId);
-    if (func == NULL)
+    if (!func)
         return 0;
 
     if (letterSpacing == -1)
@@ -1260,7 +1260,7 @@ s32 GetStringWidth(u8 fontId, const u8 *str, s16 letterSpacing)
                     return 0;
             }
         case CHAR_DYNAMIC:
-            if (bufferPointer == NULL)
+            if (!bufferPointer)
                 bufferPointer = DynamicPlaceholderTextUtil_GetPlaceholderPtr(*++str);
             while (*bufferPointer != EOS)
             {

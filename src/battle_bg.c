@@ -557,7 +557,7 @@ void DrawMainBattleBackground(void)
         default:
             LZDecompressVram(gBattleTerrainTable[gBattleTerrain].tileset, (void*)(BG_CHAR_ADDR(2)));
             LZDecompressVram(gBattleTerrainTable[gBattleTerrain].tilemap, (void*)(BG_SCREEN_ADDR(26)));
-            LoadCompressedPaletteDayNight(gBattleTerrainTable[gBattleTerrain].palette, 0x20, 0x60);
+            LoadCompressedPalette(gBattleTerrainTable[gBattleTerrain].palette, 0x20, 0x60);
             break;
         }
     }
@@ -882,52 +882,33 @@ bool8 LoadChosenBattleElement(u8 caseId)
         break;
     case 3:
         if (gBattleTypeFlags & (BATTLE_TYPE_FRONTIER | BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_EREADER_TRAINER))
-        {
             LZDecompressVram(gBattleTerrainTiles_Building, (void*)(BG_CHAR_ADDR(2)));
-        }
         else if (GetCurrentMapBattleScene() == MAP_BATTLE_SCENE_NORMAL)
-        {
             LZDecompressVram(gBattleTerrainTable[gBattleTerrain].tileset, (void*)(BG_CHAR_ADDR(2)));
-        }
         else
-        {
             LZDecompressVram(gBattleTerrainTiles_Building, (void*)(BG_CHAR_ADDR(2)));
-        }
         break;
     case 4:
         if (gBattleTypeFlags & (BATTLE_TYPE_FRONTIER | BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_EREADER_TRAINER))
-        {
             LZDecompressVram(gBattleTerrainTilemap_Building, (void*)(BG_SCREEN_ADDR(26)));
-        }
         else if (GetCurrentMapBattleScene() == MAP_BATTLE_SCENE_NORMAL)
-        {
             LZDecompressVram(gBattleTerrainTable[gBattleTerrain].tilemap, (void*)(BG_SCREEN_ADDR(26)));
-        }
         else
-        {
             LZDecompressVram(gBattleTerrainTilemap_Building, (void*)(BG_SCREEN_ADDR(26)));
-        }
         break;
     case 5:
         if (gBattleTypeFlags & (BATTLE_TYPE_FRONTIER | BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_EREADER_TRAINER))
-        {
             LoadCompressedPalette(gBattleTerrainPalette_Frontier, 0x20, 0x60);
-        }
         else
         {
             if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
             {
                 u8 trainerClass = gTrainers[gTrainerBattleOpponent_A].trainerClass;
                 if (trainerClass == TRAINER_CLASS_LEADER)
-                {
                     LoadCompressedPalette(gBattleTerrainPalette_BuildingLeader, 0x20, 0x60);
-                    break;
-                }
                 else if (trainerClass == TRAINER_CLASS_CHAMPION)
-                {
                     LoadCompressedPalette(gBattleTerrainPalette_StadiumWallace, 0x20, 0x60);
-                    break;
-                }
+                break;
             }
 
             switch (GetCurrentMapBattleScene())
@@ -954,7 +935,7 @@ bool8 LoadChosenBattleElement(u8 caseId)
                 LoadCompressedPalette(gBattleTerrainPalette_StadiumDrake, 0x20, 0x60);
                 break;
             default:
-                LoadCompressedPaletteDayNight(gBattleTerrainTable[gBattleTerrain].palette, 0x20, 0x60);
+                LoadCompressedPalette(gBattleTerrainTable[gBattleTerrain].palette, 0x20, 0x60);
                 break;
             }
         }
