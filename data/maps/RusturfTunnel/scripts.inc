@@ -474,7 +474,7 @@ RusturfTunnel_Text_ThankYouLetsGoHomePeeko: @ 822D3BA
 	.string "And, you are?\p"
 	.string "… … … … … … … …\n"
 	.string "… … … … … … … …\p"
-	.string "Ah, so you are {PLAYER}{KUN}!\n"
+	.string "Ah, so you are {PLAYER}!\n"
 	.string "I sincerely thank you!\p"
 	.string "Now, if there's anything that troubles\n"
 	.string "you, don't hesitate to tell me!\p"

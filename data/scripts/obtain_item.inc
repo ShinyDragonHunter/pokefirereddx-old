@@ -57,10 +57,10 @@ EventScript_BufferBerriesPocket:: @ 8271B85
 
 EventScript_ObtainedItem:: @ 8271B95
     compare VAR_0x8001, 1
-    goto_if_eq EventScript_ObtainedItemMessage
-    buffernumberstring 0, VAR_0x8001
+	goto_if_eq EventScript_ObtainedItemMessage
+	buffernumberstring 0, VAR_0x8001
 	message gText_ObtainedTheItems
-    goto_if_eq EventScript_ContinueObtainedItem
+	goto_if_eq EventScript_ContinueObtainedItem
 EventScript_ObtainedItemMessage:
 	message gText_ObtainedTheItem
 EventScript_ContinueObtainedItem:

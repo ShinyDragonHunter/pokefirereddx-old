@@ -221,7 +221,7 @@ void RunTextPrinters(void)
                 case 0:
                     CopyWindowToVram(gTextPrinters[i].printerTemplate.windowId, 2);
                 case 3:
-                    if (gTextPrinters[i].callback != NULL)
+                    if (gTextPrinters[i].callback)
                         gTextPrinters[i].callback(&gTextPrinters[i].printerTemplate, temp);
                     break;
                 case 1:
@@ -1300,7 +1300,7 @@ s32 GetStringWidth(u8 fontId, const u8 *str, s16 letterSpacing)
                 break;
             case EXT_CTRL_CODE_SIZE:
                 func = GetFontWidthFunc(*++str);
-                if (func == NULL)
+                if (!func)
                     return 0;
                 if (letterSpacing == -1)
                     localLetterSpacing = GetFontAttribute(*str, FONTATTR_LETTER_SPACING);
@@ -1559,7 +1559,7 @@ void DecompressGlyphFont0(u16 glyphId, bool32 isJapanese)
 {
     const u16* glyphs;
 
-    if (isJapanese == 1)
+    if (isJapanese)
     {
         glyphs = gFont0JapaneseGlyphs + (0x100 * (glyphId >> 0x4)) + (0x8 * (glyphId & 0xF));
         DecompressGlyphTile(glyphs, gCurGlyph.gfxBufferTop);

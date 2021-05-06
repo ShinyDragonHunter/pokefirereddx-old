@@ -18,6 +18,8 @@ static const u8 sTextWindowFrame8_Gfx[] = INCBIN_U8("graphics/text_window/8.4bpp
 static const u8 sTextWindowFrame9_Gfx[] = INCBIN_U8("graphics/text_window/9.4bpp");
 static const u8 sTextWindowFrame10_Gfx[] = INCBIN_U8("graphics/text_window/10.4bpp");
 
+static const u8 sTextWindowFrameThin_Gfx[] = INCBIN_U8("graphics/text_window/thin.4bpp");
+
 const u16 gTextWindowFrame1_Pal[] = INCBIN_U16("graphics/text_window/1.gbapal");
 static const u16 sTextWindowFrame2_Pal[] = INCBIN_U16("graphics/text_window/2.gbapal");
 static const u16 sTextWindowFrame3_Pal[] = INCBIN_U16("graphics/text_window/3.gbapal");
@@ -28,8 +30,6 @@ static const u16 sTextWindowFrame7_Pal[] = INCBIN_U16("graphics/text_window/7.gb
 static const u16 sTextWindowFrame8_Pal[] = INCBIN_U16("graphics/text_window/8.gbapal");
 static const u16 sTextWindowFrame9_Pal[] = INCBIN_U16("graphics/text_window/9.gbapal");
 static const u16 sTextWindowFrame10_Pal[] = INCBIN_U16("graphics/text_window/10.gbapal");
-
-const u16 gStdFrame[] = INCBIN_U16("graphics/text_window/std_frame.4bpp");
 
 static const u16 sTextWindowPalettes[][16] =
 {
@@ -66,13 +66,18 @@ const struct TilesPal *GetWindowFrameTilesPal(u8 id)
 void LoadMessageBoxGfx(u8 windowId, u16 destOffset, u8 palOffset)
 {
     LoadBgTiles(GetWindowAttribute(windowId, WINDOW_BG), gMessageBox_Gfx, 0x1C0, destOffset);
-    LoadPalette(GetOverworldTextboxPalettePtr(), palOffset, 0x20);
+    LoadPalette(GetTextWindowPalette(0), palOffset, 0x20);
 }
 
-void DrawStdFrame(u8 windowId, u16 destOffset, u8 palOffset)
+void LoadThinWindowBorderGfx(u8 windowId, u16 destOffset, u8 palOffset)
 {
-    LoadBgTiles(windowId, gStdFrame, 0x120, destOffset);
+    LoadBgTiles(GetWindowAttribute(windowId, WINDOW_BG), sTextWindowFrameThin_Gfx, 0x120, destOffset);
     LoadPalette(GetTextWindowPalette(3), palOffset, 0x20);
+}
+
+void LoadThinWindowBorderTiles(u8 windowId, u16 destOffset)
+{
+    LoadBgTiles(GetWindowAttribute(windowId, WINDOW_BG), sTextWindowFrameThin_Gfx, 0x120, destOffset);
 }
 
 void LoadUserWindowBorderGfx_(u8 windowId, u16 destOffset, u8 palOffset)
@@ -89,12 +94,6 @@ void LoadWindowGfx(u8 windowId, u8 frameId, u16 destOffset, u8 palOffset)
 void LoadUserWindowBorderGfx(u8 windowId, u16 destOffset, u8 palOffset)
 {
     LoadWindowGfx(windowId, gSaveBlock2Ptr->optionsWindowFrameType, destOffset, palOffset);
-}
-
-void SetStdFrame(u8 windowId, u16 destOffset, u8 palOffset)
-{
-    LoadBgTiles(GetWindowAttribute(windowId, WINDOW_BG), gStdFrame, 0x120, destOffset);
-    LoadPalette(GetTextWindowPalette(3), palOffset, 0x20);
 }
 
 void DrawTextBorderOuter(u8 windowId, u16 tileNum, u8 palNum)

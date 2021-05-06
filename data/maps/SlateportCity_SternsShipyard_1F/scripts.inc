@@ -115,7 +115,7 @@ SlateportCity_SternsShipyard_1F_Text_FerryIsReady: @ 8208323
 	.string "technology's march.$"
 
 SlateportCity_SternsShipyard_1F_Text_DecidedToHelpDock: @ 82083EE
-	.string "MR. BRINEY: Ah, {PLAYER}{KUN}!\n"
+	.string "MR. BRINEY: Ah, {PLAYER}!\n"
 	.string "It's been too long!\p"
 	.string "Aye, since I met you, this old sea dog's\n"
 	.string "been feeling frisky!\p"

@@ -7,7 +7,6 @@ EWRAM_DATA u8 gStringVar1[0x100] = {0};
 EWRAM_DATA u8 gStringVar2[0x100] = {0};
 EWRAM_DATA u8 gStringVar3[0x100] = {0};
 EWRAM_DATA u8 gStringVar4[0x3E8] = {0};
-EWRAM_DATA static u8 sUnknownStringVar[16] = {0};
 
 static const u8 sDigits[] = __("0123456789ABCDEF");
 
@@ -191,7 +190,7 @@ u8 *ConvertIntToDecimalStringN(u8 *dest, s32 value, enum StringConvertMode mode,
 
             *out = c;
         }
-        else if (digit != 0 || powerOfTen == 1)
+        else if (digit || powerOfTen == 1)
         {
             u8 *out;
             state = WRITING_DIGITS;
@@ -247,7 +246,7 @@ u8 *ConvertUIntToDecimalStringN(u8 *dest, u32 value, enum StringConvertMode mode
 
             *out = c;
         }
-        else if (digit != 0 || powerOfTen == 1)
+        else if (digit || powerOfTen == 1)
         {
             u8 *out;
             state = WRITING_DIGITS;
@@ -307,7 +306,7 @@ u8 *ConvertIntToHexStringN(u8 *dest, s32 value, enum StringConvertMode mode, u8 
 
             *out = c;
         }
-        else if (digit != 0 || powerOfSixteen == 1)
+        else if (digit || powerOfSixteen == 1)
         {
             char *out;
             state = WRITING_DIGITS;
@@ -420,14 +419,12 @@ u8 *StringBraille(u8 *dest, const u8 *src)
     }
 }
 
-static const u8 *ExpandPlaceholder_UnknownStringVar(void)
-{
-    return sUnknownStringVar;
-}
-
 static const u8 *ExpandPlaceholder_PlayerName(void)
 {
-    return gSaveBlock2Ptr->playerName;
+    if (gSaveBlock2Ptr->playerName)
+        return gSaveBlock2Ptr->playerName;
+    else
+        return gText_ExpandedPlaceholder_Empty;
 }
 
 static const u8 *ExpandPlaceholder_StringVar1(void)
@@ -445,14 +442,6 @@ static const u8 *ExpandPlaceholder_StringVar3(void)
     return gStringVar3;
 }
 
-static const u8 *ExpandPlaceholder_KunChan(void)
-{
-    if (gSaveBlock2Ptr->playerGender == MALE)
-        return gText_ExpandedPlaceholder_Kun;
-    else
-        return gText_ExpandedPlaceholder_Chan;
-}
-
 static const u8 *ExpandPlaceholder_RivalName(void)
 {
     if (gSaveBlock2Ptr->playerGender == MALE)
@@ -461,61 +450,18 @@ static const u8 *ExpandPlaceholder_RivalName(void)
         return gText_ExpandedPlaceholder_Brendan;
 }
 
-static const u8 *ExpandPlaceholder_Version(void)
-{
-    return gText_ExpandedPlaceholder_Emerald;
-}
-
-static const u8 *ExpandPlaceholder_Aqua(void)
-{
-    return gText_ExpandedPlaceholder_Aqua;
-}
-
-static const u8 *ExpandPlaceholder_Magma(void)
-{
-    return gText_ExpandedPlaceholder_Magma;
-}
-
-static const u8 *ExpandPlaceholder_Archie(void)
-{
-    return gText_ExpandedPlaceholder_Archie;
-}
-
-static const u8 *ExpandPlaceholder_Maxie(void)
-{
-    return gText_ExpandedPlaceholder_Maxie;
-}
-
-static const u8 *ExpandPlaceholder_Kyogre(void)
-{
-    return gText_ExpandedPlaceholder_Kyogre;
-}
-
-static const u8 *ExpandPlaceholder_Groudon(void)
-{
-    return gText_ExpandedPlaceholder_Groudon;
-}
-
 const u8 *GetExpandedPlaceholder(u32 id)
 {
     typedef const u8 *(*ExpandPlaceholderFunc)(void);
 
     static const ExpandPlaceholderFunc funcs[] =
     {
-        [PLACEHOLDER_ID_UNKNOWN]      = ExpandPlaceholder_UnknownStringVar,
+        [0]                           = NULL,
         [PLACEHOLDER_ID_PLAYER]       = ExpandPlaceholder_PlayerName,
         [PLACEHOLDER_ID_STRING_VAR_1] = ExpandPlaceholder_StringVar1,
         [PLACEHOLDER_ID_STRING_VAR_2] = ExpandPlaceholder_StringVar2,
         [PLACEHOLDER_ID_STRING_VAR_3] = ExpandPlaceholder_StringVar3,
-        [PLACEHOLDER_ID_KUN]          = ExpandPlaceholder_KunChan,
         [PLACEHOLDER_ID_RIVAL]        = ExpandPlaceholder_RivalName,
-        [PLACEHOLDER_ID_VERSION]      = ExpandPlaceholder_Version,
-        [PLACEHOLDER_ID_AQUA]         = ExpandPlaceholder_Aqua,
-        [PLACEHOLDER_ID_MAGMA]        = ExpandPlaceholder_Magma,
-        [PLACEHOLDER_ID_ARCHIE]       = ExpandPlaceholder_Archie,
-        [PLACEHOLDER_ID_MAXIE]        = ExpandPlaceholder_Maxie,
-        [PLACEHOLDER_ID_KYOGRE]       = ExpandPlaceholder_Kyogre,
-        [PLACEHOLDER_ID_GROUDON]      = ExpandPlaceholder_Groudon,
     };
 
     if (id >= ARRAY_COUNT(funcs))

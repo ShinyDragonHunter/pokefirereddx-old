@@ -125,7 +125,7 @@ LilycoveCity_CoveLilyMotel_2F_Text_SnoozingPreferBattles: @ 8218ACF
 	.string "Consider me a purist--I prefer\n"
 	.string "battles and tough TRAINERS.\p"
 	.string "But that's just me.\p"
-	.string "{PLAYER}{KUN}, I hope you'll enjoy everything\n"
+	.string "{PLAYER}, I hope you'll enjoy everything\n"
 	.string "like the GYMS, CONTESTS, BATTLE TENT,\l"
 	.string "the whole works!$"
 

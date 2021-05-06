@@ -248,20 +248,11 @@
 #define TEXT_DYNAMIC_COLOR_5    0xE // Usually blue-green
 #define TEXT_DYNAMIC_COLOR_6    0xF // Usually cerulean
 
-#define PLACEHOLDER_ID_UNKNOWN       0x0
 #define PLACEHOLDER_ID_PLAYER        0x1
 #define PLACEHOLDER_ID_STRING_VAR_1  0x2
 #define PLACEHOLDER_ID_STRING_VAR_2  0x3
 #define PLACEHOLDER_ID_STRING_VAR_3  0x4
-#define PLACEHOLDER_ID_KUN           0x5
-#define PLACEHOLDER_ID_RIVAL         0x6
-#define PLACEHOLDER_ID_VERSION       0x7
-#define PLACEHOLDER_ID_AQUA          0x8
-#define PLACEHOLDER_ID_MAGMA         0x9
-#define PLACEHOLDER_ID_ARCHIE        0xA 
-#define PLACEHOLDER_ID_MAXIE         0xB
-#define PLACEHOLDER_ID_KYOGRE        0xC
-#define PLACEHOLDER_ID_GROUDON       0xD
+#define PLACEHOLDER_ID_RIVAL         0x5
 
 // battle placeholders are located in battle_message.h
 

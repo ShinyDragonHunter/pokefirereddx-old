@@ -334,24 +334,24 @@ RivalsHouse_2F_Text_MayWhoAreYou: @ 81F959C
 	.string "Who… Who are you?\p"
 	.string "… … … … … … … …\n"
 	.string "… … … … … … … …\p"
-	.string "Oh, you're {PLAYER}{KUN}.\n"
+	.string "Oh, you're {PLAYER}.\n"
 	.string "So your move was today.\p"
 	.string "Um… I'm MAY.\n"
 	.string "Glad to meet you!\p"
 	.string "I…\n"
 	.string "I have this dream of becoming friends\l"
 	.string "with POKéMON all over the world.\p"
-	.string "I… I heard about you, {PLAYER}{KUN}, from\n"
+	.string "I… I heard about you, {PLAYER}, from\n"
 	.string "my dad, PROF. BIRCH.\p"
 	.string "I was hoping that you would be nice,\n"
-	.string "{PLAYER}{KUN}, and that we could be friends.\p"
+	.string "{PLAYER}, and that we could be friends.\p"
 	.string "Oh, this is silly, isn't it?\n"
-	.string "I… I've just met you, {PLAYER}{KUN}.\p"
+	.string "I… I've just met you, {PLAYER}.\p"
 	.string "Eheheh…\p"
 	.string "Oh, no! I forgot!\p"
 	.string "I was supposed to go help Dad catch\n"
 	.string "some wild POKéMON!\p"
-	.string "{PLAYER}{KUN}, I'll catch you later!$"
+	.string "{PLAYER}, I'll catch you later!$"
 
 RivalsHouse_2F_Text_MayGettingReady: @ 81F978A
 	.string "POKéMON fully restored!\n"
@@ -386,7 +386,7 @@ RivalsHouse_2F_Text_ItsRivalsPokeBall: @ 81F9991
 	.string "Better leave it right where it is.$"
 
 RivalsHouse_2F_Text_MayJustCheckingMyPokedex: @ 81F99C9
-	.string "MAY: {PLAYER}{KUN}!\p"
+	.string "MAY: {PLAYER}!\p"
 	.string "I was just checking my POKéDEX.\p"
 	.string "There's still a lot of POKéMON that\n"
 	.string "I've seen but haven't caught.\p"
@@ -399,7 +399,7 @@ RivalsHouse_2F_Text_MayWhereShouldIGoNext: @ 81F9A9E
 	.string "MAY: I wonder where I should go catch\n"
 	.string "some POKéMON next?\p"
 	.string "Wouldn't it be funny if we ran into each\n"
-	.string "other, {PLAYER}{KUN}?$"
+	.string "other, {PLAYER}?$"
 
 RivalsHouse_2F_Text_BrendanJustCheckingMyPokedex: @ 81F9B0D
 	.string "BRENDAN: Hey, it's {PLAYER}.\p"

@@ -6455,12 +6455,11 @@ static s32 GetWildMonTableIdInAlteringCave(u16 species)
 
 void SetWildMonHeldItem(void)
 {
-    u16 count, i;
+    u16 i;
 
     if (!(gBattleTypeFlags & (BATTLE_TYPE_TRAINER | BATTLE_TYPE_PYRAMID | BATTLE_TYPE_PIKE)))
     {
-        count = (WILD_DOUBLE_BATTLE) ? 2 : 1;
-        for (i = 0; i < count; i++)
+        for (i = 0; i < (WILD_DOUBLE_BATTLE) ? 2 : 1; i++)
         {
             u16 rnd = Random() % 100;
             u16 species = GetFormSpecies(GetMonData(&gEnemyParty[i], MON_DATA_SPECIES, 0),
@@ -6832,7 +6831,7 @@ struct Unknown_806F160_Struct *sub_806F2AC(u8 id, u8 arg1)
     flags = 0;
     id %= 2;
     structPtr = AllocZeroed(sizeof(*structPtr));
-    if (structPtr == NULL)
+    if (!structPtr)
         return NULL;
 
     switch (arg1)
@@ -6855,7 +6854,7 @@ struct Unknown_806F160_Struct *sub_806F2AC(u8 id, u8 arg1)
 
     structPtr->bytes = AllocZeroed(structPtr->field_3_0 * 0x800 * 4 * structPtr->field_0_0);
     structPtr->byteArrays = AllocZeroed(structPtr->field_0_0 * 32);
-    if (structPtr->bytes == NULL || structPtr->byteArrays == NULL)
+    if (!structPtr->bytes || !structPtr->byteArrays)
     {
         flags |= 1;
     }
@@ -6867,7 +6866,7 @@ struct Unknown_806F160_Struct *sub_806F2AC(u8 id, u8 arg1)
 
     structPtr->templates = AllocZeroed(sizeof(struct SpriteTemplate) * structPtr->field_0_0);
     structPtr->frameImages = AllocZeroed(sizeof(struct SpriteFrameImage) * structPtr->field_0_0 * structPtr->field_1);
-    if (structPtr->templates == NULL || structPtr->frameImages == NULL)
+    if (!structPtr->templates || !structPtr->frameImages)
     {
         flags |= 2;
     }

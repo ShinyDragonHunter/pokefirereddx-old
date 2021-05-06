@@ -3,17 +3,6 @@
 
 ALIGNED(4)
 const u8 gText_ExpandedPlaceholder_Empty[] = _("");
-const u8 gText_ExpandedPlaceholder_Kun[] = _("");
-const u8 gText_ExpandedPlaceholder_Chan[] = _("");
-const u8 gText_ExpandedPlaceholder_Sapphire[] = _("SAPPHIRE");
-const u8 gText_ExpandedPlaceholder_Ruby[] = _("RUBY");
-const u8 gText_ExpandedPlaceholder_Emerald[] = _("EMERALD");
-const u8 gText_ExpandedPlaceholder_Aqua[] = _("AQUA");
-const u8 gText_ExpandedPlaceholder_Magma[] = _("MAGMA");
-const u8 gText_ExpandedPlaceholder_Archie[] = _("ARCHIE");
-const u8 gText_ExpandedPlaceholder_Maxie[] = _("MAXIE");
-const u8 gText_ExpandedPlaceholder_Kyogre[] = _("KYOGRE");
-const u8 gText_ExpandedPlaceholder_Groudon[] = _("GROUDON");
 const u8 gText_ExpandedPlaceholder_Brendan[] = _("BRENDAN");
 const u8 gText_ExpandedPlaceholder_May[] = _("MAY");
 const u8 gText_EggNickname[] = _("EGG");
@@ -512,19 +501,20 @@ const u8 gText_EggAboutToHatch[] = _("It's making sounds.\nIt's about to hatch!"
 const u8 gText_EggWillHatchSoon[] = _("It moves occasionally.\nIt should hatch soon.");
 const u8 gText_EggWillTakeSomeTime[] = _("What will hatch from this?\nIt will take some time.");
 const u8 gText_EggWillTakeALongTime[] = _("It looks like this EGG will\ntake a long time to hatch.");
+const u8 gText_XNature[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1} nature");
+const u8 gText_EventLegal[] = _("event legal, ");
 const u8 gText_HMMovesCantBeForgotten2[] = _("HM moves can't be\nforgotten now.");
 const u8 gText_XNatureMetAtYZ[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1} nature,\n{DYNAMIC 5}met at {LV_2}{DYNAMIC 0}{DYNAMIC 3}{DYNAMIC 1},\n{DYNAMIC 0}{DYNAMIC 4}{DYNAMIC 1}.");
+const u8 gText_XNatureMetSomewhereAt[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1} nature,\n{DYNAMIC 5}met somewhere at {LV_2}{DYNAMIC 0}{DYNAMIC 3}{DYNAMIC 1}.");
 const u8 gText_XNatureHatchedAtYZ[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1} nature,\n{DYNAMIC 5}hatched at {LV_2}{DYNAMIC 0}{DYNAMIC 3}{DYNAMIC 1},\n{DYNAMIC 0}{DYNAMIC 4}{DYNAMIC 1}.");
-const u8 gText_SomewhereAt[] = _("somewhere");
-const u8 gText_EventLegal[] = _("event legal, ");
+const u8 gText_XNatureHatchedSomewhereAt[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1} nature,\n{DYNAMIC 5}hatched somewhere at {LV_2}{DYNAMIC 0}{DYNAMIC 3}{DYNAMIC 1}.");
 const u8 gText_XNatureFatefulEncounter[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1} nature,\nobtained in a fateful\nencounter at {LV_2}{DYNAMIC 0}{DYNAMIC 3}{DYNAMIC 1}.");
 const u8 gText_XNatureMetDistantLand[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1} nature,\n{DYNAMIC 5}met in a distant land.");
-const u8 gText_XNatureObtainedInTrade[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1} nature{DYNAMIC 5},\nobtained in a trade.");
-const u8 gText_XNatureProbablyMetAt[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1} nature{DYNAMIC 5},\nprobably met at {LV_2}{DYNAMIC 0}{DYNAMIC 3}{DYNAMIC 1},\n{DYNAMIC 0}{DYNAMIC 4}{DYNAMIC 1}.");
+const u8 gText_XNatureObtainedInTrade[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1} nature,\n{DYNAMIC 5}obtained in a trade.");
+const u8 gText_XNatureProbablyMetAt[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1} nature,\n{DYNAMIC 5}probably met at {LV_2}{DYNAMIC 0}{DYNAMIC 3}{DYNAMIC 1},\n{DYNAMIC 0}{DYNAMIC 4}{DYNAMIC 1}.");
 const u8 gText_ObtainedFromDad[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1} nature,\n{DYNAMIC 5}given to {DYNAMIC 4} by\nhis dad.");
 const u8 gText_Receivedfrom[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1} nature,\n{DYNAMIC 5}received from {DYNAMIC 4}.");
 const u8 gText_OldFriend[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1} nature,\n{DYNAMIC 5}{DYNAMIC 4}'s old friend.");
-const u8 gText_XNature[] = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1} nature");
 const u8 gText_EggFromElm[] = _("A POKéMON EGG obtained\nfrom PROF. ELM.");
 const u8 gText_EggFromHotSprings[] = _("A POKéMON EGG obtained\nat the hot springs.");
 #if UK
@@ -534,12 +524,12 @@ const u8 gText_EggFromTraveler[] = _("An odd POKéMON EGG\nobtained from a trave
 #endif
 const u8 gText_PeculiarEggNicePlace[] = _("A peculiar POKéMON EGG\nobtained at the nice place.");
 const u8 gText_PeculiarEggTrade[] = _("A peculiar POKéMON EGG\nobtained in a trade.");
-const u8 gText_OddEggFoundByCouple[] = _("An odd POKéMON EGG found\nby the DAY CARE couple.");
 #if UK
 const u8 gText_EggFromPokecomCenter[] = _("An odd POKéMON EGG\nobtained at the POKéCOM\nCENTRE in GOLDENROD CITY.");
 #else
 const u8 gText_EggFromPokecomCenter[] = _("An odd POKéMON EGG\nobtained at the POKéCOM\nCENTER in GOLDENROD CITY.");
 #endif
+const u8 gText_OddEggFoundByCouple[] = _("An odd POKéMON EGG found\nby the DAY CARE couple.");
 const u8 gText_ApostropheSBase[] = _("'s BASE");
 const u8 gText_OkayToDeleteFromRegistry[] = _("Is it okay to delete {STR_VAR_1}\nfrom the REGISTRY?");
 const u8 gText_RegisteredDataDeleted[] = _("The registered data was deleted.{PAUSE_UNTIL_PRESS}");

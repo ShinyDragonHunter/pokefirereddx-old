@@ -508,7 +508,7 @@ MauvilleCity_Text_WallyMyUncleWontKnowImStrong: @ 81DFA4A
 	.string "become really strong.$"
 
 MauvilleCity_Text_UncleCanYouBattleWally: @ 81DFAA5
-	.string "UNCLE: {PLAYER}{KUN}, was it?\n"
+	.string "UNCLE: {PLAYER}, was it?\n"
 	.string "On WALLY's behalf, can I ask you to\l"
 	.string "battle with him just this once?\p"
 	.string "I don't think he's going to listen to\n"
@@ -547,7 +547,7 @@ MauvilleCity_Text_UncleNoNeedToBeDown: @ 81DFC8A
 	.string "Everyone's waiting for you.$"
 
 MauvilleCity_Text_UncleVisitUsSometime: @ 81DFD34
-	.string "UNCLE: {PLAYER}{KUN}, it just dawned on me\n"
+	.string "UNCLE: {PLAYER}, it just dawned on me\n"
 	.string "that you must be the TRAINER who kept\l"
 	.string "an eye out for WALLY when he caught\l"
 	.string "his POKéMON.\p"
@@ -585,14 +585,14 @@ MauvilleCity_Text_ScottYouDidntHoldBack: @ 81DFED5
 	.string "I'll be cheering for you!$"
 
 MauvilleCity_Text_WattsonNeedFavorTakeKey: @ 81DFFE4
-	.string "WATTSON: Oh, {PLAYER}{KUN}!\n"
+	.string "WATTSON: Oh, {PLAYER}!\n"
 	.string "You look like you have a lot of zip!\l"
 	.string "That's a good thing, wahahahaha!\p"
 	.string "Fine! I've decided!\n"
-	.string "I need a favor, {PLAYER}{KUN}!\p"
+	.string "I need a favor, {PLAYER}!\p"
 	.string "MAUVILLE CITY has an underground\n"
 	.string "sector called NEW MAUVILLE.\p"
-	.string "{PLAYER}{KUN}, I'd like you to go there and\n"
+	.string "{PLAYER}, I'd like you to go there and\n"
 	.string "switch off the GENERATOR.\p"
 	.string "The GENERATOR has been running a bit\n"
 	.string "haywire. It's getting unsafe.\p"
@@ -609,7 +609,7 @@ MauvilleCity_Text_WattsonWontBeChallenge: @ 81E0154
 
 MauvilleCity_Text_WattsonThanksTakeTM: @ 81E020E
 	.string "WATTSON: Wahahahaha!\p"
-	.string "I knew it, {PLAYER}{KUN}! I knew I'd made\n"
+	.string "I knew it, {PLAYER}! I knew I'd made\n"
 	.string "the right choice asking you!\p"
 	.string "This is my thanks--a TM containing\n"
 	.string "THUNDERBOLT!\p"

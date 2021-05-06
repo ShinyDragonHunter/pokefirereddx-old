@@ -101,7 +101,7 @@ VerdanturfTown_WandasHouse_Text_StrongerSpeechShort: @ 8202ABE
 	.string "to another battle.$"
 
 VerdanturfTown_WandasHouse_Text_WallysNextDoor: @ 8202B37
-	.string "UNCLE: Oh! {PLAYER}{KUN}!\n"
+	.string "UNCLE: Oh! {PLAYER}!\n"
 	.string "WALLY's next door.\p"
 	.string "But, boy, there's something I have to\n"
 	.string "tell you.\p"

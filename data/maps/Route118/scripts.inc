@@ -257,7 +257,7 @@ Route118_EventScript_Deandre:: @ 81F40A7
 	end
 
 Route118_Text_StevenQuestions: @ 81F40BE
-	.string "STEVEN: Hi, {PLAYER}{KUN}!\p"
+	.string "STEVEN: Hi, {PLAYER}!\p"
 	.string "It's me, STEVEN!\n"
 	.string "We met in the cave near DEWFORD.\p"
 	.string "Have you met many kinds of POKéMON\n"

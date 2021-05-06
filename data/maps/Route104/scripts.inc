@@ -1102,7 +1102,7 @@ Route104_Text_TrainerTipsDoubleBattles: @ 81EDAEF
 	.string "Watch how POKéMON are lined up.$"
 
 Route104_Text_MayWeShouldRegister: @ 81EDBFF
-	.string "MAY: Oh, hi, {PLAYER}{KUN}!\p"
+	.string "MAY: Oh, hi, {PLAYER}!\p"
 	.string "DEVON upgraded your POKéNAV with\n"
 	.string "the MATCH CALL system, huh?\p"
 	.string "We should register each other so we\n"
@@ -1113,7 +1113,7 @@ Route104_Text_RegisteredMay: @ 81EDC8F
 	.string "in the POKéNAV.$"
 
 Route104_Text_MayHowsYourPokedex: @ 81EDCB1
-	.string "MAY: Oh, by the way, {PLAYER}{KUN},\n"
+	.string "MAY: Oh, by the way, {PLAYER},\n"
 	.string "how's your POKéDEX coming along?$"
 
 Route104_Text_MayMinesDecentLetsBattle: @ 81EDCED
@@ -1133,7 +1133,7 @@ Route104_Text_MayLetsBattle: @ 81EDD9F
 
 Route104_Text_MayIntro: @ 81EDDDB
 	.string "MAY: You just became a TRAINER,\n"
-	.string "{PLAYER}{KUN}. I'm not going to lose!$"
+	.string "{PLAYER}. I'm not going to lose!$"
 
 Route104_Text_MayDefeat: @ 81EDE18
 	.string "Yikes!\n"

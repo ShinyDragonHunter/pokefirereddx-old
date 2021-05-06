@@ -23,6 +23,7 @@ BattleFrontier_ReceptionGate_EventScript_FirstTimeEntering:: @ 82661F3
 	waitmovement 0
 	applymovement LOCALID_GREETER, Common_Movement_Delay48
 	waitmovement 0
+	textcolor RED
 	msgbox BattleFrontier_ReceptionGate_Text_FirstTimeHereThisWay, MSGBOX_DEFAULT
 	closemessage
 	applymovement OBJ_EVENT_ID_PLAYER, BattleFrontier_ReceptionGate_Movement_PlayerApproachCounter
@@ -34,12 +35,15 @@ BattleFrontier_ReceptionGate_EventScript_ScottScene:: @ 8266229
 	msgbox BattleFrontier_ReceptionGate_Text_WelcomeToBattleFrontier, MSGBOX_DEFAULT
 	msgbox BattleFrontier_ReceptionGate_Text_IssueFrontierPass, MSGBOX_DEFAULT
 	playfanfare MUS_OBTAIN_ITEM
+	textcolor DARK_GRAY
 	message BattleFrontier_ReceptionGate_Text_ObtainedFrontierPass
 	waitfanfare
 	waitmessage
 	msgbox BattleFrontier_ReceptionGate_Text_PlacedTrainerCardInFrontierPass, MSGBOX_DEFAULT
 	setflag FLAG_SYS_FRONTIER_PASS
+	textcolor RED
 	msgbox BattleFrontier_ReceptionGate_Text_EnjoyBattleFrontier, MSGBOX_DEFAULT
+	textcolor BLUE
 	msgbox BattleFrontier_ReceptionGate_Text_IfItIsntPlayerYouCame, MSGBOX_DEFAULT
 	closemessage
 	applymovement LOCALID_GREETER, Common_Movement_WalkInPlaceFastestUp
@@ -51,6 +55,7 @@ BattleFrontier_ReceptionGate_EventScript_ScottScene:: @ 8266229
 	applymovement LOCALID_GUIDE, Common_Movement_ExclamationMark
 	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_ExclamationMark
 	waitmovement 0
+	textcolor RED
 	msgbox BattleFrontier_ReceptionGate_Text_OhMrScottGoodDay, MSGBOX_DEFAULT
 	closemessage
 	applymovement LOCALID_GREETER, BattleFrontier_ReceptionGate_Movement_GreeterFaceScott
@@ -58,6 +63,7 @@ BattleFrontier_ReceptionGate_EventScript_ScottScene:: @ 8266229
 	applymovement OBJ_EVENT_ID_PLAYER, BattleFrontier_ReceptionGate_Movement_PlayerFaceScott
 	applymovement LOCALID_SCOTT, BattleFrontier_ReceptionGate_Movement_ScottEnter
 	waitmovement 0
+	textcolor BLUE
 	msgbox BattleFrontier_ReceptionGate_Text_ScottGreatToSeeYouHere, MSGBOX_DEFAULT
 	closemessage
 	applymovement LOCALID_SCOTT, BattleFrontier_ReceptionGate_Movement_ScottExit
@@ -79,12 +85,6 @@ BattleFrontier_ReceptionGate_Movement_PlayerFaceScott: @ 82662D7
 	delay_16
 	delay_8
 	walk_in_place_fastest_right
-	step_end
-
-@ Unused
-BattleFrontier_ReceptionGate_Movement_WalkDown: @ 82662DD
-	walk_down
-	walk_down
 	step_end
 
 BattleFrontier_ReceptionGate_Movement_ScottEnter: @ 82662E0
@@ -326,7 +326,7 @@ BattleFrontier_ReceptionGate_Text_EnjoyBattleFrontier: @ 82666C6
 	.string "FRONTIER has to offer!$"
 
 BattleFrontier_ReceptionGate_Text_IfItIsntPlayerYouCame: @ 8266703
-	.string "???: Well, if it isn't {PLAYER}{KUN}!\n"
+	.string "???: Well, if it isn't {PLAYER}!\n"
 	.string "You came out here!$"
 
 BattleFrontier_ReceptionGate_Text_OhMrScottGoodDay: @ 8266733

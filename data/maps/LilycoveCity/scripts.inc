@@ -425,19 +425,19 @@ LilycoveCity_EventScript_DontKnowAboutBerryBlender:: @ 81E3058
 
 LilycoveCity_Text_MayShoppingLetsBattle: @ 81E3061
 	.string "MAY: Oh, hey?\n"
-	.string "{PLAYER}{KUN}, are you shopping, too?\p"
+	.string "{PLAYER}, are you shopping, too?\p"
 	.string "I bought a whole bunch of DOLLS and\n"
 	.string "POSTERS.\p"
 	.string "Of course, I've also caught a lot of\n"
 	.string "POKéMON, and I'm raising them\l"
 	.string "properly, too.\p"
 	.string "Actually, I'm more worried if you're\n"
-	.string "raising POKéMON properly, {PLAYER}{KUN}.\p"
+	.string "raising POKéMON properly, {PLAYER}.\p"
 	.string "I'll battle with you, so you can show\n"
-	.string "me your POKéMON, {PLAYER}{KUN}.$"
+	.string "me your POKéMON, {PLAYER}.$"
 
 LilycoveCity_Text_MayNotRaisingPokemon: @ 81E318D
-	.string "MAY: Oh, why? {PLAYER}{KUN}, haven't you\n"
+	.string "MAY: Oh, why? {PLAYER}, haven't you\n"
 	.string "been raising your POKéMON?\p"
 	.string "That's not a very good showing as a\n"
 	.string "TRAINER…$"
@@ -448,14 +448,14 @@ LilycoveCity_Text_MayBattleMe: @ 81E31F5
 
 LilycoveCity_Text_MayWontBeBeaten: @ 81E3234
 	.string "MAY: The POKéMON I raised won't be\n"
-	.string "beaten by your POKéMON, {PLAYER}{KUN}!$"
+	.string "beaten by your POKéMON, {PLAYER}!$"
 
 LilycoveCity_Text_MayDefeat: @ 81E3275
 	.string "… … … … … … … …\p"
 	.string "I remember the battle I had with you,\n"
-	.string "{PLAYER}{KUN}, on ROUTE 103.\p"
+	.string "{PLAYER}, on ROUTE 103.\p"
 	.string "That battle helped you become this\n"
-	.string "strong, {PLAYER}{KUN}, didn't it?$"
+	.string "strong, {PLAYER}, didn't it?$"
 
 LilycoveCity_Text_MayGoingBackToLittleroot: @ 81E32FB
 	.string "MAY: I'm thinking of going back to\n"
@@ -465,16 +465,16 @@ LilycoveCity_Text_MayGoingBackToLittleroot: @ 81E32FB
 	.string "I'm going home to show my dad.$"
 
 LilycoveCity_Text_MayYouGoingToCollectBadges: @ 81E3398
-	.string "{PLAYER}{KUN}, what are you going to do?\p"
+	.string "{PLAYER}, what are you going to do?\p"
 	.string "Collect all the GYM BADGES and take\n"
 	.string "the POKéMON LEAGUE challenge?\p"
 	.string "Well, while you're collecting BADGES,\n"
-	.string "{PLAYER}{KUN}, I'm going to work on my\l"
+	.string "{PLAYER}, I'm going to work on my\l"
 	.string "POKéDEX. I'll complete it before you!\p"
 	.string "See you!$"
 
 LilycoveCity_Text_MayYouGoingToPokemonLeague: @ 81E346D
-	.string "{PLAYER}{KUN}, what are you going to do?\p"
+	.string "{PLAYER}, what are you going to do?\p"
 	.string "Are you taking the POKéMON LEAGUE\n"
 	.string "challenge?\p"
 	.string "Or, are you going to complete your\n"
@@ -484,7 +484,7 @@ LilycoveCity_Text_MayYouGoingToPokemonLeague: @ 81E346D
 	.string "See you!$"
 
 LilycoveCity_Text_MayYouGoingToBattleFrontier: @ 81E353A
-	.string "{PLAYER}{KUN}, what are you going to do?\p"
+	.string "{PLAYER}, what are you going to do?\p"
 	.string "Are you taking the BATTLE FRONTIER\n"
 	.string "challenge?\p"
 	.string "Or, are you going to complete your\n"

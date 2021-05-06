@@ -3,17 +3,6 @@
 
 // Placeholders
 extern const u8 gText_ExpandedPlaceholder_Empty[];
-extern const u8 gText_ExpandedPlaceholder_Kun[];
-extern const u8 gText_ExpandedPlaceholder_Chan[];
-extern const u8 gText_ExpandedPlaceholder_Sapphire[];
-extern const u8 gText_ExpandedPlaceholder_Ruby[];
-extern const u8 gText_ExpandedPlaceholder_Emerald[];
-extern const u8 gText_ExpandedPlaceholder_Aqua[];
-extern const u8 gText_ExpandedPlaceholder_Magma[];
-extern const u8 gText_ExpandedPlaceholder_Archie[];
-extern const u8 gText_ExpandedPlaceholder_Maxie[];
-extern const u8 gText_ExpandedPlaceholder_Kyogre[];
-extern const u8 gText_ExpandedPlaceholder_Groudon[];
 extern const u8 gText_ExpandedPlaceholder_Brendan[];
 extern const u8 gText_ExpandedPlaceholder_May[];
 
@@ -955,9 +944,10 @@ extern const u8 gText_OTSlash[];
 extern const u8 gText_IDNumber2[];
 extern const u8 gText_XNature[];
 extern const u8 gText_EventLegal[];
-extern const u8 gText_SomewhereAt[];
 extern const u8 gText_XNatureHatchedAtYZ[];
+extern const u8 gText_XNatureHatchedSomewhereAt[];
 extern const u8 gText_XNatureMetAtYZ[];
+extern const u8 gText_XNatureMetSomewhereAt[];
 extern const u8 gText_XNatureFatefulEncounter[];
 extern const u8 gText_XNatureProbablyMetAt[];
 

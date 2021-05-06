@@ -13,7 +13,7 @@ EventTicket_Text_BrineyHoldOnASecond: @ 82C6951
     .string "someone that I owe so much to?$"
 
 EventTicket_Text_BrineyLetsSail: @ 82C69AA
-    .string "{PLAYER}{KUN}, I'm terribly sorry.\p"
+    .string "{PLAYER}, I'm terribly sorry.\p"
     .string "You came to me seeking my help,\n"
     .string "and we almost turned you away.\p"
     .string "Well, let me make things right.\p"

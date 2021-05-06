@@ -1,5 +1,5 @@
 gBirchDexRatingText_AreYouCurious:: @ 82A5C9C
-	.string "PROF. BIRCH: Ah, {PLAYER}{KUN}!\p"
+	.string "PROF. BIRCH: Ah, {PLAYER}!\p"
 	.string "Are you curious about how your\n"
 	.string "POKéDEX is coming along?$"
 

@@ -115,5 +115,8 @@ void sub_8123030(u16 color, u32 coeff);
 void SetRegionMapDataForZoom(void);
 
 extern const struct RegionMapLocation gRegionMapEntries[];
+extern const u8 *const gJohtoRegionMapNames[];
+extern const u8 *const gOrreRegionMapNames[];
+extern const u8 *const gXDOrreRegionMapNames[];
 
 #endif //GUARD_REGION_MAP_H

@@ -3066,21 +3066,20 @@ static void BufferMonTrainerMemo(void)
             if (sum->metLocation == MAPSEC_AQUA_HIDEOUT_OLD)
                 GetMapNameGeneric(metLocationString, MAPSEC_SPECIAL_AREA + sum->metGame); // MAPSEC_AQUA_HIDEOUT if Sapphire, MAPSEC_MAGMA_HIDEOUT if Ruby.
             // Battle Tower in RS.
-            else if (sum->metLocation == MAPSEC_BATTLE_FRONTIER)
+            if (sum->metLocation == MAPSEC_BATTLE_FRONTIER)
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_BattleTower);
         }
-        if (sum->metLocation == MAPSEC_ROUTE_130 && sum->metLevel && (sum->species == SPECIES_MEWTWO // Heliodor has Mewtwo at this location.
+        if (sum->metLocation == MAPSEC_ROUTE_130 && sum->metLevel
+         && (sum->species == SPECIES_MEWTWO // Heliodor has Mewtwo at this location.
          || sum->species == SPECIES_WOBBUFFET // Check for Wobbuffet and Wynaut to get the
          || sum->species == SPECIES_WYNAUT)) // Mirage Island metLocationString at Route 130.
-        {
             GetMapNameGeneric(metLocationString, MAPSEC_MIRAGE_ISLAND);
-        }
         if (DoesMonOTMatchOwner())
         {
-            text = (sum->metLevel) ? gText_XNatureMetAtYZ : gText_XNatureHatchedAtYZ;
-
-            if (sum->metLocation >= maxMapsec)
-                DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_SomewhereAt);
+            if (sum->metLevel)
+                text = (sum->metLocation >= MAPSEC_NONE) ? gText_XNatureMetSomewhereAt : gText_XNatureMetAtYZ;
+            else
+                text = (sum->metLocation >= MAPSEC_NONE) ? gText_XNatureHatchedSomewhereAt : gText_XNatureHatchedAtYZ;
         }
         else if (sum->metLocation == METLOC_FATEFUL_ENCOUNTER)
         {
@@ -3201,7 +3200,7 @@ static void PrintEggState(void)
         text = gText_EggWillHatchSoon;
     else if (sum->friendship <= 40)
         text = gText_EggWillTakeSomeTime;
-    else if (sMonSummaryScreen->summary.sanity || sum->friendship >= 41)
+    else if (sum->friendship >= 41 || !sMonSummaryScreen->summary.sanity)
         text = gText_EggWillTakeALongTime;
 
     PrintTextOnWindow(AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_ABILITY), text, 0, 1, 0, 0);
@@ -3221,12 +3220,12 @@ static void PrintEggMemo(void)
     }
     else if (sum->metLocation == METLOC_FATEFUL_ENCOUNTER)
         text = gText_PeculiarEggNicePlace;
-    else if (!DoesMonOTMatchOwner())
+    else if (!DoesMonOTMatchOwner() && !sMonSummaryScreen->summary.sanity)
         text = gText_PeculiarEggTrade;
-    else if (sMonSummaryScreen->summary.sanity || sum->metLocation != JOHTO_MAPSEC_GOLDENROD_CITY - JOHTO_MAPSEC_START)
-        text = gText_OddEggFoundByCouple;
-    else
+    else if (sum->metLocation == JOHTO_MAPSEC_GOLDENROD_CITY - JOHTO_MAPSEC_START)
         text = gText_EggFromPokecomCenter;
+    else
+        text = gText_OddEggFoundByCouple;
 
     PrintTextOnWindow(AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_MEMO), text, 0, 1, 0, 0);
 }
@@ -3293,9 +3292,7 @@ static void PrintHeldItemName(void)
         text = gStringVar1;
     }
     else
-    {
         text = gText_None;
-    }
 
     x = GetStringCenterAlignXOffset(1, text, 72) + 6;
     PrintTextOnWindow(AddWindowFromTemplateList(sPageSkillsTemplate, PSS_DATA_WINDOW_SKILLS_HELD_ITEM), text, x, 1, 0, 0);
@@ -3313,9 +3310,7 @@ static void PrintRibbonCount(void)
         text = gStringVar4;
     }
     else
-    {
         text = gText_None;
-    }
 
     x = GetStringCenterAlignXOffset(1, text, 70) + 6;
     PrintTextOnWindow(AddWindowFromTemplateList(sPageSkillsTemplate, PSS_DATA_WINDOW_SKILLS_RIBBON_COUNT), text, x, 1, 0, 0);
@@ -3406,9 +3401,7 @@ static void PrintBattleMoves(void)
                 PrintMoveDetails(sMonSummaryScreen->newMove);
         }
         else
-        {
             PrintMoveDetails(sMonSummaryScreen->summary.moves[sMonSummaryScreen->firstMoveIndex]);
-        }
     }
 }
 
@@ -3419,16 +3412,10 @@ static void Task_PrintBattleMoves(u8 taskId)
     switch (data[0])
     {
     case 1:
-        PrintMoveNameAndPP(0);
-        break;
     case 2:
-        PrintMoveNameAndPP(1);
-        break;
     case 3:
-        PrintMoveNameAndPP(2);
-        break;
     case 4:
-        PrintMoveNameAndPP(3);
+        PrintMoveNameAndPP(data[0] - 1);
         break;
     case 5:
         if (sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE)
@@ -3500,9 +3487,7 @@ static void PrintMovePowerAndAccuracy(u16 moveIndex)
         FillWindowPixelRect(PSS_LABEL_WINDOW_MOVES_POWER_ACC, PIXEL_FILL(0), 53, 0, 19, 32);
 
         if (gBattleMoves[moveIndex].power < 2)
-        {
             text = gText_ThreeDashes;
-        }
         else
         {
             ConvertIntToDecimalStringN(gStringVar1, gBattleMoves[moveIndex].power, STR_CONV_MODE_RIGHT_ALIGN, 3);
@@ -3517,9 +3502,7 @@ static void PrintMovePowerAndAccuracy(u16 moveIndex)
             text = gStringVar1;
         }
         else
-        {
             text = gText_ThreeDashes;
-        }
 
         PrintTextOnWindow(PSS_LABEL_WINDOW_MOVES_POWER_ACC, text, 53, 17, 0, 0);
     }
@@ -3546,16 +3529,10 @@ static void Task_PrintContestMoves(u8 taskId)
     switch (data[0])
     {
     case 1:
-        PrintMoveNameAndPP(0);
-        break;
     case 2:
-        PrintMoveNameAndPP(1);
-        break;
     case 3:
-        PrintMoveNameAndPP(2);
-        break;
     case 4:
-        PrintMoveNameAndPP(3);
+        PrintMoveNameAndPP(data[0] - 1);
         break;
     case 5:
         if (sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE)
@@ -3603,15 +3580,11 @@ static void PrintMoveDetails(u16 move)
             PrintTextOnWindow(windowId, gMoveDescriptionPointers[move - 1], 6, 1, 0, 0);
         }
         else
-        {
             PrintTextOnWindow(windowId, gContestEffectDescriptionPointers[gContestMoves[move].effect], 6, 1, 0, 0);
-        }
         PutWindowTilemap(windowId);
     }
     else
-    {
         ClearWindowTilemap(windowId);
-    }
 
     ScheduleBgCopyTilemapToVram(0);
 }
@@ -3638,9 +3611,7 @@ static void PrintNewMoveDetailsOrCancelText(void)
         PrintTextOnWindow(windowId2, gStringVar4, GetStringRightAlignXOffset(1, gStringVar4, 44), 65, 0, 12);
     }
     else
-    {
         PrintTextOnWindow(windowId1, gText_Cancel, 0, 65, 0, 1);
-    }
 }
 
 static void SwapMovesNamesPP(u8 moveIndex1, u8 moveIndex2)
@@ -3800,9 +3771,7 @@ static void SetNewMoveTypeIcon(void)
             SetTypeSpritePosAndPal(NUMBER_OF_MON_TYPES + gContestMoves[sMonSummaryScreen->newMove].contestCategory, 85, 96, SPRITE_ARR_ID_TYPE + 4);
     }
     else
-    {
         SetSpriteInvisibility(SPRITE_ARR_ID_TYPE + 4, TRUE);
-    }
 }
 
 static void SwapMovesTypeSprites(u8 moveIndex1, u8 moveIndex2)
@@ -3836,19 +3805,13 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
         return CreateMonSprite(mon);
     case 0:
         if (gMain.inBattle)
-        {
             HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[1], formSpecies, summary->pid);
-        }
         else
         {
             if (gMonSpritesGfxPtr)
-            {
                 HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[1], formSpecies, summary->pid);
-            }
             else
-            {
                 HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], sub_806F4F8(0, 1), formSpecies, summary->pid);
-            }
         }
         (*state)++;
         return 0xFF;
@@ -4058,7 +4021,7 @@ static void SetMainMoveSelectorColor(u8 which)
     which *= 3;
     for (i = 0; i < MOVE_SELECTOR_SPRITES_COUNT; i++)
     {
-        if (i == 0)
+        if (!i)
             StartSpriteAnim(&gSprites[spriteIds[i]], which + 4);
         else if (i == 9)
             StartSpriteAnim(&gSprites[spriteIds[i]], which + 5);

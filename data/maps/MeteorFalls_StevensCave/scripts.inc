@@ -29,7 +29,7 @@ MeteorFalls_StevensCave_EventScript_Defeated:: @ 823B1CD
 	end
 
 MeteorFalls_StevensCave_Text_ShouldKnowHowGoodIAmExpectWorst: @ 823B1E1
-	.string "STEVEN: Oh, wow, {PLAYER}{KUN}.\n"
+	.string "STEVEN: Oh, wow, {PLAYER}.\n"
 	.string "I'm amazed you knew where to find me.\p"
 	.string "Do you, uh…maybe think of me as\n"
 	.string "just a rock maniac?\p"
@@ -38,7 +38,7 @@ MeteorFalls_StevensCave_Text_ShouldKnowHowGoodIAmExpectWorst: @ 823B1E1
 	.string "the SOOTOPOLIS SPACE CENTER.\p"
 	.string "You should have a very good idea\n"
 	.string "about how good I am.\p"
-	.string "Okay, {PLAYER}{KUN}, if you're going to mount\n"
+	.string "Okay, {PLAYER}, if you're going to mount\n"
 	.string "a serious challenge, expect the worst!$"
 
 MeteorFalls_StevensCave_Text_StevenDefeat: @ 823B32D

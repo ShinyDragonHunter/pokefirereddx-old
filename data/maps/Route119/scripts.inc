@@ -500,7 +500,7 @@ Route119_EventScript_ScottWonAtFortreeGymCall:: @ 81F49EC
 	end
 
 Route119_Text_MayIntro: @ 81F49FD
-	.string "MAY: {PLAYER}{KUN}!\n"
+	.string "MAY: {PLAYER}!\n"
 	.string "Where were you? I was looking for you!\p"
 	.string "How much stronger have you gotten?\n"
 	.string "Let me check for you!\p"
@@ -509,7 +509,7 @@ Route119_Text_MayIntro: @ 81F49FD
 
 Route119_Text_MayDefeat: @ 81F4A98
 	.string "Achah!\n"
-	.string "{PLAYER}{KUN}, you're strong!\p"
+	.string "{PLAYER}, you're strong!\p"
 	.string "I was worried that you might be\n"
 	.string "struggling with your training.$"
 
@@ -528,7 +528,7 @@ Route119_Text_MayExplainFly: @ 81F4B56
 	.string "You should FLY home and visit\n"
 	.string "LITTLEROOT for a change.\p"
 	.string "I bet your mom's worried about you,\n"
-	.string "{PLAYER}{KUN}.\p"
+	.string "{PLAYER}.\p"
 	.string "Well, let's meet again somewhere!$"
 
 Route119_Text_BrendanIntro: @ 81F4C9A
@@ -559,7 +559,7 @@ Route119_Text_BrendanExplainFly: @ 81F4DB5
 
 Route119_Text_ScottWayToGoBeSeeingYou: @ 81F4E60
 	.string "SCOTT: Hahahah!\n"
-	.string "Way to go, {PLAYER}{KUN}!\p"
+	.string "Way to go, {PLAYER}!\p"
 	.string "I just passed by a TRAINER riding\n"
 	.string "a BIKE.\p"
 	.string "You just beat that TRAINER, didn't you?\n"
@@ -575,7 +575,7 @@ Route119_Text_ScottWayToGoBeSeeingYou: @ 81F4E60
 Route119_Text_ScottYouWonAtFortreeGym: @ 81F4FBA
 	.string "… … … … … …\n"
 	.string "… … … … … Beep!\p"
-	.string "SCOTT: Hiya, {PLAYER}{KUN}, it's me!\p"
+	.string "SCOTT: Hiya, {PLAYER}, it's me!\p"
 	.string "Just as I thought, you won at\n"
 	.string "the FORTREE GYM.\p"
 	.string "Your strength…\n"

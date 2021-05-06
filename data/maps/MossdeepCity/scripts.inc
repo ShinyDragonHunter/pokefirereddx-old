@@ -415,7 +415,7 @@ MossdeepCity_Text_SpaceCenterSign: @ 81E541F
 	.string "“The closest place to space.”$"
 
 MossdeepCity_Text_ScottSomethingWrongWithTown: @ 81E5453
-	.string "SCOTT: {PLAYER}{KUN}, feeling good?\n"
+	.string "SCOTT: {PLAYER}, feeling good?\n"
 	.string "I'm doing great!\p"
 	.string "I'd heard MOSSDEEP's GYM LEADER is\n"
 	.string "pretty strong, so I decided to come\l"
