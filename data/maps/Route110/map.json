@@ -676,20 +676,6 @@
       "script": "Route110_EventScript_MauvilleCitySign"
     },
     {
-      "type": "secret_base",
-      "x": 16,
-      "y": 25,
-      "elevation": 0,
-      "secret_base_id": "SECRET_BASE_TREE3_1"
-    },
-    {
-      "type": "secret_base",
-      "x": 17,
-      "y": 25,
-      "elevation": 0,
-      "secret_base_id": "SECRET_BASE_TREE4_1"
-    },
-    {
       "type": "sign",
       "x": 33,
       "y": 39,

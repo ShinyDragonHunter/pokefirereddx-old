@@ -11,7 +11,6 @@
 #include "save_location.h"
 #include "trainer_hill.h"
 #include "gba/flash_internal.h"
-#include "decoration_inventory.h"
 #include "agb_flash.h"
 
 static void ApplyNewEncryptionKeyToAllEncryptedData(u32 encryptionKey);
@@ -82,7 +81,6 @@ void SetSaveBlocksPointers(u16 offset)
     gPokemonStoragePtr = (void*)(&gPokemonStorage) + offset;
 
     SetBagItemsPointers();
-    SetDecorationInventoriesPointers();
 }
 
 void MoveSaveBlocks_ResetHeap(void)

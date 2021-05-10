@@ -184,11 +184,9 @@ Route110_TrickHouseEnd_EventScript_ChooseTent:: @ 826AFA5
 	goto Route110_TrickHouseEnd_EventScript_GiveBlueTent
 
 Route110_TrickHouseEnd_EventScript_GiveRedTent:: @ 826AFBF
-	givedecoration DECOR_RED_TENT
 	return
 
 Route110_TrickHouseEnd_EventScript_GiveBlueTent:: @ 826AFC7
-	givedecoration DECOR_BLUE_TENT
 	return
 
 Route110_TrickHouseEnd_EventScript_TrickMasterExit:: @ 826AFCF
@@ -208,7 +206,6 @@ Route110_TrickHouseEnd_EventScript_BagFull:: @ 826AFEF
 	return
 
 Route110_TrickHouseEnd_EventScript_NoRoomForTent:: @ 826B002
-	call Common_EventScript_NoRoomForDecor
 	msgbox Route110_TrickHouseEnd_Text_NoRoomInPC, MSGBOX_DEFAULT
 	setvar VAR_TRICK_HOUSE_PRIZE_PICKUP, 1
 	return

@@ -4463,7 +4463,7 @@ static void CB2_SaveAndEndTrade(void)
         break;
     case 2:
         gMain.state = 50;
-        StringExpandPlaceholders(gStringVar4, gText_SavingDontTurnOffPower);
+        StringExpandPlaceholders(gStringVar4, gText_SavingDontTurnOff);
         DrawTextOnTradeWindow(0, gStringVar4, 0);
         break;
     case 50:
@@ -4776,7 +4776,7 @@ static void CB2_SaveAndEndWirelessTrade(void)
         if (_IsLinkTaskFinished())
         {
             gMain.state = 3;
-            StringExpandPlaceholders(gStringVar4, gText_SavingDontTurnOffPower);
+            StringExpandPlaceholders(gStringVar4, gText_SavingDontTurnOff);
             DrawTextOnTradeWindow(0, gStringVar4, 0);
             IncrementGameStat(GAME_STAT_POKEMON_TRADES);
             sub_8153380();

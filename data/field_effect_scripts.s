@@ -16,7 +16,6 @@ gFieldEffectScriptPointers:: @ 82DB9D4
 	.4byte gFieldEffectScript_SurfBlob                  @ FLDEFF_SURF_BLOB
 	.4byte gFieldEffectScript_UseSurf                   @ FLDEFF_USE_SURF
 	.4byte gFieldEffectScript_GroundImpactDust          @ FLDEFF_DUST
-	.4byte gFieldEffectScript_UseSecretPowerCave        @ FLDEFF_USE_SECRET_POWER_CAVE
 	.4byte gFieldEffectScript_JumpTallGrass             @ FLDEFF_JUMP_TALL_GRASS
 	.4byte gFieldEffectScript_SandFootprints            @ FLDEFF_SAND_FOOTPRINTS
 	.4byte gFieldEffectScript_JumpBigSplash             @ FLDEFF_JUMP_BIG_SPLASH
@@ -28,8 +27,6 @@ gFieldEffectScriptPointers:: @ 82DB9D4
 	.4byte gFieldEffectScript_BerryTreeGrowthSparkle    @ FLDEFF_BERRY_TREE_GROWTH_SPARKLE
 	.4byte gFieldEffectScript_DeepSandFootprints        @ FLDEFF_DEEP_SAND_FOOTPRINTS
 	.4byte gFieldEffectScript_PokeCenterHeal            @ FLDEFF_POKECENTER_HEAL
-	.4byte gFieldEffectScript_UseSecretPowerTree        @ FLDEFF_USE_SECRET_POWER_TREE
-	.4byte gFieldEffectScript_UseSecretPowerShrub       @ FLDEFF_USE_SECRET_POWER_SHRUB
 	.4byte gFieldEffectScript_TreeDisguise              @ FLDEFF_TREE_DISGUISE
 	.4byte gFieldEffectScript_MountainDisguise          @ FLDEFF_MOUNTAIN_DISGUISE
 	.4byte gFieldEffectScript_NPCUseFly                 @ FLDEFF_NPCFLY_OUT
@@ -52,16 +49,11 @@ gFieldEffectScriptPointers:: @ 82DB9D4
 	.4byte gFieldEffectScript_AshPuff                   @ FLDEFF_ASH_PUFF
 	.4byte gFieldEffectScript_AshLaunch                 @ FLDEFF_ASH_LAUNCH
 	.4byte gFieldEffectScript_SweetScent                @ FLDEFF_SWEET_SCENT
-	.4byte gFieldEffectScript_SandPillar                @ FLDEFF_SAND_PILLAR
 	.4byte gFieldEffectScript_Bubbles                   @ FLDEFF_BUBBLES
 	.4byte gFieldEffectScript_Sparkle                   @ FLDEFF_SPARKLE
-	.4byte gFieldEffectScript_ShowSecretPowerCave       @ FLDEFF_SECRET_POWER_CAVE
-	.4byte gFieldEffectScript_ShowSecretPowerTree       @ FLDEFF_SECRET_POWER_TREE
-	.4byte gFieldEffectScript_ShowSecretPowerShrub      @ FLDEFF_SECRET_POWER_SHRUB
 	.4byte gFieldEffectScript_ShowCutGrass              @ FLDEFF_CUT_GRASS
 	.4byte gFieldEffectScript_FieldMoveShowMonInit      @ FLDEFF_FIELD_MOVE_SHOW_MON_INIT
 	.4byte gFieldEffectScript_UsePuzzleEffect           @ FLDEFF_USE_TOMB_PUZZLE_EFFECT
-	.4byte gFieldEffectScript_SecretBaseBootPC          @ FLDEFF_PCTURN_ON
 	.4byte gFieldEffectScript_HallOfFameRecord          @ FLDEFF_HALL_OF_FAME_RECORD
 	.4byte gFieldEffectScript_UseTeleport               @ FLDEFF_USE_TELEPORT
 	.4byte gFieldEffectScript_RayquazaSpotlight         @ FLDEFF_RAYQUAZA_SPOTLIGHT
@@ -112,10 +104,6 @@ gFieldEffectScript_GroundImpactDust:: @ 82DBB28
 	field_eff_loadfadedpal_callnative gSpritePalette_GeneralFieldEffect0, FldEff_Dust
 	field_eff_end
 
-gFieldEffectScript_UseSecretPowerCave:: @ 82DBB32
-	field_eff_callnative FldEff_UseSecretPowerCave
-	field_eff_end
-
 gFieldEffectScript_JumpTallGrass:: @ 82DBB38
 	field_eff_loadfadedpal_callnative gSpritePalette_GeneralFieldEffect1, FldEff_JumpTallGrass
 	field_eff_end
@@ -159,14 +147,6 @@ gFieldEffectScript_DeepSandFootprints:: @ 82DBBAC
 gFieldEffectScript_PokeCenterHeal:: @ 82DBBB6
 	field_eff_loadfadedpal gSpritePalette_PokeballGlow
 	field_eff_loadfadedpal_callnative gSpritePalette_GeneralFieldEffect0, FldEff_PokecenterHeal
-	field_eff_end
-
-gFieldEffectScript_UseSecretPowerTree:: @ 82DBBC5
-	field_eff_callnative FldEff_UseSecretPowerTree
-	field_eff_end
-
-gFieldEffectScript_UseSecretPowerShrub:: @ 82DBBCB
-	field_eff_callnative FldEff_UseSecretPowerShrub
 	field_eff_end
 
 gFieldEffectScript_TreeDisguise:: @ 82DBBD1
@@ -258,28 +238,12 @@ gFieldEffectScript_SweetScent:: @ 82DBC80
 	field_eff_callnative FldEff_SweetScent
 	field_eff_end
 
-gFieldEffectScript_SandPillar:: @ 82DBC86
-	field_eff_loadfadedpal_callnative gSpritePalette_SandPillar, FldEff_SandPillar
-	field_eff_end
-
 gFieldEffectScript_Bubbles:: @ 82DBC90
 	field_eff_loadfadedpal_callnative gSpritePalette_GeneralFieldEffect0, FldEff_Bubbles
 	field_eff_end
 
 gFieldEffectScript_Sparkle:: @ 82DBC9A
 	field_eff_loadfadedpal_callnative gSpritePalette_SmallSparkle, FldEff_Sparkle
-	field_eff_end
-
-gFieldEffectScript_ShowSecretPowerCave:: @ 82DBCA4
-	field_eff_loadfadedpal_callnative gSpritePalette_SecretPower_Cave, FldEff_SecretPowerCave
-	field_eff_end
-
-gFieldEffectScript_ShowSecretPowerTree:: @ 82DBCAE
-	field_eff_loadfadedpal_callnative gSpritePalette_SecretPower_Plant, FldEff_SecretPowerTree
-	field_eff_end
-
-gFieldEffectScript_ShowSecretPowerShrub:: @ 82DBCB8
-	field_eff_loadfadedpal_callnative gSpritePalette_SecretPower_Plant, FldEff_SecretPowerShrub
 	field_eff_end
 
 gFieldEffectScript_ShowCutGrass:: @ 82DBCC2
@@ -292,10 +256,6 @@ gFieldEffectScript_FieldMoveShowMonInit:: @ 82DBCCC
 
 gFieldEffectScript_UsePuzzleEffect:: @ 82DBCD2
 	field_eff_callnative FldEff_UsePuzzleEffect
-	field_eff_end
-
-gFieldEffectScript_SecretBaseBootPC:: @ 82DBCD8
-	field_eff_callnative FldEff_SecretBasePCTurnOn
 	field_eff_end
 
 gFieldEffectScript_HallOfFameRecord:: @ 82DBCDE

@@ -171,34 +171,5 @@
     }
   ],
   "coord_events": [],
-  "bg_events": [
-    {
-      "type": "secret_base",
-      "x": 53,
-      "y": 10,
-      "elevation": 0,
-      "secret_base_id": "SECRET_BASE_RED_CAVE1_2"
-    },
-    {
-      "type": "secret_base",
-      "x": 55,
-      "y": 11,
-      "elevation": 0,
-      "secret_base_id": "SECRET_BASE_RED_CAVE4_2"
-    },
-    {
-      "type": "secret_base",
-      "x": 7,
-      "y": 25,
-      "elevation": 0,
-      "secret_base_id": "SECRET_BASE_YELLOW_CAVE2_2"
-    },
-    {
-      "type": "secret_base",
-      "x": 24,
-      "y": 32,
-      "elevation": 0,
-      "secret_base_id": "SECRET_BASE_YELLOW_CAVE4_2"
-    }
-  ]
+  "bg_events": []
 }

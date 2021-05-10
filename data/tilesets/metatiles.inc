@@ -247,14 +247,6 @@ gMetatileAttributes_RusturfTunnel:: @ 83BB76C
 	.incbin "data/tilesets/secondary/rusturf_tunnel/metatile_attributes.bin"
 
 	.align 1
-gMetatiles_SecretBaseSecondary:: @ 83BB812
-	.incbin "data/tilesets/secondary/secret_base/metatiles.bin"
-
-	.align 1
-gMetatileAttributes_SecretBaseSecondary:: @ 83BCC52
-	.incbin "data/tilesets/secondary/secret_base/metatile_attributes.bin"
-
-	.align 1
 gMetatiles_InsideOfTruck:: @ 83BCEDA
 	.incbin "data/tilesets/secondary/inside_of_truck/metatiles.bin"
 
@@ -397,14 +389,6 @@ gMetatiles_InsideShip:: @ 83C8D0C
 	.align 1
 gMetatileAttributes_InsideShip:: @ 83C9CCC
 	.incbin "data/tilesets/secondary/inside_ship/metatile_attributes.bin"
-
-	.align 1
-gMetatiles_SecretBasePrimary:: @ 83C9EC4
-	.incbin "data/tilesets/primary/secret_base/metatiles.bin"
-
-	.align 1
-gMetatileAttributes_SecretBasePrimary:: @ 83C9EE4
-	.incbin "data/tilesets/primary/secret_base/metatile_attributes.bin"
 
 	.align 1
 gMetatiles_EliteFour:: @ 83C9EE8

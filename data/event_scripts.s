@@ -17,7 +17,6 @@
 #include "constants/contest.h"
 #include "constants/daycare.h"
 #include "constants/day_night.h"
-#include "constants/decorations.h"
 #include "constants/easy_chat.h"
 #include "constants/event_objects.h"
 #include "constants/event_object_movement.h"
@@ -36,14 +35,12 @@
 #include "constants/lilycove_lady.h"
 #include "constants/map_scripts.h"
 #include "constants/maps.h"
-#include "constants/mauville_old_man.h"
 #include "constants/metatile_labels.h"
 #include "constants/moves.h"
 #include "constants/party_menu.h"
 #include "constants/pokemon.h"
 #include "constants/roulette.h"
 #include "constants/script_menu.h"
-#include "constants/secret_bases.h"
 #include "constants/songs.h"
 #include "constants/species.h"
 #include "constants/trade.h"
@@ -97,7 +94,6 @@ gStdScripts:: @ 81DC2A0
 	.4byte Std_MsgboxDefault           @ MSGBOX_DEFAULT
 	.4byte Std_MsgboxYesNo             @ MSGBOX_YESNO
 	.4byte Std_MsgboxAutoclose         @ MSGBOX_AUTOCLOSE
-	.4byte Std_ObtainDecoration        @ STD_OBTAIN_DECORATION
 	.4byte Std_RegisteredInMatchCall   @ STD_REGISTER_MATCH_CALL
 	.4byte Std_MsgboxGetPoints         @ MSGBOX_GETPOINTS
 	.4byte Std_10
@@ -449,7 +445,6 @@ gStdScripts_End:: @ 81DC2CC
 	.include "data/maps/TerraCave_End/scripts.inc"
 	.include "data/maps/AlteringCave/scripts.inc"
 	.include "data/maps/MeteorFalls_StevensCave/scripts.inc"
-	.include "data/scripts/shared_secret_base.inc"
 	.include "data/maps/BattleColosseum_2P/scripts.inc"
 	.include "data/maps/TradeCenter/scripts.inc"
 	.include "data/maps/RecordCorner/scripts.inc"
@@ -701,15 +696,6 @@ Common_EventScript_BagIsFull:: @ 827205E
 	msgbox gText_TooBadBagIsFull, MSGBOX_DEFAULT
 	return
 
-Common_EventScript_ShowNoRoomForDecor:: @ 8272067
-	msgbox gText_NoRoomLeftForAnother, MSGBOX_DEFAULT
-	release
-	end
-
-Common_EventScript_NoRoomForDecor:: @ 8272071
-	msgbox gText_NoRoomLeftForAnother, MSGBOX_DEFAULT
-	return
-
 Common_EventScript_SetAbnormalWeather:: @ 827207A
 	setweather WEATHER_ABNORMAL
 	return
@@ -786,21 +772,6 @@ RusturfTunnel_EventScript_SetRusturfTunnelOpen:: @ 8272216
 	setflag FLAG_RUSTURF_TUNNEL_OPENED
 	return
 
-EventScript_UnusedBoardFerry:: @ 827222B
-	delay 30
-	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFastestUp
-	waitmovement 0
-	showobjectat OBJ_EVENT_ID_PLAYER, 0
-	delay 30
-	applymovement OBJ_EVENT_ID_PLAYER, Movement_UnusedBoardFerry
-	waitmovement 0
-	delay 30
-	return
-
-Movement_UnusedBoardFerry: @ 827224E
-	walk_up
-	step_end
-
 Common_EventScript_FerryDepartIsland:: @ 8272250
 	compare VAR_FACING, DIR_SOUTH
 	call_if_eq Ferry_EventScript_DepartIslandSouth
@@ -843,9 +814,15 @@ gText_PokemartSign:: @ 8272B6A
 	.string "“Selected items for your convenience!”\n"
 	.string "POKéMON MART$"
 
+.if UK
+gText_PokemonCenterSign:: @ 8272B9E
+	.string "“Rejuvenate your tired partners!”\n"
+	.string "POKéMON CENTRE$"
+.else
 gText_PokemonCenterSign:: @ 8272B9E
 	.string "“Rejuvenate your tired partners!”\n"
 	.string "POKéMON CENTER$"
+.endif
 
 gText_MomOrDadMightLikeThisProgram:: @ 8272BCF
 	.string "{STR_VAR_1} might like this program.\n"
@@ -879,10 +856,6 @@ gText_PlayerHouseBootPC:: @ 8272D87
 gText_PokeblockLinkCanceled:: @ 8272D9C
 	.string "The link was canceled.$"
 
-gText_UnusedNicknameReceivedPokemon:: @ 8272DB3
-	.string "Want to give a nickname to\n"
-	.string "the {STR_VAR_2} you received?$"
-
 gText_PlayerWhitedOut:: @ 8272DE3
 	.string "{PLAYER} is out of usable\n"
 	.string "POKéMON!\p{PLAYER} whited out!$"
@@ -890,15 +863,6 @@ gText_PlayerWhitedOut:: @ 8272DE3
 gText_RegisteredTrainerinPokeNav:: @ 8272E0F
 	.string "{COLOR DARK_GRAY}Registered {STR_VAR_1} {STR_VAR_2}\n"
 	.string "in the POKéNAV.$"
-
-gText_ComeBackWithSecretPower:: @ 8272E30
-	.string "Do you know the TM SECRET POWER?\p"
-	.string "Our group, we love the TM SECRET\n"
-	.string "POWER.\p"
-	.string "One of our members will give it to you.\n"
-	.string "Come back and show me if you get it.\p"
-	.string "We'll accept you as a member and sell\n"
-	.string "you good stuff in secrecy.$"
 
 gText_PokerusExplanation:: @ 8272F07
 	.string "Your POKéMON may be infected with\n"
@@ -926,16 +890,6 @@ gText_SorryWirelessClubAdjustments:: @ 827306F
 gText_UndergoingAdjustments:: @ 82730BC
 	.string "It appears to be undergoing\n"
 	.string "adjustments…$"
-
-@ Unused
-gText_SorryTradeCenterInspections:: @ 82730E5
-	.string "I'm terribly sorry. The TRADE CENTER\n"
-	.string "is undergoing inspections.$"
-
-@ Unused
-gText_SorryRecordCornerPreparation:: @ 8273125
-	.string "I'm terribly sorry. The RECORD CORNER\n"
-	.string "is under preparation.$"
 
 gText_PlayerHandedOverTheItem:: @ 8273161
 	.string "{PLAYER} handed over the\n"
@@ -968,11 +922,6 @@ EventScript_SelectWithoutRegisteredItem:: @ 82736B3
 	.include "data/scripts/field_poison.inc"
 
 Common_EventScript_NopReturn:: @ 827374E
-	return
-
-@ Unused
-EventScript_CableClub_SetVarResult1:: @ 827374F
-	setvar VAR_RESULT, 1
 	return
 
 EventScript_CableClub_SetVarResult0:: @ 8273755
@@ -1012,7 +961,6 @@ Common_EventScript_LegendaryFlewAway:: @ 8273776
 	.include "data/scripts/abnormal_weather.inc"
 	.include "data/scripts/trainer_script.inc"
 	.include "data/scripts/berry_tree.inc"
-	.include "data/scripts/secret_base.inc"
 	.include "data/scripts/cable_club.inc"
 	.include "data/text/cable_club.inc"
 	.include "data/scripts/contest_hall.inc"
@@ -1025,7 +973,6 @@ Common_EventScript_LegendaryFlewAway:: @ 8273776
 	.include "data/scripts/interview.inc"
 	.include "data/scripts/gabby_and_ty.inc"
 	.include "data/text/pokemon_news.inc"
-	.include "data/scripts/mauville_man.inc"
 	.include "data/scripts/field_move_scripts.inc"
 	.include "data/scripts/item_ball_scripts.inc"
 	.include "data/scripts/mystery_event_club.inc"
@@ -1033,7 +980,6 @@ Common_EventScript_LegendaryFlewAway:: @ 8273776
 	.include "data/scripts/flash.inc"
 	.include "data/scripts/players_house.inc"
 	.include "data/scripts/berry_blender.inc"
-	.include "data/text/mauville_man.inc"
 	.include "data/text/trainers.inc"
 	.include "data/scripts/repel.inc"
 	.include "data/scripts/safari_zone.inc"

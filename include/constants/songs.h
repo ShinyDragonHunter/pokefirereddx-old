@@ -266,16 +266,14 @@
 #define SE_RG_HELP_CLOSE            258 // SE_RG_HELP_CL
 #define SE_RG_HELP_ERROR            259 // SE_RG_HELP_NG
 #define SE_RG_DEOXYS_MOVE           260 // SE_RG_DEOMOV
-#define SE_RG_POKE_JUMP_SUCCESS     261 // SE_RG_EXCELLENT
-#define SE_RG_POKE_JUMP_FAILURE     262 // SE_RG_NAWAMISS 
 // New Emerald SFX
-#define SE_POKENAV_CALL             263 // SE_TOREEYE
-#define SE_POKENAV_HANG_UP          264 // SE_TOREOFF
-#define SE_ARENA_TIMEUP1            265 // SE_HANTEI1
-#define SE_ARENA_TIMEUP2            266 // SE_HANTEI2
-#define SE_PIKE_CURTAIN_CLOSE       267 // SE_CURTAIN
-#define SE_PIKE_CURTAIN_OPEN        268 // SE_CURTAIN1
-#define SE_SUDOWOODO_SHAKE          269 // SE_USSOKI
+#define SE_POKENAV_CALL             261 // SE_TOREEYE
+#define SE_POKENAV_HANG_UP          262 // SE_TOREOFF
+#define SE_ARENA_TIMEUP1            263 // SE_HANTEI1
+#define SE_ARENA_TIMEUP2            264 // SE_HANTEI2
+#define SE_PIKE_CURTAIN_CLOSE       265 // SE_CURTAIN
+#define SE_PIKE_CURTAIN_OPEN        266 // SE_CURTAIN1
+#define SE_SUDOWOODO_SHAKE          267 // SE_USSOKI
 
 // Music
 #define MUS_LITTLEROOT_TEST         350 // MUS_TETSUJI
@@ -488,58 +486,6 @@
 #define MUS_RG_TRAINER_TOWER        556 // MUS_RG_T_TOWER
 #define MUS_RG_SLOW_PALLET          557 // MUS_RG_SLOWMASARA
 #define MUS_RG_TEACHY_TV_MENU       558 // MUS_RG_TVNOIZE
-
-#define PH_TRAP_BLEND               559
-#define PH_TRAP_HELD                560
-#define PH_TRAP_SOLO                561
-#define PH_FACE_BLEND               562
-#define PH_FACE_HELD                563
-#define PH_FACE_SOLO                564
-#define PH_CLOTH_BLEND              565
-#define PH_CLOTH_HELD               566
-#define PH_CLOTH_SOLO               567
-#define PH_DRESS_BLEND              568
-#define PH_DRESS_HELD               569
-#define PH_DRESS_SOLO               570
-#define PH_FLEECE_BLEND             571
-#define PH_FLEECE_HELD              572
-#define PH_FLEECE_SOLO              573
-#define PH_KIT_BLEND                574
-#define PH_KIT_HELD                 575
-#define PH_KIT_SOLO                 576
-#define PH_PRICE_BLEND              577
-#define PH_PRICE_HELD               578
-#define PH_PRICE_SOLO               579
-#define PH_LOT_BLEND                580
-#define PH_LOT_HELD                 581
-#define PH_LOT_SOLO                 582
-#define PH_GOAT_BLEND               583
-#define PH_GOAT_HELD                584
-#define PH_GOAT_SOLO                585
-#define PH_THOUGHT_BLEND            586
-#define PH_THOUGHT_HELD             587
-#define PH_THOUGHT_SOLO             588
-#define PH_CHOICE_BLEND             589
-#define PH_CHOICE_HELD              590
-#define PH_CHOICE_SOLO              591
-#define PH_MOUTH_BLEND              592
-#define PH_MOUTH_HELD               593
-#define PH_MOUTH_SOLO               594
-#define PH_FOOT_BLEND               595
-#define PH_FOOT_HELD                596
-#define PH_FOOT_SOLO                597
-#define PH_GOOSE_BLEND              598
-#define PH_GOOSE_HELD               599
-#define PH_GOOSE_SOLO               600
-#define PH_STRUT_BLEND              601
-#define PH_STRUT_HELD               602
-#define PH_STRUT_SOLO               603
-#define PH_CURE_BLEND               604
-#define PH_CURE_HELD                605
-#define PH_CURE_SOLO                606
-#define PH_NURSE_BLEND              607
-#define PH_NURSE_HELD               608
-#define PH_NURSE_SOLO               609
 
 #define MUS_ROUTE118                0x7FFF  // Map is split into 2 music sections. controlled by GetCurrLocationDefaultMusic().
 

@@ -28,5 +28,5 @@ voicegroup001:: @ 8675FEC
 	voice_square_1 60, 0, 0, 0, 0, 1, 6, 0  @ 8676118
 	voice_square_1 60, 0, 0, 2, 0, 0, 15, 0  @ 8676124
 	voice_square_1 60, 0, 0, 2, 0, 0, 15, 0  @ 8676130
-	voice_directsound 60, 0, DirectSoundWaveData_classical_choir_voice_ahhs, 255, 0, 255, 0  @ 867613C
+	voice_square_1 60, 0, 0, 2, 0, 0, 15, 0  @ 867613C
 

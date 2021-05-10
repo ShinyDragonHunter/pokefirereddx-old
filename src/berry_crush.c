@@ -3222,7 +3222,7 @@ static u32 Cmd_SaveGame(struct BerryCrushGame *game, u8 *args)
         if (!IsLinkTaskFinished())
             return 0;
         DrawDialogueFrame(0, 0);
-        AddTextPrinterParameterized2(0, 2, gText_SavingDontTurnOffPower, 0, 0, 2, 1, 3);
+        AddTextPrinterParameterized2(0, 2, gText_SavingDontTurnOff, 0, 0, 2, 1, 3);
         CopyWindowToVram(0, 3);
         CreateTask(Task_LinkSave, 0);
         break;

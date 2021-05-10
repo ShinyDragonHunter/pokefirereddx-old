@@ -1225,7 +1225,7 @@ static void Task_SaveAfterLinkBattle(u8 taskId)
             FillWindowPixelBuffer(0, PIXEL_FILL(1));
             AddTextPrinterParameterized2(0,
                                         1,
-                                        gText_SavingDontTurnOffPower,
+                                        gText_SavingDontTurnOff,
                                         TEXT_SPEED_FF,
                                         NULL,
                                         TEXT_COLOR_DARK_GRAY,
@@ -1291,8 +1291,6 @@ static void Task_SaveAfterLinkBattle(u8 taskId)
 
 static void ShowSaveInfoWindow(void)
 {
-    u8 gender;
-    u8 color;
     u32 xOffset;
     u32 yOffset;
 
@@ -1300,15 +1298,9 @@ static void ShowSaveInfoWindow(void)
     LoadThinWindowBorderGfx(sSaveInfoWindowId, 0x21D, 0xD0);
     DrawStdFrameWithCustomTileAndPalette(sSaveInfoWindowId, FALSE, 0x21D, 13);
 
-    gender = gSaveBlock2Ptr->playerGender;
-    color = TEXT_COLOR_BLUE;  // Red when female, blue when male.
-
-    if (gender)
-        color = TEXT_COLOR_RED;
-
     // Print region name
     yOffset = 0;
-    BufferSaveMenuText(SAVE_MENU_LOCATION, gStringVar4, color);
+    BufferSaveMenuText(SAVE_MENU_LOCATION, gStringVar4, (gSaveBlock2Ptr->playerGender) ? TEXT_COLOR_RED : TEXT_COLOR_BLUE); // Red when female, blue when male.
     xOffset = GetStringCenterAlignXOffset(2, gStringVar4, 0x70);
     AddTextPrinterParameterized(sSaveInfoWindowId, 2, gStringVar4, xOffset, yOffset, TEXT_SPEED_FF, NULL);
 

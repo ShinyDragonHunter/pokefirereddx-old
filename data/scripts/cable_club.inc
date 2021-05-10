@@ -30,11 +30,6 @@ CableClub_EventScript_MysteryGiftMan:: @ 8276B03
 CableClub_EventScript_AlreadyGotEonTicket:: @ 8276B19
 	gotoram
 
-@ Unused?
-CableClub_EventScript_MysteryGiftThankYou:: @ 8276B1A
-	msgbox gText_ThankYouForAccessingMysteryGift, MSGBOX_NPC
-	end
-
 CableClub_EventScript_DistributeEonTicket:: @ 8276B23
 	checkitem ITEM_EON_TICKET, 1
 	compare VAR_RESULT, TRUE
@@ -45,12 +40,6 @@ CableClub_EventScript_DistributeEonTicket:: @ 8276B23
 	setflag FLAG_ENABLE_SHIP_SOUTHERN_ISLAND
 	setvar VAR_DISTRIBUTE_EON_TICKET, 0
 	msgbox Mevent_Text_TryUsingItAtLilycovePort, MSGBOX_DEFAULT
-	release
-	end
-
-@ Unused?
-CableClub_EventScript_MysteryGiftThankYou2:: @ 8276B62
-	msgbox gText_ThankYouForAccessingMysteryGift, MSGBOX_DEFAULT
 	release
 	end
 
@@ -80,13 +69,13 @@ CableClub_OnLoad: @ 8276BBE
 	compare VAR_CABLE_CLUB_STATE, USING_MULTI_BATTLE
 	goto_if_eq CableClub_EventScript_OnLoadFromColosseum
 	compare VAR_CABLE_CLUB_STATE, USING_TRADE_CENTER
-	goto_if_eq CableClub_EventScript_OnLoadFromTradeCenter
+	goto_if_eq CableClub_EventScript_OnLoadFromColosseum
 	compare VAR_CABLE_CLUB_STATE, USING_RECORD_CORNER
-	goto_if_eq CableClub_EventScript_OnLoadFromRecordCorner
+	goto_if_eq CableClub_EventScript_OnLoadFromColosseum
 	compare VAR_CABLE_CLUB_STATE, USING_UNION_ROOM
 	goto_if_eq CableClub_EventScript_OnLoadFromUnionRoom
 	compare VAR_CABLE_CLUB_STATE, USING_BERRY_CRUSH
-	goto_if_eq CableClub_EventScript_OnLoadFromBerryCrush
+	goto_if_eq CableClub_EventScript_OnLoadFromColosseum
 	compare VAR_CABLE_CLUB_STATE, USING_MINIGAME
 	goto_if_eq CableClub_EventScript_OnLoadFromGameCorner
 	end
@@ -95,20 +84,8 @@ CableClub_EventScript_OnLoadFromColosseum:: @ 8276C17
 	call CableClub_EventScript_OpenDirectCornerBarrier
 	end
 
-CableClub_EventScript_OnLoadFromTradeCenter:: @ 8276C1D
-	call CableClub_EventScript_OpenDirectCornerBarrier
-	end
-
-CableClub_EventScript_OnLoadFromRecordCorner:: @ 8276C23
-	call CableClub_EventScript_OpenDirectCornerBarrier
-	end
-
 CableClub_EventScript_OnLoadFromUnionRoom:: @ 8276C29
 	call CableClub_EventScript_OpenUnionRoomBarrier
-	end
-
-CableClub_EventScript_OnLoadFromBerryCrush:: @ 8276C2F
-	call CableClub_EventScript_OpenDirectCornerBarrier
 	end
 
 CableClub_EventScript_OnLoadFromGameCorner:: @ 8276C35
@@ -242,6 +219,7 @@ CableClub_EventScript_Tutorial:: @ 8276DE0
 	lockall
 	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFastestUp
 	waitmovement 0
+	textcolor RED
 	msgbox CableClub_Text_FirstTimeRightThisWay, MSGBOX_DEFAULT
 	closemessage
 	applymovement OBJ_EVENT_ID_PLAYER, CableClub_Movement_PlayerApproachCounter
@@ -252,20 +230,10 @@ CableClub_EventScript_Tutorial:: @ 8276DE0
 	releaseall
 	end
 
-CableClub_Movement_PlayerApproachCounter: @ 8276E10
-	walk_up
-	walk_up
-	step_end
-
 CableClub_EventScript_WelcomeToCableClub:: @ 8276E13
 	message CableClub_Text_WelcomeWhichCableClubService
 	waitmessage
 	delay 28
-	goto CableClub_EventScript_SelectCableClubRoom
-	end
-
-CableClub_EventScript_UnusedWelcomeToCableClub:: @ 8276E22
-	msgbox CableClub_Text_WhichService, MSGBOX_DEFAULT
 	goto CableClub_EventScript_SelectCableClubRoom
 	end
 
@@ -389,12 +357,6 @@ CableClub_EventScript_EnterColosseum:: @ 8276FBD
 	special DoCableClubWarp
 	waitstate
 	end
-
-@ Unused
-CableClub_EventScript_PlayerApproachLinkRoomRight:: @ 827702B
-	applymovement OBJ_EVENT_ID_PLAYER, Movement_PlayerApproachLinkRoomRight
-	waitmovement 0
-	return
 
 CableClub_EventScript_WarpTo4PColosseum:: @ 8277036
 	special SetCableClubWarp
@@ -610,13 +572,6 @@ MossdeepCity_GameCorner_1F_EventScript_AbortMinigame:: @ 82772F9
 	release
 	end
 
-@ Unused
-CableClub_EventScript_CableClubWarp:: @ 8277306
-	special SetCableClubWarp
-	special DoCableClubWarp
-	waitstate
-	end
-
 CableClub_EventScript_AbortLinkIncorrectNumberOfParticipants:: @ 827730E
 	special CloseLink
 	msgbox CableClub_Text_IncorrectNumberOfParticipants, MSGBOX_DEFAULT
@@ -649,11 +604,6 @@ Movement_AttendantFaceDown: @ 8277349
 	face_down
 	step_end
 
-@ Unused
-Movement_AttendantFaceRight: @ 827734B
-	face_right
-	step_end
-
 Movement_AttendantFaceLeft: @ 827734D
 	face_left
 	step_end
@@ -672,17 +622,10 @@ Movement_PlayerApproachLinkRoomRight: @ 8277352
 
 Movement_PlayerApproachLinkRoomLeft: @ 8277356
 	walk_left
+CableClub_Movement_PlayerApproachCounter: @ 8276E10
 	walk_up
-	walk_up
-	step_end
-
 Movement_PlayerEnterLinkRoom: @ 827735A
 	walk_up
-	step_end
-
-@ Unused
-Movement_PlayerFaceAttendantLeft: @ 827735C
-	face_left
 	step_end
 
 Movement_PlayerFaceAttendantRight: @ 827735E
@@ -759,8 +702,6 @@ EventScript_BattleColosseum_4P_PlayerSpot3:: @ 82773D9
 	setvar VAR_0x8005, 3
 	special ColosseumPlayerSpotTriggered
 	waitstate
-	end
-
 EventScript_BattleColosseum_4P_CancelSpotTrigger:: @ 82773F4
 	end
 
@@ -772,20 +713,6 @@ EventScript_TradeCenter_Chair0:: @ 82773F5
 
 EventScript_TradeCenter_Chair1:: @ 82773FF
 	setvar VAR_0x8005, 1
-	special PlayerEnteredTradeSeat
-	waitstate
-	end
-
-/* Never used */
-EventScript_TradeCenter_Chair2:: @ 8277409
-	setvar VAR_0x8005, 2
-	special PlayerEnteredTradeSeat
-	waitstate
-	end
-
-/* Never used */
-EventScript_TradeCenter_Chair3:: @ 8277413
-	setvar VAR_0x8005, 3
 	special PlayerEnteredTradeSeat
 	waitstate
 	end

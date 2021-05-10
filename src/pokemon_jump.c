@@ -1872,7 +1872,7 @@ static void SetMonStateNormal(void)
     sPokemonJump->player->monState = MONSTATE_NORMAL;
 }
 
-static const u16 sSoundEffects[MAX_RFU_PLAYERS - 1] = {SE_SHOP, SE_SHINY, SE_M_MORNING_SUN, SE_RG_POKE_JUMP_SUCCESS};
+static const u16 sSoundEffects[MAX_RFU_PLAYERS - 1] = {SE_SHOP, SE_SHINY, SE_M_MORNING_SUN, SE_M_ABSORB_2};
 
 static void UpdateGame(void)
 {
@@ -1953,7 +1953,7 @@ static void HandleMonState(void)
     }
 
     if (soundFlags & F_SE_FAIL)
-        PlaySE(SE_RG_POKE_JUMP_FAILURE);
+        PlaySE(SE_FAILURE);
     else if (soundFlags & F_SE_JUMP)
         PlaySE(SE_LEDGE);
 }
@@ -3309,7 +3309,7 @@ static void Msg_WantToPlayAgain(void)
     {
     case 0:
         sPokemonJumpGfx->msgWindowId = AddMessageWindow(1, 8, 20, 2);
-        AddTextPrinterParameterized(sPokemonJumpGfx->msgWindowId, 1, gText_WantToPlayAgain2, 0, 1, TEXT_SPEED_FF, NULL);
+        AddTextPrinterParameterized(sPokemonJumpGfx->msgWindowId, 2, gText_WantToPlayAgain2, 0, 1, TEXT_SPEED_FF, NULL);
         CopyWindowToVram(sPokemonJumpGfx->msgWindowId, 2);
         sPokemonJumpGfx->mainState++;
         break;
@@ -3336,7 +3336,7 @@ static void Msg_SavingDontTurnOff(void)
     {
     case 0:
         sPokemonJumpGfx->msgWindowId = AddMessageWindow(2, 7, 26, 4);
-        AddTextPrinterParameterized(sPokemonJumpGfx->msgWindowId, 1, gText_SavingDontTurnOffPower, 0, 1, TEXT_SPEED_FF, NULL);
+        AddTextPrinterParameterized(sPokemonJumpGfx->msgWindowId, 2, gText_SavingDontTurnOff, 0, 1, TEXT_SPEED_FF, NULL);
         CopyWindowToVram(sPokemonJumpGfx->msgWindowId, 2);
         sPokemonJumpGfx->mainState++;
         break;
@@ -3379,7 +3379,7 @@ static void Msg_SomeoneDroppedOut(void)
     {
     case 0:
         sPokemonJumpGfx->msgWindowId = AddMessageWindow(2, 8, 22, 4);
-        AddTextPrinterParameterized(sPokemonJumpGfx->msgWindowId, 1, gText_SomeoneDroppedOut2, 0, 1, TEXT_SPEED_FF, NULL);
+        AddTextPrinterParameterized(sPokemonJumpGfx->msgWindowId, 2, gText_SomeoneDroppedOut2, 0, 1, TEXT_SPEED_FF, NULL);
         CopyWindowToVram(sPokemonJumpGfx->msgWindowId, 2);
         sPokemonJumpGfx->mainState++;
         break;
@@ -3405,7 +3405,7 @@ static void Msg_CommunicationStandby(void)
     {
     case 0:
         sPokemonJumpGfx->msgWindowId = AddMessageWindow(7, 10, 16, 2);
-        AddTextPrinterParameterized(sPokemonJumpGfx->msgWindowId, 1, gText_CommunicationStandby4, 0, 1, TEXT_SPEED_FF, NULL);
+        AddTextPrinterParameterized(sPokemonJumpGfx->msgWindowId, 2, gText_CommunicationStandby4, 0, 1, TEXT_SPEED_FF, NULL);
         CopyWindowToVram(sPokemonJumpGfx->msgWindowId, 2);
         sPokemonJumpGfx->mainState++;
         break;
@@ -3483,7 +3483,7 @@ static void PrintPrizeMessage(u16 itemId, u16 quantity)
     DynamicPlaceholderTextUtil_SetPlaceholderPtr(1, sPokemonJumpGfx->itemQuantityStr);
     DynamicPlaceholderTextUtil_ExpandPlaceholders(sPokemonJumpGfx->prizeMsg, gText_AwesomeWonF701F700);
     sPokemonJumpGfx->msgWindowId = AddMessageWindow(4, 8, 22, 4);
-    AddTextPrinterParameterized(sPokemonJumpGfx->msgWindowId, 1, sPokemonJumpGfx->prizeMsg, 0, 1, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(sPokemonJumpGfx->msgWindowId, 2, sPokemonJumpGfx->prizeMsg, 0, 1, TEXT_SPEED_FF, NULL);
     CopyWindowToVram(sPokemonJumpGfx->msgWindowId, 2);
     sPokemonJumpGfx->fanfare = MUS_LEVEL_UP;
     sPokemonJumpGfx->msgWindowState = 0;
@@ -3496,7 +3496,7 @@ static void PrintPrizeFilledBagMessage(u16 itemId)
     DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, sPokemonJumpGfx->itemName);
     DynamicPlaceholderTextUtil_ExpandPlaceholders(sPokemonJumpGfx->prizeMsg, gText_FilledStorageSpace2);
     sPokemonJumpGfx->msgWindowId = AddMessageWindow(4, 8, 22, 4);
-    AddTextPrinterParameterized(sPokemonJumpGfx->msgWindowId, 1, sPokemonJumpGfx->prizeMsg, 0, 1, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(sPokemonJumpGfx->msgWindowId, 2, sPokemonJumpGfx->prizeMsg, 0, 1, TEXT_SPEED_FF, NULL);
     CopyWindowToVram(sPokemonJumpGfx->msgWindowId, 2);
     sPokemonJumpGfx->fanfare = MUS_DUMMY;
     sPokemonJumpGfx->msgWindowState = 0;
@@ -3509,7 +3509,7 @@ static void PrintNoRoomForPrizeMessage(u16 itemId)
     DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, sPokemonJumpGfx->itemName);
     DynamicPlaceholderTextUtil_ExpandPlaceholders(sPokemonJumpGfx->prizeMsg, gText_CantHoldMore);
     sPokemonJumpGfx->msgWindowId = AddMessageWindow(4, 9, 22, 2);
-    AddTextPrinterParameterized(sPokemonJumpGfx->msgWindowId, 1, sPokemonJumpGfx->prizeMsg, 0, 1, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(sPokemonJumpGfx->msgWindowId, 2, sPokemonJumpGfx->prizeMsg, 0, 1, TEXT_SPEED_FF, NULL);
     CopyWindowToVram(sPokemonJumpGfx->msgWindowId, 2);
     sPokemonJumpGfx->fanfare = MUS_DUMMY;
     sPokemonJumpGfx->msgWindowState = 0;
@@ -3853,7 +3853,7 @@ static void PrintPokeJumpPlayerName(int multiplayerId, u8 bgColor, u8 fgColor, u
     FillWindowPixelBuffer(sPokemonJumpGfx->nameWindowIds[multiplayerId], 0);
     x = 64 - GetStringWidth(1, GetPokeJumpPlayerName(multiplayerId), -1);
     x /= 2;
-    AddTextPrinterParameterized3(sPokemonJumpGfx->nameWindowIds[multiplayerId], 1, x, 1, colors, -1, GetPokeJumpPlayerName(multiplayerId));
+    AddTextPrinterParameterized3(sPokemonJumpGfx->nameWindowIds[multiplayerId], 2, x, 1, colors, -1, GetPokeJumpPlayerName(multiplayerId));
     CopyWindowToVram(sPokemonJumpGfx->nameWindowIds[multiplayerId], 2);
 }
 
@@ -4213,14 +4213,14 @@ static void PrintRecordsText(u16 windowId, int width)
     LoadUserWindowBorderGfx_(windowId, 0x21D, 0xD0);
     DrawTextBorderOuter(windowId, 0x21D, 0xD);
     FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
-    AddTextPrinterParameterized(windowId, 1, gText_PkmnJumpRecords, GetStringCenterAlignXOffset(1, gText_PkmnJumpRecords, width * 8), 1, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(windowId, 2, gText_PkmnJumpRecords, GetStringCenterAlignXOffset(1, gText_PkmnJumpRecords, width * 8), 1, TEXT_SPEED_FF, NULL);
     for (i = 0; i < ARRAY_COUNT(sRecordsTexts); i++)
     {
-        AddTextPrinterParameterized(windowId, 1, sRecordsTexts[i], 0, 25 + (i * 16), TEXT_SPEED_FF, NULL);
+        AddTextPrinterParameterized(windowId, 2, sRecordsTexts[i], 0, 25 + (i * 16), TEXT_SPEED_FF, NULL);
         ConvertIntToDecimalStringN(gStringVar1, recordNums[i], STR_CONV_MODE_LEFT_ALIGN, 5);
         TruncateToFirstWordOnly(gStringVar1);
         x = (width * 8) - GetStringWidth(1, gStringVar1, 0);
-        AddTextPrinterParameterized(windowId, 1, gStringVar1, x, 25 + (i * 16), TEXT_SPEED_FF, NULL);
+        AddTextPrinterParameterized(windowId, 2, gStringVar1, x, 25 + (i * 16), TEXT_SPEED_FF, NULL);
     }
     PutWindowTilemap(windowId);
 }

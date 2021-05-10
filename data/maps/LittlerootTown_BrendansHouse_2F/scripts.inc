@@ -2,7 +2,6 @@
 
 LittlerootTown_BrendansHouse_2F_MapScripts:: @ 81F83E3
 	map_script MAP_SCRIPT_ON_TRANSITION, LittlerootTown_BrendansHouse_2F_OnTransition
-	map_script MAP_SCRIPT_ON_WARP_INTO_MAP_TABLE, LittlerootTown_BrendansHouse_2F_OnWarp
 	.byte 0
 
 LittlerootTown_BrendansHouse_2F_OnTransition: @ 81F83EE
@@ -12,8 +11,6 @@ LittlerootTown_BrendansHouse_2F_OnTransition: @ 81F83EE
 	call_if_ge LittlerootTown_BrendansHouse_2F_EventScript_CheckShouldUpdateBrendanPos
 	compare VAR_LITTLEROOT_INTRO_STATE, 4
 	call_if_eq PlayersHouse_2F_EventScript_BlockStairsUntilClockIsSet
-	call SecretBase_EventScript_SetDecorationFlags
-	setvar VAR_SECRET_BASE_INITIALIZED, 0
 	end
 
 LittlerootTown_BrendansHouse_2F_EventScript_CheckShouldUpdateBrendanPos:: @ 81F841A
@@ -44,16 +41,6 @@ LittlerootTown_BrendansHouse_2F_EventScript_CheckSetReadyToMeetBrendan:: @ 81F84
 LittlerootTown_BrendansHouse_2F_EventScript_SetReadyToMeetBrendan:: @ 81F8464
 	setvar VAR_LITTLEROOT_RIVAL_STATE, 2
 	return
-
-LittlerootTown_BrendansHouse_2F_OnWarp: @ 81F846A
-	map_script_2 VAR_SECRET_BASE_INITIALIZED, 0, LittlerootTown_BrendansHouse_2F_EventScript_CheckInitDecor
-	.2byte 0
-
-LittlerootTown_BrendansHouse_2F_EventScript_CheckInitDecor:: @ 81F8474
-	checkplayergender
-	compare VAR_RESULT, MALE
-	goto_if_eq SecretBase_EventScript_InitDecorations
-	end
 
 LittlerootTown_BrendansHouse_2F_EventScript_RivalsPokeBall:: @ 81F8481
 	lockall

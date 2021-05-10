@@ -54,7 +54,7 @@ voicegroup112:: @ 8698654
 	voice_square_1 60, 0, 0, 2, 0, 0, 15, 0  @ 86988B8
 	voice_directsound 60, 0, DirectSoundWaveData_classical_choir_voice_ahhs, 128, 165, 128, 188  @ 86988C4
 	voice_directsound 60, 0, DirectSoundWaveData_unknown_female_voice, 128, 165, 128, 204  @ 86988D0
-	voice_directsound 60, 0, DirectSoundWaveData_unused_unknown_male_voice, 128, 165, 128, 188  @ 86988DC
+	voice_square_1 60, 0, 0, 2, 0, 0, 15, 0  @ 86988DC
 	voice_square_1 60, 0, 0, 2, 0, 0, 15, 0  @ 86988E8
 	voice_square_1 60, 0, 0, 2, 0, 0, 15, 0  @ 86988F4
 	voice_square_1 60, 0, 0, 2, 0, 0, 15, 0  @ 8698900

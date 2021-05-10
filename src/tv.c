@@ -29,8 +29,6 @@
 #include "naming_screen.h"
 #include "malloc.h"
 #include "region_map.h"
-#include "decoration.h"
-#include "secret_base.h"
 #include "tv.h"
 #include "pokeball.h"
 #include "data.h"
@@ -2541,37 +2539,7 @@ void TryPutFrontierTVShowOnAir(u16 winStreak, u8 facilityAndMode)
 
 void TryPutSecretBaseSecretsOnAir(void)
 {
-    TVShow *show;
-    u8 strbuf[32];
 
-    if (HasMixableShowAlreadyBeenSpawnedWithPlayerID(TVSHOW_SECRET_BASE_SECRETS, FALSE) != TRUE)
-    {
-        sCurTVShowSlot = FindEmptyTVSlotBeyondFirstFiveShowsOfArray(gSaveBlock1Ptr->tvShows);
-        if (sCurTVShowSlot != -1)
-        {
-            show = &gSaveBlock1Ptr->tvShows[sCurTVShowSlot];
-            show->secretBaseSecrets.kind = TVSHOW_SECRET_BASE_SECRETS;
-            show->secretBaseSecrets.active = FALSE;
-            StringCopy(show->secretBaseSecrets.playerName, gSaveBlock2Ptr->playerName);
-            show->secretBaseSecrets.stepsInBase = VarGet(VAR_SECRET_BASE_STEP_COUNTER);
-            CopyCurSecretBaseOwnerName_StrVar1();
-            StringCopy(strbuf, gStringVar1);
-            StripExtCtrlCodes(strbuf);
-            StringCopy(show->secretBaseSecrets.baseOwnersName, strbuf);
-            show->secretBaseSecrets.item = VarGet(VAR_SECRET_BASE_LAST_ITEM_USED);
-            show->secretBaseSecrets.flags = VarGet(VAR_SECRET_BASE_LOW_TV_FLAGS) + (VarGet(VAR_SECRET_BASE_HIGH_TV_FLAGS) << 16);
-            tv_store_id_3x(show);
-            show->secretBaseSecrets.language = gGameLanguage;
-            if (show->secretBaseSecrets.language == LANGUAGE_JAPANESE || gSaveBlock1Ptr->secretBases[VarGet(VAR_CURRENT_SECRET_BASE)].language == LANGUAGE_JAPANESE)
-            {
-                show->secretBaseSecrets.baseOwnersNameLanguage = LANGUAGE_JAPANESE;
-            }
-            else
-            {
-                show->secretBaseSecrets.baseOwnersNameLanguage = gSaveBlock1Ptr->secretBases[VarGet(VAR_CURRENT_SECRET_BASE)].language;
-            }
-        }
-    }
 }
 
 static void sub_80EEB98(u16 days)
@@ -6249,86 +6217,7 @@ static void DoTVShowSecretBaseVisit(void)
     state = sTVShowState;
     switch (state)
     {
-        case 0:
-            TVShowConvertInternationalString(gStringVar1, show->secretBaseVisit.playerName, show->secretBaseVisit.language);
-            if (show->secretBaseVisit.nDecorations == 0)
-            {
-                sTVShowState = 2;
-            }
-            else
-            {
-                sTVShowState = 1;
-            }
-            break;
-        case 1:
-            StringCopy(gStringVar2, gDecorations[show->secretBaseVisit.decorations[0]].name);
-            if (show->secretBaseVisit.nDecorations == 1)
-            {
-                sTVShowState = 4;
-            }
-            else
-            {
-                sTVShowState = 3;
-            }
-            break;
-        case 3:
-            StringCopy(gStringVar2, gDecorations[show->secretBaseVisit.decorations[1]].name);
-            switch (show->secretBaseVisit.nDecorations)
-            {
-                case 2:
-                    sTVShowState = 7;
-                    break;
-                case 3:
-                    sTVShowState = 6;
-                    break;
-                case 4:
-                    sTVShowState = 5;
-                    break;
-            }
-            break;
-        case 5:
-            StringCopy(gStringVar2, gDecorations[show->secretBaseVisit.decorations[2]].name);
-            StringCopy(gStringVar3, gDecorations[show->secretBaseVisit.decorations[3]].name);
-            sTVShowState = 8;
-            break;
-        case 6:
-            StringCopy(gStringVar2, gDecorations[show->secretBaseVisit.decorations[2]].name);
-            sTVShowState = 8;
-            break;
-        case 2:
-        case 4:
-        case 7:
-            sTVShowState = 8;
-            break;
-        case 8:
-            TVShowConvertInternationalString(gStringVar1, show->secretBaseVisit.playerName, show->secretBaseVisit.language);
-            if (show->secretBaseVisit.avgLevel < 25)
-            {
-                sTVShowState = 12;
-            }
-            else if (show->secretBaseVisit.avgLevel < 50)
-            {
-                sTVShowState = 11;
-            }
-            else if (show->secretBaseVisit.avgLevel < 70)
-            {
-                sTVShowState = 10;
-            }
-            else
-            {
-                sTVShowState = 9;
-            }
-            break;
-        case 9:
-        case 10:
-        case 11:
-        case 12:
-            TVShowConvertInternationalString(gStringVar1, show->secretBaseVisit.playerName, show->secretBaseVisit.language);
-            StringCopy(gStringVar2, gSpeciesNames[show->secretBaseVisit.species]);
-            StringCopy(gStringVar3, gMoveNames[show->secretBaseVisit.move]);
-            sTVShowState = 13;
-            break;
-        case 13:
+        default:
             TVShowDone();
             break;
     }

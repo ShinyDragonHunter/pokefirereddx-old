@@ -2,7 +2,6 @@
 
 LittlerootTown_MaysHouse_2F_MapScripts:: @ 81F9296
 	map_script MAP_SCRIPT_ON_TRANSITION, LittlerootTown_MaysHouse_2F_OnTransition
-	map_script MAP_SCRIPT_ON_WARP_INTO_MAP_TABLE, LittlerootTown_MaysHouse_2F_OnWarp
 	.byte 0
 
 LittlerootTown_MaysHouse_2F_OnTransition: @ 81F92A1
@@ -12,8 +11,6 @@ LittlerootTown_MaysHouse_2F_OnTransition: @ 81F92A1
 	call_if_ge LittlerootTown_MaysHouse_2F_EventScript_CheckShouldUpdateMayPos
 	compare VAR_LITTLEROOT_INTRO_STATE, 4
 	call_if_eq PlayersHouse_2F_EventScript_BlockStairsUntilClockIsSet
-	call SecretBase_EventScript_SetDecorationFlags
-	setvar VAR_SECRET_BASE_INITIALIZED, 0
 	end
 
 LittlerootTown_MaysHouse_2F_EventScript_CheckShouldUpdateMayPos:: @ 81F92CD
@@ -44,16 +41,6 @@ LittlerootTown_MaysHouse_2F_EventScript_CheckSetReadyToMeetMay:: @ 81F930A
 LittlerootTown_MaysHouse_2F_EventScript_SetReadyToMeetMay:: @ 81F9317
 	setvar VAR_LITTLEROOT_RIVAL_STATE, 2
 	return
-
-LittlerootTown_MaysHouse_2F_OnWarp: @ 81F931D
-	map_script_2 VAR_SECRET_BASE_INITIALIZED, 0, LittlerootTown_MaysHouse_2F_EventScript_CheckInitDecor
-	.2byte 0
-
-LittlerootTown_MaysHouse_2F_EventScript_CheckInitDecor:: @ 81F9327
-	checkplayergender
-	compare VAR_RESULT, FEMALE
-	goto_if_eq SecretBase_EventScript_InitDecorations
-	end
 
 LittlerootTown_MaysHouse_2F_EventScript_RivalsPokeBall:: @ 81F9334
 	lockall

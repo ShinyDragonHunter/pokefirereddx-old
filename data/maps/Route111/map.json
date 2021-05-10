@@ -447,19 +447,6 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_BOY_1",
-      "x": 13,
-      "y": 20,
-      "elevation": 3,
-      "movement_type": "MOVEMENT_TYPE_FACE_UP",
-      "movement_range_x": 1,
-      "movement_range_y": 1,
-      "trainer_type": "TRAINER_TYPE_NONE",
-      "trainer_sight_or_berry_tree_id": "0",
-      "script": "Route111_EventScript_SecretPowerMan",
-      "flag": "FLAG_HIDE_ROUTE_111_SECRET_POWER_MAN"
-    },
-    {
       "graphics_id": "OBJ_EVENT_GFX_MAN_4",
       "x": 20,
       "y": 114,
@@ -1008,47 +995,12 @@
       "script": "Route111_EventScript_RouteSign113"
     },
     {
-      "type": "secret_base",
-      "x": 24,
-      "y": 36,
-      "elevation": 0,
-      "secret_base_id": "SECRET_BASE_YELLOW_CAVE2_1"
-    },
-    {
-      "type": "secret_base",
-      "x": 34,
-      "y": 50,
-      "elevation": 0,
-      "secret_base_id": "SECRET_BASE_YELLOW_CAVE3_1"
-    },
-    {
-      "type": "secret_base",
-      "x": 33,
-      "y": 34,
-      "elevation": 0,
-      "secret_base_id": "SECRET_BASE_YELLOW_CAVE1_1"
-    },
-    {
       "type": "sign",
       "x": 25,
       "y": 19,
       "elevation": 0,
       "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
       "script": "Route111_EventScript_OldLadysRestStopSign"
-    },
-    {
-      "type": "secret_base",
-      "x": 35,
-      "y": 1,
-      "elevation": 0,
-      "secret_base_id": "SECRET_BASE_RED_CAVE2_3"
-    },
-    {
-      "type": "secret_base",
-      "x": 35,
-      "y": 31,
-      "elevation": 0,
-      "secret_base_id": "SECRET_BASE_YELLOW_CAVE4_3"
     },
     {
       "type": "hidden_item",
@@ -1059,33 +1011,12 @@
       "flag": "FLAG_HIDDEN_ITEM_ROUTE_111_STARDUST"
     },
     {
-      "type": "secret_base",
-      "x": 27,
-      "y": 27,
-      "elevation": 3,
-      "secret_base_id": "SECRET_BASE_RED_CAVE4_3"
-    },
-    {
       "type": "sign",
       "x": 7,
       "y": 84,
       "elevation": 3,
       "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
       "script": "Route111_EventScript_TrainerTipsSpAtkSpDef"
-    },
-    {
-      "type": "secret_base",
-      "x": 14,
-      "y": 19,
-      "elevation": 0,
-      "secret_base_id": "SECRET_BASE_TREE1_4"
-    },
-    {
-      "type": "secret_base",
-      "x": 13,
-      "y": 19,
-      "elevation": 0,
-      "secret_base_id": "SECRET_BASE_TREE1_1"
     },
     {
       "type": "hidden_item",

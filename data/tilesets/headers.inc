@@ -371,78 +371,6 @@ gTileset_RusturfTunnel:: @ 83DF9EC
 	.4byte NULL @ palette overrides
 
 	.align 2
-gTileset_SecretBaseBrownCave:: @ 83DFA04
-	.byte FALSE @ is compressed
-	.byte TRUE @ is secondary tileset
-	.2byte 0 @ padding
-	.4byte gTilesetTiles_SecretBaseBrownCave
-	.4byte gTilesetPalettes_SecretBaseBrownCave
-	.4byte gMetatiles_SecretBaseSecondary
-	.4byte gMetatileAttributes_SecretBaseSecondary
-	.4byte NULL @ animation callback
-	.4byte NULL @ palette overrides
-
-	.align 2
-gTileset_SecretBaseTree:: @ 83DFA1C
-	.byte FALSE @ is compressed
-	.byte TRUE @ is secondary tileset
-	.2byte 0 @ padding
-	.4byte gTilesetTiles_SecretBaseTree
-	.4byte gTilesetPalettes_SecretBaseTree
-	.4byte gMetatiles_SecretBaseSecondary
-	.4byte gMetatileAttributes_SecretBaseSecondary
-	.4byte NULL @ animation callback
-	.4byte NULL @ palette overrides
-
-	.align 2
-gTileset_SecretBaseShrub:: @ 83DFA34
-	.byte FALSE @ is compressed
-	.byte TRUE @ is secondary tileset
-	.2byte 0 @ padding
-	.4byte gTilesetTiles_SecretBaseShrub
-	.4byte gTilesetPalettes_SecretBaseShrub
-	.4byte gMetatiles_SecretBaseSecondary
-	.4byte gMetatileAttributes_SecretBaseSecondary
-	.4byte NULL @ animation callback
-	.4byte NULL @ palette overrides
-
-	.align 2
-gTileset_SecretBaseBlueCave:: @ 83DFA4C
-	.byte FALSE @ is compressed
-	.byte TRUE @ is secondary tileset
-	.2byte 0 @ padding
-	.4byte gTilesetTiles_SecretBaseBlueCave
-	.4byte gTilesetPalettes_SecretBaseBlueCave
-	.4byte gMetatiles_SecretBaseSecondary
-	.4byte gMetatileAttributes_SecretBaseSecondary
-	.4byte NULL @ animation callback
-	.4byte NULL @ palette overrides
-
-	.align 2
-gTileset_SecretBaseYellowCave:: @ 83DFA64
-	.byte FALSE @ is compressed
-	.byte TRUE @ is secondary tileset
-	.2byte 0 @ padding
-	.4byte gTilesetTiles_SecretBaseYellowCave
-	.4byte gTilesetPalettes_SecretBaseYellowCave
-	.4byte gMetatiles_SecretBaseSecondary
-	.4byte gMetatileAttributes_SecretBaseSecondary
-	.4byte NULL @ animation callback
-	.4byte NULL @ palette overrides
-
-	.align 2
-gTileset_SecretBaseRedCave:: @ 83DFA7C
-	.byte FALSE @ is compressed
-	.byte TRUE @ is secondary tileset
-	.2byte 0 @ padding
-	.4byte gTilesetTiles_SecretBaseRedCave
-	.4byte gTilesetPalettes_SecretBaseRedCave
-	.4byte gMetatiles_SecretBaseSecondary
-	.4byte gMetatileAttributes_SecretBaseSecondary
-	.4byte NULL @ animation callback
-	.4byte NULL @ palette overrides
-
-	.align 2
 gTileset_InsideOfTruck:: @ 83DFA94
 	.byte TRUE @ is compressed
 	.byte TRUE @ is secondary tileset
@@ -657,26 +585,6 @@ gTileset_InsideShip:: @ 83DFC44
 	.4byte gMetatileAttributes_InsideShip
 	.4byte NULL @ animation callback
 	.4byte NULL @ palette overrides
-
-	.align 2
-gTileset_SecretBase:: @ 83DFC5C
-	.byte FALSE @ is compressed
-	.byte FALSE @ is secondary tileset
-	.2byte 0 @ padding
-	.4byte gTilesetTiles_SecretBase
-	.4byte gTilesetPalettes_SecretBase
-	.4byte gMetatiles_SecretBasePrimary
-	.4byte gMetatileAttributes_SecretBasePrimary
-	.4byte NULL @ animation callback
-	.4byte NULL @ palette overrides
-
-	.align 2
-gTilesetPointer_SecretBase:: @ 83DFC74
-	.4byte gTileset_SecretBase
-
-	.align 2
-gTilesetPointer_SecretBaseRedCave:: @ 83DFC78
-	.4byte gTileset_SecretBaseRedCave
 
 	.align 2
 gTileset_EliteFour:: @ 83DFC7C

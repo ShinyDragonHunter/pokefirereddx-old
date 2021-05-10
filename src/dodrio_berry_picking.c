@@ -4748,7 +4748,7 @@ static void Msg_SavingDontTurnOff(void)
     {
     case 0:
         DrawDialogueFrame(0, FALSE);
-        AddTextPrinterParameterized2(0, 2, gText_SavingDontTurnOffPower, 0, NULL, 2, 1, 3);
+        AddTextPrinterParameterized2(0, 2, gText_SavingDontTurnOff, 0, NULL, 2, 1, 3);
         sGfx->state++;
         break;
     case 1:

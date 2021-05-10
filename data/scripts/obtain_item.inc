@@ -89,32 +89,6 @@ EventScript_PlayFanfareObtainedBerry:: @ 8271BB3
 	playfanfare MUS_OBTAIN_BERRY
 	return
 
-Std_ObtainDecoration:: @ 8271BB7
-	adddecoration VAR_0x8000
-	copyvar VAR_0x8007, VAR_RESULT
-	call EventScript_ObtainDecorationMessage
-	return
-
-EventScript_ObtainDecorationMessage:: @ 8271BC5
-	bufferdecorationname 1, VAR_0x8000
-	compare VAR_0x8007, 1
-	call_if_eq EventScript_ObtainedDecor
-	compare VAR_0x8007, 0
-	call_if_eq EventScript_NoRoomForDecor
-	return
-
-EventScript_ObtainedDecor:: @ 8271BE0
-	playfanfare MUS_OBTAIN_ITEM
-	message gText_ObtainedTheItem
-	waitfanfare
-	msgbox gText_TheDecorWasTransferredToThePC, MSGBOX_DEFAULT
-	setvar VAR_RESULT, 1
-	return
-
-EventScript_NoRoomForDecor:: @ 8271BF7
-	setvar VAR_RESULT, 0
-	return
-
 Std_FindItem:: @ 8271BFD
 	lock
 	faceplayer

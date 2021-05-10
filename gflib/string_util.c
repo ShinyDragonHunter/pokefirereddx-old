@@ -444,10 +444,7 @@ static const u8 *ExpandPlaceholder_StringVar3(void)
 
 static const u8 *ExpandPlaceholder_RivalName(void)
 {
-    if (gSaveBlock2Ptr->playerGender == MALE)
-        return gText_ExpandedPlaceholder_May;
-    else
-        return gText_ExpandedPlaceholder_Brendan;
+    return (gSaveBlock2Ptr->playerGender) ? gText_ExpandedPlaceholder_Brendan : gText_ExpandedPlaceholder_May;
 }
 
 const u8 *GetExpandedPlaceholder(u32 id)
@@ -464,10 +461,7 @@ const u8 *GetExpandedPlaceholder(u32 id)
         [PLACEHOLDER_ID_RIVAL]        = ExpandPlaceholder_RivalName,
     };
 
-    if (id >= ARRAY_COUNT(funcs))
-        return gText_ExpandedPlaceholder_Empty;
-    else
-        return funcs[id]();
+    return (id >= ARRAY_COUNT(funcs)) ? gText_ExpandedPlaceholder_Empty : funcs[id]();
 }
 
 u8 *StringFill(u8 *dest, u8 c, u16 n)

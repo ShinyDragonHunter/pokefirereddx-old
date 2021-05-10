@@ -75,10 +75,10 @@ gScriptCmdTable:: @ 81DB67C
 	.4byte ScrCmd_checkitemtype             @ 0x48
 	.4byte ScrCmd_addpcitem                 @ 0x49
 	.4byte ScrCmd_checkpcitem               @ 0x4a
-	.4byte ScrCmd_adddecoration             @ 0x4b
-	.4byte ScrCmd_removedecoration          @ 0x4c
-	.4byte ScrCmd_checkdecor                @ 0x4d
-	.4byte ScrCmd_checkdecorspace           @ 0x4e
+	.4byte ScrCmd_nop                       @ 0x4b
+	.4byte ScrCmd_nop                       @ 0x4c
+	.4byte ScrCmd_nop                       @ 0x4d
+	.4byte ScrCmd_nop                       @ 0x4e
 	.4byte ScrCmd_applymovement             @ 0x4f
 	.4byte ScrCmd_applymovement_at          @ 0x50
 	.4byte ScrCmd_waitmovement              @ 0x51
@@ -129,14 +129,14 @@ gScriptCmdTable:: @ 81DB67C
 	.4byte ScrCmd_bufferleadmonspeciesname  @ 0x7e
 	.4byte ScrCmd_bufferpartymonnick        @ 0x7f
 	.4byte ScrCmd_bufferitemname            @ 0x80
-	.4byte ScrCmd_bufferdecorationname      @ 0x81
+	.4byte ScrCmd_nop                       @ 0x81
 	.4byte ScrCmd_buffermovename            @ 0x82
 	.4byte ScrCmd_buffernumberstring        @ 0x83
 	.4byte ScrCmd_bufferstdstring           @ 0x84
 	.4byte ScrCmd_bufferstring              @ 0x85
 	.4byte ScrCmd_pokemart                  @ 0x86
-	.4byte ScrCmd_pokemartdecoration        @ 0x87
-	.4byte ScrCmd_pokemartdecoration2       @ 0x88
+	.4byte ScrCmd_nop                       @ 0x87
+	.4byte ScrCmd_nop                       @ 0x88
 	.4byte ScrCmd_playslotmachine           @ 0x89
 	.4byte ScrCmd_setberrytree              @ 0x8a
 	.4byte ScrCmd_choosecontestmon          @ 0x8b

@@ -433,48 +433,6 @@
       "script": "Route114_EventScript_FossilManiacsHouseSign"
     },
     {
-      "type": "secret_base",
-      "x": 9,
-      "y": 47,
-      "elevation": 0,
-      "secret_base_id": "SECRET_BASE_BROWN_CAVE1_1"
-    },
-    {
-      "type": "secret_base",
-      "x": 30,
-      "y": 51,
-      "elevation": 0,
-      "secret_base_id": "SECRET_BASE_BROWN_CAVE2_1"
-    },
-    {
-      "type": "secret_base",
-      "x": 11,
-      "y": 62,
-      "elevation": 0,
-      "secret_base_id": "SECRET_BASE_BROWN_CAVE3_1"
-    },
-    {
-      "type": "secret_base",
-      "x": 19,
-      "y": 70,
-      "elevation": 0,
-      "secret_base_id": "SECRET_BASE_BROWN_CAVE4_1"
-    },
-    {
-      "type": "secret_base",
-      "x": 11,
-      "y": 27,
-      "elevation": 0,
-      "secret_base_id": "SECRET_BASE_TREE3_2"
-    },
-    {
-      "type": "secret_base",
-      "x": 12,
-      "y": 27,
-      "elevation": 0,
-      "secret_base_id": "SECRET_BASE_TREE4_2"
-    },
-    {
       "type": "sign",
       "x": 25,
       "y": 38,
@@ -489,13 +447,6 @@
       "elevation": 3,
       "item": "ITEM_CARBOS",
       "flag": "FLAG_HIDDEN_ITEM_ROUTE_114_CARBOS"
-    },
-    {
-      "type": "secret_base",
-      "x": 32,
-      "y": 57,
-      "elevation": 0,
-      "secret_base_id": "SECRET_BASE_BROWN_CAVE4_3"
     },
     {
       "type": "hidden_item",

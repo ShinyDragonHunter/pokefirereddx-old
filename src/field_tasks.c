@@ -14,7 +14,6 @@
 #include "metatile_behavior.h"
 #include "overworld.h"
 #include "script.h"
-#include "secret_base.h"
 #include "sound.h"
 #include "task.h"
 #include "constants/field_tasks.h"
@@ -45,7 +44,6 @@ static const TaskFunc sPerStepCallbacks[] =
     [STEP_CB_PACIFIDLOG_BRIDGE] = PacifidlogBridgePerStepCallback,
     [STEP_CB_SOOTOPOLIS_ICE]    = SootopolisGymIcePerStepCallback,
     [STEP_CB_TRUCK]             = EndTruckSequence,
-    [STEP_CB_SECRET_BASE]       = SecretBasePerStepCallback,
     [STEP_CB_CRACKED_FLOOR]     = CrackedFloorPerStepCallback
 };
 

@@ -447,45 +447,12 @@ Route110_TrickHouseEntrance_EventScript_GotReward:: @ 826A023
 	end
 
 Route110_TrickHouseEntrance_EventScript_MechadollReward:: @ 826A039
-	applymovement LOCALID_TRICK_MASTER, Common_Movement_FacePlayer
-	waitmovement 0
-	msgbox Route110_TrickHouseEntrance_Text_MechadollWhichTent, MSGBOX_DEFAULT
-	call Route110_TrickHouseEntrance_EventScript_ChooseTent
+	giveitem ITEM_RARE_CANDY
 	compare VAR_RESULT, TRUE
-	goto_if_eq Route110_TrickHouseEntrance_EventScript_ReceivedTent
+	goto_if_eq Route110_TrickHouseEntrance_EventScript_GotReward
 	compare VAR_RESULT, FALSE
-	call_if_eq Common_EventScript_NoRoomForDecor
-	msgbox Route110_TrickHouseEntrance_Text_PCFullAgain, MSGBOX_DEFAULT
-	releaseall
-	end
-
-Route110_TrickHouseEntrance_EventScript_ChooseTent:: @ 826A070
-	multichoice 0, 0, MULTI_TENT, TRUE
-	switch VAR_RESULT
-	case 0, Route110_TrickHouseEntrance_EventScript_GiveRedTent
-	goto Route110_TrickHouseEntrance_EventScript_GiveBlueTent
-
-Route110_TrickHouseEntrance_EventScript_GiveRedTent:: @ 826A08A
-	givedecoration DECOR_RED_TENT
-	return
-
-Route110_TrickHouseEntrance_EventScript_GiveBlueTent:: @ 826A092
-	givedecoration DECOR_BLUE_TENT
-	return
-
-Route110_TrickHouseEntrance_EventScript_ReceivedTent:: @ 826A09A
-	msgbox Route110_TrickHouseEntrance_Text_ThenFarewell, MSGBOX_DEFAULT
-	closemessage
-	applymovement LOCALID_TRICK_MASTER, Route110_TrickHousePuzzle5_Movement_MechadollShake
-	waitmovement 0
-	applymovement LOCALID_TRICK_MASTER, Route110_TrickHouse_Movement_TrickMasterSpin
-	waitmovement 0
-	playse SE_M_EXPLOSION
-	applymovement LOCALID_TRICK_MASTER, Route110_TrickHouse_Movement_TrickMasterJumpAway
-	waitmovement 0
-	removeobject LOCALID_TRICK_MASTER
-	setvar VAR_TRICK_HOUSE_PRIZE_PICKUP, 0
-	setvar VAR_TRICK_HOUSE_ENTRANCE_STATE, 5
+	call_if_eq Common_EventScript_BagIsFull
+	msgbox Route110_TrickHouseEntrance_Text_DidYouNotComeToClaimReward, MSGBOX_DEFAULT
 	releaseall
 	end
 

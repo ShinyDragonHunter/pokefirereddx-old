@@ -391,6 +391,7 @@ gCryTable:: @ 869DCF4
 	.align 2
 gCryTable2:: @ 869EF24
 	cry2 Cry_Bulbasaur
+	cry2 Cry_Bulbasaur
 	cry2 Cry_Ivysaur
 	cry2 Cry_Venusaur
 	cry2 Cry_Charmander

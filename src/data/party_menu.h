@@ -543,28 +543,6 @@ static const struct WindowTemplate sLevelUpStatsWindowTemplate =
     .baseBlock = 0x2E9,
 };
 
-static const struct WindowTemplate sUnusedWindowTemplate1 =
-{
-    .bg = 2,
-    .tilemapLeft = 2,
-    .tilemapTop = 15,
-    .width = 27,
-    .height = 4,
-    .paletteNum = 14,
-    .baseBlock = 0x1DF,
-};
-
-static const struct WindowTemplate sUnusedWindowTemplate2 =
-{
-    .bg = 2,
-    .tilemapLeft = 0,
-    .tilemapTop = 13,
-    .width = 18,
-    .height = 3,
-    .paletteNum = 12,
-    .baseBlock = 0x39D,
-};
-
 // Tile nums
 static const u8 sMainSlotTileNums[] = {24, 25, 25, 25, 25, 25, 25, 25, 25, 26,
                                        32, 33, 33, 33, 33, 33, 33, 33, 33, 34,
@@ -836,7 +814,6 @@ struct
     [FIELD_MOVE_WATERFALL]    = {SetUpFieldMove_Waterfall,   PARTY_MSG_CANT_USE_HERE},
     [FIELD_MOVE_TELEPORT]     = {SetUpFieldMove_Teleport,    PARTY_MSG_CANT_USE_HERE},
     [FIELD_MOVE_DIG]          = {SetUpFieldMove_Dig,         PARTY_MSG_CANT_USE_HERE},
-    [FIELD_MOVE_SECRET_POWER] = {SetUpFieldMove_SecretPower, PARTY_MSG_CANT_USE_HERE},
     [FIELD_MOVE_MILK_DRINK]   = {SetUpFieldMove_SoftBoiled,  PARTY_MSG_NOT_ENOUGH_HP},
     [FIELD_MOVE_SOFT_BOILED]  = {SetUpFieldMove_SoftBoiled,  PARTY_MSG_NOT_ENOUGH_HP},
     [FIELD_MOVE_SWEET_SCENT]  = {SetUpFieldMove_SweetScent,  PARTY_MSG_CANT_USE_HERE},
@@ -1095,20 +1072,6 @@ static const struct SpriteTemplate sSpriteTemplate_StatusIcons =
     .images = NULL,
     .affineAnims = gDummySpriteAffineAnimTable,
     .callback = SpriteCallbackDummy,
-};
-
-// Mask for the partners party in a multi battle. TRUE if in the partners party, FALSE otherwise
-// The 7th slot is Cancel, and the 8th slot is unreachable
-// Used only to determine whether or not to show the Deoxys form icon sprite
-static const bool8 sMultiBattlePartnersPartyMask[PARTY_SIZE + 2] = 
-{
-    FALSE, 
-    TRUE, 
-    FALSE, 
-    FALSE, 
-    TRUE, 
-    TRUE, 
-    FALSE
 };
 
 static const u8 *const sUnused_StatStrings[] =

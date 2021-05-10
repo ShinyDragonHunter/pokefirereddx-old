@@ -1,6 +1,5 @@
 #include "global.h"
 #include "malloc.h"
-#include "bard_music.h"
 #include "bg.h"
 #include "data.h"
 #include "decompress.h"
@@ -30,7 +29,6 @@
 #include "constants/easy_chat.h"
 #include "constants/event_objects.h"
 #include "constants/lilycove_lady.h"
-#include "constants/mauville_old_man.h"
 #include "constants/songs.h"
 #include "constants/rgb.h"
 
@@ -57,8 +55,6 @@ static u16 HandleEasyChatInput_ConfirmWordsYesNo(void);
 static u16 HandleEasyChatInput_DeleteAllYesNo(void);
 static u16 HandleEasyChatInput_QuizQuestion(void);
 static u16 HandleEasyChatInput_WaitForMsg(void);
-static u16 HandleEasyChatInput_StartConfirmLyrics(void);
-static u16 HandleEasyChatInput_ConfirmLyricsYesNo(void);
 static u16 StartConfirmExitPrompt(void);
 static u16 TryConfirmWords(void);
 static u8 GetEasyChatScreenFrameId(void);
@@ -145,7 +141,6 @@ static bool8 OpenKeyboard(void);
 static bool8 CloseKeyboard(void);
 static bool8 OpenWordSelect(void);
 static bool8 CloseWordSelect(void);
-static bool8 ShowConfirmLyricsPrompt(void);
 static bool8 ReturnToKeyboard(void);
 static bool8 UpdateKeyboardCursor(void);
 static bool8 GroupNamesScrollDown(void);
@@ -159,7 +154,6 @@ static bool8 SwitchKeyboardMode(void);
 static bool8 ShowCreateQuizMsg(void);
 static bool8 ShowSelectAnswerMsg(void);
 static bool8 ShowSongTooShortMsg(void);
-static bool8 ShowCantDeleteLyricsMsg(void);
 static bool8 ShowCombineTwoWordsMsg(void);
 static bool8 ShowCantExitMsg(void);
 static void SetMainCursorPos(u8, u8);
@@ -252,8 +246,6 @@ enum {
     INPUTSTATE_CONFIRM_WORDS_YES_NO,
     INPUTSTATE_QUIZ_QUESTION,
     INPUTSTATE_WAIT_FOR_MSG,
-    INPUTSTATE_START_CONFIRM_LYRICS,
-    INPUTSTATE_CONFIRM_LYRICS_YES_NO,
 };
 
 // Task states for the 'main' task, Task_EasyChatScreen
@@ -275,7 +267,6 @@ enum {
     MSG_CREATE_QUIZ,
     MSG_SELECT_ANSWER,
     MSG_SONG_TOO_SHORT,
-    MSG_CANT_DELETE_LYRICS,
     MSG_COMBINE_TWO_WORDS,
     MSG_CANT_QUIT,
 };
@@ -297,7 +288,6 @@ enum {
     ECFUNC_CLOSE_KEYBOARD,
     ECFUNC_OPEN_WORD_SELECT,
     ECFUNC_CLOSE_WORD_SELECT,
-    ECFUNC_PROMPT_CONFIRM_LYRICS,
     ECFUNC_RETURN_TO_KEYBOARD,
     ECFUNC_UPDATE_KEYBOARD_CURSOR,
     ECFUNC_GROUP_NAMES_SCROLL_DOWN,
@@ -316,7 +306,6 @@ enum {
     ECFUNC_MSG_CREATE_QUIZ,
     ECFUNC_MSG_SELECT_ANSWER,
     ECFUNC_MSG_SONG_TOO_SHORT,
-    ECFUNC_MSG_CANT_DELETE_LYRICS,
     ECFUNC_MSG_COMBINE_TWO_WORDS,
     ECFUNC_MSG_CANT_EXIT,
 };
@@ -488,18 +477,6 @@ static const struct EasyChatScreenTemplate sEasyChatScreenTemplates[] = {
         .confirmText2 = gText_IsAsShownOkay,
     },
     {
-        .type = EASY_CHAT_TYPE_BARD_SONG,
-        .numColumns = 2,
-        .numRows = 3,
-        .frameId = FRAMEID_GENERAL_2x3,
-        .fourFooterOptions = FALSE,
-        .titleText = gText_TheBardsSong,
-        .instructionsText1 = gText_ChangeJustOneWordOrPhrase,
-        .instructionsText2 = gText_AndImproveTheBardsSong,
-        .confirmText1 = gText_TheBardsSong2,
-        .confirmText2 = gText_IsAsShownOkay,
-    },
-    {
         .type = EASY_CHAT_TYPE_FAN_CLUB,
         .numColumns = 1,
         .numRows = 1,
@@ -570,18 +547,6 @@ static const struct EasyChatScreenTemplate sEasyChatScreenTemplates[] = {
         .instructionsText2 = gText_SetTheQuizAnswer,
         .confirmText1 = gText_IsThisQuizOK,
         .confirmText2 = NULL,
-    },
-    {
-        .type = EASY_CHAT_TYPE_BARD_SONG,
-        .numColumns = 2,
-        .numRows = 3,
-        .frameId = FRAMEID_GENERAL_2x3,
-        .fourFooterOptions = FALSE,
-        .titleText = gText_TheBardsSong,
-        .instructionsText1 = gText_ChangeJustOneWordOrPhrase,
-        .instructionsText2 = gText_AndImproveTheBardsSong,
-        .confirmText1 = gText_TheBardsSong2,
-        .confirmText2 = gText_IsAsShownOkay,
     },
     {
         .type = EASY_CHAT_TYPE_APPRENTICE,
@@ -1440,7 +1405,6 @@ void ShowEasyChatScreen(void)
 {
     int i;
     u16 *words;
-    struct MauvilleManBard *bard;
     u8 displayedPersonType = EASY_CHAT_PERSON_DISPLAY_NONE;
     switch (gSpecialVar_0x8004)
     {
@@ -1458,13 +1422,6 @@ void ShowEasyChatScreen(void)
         break;
     case EASY_CHAT_TYPE_MAIL:
         words = gSaveBlock1Ptr->mail[gSpecialVar_0x8005].words;
-        break;
-    case EASY_CHAT_TYPE_BARD_SONG:
-        bard = &gSaveBlock1Ptr->oldMan.bard;
-        for (i = 0; i < BARD_SONG_LENGTH; i ++)
-            bard->temporaryLyrics[i] = bard->songLyrics[i];
-
-        words = bard->temporaryLyrics;
         break;
     case EASY_CHAT_TYPE_INTERVIEW:
         words = gSaveBlock1Ptr->tvShows[gSpecialVar_0x8005].bravoTrainer.words;
@@ -1699,10 +1656,6 @@ static u16 HandleEasyChatInput(void)
         return HandleEasyChatInput_QuizQuestion();
     case INPUTSTATE_WAIT_FOR_MSG:
         return HandleEasyChatInput_WaitForMsg();
-    case INPUTSTATE_START_CONFIRM_LYRICS:
-        return HandleEasyChatInput_StartConfirmLyrics();
-    case INPUTSTATE_CONFIRM_LYRICS_YES_NO:
-        return HandleEasyChatInput_ConfirmLyricsYesNo();
     }
     return ECFUNC_NONE;
 }
@@ -2023,32 +1976,6 @@ static u16 HandleEasyChatInput_WaitForMsg(void)
     return ECFUNC_NONE;
 }
 
-// Odd, could have been skipped. Just passes to HandleEasyChatInput_ConfirmLyricsYesNo
-static u16 HandleEasyChatInput_StartConfirmLyrics(void)
-{
-    sEasyChatScreen->inputState = INPUTSTATE_CONFIRM_LYRICS_YES_NO;
-    return ECFUNC_PROMPT_CONFIRM;
-}
-
-static u16 HandleEasyChatInput_ConfirmLyricsYesNo(void)
-{
-    switch (Menu_ProcessInputNoWrapClearOnChoose())
-    {
-    case 0: // Yes
-        gSpecialVar_Result = GetEasyChatCompleted();
-        SaveCurrentPhrase();
-        return ECFUNC_EXIT;
-    case MENU_B_PRESSED:
-    case 1: // No
-        ResetCurrentPhraseToSaved();
-        sEasyChatScreen->inputStateBackup = INPUTSTATE_PHRASE;
-        sEasyChatScreen->inputState = INPUTSTATE_WAIT_FOR_MSG;
-        return ECFUNC_MSG_SONG_TOO_SHORT;
-    default:
-        return ECFUNC_NONE;
-    }
-}
-
 static u16 StartConfirmExitPrompt(void)
 {
     if (sEasyChatScreen->type == EASY_CHAT_TYPE_APPRENTICE
@@ -2069,19 +1996,9 @@ static u16 StartConfirmExitPrompt(void)
 static int DoDeleteAllButton(void)
 {
     sEasyChatScreen->inputStateBackup = sEasyChatScreen->inputState;
-    if (sEasyChatScreen->type != EASY_CHAT_TYPE_BARD_SONG)
-    {
-        // Show Delete yes/no
-        sEasyChatScreen->inputState = INPUTSTATE_DELETE_ALL_YES_NO;
-        return ECFUNC_PROMPT_DELETE_ALL;
-    }
-    else
-    {
-        // Cannot delete lyrics when setting Bard's song
-        sEasyChatScreen->inputStateBackup = sEasyChatScreen->inputState;
-        sEasyChatScreen->inputState = INPUTSTATE_WAIT_FOR_MSG;
-        return ECFUNC_MSG_CANT_DELETE_LYRICS;
-    }
+    // Show Delete yes/no
+    sEasyChatScreen->inputState = INPUTSTATE_DELETE_ALL_YES_NO;
+    return ECFUNC_PROMPT_DELETE_ALL;
 }
 
 static u16 TryConfirmWords(void)
@@ -2233,16 +2150,8 @@ static int StartSwitchKeyboardMode(void)
 
 static int DeleteSelectedWord(void)
 {
-    if (sEasyChatScreen->type == EASY_CHAT_TYPE_BARD_SONG)
-    {
-        PlaySE(SE_FAILURE);
-        return ECFUNC_NONE;
-    }
-    else
-    {
-        SetSelectedWord(EC_EMPTY_WORD);
-        return ECFUNC_REPRINT_PHRASE;
-    }
+    SetSelectedWord(EC_EMPTY_WORD);
+    return ECFUNC_REPRINT_PHRASE;
 }
 
 static int SelectNewWord(void)
@@ -2257,16 +2166,8 @@ static int SelectNewWord(void)
     else
     {
         SetSelectedWord(easyChatWord);
-        if (sEasyChatScreen->type != EASY_CHAT_TYPE_BARD_SONG)
-        {
-            sEasyChatScreen->inputState = INPUTSTATE_PHRASE;
-            return ECFUNC_CLOSE_WORD_SELECT;
-        }
-        else
-        {
-            sEasyChatScreen->inputState = INPUTSTATE_START_CONFIRM_LYRICS;
-            return ECFUNC_PROMPT_CONFIRM_LYRICS;
-        }
+        sEasyChatScreen->inputState = INPUTSTATE_PHRASE;
+        return ECFUNC_CLOSE_WORD_SELECT;
     }
 }
 
@@ -3108,8 +3009,6 @@ static bool8 RunEasyChatFunction(void)
             return OpenWordSelect();
         case ECFUNC_CLOSE_WORD_SELECT:
 	        return CloseWordSelect();
-        case ECFUNC_PROMPT_CONFIRM_LYRICS:
-            return ShowConfirmLyricsPrompt();
         case ECFUNC_RETURN_TO_KEYBOARD:
             return ReturnToKeyboard();
         case ECFUNC_UPDATE_KEYBOARD_CURSOR:
@@ -3136,8 +3035,6 @@ static bool8 RunEasyChatFunction(void)
             return ShowSelectAnswerMsg();
         case ECFUNC_MSG_SONG_TOO_SHORT:
             return ShowSongTooShortMsg();
-        case ECFUNC_MSG_CANT_DELETE_LYRICS:
-            return ShowCantDeleteLyricsMsg();
         case ECFUNC_MSG_COMBINE_TWO_WORDS:
             return ShowCombineTwoWordsMsg();
         case ECFUNC_MSG_CANT_EXIT: 
@@ -3571,57 +3468,6 @@ static bool8 CloseWordSelect(void)
     return TRUE;
 }
 
-static bool8 ShowConfirmLyricsPrompt(void)
-{
-    switch (sScreenControl->funcState)
-    {
-    case 0:
-        PrintCurrentPhrase();
-        sScreenControl->funcState++;
-        break;
-    case 1:
-        DestroyWordSelectCursorSprite();
-        HideScrollIndicators();
-        HideStartSelectButtons();
-        ClearWordSelectWindow();
-        sScreenControl->funcState++;
-        break;
-    case 2:
-        if (!IsDma3ManagerBusyWithBgCopy())
-        {
-            InitLowerWindowAnim(WINANIM_CLOSE_WORD_SELECT);
-            sScreenControl->funcState++;
-        }
-        break;
-    case 3:
-        if (!UpdateLowerWindowAnim())
-        {
-            PrintEasyChatStdMessage(MSG_CONFIRM);
-            sScreenControl->funcState++;
-        }
-        break;
-    case 4:
-        if (!IsDma3ManagerBusyWithBgCopy())
-        {
-            ShowBg(0);
-            sScreenControl->funcState++;
-        }
-        break;
-    case 5:
-        if (!IsDma3ManagerBusyWithBgCopy())
-        {
-            StartMainCursorAnim();
-            sScreenControl->funcState++;
-            return FALSE;
-        }
-        break;
-    case 6:
-        return FALSE;
-    }
-
-    return TRUE;
-}
-
 static bool8 ReturnToKeyboard(void)
 {
     switch (sScreenControl->funcState)
@@ -3851,22 +3697,6 @@ static bool8 ShowSongTooShortMsg(void)
     return TRUE;
 }
 
-static bool8 ShowCantDeleteLyricsMsg(void)
-{
-    switch (sScreenControl->funcState)
-    {
-    case 0:
-        StopMainCursorAnim();
-        PrintEasyChatStdMessage(MSG_CANT_DELETE_LYRICS);
-        sScreenControl->funcState++;
-        break;
-    case 1:
-        return IsDma3ManagerBusyWithBgCopy();
-    }
-
-    return TRUE;
-}
-
 static bool8 ShowCombineTwoWordsMsg(void)
 {
     switch (sScreenControl->funcState)
@@ -4010,9 +3840,6 @@ static void PrintEasyChatStdMessage(u8 msgId)
     case MSG_SONG_TOO_SHORT:
         text1 = gText_OnlyOnePhrase;
         text2 = gText_OriginalSongWillBeUsed;
-        break;
-    case MSG_CANT_DELETE_LYRICS:
-        text1 = gText_LyricsCantBeDeleted;
         break;
     case MSG_COMBINE_TWO_WORDS:
         text1 = gText_CombineTwoWordsOrPhrases3;
@@ -5166,35 +4993,6 @@ static bool8 IsEasyChatWordInvalid(u16 easyChatWord)
     }
 
     if (index >= numWords)
-        return TRUE;
-    else
-        return FALSE;
-}
-
-bool8 IsBardWordInvalid(u16 easyChatWord)
-{
-    int numWordsInGroup;
-    u8 groupId = EC_GROUP(easyChatWord);
-    u32 index = EC_INDEX(easyChatWord);
-    if (groupId >= EC_NUM_GROUPS)
-        return TRUE;
-
-    switch (groupId)
-    {
-    case EC_GROUP_POKEMON:
-    case EC_GROUP_POKEMON_NATIONAL:
-        numWordsInGroup = gNumBardWords_Species;
-        break;
-    case EC_GROUP_MOVE_1:
-    case EC_GROUP_MOVE_2:
-        numWordsInGroup = gNumBardWords_Moves;
-        break;
-    default:
-        numWordsInGroup = gEasyChatGroups[groupId].numWords;
-        break;
-    }
-
-    if (numWordsInGroup <= index)
         return TRUE;
     else
         return FALSE;

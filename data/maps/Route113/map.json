@@ -431,13 +431,6 @@
       "script": "Route113_EventScript_GlassWorkshopSign"
     },
     {
-      "type": "secret_base",
-      "x": 49,
-      "y": 8,
-      "elevation": 3,
-      "secret_base_id": "SECRET_BASE_RED_CAVE1_3"
-    },
-    {
       "type": "hidden_item",
       "x": 66,
       "y": 3,

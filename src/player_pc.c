@@ -1,7 +1,6 @@
 #include "global.h"
 #include "constants/songs.h"
 #include "bg.h"
-#include "decoration.h"
 #include "event_scripts.h"
 #include "event_object_movement.h"
 #include "field_screen_effect.h"
@@ -57,7 +56,6 @@ static void Mailbox_MailOptionsProcessInput(u8 taskId);
 
 static void PlayerPC_ItemStorage(u8 taskId);
 static void PlayerPC_Mailbox(u8 taskId);
-static void PlayerPC_Decoration(u8 var);
 static void PlayerPC_TurnOff(u8 taskId);
 
 static void Mailbox_DoMailMoveToBag(u8 taskId);
@@ -140,16 +138,7 @@ static const struct MenuAction sPlayerPCMenuActions[] =
 {
     { gText_ItemStorage, PlayerPC_ItemStorage },
     { gText_Mailbox, PlayerPC_Mailbox },
-    { gText_Decoration, PlayerPC_Decoration },
     { gText_TurnOff, PlayerPC_TurnOff }
-};
-
-static const u8 gBedroomPC_OptionOrder[] =
-{
-    PLAYERPC_MENU_ITEMSTORAGE,
-    PLAYERPC_MENU_MAILBOX,
-    PLAYERPC_MENU_DECORATION,
-    PLAYERPC_MENU_TURNOFF
 };
 
 static const u8 gPlayerPC_OptionOrder[] =
@@ -313,7 +302,7 @@ void NewGameInitPCItems(void)
 
 void BedroomPC(void)
 {
-    gPcItemMenuOptionOrder = gBedroomPC_OptionOrder;
+    gPcItemMenuOptionOrder = gPlayerPC_OptionOrder;
     gPcItemMenuOptionsNum = 4;
     DisplayItemMessageOnField(CreateTask(TaskDummy, 0), gText_WhatWouldYouLike, InitPlayerPCMenu);
 }
@@ -410,11 +399,6 @@ static void PlayerPC_Mailbox(u8 taskId)
         else
             DisplayItemMessageOnField(taskId, gText_NoMailHere, ReshowPlayerPC);
     }
-}
-
-static void PlayerPC_Decoration(u8 taskId)
-{
-    DoPlayerRoomDecorationMenu(taskId);
 }
 
 static void PlayerPC_TurnOff(u8 taskId)

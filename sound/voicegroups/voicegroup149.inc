@@ -69,7 +69,7 @@ voicegroup149:: @ 86A6DE4
 	voice_square_1 60, 0, 0, 2, 0, 0, 15, 0  @ 86A70FC
 	voice_square_1 60, 0, 0, 2, 0, 0, 15, 0  @ 86A7108
 	voice_directsound 60, 0, DirectSoundWaveData_sd90_classical_oboe, 43, 188, 103, 165  @ 86A7114
-	voice_directsound 60, 0, DirectSoundWaveData_unused_sd90_oboe, 43, 165, 103, 165  @ 86A7120
+	voice_square_1 60, 0, 0, 2, 0, 0, 15, 0  @ 86A7120
 	voice_square_1 60, 0, 0, 2, 0, 0, 15, 0  @ 86A712C
 	voice_square_1 60, 0, 0, 2, 0, 0, 15, 0  @ 86A7138
 	voice_square_1 60, 0, 0, 2, 0, 0, 15, 0  @ 86A7144

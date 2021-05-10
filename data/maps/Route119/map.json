@@ -786,62 +786,6 @@
       "script": "Route119_EventScript_RouteSignFortree"
     },
     {
-      "type": "secret_base",
-      "x": 5,
-      "y": 2,
-      "elevation": 0,
-      "secret_base_id": "SECRET_BASE_SHRUB1_1"
-    },
-    {
-      "type": "secret_base",
-      "x": 4,
-      "y": 89,
-      "elevation": 0,
-      "secret_base_id": "SECRET_BASE_SHRUB1_2"
-    },
-    {
-      "type": "secret_base",
-      "x": 5,
-      "y": 15,
-      "elevation": 0,
-      "secret_base_id": "SECRET_BASE_SHRUB2_1"
-    },
-    {
-      "type": "secret_base",
-      "x": 7,
-      "y": 101,
-      "elevation": 3,
-      "secret_base_id": "SECRET_BASE_SHRUB2_2"
-    },
-    {
-      "type": "secret_base",
-      "x": 34,
-      "y": 24,
-      "elevation": 3,
-      "secret_base_id": "SECRET_BASE_SHRUB3_1"
-    },
-    {
-      "type": "secret_base",
-      "x": 31,
-      "y": 73,
-      "elevation": 3,
-      "secret_base_id": "SECRET_BASE_SHRUB4_1"
-    },
-    {
-      "type": "secret_base",
-      "x": 16,
-      "y": 81,
-      "elevation": 0,
-      "secret_base_id": "SECRET_BASE_BLUE_CAVE3_3"
-    },
-    {
-      "type": "secret_base",
-      "x": 16,
-      "y": 28,
-      "elevation": 0,
-      "secret_base_id": "SECRET_BASE_BLUE_CAVE4_3"
-    },
-    {
       "type": "hidden_item",
       "x": 17,
       "y": 82,
@@ -856,41 +800,6 @@
       "elevation": 3,
       "item": "ITEM_ULTRA_BALL",
       "flag": "FLAG_HIDDEN_ITEM_ROUTE_119_ULTRA_BALL"
-    },
-    {
-      "type": "secret_base",
-      "x": 26,
-      "y": 81,
-      "elevation": 0,
-      "secret_base_id": "SECRET_BASE_RED_CAVE3_3"
-    },
-    {
-      "type": "secret_base",
-      "x": 19,
-      "y": 76,
-      "elevation": 0,
-      "secret_base_id": "SECRET_BASE_TREE2_3"
-    },
-    {
-      "type": "secret_base",
-      "x": 18,
-      "y": 76,
-      "elevation": 0,
-      "secret_base_id": "SECRET_BASE_TREE4_3"
-    },
-    {
-      "type": "secret_base",
-      "x": 4,
-      "y": 15,
-      "elevation": 0,
-      "secret_base_id": "SECRET_BASE_SHRUB3_3"
-    },
-    {
-      "type": "secret_base",
-      "x": 6,
-      "y": 2,
-      "elevation": 0,
-      "secret_base_id": "SECRET_BASE_SHRUB4_3"
     },
     {
       "type": "hidden_item",
