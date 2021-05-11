@@ -1080,7 +1080,6 @@ static void TrySetApprenticeHeldItem(void)
     // Make sure the item hasnt already been suggested in previous questions
     for (i = 0; i < count && i < CURRENT_QUESTION_NUM; i++)
     {
-        do {} while(0);
         if (PLAYER_APPRENTICE.questions[i].questionId == QUESTION_ID_WHAT_ITEM
             && PLAYER_APPRENTICE.questions[i].suggestedChange
             && PLAYER_APPRENTICE.questions[i].data == gSpecialVar_0x8005)

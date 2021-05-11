@@ -369,10 +369,10 @@ CableClub_Text_FirstTimeRightThisWay: @ 827964A
 	.string "Communication System works.\p"
 	.string "First, I need to show you this floor of\n"
 .if UK
-    .string "our POKéMON CENTRE.\p"
+	.string "our POKéMON CENTRE.\p"
 	.string "Right this way, please.$"
 .else
-    .string "our POKéMON CENTER.\p"
+	.string "our POKéMON CENTER.\p"
 	.string "Right this way, please.$"
 .endif
 
@@ -400,14 +400,15 @@ CableClub_Text_ExplainWirelessClubFirstTime: @ 8279718
 
 CableClub_Text_AskAboutLinking: @ 8279937
 	.string "Hello, {PLAYER}!\p"
-	.string "It's me, TEALA, the POKéMON\n"
 .if UK
-    .string "CENTRE 2F attendant.\p"
+	.string "It's me, TEALA, the POKéMON CENTRE 2F\n"
+	.string "attendant.\p"
 .else
-    .string "CENTER 2F attendant.\p"
+	.string "It's me, TEALA, the POKéMON CENTER 2F\n"
+	.string "attendant.\p"
 .endif
-	.string "Is there something you needed to\n"
-	.string "ask me about linking?$"
+	.string "Is there something you needed to ask\n"
+	.string "me about linking?$"
 
 CableClub_Text_ExplainWirelessClub: @ 82799AA
 	.string "Let me explain how the POKéMON\n"

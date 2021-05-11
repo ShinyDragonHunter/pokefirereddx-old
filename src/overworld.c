@@ -1661,6 +1661,8 @@ void CB2_ReturnToFieldFadeFromBlack(void)
 
 static void FieldCB_FadeTryShowMapPopup(void)
 {
+    if (SHOW_MAP_NAME_ENABLED)
+        ShowMapNamePopup();
     FieldCB_WarpExitFadeFromBlack();
 }
 
@@ -1906,6 +1908,8 @@ static bool32 LoadMapInStepsLocal(u8 *state, bool32 a2)
         (*state)++;
         break;
     case 11:
+        if (SHOW_MAP_NAME_ENABLED)
+            ShowMapNamePopup();
         (*state)++;
         break;
     case 12:
