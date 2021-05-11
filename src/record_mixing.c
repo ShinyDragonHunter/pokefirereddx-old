@@ -703,7 +703,7 @@ static void ReceiveDaycareMailData(struct RecordMixingDaycareMail *src, size_t r
                     nicknameLanguage = language;
                 }
 
-                if (version < VERSION_SAPPHIRE)
+                if (version < VERSION_EMERALD)
                 {
                     recordMixingMail->gameLanguage = otNameLanguage;
                     recordMixingMail->monLanguage = nicknameLanguage;

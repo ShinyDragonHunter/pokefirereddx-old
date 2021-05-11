@@ -25,10 +25,10 @@ jobs:
           ./build.sh
           ./install.sh ../
 
-      - name: Build
+      - name: Agbcc
         run: make -j${nproc}
 
-      - name: UK
+      - name: Uk
         run: make -j${nproc} uk
 
       - name: Modern

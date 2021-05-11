@@ -30,7 +30,6 @@ enum
 {
     PLAYERPC_MENU_ITEMSTORAGE,
     PLAYERPC_MENU_MAILBOX,
-    PLAYERPC_MENU_DECORATION,
     PLAYERPC_MENU_TURNOFF
 };
 
@@ -74,6 +73,7 @@ struct PlayerPCItemPageStruct
     u8 count;
     u8 filler[3];
     u8 scrollIndicatorTaskId;
+    bool8 notInRoom;
 };
 
 // Exported type declarations
