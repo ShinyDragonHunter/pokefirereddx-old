@@ -310,7 +310,7 @@ void BedroomPC(void)
 void PlayerPC(void)
 {
     gPcItemMenuOptionOrder = gPlayerPC_OptionOrder;
-    gPcItemMenuOptionsNum = ARRAY_COUNT(gPlayerPC_OptionOrder);;
+    gPcItemMenuOptionsNum = ARRAY_COUNT(gPlayerPC_OptionOrder);
     DisplayItemMessageOnField(CreateTask(TaskDummy, 0), gText_WhatWouldYouLike, InitPlayerPCMenu);
 }
 
@@ -320,7 +320,7 @@ static void InitPlayerPCMenu(u8 taskId)
     struct WindowTemplate windowTemplate;
 
     data = gTasks[taskId].data;
-    if (gPcItemMenuOptionsNum == 3)
+    if (gPcItemMenuOptionsNum == 2)
         windowTemplate = gUnknown_085DFF24[0];
     else
         windowTemplate = gUnknown_085DFF24[1];
@@ -404,10 +404,7 @@ static void PlayerPC_TurnOff(u8 taskId)
 {
     if (gPcItemMenuOptionsNum == 4) // if the option count is 4, we are at the bedroom PC, so do gender specific handling.
     {
-        if (gSaveBlock2Ptr->playerGender)
-            ScriptContext1_SetupScript(LittlerootTown_MaysHouse_2F_EventScript_TurnOffPlayerPC);
-        else
-            ScriptContext1_SetupScript(LittlerootTown_BrendansHouse_2F_EventScript_TurnOffPlayerPC);
+        ScriptContext1_SetupScript((gSaveBlock2Ptr->playerGender) ? LittlerootTown_MaysHouse_2F_EventScript_TurnOffPlayerPC : LittlerootTown_BrendansHouse_2F_EventScript_TurnOffPlayerPC);
     }
     else
     {

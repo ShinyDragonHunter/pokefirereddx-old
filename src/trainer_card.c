@@ -1236,24 +1236,20 @@ static void BufferNameForCardBack(void)
 
 static void PrintNameOnCardBack(void)
 {
-    u8 fontId;
-    s32 xOffset;
-    u8 top;
+    u8 fontId, top;
 
     if (sData->isHoenn)
     {
         fontId = 1;
-        xOffset = GetStringRightAlignXOffset(1, sData->textPlayersCard, 216);
         top = 9;
     }
     else
     {
         fontId = 2;
-        (u8)xOffset = 138;
         top = 11;
     }
 
-    AddTextPrinterParameterized3(1, fontId, xOffset, top, sTrainerCardTextColors, TEXT_SPEED_FF, sData->textPlayersCard);
+    AddTextPrinterParameterized3(1, fontId, (sData->isHoenn) ? GetStringRightAlignXOffset(1, sData->textPlayersCard, 216) : 138, top, sTrainerCardTextColors, TEXT_SPEED_FF, sData->textPlayersCard);
 }
 
 static const u8 sText_HofTime[] = _("{STR_VAR_1}:{STR_VAR_2}:{STR_VAR_3}");

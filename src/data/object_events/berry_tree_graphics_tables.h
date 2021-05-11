@@ -370,7 +370,7 @@ const u16 gDeadBerryTreeObjectEventGraphicsIdTable[] = {OBJ_EVENT_GFX_BERRY_TREE
 
 const u16 gBerryTreeObjectEventGraphicsIdTable[] = {OBJ_EVENT_GFX_BERRY_TREE_EARLY_STAGES, OBJ_EVENT_GFX_BERRY_TREE_EARLY_STAGES, OBJ_EVENT_GFX_BERRY_TREE_LATE_STAGES, OBJ_EVENT_GFX_BERRY_TREE_LATE_STAGES, OBJ_EVENT_GFX_BERRY_TREE_LATE_STAGES};
 
-static const struct SpriteFrameImage *const gBerryTreePicTablePointers[] = {
+const struct SpriteFrameImage *const gBerryTreePicTablePointers[] = {
     [ITEM_CHERI_BERRY - FIRST_BERRY_INDEX] = sPicTable_CheriBerryTree,
     [ITEM_CHESTO_BERRY - FIRST_BERRY_INDEX] = sPicTable_ChestoBerryTree,
     [ITEM_PECHA_BERRY - FIRST_BERRY_INDEX] = sPicTable_PechaBerryTree,
