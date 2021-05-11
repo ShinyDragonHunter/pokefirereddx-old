@@ -94,51 +94,18 @@ extern const u8 gText_First[];
 extern const u8 gText_Second[];
 extern const u8 gText_Third[];
 
-extern const u8 gText_NoDecorations[];
-extern const u8 gText_NoDecorationsInUse[];
-
 extern const u8 gText_Exit[];
 extern const u8 gText_Cancel[];
 
 extern const u8 gText_ThrowAwayVar1[];
 extern const u8 gText_Var1ThrownAway[];
 
-extern const u8 gText_Color161Shadow161[];
 extern const u8 gText_GoBackPrevMenu[];
-extern const u8 gText_CantPlaceInRoom[];
-extern const u8 gText_NoMoreDecorations[];
-extern const u8 gText_NoMoreDecorations2[];
-extern const u8 gText_InUseAlready[];
-extern const u8 gText_CancelDecorating[];
-extern const u8 gText_PlaceItHere[];
-extern const u8 gText_CantBePlacedHere[];
-extern const u8 gText_DecorationReturnedToPC[];
-extern const u8 gText_StopPuttingAwayDecorations[];
-extern const u8 gText_ReturnDecorationToPC[];
-extern const u8 gText_NoDecorationHere[];
-extern const u8 gText_DecorationWillBeDiscarded[];
-extern const u8 gText_CantThrowAwayInUse[];
-extern const u8 gText_DecorationThrownAway[];
 
 extern const u8 gText_S[];
 extern const u8 gText_Ies[];
 extern const u8 gText_Berry[];
 
-extern const u8 gText_Desk[];
-extern const u8 gText_Chair[];
-extern const u8 gText_Plant[];
-extern const u8 gText_Ornament[];
-extern const u8 gText_Mat[];
-extern const u8 gText_Poster[];
-
-extern const u8 gText_PutOutSelectedDecorItem[];
-extern const u8 gText_StoreChosenDecorInPC[];
-extern const u8 gText_ThrowAwayUnwantedDecors[];
-extern const u8 gText_Doll[];
-extern const u8 gText_Cushion[];
-extern const u8 gText_Decorate[];
-extern const u8 gText_PutAway[];
-extern const u8 gText_Toss2[];
 extern const u8 gText_Hoenn[];
 
 extern const u8 gText_FlyToWhere[];
@@ -162,8 +129,6 @@ extern const u8 gText_Cancel4[];
 extern const u8 gText_IsThisTheCorrectTime[];
 extern const u8 gText_PkmnFainted3[];
 extern const u8 gText_Coins[];
-extern const u8 gText_Silver[];
-extern const u8 gText_Gold[];
 
 extern const u8 gText_Var1AteTheVar2[];
 extern const u8 gText_Var1HappilyAteVar2[];
@@ -548,7 +513,6 @@ extern const u8 gText_GoBackPrevMenu[];
 
 extern const u8 gText_ItemStorage[];
 extern const u8 gText_Mailbox[];
-extern const u8 gText_Decoration[];
 extern const u8 gText_TurnOff[];
 
 extern const u8 gText_WithdrawItem[];
@@ -642,23 +606,6 @@ extern const u8 gText_80Pts[];
 extern const u8 gText_90Pts[];
 extern const u8 gText_100Pts[];
 extern const u8 gText_QuestionMark[];
-
-extern const u8 gText_KissPoster16BP[];
-extern const u8 gText_KissCushion32BP[];
-extern const u8 gText_SmoochumDoll32BP[];
-extern const u8 gText_TogepiDoll48BP[];
-extern const u8 gText_MeowthDoll48BP[];
-extern const u8 gText_ClefairyDoll48BP[];
-extern const u8 gText_DittoDoll48BP[];
-extern const u8 gText_CyndaquilDoll80BP[];
-extern const u8 gText_ChikoritaDoll80BP[];
-extern const u8 gText_TotodileDoll80BP[];
-
-extern const u8 gText_LaprasDoll128BP[];
-extern const u8 gText_SnorlaxDoll128BP[];
-extern const u8 gText_VenusaurDoll256BP[];
-extern const u8 gText_CharizardDoll256BP[];
-extern const u8 gText_BlastoiseDoll256BP[];
 
 extern const u8 gText_Protein1BP[];
 extern const u8 gText_Calcium1BP[];
@@ -816,17 +763,6 @@ extern const u8 BattleFrontier_Lounge3_Text_GetToBattlePyramid[];
 extern const u8 gText_BP[];
 
 // Battle Frontier Exchange Corner
-extern const u8 BattleFrontier_ExchangeServiceCorner_Text_KissPosterDesc[];
-extern const u8 BattleFrontier_ExchangeServiceCorner_Text_KissCushionDesc[];
-extern const u8 BattleFrontier_ExchangeServiceCorner_Text_SmoochumDollDesc[];
-extern const u8 BattleFrontier_ExchangeServiceCorner_Text_TogepiDollDesc[];
-extern const u8 BattleFrontier_ExchangeServiceCorner_Text_MeowthDollDesc[];
-extern const u8 BattleFrontier_ExchangeServiceCorner_Text_ClefairyDollDesc[];
-extern const u8 BattleFrontier_ExchangeServiceCorner_Text_DittoDollDesc[];
-extern const u8 BattleFrontier_ExchangeServiceCorner_Text_CyndaquilDollDesc[];
-extern const u8 BattleFrontier_ExchangeServiceCorner_Text_ChikoritaDollDesc[];
-extern const u8 BattleFrontier_ExchangeServiceCorner_Text_TotodileDollDesc[];
-extern const u8 BattleFrontier_ExchangeServiceCorner_Text_LargeDollDesc[];
 extern const u8 BattleFrontier_ExchangeServiceCorner_Text_ProteinDesc[];
 extern const u8 BattleFrontier_ExchangeServiceCorner_Text_CalciumDesc[];
 extern const u8 BattleFrontier_ExchangeServiceCorner_Text_IronDesc[];
@@ -1049,8 +985,6 @@ extern const u8 gText_Info2[];
 extern const u8 gText_WhatsAContest[];
 extern const u8 gText_TypesOfContests[];
 extern const u8 gText_Ranks[];
-extern const u8 gText_Decoration2[];
-extern const u8 gText_PackUp[];
 extern const u8 gText_Registry[];
 extern const u8 gText_Information[];
 extern const u8 gText_Mach[];
@@ -1180,11 +1114,6 @@ extern const u8 gText_YellowFlute2[];
 extern const u8 gText_RedFlute2[];
 extern const u8 gText_WhiteFlute2[];
 extern const u8 gText_BlackFlute2[];
-extern const u8 gText_GlassChair[];
-extern const u8 gText_GlassDesk[];
-extern const u8 gText_TreeckoDollAndPrice[];
-extern const u8 gText_TorchicDollAndPrice[];
-extern const u8 gText_MudkipDollAndPrice[];
 extern const u8 gText_TM32AndPrice[];
 extern const u8 gText_TM29AndPrice[];
 extern const u8 gText_TM35AndPrice[];

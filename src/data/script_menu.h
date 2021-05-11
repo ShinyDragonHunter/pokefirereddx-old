@@ -31,21 +31,6 @@ static const struct MenuAction MultichoiceList_ContestType[] =
     {gText_Exit},
 };
 
-static const struct MenuAction MultichoiceList_BasePCWithRegistry[] =
-{
-    {gText_Decoration2},
-    {gText_PackUp},
-    {gText_Registry},
-    {gText_Exit},
-};
-
-static const struct MenuAction MultichoiceList_BasePCNoRegistry[] =
-{
-    {gText_Decoration2},
-    {gText_PackUp},
-    {gText_Exit},
-};
-
 static const struct MenuAction MultichoiceList_RegisterMenu[] =
 {
     {gMenuText_Register},
@@ -242,26 +227,6 @@ static const struct MenuAction MultichoiceList_SternDeepSea[] =
 {
     {gText_DeepSeaTooth},
     {gText_DeepSeaScale},
-    {gText_Exit},
-};
-
-static const struct MenuAction MultichoiceList_UnusedAshVendor[] =
-{
-    {gText_BlueFlute2},
-    {gText_YellowFlute2},
-    {gText_RedFlute2},
-    {gText_WhiteFlute2},
-    {gText_BlackFlute2},
-    {gText_GlassChair},
-    {gText_GlassDesk},
-    {gText_Cancel2},
-};
-
-static const struct MenuAction MultichoiceList_GameCornerDolls[] =
-{
-    {gText_TreeckoDollAndPrice},
-    {gText_TorchicDollAndPrice},
-    {gText_MudkipDollAndPrice},
     {gText_Exit},
 };
 
@@ -789,8 +754,8 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_ENTERINFO]                  = MULTICHOICE(MultichoiceList_EnterInfo),
     [MULTI_CONTEST_INFO]               = MULTICHOICE(MultichoiceList_ContestInfo),
     [MULTI_CONTEST_TYPE]               = MULTICHOICE(MultichoiceList_ContestType),
-    [MULTI_BASE_PC_NO_REGISTRY]        = MULTICHOICE(MultichoiceList_BasePCNoRegistry),
-    [MULTI_BASE_PC_WITH_REGISTRY]      = MULTICHOICE(MultichoiceList_BasePCWithRegistry),
+    [MULTI_BASE_PC_NO_REGISTRY]        = MULTICHOICE(MultichoiceList_Exit),
+    [MULTI_BASE_PC_WITH_REGISTRY]      = MULTICHOICE(MultichoiceList_Exit),
     [MULTI_REGISTER_MENU]              = MULTICHOICE(MultichoiceList_RegisterMenu),
     [MULTI_SSTIDAL_LILYCOVE]           = MULTICHOICE(MultichoiceList_Exit),
     [MULTI_UNUSED_9]                   = MULTICHOICE(MultichoiceList_Exit),
@@ -831,8 +796,8 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_ACRO_BIKE_INFO]             = MULTICHOICE(MultichoiceList_AcroBikeInfo),
     [MULTI_SATISFACTION]               = MULTICHOICE(MultichoiceList_Satisfaction),
     [MULTI_STERN_DEEPSEA]              = MULTICHOICE(MultichoiceList_SternDeepSea),
-    [MULTI_UNUSED_ASH_VENDOR]          = MULTICHOICE(MultichoiceList_UnusedAshVendor),
-    [MULTI_GAME_CORNER_DOLLS]          = MULTICHOICE(MultichoiceList_GameCornerDolls),
+    [MULTI_UNUSED_ASH_VENDOR]          = MULTICHOICE(MultichoiceList_Exit),
+    [MULTI_GAME_CORNER_DOLLS]          = MULTICHOICE(MultichoiceList_Exit),
     [MULTI_GAME_CORNER_COINS]          = MULTICHOICE(MultichoiceList_GameCornerCoins),
     [MULTI_HOWS_FISHING]               = MULTICHOICE(MultichoiceList_HowsFishing),
     [MULTI_UNUSED_51]                  = MULTICHOICE(MultichoiceList_Exit),

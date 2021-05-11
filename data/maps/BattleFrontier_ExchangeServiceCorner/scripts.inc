@@ -260,70 +260,6 @@ BattleFrontier_ExchangeServiceCorner_Text_WelcomePleaseChoosePrize: @ 825F7FA
 	.string "have collected for lovely prizes.\p"
 	.string "Please choose a prize from this list.$"
 
-@ Unused
-BattleFrontier_ExchangeServiceCorner_Text_PleaseChoosePrize: @ 825F890
-	.string "Please choose a prize from this list.$"
-
-BattleFrontier_ExchangeServiceCorner_Text_ConfirmKissPoster: @ 825F8B6
-	.string "You've chosen the KISS POSTER.\n"
-	.string "Is that correct?$"
-
-BattleFrontier_ExchangeServiceCorner_Text_ConfirmKissCushion: @ 825F8E6
-	.string "You've chosen the KISS CUSHION.\n"
-	.string "Is that correct?$"
-
-BattleFrontier_ExchangeServiceCorner_Text_ConfirmSmoochumDoll: @ 825F917
-	.string "You've chosen the SMOOCHUM DOLL.\n"
-	.string "Is that correct?$"
-
-BattleFrontier_ExchangeServiceCorner_Text_ConfirmTogepiDoll: @ 825F949
-	.string "You've chosen the TOGEPI DOLL.\n"
-	.string "Is that correct?$"
-
-BattleFrontier_ExchangeServiceCorner_Text_ConfirmMeowthDoll: @ 825F979
-	.string "You've chosen the MEOWTH DOLL.\n"
-	.string "Is that correct?$"
-
-BattleFrontier_ExchangeServiceCorner_Text_ConfirmClefairyDoll: @ 825F9A9
-	.string "You've chosen the CLEFAIRY DOLL.\n"
-	.string "Is that correct?$"
-
-BattleFrontier_ExchangeServiceCorner_Text_ConfirmDittoDoll: @ 825F9DB
-	.string "You've chosen the DITTO DOLL.\n"
-	.string "Is that correct?$"
-
-BattleFrontier_ExchangeServiceCorner_Text_ConfirmCyndaquilDoll: @ 825FA0A
-	.string "You've chosen the CYNDAQUIL DOLL.\n"
-	.string "Is that correct?$"
-
-BattleFrontier_ExchangeServiceCorner_Text_ConfirmChikoritaDoll: @ 825FA3D
-	.string "You've chosen the CHIKORITA DOLL.\n"
-	.string "Is that correct?$"
-
-BattleFrontier_ExchangeServiceCorner_Text_ConfirmTotodileDoll: @ 825FA70
-	.string "You've chosen the TOTODILE DOLL.\n"
-	.string "Is that correct?$"
-
-BattleFrontier_ExchangeServiceCorner_Text_ConfirmLaprasDoll: @ 825FAA2
-	.string "You've chosen the LAPRAS DOLL.\n"
-	.string "Is that correct?$"
-
-BattleFrontier_ExchangeServiceCorner_Text_ConfirmSnorlaxDoll: @ 825FAD2
-	.string "You've chosen the SNORLAX DOLL.\n"
-	.string "Is that correct?$"
-
-BattleFrontier_ExchangeServiceCorner_Text_ConfirmVenusaurDoll: @ 825FB03
-	.string "You've chosen the VENUSAUR DOLL.\n"
-	.string "Is that correct?$"
-
-BattleFrontier_ExchangeServiceCorner_Text_ConfirmCharizardDoll: @ 825FB35
-	.string "You've chosen the CHARIZARD DOLL.\n"
-	.string "Is that correct?$"
-
-BattleFrontier_ExchangeServiceCorner_Text_ConfirmBlastoiseDoll: @ 825FB68
-	.string "You've chosen the BLASTOISE DOLL.\n"
-	.string "Is that correct?$"
-
 BattleFrontier_ExchangeServiceCorner_Text_ConfirmProtein: @ 825FB9B
 	.string "You've chosen the PROTEIN.\n"
 	.string "Is that correct?$"
@@ -440,49 +376,6 @@ BattleFrontier_ExchangeServiceCorner_Text_MoreBattlePointsForRecord: @ 826012D
 	.string "If you stretch your record at any of\n"
 	.string "the BATTLE facilities, they start\l"
 	.string "giving you more and more Battle Points.$"
-
-BattleFrontier_ExchangeServiceCorner_Text_KissPosterDesc:: @ 82601AA
-	.string "A large poster with a SMOOCHUM print.$"
-
-BattleFrontier_ExchangeServiceCorner_Text_KissCushionDesc:: @ 82601D0
-	.string "A SMOOCHUM cushion.\n"
-	.string "Place it on a mat or a desk.$"
-
-BattleFrontier_ExchangeServiceCorner_Text_SmoochumDollDesc:: @ 8260201
-	.string "A SMOOCHUM DOLL.\n"
-	.string "Place it on a mat or a desk.$"
-
-BattleFrontier_ExchangeServiceCorner_Text_TogepiDollDesc:: @ 826022F
-	.string "A TOGEPI DOLL.\n"
-	.string "Place it on a mat or a desk.$"
-
-BattleFrontier_ExchangeServiceCorner_Text_MeowthDollDesc:: @ 826025B
-	.string "A MEOWTH DOLL.\n"
-	.string "Place it on a mat or a desk.$"
-
-BattleFrontier_ExchangeServiceCorner_Text_ClefairyDollDesc:: @ 8260287
-	.string "A CLEFAIRY DOLL.\n"
-	.string "Place it on a mat or a desk.$"
-
-BattleFrontier_ExchangeServiceCorner_Text_DittoDollDesc:: @ 82602B5
-	.string "A DITTO DOLL.\n"
-	.string "Place it on a mat or a desk.$"
-
-BattleFrontier_ExchangeServiceCorner_Text_CyndaquilDollDesc:: @ 82602E0
-	.string "A CYNDAQUIL DOLL.\n"
-	.string "Place it on a mat or a desk.$"
-
-BattleFrontier_ExchangeServiceCorner_Text_ChikoritaDollDesc:: @ 826030F
-	.string "A CHIKORITA DOLL.\n"
-	.string "Place it on a mat or a desk.$"
-
-BattleFrontier_ExchangeServiceCorner_Text_TotodileDollDesc:: @ 826033E
-	.string "A TOTODILE DOLL.\n"
-	.string "Place it on a mat or a desk.$"
-
-BattleFrontier_ExchangeServiceCorner_Text_LargeDollDesc:: @ 826036C
-	.string "A large DOLL.\n"
-	.string "Place it on a mat or a desk.$"
 
 BattleFrontier_ExchangeServiceCorner_Text_ProteinDesc:: @ 8260397
 	.string "Raises the stat ATTACK of one\n"

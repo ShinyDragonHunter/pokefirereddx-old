@@ -303,14 +303,14 @@ void NewGameInitPCItems(void)
 void BedroomPC(void)
 {
     gPcItemMenuOptionOrder = gPlayerPC_OptionOrder;
-    gPcItemMenuOptionsNum = 4;
+    gPcItemMenuOptionsNum = ARRAY_COUNT(gPlayerPC_OptionOrder);
     DisplayItemMessageOnField(CreateTask(TaskDummy, 0), gText_WhatWouldYouLike, InitPlayerPCMenu);
 }
 
 void PlayerPC(void)
 {
     gPcItemMenuOptionOrder = gPlayerPC_OptionOrder;
-    gPcItemMenuOptionsNum = 3;
+    gPcItemMenuOptionsNum = ARRAY_COUNT(gPlayerPC_OptionOrder);;
     DisplayItemMessageOnField(CreateTask(TaskDummy, 0), gText_WhatWouldYouLike, InitPlayerPCMenu);
 }
 
@@ -322,8 +322,8 @@ static void InitPlayerPCMenu(u8 taskId)
     data = gTasks[taskId].data;
     if (gPcItemMenuOptionsNum == 3)
         windowTemplate = gUnknown_085DFF24[0];
-    else
-        windowTemplate = gUnknown_085DFF24[1];
+//    else
+//        windowTemplate = gUnknown_085DFF24[1];
     windowTemplate.width = sub_81DB3D8(sPlayerPCMenuActions, gPcItemMenuOptionOrder, gPcItemMenuOptionsNum);
     data[4] = AddWindow(&windowTemplate);
     SetStandardWindowBorderStyle(data[4], 0);
@@ -346,8 +346,6 @@ static void PlayerPCProcessMenuInput(u8 taskId)
 
     switch (inputOptionId)
     {
-        case MENU_NOTHING_CHOSEN:
-            break;
         case MENU_B_PRESSED:
             PlaySE(SE_SELECT);
             ClearStdWindowAndFrameToTransparent(data[4], FALSE);
@@ -355,6 +353,7 @@ static void PlayerPCProcessMenuInput(u8 taskId)
             RemoveWindow(data[4]);
             ScheduleBgCopyTilemapToVram(0);
             gTasks[taskId].func = PlayerPC_TurnOff;
+        case MENU_NOTHING_CHOSEN:
             break;
         default:
             ClearStdWindowAndFrameToTransparent(data[4], FALSE);
@@ -405,10 +404,10 @@ static void PlayerPC_TurnOff(u8 taskId)
 {
     if (gPcItemMenuOptionsNum == 4) // if the option count is 4, we are at the bedroom PC, so do gender specific handling.
     {
-        if (gSaveBlock2Ptr->playerGender == MALE)
-            ScriptContext1_SetupScript(LittlerootTown_BrendansHouse_2F_EventScript_TurnOffPlayerPC);
-        else
+        if (gSaveBlock2Ptr->playerGender)
             ScriptContext1_SetupScript(LittlerootTown_MaysHouse_2F_EventScript_TurnOffPlayerPC);
+        else
+            ScriptContext1_SetupScript(LittlerootTown_BrendansHouse_2F_EventScript_TurnOffPlayerPC);
     }
     else
     {
