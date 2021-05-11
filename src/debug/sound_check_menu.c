@@ -1214,12 +1214,6 @@ static void DestroyWindow(u8 windowId) // sub_080E9750
     X(SE_BOO, "SE-BOO") \
     X(SE_BALL, "SE-BALL") \
     X(SE_CONTEST_PLACE, "SE-CONTEST-PLACE") \
-    X(SE_A, "SE-A") \
-    X(SE_I, "SE-I") \
-    X(SE_U, "SE-U") \
-    X(SE_E, "SE-E") \
-    X(SE_O, "SE-O") \
-    X(SE_N, "SE-N") \
     X(SE_SUCCESS, "SE-SUCCESS") \
     X(SE_FAILURE, "SE-FAILURE") \
     X(SE_EXP, "SE-EXP") \
@@ -1251,21 +1245,11 @@ static void DestroyWindow(u8 windowId) // sub_080E9750
     X(SE_BALL_BOUNCE_4, "SE-BALL-BOUNCE-4") \
     X(SE_BALL_TRADE, "SE-BALL-TRADE") \
     X(SE_BALL_THROW, "SE-BALL-THROW") \
-    X(SE_NOTE_C, "SE-NOTE-C") \
-    X(SE_NOTE_D, "SE-NOTE-D") \
-    X(SE_NOTE_E, "SE-NOTE-E") \
-    X(SE_NOTE_F, "SE-NOTE-F") \
-    X(SE_NOTE_G, "SE-NOTE-G") \
-    X(SE_NOTE_A, "SE-NOTE-A") \
-    X(SE_NOTE_B, "SE-NOTE-B") \
-    X(SE_NOTE_C_HIGH, "SE-NOTE-C-HIGH") \
     X(SE_PUDDLE, "SE-PUDDLE") \
     X(SE_BRIDGE_WALK, "SE-BRIDGE-WALK") \
     X(SE_ITEMFINDER, "SE-ITEMFINDER") \
     X(SE_DING_DONG, "SE-DING-DONG") \
     X(SE_BALLOON_RED, "SE-BALLOON-RED") \
-    X(SE_BALLOON_BLUE, "SE-BALLOON-BLUE") \
-    X(SE_BALLOON_YELLOW, "SE-BALLOON-YELLOW") \
     X(SE_BREAKABLE_DOOR, "SE-BREAKABLE-DOOR") \
     X(SE_MUD_BALL, "SE-MUD-BALL") \
     X(SE_FIELD_POISON, "SE-FIELD-POISON") \

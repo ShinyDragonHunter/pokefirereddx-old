@@ -633,9 +633,6 @@ $(MID_SUBDIR)/mus_vs_rayquaza.s: %.s: %.mid
 $(MID_SUBDIR)/mus_encounter_hiker.s: %.s: %.mid
 	$(MID) $< $@ -E -R$(STD_REVERB) -G097 -V076
 
-$(MID_SUBDIR)/se_a.s: %.s: %.mid
-	$(MID) $< $@ -E -R$(STD_REVERB) -G128 -V095 -P4
-
 $(MID_SUBDIR)/se_bang.s: %.s: %.mid
 	$(MID) $< $@ -E -R$(STD_REVERB) -G128 -V110 -P4
 
@@ -699,9 +696,6 @@ $(MID_SUBDIR)/se_field_poison.s: %.s: %.mid
 $(MID_SUBDIR)/se_door.s: %.s: %.mid
 	$(MID) $< $@ -E -R$(STD_REVERB) -G127 -V080 -P5
 
-$(MID_SUBDIR)/se_e.s: %.s: %.mid
-	$(MID) $< $@ -E -R$(STD_REVERB) -G128 -V120 -P4
-
 $(MID_SUBDIR)/se_elevator.s: %.s: %.mid
 	$(MID) $< $@ -E -R$(STD_REVERB) -G128 -V100 -P4
 
@@ -726,12 +720,6 @@ $(MID_SUBDIR)/se_lavaridge_fall_warp.s: %.s: %.mid
 $(MID_SUBDIR)/se_balloon_red.s: %.s: %.mid
 	$(MID) $< $@ -E -R$(STD_REVERB) -G128 -V105 -P4
 
-$(MID_SUBDIR)/se_balloon_blue.s: %.s: %.mid
-	$(MID) $< $@ -E -R$(STD_REVERB) -G128 -V105 -P4
-
-$(MID_SUBDIR)/se_balloon_yellow.s: %.s: %.mid
-	$(MID) $< $@ -E -R$(STD_REVERB) -G128 -V105 -P4
-
 $(MID_SUBDIR)/se_arena_timeup1.s: %.s: %.mid
 	$(MID) $< $@ -E -R$(STD_REVERB) -G129 -P5
 
@@ -749,9 +737,6 @@ $(MID_SUBDIR)/se_rotating_gate.s: %.s: %.mid
 
 $(MID_SUBDIR)/se_low_health.s: %.s: %.mid
 	$(MID) $< $@ -E -R$(STD_REVERB) -G127 -V100 -P3
-
-$(MID_SUBDIR)/se_i.s: %.s: %.mid
-	$(MID) $< $@ -E -R$(STD_REVERB) -G128 -V120 -P4
 
 $(MID_SUBDIR)/se_sliding_door.s: %.s: %.mid
 	$(MID) $< $@ -E -R$(STD_REVERB) -G128 -V095 -P4
@@ -807,9 +792,6 @@ $(MID_SUBDIR)/se_berry_blender.s: %.s: %.mid
 $(MID_SUBDIR)/se_switch.s: %.s: %.mid
 	$(MID) $< $@ -E -R$(STD_REVERB) -G127 -V100 -P4
 
-$(MID_SUBDIR)/se_n.s: %.s: %.mid
-	$(MID) $< $@ -E -R$(STD_REVERB) -G128 -P4
-
 $(MID_SUBDIR)/se_ball_throw.s: %.s: %.mid
 	$(MID) $< $@ -E -R$(STD_REVERB) -G128 -V120 -P5
 
@@ -818,9 +800,6 @@ $(MID_SUBDIR)/se_ship.s: %.s: %.mid
 
 $(MID_SUBDIR)/se_flee.s: %.s: %.mid
 	$(MID) $< $@ -E -R$(STD_REVERB) -G127 -V090 -P5
-
-$(MID_SUBDIR)/se_o.s: %.s: %.mid
-	$(MID) $< $@ -E -R$(STD_REVERB) -G128 -V120 -P4
 
 $(MID_SUBDIR)/se_intro_blast.s: %.s: %.mid
 	$(MID) $< $@ -E -R$(STD_REVERB) -G127 -V100 -P5
@@ -978,31 +957,7 @@ $(MID_SUBDIR)/se_pokenav_call.s: %.s: %.mid
 $(MID_SUBDIR)/se_pokenav_hang_up.s: %.s: %.mid
 	$(MID) $< $@ -E -R$(STD_REVERB) -G129 -V110 -P5
 
-$(MID_SUBDIR)/se_note_a.s: %.s: %.mid
-	$(MID) $< $@ -E -R$(STD_REVERB) -G128 -V110 -P4
-
-$(MID_SUBDIR)/se_note_b.s: %.s: %.mid
-	$(MID) $< $@ -E -R$(STD_REVERB) -G128 -V110 -P4
-
-$(MID_SUBDIR)/se_note_c.s: %.s: %.mid
-	$(MID) $< $@ -E -R$(STD_REVERB) -G128 -V110 -P4
-
-$(MID_SUBDIR)/se_note_c_high.s: %.s: %.mid
-	$(MID) $< $@ -E -R$(STD_REVERB) -G128 -V110 -P4
-
-$(MID_SUBDIR)/se_note_d.s: %.s: %.mid
-	$(MID) $< $@ -E -R$(STD_REVERB) -G128 -V110 -P4
-
 $(MID_SUBDIR)/se_mud_ball.s: %.s: %.mid
-	$(MID) $< $@ -E -R$(STD_REVERB) -G128 -V110 -P4
-
-$(MID_SUBDIR)/se_note_e.s: %.s: %.mid
-	$(MID) $< $@ -E -R$(STD_REVERB) -G128 -V110 -P4
-
-$(MID_SUBDIR)/se_note_f.s: %.s: %.mid
-	$(MID) $< $@ -E -R$(STD_REVERB) -G128 -V110 -P4
-
-$(MID_SUBDIR)/se_note_g.s: %.s: %.mid
 	$(MID) $< $@ -E -R$(STD_REVERB) -G128 -V110 -P4
 
 $(MID_SUBDIR)/se_breakable_door.s: %.s: %.mid
@@ -1022,9 +977,6 @@ $(MID_SUBDIR)/se_truck_stop.s: %.s: %.mid
 
 $(MID_SUBDIR)/se_repel.s: %.s: %.mid
 	$(MID) $< $@ -E -R$(STD_REVERB) -G127 -V090 -P4
-
-$(MID_SUBDIR)/se_u.s: %.s: %.mid
-	$(MID) $< $@ -E -R$(STD_REVERB) -G128 -P4
 
 $(MID_SUBDIR)/se_sudowoodo_shake.s: %.s: %.mid
 	$(MID) $< $@ -E -R$(STD_REVERB) -G129 -V077 -P5

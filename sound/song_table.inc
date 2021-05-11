@@ -26,12 +26,6 @@ gSongTable:: @ 86B49F0
 	song se_boo, 1, 1
 	song se_ball, 1, 1
 	song se_contest_place, 2, 2
-	song se_a, 1, 1
-	song se_i, 1, 1
-	song se_u, 1, 1
-	song se_e, 1, 1
-	song se_o, 1, 1
-	song se_n, 1, 1
 	song se_success, 1, 1
 	song se_failure, 1, 1
 	song se_exp, 1, 1
@@ -63,21 +57,11 @@ gSongTable:: @ 86B49F0
 	song se_ball_bounce_4, 1, 1
 	song se_ball_trade, 2, 2
 	song se_ball_throw, 1, 1
-	song se_note_c, 2, 2
-	song se_note_d, 2, 2
-	song se_note_e, 2, 2
-	song se_note_f, 2, 2
-	song se_note_g, 2, 2
-	song se_note_a, 2, 2
-	song se_note_b, 2, 2
-	song se_note_c_high, 2, 2
 	song se_puddle, 2, 2
 	song se_bridge_walk, 2, 2
 	song se_itemfinder, 1, 1
 	song se_ding_dong, 1, 1
 	song se_balloon_red, 2, 2
-	song se_balloon_blue, 2, 2
-	song se_balloon_yellow, 2, 2
 	song se_breakable_door, 2, 2
 	song se_mud_ball, 2, 2
 	song se_field_poison, 1, 1
@@ -269,6 +253,22 @@ gSongTable:: @ 86B49F0
 	song se_pike_curtain_close, 1, 1
 	song se_pike_curtain_open, 1, 1
 	song se_sudowoodo_shake, 1, 1
+	song dummy_song_header, 0, 0
+	song dummy_song_header, 0, 0
+	song dummy_song_header, 0, 0
+	song dummy_song_header, 0, 0
+	song dummy_song_header, 0, 0
+	song dummy_song_header, 0, 0
+	song dummy_song_header, 0, 0
+	song dummy_song_header, 0, 0
+	song dummy_song_header, 0, 0
+	song dummy_song_header, 0, 0
+	song dummy_song_header, 0, 0
+	song dummy_song_header, 0, 0
+	song dummy_song_header, 0, 0
+	song dummy_song_header, 0, 0
+	song dummy_song_header, 0, 0
+	song dummy_song_header, 0, 0
 	song dummy_song_header, 0, 0
 	song dummy_song_header, 0, 0
 	song dummy_song_header, 0, 0
