@@ -1,9 +1,6 @@
 CableClub_Text_WelcomeWhichCableClubService: @ 8277EA4
 	.string "Welcome to the POKéMON CABLE\n"
 	.string "CLUB.\p"
-	.string "Which of our services do you wish\n"
-	.string "to use?$"
-
 CableClub_Text_WhichService: @ 8277EF1
 	.string "Which of our services do you wish\n"
 	.string "to use?$"
@@ -157,8 +154,8 @@ CableClub_Text_CantMixWithJapaneseGame: @ 8278651
 	.string "or Sapphire games at the same time.$"
 
 CableClub_Text_AdapterNotConnected: @ 827871F
-	.string "The Wireless Adapter is not\n"
-	.string "connected properly.$"
+	.string "The Wireless Adapter is not connected\n"
+	.string "properly.$"
 
 CableClub_Text_ParticipantsStepUpToCounter: @ 827874F
 	.string "Participants are asked to step up\n"
@@ -198,8 +195,8 @@ CableClub_Text_NoEnigmaBerryInUnionRoom: @ 827897B
 CableClub_Text_UnionRoomAdapterNotConnected: @ 82789B5
 	.string "This is the POKéMON WIRELESS CLUB\n"
 	.string "UNION ROOM.\p"
-	.string "Unfortunately, your Wireless\n"
-	.string "Adapter is not connected properly.\p"
+	.string "Unfortunately, your Wireless Adapter\n"
+	.string "is not connected properly.\p"
 	.string "Please do come again.$"
 
 CableClub_Text_PlayerIsWaiting: @ 8278A48
@@ -367,16 +364,15 @@ CableClub_Text_EnjoyUnionRoom: @ 827961C
 CableClub_Text_FirstTimeRightThisWay: @ 827964A
 	.string "Hello!\n"
 	.string "My name is TEALA.\p"
-	.string "This must be your first time up\n"
-	.string "here.\p"
+	.string "This must be your first time up here.\p"
 	.string "I'll show you how the Wireless\n"
 	.string "Communication System works.\p"
 	.string "First, I need to show you this floor of\n"
 .if UK
-    .string "our POKéMON CENTRE.\p$"
+    .string "our POKéMON CENTRE.\p"
 	.string "Right this way, please.$"
 .else
-    .string "our POKéMON CENTER.\p$"
+    .string "our POKéMON CENTER.\p"
 	.string "Right this way, please.$"
 .endif
 
@@ -386,17 +382,17 @@ CableClub_Text_ExplainWirelessClubFirstTime: @ 8279718
 	.string "First, the room on the left.\n"
 	.string "It's the UNION ROOM.\p"
 	.string "You may link up with TRAINERS around\n"
-	.string "you who have also entered the\l"
-	.string "UNION ROOM.\p"
-	.string "With them, you may do things like\n"
-	.string "chat, battle, and trade.\p"
+	.string "you have also entered the UNION\l"
+	.string "ROOM.\p"
+	.string "With them, you may do things like chat,\n"
+	.string "battle, and trade.\p"
 	.string "Second, the room on the right is the\n"
 	.string "DIRECT CORNER.\p"
 	.string "You may trade or battle POKéMON with\n"
 	.string "your friends in this room.\p"
-	.string "If the Wireless Adapter isn't\n"
-	.string "connected, you may still link up\l"
-	.string "using a GBA Game Link cable.\p"
+	.string "If the Wireless Adapter isn't connected,\n"
+	.string "you may still link up using a GBA Game\l"
+	.string "Link cable.\p"
 	.string "If that is the case, you must go to the\n"
 	.string "DIRECT CORNER.\p"
 	.string "I hope you enjoy the Wireless\n"
@@ -416,15 +412,15 @@ CableClub_Text_AskAboutLinking: @ 8279937
 CableClub_Text_ExplainWirelessClub: @ 82799AA
 	.string "Let me explain how the POKéMON\n"
 	.string "WIRELESS CLUB works.\p"
-	.string "On this, the top floor, there are\n"
-	.string "two rooms.\p"
+	.string "On this, the top floor, there are two\n"
+	.string "rooms.\p"
 	.string "First, the room on the left.\n"
 	.string "It's the UNION ROOM.\p"
 	.string "You may link up with TRAINERS around\n"
-	.string "you who have also entered the\l"
-	.string "UNION ROOM.\p"
-	.string "With them, you may do things like\n"
-	.string "chat, battle, and trade.\p"
+	.string "you have also entered the UNION\l"
+	.string "ROOM.\p"
+	.string "With them, you may do things like chat,\n"
+	.string "battle, and trade.\p"
 	.string "Second, the room on the right is the\n"
 	.string "DIRECT CORNER.\p"
 	.string "You may trade or battle POKéMON with\n"
@@ -434,9 +430,9 @@ CableClub_Text_ExplainWirelessClub: @ 82799AA
 	.string "DIRECT CORNER.\p"
 	.string "In that case, please move closer to\n"
 	.string "your friends.\p"
-	.string "If the Wireless Adapter isn't\n"
-	.string "connected, you may still link up\l"
-	.string "using a GBA Game Link cable.\p"
+	.string "If the Wireless Adapter isn't connected,\n"
+	.string "you may still link up using a GBA Game\l"
+	.string "Link cable.\p"
 	.string "If that is the case, you must go to the\n"
 	.string "DIRECT CORNER.\p"
 CableClub_Text_HopeYouEnjoyWirelessSystem: @ 8279C91

@@ -5671,8 +5671,8 @@ static const union AnimCmd *const sAnims_AGGRON[] ={
 
 static const union AnimCmd *const sAnims_CASTFORM[] ={
     sAnim_GeneralFrame0,
-    gUnknown_082FF6F4,
-    gUnknown_082FF6FC,
+    sAnim_MonPic_1,
+    sAnim_MonPic_2,
     sAnim_GeneralFrame3,
 };
 

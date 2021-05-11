@@ -105,8 +105,8 @@ static void SetUpItemUseCallback(u8 taskId)
         type = ItemId_GetType(gSpecialVar_ItemId) - 1;
     if (InBattlePyramid())
     {
-        gPyramidBagResources->callback2 = sItemUseCallbacks[type];
-        CloseBattlePyramidBagAndSetCallback(taskId);
+        gPyramidBagMenu->exitCallback = sItemUseCallbacks[type];
+        CloseBattlePyramidBag(taskId);
     }
     else
     {
@@ -820,8 +820,8 @@ static void RemoveUsedItem(void)
     }
     else
     {
-        sub_81C5924();
-        sub_81C59BC();
+        UpdatePyramidBagList();
+        UpdatePyramidBagCursorPos();
     }
 }
 
@@ -937,14 +937,10 @@ void ItemUseInBattle_PokeBall(u8 taskId)
 {
     if (IsBattlerAlive(GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT))
      && IsBattlerAlive(GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT))) // There are two present Pokémon.
-    {
         DisplayItemMessage(taskId, 2, gText_ImpossibleToAim, BagMenu_InitListsMenu);
-    }
     else if (gBattlerInMenuId == GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT)
      && IsBattlerAlive(GetBattlerAtPosition(B_POSITION_PLAYER_LEFT))) // Attempting to throw a Ball with the second Pokémon while both are alive.
-    {
         DisplayItemMessage(taskId, 2, gText_CantThrowBall, BagMenu_InitListsMenu);
-    }
     else if (!IsPlayerPartyAndPokemonStorageFull()) // have room for Pokémon?
     {
         RemoveBagItem(gSpecialVar_ItemId, 1);
@@ -959,7 +955,7 @@ static void Task_CloseStatIncreaseMessage(u8 taskId)
     if (JOY_NEW(A_BUTTON | B_BUTTON))
     {
         if (InBattlePyramid())
-            CloseBattlePyramidBagAndSetCallback(taskId);
+            CloseBattlePyramidBag(taskId);
         else
             Task_FadeAndCloseBagMenu(taskId);
     }
@@ -1001,8 +997,8 @@ static void ItemUseInBattle_ShowPartyMenu(u8 taskId)
 {
     if (InBattlePyramid())
     {
-        gPyramidBagResources->callback2 = ChooseMonForInBattleItem;
-        CloseBattlePyramidBagAndSetCallback(taskId);
+        gPyramidBagMenu->exitCallback = ChooseMonForInBattleItem;
+        CloseBattlePyramidBag(taskId);
     }
     else
     {
@@ -1028,16 +1024,14 @@ void ItemUseInBattle_Escape(u8 taskId)
 {
 
     if ((gBattleTypeFlags & BATTLE_TYPE_TRAINER))
-    {
         DisplayDadsAdviceCannotUseItemMessage(taskId, gTasks[taskId].tUsingRegisteredKeyItem);
-    }
     else
     {
         RemoveUsedItem();
         if (InBattlePyramid())
-            DisplayItemMessageInBattlePyramid(taskId, gStringVar4, CloseBattlePyramidBagAndSetCallback);
+            DisplayItemMessageInBattlePyramid(taskId, gStringVar4, CloseBattlePyramidBag);
         else
-            DisplayItemMessage(taskId, 2, gStringVar4, Task_FadeAndCloseBagMenu);
+            DisplayItemMessage(taskId, 1, gStringVar4, Task_FadeAndCloseBagMenu);
     }
 }
 

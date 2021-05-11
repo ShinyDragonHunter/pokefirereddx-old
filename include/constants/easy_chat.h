@@ -8,7 +8,7 @@
 #define EASY_CHAT_TYPE_MAIL                    4
 #define EASY_CHAT_TYPE_INTERVIEW               5
 #define EASY_CHAT_TYPE_FAN_CLUB                6
-#define EASY_CHAT_TYPE_UNK_8                   7
+#define EASY_CHAT_TYPE_DUMMY_SHOW              7
 #define EASY_CHAT_TYPE_TRENDY_PHRASE           8
 #define EASY_CHAT_TYPE_GABBY_AND_TY            9
 #define EASY_CHAT_TYPE_CONTEST_INTERVIEW       10
