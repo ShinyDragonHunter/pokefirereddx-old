@@ -322,8 +322,8 @@ static void InitPlayerPCMenu(u8 taskId)
     data = gTasks[taskId].data;
     if (gPcItemMenuOptionsNum == 3)
         windowTemplate = gUnknown_085DFF24[0];
-//    else
-//        windowTemplate = gUnknown_085DFF24[1];
+    else
+        windowTemplate = gUnknown_085DFF24[1];
     windowTemplate.width = sub_81DB3D8(sPlayerPCMenuActions, gPcItemMenuOptionOrder, gPcItemMenuOptionsNum);
     data[4] = AddWindow(&windowTemplate);
     SetStandardWindowBorderStyle(data[4], 0);
