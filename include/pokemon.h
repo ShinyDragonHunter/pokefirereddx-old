@@ -411,6 +411,7 @@ u16 GetFormSpecies(u16 species, u8 form);
 u8 GetFormFromFormSpecies(u16 formSpecies);
 void ChangeForm(void);
 bool8 IsMonShiny(struct Pokemon *mon);
+bool8 IsMonSquareShiny(struct Pokemon *mon);
 bool8 IsShinyOtIdPersonality(u32 otId, u32 personality);
 u32 GetColoration(u32 otId, u32 personality);
 u32 GetColorationFromMon(struct Pokemon *mon);

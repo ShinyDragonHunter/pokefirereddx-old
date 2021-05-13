@@ -6535,6 +6535,18 @@ bool8 IsMonShiny(struct Pokemon *mon)
     return IsShinyOtIdPersonality(otId, personality);
 }
 
+bool8 IsMonSquareShiny(struct Pokemon *mon)
+{
+	u32 otId = GetMonData(mon, MON_DATA_OT_ID, 0);
+	u32 personality = GetMonData(mon, MON_DATA_PERSONALITY, 0);
+	
+	if ((HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality)) == 0
+     || (GetMonData(mon, MON_DATA_EVENT_LEGAL, 0) && (HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality)) < SHINY_ODDS))
+		return TRUE;
+	else
+		return FALSE;
+}
+
 bool8 IsShinyOtIdPersonality(u32 otId, u32 personality)
 {
     bool8 retVal = FALSE;
@@ -6751,10 +6763,7 @@ u16 FacilityClassToPicIndex(u16 facilityClass)
 
 u16 PlayerGenderToFrontTrainerPicId(u8 playerGender)
 {
-    if (playerGender)
-        return FacilityClassToPicIndex(FACILITY_CLASS_LEAF);
-    else
-        return FacilityClassToPicIndex(FACILITY_CLASS_RED);
+    return FacilityClassToPicIndex((playerGender) ? FACILITY_CLASS_LEAF : FACILITY_CLASS_RED);
 }
 
 void HandleSetPokedexFlag(u16 nationalNum, u8 caseId, u32 personality)

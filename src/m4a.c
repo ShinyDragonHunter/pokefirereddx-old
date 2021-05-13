@@ -1490,8 +1490,7 @@ void ply_memacc(struct MusicPlayerInfo *mplayInfo, struct MusicPlayerTrack *trac
 
 cond_true:
     {
-        // *& is required for matching
-        (*&gMPlayJumpTable[1])(mplayInfo, track);
+        (gMPlayJumpTable[1])(mplayInfo, track);
         return;
     }
 
@@ -1524,7 +1523,7 @@ void ply_xwave(struct MusicPlayerInfo *mplayInfo, struct MusicPlayerTrack *track
 {
     u32 wav = 0;
 
-    READ_XCMD_BYTE(wav, 0) // UB: uninitialized variable
+    READ_XCMD_BYTE(wav, 0)
     READ_XCMD_BYTE(wav, 1)
     READ_XCMD_BYTE(wav, 2)
     READ_XCMD_BYTE(wav, 3)
@@ -1591,7 +1590,7 @@ void ply_xcmd_0C(struct MusicPlayerInfo *mplayInfo, struct MusicPlayerTrack *tra
 {
     u32 unk = 0;
 
-    READ_XCMD_BYTE(unk, 0) // UB: uninitialized variable
+    READ_XCMD_BYTE(unk, 0)
     READ_XCMD_BYTE(unk, 1)
 
     if (track->unk_3A < (u16)unk)
@@ -1695,14 +1694,11 @@ void SetPokemonCryProgress(u32 val)
     gPokemonCrySong.unkCmd0DParam = val;
 }
 
-int IsPokemonCryPlaying(struct MusicPlayerInfo *mplayInfo)
+bool32 IsPokemonCryPlaying(struct MusicPlayerInfo *mplayInfo)
 {
     struct MusicPlayerTrack *track = mplayInfo->tracks;
 
-    if (track->chan && track->chan->track == track)
-        return 1;
-    else
-        return 0;
+    return track->chan && track->chan->track == track;
 }
 
 void SetPokemonCryChorus(s8 val)
