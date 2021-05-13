@@ -1596,7 +1596,7 @@ Cry_Hariyama::
 
 	.align 2
 Cry_Electrike::
-	.incbin "sound/direct_sound_samples/cries/Electrike.bin"
+	.incbin "sound/direct_sound_samples/cries/electrike.bin"
 
 	.align 2
 Cry_Manectric::
