@@ -4188,6 +4188,10 @@ static void Task_OpenMonPic(u8 taskId)
             return;
         break;
     default:
+        if (gTasks[taskId].tIsSwapScreen)
+            Swap_CreateMonSprite();
+        else
+            Select_CreateMonSprite();
         DestroyTask(taskId);
         return;
     }
