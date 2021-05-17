@@ -75,7 +75,7 @@
 
 #define WILD_DOUBLE_BATTLE ((gBattleTypeFlags & BATTLE_TYPE_DOUBLE && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_TRAINER))))
 
-#define B_DOUBLE_WILD_CHANCE 100 // % chance of encountering two Pokémon at once in a wild encounter.
+#define B_DOUBLE_WILD_CHANCE 5 // % chance of encountering two Pokémon at once in a wild encounter.
 
 // Battle Outcome defines
 #define B_OUTCOME_WON                  1

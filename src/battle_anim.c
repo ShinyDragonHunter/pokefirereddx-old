@@ -2079,13 +2079,7 @@ static void ScriptCmd_monbg(void)
 bool8 IsBattlerSpriteVisible(u8 battlerId)
 {
     if (IsContest())
-    {
         return battlerId == gBattleAnimAttacker;
-        //if (battlerId == gBattleAnimAttacker)
-        //    return TRUE;
-        //else
-        //    return FALSE;
-    }
     if (!IsBattlerSpritePresent(battlerId))
         return FALSE;
     if (IsContest())
@@ -2167,7 +2161,10 @@ void MoveBattlerSpriteToBG(u8 battlerId, bool8 toBG_2, bool8 setSpriteInvisible)
         LoadPalette(&gPlttBufferUnfaded[0x100 + battlerId * 16], animBg.paletteId * 16, 0x20);
         CpuCopy32(&gPlttBufferUnfaded[0x100 + battlerId * 16], (void*)(BG_PLTT + animBg.paletteId * 32), 0x20);
 
-        toBG_2 = (IsContest()) ? 0 : GetBattlerPosition(battlerId);
+        if (IsContest())
+            battlerPosition = 0;
+        else
+            battlerPosition = GetBattlerPosition(battlerId);
 
         sub_8118FBC(1, 0, 0, battlerPosition, animBg.paletteId, animBg.bgTiles, animBg.bgTilemap, animBg.tilesOffset);
 
