@@ -48,7 +48,7 @@ enum {
 
 enum {
     SHINY_STAR_ENCIRCLE,
-    SHINY_STAR_DIAGONAL,
+    SHINY_STAR_DIAGONAL
 };
 
 static void AnimTask_UnusedLevelUpHealthBox_Step(u8);
@@ -645,11 +645,11 @@ static const struct SpriteTemplate sSafariRockSpriteTemplate =
     .callback = SpriteCB_PokeBlock_Throw,
 };
 
-extern const struct SpriteTemplate gWishStarSpriteTemplate;
-extern const struct SpriteTemplate gMiniTwinklingStarSpriteTemplate;
-
 extern const struct SpriteTemplate gBigShinySquareSpriteTemplate;
 extern const struct SpriteTemplate gMiniShinySquareSpriteTemplate;
+
+extern const struct SpriteTemplate gWishStarSpriteTemplate;
+extern const struct SpriteTemplate gMiniTwinklingStarSpriteTemplate;
 
 static void LoadHealthboxPalsForLevelUp(u8 *paletteId1, u8 *paletteId2, u8 battler)
 {
@@ -2569,16 +2569,16 @@ void AnimTask_SetTargetToEffectBattler(u8 taskId)
     DestroyAnimVisualTask(taskId);
 }
 
-#define tBattler   data[0]
-#define tStarMove  data[1]
-#define tStarTimer data[10]
-#define tStarIdx   data[11]
-#define tNumStars  data[12]
-#define tTimer     data[13]
+#define tBattler     data[0]
+#define tStarMove    data[1]
+#define tStarTimer   data[10]
+#define tStarIdx     data[11]
+#define tNumStars    data[12]
+#define tTimer       data[13]
 
-#define sTaskId data[0]
-#define sPhase  data[1] // For encircling stars
-#define sTimer  data[1] // For diagnoal stars
+#define sTaskId      data[0]
+#define sPhase       data[1] // For encircling stars
+#define sTimer       data[1] // For diagonal stars
 
 void TryShinyAnimation(u8 battler, struct Pokemon *mon)
 {
@@ -2604,8 +2604,13 @@ void TryShinyAnimation(u8 battler, struct Pokemon *mon)
             {
                 LoadCompressedSpriteSheetUsingHeap(&gBattleAnimPicTable[ANIM_TAG_SHINY_SQUARES - ANIM_SPRITES_START]);
                 LoadCompressedSpritePaletteUsingHeap(&gBattleAnimPaletteTable[ANIM_TAG_SHINY_SQUARES - ANIM_SPRITES_START]);
-				taskCirc = CreateTask(Task_ShinySquares, 10);
-				taskDgnl = CreateTask(Task_ShinySquares, 10);
+                taskCirc = CreateTask(Task_ShinySquares, 10);
+                taskDgnl = CreateTask(Task_ShinySquares, 10);
+                gTasks[taskCirc].tBattler = battler;
+                gTasks[taskDgnl].tBattler = battler;
+                gTasks[taskCirc].tStarMove = SHINY_STAR_ENCIRCLE;
+                gTasks[taskDgnl].tStarMove = SHINY_STAR_DIAGONAL;
+                return;
             }
             else if (GetSpriteTileStartByTag(ANIM_TAG_GOLD_STARS) == 0xFFFF)
             {
@@ -2613,12 +2618,12 @@ void TryShinyAnimation(u8 battler, struct Pokemon *mon)
                 LoadCompressedSpritePaletteUsingHeap(&gBattleAnimPaletteTable[ANIM_TAG_GOLD_STARS - ANIM_SPRITES_START]);
                 taskCirc = CreateTask(Task_ShinyStars, 10);
                 taskDgnl = CreateTask(Task_ShinyStars, 10);
+                gTasks[taskCirc].tBattler = battler;
+                gTasks[taskDgnl].tBattler = battler;
+                gTasks[taskCirc].tStarMove = SHINY_STAR_ENCIRCLE;
+                gTasks[taskDgnl].tStarMove = SHINY_STAR_DIAGONAL;
+                return;
             }
-            gTasks[taskCirc].tBattler = battler;
-            gTasks[taskDgnl].tBattler = battler;
-            gTasks[taskCirc].tStarMove = SHINY_STAR_ENCIRCLE;
-            gTasks[taskDgnl].tStarMove = SHINY_STAR_DIAGONAL;
-            return;
         }
     }
 
@@ -2631,7 +2636,7 @@ static void Task_ShinySquares(u8 taskId)
     u8 x, y;
     u8 spriteId;
     u16 timer;
-    s16 starIdx;
+    s16 squareIdx;
     u8 pan;
 
     if (gTasks[taskId].tTimer < 60)
@@ -2652,12 +2657,12 @@ static void Task_ShinySquares(u8 taskId)
     x = GetBattlerSpriteCoord(battler, BATTLER_COORD_X);
     y = GetBattlerSpriteCoord(battler, BATTLER_COORD_Y);
 
-    starIdx = gTasks[taskId].tStarIdx;
-    if (!starIdx) // Big square
+    squareIdx = gTasks[taskId].tStarIdx;
+    if (!squareIdx) // Big square
     {
         spriteId = CreateSprite(&gBigShinySquareSpriteTemplate, x, y, 5);
     }
-    else if (starIdx >= 0 && gTasks[taskId].tStarIdx < 4) // Medium square
+    else if (squareIdx >= 0 && gTasks[taskId].tStarIdx < 4) // Medium square
     {
         spriteId = CreateSprite(&gMiniShinySquareSpriteTemplate, x, y, 5);
         gSprites[spriteId].oam.tileNum += 4;
@@ -2767,10 +2772,14 @@ static void Task_ShinyStars_Wait(u8 taskId)
 {
     u8 battler;
 
-    if (gTasks[taskId].tNumStars == 0 && gTasks[taskId].tStarMove == SHINY_STAR_DIAGONAL)
+    if (gTasks[taskId].tNumStars == 0)
     {
-        battler = gTasks[taskId].tBattler;
-        gBattleSpritesDataPtr->healthBoxesData[battler].finishedShinyMonAnim = TRUE;
+        if (gTasks[taskId].tStarMove == SHINY_STAR_DIAGONAL)
+        {
+            battler = gTasks[taskId].tBattler;
+            gBattleSpritesDataPtr->healthBoxesData[battler].finishedShinyMonAnim = TRUE;
+        }
+
         DestroyTask(taskId);
     }
 }

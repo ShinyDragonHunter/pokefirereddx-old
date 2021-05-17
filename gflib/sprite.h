@@ -310,6 +310,7 @@ u16 LoadSpriteSheetDeferred(const struct SpriteSheet *sheet);
 void FreeAllSpritePalettes(void);
 u8 LoadSpritePalette(const struct SpritePalette *palette);
 u8 LoadSpritePaletteDayNight(const struct SpritePalette *palette);
+u8 LoadUniqueSpritePalette(const struct SpritePalette *palette, u32 personality);
 void LoadSpritePalettes(const struct SpritePalette *palettes);
 void DoLoadSpritePaletteDayNight(const u16 *src, u16 paletteOffset);
 u8 AllocSpritePalette(u16 tag);

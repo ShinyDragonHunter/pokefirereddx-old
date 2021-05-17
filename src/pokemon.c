@@ -2314,6 +2314,12 @@ void CreateMonWithNature(struct Pokemon *mon, u16 species, u8 level, u8 fixedIV,
 void CreateMonWithGenderNatureLetter(struct Pokemon *mon, u16 species, u8 level, u8 fixedIV, u8 gender, u8 nature, u8 unownLetter, u8 form)
 {
     u32 personality;
+    u8 genderRatio;
+
+    if ((genderRatio == MON_MALE)
+     || (genderRatio == MON_FEMALE)
+     || (genderRatio == MON_GENDERLESS))
+        gender = genderRatio;
 
     if ((u8)(unownLetter - 1) < NUM_UNOWN_FORMS)
     {
@@ -6528,23 +6534,20 @@ void ChangeForm(void)
     CalculateMonStats(&gPlayerParty[0]);
 }
 
+bool8 IsMonSquareShiny(struct Pokemon *mon)
+{
+    u32 otId = GetMonData(mon, MON_DATA_OT_ID, 0);
+    u32 personality = GetMonData(mon, MON_DATA_PERSONALITY, 0);
+    return ((HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality)) == 0
+     || ((GetMonData(mon, MON_DATA_EVENT_LEGAL, 0))
+     && (HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality)) < SHINY_ODDS));
+}
+
 bool8 IsMonShiny(struct Pokemon *mon)
 {
     u32 otId = GetMonData(mon, MON_DATA_OT_ID, 0);
     u32 personality = GetMonData(mon, MON_DATA_PERSONALITY, 0);
     return IsShinyOtIdPersonality(otId, personality);
-}
-
-bool8 IsMonSquareShiny(struct Pokemon *mon)
-{
-	u32 otId = GetMonData(mon, MON_DATA_OT_ID, 0);
-	u32 personality = GetMonData(mon, MON_DATA_PERSONALITY, 0);
-	
-	if ((HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality)) == 0
-     || (GetMonData(mon, MON_DATA_EVENT_LEGAL, 0) && (HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality)) < SHINY_ODDS))
-		return TRUE;
-	else
-		return FALSE;
 }
 
 bool8 IsShinyOtIdPersonality(u32 otId, u32 personality)
@@ -6554,17 +6557,6 @@ bool8 IsShinyOtIdPersonality(u32 otId, u32 personality)
     if (shinyValue < SHINY_ODDS)
         retVal = TRUE;
     return retVal;
-}
-
-u32 GetColoration(u32 otId, u32 personality)
-{
-    u32 shinyValue = HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality);
-    return shinyValue;
-}
-
-u32 GetColorationFromMon(struct Pokemon *mon)
-{
-    return GetColoration(GetMonData(mon, MON_DATA_OT_ID, 0), GetMonData(mon, MON_DATA_PERSONALITY, 0));
 }
 
 const u8 *GetTrainerPartnerName(void)

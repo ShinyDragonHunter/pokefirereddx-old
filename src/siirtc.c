@@ -97,15 +97,9 @@ u8 SiiRtcProbe(void)
 
     errorCode = 0;
 
-    if ((rtc.status & (SIIRTCINFO_POWER | SIIRTCINFO_24HOUR)) == SIIRTCINFO_POWER
-     || (!rtc.status & (SIIRTCINFO_POWER | SIIRTCINFO_24HOUR)))
+    if (rtc.status & (SIIRTCINFO_POWER | ~SIIRTCINFO_24HOUR))
     {
         // The RTC is in 12-hour mode. Reset it and switch to 24-hour mode.
-
-        // Note that the conditions are redundant and equivalent to simply
-        // "(rtc.status & SIIRTCINFO_24HOUR) == 0". It's possible that this
-        // was also intended to handle resetting the clock after power failure
-        // but a mistake was made.
 
         if (!SiiRtcReset())
             return 0;

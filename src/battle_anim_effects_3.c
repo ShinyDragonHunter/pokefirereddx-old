@@ -91,7 +91,6 @@ static void AnimMeteorMashStar(struct Sprite *);
 static void AnimMeteorMashStar_Step(struct Sprite *sprite);
 static void AnimBlockX(struct Sprite *);
 static void AnimBlockX_Step(struct Sprite *);
-static void AnimUnusedItemBagSteal(struct Sprite *);
 static void AnimKnockOffStrike(struct Sprite *);
 static void AnimKnockOffStrike_Step(struct Sprite *sprite);
 static void AnimRecycle(struct Sprite *);
@@ -524,28 +523,6 @@ const struct SpriteTemplate gBatonPassPokeballSpriteTemplate =
     .callback = AnimBatonPassPokeball,
 };
 
-const struct SpriteTemplate gWishStarSpriteTemplate =
-{
-    .tileTag = ANIM_TAG_GOLD_STARS,
-    .paletteTag = ANIM_TAG_GOLD_STARS,
-    .oam = &gOamData_AffineOff_ObjNormal_16x16,
-    .anims = gDummySpriteAnimTable,
-    .images = NULL,
-    .affineAnims = gDummySpriteAffineAnimTable,
-    .callback = AnimWishStar,
-};
-
-const struct SpriteTemplate gMiniTwinklingStarSpriteTemplate =
-{
-    .tileTag = ANIM_TAG_GOLD_STARS,
-    .paletteTag = ANIM_TAG_GOLD_STARS,
-    .oam = &gOamData_AffineOff_ObjNormal_8x8,
-    .anims = gDummySpriteAnimTable,
-    .images = NULL,
-    .affineAnims = gDummySpriteAffineAnimTable,
-    .callback = AnimMiniTwinklingStar,
-};
-
 const struct SpriteTemplate gBigShinySquareSpriteTemplate =
 {
     .tileTag = ANIM_TAG_SHINY_SQUARES,
@@ -561,6 +538,28 @@ const struct SpriteTemplate gMiniShinySquareSpriteTemplate =
 {
     .tileTag = ANIM_TAG_SHINY_SQUARES,
     .paletteTag = ANIM_TAG_SHINY_SQUARES,
+    .oam = &gOamData_AffineOff_ObjNormal_8x8,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = AnimMiniTwinklingStar,
+};
+
+const struct SpriteTemplate gWishStarSpriteTemplate =
+{
+    .tileTag = ANIM_TAG_GOLD_STARS,
+    .paletteTag = ANIM_TAG_GOLD_STARS,
+    .oam = &gOamData_AffineOff_ObjNormal_16x16,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = AnimWishStar,
+};
+
+const struct SpriteTemplate gMiniTwinklingStarSpriteTemplate =
+{
+    .tileTag = ANIM_TAG_GOLD_STARS,
+    .paletteTag = ANIM_TAG_GOLD_STARS,
     .oam = &gOamData_AffineOff_ObjNormal_8x8,
     .anims = gDummySpriteAnimTable,
     .images = NULL,
@@ -739,8 +738,6 @@ const struct SpriteTemplate gSweetScentPetalSpriteTemplate =
     .affineAnims = gDummySpriteAffineAnimTable,
     .callback = AnimSweetScentPetal,
 };
-
-static const u16 sUnusedPalette[] = INCBIN_U16("graphics/battle_anims/unused.gbapal");
 
 const union AnimCmd gPainSplitAnimCmds[] =
 {
@@ -1093,17 +1090,6 @@ const struct SpriteTemplate gMeteorMashStarSpriteTemplate =
     .callback = AnimMeteorMashStar,
 };
 
-static const struct SpriteTemplate sUnusedStarBurstSpriteTemplate =
-{
-    .tileTag = ANIM_TAG_GOLD_STARS,
-    .paletteTag = ANIM_TAG_GOLD_STARS,
-    .oam = &gOamData_AffineOff_ObjNormal_16x16,
-    .anims = gDummySpriteAnimTable,
-    .images = NULL,
-    .affineAnims = gDummySpriteAffineAnimTable,
-    .callback = AnimParticleBurst,
-};
-
 const struct SpriteTemplate gBlockXSpriteTemplate =
 {
     .tileTag = ANIM_TAG_X_SIGN,
@@ -1113,17 +1099,6 @@ const struct SpriteTemplate gBlockXSpriteTemplate =
     .images = NULL,
     .affineAnims = gDummySpriteAffineAnimTable,
     .callback = AnimBlockX,
-};
-
-static const struct SpriteTemplate sUnusedItemBagStealSpriteTemplate =
-{
-    .tileTag = ANIM_TAG_ITEM_BAG,
-    .paletteTag = ANIM_TAG_ITEM_BAG,
-    .oam = &gOamData_AffineOff_ObjNormal_32x32,
-    .anims = gDummySpriteAnimTable,
-    .images = NULL,
-    .affineAnims = gDummySpriteAffineAnimTable,
-    .callback = AnimUnusedItemBagSteal,
 };
 
 const union AnimCmd gKnockOffStrikeAnimCmds[] =
@@ -5039,10 +5014,10 @@ void AnimTask_SnatchOpposingMonMove(u8 taskId)
     int personality;
     int otId;
     u16 species;
-    u8 form;
     u8 subpriority;
     bool8 isBackPic;
     s16 x;
+    u8 form;
 
     switch (gTasks[taskId].data[0])
     {
@@ -5181,49 +5156,6 @@ void AnimTask_SnatchOpposingMonMove(u8 taskId)
         gTasks[taskId].data[1] &= 0xFF;
         if (gSprites[spriteId].pos2.x == 0)
             DestroyAnimVisualTask(taskId);
-        break;
-    }
-}
-
-static void AnimUnusedItemBagSteal(struct Sprite *sprite)
-{
-    switch (sprite->data[7])
-    {
-    case 0:
-        if (gBattleAnimArgs[7] == -1)
-        {
-            PlaySE12WithPanning(SE_M_VITAL_THROW, BattleAnimAdjustPanning(63));
-            sprite->pos1.y = GetBattlerSpriteCoord(gBattleAnimTarget, BATTLER_COORD_Y) + 16;
-            sprite->data[0] = -32;
-            sprite->data[7]++;
-            sprite->invisible = FALSE;
-            if (GetBattlerSide(gBattleAnimAttacker) == B_SIDE_OPPONENT && !IsContest())
-                sprite->subpriority = gSprites[GetAnimBattlerSpriteId(ANIM_TARGET)].subpriority - 1;
-        }
-        else
-        {
-            sprite->invisible = TRUE;
-        }
-        break;
-    case 1:
-        sprite->pos2.y = Sin(sprite->data[1], sprite->data[0]);
-        sprite->data[1] += 5;
-        if (sprite->data[1] > 0x7F)
-        {
-            sprite->data[0] = sprite->data[0] / 2;
-            sprite->data[3]++;
-            sprite->data[1] -= 0x7F;
-        }
-
-        sprite->data[2] += 0x100;
-        if (GetBattlerSide(gBattleAnimAttacker))
-            sprite->pos2.x += (sprite->data[2] >> 8);
-        else
-            sprite->pos2.x -= (sprite->data[2] >> 8);
-
-        sprite->data[2] &= 0xFF;
-        if (sprite->data[3] == 2)
-            DestroyAnimSprite(sprite);
         break;
     }
 }

@@ -33,6 +33,7 @@
 #include "save.h"
 #include "script.h"
 #include "sound.h"
+#include "sprite.h"
 #include "string_util.h"
 #include "strings.h"
 #include "task.h"
@@ -2666,7 +2667,7 @@ static void LoadTradeMonPic(u8 whichParty, u8 state)
         else
             HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[1], formSpecies, personality);
 
-        LoadSpritePalette(GetMonSpritePalStruct(mon));
+        LoadUniqueSpritePalette(GetMonSpritePalStruct(mon), personality);
         sTradeData->monSpecies[whichParty] = formSpecies;
         sTradeData->monPersonalities[whichParty] = personality;
         break;

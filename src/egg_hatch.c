@@ -32,6 +32,7 @@
 #include "international_string_util.h"
 #include "naming_screen.h"
 #include "pokemon_storage_system.h"
+#include "sprite.h"
 #include "field_screen_effect.h"
 #include "data.h"
 #include "battle.h" // to get rid of later
@@ -436,8 +437,8 @@ static u8 EggHatchCreateMonSprite(u8 a0, u8 switchID, u8 pokeID, u16* speciesLoc
             u32 pid = GetMonData(mon, MON_DATA_PERSONALITY);
             u16 formSpecies = (species, form);
             HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[(a0 * 2) + 1], formSpecies, pid);
-            LoadSpritePalette(GetMonSpritePalStruct(mon));
-            *speciesLoc = formSpecies;
+            LoadUniqueSpritePalette(GetMonSpritePalStruct(mon), pid);
+            *speciesLoc = species;
         }
         break;
     case 1:

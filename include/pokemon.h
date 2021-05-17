@@ -413,8 +413,6 @@ void ChangeForm(void);
 bool8 IsMonShiny(struct Pokemon *mon);
 bool8 IsMonSquareShiny(struct Pokemon *mon);
 bool8 IsShinyOtIdPersonality(u32 otId, u32 personality);
-u32 GetColoration(u32 otId, u32 personality);
-u32 GetColorationFromMon(struct Pokemon *mon);
 const u8 *GetTrainerPartnerName(void);
 void BattleAnimateFrontSprite(struct Sprite* sprite, u16 species, bool8 noCry, u8 arg3);
 void DoMonFrontSpriteAnimation(struct Sprite* sprite, u16 species, bool8 noCry, u8 arg3);

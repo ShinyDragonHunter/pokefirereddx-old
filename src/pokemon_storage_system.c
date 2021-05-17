@@ -406,8 +406,8 @@ struct PokemonStorageSystemData
     u8 wallpaperOffset;
     u32 scrollUnused1; // Never read
     s16 scrollDirectionUnused; // Never read
-    u32 displayMonOtId;
-    u32 scrollUnused2; // Never read
+    u32 scrollUnused2;
+    u32 scrollUnused3; // Never read
     u8 filler1[22];
     u8 boxTitleTiles[1024];
     u8 boxTitleCycleId;
@@ -3837,7 +3837,8 @@ static void LoadDisplayMonGfx(u16 species, u32 pid, u8 form)
         LoadSpecialPokePic(&gMonFrontPicTable[formSpecies], sStorage->tileBuffer, formSpecies, pid, TRUE);
         CpuCopy32(sStorage->tileBuffer, sStorage->displayMonTilePtr, MON_PIC_SIZE);
         LoadPalette(sStorage->displayMonPalette, sStorage->displayMonPalOffset, 0x20);
-        NudgePalette(sStorage->displayMonPalOffset, 16, GetColoration(sStorage->displayMonOtId, sStorage->displayMonPersonality));
+        UniquePalette(sStorage->displayMonPalOffset, pid);
+        CpuCopy32(gPlttBufferFaded + sStorage->displayMonPalOffset, gPlttBufferUnfaded + sStorage->displayMonPalOffset, 32);
         sStorage->displayMonSprite->invisible = FALSE;
     }
     else
@@ -6702,22 +6703,18 @@ static void SetDisplayMonData(void *pokemon, u8 mode)
     {
         struct Pokemon *mon = (struct Pokemon *)pokemon;
 
-        sStorage->displayMonSpecies = GetMonData(mon, MON_DATA_SPECIES2);
+        sStorage->displayMonSpecies = GetFormSpecies(GetMonData(mon, MON_DATA_SPECIES2),
+                                                    GetMonData(mon, MON_DATA_FORM));
         if (sStorage->displayMonSpecies)
         {
             sanityIsBadEgg = GetMonData(mon, MON_DATA_SANITY_IS_BAD_EGG);
-            if (sanityIsBadEgg)
-                sStorage->displayMonIsEgg = TRUE;
-            else
-                sStorage->displayMonIsEgg = GetMonData(mon, MON_DATA_IS_EGG);
+            sStorage->displayMonIsEgg = (sanityIsBadEgg) ? TRUE : GetMonData(mon, MON_DATA_IS_EGG);
 
             GetMonData(mon, MON_DATA_NICKNAME, sStorage->displayMonName);
             StringGetEnd10(sStorage->displayMonName);
             sStorage->displayMonLevel = GetMonData(mon, MON_DATA_LEVEL);
             sStorage->displayMonMarkings = GetMonData(mon, MON_DATA_MARKINGS);
             sStorage->displayMonPersonality = GetMonData(mon, MON_DATA_PERSONALITY);
-            sStorage->displayMonForm = GetMonData(mon, MON_DATA_FORM);
-            sStorage->displayMonOtId = GetMonData(mon, MON_DATA_OT_ID);
             sStorage->displayMonPalette = GetMonFrontSpritePal(mon);
             gender = GetMonGender(mon);
             sStorage->displayMonItemId = GetMonData(mon, MON_DATA_HELD_ITEM);
@@ -6727,24 +6724,20 @@ static void SetDisplayMonData(void *pokemon, u8 mode)
     {
         struct BoxPokemon *boxMon = (struct BoxPokemon *)pokemon;
 
-        sStorage->displayMonSpecies = GetBoxMonData(pokemon, MON_DATA_SPECIES2);
+        sStorage->displayMonSpecies = GetFormSpecies(GetBoxMonData(pokemon, MON_DATA_SPECIES2),
+                                                    GetBoxMonData(pokemon, MON_DATA_FORM));
         if (sStorage->displayMonSpecies)
         {
             u32 otId = GetBoxMonData(boxMon, MON_DATA_OT_ID);
             sanityIsBadEgg = GetBoxMonData(boxMon, MON_DATA_SANITY_IS_BAD_EGG);
-            if (sanityIsBadEgg)
-                sStorage->displayMonIsEgg = TRUE;
-            else
-                sStorage->displayMonIsEgg = GetBoxMonData(boxMon, MON_DATA_IS_EGG);
+            sStorage->displayMonIsEgg = (sanityIsBadEgg) ? TRUE : GetBoxMonData(boxMon, MON_DATA_IS_EGG);
 
             GetBoxMonData(boxMon, MON_DATA_NICKNAME, sStorage->displayMonName);
             StringGetEnd10(sStorage->displayMonName);
             sStorage->displayMonLevel = GetLevelFromBoxMonExp(boxMon);
             sStorage->displayMonMarkings = GetBoxMonData(boxMon, MON_DATA_MARKINGS);
             sStorage->displayMonPersonality = GetBoxMonData(boxMon, MON_DATA_PERSONALITY);
-            sStorage->displayMonForm = GetBoxMonData(pokemon, MON_DATA_FORM);
-            sStorage->displayMonPalette = GetMonSpritePalFromSpeciesAndPersonality(GetFormSpecies(sStorage->displayMonSpecies, sStorage->displayMonForm), sStorage->displayMonOtId, sStorage->displayMonPersonality);
-            sStorage->displayMonOtId = otId;
+            sStorage->displayMonPalette = GetMonSpritePalFromSpeciesAndPersonality(sStorage->displayMonSpecies, otId, sStorage->displayMonPersonality);
             gender = GetGenderFromSpeciesAndPersonality(sStorage->displayMonSpecies, sStorage->displayMonPersonality);
             sStorage->displayMonItemId = GetBoxMonData(boxMon, MON_DATA_HELD_ITEM);
         }

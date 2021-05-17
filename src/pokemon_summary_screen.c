@@ -3817,8 +3817,7 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
         return 0xFF;
     case 1:
         pal = GetMonSpritePalStructFromOtIdPersonality(formSpecies, summary->OTID, summary->pid);
-        LoadSpritePalette(pal);
-        NudgePalette(0x100 + IndexOfSpritePaletteTag(pal->tag)* 16, 16, GetColorationFromMon(mon));
+        LoadUniqueSpritePalette(pal, summary->pid);
         SetMultiuseSpriteTemplateToPokemon(pal->tag, 1, sMonSummaryScreen->form);
         (*state)++;
         return 0xFF;

@@ -37,12 +37,6 @@ $(CASTFORMGFXDIR)/back.4bpp: $(CASTFORMGFXDIR)/back_normal_form.4bpp \
 							 $(CASTFORMGFXDIR)/back_snowy_form.4bpp
 	@cat $^ >$@
 
-$(CASTFORMGFXDIR)/anim_front.4bpp: $(CASTFORMGFXDIR)/anim_front_normal_form.4bpp \
-								   $(CASTFORMGFXDIR)/anim_front_sunny_form.4bpp \
-								   $(CASTFORMGFXDIR)/anim_front_rainy_form.4bpp \
-								   $(CASTFORMGFXDIR)/anim_front_snowy_form.4bpp
-	@cat $^ >$@
-
 $(CASTFORMGFXDIR)/normal.gbapal: $(CASTFORMGFXDIR)/normal_normal_form.gbapal \
 								 $(CASTFORMGFXDIR)/normal_sunny_form.gbapal \
 								 $(CASTFORMGFXDIR)/normal_rainy_form.gbapal \
