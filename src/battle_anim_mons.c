@@ -60,7 +60,7 @@ const struct MonCoords gCastformFrontSpriteCoords[] =
     { .size = 0x44, .y_offset = 17 }, // NORMAL
     { .size = 0x66, .y_offset =  9 }, // SUN
     { .size = 0x46, .y_offset =  9 }, // RAIN
-    { .size = 0x86, .y_offset =  8 }, // HAIL
+    { .size = 0x66, .y_offset =  8 }, // HAIL
 };
 
 static const u8 sCastformElevations[] =
@@ -74,10 +74,10 @@ static const u8 sCastformElevations[] =
 // Y position of the backsprite for each of the four Castform forms.
 static const u8 sCastformBackSpriteYCoords[] =
 {
-    0, // NORMAL
-    0, // SUN
-    0, // RAIN
-    0, // HAIL
+    14, // NORMAL
+    10, // SUN
+    10, // RAIN
+    10, // HAIL
 };
 
 // Placeholders for pokemon sprites to be created for a move animation effect (e.g. Role Play / Snatch)

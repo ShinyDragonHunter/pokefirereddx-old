@@ -1397,8 +1397,8 @@ const struct MonCoords gMonBackPicCoords[] =
     },
     [SPECIES_SCEPTILE] =
     {
-        .size = 0x88,
-        .y_offset = 1,
+        .size = 0x77,
+        .y_offset = 5,
     },
     [SPECIES_TORCHIC] =
     {
@@ -1928,7 +1928,7 @@ const struct MonCoords gMonBackPicCoords[] =
     [SPECIES_CASTFORM] =
     {
         .size = 0x45,
-        .y_offset = 13,
+        .y_offset = 14,
     },
     [SPECIES_VOLBEAT] =
     {
@@ -2052,8 +2052,8 @@ const struct MonCoords gMonBackPicCoords[] =
     },
     [SPECIES_DEOXYS] =
     {
-        .size = 0x87,
-        .y_offset = 2,
+        .size = 0x86,
+        .y_offset = 8,
     },
     [SPECIES_CHIMECHO] =
     {

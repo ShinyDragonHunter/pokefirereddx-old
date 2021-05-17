@@ -88,8 +88,8 @@ lt_PCM_DMA_BUF_SIZE:      .word PCM_DMA_BUF_SIZE
 /* HQ-Mixer rev 4.0 created by ipatix (c) 2021
  * licensed under GPLv3, see LICENSE.txt for details */
 
-	.equ ENABLE_REVERB, 1                        @ <-- if you want faster code or don't like reverb, set this to '0', set to '1' otherwise
-	.equ ENABLE_DMA, 1                           @ <-- Using DMA produces smaller code and has better performance. Disable it if your case does not allow to use DMA.
+	.equ ENABLE_REVERB, 1 @ <-- if you want faster code or don't like reverb, set this to '0', set to '1' otherwise
+	.equ ENABLE_DMA, 1 @ <-- Using DMA produces smaller code and has better performance. Disable it if your case does not allow to use DMA.
 
 	/*****************
 	 * END OF CONFIG *
@@ -101,9 +101,9 @@ lt_PCM_DMA_BUF_SIZE:      .word PCM_DMA_BUF_SIZE
 	.global SoundMainRAM
 
 	.equ FRAME_LENGTH_5734, 0x60
-	.equ FRAME_LENGTH_7884, 0x84             @ THIS MODE IS NOT SUPPORTED BY THIS ENGINE BECAUSE IT DOESN'T USE AN 8 ALIGNED BUFFER LENGTH
+	.equ FRAME_LENGTH_7884, 0x84 @ THIS MODE IS NOT SUPPORTED BY THIS ENGINE BECAUSE IT DOESN'T USE AN 8 ALIGNED BUFFER LENGTH
 	.equ FRAME_LENGTH_10512, 0xB0
-	.equ FRAME_LENGTH_13379, 0xE0            @ DEFAULT
+	.equ FRAME_LENGTH_13379, 0xE0 @ DEFAULT
 	.equ FRAME_LENGTH_15768, 0x108
 	.equ FRAME_LENGTH_18157, 0x130
 	.equ FRAME_LENGTH_21024, 0x160
@@ -114,34 +114,34 @@ lt_PCM_DMA_BUF_SIZE:      .word PCM_DMA_BUF_SIZE
 	.equ FRAME_LENGTH_42048, 0x2C0
 
 	/* stack variables */
-	.equ ARG_FRAME_LENGTH, 0x0               @ Number of samples per frame/buffer
-	.equ ARG_REMAIN_CHN, 0x4                 @ temporary to count down the channels to process
-	.equ ARG_BUFFER_POS, 0x8                 @ stores the current output buffer pointer
-	.equ ARG_LOOP_START_POS, 0xC             @ stores wave loop start position in channel loop
-	.equ ARG_LOOP_LENGTH, 0x10               @   ''    ''   ''  end position
-	.equ ARG_BUFFER_POS_INDEX_HINT, 0x14     @ if this value is == 2, then this is the last buffer before wraparound
-	.equ ARG_PCM_STRUCT, 0x18                @ pointer to engine the main work area
+	.equ ARG_FRAME_LENGTH, 0x0 @ Number of samples per frame/buffer
+	.equ ARG_REMAIN_CHN, 0x4 @ temporary to count down the channels to process
+	.equ ARG_BUFFER_POS, 0x8 @ stores the current output buffer pointer
+	.equ ARG_LOOP_START_POS, 0xC @ stores wave loop start position in channel loop
+	.equ ARG_LOOP_LENGTH, 0x10 @   ''    ''   ''  end position
+	.equ ARG_BUFFER_POS_INDEX_HINT, 0x14 @ if this value is == 2, then this is the last buffer before wraparound
+	.equ ARG_PCM_STRUCT, 0x18 @ pointer to engine the main work area
 
 	/* channel struct */
-	.equ CHN_SAMPLE_STOR, 0x3F               @ [byte] contains the previously loaded sample from the linear interpolation
+	.equ CHN_SAMPLE_STOR, 0x3F @ [byte] contains the previously loaded sample from the linear interpolation
 
 	/* pulse wave synth configuration offset */
-	.equ SYNTH_TYPE, 0x1                     @ [byte]
-	.equ SYNTH_BASE_WAVE_DUTY, 0x2           @ [byte]
-	.equ SYNTH_WIDTH_CHANGE_1, 0x3           @ [byte]
-	.equ SYNTH_MOD_AMOUNT, 0x4               @ [byte]
-	.equ SYNTH_WIDTH_CHANGE_2, 0x5           @ [byte]
+	.equ SYNTH_TYPE, 0x1 @ [byte]
+	.equ SYNTH_BASE_WAVE_DUTY, 0x2 @ [byte]
+	.equ SYNTH_WIDTH_CHANGE_1, 0x3 @ [byte]
+	.equ SYNTH_MOD_AMOUNT, 0x4 @ [byte]
+	.equ SYNTH_WIDTH_CHANGE_2, 0x5 @ [byte]
 
-	.equ MODE_FLGSH_SIGN_REVERSE, 27         @ shift by n bits to get the reverse flag into SIGN
+	.equ MODE_FLGSH_SIGN_REVERSE, 27 @ shift by n bits to get the reverse flag into SIGN
 
 	/* variables of the engine work area */
-	.equ VAR_REVERB, 0x5                     @ [byte] 0-127 = reverb level
-	.equ VAR_MAX_CHN, 0x6                    @ [byte] maximum channels to process
-	.equ VAR_MASTER_VOL, 0x7                 @ [byte] PCM master volume
-	.equ VAR_EXT_NOISE_SHAPE_LEFT, 0xE       @ [byte] normally unused, used here for noise shaping
-	.equ VAR_EXT_NOISE_SHAPE_RIGHT, 0xF      @ [byte] normally unused, used here for noise shaping
-	.equ VAR_DEF_PITCH_FAC, 0x18             @ [word] this value gets multiplied with the samplerate for the inter sample distance
-	.equ VAR_FIRST_CHN, 0x50                 @ [CHN struct] relative offset to channel array
+	.equ VAR_REVERB, 0x5 @ [byte] 0-127 = reverb level
+	.equ VAR_MAX_CHN, 0x6 @ [byte] maximum channels to process
+	.equ VAR_MASTER_VOL, 0x7 @ [byte] PCM master volume
+	.equ VAR_EXT_NOISE_SHAPE_LEFT, 0xE @ [byte] normally unused, used here for noise shaping
+	.equ VAR_EXT_NOISE_SHAPE_RIGHT, 0xF @ [byte] normally unused, used here for noise shaping
+	.equ VAR_DEF_PITCH_FAC, 0x18 @ [word] this value gets multiplied with the samplerate for the inter sample distance
+	.equ VAR_FIRST_CHN, 0x50 @ [CHN struct] relative offset to channel array
 	.equ VAR_PCM_BUFFER, 0x350
 
 	/* just some more defines */
@@ -171,30 +171,30 @@ SoundMainRAM:
 	 */
 	str r4, [sp, #ARG_FRAME_LENGTH]
 	/* init channel loop */
-	ldr r4, [sp, #ARG_PCM_STRUCT]           @ r4 = main work area pointer
-	ldr r0, [r4, #VAR_DEF_PITCH_FAC]        @ r0 = samplingrate pitch factor
+	ldr r4, [sp, #ARG_PCM_STRUCT] @ r4 = main work area pointer
+	ldr r0, [r4, #VAR_DEF_PITCH_FAC] @ r0 = samplingrate pitch factor
 	mov r12, r0
 	ldrb r0, [r4, #VAR_MAX_CHN]
-	add r4, #VAR_FIRST_CHN                  @ r4 = Base channel Offset (Channel #0)
+	add r4, #VAR_FIRST_CHN @ r4 = Base channel Offset (Channel #0)
 
 C_channel_state_loop:
 	/* this is the main channel processing loop */
 	str r0, [sp, #ARG_REMAIN_CHN]
 	ldr r3, [r4, #o_SoundChannel_wav]
-	ldrb r6, [r4, #o_SoundChannel_statusFlags]           @ r6 will hold the channel status
-	movs r0, #0xC7                       @ check if any of the channel status flags is set
-	tst r0, r6                          @ check if none of the flags is set
+	ldrb r6, [r4, #o_SoundChannel_statusFlags] @ r6 will hold the channel status
+	movs r0, #0xC7 @ check if any of the channel status flags is set
+	tst r0, r6 @ check if none of the flags is set
 	beq C_skip_channel
 	/* check channel flags */
-	lsl r0, r6, #25                     @ shift over the SOUND_CHANNEL_SF_START to CARRY
-	bcc C_adsr_echo_check               @ continue with normal channel procedure
+	lsl r0, r6, #25 @ shift over the SOUND_CHANNEL_SF_START to CARRY
+	bcc C_adsr_echo_check @ continue with normal channel procedure
 	/* check leftmost bit */
-	bmi C_stop_channel                  @ SOUND_CHANNEL_SF_START | SOUND_CHANNEL_SF_STOP -> stop directly
+	bmi C_stop_channel @ SOUND_CHANNEL_SF_START | SOUND_CHANNEL_SF_STOP -> stop directly
 	/* channel init procedure */
 	movs r6, #SOUND_CHANNEL_SF_ENV_ATTACK
 	/* enabled compression if sample flag is set */
-	movs r0, r3                               @ r0 = o_SoundChannel_wav
-	add r0, #o_WaveData_data                  @ r0 = wave data offset
+	movs r0, r3 @ r0 = o_SoundChannel_wav
+	add r0, #o_WaveData_data @ r0 = wave data offset
 	ldr r2, [r3, #o_WaveData_size]
 	cmp r2, #0
 	beq C_channel_init_synth
@@ -202,7 +202,7 @@ C_channel_state_loop:
 	lsl r5, r5, #31
 	ldrb r5, [r4, #o_SoundChannel_type]
 	bmi C_channel_init_comp
-	lsl r5, r5, #27                     @ shift TONEDATA_TYPE_REV flag to SIGN
+	lsl r5, r5, #27 @ shift TONEDATA_TYPE_REV flag to SIGN
 	bmi C_channel_init_noncomp_reverse
 	/* Pokemon games seem to init channels differently than other m4a games */
 C_channel_init_noncomp_forward:
@@ -233,7 +233,7 @@ C_channel_init_comp:
 	mov r0, #TONEDATA_TYPE_CMP
 	orr r5, r0
 	strb r5, [r4, #o_SoundChannel_type]
-	lsl r5, r5, #27                     @ shift TONEDATA_TYPE_REV flag to SIGN
+	lsl r5, r5, #27 @ shift TONEDATA_TYPE_REV flag to SIGN
 	bmi C_channel_init_comp_reverse
 C_channel_init_comp_forward:
 	ldr r0, [r4, #o_SoundChannel_count]
@@ -244,13 +244,13 @@ C_channel_init_comp_reverse:
 	sub r2, r1
 	mov r0, r2
 C_channel_init_check_loop:
-	movs r5, #0                          @ initial envelope = #0
+	movs r5, #0 @ initial envelope = #0
 	str r5, [r4, #o_SoundChannel_fw]
 C_channel_init_check_loop_no_fine_pos:
 	str r0, [r4, #o_SoundChannel_currentPointer]
 	str r2, [r4, #o_SoundChannel_count]
 	strb r5, [r4, #o_SoundChannel_envelopeVolume]
-	mov r2, #CHN_SAMPLE_STOR            @ offset is too large to be used in one instruction
+	mov r2, #CHN_SAMPLE_STOR @ offset is too large to be used in one instruction
 	strb r5, [r4, r2]
 	/* enabled loop if required */
 	ldrb r2, [r3, #o_WaveData_flags]
@@ -263,13 +263,13 @@ C_channel_init_check_loop_no_fine_pos:
 C_adsr_echo_check:
 	/* this is the normal ADSR procedure without init */
 	ldrb r5, [r4, #o_SoundChannel_envelopeVolume]
-	lsl r0, r6, #29                     @ SOUND_CHANNEL_SF_IEC --> bit 31 (sign bit)
+	lsl r0, r6, #29 @ SOUND_CHANNEL_SF_IEC --> bit 31 (sign bit)
 	bpl C_adsr_release_check
 	/* pseudo echo handler */
 	ldrb r0, [r4, #o_SoundChannel_pseudoEchoLength]
 	sub r0, #1
 	strb r0, [r4, #o_SoundChannel_pseudoEchoLength]
-	bhi C_channel_vol_calc              @ continue normal if channel is still on
+	bhi C_channel_vol_calc @ continue normal if channel is still on
 
 C_stop_channel:
 	movs r0, #0
@@ -280,7 +280,7 @@ C_skip_channel:
 	b C_end_channel_state_loop
 
 C_adsr_release_check:
-	lsl r0, r6, #25                      @ SOUND_CHANNEL_SF_STOP --> bit 31 (sign bit)
+	lsl r0, r6, #25 @ SOUND_CHANNEL_SF_STOP --> bit 31 (sign bit)
 	bpl C_adsr_decay_check
 	/* release handler */
 	ldrb r0, [r4, #o_SoundChannel_release]
@@ -299,7 +299,7 @@ C_adsr_released:
 	beq C_stop_channel
 	/* pseudo echo volume handler */
 	movs r0, #SOUND_CHANNEL_SF_IEC
-	orr r6, r0                          @ set the echo flag
+	orr r6, r0 @ set the echo flag
 	b C_adsr_save_and_finalize
 
 C_adsr_decay_check:
@@ -307,24 +307,24 @@ C_adsr_decay_check:
 	movs r2, #(SOUND_CHANNEL_SF_ENV_DECAY+SOUND_CHANNEL_SF_ENV_SUSTAIN)
 	and r2, r6
 	cmp r2, #SOUND_CHANNEL_SF_ENV_DECAY
-	bne C_adsr_attack_check             @ decay not active yet
+	bne C_adsr_attack_check @ decay not active yet
 	/* decay handler */
 	ldrb r0, [r4, #o_SoundChannel_decay]
 	mul r5, r5, r0
 	lsr r5, r5, #8
 	ldrb r0, [r4, #o_SoundChannel_sustain]
 	cmp r5, r0
-	bhi C_channel_vol_calc              @ sample didn't decay yet
+	bhi C_channel_vol_calc @ sample didn't decay yet
 	/* sustain handler */
-	movs r5, r0                          @ current level = sustain level
-	beq C_adsr_released                 @ sustain level #0 --> branch
+	movs r5, r0 @ current level = sustain level
+	beq C_adsr_released @ sustain level #0 --> branch
 	/* step to next phase otherweise */
 	b C_adsr_next_state
 
 C_adsr_attack_check:
 	/* attack handler */
 	cmp r2, #SOUND_CHANNEL_SF_ENV_ATTACK
-	bne C_channel_vol_calc              @ if it isn't in attack attack phase, it has to be in sustain (keep vol) --> branch
+	bne C_channel_vol_calc @ if it isn't in attack attack phase, it has to be in sustain (keep vol) --> branch
 
 C_adsr_attack:
 	/* apply attack summand */
@@ -355,12 +355,12 @@ C_channel_vol_calc:
 	ldrb r0, [r4, #o_SoundChannel_leftVolume]
 	mul r0, r5
 	lsr r0, #13
-	mov r10, r0                         @ r10 = left volume
+	mov r10, r0 @ r10 = left volume
 	/* right side volume */
 	ldrb r0, [r4, #o_SoundChannel_rightVolume]
 	mul r0, r5
 	lsr r0, #13
-	mov r11, r0                         @ r11 = right volume
+	mov r11, r0 @ r11 = right volume
 	/*
 	 * Now we get closer to actual mixing:
 	 * For looped samples some additional operations are required
@@ -370,11 +370,11 @@ C_channel_vol_calc:
 	beq C_sample_loop_setup_skip
 	/* loop setup handler */
 	add r3, #o_WaveData_loopStart
-	ldmia r3!, {r0, r1}                   @ r0 = loop start, r1 = loop end
+	ldmia r3!, {r0, r1} @ r0 = loop start, r1 = loop end
 	ldrb r2, [r4, #o_SoundChannel_type]
 	lsl r2, r2, #MODE_FLGSH_SIGN_REVERSE
 	bcs C_sample_loop_setup_comp
-	add r3, r0                          @ r3 = loop start position (absolute)
+	add r3, r0 @ r3 = loop start position (absolute)
 	b C_sample_loop_setup_finish
 C_sample_loop_setup_comp:
 	mov r3, r0
@@ -384,7 +384,7 @@ C_sample_loop_setup_finish:
 
 C_sample_loop_setup_skip:
 	/* do the rest of the setup */
-	str r0, [sp, #ARG_LOOP_LENGTH]      @ if loop is off --> r0 = 0x0
+	str r0, [sp, #ARG_LOOP_LENGTH] @ if loop is off --> r0 = 0x0
 	ldr r5, hq_buffer_literal
 	ldr r2, [r4, #o_SoundChannel_count]
 	ldr r3, [r4, #o_SoundChannel_currentPointer]
@@ -418,8 +418,8 @@ C_mixing_setup:
 	/* frequency and mixing loading routine */
 	ldrsb r6, [r4, #CHN_SAMPLE_STOR]
 	ldr r8, [sp, #ARG_FRAME_LENGTH]
-	orrs r11, r11, r10, lsl#16           @ r11 = 00LL00RR
-	beq C_mixing_epilogue               @ volume #0 --> branch and skip channel processing
+	orrs r11, r11, r10, lsl#16 @ r11 = 00LL00RR
+	beq C_mixing_epilogue @ volume #0 --> branch and skip channel processing
 	/* normal processing otherwise */
 	tst r0, #(TONEDATA_TYPE_CMP|TONEDATA_TYPE_REV)
 	bne C_mixing_setup_comp_rev
@@ -428,8 +428,8 @@ C_mixing_setup:
 C_mixing_setup_comp_rev:
 	stmfd sp!, {r4, r9, r12}
 	add r4, r4, #o_SoundChannel_fw
-	ldmia r4, {r7, lr}                    @ r7 = Fine Position, lr = Frequency
-	mul r4, lr, r12                     @ r4 = inter sample steps = output rate factor * samplerate
+	ldmia r4, {r7, lr} @ r7 = Fine Position, lr = Frequency
+	mul r4, lr, r12 @ r4 = inter sample steps = output rate factor * samplerate
 	tst r0, #TONEDATA_TYPE_SPL
 	bne C_setup_synth
 	/*
@@ -508,7 +508,7 @@ C_data_load_comp_for:
 	/* TODO having loop support for forward samples would be nice */
 	/* lr = end_of_last_block */
 	add lr, r3, r0
-	add lr, #(1+(BDPCM_BLK_SIZE-1))             @ -1 for alignment, +1 because we need an extra sample for interpolation
+	add lr, #(1+(BDPCM_BLK_SIZE-1)) @ -1 for alignment, +1 because we need an extra sample for interpolation
 	bic lr, #BDPCM_BLK_SIZE_MASK
 	/* r9 = start_of_first_block >> 6 */
 	mov r9, r3, lsr#BDPCM_BLK_SIZE_SHIFT
@@ -538,7 +538,7 @@ C_data_load_comp_for_calc_pos:
 	and r3, r3, #BDPCM_BLK_SIZE_MASK
 	mov r0, sp
 C_data_load_comp_decode:
-	ldr r2, [r10, #8]           @ load chn_ptr from previous stmfd
+	ldr r2, [r10, #8] @ load chn_ptr from previous stmfd
 	@ zero flag should be only set when leaving from F_clear_mem (r1 = 0)
 	streqb r1, [r2, #o_SoundChannel_statusFlags]
 	ldr r2, [r2, #o_SoundChannel_wav]
@@ -610,7 +610,7 @@ C_data_load_uncomp_rev:
 	sub r8, r1
 	add r0, sp, r8
 	bl F_clear_mem
-	ldr r2, [r10, #8]           @ load chn_ptr from previous stmfd
+	ldr r2, [r10, #8] @ load chn_ptr from previous stmfd
 	@ r1 should be zero here
 	strb r1, [r2, #o_SoundChannel_statusFlags]
 C_data_load_uncomp_rev_loop:
@@ -626,8 +626,8 @@ C_data_load_uncomp_rev_loop:
 	b C_select_highspeed_codepath_vla_r3_and3
 
 C_data_load_uncomp_for:
-	cmp r2, r0                          @ actual comparison
-	ble C_unbuffered_mixing       @ if not enough samples are available for path 1 --> branch
+	cmp r2, r0 @ actual comparison
+	ble C_unbuffered_mixing @ if not enough samples are available for path 1 --> branch
 	/*
 	 * This is the mixer path 1.
 	 * The interesting thing here is that the code will
@@ -647,7 +647,7 @@ C_data_load_uncomp_for:
 	 * due to the lack of registers.
 	 */
 	stmfd sp!, {r2, r9}
-	cmplo r0, #0x400                      @ > 0x400 bytes --> read directly from ROM rather than buffered
+	cmplo r0, #0x400 @ > 0x400 bytes --> read directly from ROM rather than buffered
 	bhs C_select_highspeed_codepath
 
 	bic r1, r3, #3
@@ -662,7 +662,7 @@ C_data_load_uncomp_for:
 	mov r0, r0, lsr#2
 	sub sp, sp, r0, lsl#2
 	orr lr, r0, #0x84000000
-	stmia r9, {r1, sp, lr}                @ actually starts the DMA
+	stmia r9, {r1, sp, lr} @ actually starts the DMA
 .else
 	/*
 	 * This alternative path doesn't use DMA but copies with CPU instead
@@ -708,26 +708,26 @@ C_select_highspeed_codepath_vla_r3_and3:
 C_select_highspeed_codepath_vla_r3:
 	add r3, r3, sp
 C_select_highspeed_codepath:
-	stmfd sp!, {r10}                      @ save original sp for VLA
+	stmfd sp!, {r10} @ save original sp for VLA
 	/*
 	 * This code decides which piece of code to load
 	 * depending on playback-rate / default-rate ratio.
 	 * Modes > 1.0 run with different volume levels.
 	 * r4 = inter sample step
 	 */
-	adr r0, high_speed_code_resource    @ loads the base pointer of the code
+	adr r0, high_speed_code_resource @ loads the base pointer of the code
 	subs r4, r4, #0x800000
-	movpl r11, r11, lsl#1                 @  if >= 1.0*   0-127 --> 0-254 volume level
-	addpl r0, r0, #(ARM_OP_LEN*6)         @               6 instructions further
-	subpls r4, r4, #0x800000               @  if >= 2.0*
+	movpl r11, r11, lsl#1 @ if >= 1.0*   0-127 --> 0-254 volume level
+	addpl r0, r0, #(ARM_OP_LEN*6) @ 6 instructions further
+	subpls r4, r4, #0x800000 @ if >= 2.0*
 	addpl r0, r0, #(ARM_OP_LEN*6)
 	addpl r4, r4, #0x800000
 	ldr r2, previous_fast_code
-	cmp r0, r2                          @ code doesn't need to be reloaded if it's already in place
+	cmp r0, r2 @ code doesn't need to be reloaded if it's already in place
 	beq C_skip_fast_mixing_creation
 	/* This loads the needed code to RAM */
 	str r0, previous_fast_code
-	ldmia r0, {r0-r2, r8-r10}             @ load 6 opcodes
+	ldmia r0, {r0-r2, r8-r10} @ load 6 opcodes
 	adr lr, fast_mixing_instructions
 
 C_fast_mixing_creation_loop:
@@ -740,21 +740,21 @@ C_fast_mixing_creation_loop:
 	add lr, lr, #(ARM_OP_LEN*38)
 	stmia lr, {r2, r8-r10}
 	sub lr, lr, #(ARM_OP_LEN*32)
-	adds r5, r5, #0x40000000         @ do that for 4 blocks
+	adds r5, r5, #0x40000000 @ do that for 4 blocks
 	bcc C_fast_mixing_creation_loop
 
 C_skip_fast_mixing_creation:
-	ldr r8, [sp]                        @ restore r8 with the frame length
+	ldr r8, [sp] @ restore r8 with the frame length
 	ldr r8, [r8, #(ARG_FRAME_LENGTH + 0x8 + 0xC)]
-	mov r2, #0xFF000000                 @ load the fine position overflow bitmask
+	mov r2, #0xFF000000 @ load the fine position overflow bitmask
 	ldrsb r12, [r3]
 	sub r12, r12, r6
 C_fast_mixing_loop:
 	/* This is the actual processing and interpolation code loop; NOPs will be replaced by the code above */
-	ldmia r5, {r0, r1, r10, lr}       @ load 4 stereo samples to Registers
+	ldmia r5, {r0, r1, r10, lr} @ load 4 stereo samples to Registers
 	mul r9, r7, r12
 fast_mixing_instructions:
-	nop                                 @ Block #1
+	nop @ Block #1
 	nop
 	mlane r0, r11, r9, r0
 	nop
@@ -763,7 +763,7 @@ fast_mixing_instructions:
 	nop
 	bic r7, r7, r2, asr#1
 	mulne r9, r7, r12
-	nop                               @ Block #2
+	nop @ Block #2
 	nop
 	mlane r1, r11, r9, r1
 	nop
@@ -772,7 +772,7 @@ fast_mixing_instructions:
 	nop
 	bic r7, r7, r2, asr#1
 	mulne r9, r7, r12
-	nop                               @ Block #3
+	nop @ Block #3
 	nop
 	mlane r10, r11, r9, r10
 	nop
@@ -781,7 +781,7 @@ fast_mixing_instructions:
 	nop
 	bic r7, r7, r2, asr#1
 	mulne r9, r7, r12
-	nop                               @ Block #4
+	nop @ Block #4
 	nop
 	mlane lr, r11, r9, lr
 	nop
@@ -789,11 +789,11 @@ fast_mixing_instructions:
 	nop
 	nop
 	bic r7, r7, r2, asr#1
-	stmia r5!, {r0, r1, r10, lr}      @ write 4 stereo samples
+	stmia r5!, {r0, r1, r10, lr} @ write 4 stereo samples
 
-	ldmia r5, {r0, r1, r10, lr}       @ load the next 4 stereo samples
+	ldmia r5, {r0, r1, r10, lr} @ load the next 4 stereo samples
 	mulne r9, r7, r12
-	nop                               @ Block #1
+	nop @ Block #1
 	nop
 	mlane r0, r11, r9, r0
 	nop
@@ -802,7 +802,7 @@ fast_mixing_instructions:
 	nop
 	bic r7, r7, r2, asr#1
 	mulne r9, r7, r12
-	nop                               @ Block #2
+	nop @ Block #2
 	nop
 	mlane r1, r11, r9, r1
 	nop
@@ -811,7 +811,7 @@ fast_mixing_instructions:
 	nop
 	bic r7, r7, r2, asr#1
 	mulne r9, r7, r12
-	nop                               @ Block #3
+	nop @ Block #3
 	nop
 	mlane r10, r11, r9, r10
 	nop
@@ -820,7 +820,7 @@ fast_mixing_instructions:
 	nop
 	bic r7, r7, r2, asr#1
 	mulne r9, r7, r12
-	nop                               @ Block #4
+	nop @ Block #4
 	nop
 	mlane lr, r11, r9, lr
 	nop
@@ -828,17 +828,16 @@ fast_mixing_instructions:
 	nop
 	nop
 	bic r7, r7, r2, asr#1
-	stmia r5!, {r0, r1, r10, lr}      @ write 4 stereo samples
+	stmia r5!, {r0, r1, r10, lr} @ write 4 stereo samples
 	subs r8, r8, #8
 	bgt C_fast_mixing_loop
 	/* restore previously saved values */
-	ldmfd sp, {sp}                        @ reload original stack pointer from VLA
+	ldmfd sp, {sp} @ reload original stack pointer from VLA
 C_skip_fast_mixing:
 	ldmfd sp!, {r2, r3}
 	b C_end_mixing
 
 /* Various variables for the cached mixer */
-
 	.align 2
 previous_fast_code:
 	.word 0x0 /* mark as invalid initially */
@@ -873,11 +872,10 @@ high_speed_code_resource:
 C_unbuffered_mixing:
 	ldrsb r12, [r3]
 	sub r12, r12, r6
-	add r5, r5, r8, lsl#2               @ r5 = End of HQ buffer
+	add r5, r5, r8, lsl#2 @ r5 = End of HQ buffer
 
 /* This below is the unbuffered mixing loop. r6 = base sample, r12 diff to next */
 C_unbuffered_mixing_loop:
-
 	mul r9, r7, r12
 	mov r9, r9, asr#22
 	adds r9, r9, r6, lsl#1
@@ -886,7 +884,7 @@ C_unbuffered_mixing_loop:
 	strne r0, [r5, -r8, lsl#2]
 	add r7, r7, r4
 	movs r9, r7, lsr#23
-	beq C_unbuffered_mixing_skip_load   @ skip the mixing load if it isn't required
+	beq C_unbuffered_mixing_skip_load @ skip the mixing load if it isn't required
 
 	subs r2, r2, r9
 	ble C_unbuffered_mixing_loop_or_end
@@ -899,7 +897,7 @@ C_unbuffered_mixing_loop_continue:
 	bic r7, r7, #0x3F800000
 
 C_unbuffered_mixing_skip_load:
-	subs r8, r8, #1                      @ reduce the sample count for the buffer by #1
+	subs r8, r8, #1 @ reduce the sample count for the buffer by #1
 	bgt C_unbuffered_mixing_loop
 
 C_end_mixing:
@@ -911,23 +909,23 @@ C_end_mixing:
 C_unbuffered_mixing_loop_or_end:
 	/* This loads the loop information end loops incase it should */
 	ldr r0, [sp, #(ARG_LOOP_LENGTH+0xC)]
-	cmp r0, #0                          @ check if loop is enabled; if Loop is enabled r6 is != 0
+	cmp r0, #0 @ check if loop is enabled; if Loop is enabled r6 is != 0
 	subne r3, r3, r0
 	addne r2, r2, r0
 	bne C_unbuffered_mixing_loop_continue
 	ldmfd sp!, {r4, r9, r12}
-	b C_mixing_end_and_stop_channel   @ r0 == 0 (if this branches)
+	b C_mixing_end_and_stop_channel @ r0 == 0 (if this branches)
 
 C_fixed_mixing_loop_or_end:
 	ldr r2, [sp, #ARG_LOOP_LENGTH+0x8]
-	movs r0, r2                          @ copy it to r6 and check whether loop is disabled
+	movs r0, r2 @ copy it to r6 and check whether loop is disabled
 	ldrne r3, [sp, #ARG_LOOP_START_POS+0x8]
 	bne C_fixed_mixing_loop_continue
 
 	ldmfd sp!, {r4, r9}
 
 C_mixing_end_and_stop_channel:
-	strb r0, [r4]                        @ update channel flag with chn halt
+	strb r0, [r4] @ update channel flag with chn halt
 	b C_mixing_epilogue
 
 /* These are used for the fixed freq mixer */
@@ -939,7 +937,7 @@ fixed_mixing_code_resource:
 	movs r6, r10, lsl#8
 	movs r6, r6, asr#24
 	movs r6, r10, asr#24
-	ldmia r3!, {r10}                          @ load chunk of samples
+	ldmia r3!, {r10} @ load chunk of samples
 	movs r6, r10, lsl#24
 	movs r6, r6, asr#24
 	movs r6, r10, lsl#16
@@ -951,20 +949,20 @@ C_setup_fixed_freq_mixing:
 	stmfd sp!, {r4, r9}
 
 C_fixed_mixing_length_check:
-	mov lr, r2                          @ sample countdown
+	mov lr, r2 @ sample countdown
 	cmp r2, r8
-	movgt lr, r8                          @ min(buffer_size, sample_countdown)
+	movgt lr, r8 @ min(buffer_size, sample_countdown)
 	sub lr, lr, #1
 	movs lr, lr, lsr#2
-	beq C_fixed_mixing_process_rest     @ <= 3 samples to process
+	beq C_fixed_mixing_process_rest @ <= 3 samples to process
 
-	sub r8, r8, lr, lsl#2               @ subtract the amount of samples we need to process from the buffer length
-	sub r2, r2, lr, lsl#2               @ subtract the amount of samples we need to process from the remaining samples
+	sub r8, r8, lr, lsl#2 @ subtract the amount of samples we need to process from the buffer length
+	sub r2, r2, lr, lsl#2 @ subtract the amount of samples we need to process from the remaining samples
 	adr r1, fixed_mixing_instructions
 	adr r0, fixed_mixing_code_resource
 	mov r9, r3, lsl#30
-	add r0, r0, r9, lsr#27              @ alignment * 8 + resource offset = new resource offset
-	ldmia r0!, {r6, r7, r9, r10}          @ load and write instructions
+	add r0, r0, r9, lsr#27 @ alignment * 8 + resource offset = new resource offset
+	ldmia r0!, {r6, r7, r9, r10} @ load and write instructions
 	stmia r1, {r6, r7}
 	add r1, r1, #0xC
 	stmia r1, {r9, r10}
@@ -973,15 +971,15 @@ C_fixed_mixing_length_check:
 	stmia r1, {r6, r7}
 	add r1, r1, #0xC
 	stmia r1, {r9, r10}
-	ldmia r3!, {r10}                      @ load 4 samples from ROM
+	ldmia r3!, {r10} @ load 4 samples from ROM
 
 C_fixed_mixing_loop:
-	ldmia r5, {r0, r1, r7, r9}       @ load 4 samples from hq buffer
+	ldmia r5, {r0, r1, r7, r9} @ load 4 samples from hq buffer
 
 fixed_mixing_instructions:
 	nop
 	nop
-	mlane r0, r11, r6, r0             @ add new sample if neccessary
+	mlane r0, r11, r6, r0 @ add new sample if neccessary
 	nop
 	nop
 	mlane r1, r11, r6, r1
@@ -991,14 +989,14 @@ fixed_mixing_instructions:
 	nop
 	nop
 	mlane r9, r11, r6, r9
-	stmia r5!, {r0, r1, r7, r9}       @ write samples to the mixing buffer
+	stmia r5!, {r0, r1, r7, r9} @ write samples to the mixing buffer
 	subs lr, lr, #1
 	bne C_fixed_mixing_loop
 
-	sub r3, r3, #4                      @ we'll need to load this block again, so rewind a bit
+	sub r3, r3, #4 @ we'll need to load this block again, so rewind a bit
 
 C_fixed_mixing_process_rest:
-	mov r1, #4                          @ repeat the loop #4 times to completley get rid of alignment errors
+	mov r1, #4 @ repeat the loop #4 times to completley get rid of alignment errors
 
 C_fixed_mixing_unaligned_loop:
 	ldr r0, [r5]
@@ -1012,7 +1010,7 @@ C_fixed_mixing_loop_continue:
 	bgt C_fixed_mixing_unaligned_loop
 
 	subs r8, r8, #4
-	bgt C_fixed_mixing_length_check     @ repeat the mixing procedure until the buffer is filled
+	bgt C_fixed_mixing_length_check @ repeat the mixing procedure until the buffer is filled
 
 	ldmfd sp!, {r4, r9}
 
@@ -1070,7 +1068,7 @@ C_downsampler:
 
 C_downsampler_loop:
 	ldmia r10, {r0, r1}
-	add r12, r4, r0         @ left sample #1
+	add r12, r4, r0 @ left sample #1
 	adds r4, r12, r12
 	eorvs r12, lr, r4, asr#31
 	and r4, r12, #0x007F0000
@@ -1082,7 +1080,7 @@ C_downsampler_loop:
 	and r5, r12, #0x007F0000
 	and r7, r11, r12, lsr#15
 
-	add r12, r4, r1         @ left sample #2
+	add r12, r4, r1 @ left sample #2
 	adds r4, r12, r12
 	eorvs r12, lr, r4, asr#31
 	and r4, r12, #0x007F0000
@@ -1103,8 +1101,8 @@ C_downsampler_loop:
 	mov r12, r12, lsl#24
 	mov r0, r12, asr#24
 
-	add r9, r9, #PCM_DMA_BUF_SIZE      @ \ ldrsh  r12, [r9, #0x630]!
-	ldrsh r12, [r9]                    @ / is unfortunately not a valid instruction
+	add r9, r9, #PCM_DMA_BUF_SIZE @ \ ldrsh  r12, [r9, #0x630]!
+	ldrsh r12, [r9] @ / is unfortunately not a valid instruction
 
 	add r1, r1, r12, asr#8
 	mov r12, r12, lsl#24
@@ -1116,8 +1114,8 @@ C_downsampler_loop:
 	mov r12, r12, lsl#24
 	add r0, r0, r12, asr#24
 
-	strh r6, [r9]                     @ \ strh  r6, [r9], #-0x630
-	sub r9, r9, #PCM_DMA_BUF_SIZE    @ / is unfortunately not a valid instruction
+	strh r6, [r9] @ \ strh  r6, [r9], #-0x630
+	sub r9, r9, #PCM_DMA_BUF_SIZE @ / is unfortunately not a valid instruction
 	ldrsh r12, [r9]
 	strh r7, [r9], #2
 
@@ -1153,7 +1151,7 @@ C_downsampler_return:
 	strb r4, [r0, #VAR_EXT_NOISE_SHAPE_LEFT]
 	lsr r5, #16
 	strb r5, [r0, #VAR_EXT_NOISE_SHAPE_RIGHT]
-	ldr r3, =0x68736D53                     @ this is used to indicate the interrupt handler the rendering was finished properly
+	ldr r3, =0x68736D53 @ this is used to indicate the interrupt handler the rendering was finished properly
 	str r3, [r0]
 	add sp, sp, #0x1C
 	pop {r0-r7}
@@ -1183,40 +1181,40 @@ C_setup_synth:
 	ldrb r1, [r3, #SYNTH_MOD_AMOUNT]
 	ldrb r0, [r3, #SYNTH_BASE_WAVE_DUTY]
 	mov r0, r0, lsl#24
-	mla r6, r10, r1, r0                 @ calculate the final duty cycle with the offset, and intensity * rotating duty cycle amount
+	mla r6, r10, r1, r0 @ calculate the final duty cycle with the offset, and intensity * rotating duty cycle amount
 	stmfd sp!, {r2, r3, r9, r12}
 
 C_synth_pulse_loop:
 	ldmia r5, {r0-r3, r9, r10, r12, lr} @ load 8 samples
-	cmp r7, r6                      @ Block #1
+	cmp r7, r6 @ Block #1
 	addlo r0, r0, r11, lsl#6
 	subhs r0, r0, r11, lsl#6
 	adds r7, r7, r4, lsl#3
-	cmp r7, r6                      @ Block #2
+	cmp r7, r6 @ Block #2
 	addlo r1, r1, r11, lsl#6
 	subhs r1, r1, r11, lsl#6
 	adds r7, r7, r4, lsl#3
-	cmp r7, r6                      @ Block #3
+	cmp r7, r6 @ Block #3
 	addlo r2, r2, r11, lsl#6
 	subhs r2, r2, r11, lsl#6
 	adds r7, r7, r4, lsl#3
-	cmp r7, r6                      @ Block #4
+	cmp r7, r6 @ Block #4
 	addlo r3, r3, r11, lsl#6
 	subhs r3, r3, r11, lsl#6
 	adds r7, r7, r4, lsl#3
-	cmp r7, r6                      @ Block #5
+	cmp r7, r6 @ Block #5
 	addlo r9, r9, r11, lsl#6
 	subhs r9, r9, r11, lsl#6
 	adds r7, r7, r4, lsl#3
-	cmp r7, r6                      @ Block #6
+	cmp r7, r6 @ Block #6
 	addlo r10, r10, r11, lsl#6
 	subhs r10, r10, r11, lsl#6
 	adds r7, r7, r4, lsl#3
-	cmp r7, r6                      @ Block #7
+	cmp r7, r6 @ Block #7
 	addlo r12, r12, r11, lsl#6
 	subhs r12, r12, r11, lsl#6
 	adds r7, r7, r4, lsl#3
-	cmp r7, r6                      @ Block #8
+	cmp r7, r6 @ Block #8
 	addlo lr, lr, r11, lsl#6
 	subhs lr, lr, r11, lsl#6
 	adds r7, r7, r4, lsl#3
@@ -1243,30 +1241,29 @@ C_check_synth_saw:
 	mov r12, #0x70
 
 C_synth_saw_loop:
-
-	ldmia r5, {r0, r1, r10, lr}       @ load 4 samples from memory
-	adds r7, r7, r4, lsl#3           @ Block #1 (some oscillator type code)
+	ldmia r5, {r0, r1, r10, lr} @ load 4 samples from memory
+	adds r7, r7, r4, lsl#3 @ Block #1 (some oscillator type code)
 	rsb r9, r12, r7, lsr#24
 	mov r6, r7, lsl#1
 	sub r9, r9, r6, lsr#27
 	adds r2, r9, r2, asr#1
 	mlane r0, r11, r2, r0
 
-	adds r7, r7, r4, lsl#3           @ Block #2
+	adds r7, r7, r4, lsl#3 @ Block #2
 	rsb r9, r12, r7, lsr#24
 	mov r6, r7, lsl#1
 	sub r9, r9, r6, lsr#27
 	adds r2, r9, r2, asr#1
 	mlane r1, r11, r2, r1
 
-	adds r7, r7, r4, lsl#3           @ Block #3
+	adds r7, r7, r4, lsl#3 @ Block #3
 	rsb r9, r12, r7, lsr#24
 	mov r6, r7, lsl#1
 	sub r9, r9, r6, lsr#27
 	adds r2, r9, r2, asr#1
 	mlane r10, r11, r2, r10
 
-	adds r7, r7, r4, lsl#3           @ Block #4
+	adds r7, r7, r4, lsl#3 @ Block #4
 	rsb r9, r12, r7, lsr#24
 	mov r6, r7, lsl#1
 	sub r9, r9, r6, lsr#27
@@ -1284,29 +1281,29 @@ C_synth_triangle:
 	mov r12, #0x180
 
 C_synth_triangle_loop:
-	ldmia r5, {r0, r1, r10, lr}       @ load samples from work buffer
-	adds r7, r7, r4, lsl#3           @ Block #1
+	ldmia r5, {r0, r1, r10, lr} @ load samples from work buffer
+	adds r7, r7, r4, lsl#3 @ Block #1
 	rsbpl r9, r6, r7, asr#23
 	submi r9, r12, r7, lsr#23
 	mla r0, r11, r9, r0
 
-	adds r7, r7, r4, lsl#3           @ Block #2
+	adds r7, r7, r4, lsl#3 @ Block #2
 	rsbpl r9, r6, r7, asr#23
 	submi r9, r12, r7, lsr#23
 	mla r1, r11, r9, r1
 
-	adds r7, r7, r4, lsl#3           @ Block #3
+	adds r7, r7, r4, lsl#3 @ Block #3
 	rsbpl r9, r6, r7, asr#23
 	submi r9, r12, r7, lsr#23
 	mla r10, r11, r9, r10
 
-	adds r7, r7, r4, lsl#3           @ Block #4
+	adds r7, r7, r4, lsl#3 @ Block #4
 	rsbpl r9, r6, r7, asr#23
 	submi r9, r12, r7, lsr#23
 	mla lr, r11, r9, lr
 
 	stmia r5!, {r0, r1, r10, lr}
-	subs r8, r8, #4                  @ subtract #4 from the remainging samples
+	subs r8, r8, #4 @ subtract #4 from the remainging samples
 	bgt C_synth_triangle_loop
 
 	b C_end_mixing
@@ -1429,9 +1426,9 @@ MPlayJumpTableCopy_Loop:
 ldrb_r3_r2:
 	ldrb r3, [r2]
 
-@ This attempts to protect against reading anything from the BIOS ROM
-@ besides the jump table template.
-@ It assumes that the jump table template is located at the end of the ROM.
+	@ This attempts to protect against reading anything from the BIOS ROM
+	@ besides the jump table template.
+	@ It assumes that the jump table template is located at the end of the ROM.
 	.thumb_func
 chk_adr_r2:
 	push {r0}
@@ -1744,13 +1741,13 @@ m4aSoundVSync_SkipDMA2:
 	@ turn off DMA1/DMA2
 	movs r1, DMA_32BIT >> 8
 	lsls r1, 8
-	strh r1, [r2, 0xA]       @ DMA1CNT_H
+	strh r1, [r2, 0xA] @ DMA1CNT_H
 	strh r1, [r2, 0xC + 0xA] @ DMA2CNT_H
 
 	@ turn on DMA1/DMA2 direct-sound FIFO mode
 	movs r1, (DMA_ENABLE | DMA_START_SPECIAL | DMA_32BIT | DMA_REPEAT) >> 8
 	lsls r1, 8 @ LSB is 0, so DMA_SRC_INC is used (destination is always fixed in FIFO mode)
-	strh r1, [r2, 0xA]       @ DMA1CNT_H
+	strh r1, [r2, 0xA] @ DMA1CNT_H
 	strh r1, [r2, 0xC + 0xA] @ DMA2CNT_H
 
 m4aSoundVSync_Done:
