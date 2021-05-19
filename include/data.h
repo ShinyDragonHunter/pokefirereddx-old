@@ -97,7 +97,8 @@ extern const union AffineAnimCmd *const gAffineAnims_BattleSpritePlayerSide[];
 extern const union AffineAnimCmd *const gAffineAnims_BattleSpriteOpponentSide[];
 extern const union AffineAnimCmd *const gAffineAnims_BattleSpriteContest[];
 
-extern const union AnimCmd *const gAnims_MonPic[];
+extern const union AnimCmd *const gAnims_MonPic[]; // Castform's front pic animation uses this
+extern const union AnimCmd *const gAnims_NONE[]; // Defined here because gTrainerFrontAnimsPtrTable uses it
 extern const struct MonCoords gMonFrontPicCoords[];
 extern const struct CompressedSpriteSheet gMonFrontPicTable[];
 extern const struct CompressedSpriteSheet gFemaleMonFrontPicTable[];

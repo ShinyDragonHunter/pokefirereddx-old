@@ -2541,10 +2541,6 @@ _081DDD90:
 	.align 2, 0 @ Don't pad with nop.
 
 	.bss
-gDecodingBuffer: @ Used as a buffer for audio decoded from compressed DPCM
-	.space 0x40
-	.size gDecodingBuffer, .-gDecodingBuffer
-
 	.global gMPlayTrack_BGM
 gMPlayTrack_BGM:
 	.space 0x320
