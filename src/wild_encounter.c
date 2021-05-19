@@ -338,14 +338,14 @@ static u8 PickWildMonNature(void)
     return Random() % NUM_NATURES;
 }
 
-static void CreateWildMon(u16 species, u8 level, u8 form)
+static void CreateWildMon(u16 species, u8 level)
 {
     bool32 checkCuteCharm;
 
     ZeroEnemyPartyMons();
     checkCuteCharm = TRUE;
 
-    switch (gBaseStats[GetFormSpecies(species, form)].genderRatio)
+    switch (gBaseStats[species].genderRatio)
     {
     case MON_MALE:
     case MON_FEMALE:
@@ -370,11 +370,11 @@ static void CreateWildMon(u16 species, u8 level, u8 form)
         else
             gender = MON_FEMALE;
 
-        CreateMonWithGenderNatureLetter(&gEnemyParty[0], species, level, 32, gender, PickWildMonNature(), 0, form);
+        CreateMonWithGenderNatureLetter(&gEnemyParty[0], species, level, 32, gender, PickWildMonNature(), 0, 0);
         return;
     }
 
-    CreateMonWithNature(&gEnemyParty[0], species, level, 32, PickWildMonNature(), form);
+    CreateMonWithNature(&gEnemyParty[0], species, level, 32, PickWildMonNature(), 0);
 }
 
 enum
@@ -418,7 +418,7 @@ static bool8 TryGenerateWildMon(const struct WildPokemonInfo *wildMonInfo, u8 ar
      && !IsAbilityAllowingEncounter(level)))
         return FALSE;
 
-    CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level, wildMonInfo->wildPokemon[wildMonIndex].form);
+    CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level);
     return TRUE;
 }
 
@@ -427,7 +427,7 @@ static u16 GenerateFishingWildMon(const struct WildPokemonInfo *wildMonInfo, u8 
     u8 wildMonIndex = ChooseWildMonIndex_Fishing(rod);
     u8 level = ChooseWildMonLevel(&wildMonInfo->wildPokemon[wildMonIndex]);
 
-    CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level, wildMonInfo->wildPokemon[wildMonIndex].form);
+    CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level);
     return wildMonInfo->wildPokemon[wildMonIndex].species;
 }
 
@@ -438,7 +438,7 @@ static bool8 SetUpMassOutbreakEncounter(u8 flags)
     if (flags & WILD_CHECK_REPEL && !IsWildLevelAllowedByRepel(gSaveBlock1Ptr->outbreakPokemonLevel))
         return FALSE;
 
-    CreateWildMon(gSaveBlock1Ptr->outbreakPokemonSpecies, gSaveBlock1Ptr->outbreakPokemonLevel, 0);
+    CreateWildMon(gSaveBlock1Ptr->outbreakPokemonSpecies, gSaveBlock1Ptr->outbreakPokemonLevel);
     for (i = 0; i < 4; i++)
         SetMonMoveSlot(&gEnemyParty[0], gSaveBlock1Ptr->outbreakPokemonMoves[i], i);
 
@@ -753,7 +753,6 @@ bool8 DoesCurrentMapHaveFishingMons(void)
 void FishingWildEncounter(u8 rod)
 {
     u16 species;
-    u8 form;
 
     gIsFishingEncounter = TRUE; //must be set before mon is created
     if (CheckFeebas())
@@ -761,8 +760,7 @@ void FishingWildEncounter(u8 rod)
         u8 level = ChooseWildMonLevel(&gWildFeebasRoute119Data);
 
         species = gWildFeebasRoute119Data.species;
-        form = gWildFeebasRoute119Data.form;
-        CreateWildMon(species, level, form);
+        CreateWildMon(species, level);
     }
     else
     {
@@ -896,15 +894,13 @@ static bool8 TryGetRandomWildMonIndexByType(const struct WildPokemon *wildMon, u
 {
     u8 validIndexes[numMon]; // variable length array, an interesting feature
     u8 i, validMonCount;
-    u16 formSpecies;
 
     for (i = 0; i < numMon; i++)
         validIndexes[i] = 0;
 
     for (validMonCount = 0, i = 0; i < numMon; i++)
     {
-        formSpecies = GetFormSpecies(wildMon[i].species, wildMon[i].form);
-        if (gBaseStats[formSpecies].type1 == type || gBaseStats[formSpecies].type2 == type)
+        if (gBaseStats[wildMon[i].species].type1 == type || gBaseStats[wildMon[i].species].type2 == type)
             validIndexes[validMonCount++] = i;
     }
 
