@@ -34,11 +34,7 @@
 #define INCBIN_S32 INCBIN
 #endif // IDE support
 
-#define ARRAY_COUNT(array) (size_t)(sizeof(array) / sizeof((array)[0]))
-
-// GameFreak used a macro called "NELEMS", as evidenced by
-// AgbAssert calls.
-#define NELEMS(arr) (sizeof(arr)/sizeof(*(arr)))
+#define ARRAY_COUNT(array) (sizeof(array)/sizeof(*(array)))
 
 #define SWAP(a, b, temp)    \
 {                           \
