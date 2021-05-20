@@ -22,7 +22,6 @@ void AllocateBattleResources(void)
     gBattleStruct = AllocZeroed(sizeof(*gBattleStruct));
 
     gBattleResources = AllocZeroed(sizeof(*gBattleResources));
-    gBattleResources->secretBase = AllocZeroed(sizeof(*gBattleResources->secretBase));
     gBattleResources->flags = AllocZeroed(sizeof(*gBattleResources->flags));
     gBattleResources->battleScriptsStack = AllocZeroed(sizeof(*gBattleResources->battleScriptsStack));
     gBattleResources->battleCallbackStack = AllocZeroed(sizeof(*gBattleResources->battleCallbackStack));
@@ -36,12 +35,6 @@ void AllocateBattleResources(void)
 
     gUnknown_0202305C = AllocZeroed(0x2000);
     gUnknown_02023060 = AllocZeroed(0x1000);
-
-    if (gBattleTypeFlags & BATTLE_TYPE_SECRET_BASE)
-    {
-        u16 currSecretBaseId = VarGet(VAR_CURRENT_SECRET_BASE);
-        CreateSecretBaseEnemyParty(&gSaveBlock1Ptr->secretBases[currSecretBaseId]);
-    }
 }
 
 void FreeBattleResources(void)
@@ -53,7 +46,6 @@ void FreeBattleResources(void)
     {
         FREE_AND_SET_NULL(gBattleStruct);
 
-        FREE_AND_SET_NULL(gBattleResources->secretBase);
         FREE_AND_SET_NULL(gBattleResources->flags);
         FREE_AND_SET_NULL(gBattleResources->battleScriptsStack);
         FREE_AND_SET_NULL(gBattleResources->battleCallbackStack);

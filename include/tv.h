@@ -26,7 +26,6 @@ u8 GetRibbonCount(struct Pokemon *pokemon);
 void AlertTVThatPlayerPlayedSlotMachine(u16 nCoinsSpent);
 void AlertTVThatPlayerPlayedRoulette(u16 nCoinsSpent);
 void TryPutFindThatGamerOnAir(u16 nCoinsPaidOut);
-void TryPutSecretBaseSecretsOnAir(void);
 void TryPutTodaysRivalTrainerOnAir(void);
 void TryPutTrendWatcherOnAir(const u16 *words);
 void ReceivePokeNewsData(void *src, u32 size, u8 masterIdx);
@@ -42,7 +41,6 @@ bool8 Put3CheersForPokeblocksOnTheAir(const u8 *partnersName, u8 flavor, u8 unus
 void SetPokemonAnglerSpecies(u16 species);
 void UpdateTVShowsPerDay(u16 days);
 void TryPutPokemonTodayOnAir(void);
-void TryPutSecretBaseVisitOnAir(void);
 void PutBattleUpdateOnTheAir(u8 opponentLinkPlayerId, u16 move, u16 speciesPlayer, u16 speciesOpponent);
 void BravoTrainerPokemonProfile_BeforeInterview1(u16 move);
 void InterviewBefore(void);

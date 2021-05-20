@@ -1840,13 +1840,6 @@ static void HandleSpecialTrainerBattleEnd(void)
     RecordedBattle_SaveBattleOutcome();
     switch (gBattleScripting.specialTrainerBattleType)
     {
-    case SPECIAL_BATTLE_SECRET_BASE:
-        for (i = 0; i < PARTY_SIZE; i++)
-        {
-            u16 itemBefore = GetMonData(&gSaveBlock1Ptr->playerParty[i], MON_DATA_HELD_ITEM);
-            SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &itemBefore);
-        }
-        break;
     case SPECIAL_BATTLE_EREADER:
         CopyEReaderTrainerFarewellMessage();
         break;
@@ -1909,16 +1902,6 @@ void DoSpecialTrainerBattle(void)
         CreateTask(Task_StartBattleAfterTransition, 1);
         PlayMapChosenOrBattleBGM(0);
         BattleTransition_StartOnField(GetSpecialBattleTransition(0));
-        break;
-    case SPECIAL_BATTLE_SECRET_BASE:
-        for (i = 0; i < PARTY_SIZE; i++)
-        {
-            u16 itemBefore = GetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM);
-            SetMonData(&gSaveBlock1Ptr->playerParty[i], MON_DATA_HELD_ITEM, &itemBefore);
-        }
-        CreateTask(Task_StartBattleAfterTransition, 1);
-        PlayMapChosenOrBattleBGM(0);
-        BattleTransition_StartOnField(GetSpecialBattleTransition(12));
         break;
     case SPECIAL_BATTLE_EREADER:
         ZeroEnemyPartyMons();

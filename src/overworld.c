@@ -1343,8 +1343,7 @@ bool8 Overworld_MapTypeAllowsTeleportAndFly(u8 mapType)
 
 bool8 IsMapTypeIndoors(u8 mapType)
 {
-    if (mapType == MAP_TYPE_INDOOR
-     || mapType == MAP_TYPE_SECRET_BASE)
+    if (mapType == MAP_TYPE_INDOOR)
         return TRUE;
     else
         return FALSE;

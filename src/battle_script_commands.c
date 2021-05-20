@@ -2695,8 +2695,7 @@ void SetMoveEffect(bool8 primary, u8 certain)
                              (BATTLE_TYPE_EREADER_TRAINER
                               | BATTLE_TYPE_FRONTIER
                               | BATTLE_TYPE_LINK
-                              | BATTLE_TYPE_RECORDED_LINK
-                              | BATTLE_TYPE_SECRET_BASE)))
+                              | BATTLE_TYPE_RECORDED_LINK)))
                     {
                         gBattlescriptCurrInstr++;
                     }
@@ -2704,8 +2703,7 @@ void SetMoveEffect(bool8 primary, u8 certain)
                           (BATTLE_TYPE_EREADER_TRAINER
                            | BATTLE_TYPE_FRONTIER
                            | BATTLE_TYPE_LINK
-                           | BATTLE_TYPE_RECORDED_LINK
-                           | BATTLE_TYPE_SECRET_BASE))
+                           | BATTLE_TYPE_RECORDED_LINK))
                         && (gWishFutureKnock.knockedOffMons[side] & gBitTable[gBattlerPartyIndexes[gBattlerAttacker]]))
                     {
                         gBattlescriptCurrInstr++;
@@ -5517,39 +5515,32 @@ static u32 GetTrainerMoneyToGive(u16 trainerId)
     u32 lastMonLevel = 0;
     u32 moneyReward;
 
-    if (trainerId == TRAINER_SECRET_BASE)
+    switch (gTrainers[trainerId].partyFlags)
     {
-        moneyReward = 20 * gBattleResources->secretBase->party.levels[0] * gBattleStruct->moneyMultiplier;
-    }
-    else
-    {
-        switch (gTrainers[trainerId].partyFlags)
+    case 0:
         {
-        case 0:
-            {
-                const struct TrainerMonNoItemDefaultMoves *party = gTrainers[trainerId].party.NoItemDefaultMoves;
-                lastMonLevel = party[gTrainers[trainerId].partySize - 1].lvl;
-            }
-            break;
-        case F_TRAINER_PARTY_CUSTOM_MOVESET:
-            {
-                const struct TrainerMonNoItemCustomMoves *party = gTrainers[trainerId].party.NoItemCustomMoves;
-                lastMonLevel = party[gTrainers[trainerId].partySize - 1].lvl;
-            }
-            break;
-        case F_TRAINER_PARTY_HELD_ITEM:
-            {
-                const struct TrainerMonItemDefaultMoves *party = gTrainers[trainerId].party.ItemDefaultMoves;
-                lastMonLevel = party[gTrainers[trainerId].partySize - 1].lvl;
-            }
-            break;
-        case F_TRAINER_PARTY_CUSTOM_MOVESET | F_TRAINER_PARTY_HELD_ITEM:
-            {
-                const struct TrainerMonItemCustomMoves *party = gTrainers[trainerId].party.ItemCustomMoves;
-                lastMonLevel = party[gTrainers[trainerId].partySize - 1].lvl;
-            }
-            break;
+            const struct TrainerMonNoItemDefaultMoves *party = gTrainers[trainerId].party.NoItemDefaultMoves;
+            lastMonLevel = party[gTrainers[trainerId].partySize - 1].lvl;
         }
+        break;
+    case F_TRAINER_PARTY_CUSTOM_MOVESET:
+        {
+            const struct TrainerMonNoItemCustomMoves *party = gTrainers[trainerId].party.NoItemCustomMoves;
+            lastMonLevel = party[gTrainers[trainerId].partySize - 1].lvl;
+        }
+        break;
+    case F_TRAINER_PARTY_HELD_ITEM:
+        {
+            const struct TrainerMonItemDefaultMoves *party = gTrainers[trainerId].party.ItemDefaultMoves;
+            lastMonLevel = party[gTrainers[trainerId].partySize - 1].lvl;
+        }
+        break;
+    case F_TRAINER_PARTY_CUSTOM_MOVESET | F_TRAINER_PARTY_HELD_ITEM:
+        {
+            const struct TrainerMonItemCustomMoves *party = gTrainers[trainerId].party.ItemCustomMoves;
+            lastMonLevel = party[gTrainers[trainerId].partySize - 1].lvl;
+        }
+        break;
 
         for (; gTrainerMoneyTable[i].classId != 0xFF; i++)
         {
@@ -9044,7 +9035,6 @@ static void Cmd_tryswapitems(void) // trick
             && !(gBattleTypeFlags & (BATTLE_TYPE_LINK
                                   | BATTLE_TYPE_EREADER_TRAINER
                                   | BATTLE_TYPE_FRONTIER
-                                  | BATTLE_TYPE_SECRET_BASE
                                   | BATTLE_TYPE_RECORDED_LINK))))
     {
         gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 1);
@@ -9058,7 +9048,6 @@ static void Cmd_tryswapitems(void) // trick
         if (!(gBattleTypeFlags & (BATTLE_TYPE_LINK
                              | BATTLE_TYPE_EREADER_TRAINER
                              | BATTLE_TYPE_FRONTIER
-                             | BATTLE_TYPE_SECRET_BASE
                              | BATTLE_TYPE_RECORDED_LINK))
          && (gWishFutureKnock.knockedOffMons[sideAttacker] & gBitTable[gBattlerPartyIndexes[gBattlerAttacker]]
          || gWishFutureKnock.knockedOffMons[sideTarget] & gBitTable[gBattlerPartyIndexes[gBattlerTarget]]))

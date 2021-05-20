@@ -125,32 +125,32 @@ static const u8 sBattleTransitionTable_Trainer[][2] =
 // Battle Frontier (excluding Pyramid and Dome, which have their own tables below)
 static const u8 sBattleTransitionTable_BattleFrontier[] =
 {
-    B_TRANSITION_FRONTIER_LOGO_WIGGLE, 
-    B_TRANSITION_FRONTIER_LOGO_WAVE, 
-    B_TRANSITION_FRONTIER_SQUARES, 
+    B_TRANSITION_FRONTIER_LOGO_WIGGLE,
+    B_TRANSITION_FRONTIER_LOGO_WAVE,
+    B_TRANSITION_FRONTIER_SQUARES,
     B_TRANSITION_FRONTIER_SQUARES_SCROLL,
-    B_TRANSITION_FRONTIER_CIRCLES_MEET, 
-    B_TRANSITION_FRONTIER_CIRCLES_CROSS, 
-    B_TRANSITION_FRONTIER_CIRCLES_ASYMMETRIC_SPIRAL, 
+    B_TRANSITION_FRONTIER_CIRCLES_MEET,
+    B_TRANSITION_FRONTIER_CIRCLES_CROSS,
+    B_TRANSITION_FRONTIER_CIRCLES_ASYMMETRIC_SPIRAL,
     B_TRANSITION_FRONTIER_CIRCLES_SYMMETRIC_SPIRAL,
-    B_TRANSITION_FRONTIER_CIRCLES_MEET_IN_SEQ, 
-    B_TRANSITION_FRONTIER_CIRCLES_CROSS_IN_SEQ, 
-    B_TRANSITION_FRONTIER_CIRCLES_ASYMMETRIC_SPIRAL_IN_SEQ, 
+    B_TRANSITION_FRONTIER_CIRCLES_MEET_IN_SEQ,
+    B_TRANSITION_FRONTIER_CIRCLES_CROSS_IN_SEQ,
+    B_TRANSITION_FRONTIER_CIRCLES_ASYMMETRIC_SPIRAL_IN_SEQ,
     B_TRANSITION_FRONTIER_CIRCLES_SYMMETRIC_SPIRAL_IN_SEQ
 };
 
 static const u8 sBattleTransitionTable_BattlePyramid[] =
 {
-    B_TRANSITION_FRONTIER_SQUARES, 
-    B_TRANSITION_FRONTIER_SQUARES_SCROLL, 
+    B_TRANSITION_FRONTIER_SQUARES,
+    B_TRANSITION_FRONTIER_SQUARES_SCROLL,
     B_TRANSITION_FRONTIER_SQUARES_SPIRAL
 };
 
 static const u8 sBattleTransitionTable_BattleDome[] =
 {
-    B_TRANSITION_FRONTIER_LOGO_WIGGLE, 
-    B_TRANSITION_FRONTIER_SQUARES, 
-    B_TRANSITION_FRONTIER_SQUARES_SCROLL, 
+    B_TRANSITION_FRONTIER_LOGO_WIGGLE,
+    B_TRANSITION_FRONTIER_SQUARES,
+    B_TRANSITION_FRONTIER_SQUARES_SCROLL,
     B_TRANSITION_FRONTIER_SQUARES_SPIRAL
 };
 
@@ -570,7 +570,6 @@ u8 BattleSetup_GetTerrainId(void)
     case MAP_TYPE_UNDERGROUND:
         if (MetatileBehavior_IsIndoorEncounter(tileBehavior))
     case MAP_TYPE_INDOOR:
-    case MAP_TYPE_SECRET_BASE:
             return BATTLE_TERRAIN_BUILDING;
         if (MetatileBehavior_IsSurfableWaterOrUnderwater(tileBehavior))
             return BATTLE_TERRAIN_POND;
@@ -738,19 +737,16 @@ static u8 GetTrainerBattleTransition(void)
     u8 enemyLevel;
     u8 playerLevel;
 
-    if (gTrainerBattleOpponent_A == TRAINER_SECRET_BASE)
-        return B_TRANSITION_CHAMPION;
-
     if (gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_ELITE_FOUR)
     {
         if (gTrainerBattleOpponent_A == TRAINER_SIDNEY)
-            return B_TRANSITION_SIDNEY;
+            return B_TRANSITION_LORELEI;
         if (gTrainerBattleOpponent_A == TRAINER_PHOEBE)
-            return B_TRANSITION_PHOEBE;
+            return B_TRANSITION_BRUNO;
         if (gTrainerBattleOpponent_A == TRAINER_GLACIA)
-            return B_TRANSITION_GLACIA;
+            return B_TRANSITION_AGATHA;
         if (gTrainerBattleOpponent_A == TRAINER_DRAKE)
-            return B_TRANSITION_DRAKE;
+            return B_TRANSITION_LANCE;
         return B_TRANSITION_CHAMPION;
     }
 
@@ -799,7 +795,6 @@ u8 GetSpecialBattleTransition(s32 id)
     case 10:
         return sBattleTransitionTable_BattlePyramid[Random() % ARRAY_COUNT(sBattleTransitionTable_BattlePyramid)];
     case 11:
-    case 12:
     case 13:
         if (enemyLevel < playerLevel)
             return B_TRANSITION_POKEBALLS_TRAIL;
@@ -1228,11 +1223,7 @@ void BattleSetup_StartTrainerBattle(void)
 
 static void CB2_EndTrainerBattle(void)
 {
-    if (gTrainerBattleOpponent_A == TRAINER_SECRET_BASE)
-    {
-        SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
-    }
-    else if (IsPlayerDefeated(gBattleOutcome))
+    if (IsPlayerDefeated(gBattleOutcome))
     {
         if (InBattlePyramid() || InTrainerHillChallenge())
             SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
@@ -1252,11 +1243,7 @@ static void CB2_EndTrainerBattle(void)
 
 static void CB2_EndRematchBattle(void)
 {
-    if (gTrainerBattleOpponent_A == TRAINER_SECRET_BASE)
-    {
-        SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
-    }
-    else if (IsPlayerDefeated(gBattleOutcome))
+    if (IsPlayerDefeated(gBattleOutcome))
     {
         SetMainCallback2(CB2_WhiteOut);
     }

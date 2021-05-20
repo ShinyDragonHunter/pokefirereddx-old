@@ -329,20 +329,6 @@ typedef union // size = 0x24
         /*0x13*/ u8 playerName[PLAYER_NAME_LENGTH + 1];
     } breakingNews;
 
-    // TVSHOW_SECRET_BASE_VISIT
-    struct {
-        /*0x00*/ u8 kind;
-        /*0x01*/ bool8 active;
-        /*0x02*/ u8 avgLevel;
-        /*0x03*/ u8 nDecorations;
-        /*0x04*/ u8 decorations[4];
-        /*0x08*/ u16 species;
-        /*0x0a*/ u16 move;
-        /*0x0c*/ u8 language;
-        /*0x0d*/ u8 filler_0d[6];
-        /*0x13*/ u8 playerName[PLAYER_NAME_LENGTH + 1];
-    } secretBaseVisit;
-
     // TVSHOW_LOTTO_WINNER
     struct {
         /*0x00*/ u8 kind;
@@ -418,20 +404,6 @@ typedef union // size = 0x24
         /*0x06*/ u8 filler_06[13];
         /*0x13*/ u8 playerName[PLAYER_NAME_LENGTH + 1];
     } numberOne;
-
-    // TVSHOW_SECRET_BASE_SECRETS
-    struct {
-        /*0x00*/ u8 kind;
-        /*0x01*/ bool8 active;
-        /*0x02*/ u16 stepsInBase;
-        /*0x04*/ u8 baseOwnersName[PLAYER_NAME_LENGTH + 1];
-        /*0x0c*/ u32 flags;
-        /*0x10*/ u16 item;
-        /*0x12*/ u8 savedState;
-        /*0x13*/ u8 playerName[PLAYER_NAME_LENGTH + 1];
-        /*0x1b*/ u8 language;
-        /*0x1c*/ u8 baseOwnersNameLanguage;
-    } secretBaseSecrets;
 
     // TVSHOW_SAFARI_FAN_CLUB
     struct {

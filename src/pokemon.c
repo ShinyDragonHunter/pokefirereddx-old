@@ -2041,12 +2041,6 @@ static const struct SpriteTemplate sTrainerBackSpriteTemplates[] =
     },
 };
 
-static const u8 sSecretBaseFacilityClasses[2][5] =
-{
-    {HOENN_FACILITY_CLASS_YOUNGSTER, HOENN_FACILITY_CLASS_BUG_CATCHER, HOENN_FACILITY_CLASS_RICH_BOY, HOENN_FACILITY_CLASS_CAMPER, HOENN_FACILITY_CLASS_COOLTRAINER_M},
-    {HOENN_FACILITY_CLASS_LASS, HOENN_FACILITY_CLASS_SCHOOL_KID_F, HOENN_FACILITY_CLASS_LADY, HOENN_FACILITY_CLASS_PICNICKER, HOENN_FACILITY_CLASS_COOLTRAINER_F}
-};
-
 static const u8 sGetMonDataEVConstants[] =
 {
     MON_DATA_HP_EV,
@@ -3298,8 +3292,7 @@ u8 CountAliveMonsInBattle(u8 caseId)
 static bool8 ShouldGetStatBadgeBoost(u16 badgeFlag, u8 battlerId)
 {
     if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_EREADER_TRAINER | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_FRONTIER)
-     || GetBattlerSide(battlerId)
-     || (gBattleTypeFlags & BATTLE_TYPE_TRAINER && gTrainerBattleOpponent_A == TRAINER_SECRET_BASE))
+     || GetBattlerSide(battlerId))
         return FALSE;
     else if (FlagGet(badgeFlag))
         return TRUE;
@@ -4391,53 +4384,6 @@ u8 GetMonAbility(struct Pokemon *mon)
     u8 abilityNum = GetMonData(mon, MON_DATA_ABILITY_NUM, NULL);
     u8 form = GetMonData(mon, MON_DATA_FORM, NULL);
     return GetAbilityBySpecies(species, abilityNum, form);
-}
-
-void CreateSecretBaseEnemyParty(struct SecretBase *secretBaseRecord)
-{
-    s32 i, j;
-
-    ZeroEnemyPartyMons();
-    *gBattleResources->secretBase = *secretBaseRecord;
-
-    for (i = 0; i < PARTY_SIZE; i++)
-    {
-        if (gBattleResources->secretBase->party.species[i])
-        {
-            CreateMon(&gEnemyParty[i],
-                gBattleResources->secretBase->party.species[i],
-                gBattleResources->secretBase->party.levels[i],
-                15,
-                1,
-                gBattleResources->secretBase->party.personality[i],
-                OT_ID_RANDOM_NO_SHINY,
-                0,
-                0);
-
-            SetMonData(&gEnemyParty[i], MON_DATA_HELD_ITEM, &gBattleResources->secretBase->party.heldItems[i]);
-
-            for (j = 0; j < NUM_STATS; j++)
-                SetMonData(&gEnemyParty[i], MON_DATA_HP_EV + j, &gBattleResources->secretBase->party.EVs[i]);
-
-            for (j = 0; j < MAX_MON_MOVES; j++)
-            {
-                SetMonData(&gEnemyParty[i], MON_DATA_MOVE1 + j, &gBattleResources->secretBase->party.moves[i * MAX_MON_MOVES + j]);
-                SetMonData(&gEnemyParty[i], MON_DATA_PP1 + j, &gBattleMoves[gBattleResources->secretBase->party.moves[i * MAX_MON_MOVES + j]].pp);
-            }
-        }
-    }
-}
-
-u8 GetSecretBaseTrainerPicIndex(void)
-{
-    u8 facilityClass = sSecretBaseFacilityClasses[gBattleResources->secretBase->gender][gBattleResources->secretBase->trainerId[0] % 5];
-    return gFacilityClassToPicIndex[facilityClass];
-}
-
-u8 GetSecretBaseTrainerClass(void)
-{
-    u8 facilityClass = sSecretBaseFacilityClasses[gBattleResources->secretBase->gender][gBattleResources->secretBase->trainerId[0] % 5];
-    return gFacilityClassToTrainerClass[facilityClass];
 }
 
 bool8 IsPlayerPartyAndPokemonStorageFull(void)
