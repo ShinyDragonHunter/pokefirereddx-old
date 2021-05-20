@@ -491,7 +491,7 @@ static const u8 *const sPassAreaDescriptions[] =
     gText_BattleFactoryKnowledgeSymbol,
     gText_BattlePikeLuckSymbol,
     gText_BattlePyramidBraveSymbol,
-    gText_EmptyString7,
+    gText_ExpandedPlaceholder_Empty,
 };
 
 struct

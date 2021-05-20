@@ -82,9 +82,7 @@ static void Phase2Task_Glacia(u8 taskId);
 static void Phase2Task_Drake(u8 taskId);
 static void Phase2Task_Champion(u8 taskId);
 static void Phase2Task_Magma(u8 taskId);
-static void Phase2Task_ShredSplit(u8 taskId);
-static void Phase2Task_Blackhole1(u8 taskId);
-static void Phase2Task_Blackhole2(u8 taskId);
+static void Phase2Task_BlackHole(u8 taskId);
 static void Phase2Task_RectangularSpiral(u8 taskId);
 static void Phase2Task_FrontierLogoWiggle(u8 taskId);
 static void Phase2Task_FrontierLogoWave(u8 taskId);
@@ -158,14 +156,9 @@ static bool8 Phase2_Shards_Func2(struct Task *task);
 static bool8 Phase2_Shards_Func3(struct Task *task);
 static bool8 Phase2_Shards_Func4(struct Task *task);
 static bool8 Phase2_Shards_Func5(struct Task *task);
-static bool8 Phase2_ShredSplit_Func1(struct Task *task);
-static bool8 Phase2_ShredSplit_Func2(struct Task *task);
-static bool8 Phase2_ShredSplit_Func3(struct Task *task);
-static bool8 Phase2_ShredSplit_Func4(struct Task *task);
-static bool8 Phase2_Blackhole_Func1(struct Task *task);
-static bool8 Phase2_Blackhole1_Func2(struct Task *task);
-static bool8 Phase2_Blackhole1_Func3(struct Task *task);
-static bool8 Phase2_Blackhole2_Func2(struct Task *task);
+static bool8 Phase2_BlackHole_Func1(struct Task *task);
+static bool8 Phase2_BlackHole_Func2(struct Task *task);
+static bool8 Phase2_BlackHole_Func3(struct Task *task);
 static bool8 Phase2_RectangularSpiral_Func1(struct Task *task);
 static bool8 Phase2_RectangularSpiral_Func2(struct Task *task);
 static bool8 Phase2_RectangularSpiral_Func3(struct Task *task);
@@ -283,9 +276,7 @@ static const TaskFunc sPhase2_Tasks[B_TRANSITION_COUNT] =
     [B_TRANSITION_LANCE] = Phase2Task_Drake,
     [B_TRANSITION_CHAMPION] = Phase2Task_Champion,
     [B_TRANSITION_MAGMA] = Phase2Task_Magma,
-    [B_TRANSITION_SHRED_SPLIT] = Phase2Task_ShredSplit,
-    [B_TRANSITION_BLACKHOLE1] = Phase2Task_Blackhole1,
-    [B_TRANSITION_BLACKHOLE2] = Phase2Task_Blackhole2,
+    [B_TRANSITION_BLACK_HOLE] = Phase2Task_BlackHole,
     [B_TRANSITION_RECTANGULAR_SPIRAL] = Phase2Task_RectangularSpiral,
     [B_TRANSITION_FRONTIER_LOGO_WIGGLE] = Phase2Task_FrontierLogoWiggle,
     [B_TRANSITION_FRONTIER_LOGO_WAVE] = Phase2Task_FrontierLogoWave,
@@ -445,28 +436,14 @@ static const TransitionStateFunc sPhase2_Slice_Funcs[] =
     Phase2_Slice_Func3
 };
 
-static const TransitionStateFunc sPhase2_ShredSplit_Funcs[] =
-{
-    Phase2_ShredSplit_Func1,
-    Phase2_ShredSplit_Func2,
-    Phase2_ShredSplit_Func3,
-    Phase2_ShredSplit_Func4
-};
-
 static const u8 gUnknown_085C8C64[] = {39, 119};
 static const s16 gUnknown_085C8C66[] = {1, -1};
 
-static const TransitionStateFunc sPhase2_Blackhole1_Funcs[] =
+static const TransitionStateFunc sPhase2_BlackHole_Funcs[] =
 {
-    Phase2_Blackhole_Func1,
-    Phase2_Blackhole1_Func2,
-    Phase2_Blackhole1_Func3
-};
-
-static const TransitionStateFunc sPhase2_Blackhole2_Funcs[] =
-{
-    Phase2_Blackhole_Func1,
-    Phase2_Blackhole2_Func2
+    Phase2_BlackHole_Func1,
+    Phase2_BlackHole_Func2,
+    Phase2_BlackHole_Func3
 };
 
 static const s16 gUnknown_085C8C80[] = {-6, 4};
@@ -2220,184 +2197,12 @@ static void HBlankCB_Phase2_Slice(void)
     }
 }
 
-static void Phase2Task_ShredSplit(u8 taskId)
+static void Phase2Task_BlackHole(u8 taskId)
 {
-    while (sPhase2_ShredSplit_Funcs[gTasks[taskId].tState](&gTasks[taskId]));
+    while (sPhase2_BlackHole_Funcs[gTasks[taskId].tState](&gTasks[taskId]));
 }
 
-static bool8 Phase2_ShredSplit_Func1(struct Task *task)
-{
-    u16 i;
-
-    InitTransitionStructVars();
-    ScanlineEffect_Clear();
-
-    sTransitionStructPtr->WININ = WININ_WIN0_ALL;
-    sTransitionStructPtr->WINOUT = 0;
-    sTransitionStructPtr->WIN0V = DISPLAY_HEIGHT;
-
-    for (i = 0; i < 0xA0; i++)
-    {
-        gScanlineEffectRegBuffers[1][i] = sTransitionStructPtr->field_14;
-        gScanlineEffectRegBuffers[1][0xA0 + i] = 0xF0;
-        gScanlineEffectRegBuffers[0][i] = sTransitionStructPtr->field_14;
-        gScanlineEffectRegBuffers[0][0xA0 + i] = 0xF0;
-        gScanlineEffectRegBuffers[0][0x140 + i] = 0;
-        gScanlineEffectRegBuffers[0][0x1E0 + i] = 0x100;
-        gScanlineEffectRegBuffers[0][0x280 + i] = 1;
-    }
-
-    task->tData4 = 0;
-    task->tData5 = 0;
-    task->tData6 = 7;
-
-    EnableInterrupts(INTR_FLAG_HBLANK);
-
-    SetVBlankCallback(VBlankCB_Phase2_Slice);
-    SetHBlankCallback(HBlankCB_Phase2_Slice);
-
-    task->tState++;
-    return TRUE;
-}
-
-static bool8 Phase2_ShredSplit_Func2(struct Task *task)
-{
-    u16 i, j, k;
-    u8 arr1[ARRAY_COUNT(gUnknown_085C8C64)];
-    s16 arr2[ARRAY_COUNT(gUnknown_085C8C66)];
-    u8 var;
-    u16 *ptr4, *ptr3, *ptr1, *ptr2;
-    s16 unkVar;
-
-    memcpy(arr1, gUnknown_085C8C64, sizeof(arr1));
-    memcpy(arr2, gUnknown_085C8C66, sizeof(arr2));
-
-    sTransitionStructPtr->VBlank_DMA = FALSE;
-    var = 0;
-
-    for (i = 0; i <= task->tData5; i++)
-    {
-        for (j = 0; j < 2; j++)
-        {
-            for (k = 0; k < 2; k++)
-            {
-                unkVar = (arr1[j]) + (arr2[k] * -(i) * 2);
-                if (unkVar >= 0 && (unkVar != 79 || j != 1))
-                {
-                    ptr4 = &gScanlineEffectRegBuffers[0][unkVar + 320];
-                    ptr3 = &gScanlineEffectRegBuffers[0][unkVar + 480];
-                    ptr1 = &gScanlineEffectRegBuffers[0][unkVar + 640];
-                    if (*ptr4 > 0xEF)
-                    {
-                        *ptr4 = 0xF0;
-                        var++;
-                    }
-                    else
-                    {
-                        *ptr4 += (*ptr3 >> 8);
-                        if (*ptr1 <= 0x7F)
-                            *ptr1 *= 2;
-                        if (*ptr3 <= 0xFFF)
-                            *ptr3 += *ptr1;
-                    }
-                    ptr2 = &gScanlineEffectRegBuffers[0][unkVar];
-                    ptr3 = &gScanlineEffectRegBuffers[0][unkVar + 160];
-                    *ptr2 = sTransitionStructPtr->field_14 + *ptr4;
-                    *ptr3 = 0xF0 - *ptr4;
-
-                    if (!i)
-                        break;
-                }
-            }
-        }
-
-        for (j = 0; j < 2; j++)
-        {
-            for (k = 0; k < 2; k++)
-            {
-                unkVar = (arr1[j] + 1) + (arr2[k] * -(i) * 2);
-                if (unkVar <= 160 && (unkVar != 80 || j != 1))
-                {
-                    ptr4 = &gScanlineEffectRegBuffers[0][unkVar + 320];
-                    ptr3 = &gScanlineEffectRegBuffers[0][unkVar + 480];
-                    ptr1 = &gScanlineEffectRegBuffers[0][unkVar + 640];
-                    if (*ptr4 > 0xEF)
-                    {
-                        *ptr4 = 0xF0;
-                        var++;
-                    }
-                    else
-                    {
-                        *ptr4 += (*ptr3 >> 8);
-                        if (*ptr1 <= 0x7F)
-                            *ptr1 *= 2;
-                        if (*ptr3 <= 0xFFF)
-                            *ptr3 += *ptr1;
-                    }
-                    ptr2 = &gScanlineEffectRegBuffers[0][unkVar];
-                    ptr3 = &gScanlineEffectRegBuffers[0][unkVar + 160];
-                    *ptr2 = sTransitionStructPtr->field_14 - *ptr4;
-                    *ptr3 = (*ptr4 << 8) | (0xF1);
-
-                    if (i == 0)
-                        break;
-                }
-            }
-        }
-    }
-
-    if (--task->tData4 < 0)
-        task->tData4 = 0;
-    if (task->tData4 <= 0 && task->tData5 + 1 <= 20)
-        task->tData4 = task->tData6, task->tData5++;
-    if (var > 0x9F)
-        task->tState++;
-
-    sTransitionStructPtr->VBlank_DMA++;
-    return FALSE;
-}
-
-// This function never increments the state counter, because the loop condition
-// is always false, resulting in the game being stuck in an infinite loop.
-// It's possible this transition is only partially
-// done and the second part was left out.
-static bool8 Phase2_ShredSplit_Func3(struct Task *task)
-{
-    u16 i;
-    bool32 done = TRUE;
-    u16 checkVar2 = 0xFF10;
-
-    for (i = 0; i < 0xA0; i++)
-    {
-        if (gScanlineEffectRegBuffers[1][i] != 0xF0 && gScanlineEffectRegBuffers[1][i] != checkVar2)
-            break;
-    }
-
-    if (done)
-        task->tState++;
-
-    return FALSE;
-}
-
-static bool8 Phase2_ShredSplit_Func4(struct Task *task)
-{
-    DmaStop(0);
-    FadeScreenBlack();
-    DestroyTask(FindTaskIdByFunc(Phase2Task_ShredSplit));
-    return FALSE;
-}
-
-static void Phase2Task_Blackhole1(u8 taskId)
-{
-    while (sPhase2_Blackhole1_Funcs[gTasks[taskId].tState](&gTasks[taskId]));
-}
-
-static void Phase2Task_Blackhole2(u8 taskId)
-{
-    while (sPhase2_Blackhole2_Funcs[gTasks[taskId].tState](&gTasks[taskId]));
-}
-
-static bool8 Phase2_Blackhole_Func1(struct Task *task)
+static bool8 Phase2_BlackHole_Func1(struct Task *task)
 {
     s32 i;
 
@@ -2424,7 +2229,29 @@ static bool8 Phase2_Blackhole_Func1(struct Task *task)
     return FALSE;
 }
 
-static bool8 Phase2_Blackhole1_Func3(struct Task *task)
+static bool8 Phase2_BlackHole_Func2(struct Task *task)
+{
+    sTransitionStructPtr->VBlank_DMA = FALSE;
+    if (!task->tFuncState)
+    {
+        task->tFuncState++;
+        task->tData1 = 0x30;
+        task->tData6 = 0;
+    }
+    task->tData1 += gUnknown_085C8C80[task->tData6];
+    task->tData6 = (task->tData6 + 1) % 2;
+    sub_814A014(gScanlineEffectRegBuffers[0], 0x78, 0x50, task->tData1);
+    if (task->tData1 < 9)
+    {
+        task->tState++;
+        task->tFuncState = 0;
+    }
+
+    sTransitionStructPtr->VBlank_DMA++;
+    return FALSE;
+}
+
+static bool8 Phase2_BlackHole_Func3(struct Task *task)
 {
     if (task->tFuncState == 1)
     {
@@ -2453,73 +2280,6 @@ static bool8 Phase2_Blackhole1_Func3(struct Task *task)
         }
     }
 
-    return FALSE;
-}
-
-static bool8 Phase2_Blackhole1_Func2(struct Task *task)
-{
-    sTransitionStructPtr->VBlank_DMA = FALSE;
-    if (!task->tFuncState)
-    {
-        task->tFuncState++;
-        task->tData1 = 0x30;
-        task->tData6 = 0;
-    }
-    task->tData1 += gUnknown_085C8C80[task->tData6];
-    task->tData6 = (task->tData6 + 1) % 2;
-    sub_814A014(gScanlineEffectRegBuffers[0], 0x78, 0x50, task->tData1);
-    if (task->tData1 < 9)
-    {
-        task->tState++;
-        task->tFuncState = 0;
-    }
-
-    sTransitionStructPtr->VBlank_DMA++;
-    return FALSE;
-}
-
-static bool8 Phase2_Blackhole2_Func2(struct Task *task)
-{
-    u16 index; // should be s16 I think
-    s16 amplitude;
-
-    sTransitionStructPtr->VBlank_DMA = FALSE;
-    if (!task->tFuncState)
-    {
-        task->tFuncState++;
-        task->tData5 = 2;
-        task->tData6 = 2;
-    }
-    if (task->tData1 > 0xA0)
-        task->tData1 = 0xA0;
-
-    sub_814A014(gScanlineEffectRegBuffers[0], 0x78, 0x50, task->tData1);
-    if (task->tData1 == 0xA0)
-    {
-        DmaStop(0);
-        FadeScreenBlack();
-        DestroyTask(FindTaskIdByFunc(task->func));
-    }
-
-    index = task->tData5;
-    if ((task->tData5 & 0xFF) <= 128)
-    {
-        amplitude = task->tData6;
-        task->tData5 += 8;
-    }
-    else
-    {
-        amplitude = task->tData6 - 1;
-        task->tData5 += 16;
-    }
-    task->tData1 += Sin(index & 0xFF, amplitude);
-
-    if (task->tData1 <= 0)
-        task->tData1 = 1;
-    if (task->tData5 > 0xFE)
-        task->tData5 >>= 8, task->tData6++;
-
-    sTransitionStructPtr->VBlank_DMA++;
     return FALSE;
 }
 

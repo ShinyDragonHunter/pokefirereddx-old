@@ -22,6 +22,7 @@
 #include "field_message_box.h"
 #include "sound.h"
 #include "strings.h"
+#include "string_util.h"
 #include "trainer_hill.h"
 #include "string_util.h"
 #include "overworld.h"
@@ -711,7 +712,7 @@ static u8 GetWildBattleTransition(void)
     case SPECIES_DEOXYS:
         return B_TRANSITION_BLUR;
     case SPECIES_MEW:
-        return B_TRANSITION_GRID_SQUARES;
+        return B_TRANSITION_RECTANGULAR_SPIRAL;
     default:
         if (enemyLevel < playerLevel)
         {
@@ -1392,7 +1393,7 @@ static const u8 *ReturnEmptyStringIfNull(const u8 *string)
     if (string)
         return string;
     else
-        return gText_EmptyString2;
+        return gText_ExpandedPlaceholder_Empty;
 }
 
 static const u8 *GetIntroSpeechOfApproachingTrainer(void)

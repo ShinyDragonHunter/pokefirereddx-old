@@ -225,7 +225,7 @@ static const struct MenuAction sItemMenuActions[] = {
     [ITEMMENUACTION_SHOW] =         {gMenuText_Show, unknown_ItemMenu_Show},
     [ITEMMENUACTION_GIVE_2] =       {gMenuText_Give2, unknown_ItemMenu_Give2},
     [ITEMMENUACTION_CONFIRM_2] =    {gMenuText_Confirm, unknown_ItemMenu_Confirm2},
-    [ITEMMENUACTION_DUMMY] =        {gText_EmptyString2, NULL}
+    [ITEMMENUACTION_DUMMY] =        {gText_ExpandedPlaceholder_Empty, NULL}
 };
 
 // these are all 2D arrays with a width of 2 but are represented as 1D arrays

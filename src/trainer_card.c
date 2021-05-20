@@ -1146,7 +1146,7 @@ static void PrintPokedexOnCard(void)
     if (FlagGet(FLAG_SYS_POKEDEX_GET))
     {
         AddTextPrinterParameterized3(1, fontId, left, 74 - fontId, sTrainerCardTextColors, TEXT_SPEED_FF, gText_TrainerCardPokedex);
-        StringCopy(ConvertIntToDecimalStringN(gStringVar4, sData->trainerCard.caughtMonsCount, STR_CONV_MODE_LEFT_ALIGN, 3), gText_EmptyString6);
+        StringCopy(ConvertIntToDecimalStringN(gStringVar4, sData->trainerCard.caughtMonsCount, STR_CONV_MODE_LEFT_ALIGN, 3), gText_ExpandedPlaceholder_Empty);
 
         xOffset = GetStringRightAlignXOffset(1, gStringVar4, x);
         AddTextPrinterParameterized3(1, fontId, xOffset, 74 - fontId, sTrainerCardTextColors, TEXT_SPEED_FF, gStringVar4);
