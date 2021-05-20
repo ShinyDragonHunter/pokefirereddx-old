@@ -779,7 +779,7 @@ static bool8 LoadMonAndSceneGfx(struct Pokemon *mon)
         }
         break;
     case 8:
-        LoadPalette(gBattleTerrainPalette_Frontier, 0x20, 0x60);
+        LoadPalette(gBattleTerrainPalette_Link, 0x20, 0x60);
         sPokeblockFeed->loadGfxState = 0;
         return TRUE;
     }

@@ -2813,66 +2813,63 @@ extern const u32 gBattleTerrainTilemap_TallGrass[];
 extern const u32 gBattleTerrainAnimTiles_TallGrass[];
 extern const u32 gBattleTerrainAnimTilemap_TallGrass[];
 extern const u32 gBattleTerrainPalette_TallGrass[];
-extern const u32 gBattleTerrainTiles_LongGrass[];
-extern const u32 gBattleTerrainTilemap_LongGrass[];
+
 extern const u32 gBattleTerrainAnimTiles_LongGrass[];
 extern const u32 gBattleTerrainAnimTilemap_LongGrass[];
 extern const u32 gBattleTerrainPalette_LongGrass[];
+
 extern const u32 gBattleTerrainTiles_Sand[];
 extern const u32 gBattleTerrainTilemap_Sand[];
 extern const u32 gBattleTerrainAnimTiles_Sand[];
 extern const u32 gBattleTerrainAnimTilemap_Sand[];
 extern const u32 gBattleTerrainPalette_Sand[];
+
 extern const u32 gBattleTerrainTiles_Underwater[];
 extern const u32 gBattleTerrainTilemap_Underwater[];
 extern const u32 gBattleTerrainAnimTiles_Underwater[];
 extern const u32 gBattleTerrainAnimTilemap_Underwater[];
 extern const u32 gBattleTerrainPalette_Underwater[];
+
 extern const u32 gBattleTerrainTiles_Water[];
 extern const u32 gBattleTerrainTilemap_Water[];
 extern const u32 gBattleTerrainAnimTiles_Water[];
 extern const u32 gBattleTerrainAnimTilemap_Water[];
 extern const u32 gBattleTerrainPalette_Water[];
-extern const u32 gBattleTerrainTiles_PondWater[];
-extern const u32 gBattleTerrainTilemap_PondWater[];
-extern const u32 gBattleTerrainAnimTiles_PondWater[];
-extern const u32 gBattleTerrainAnimTilemap_PondWater[];
-extern const u32 gBattleTerrainPalette_PondWater[];
-extern const u32 gBattleTerrainTiles_Rock[];
-extern const u32 gBattleTerrainTilemap_Rock[];
-extern const u32 gBattleTerrainAnimTiles_Rock[];
-extern const u32 gBattleTerrainAnimTilemap_Rock[];
-extern const u32 gBattleTerrainPalette_Rock[];
+
+extern const u32 gBattleTerrainTiles_Pond[];
+extern const u32 gBattleTerrainTilemap_Pond[];
+extern const u32 gBattleTerrainAnimTiles_Pond[];
+extern const u32 gBattleTerrainAnimTilemap_Pond[];
+extern const u32 gBattleTerrainPalette_Pond[];
+
+extern const u32 gBattleTerrainTiles_Mountain[];
+extern const u32 gBattleTerrainTilemap_Mountain[];
+extern const u32 gBattleTerrainAnimTiles_Mountain[];
+extern const u32 gBattleTerrainAnimTilemap_Mountain[];
+extern const u32 gBattleTerrainPalette_Mountain[];
+
 extern const u32 gBattleTerrainTiles_Cave[];
 extern const u32 gBattleTerrainTilemap_Cave[];
 extern const u32 gBattleTerrainAnimTiles_Cave[];
 extern const u32 gBattleTerrainAnimTilemap_Cave[];
 extern const u32 gBattleTerrainPalette_Cave[];
+
 extern const u32 gBattleTerrainTiles_Building[];
 extern const u32 gBattleTerrainTilemap_Building[];
 extern const u32 gBattleTerrainAnimTiles_Building[];
 extern const u32 gBattleTerrainAnimTilemap_Building[];
 extern const u32 gBattleTerrainPalette_Building[];
+
 extern const u32 gBattleTerrainPalette_Plain[];
-extern const u32 gBattleTerrainPalette_Frontier[];
-extern const u32 gBattleTerrainTiles_Stadium[];
-extern const u32 gBattleTerrainTilemap_Stadium[];
-extern const u32 gBattleTerrainTiles_Rayquaza[];
-extern const u32 gBattleTerrainTilemap_Rayquaza[];
-extern const u32 gBattleTerrainAnimTiles_Rayquaza[];
-extern const u32 gBattleTerrainAnimTilemap_Rayquaza[];
-extern const u32 gBattleTerrainPalette_Rayquaza[];
-extern const u32 gBattleTerrainPalette_Kyogre[];
-extern const u32 gBattleTerrainPalette_Groudon[];
-extern const u32 gBattleTerrainPalette_BuildingGym[];
-extern const u32 gBattleTerrainPalette_BuildingLeader[];
-extern const u32 gBattleTerrainPalette_StadiumAqua[];
-extern const u32 gBattleTerrainPalette_StadiumMagma[];
-extern const u32 gBattleTerrainPalette_StadiumSidney[];
-extern const u32 gBattleTerrainPalette_StadiumPhoebe[];
-extern const u32 gBattleTerrainPalette_StadiumGlacia[];
-extern const u32 gBattleTerrainPalette_StadiumDrake[];
-extern const u32 gBattleTerrainPalette_StadiumWallace[];
+extern const u32 gBattleTerrainPalette_Link[];
+extern const u32 gBattleTerrainPalette_Champion[];
+extern const u32 gBattleTerrainPalette_Gym[];
+extern const u32 gBattleTerrainPalette_Indoor1[];
+extern const u32 gBattleTerrainPalette_Indoor2[];
+extern const u32 gBattleTerrainPalette_Lorelei[];
+extern const u32 gBattleTerrainPalette_Bruno[];
+extern const u32 gBattleTerrainPalette_Lance[];
+extern const u32 gBattleTerrainPalette_Agatha[];
 
 // pokedex
 extern const u32 gPokedexInterface_Gfx[];

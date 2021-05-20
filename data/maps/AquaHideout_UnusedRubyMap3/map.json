@@ -11,7 +11,7 @@
   "allow_escaping": true,
   "allow_running": true,
   "show_map_name": true,
-  "battle_scene": "MAP_BATTLE_SCENE_MAGMA",
+  "battle_scene": "MAP_BATTLE_SCENE_INDOOR_1",
   "connections": null,
   "object_events": [],
   "warp_events": [],
