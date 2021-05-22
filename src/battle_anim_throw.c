@@ -839,6 +839,9 @@ u8 ItemIdToBallId(u16 ball)
 {
     switch (ball)
     {
+    default:
+    case BALL_NONE:
+        return BALL_POKE;
     case BALL_MASTER:
     case BALL_ULTRA:
     case BALL_GREAT:
@@ -859,8 +862,6 @@ u8 ItemIdToBallId(u16 ball)
     case BALL_LOVE:
     case BALL_PARK:
         return ball;
-    default:
-        return BALL_POKE;
     }
 }
 
@@ -897,22 +898,13 @@ static void AnimTask_ThrowBall_Step(u8 taskId)
 void AnimTask_ThrowBall_StandingTrainer(u8 taskId)
 {
     s16 x, y;
-    u8 ballId;
-    u8 subpriority;
-    u8 spriteId;
+    u8 ballId, subpriority, spriteId;
 
     if (gBattleTypeFlags & BATTLE_TYPE_WALLY_TUTORIAL)
-    {
         x = 28;
-        y = 11;
-    }
     else
-    {
         x = 23;
-        y = 11;
-        if (gSaveBlock2Ptr->playerGender)
-            y = 13;
-    }
+    y = (gSaveBlock2Ptr->playerGender && !gBattleTypeFlags & BATTLE_TYPE_WALLY_TUTORIAL) ? 13 : 11;
 
     ballId = ItemIdToBallId(ItemId_GetSecondaryId(gLastUsedItem));
     subpriority = GetBattlerSpriteSubpriority(GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT)) + 1;
@@ -1489,7 +1481,7 @@ static void SpriteCB_Ball_Capture_Step(struct Sprite *sprite)
     else if (sprite->sTimer == 95)
     {
         gDoingBattleAnim = FALSE;
-        UpdateOamPriorityInAllHealthboxes(1);
+        UpdateOamPriorityInAllHealthboxes(1, FALSE);
         m4aMPlayAllStop();
         PlaySE(MUS_RG_CAUGHT_INTRO);
     }
@@ -1668,7 +1660,7 @@ static void SpriteCB_Ball_Release_Wait(struct Sprite *sprite)
         sprite->sFrame = 0;
         sprite->callback = DestroySpriteAfterOneFrame;
         gDoingBattleAnim = 0;
-        UpdateOamPriorityInAllHealthboxes(1);
+        UpdateOamPriorityInAllHealthboxes(1, FALSE);
     }
 }
 
@@ -1710,7 +1702,7 @@ static void SpriteCB_Ball_Block_Step(struct Sprite *sprite)
         sprite->sFrame = 0;
         sprite->callback = DestroySpriteAfterOneFrame;
         gDoingBattleAnim = 0;
-        UpdateOamPriorityInAllHealthboxes(1);
+        UpdateOamPriorityInAllHealthboxes(1, FALSE);
     }
 }
 
@@ -2600,26 +2592,38 @@ void TryShinyAnimation(u8 battler, struct Pokemon *mon)
 
         if (isShiny)
         {
-            if (IsMonSquareShiny(mon) && GetSpriteTileStartByTag(ANIM_TAG_SHINY_SQUARES) == 0xFFFF)
-            {
-                LoadCompressedSpriteSheetUsingHeap(&gBattleAnimPicTable[ANIM_TAG_SHINY_SQUARES - ANIM_SPRITES_START]);
-                LoadCompressedSpritePaletteUsingHeap(&gBattleAnimPaletteTable[ANIM_TAG_SHINY_SQUARES - ANIM_SPRITES_START]);
-                taskCirc = CreateTask(Task_ShinySquares, 10);
-                taskDgnl = CreateTask(Task_ShinySquares, 10);
-            }
-            else if (GetSpriteTileStartByTag(ANIM_TAG_GOLD_STARS) == 0xFFFF)
-            {
-                LoadCompressedSpriteSheetUsingHeap(&gBattleAnimPicTable[ANIM_TAG_GOLD_STARS - ANIM_SPRITES_START]);
-                LoadCompressedSpritePaletteUsingHeap(&gBattleAnimPaletteTable[ANIM_TAG_GOLD_STARS - ANIM_SPRITES_START]);
-                taskCirc = CreateTask(Task_ShinyStars, 10);
-                taskDgnl = CreateTask(Task_ShinyStars, 10);
-            }
+			if (IsMonSquareShiny(mon))
+			{
+				if (GetSpriteTileStartByTag(ANIM_TAG_SHINY_SQUARES) == 0xFFFF)
+				{
+					LoadCompressedSpriteSheetUsingHeap(&gBattleAnimPicTable[ANIM_TAG_SHINY_SQUARES - ANIM_SPRITES_START]);
+					LoadCompressedSpritePaletteUsingHeap(&gBattleAnimPaletteTable[ANIM_TAG_SHINY_SQUARES - ANIM_SPRITES_START]);
+				}
 
-            gTasks[taskCirc].tBattler = battler;
-            gTasks[taskDgnl].tBattler = battler;
-            gTasks[taskCirc].tStarMove = SHINY_STAR_ENCIRCLE;
-            gTasks[taskDgnl].tStarMove = SHINY_STAR_DIAGONAL;
-            return;
+				taskCirc = CreateTask(Task_ShinySquares, 10);
+				taskDgnl = CreateTask(Task_ShinySquares, 10);
+				gTasks[taskCirc].tBattler = battler;
+				gTasks[taskDgnl].tBattler = battler;
+				gTasks[taskCirc].tStarMove = SHINY_STAR_ENCIRCLE;
+				gTasks[taskDgnl].tStarMove = SHINY_STAR_DIAGONAL;
+				return;
+			}
+			else
+			{
+				if (GetSpriteTileStartByTag(ANIM_TAG_GOLD_STARS) == 0xFFFF)
+				{
+					LoadCompressedSpriteSheetUsingHeap(&gBattleAnimPicTable[ANIM_TAG_GOLD_STARS - ANIM_SPRITES_START]);
+					LoadCompressedSpritePaletteUsingHeap(&gBattleAnimPaletteTable[ANIM_TAG_GOLD_STARS - ANIM_SPRITES_START]);
+				}
+
+				taskCirc = CreateTask(Task_ShinyStars, 10);
+				taskDgnl = CreateTask(Task_ShinyStars, 10);
+				gTasks[taskCirc].tBattler = battler;
+				gTasks[taskDgnl].tBattler = battler;
+				gTasks[taskCirc].tStarMove = SHINY_STAR_ENCIRCLE;
+				gTasks[taskDgnl].tStarMove = SHINY_STAR_DIAGONAL;
+				return;
+			}
         }
     }
 

@@ -706,9 +706,12 @@ static u8 GetWildBattleTransition(void)
     case SPECIES_ARTICUNO:
     case SPECIES_ZAPDOS:
     case SPECIES_MOLTRES:
-    case SPECIES_MEWTWO:
     case SPECIES_LUGIA:
     case SPECIES_HO_OH:
+    case SPECIES_LATIAS:
+    case SPECIES_LATIOS:
+        return B_TRANSITION_BLACK_HOLE;
+    case SPECIES_MEWTWO:
     case SPECIES_DEOXYS:
         return B_TRANSITION_BLUR;
     case SPECIES_MEW:
@@ -756,7 +759,7 @@ static u8 GetTrainerBattleTransition(void)
 
     if (gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_BOSS
      || gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_TEAM_ROCKET)
-        return B_TRANSITION_MAGMA;
+        return B_TRANSITION_ROCKET;
 
     if (gTrainers[gTrainerBattleOpponent_A].doubleBattle)
         minPartyCount = 2; // double battles always at least have 2 pokemon.
@@ -773,16 +776,7 @@ static u8 GetTrainerBattleTransition(void)
         return sBattleTransitionTable_Trainer[transitionType][1];
 }
 
-// 0: Battle Tower
-// 3: Battle Dome
-// 4: Battle Palace
-// 5: Battle Arena
-// 6: Battle Factory
-// 7: Battle Pike
-// 10: Battle Pyramid
 // 11: Trainer Hill
-// 12: Secret Base
-// 13: E-Reader
 u8 GetSpecialBattleTransition(s32 id)
 {
     u16 var;
@@ -791,12 +785,12 @@ u8 GetSpecialBattleTransition(s32 id)
 
     switch (id)
     {
-    case 3:
+    case SPECIAL_BATTLE_DOME:
         return sBattleTransitionTable_BattleDome[Random() % ARRAY_COUNT(sBattleTransitionTable_BattleDome)];
-    case 10:
+    case SPECIAL_BATTLE_PYRAMID:
         return sBattleTransitionTable_BattlePyramid[Random() % ARRAY_COUNT(sBattleTransitionTable_BattlePyramid)];
+    case SPECIAL_BATTLE_EREADER:
     case 11:
-    case 13:
         if (enemyLevel < playerLevel)
             return B_TRANSITION_POKEBALLS_TRAIL;
         else
@@ -1447,7 +1441,6 @@ static s32 TrainerIdToRematchTableId(const struct RematchTrainer *table, u16 tra
     {
         for (j = 0; j < REMATCHES_COUNT; j++)
         {
-            if (table[i].trainerIds[j] == 0) break; // one line required to match -g
             if (table[i].trainerIds[j] == trainerId)
                 return i;
         }

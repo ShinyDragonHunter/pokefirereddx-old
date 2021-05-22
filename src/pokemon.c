@@ -1436,7 +1436,7 @@ static const u8 sMonFrontAnimIdsTable[] =
     [SPECIES_ZUBAT]       = ANIM_V_SQUISH_AND_BOUNCE,
     [SPECIES_GOLBAT]      = ANIM_H_SLIDE_WOBBLE,
     [SPECIES_ODDISH]      = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_GLOOM]       = ANIM_V_SQUISH_AND_BOUNCE_SLOW,
+    [SPECIES_GLOOM]       = ANIM_V_SQUISH_AND_BOUNCE,
     [SPECIES_VILEPLUME]   = ANIM_BOUNCE_ROTATE_TO_SIDES_SLOW,
     [SPECIES_PARAS]       = ANIM_H_SLIDE_SLOW,
     [SPECIES_PARASECT]    = ANIM_H_SHAKE,
@@ -3358,6 +3358,10 @@ u8 GetGenderFromSpeciesAndPersonality(u16 species, u32 personality)
 
 void SetMultiuseSpriteTemplateToPokemon(u16 speciesTag, u8 battlerPosition, u8 form)
 {
+    u16 formSpeciesTag = GetFormSpecies(speciesTag, form);
+    if (speciesTag > SPECIES_SHINY_TAG)
+        formSpeciesTag = GetFormSpecies(speciesTag - SPECIES_SHINY_TAG, form);
+
     if (gMonSpritesGfxPtr)
         gMultiuseSpriteTemplate = gMonSpritesGfxPtr->templates[battlerPosition];
     else if (gUnknown_020249B4[0])
@@ -3370,10 +3374,7 @@ void SetMultiuseSpriteTemplateToPokemon(u16 speciesTag, u8 battlerPosition, u8 f
     gMultiuseSpriteTemplate.paletteTag = speciesTag;
     if (battlerPosition == B_POSITION_PLAYER_LEFT || battlerPosition == B_POSITION_PLAYER_RIGHT)
         gMultiuseSpriteTemplate.anims = gAnims_MonPic;
-    else if (speciesTag > SPECIES_SHINY_TAG)
-        gMultiuseSpriteTemplate.anims = gMonFrontAnimsPtrTable[GetFormSpecies(speciesTag - SPECIES_SHINY_TAG, form)];
-    else
-        gMultiuseSpriteTemplate.anims = gMonFrontAnimsPtrTable[GetFormSpecies(speciesTag, form)];
+    gMultiuseSpriteTemplate.anims = gMonFrontAnimsPtrTable[formSpeciesTag];
 }
 
 void SetMultiuseSpriteTemplateToTrainerBack(u16 trainerSpriteId, u8 battlerPosition)
@@ -6591,7 +6592,7 @@ void DoMonFrontSpriteAnimation(struct Sprite* sprite, u16 species, bool8 noCry, 
         if (!noCry)
         {
             PlayCry1(species, pan);
-            if (species != SPECIES_CASTFORM)
+            if (HasTwoFramesAnimation(species))
                 StartSpriteAnim(sprite, 1);
         }
         if (sMonAnimationDelayTable[species])
@@ -6611,7 +6612,7 @@ void DoMonFrontSpriteAnimation(struct Sprite* sprite, u16 species, bool8 noCry, 
 
 void PokemonSummaryDoMonAnimation(struct Sprite* sprite, u16 species, bool8 oneFrame)
 {
-    if (!oneFrame && species != SPECIES_CASTFORM)
+    if (!oneFrame && HasTwoFramesAnimation)
         StartSpriteAnim(sprite, 1);
     if (sMonAnimationDelayTable[species])
     {
@@ -6730,6 +6731,11 @@ const u8 *GetTrainerNameFromId(u16 trainerId)
     if (trainerId >= TRAINERS_COUNT)
         trainerId = TRAINER_NONE;
     return gTrainers[trainerId].trainerName;
+}
+
+bool8 HasTwoFramesAnimation(u16 species)
+{
+    return (species != SPECIES_CASTFORM);
 }
 
 static bool8 ShouldSkipFriendshipChange(void)

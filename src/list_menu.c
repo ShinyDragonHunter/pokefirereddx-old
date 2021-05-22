@@ -394,14 +394,12 @@ s32 ListMenu_ProcessInput(u8 listTaskId)
         switch (list->template.scrollMultiple)
         {
         case LIST_MULTIPLE_SCROLL_DPAD:
-            // note: JOY_REPEAT won't match here
-            leftButton = gMain.newAndRepeatedKeys & DPAD_LEFT;
-            rightButton = gMain.newAndRepeatedKeys & DPAD_RIGHT;
+            leftButton = JOY_REPEAT(DPAD_LEFT);
+            rightButton = JOY_REPEAT(DPAD_RIGHT);
             break;
         case LIST_MULTIPLE_SCROLL_L_R:
-            // same as above
-            leftButton = gMain.newAndRepeatedKeys & L_BUTTON;
-            rightButton = gMain.newAndRepeatedKeys & R_BUTTON;
+            leftButton = JOY_REPEAT(L_BUTTON);
+            rightButton = JOY_REPEAT(R_BUTTON);
             break;
         default:
             leftButton = FALSE;
@@ -447,7 +445,7 @@ void RedrawListMenu(u8 listTaskId)
     CopyWindowToVram(list->template.windowId, 2);
 }
 
-	void ListMenuGetCurrentItemArrayId(u8 listTaskId, u16 *arrayId)
+void ListMenuGetCurrentItemArrayId(u8 listTaskId, u16 *arrayId)
 {
     struct ListMenu *list = (void*) gTasks[listTaskId].data;
 

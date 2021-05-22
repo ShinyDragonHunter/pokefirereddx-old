@@ -14,12 +14,14 @@
 
 #define MAP_BATTLE_SCENE_NORMAL   0
 #define MAP_BATTLE_SCENE_GYM      1
-#define MAP_BATTLE_SCENE_INDOOR_1 2 // Pokemon Tower, Tanoby ruins
-#define MAP_BATTLE_SCENE_INDOOR_2 3 // Pokemon Mansion, Power Plant, Rocket Hideout/Warehouse
+#define MAP_BATTLE_SCENE_INDOOR_1 2 // Pokemon Tower, Tanoby Ruins
+#define MAP_BATTLE_SCENE_INDOOR_2 3 // Pokémon Mansion, Power Plant, Rocket Hideout/Warehouse
 #define MAP_BATTLE_SCENE_LORELEI  4
 #define MAP_BATTLE_SCENE_BRUNO    5
 #define MAP_BATTLE_SCENE_AGATHA   6
 #define MAP_BATTLE_SCENE_LANCE    7
 #define MAP_BATTLE_SCENE_LINK     8
+
+#define MAP_BATTLE_SCENE_COUNT    MAP_BATTLE_SCENE_LINK
 
 #endif  // GUARD_CONSTANTS_MAP_TYPES_H

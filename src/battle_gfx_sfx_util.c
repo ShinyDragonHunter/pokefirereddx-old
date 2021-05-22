@@ -341,9 +341,8 @@ void SpriteCB_WaitForBattlerBallReleaseAnim(struct Sprite *sprite)
 {
     u8 spriteId = sprite->data[1];
 
-    if (!gSprites[spriteId].affineAnimEnded)
-        return;
-    if (gSprites[spriteId].invisible)
+    if (!gSprites[spriteId].affineAnimEnded
+     || gSprites[spriteId].invisible)
         return;
 
     if (gSprites[spriteId].animPaused)
@@ -355,14 +354,6 @@ void SpriteCB_WaitForBattlerBallReleaseAnim(struct Sprite *sprite)
         if (gSprites[spriteId].animEnded)
             sprite->callback = SpriteCallbackDummy;
     }
-}
-
-static void UnusedDoBattleSpriteAffineAnim(struct Sprite *sprite, bool8 arg1)
-{
-    sprite->animPaused = TRUE;
-    sprite->callback = SpriteCallbackDummy;
-    StartSpriteAffineAnim(sprite, 1);
-    AnimateSprite(sprite);
 }
 
 #define sSpeedX data[0]
@@ -921,8 +912,8 @@ void HandleSpeciesGfxDataChange(u8 battlerAtk, u8 battlerDef, bool8 notTransform
 
         if (targetSpecies == SPECIES_CASTFORM)
         {
-            paletteOffset = 0x80 + battlerAtk * 16;
             gSprites[gBattlerSpriteIds[battlerAtk]].anims = gMonFrontAnimsPtrTable[targetSpecies];
+            paletteOffset = 0x80 + battlerAtk * 16;
             LoadPalette(gBattleStruct->castformPalette[0] + gBattleMonForms[battlerDef] * 16, paletteOffset, 32);
         }
 
@@ -1123,8 +1114,8 @@ void SpriteCB_EnemyShadow(struct Sprite *shadowSprite)
     }
     if (gAnimScriptActive || battlerSprite->invisible)
         invisible = TRUE;
-    else if (gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies != SPECIES_NONE
-             && gEnemyMonElevation[gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies] == 0)
+    else if (gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies
+     && gEnemyMonElevation[gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies] == 0)
         invisible = TRUE;
 
     if (gBattleSpritesDataPtr->battlerData[battlerId].behindSubstitute)
@@ -1144,7 +1135,7 @@ void SpriteCB_SetInvisible(struct Sprite *sprite)
 
 void SetBattlerShadowSpriteCallback(u8 battlerId, u16 species)
 {
-    if (gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies != SPECIES_NONE)
+    if (gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies)
         species = gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies;
 
     if (gEnemyMonElevation[species])

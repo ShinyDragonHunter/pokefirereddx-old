@@ -8,7 +8,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -20,7 +20,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -32,7 +32,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -44,7 +44,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -56,7 +56,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -68,7 +68,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -80,7 +80,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -92,7 +92,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -104,7 +104,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -116,7 +116,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -128,7 +128,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -140,7 +140,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -152,7 +152,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -164,7 +164,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -176,7 +176,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -188,7 +188,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -200,7 +200,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -212,7 +212,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -224,7 +224,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -236,7 +236,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -248,7 +248,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -260,7 +260,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -272,7 +272,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -284,7 +284,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -296,7 +296,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -308,7 +308,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -320,7 +320,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -332,7 +332,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -344,7 +344,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -356,7 +356,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -368,7 +368,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -380,7 +380,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -392,7 +392,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -404,7 +404,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -416,7 +416,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -428,7 +428,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -440,7 +440,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -452,7 +452,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -464,7 +464,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -476,7 +476,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -488,7 +488,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -500,7 +500,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -512,7 +512,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -524,7 +524,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -536,7 +536,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -548,7 +548,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -560,7 +560,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -572,7 +572,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -584,7 +584,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -596,7 +596,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -608,7 +608,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -620,7 +620,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -632,7 +632,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -644,7 +644,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -656,7 +656,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -668,7 +668,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -680,7 +680,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -692,7 +692,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -704,7 +704,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -716,7 +716,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -728,7 +728,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -740,7 +740,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -752,7 +752,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -764,7 +764,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -776,7 +776,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -788,7 +788,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -800,7 +800,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -812,7 +812,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -824,7 +824,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -836,7 +836,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -848,7 +848,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -860,7 +860,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -872,7 +872,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -884,7 +884,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -896,7 +896,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -908,7 +908,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -920,7 +920,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -932,7 +932,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -944,7 +944,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -956,7 +956,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -968,7 +968,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -980,7 +980,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -992,7 +992,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1004,7 +1004,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1016,7 +1016,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1028,7 +1028,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1040,7 +1040,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1052,7 +1052,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1064,7 +1064,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1076,7 +1076,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1088,7 +1088,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1100,7 +1100,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1112,7 +1112,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1124,7 +1124,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1136,7 +1136,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1148,7 +1148,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1160,7 +1160,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1172,7 +1172,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1184,7 +1184,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1196,7 +1196,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1208,7 +1208,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1220,7 +1220,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1232,7 +1232,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1244,7 +1244,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1256,7 +1256,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1268,7 +1268,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1280,7 +1280,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1292,7 +1292,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1304,7 +1304,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1316,7 +1316,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1328,7 +1328,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1340,7 +1340,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1352,7 +1352,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1364,7 +1364,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1376,7 +1376,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1388,7 +1388,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1400,7 +1400,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1412,7 +1412,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1424,7 +1424,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1436,7 +1436,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
  
@@ -1448,7 +1448,7 @@ const struct Decoration gDecorations[] =
         .shape = DECORSHAPE_1x1,
         .category = DECORCAT_DESK,
         .price = 0,
-        .description = DecorDesc_SMALL_DESK,
+        .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     }
 };

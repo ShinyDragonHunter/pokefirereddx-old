@@ -542,18 +542,6 @@ void RemoveStartMenuWindow(void)
     }
 }
 
-// Unused
-static u16 GetDialogFrameBaseTileNum(void)
-{
-    return DLG_WINDOW_BASE_TILE_NUM;
-}
-
-// Unused
-static u16 GetStandardFrameBaseTileNum(void)
-{
-    return STD_WINDOW_BASE_TILE_NUM;
-}
-
 u8 AddMapNamePopUpWindow(void)
 {
     if (sMapNamePopupWindowId == WINDOW_NONE)
@@ -1307,12 +1295,6 @@ void PrintMenuActionGrid(u8 windowId, u8 fontId, u8 left, u8 top, u8 optionWidth
     }
 
     CopyWindowToVram(windowId, 2);
-}
-
-// Unused
-static void PrintMenuActionGrid_TopLeft(u8 windowId, u8 fontId, u8 optionWidth, u8 unused, u8 horizontalCount, u8 verticalCount, const struct MenuAction *strs, const u8 *strIds)
-{
-    PrintMenuActionGrid(windowId, fontId, GetFontAttribute(fontId, FONTATTR_MAX_LETTER_WIDTH), 0, optionWidth, horizontalCount, verticalCount, strs, strIds);
 }
 
 u8 sub_8198F58(u8 windowId, u8 fontId, u8 left, u8 top, u8 a4, u8 cursorHeight, u8 a6, u8 a7, u8 numChoices, u8 a9)

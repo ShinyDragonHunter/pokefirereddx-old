@@ -6724,8 +6724,8 @@ static void SetDisplayMonData(void *pokemon, u8 mode)
     {
         struct BoxPokemon *boxMon = (struct BoxPokemon *)pokemon;
 
-        sStorage->displayMonSpecies = GetFormSpecies(GetBoxMonData(pokemon, MON_DATA_SPECIES2),
-                                                    GetBoxMonData(pokemon, MON_DATA_FORM));
+        sStorage->displayMonSpecies = GetFormSpecies(GetBoxMonData(boxMon, MON_DATA_SPECIES2),
+                                                    GetBoxMonData(boxMon, MON_DATA_FORM));
         if (sStorage->displayMonSpecies)
         {
             u32 otId = GetBoxMonData(boxMon, MON_DATA_OT_ID);

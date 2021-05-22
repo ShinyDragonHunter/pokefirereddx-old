@@ -3103,7 +3103,7 @@ static void BufferMonTrainerMemo(void)
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, sum->OTName);
                 text = gText_ObtainedFromDad;
             }
-            else if (sum->metLocation == ORRE_METLOC_STARTER_AND_PLUSLE - ORRE_MAPSEC_START)
+            if (sum->metLocation == ORRE_METLOC_STARTER_AND_PLUSLE - ORRE_MAPSEC_START)
             {
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, sum->OTName);
                 text = (sum->species == SPECIES_PLUSLE) ? gText_Receivedfrom : gText_OldFriend;
@@ -3220,7 +3220,7 @@ static void PrintEggMemo(void)
     }
     else if (sum->metLocation == METLOC_FATEFUL_ENCOUNTER)
         text = gText_PeculiarEggNicePlace;
-    else if (!DoesMonOTMatchOwner() && !sMonSummaryScreen->summary.sanity)
+    else if (!DoesMonOTMatchOwner() || !sMonSummaryScreen->summary.sanity)
         text = gText_PeculiarEggTrade;
     else if (sum->metLocation == JOHTO_MAPSEC_GOLDENROD_CITY - JOHTO_MAPSEC_START)
         text = gText_EggFromPokecomCenter;

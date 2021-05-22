@@ -435,10 +435,10 @@ static u8 EggHatchCreateMonSprite(u8 a0, u8 switchID, u8 pokeID, u16* speciesLoc
         {
             u16 species = GetMonData(mon, MON_DATA_SPECIES);
             u32 pid = GetMonData(mon, MON_DATA_PERSONALITY);
-            u16 formSpecies = (species, form);
+            u16 formSpecies = GetFormSpecies(species, form);
             HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[(a0 * 2) + 1], formSpecies, pid);
             LoadUniqueSpritePalette(GetMonSpritePalStruct(mon), pid);
-            *speciesLoc = species;
+            *speciesLoc = formSpecies;
         }
         break;
     case 1:
@@ -584,10 +584,7 @@ static void Task_EggHatchPlayBGM(u8 taskID)
     {
         PlayBGM(MUS_EVOLUTION);
         DestroyTask(taskID);
-        // UB: task is destroyed, yet the value is incremented
-        #ifdef UBFIX
         return;
-        #endif
     }
     gTasks[taskID].data[0]++;
 }
@@ -627,7 +624,8 @@ static void CB2_EggHatch_1(void)
     case 3:
         if (gSprites[sEggHatchData->eggSpriteID].callback == SpriteCallbackDummy)
         {
-            species = GetMonData(&gPlayerParty[sEggHatchData->eggPartyID], MON_DATA_SPECIES);
+            species = GetFormSpecies(GetMonData(&gPlayerParty[sEggHatchData->eggPartyID], MON_DATA_SPECIES),
+                                    GetMonData(&gPlayerParty[sEggHatchData->eggPartyID], MON_DATA_FORM));
             DoMonFrontSpriteAnimation(&gSprites[sEggHatchData->pokeSpriteID], species, FALSE, 1);
             sEggHatchData->CB2_state++;
         }
@@ -759,7 +757,8 @@ static void SpriteCB_Egg_2(struct Sprite* sprite)
 
             sprite->callback = SpriteCB_Egg_3;
             sprite->data[0] = 0;
-            species = GetMonData(&gPlayerParty[sEggHatchData->eggPartyID], MON_DATA_SPECIES);
+            species = GetFormSpecies(GetMonData(&gPlayerParty[sEggHatchData->eggPartyID], MON_DATA_SPECIES),
+                                    GetMonData(&gPlayerParty[sEggHatchData->eggPartyID], MON_DATA_FORM));
             gSprites[sEggHatchData->pokeSpriteID].pos2.x = 0;
             gSprites[sEggHatchData->pokeSpriteID].pos2.y = 0;
         }

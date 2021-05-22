@@ -463,14 +463,7 @@ static const struct BattleBackground gBattleTerrainTable[] =
         .entryTilemap = gBattleTerrainAnimTilemap_Building,
         .palette = gBattleTerrainPalette_Plain,
     },
-    [BATTLE_TERRAIN_LINK] =
-    {
-        .tileset = gBattleTerrainTiles_Building,
-        .tilemap = gBattleTerrainTilemap_Building,
-        .entryTileset = gBattleTerrainAnimTiles_Building,
-        .entryTilemap = gBattleTerrainAnimTilemap_Building,
-        .palette = gBattleTerrainPalette_Link,
-    },
+    // The order of these up to BATTLE_TERRAIN_CHAMPION are in sync with MAP_BATTLE_SCENE_* defines 
     [BATTLE_TERRAIN_GYM] =
     {
         .tileset = gBattleTerrainTiles_Building,
@@ -527,6 +520,14 @@ static const struct BattleBackground gBattleTerrainTable[] =
         .entryTilemap = gBattleTerrainAnimTilemap_Building,
         .palette = gBattleTerrainPalette_Lance,
     },
+    [BATTLE_TERRAIN_LINK] =
+    {
+        .tileset = gBattleTerrainTiles_Building,
+        .tilemap = gBattleTerrainTilemap_Building,
+        .entryTileset = gBattleTerrainAnimTiles_Building,
+        .entryTilemap = gBattleTerrainAnimTilemap_Building,
+        .palette = gBattleTerrainPalette_Link,
+    },
     [BATTLE_TERRAIN_CHAMPION] =
     {
         .tileset = gBattleTerrainTiles_Building,
@@ -537,35 +538,8 @@ static const struct BattleBackground gBattleTerrainTable[] =
     }
 };
 
-static const struct {
-    u8 mapScene;
-    u8 battleTerrain;
-} sMapBattleSceneMapping[] = {
-    {MAP_BATTLE_SCENE_LINK,     BATTLE_TERRAIN_LINK},
-    {MAP_BATTLE_SCENE_GYM,      BATTLE_TERRAIN_GYM},
-    {MAP_BATTLE_SCENE_INDOOR_1, BATTLE_TERRAIN_INDOOR_1},
-    {MAP_BATTLE_SCENE_INDOOR_2, BATTLE_TERRAIN_INDOOR_2},
-    {MAP_BATTLE_SCENE_LORELEI,  BATTLE_TERRAIN_LORELEI},
-    {MAP_BATTLE_SCENE_BRUNO,    BATTLE_TERRAIN_BRUNO},
-    {MAP_BATTLE_SCENE_AGATHA,   BATTLE_TERRAIN_AGATHA},
-    {MAP_BATTLE_SCENE_LANCE,    BATTLE_TERRAIN_LANCE}
-};
-
-static u8 GetBattleTerrainByMapScene(u8 mapBattleScene)
-{
-    int i;
-    for (i = 0; i < ARRAY_COUNT(sMapBattleSceneMapping); i++)
-    {
-        if (mapBattleScene == sMapBattleSceneMapping[i].mapScene)
-            return sMapBattleSceneMapping[i].battleTerrain;
-    }
-    return BATTLE_TERRAIN_PLAIN;
-}
-
 static void LoadBattleTerrainGfx(u16 terrain)
 {
-    if (terrain >= ARRAY_COUNT(gBattleTerrainTable))
-        terrain = BATTLE_TERRAIN_PLAIN;
     // Copy to bg3
     LZDecompressVram(gBattleTerrainTable[terrain].tileset, (void *)BG_CHAR_ADDR(2));
     LZDecompressVram(gBattleTerrainTable[terrain].tilemap, (void *)BG_SCREEN_ADDR(26));
@@ -574,8 +548,6 @@ static void LoadBattleTerrainGfx(u16 terrain)
 
 static void LoadBattleTerrainEntryGfx(u16 terrain)
 {
-    if (terrain >= ARRAY_COUNT(gBattleTerrainTable))
-        terrain = BATTLE_TERRAIN_PLAIN;
     // Copy to bg1
     LZDecompressVram(gBattleTerrainTable[terrain].entryTileset, (void *)BG_CHAR_ADDR(1));
     LZDecompressVram(gBattleTerrainTable[terrain].entryTilemap, (void *)BG_SCREEN_ADDR(28));
@@ -928,7 +900,8 @@ void DrawBattleEntryBackground(void)
 
 static u8 GetBattleTerrainOverride(void)
 {
-    u8 battleScene;
+    u8 battleScene = GetCurrentMapBattleScene();
+
     if (gBattleTypeFlags & (BATTLE_TYPE_FRONTIER | BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_EREADER_TRAINER))
     {
         return BATTLE_TERRAIN_LINK;
@@ -940,12 +913,12 @@ static u8 GetBattleTerrainOverride(void)
             return BATTLE_TERRAIN_CHAMPION;
         }
     }
-    battleScene = GetCurrentMapBattleScene();
-    if (battleScene == MAP_BATTLE_SCENE_NORMAL)
+    if (battleScene == MAP_BATTLE_SCENE_NORMAL
+     || battleScene > MAP_BATTLE_SCENE_COUNT)
     {
         return gBattleTerrain;
     }
-    return GetBattleTerrainByMapScene(battleScene);
+    return BATTLE_TERRAIN_PLAIN + battleScene;
 }
 
 bool8 LoadChosenBattleElement(u8 caseId)
