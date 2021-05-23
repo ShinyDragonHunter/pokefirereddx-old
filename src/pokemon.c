@@ -2671,7 +2671,7 @@ void CreateEventLegalEnemyMon(void)
     s32 species = gSpecialVar_0x8004;
     s32 level = gSpecialVar_0x8005;
     s32 itemId = gSpecialVar_0x8006;
-    s32 form = 0;
+    s32 form = (species == SPECIES_DEOXYS) ? gSpecialVar_0x8007 : 0;
 
     ZeroEnemyPartyMons();
     CreateEventLegalMon(&gEnemyParty[0], species, level, USE_RANDOM_IVS, 0, 0, 0, 0, form);
@@ -6185,12 +6185,7 @@ u16 GetBattleBGM(void)
         case HOENN_TRAINER_CLASS_PYRAMID_KING:
             return MUS_VS_FRONTIER_BRAIN;
         default:
-            if (gBattleTypeFlags & (BATTLE_TYPE_LINK 
-                                 | BATTLE_TYPE_RECORDED_LINK
-                                 | BATTLE_TYPE_FRONTIER))
-                return MUS_VS_TRAINER;
-            else
-                return MUS_RG_VS_TRAINER;
+            return (!gMapHeader.region || gBattleTypeFlags & BATTLE_TYPE_RECORDED) ? MUS_VS_TRAINER : MUS_RG_VS_TRAINER;
         }
     }
     else
@@ -6212,11 +6207,7 @@ u16 GetBattleBGM(void)
         case SPECIES_DEOXYS:
             return MUS_RG_VS_DEOXYS;
 	    default:
-            if (gMapHeader.regionMapSectionId == MAPSEC_BATTLE_FRONTIER 
-             || gMapHeader.regionMapSectionId == MAPSEC_ARTISAN_CAVE)
-                return MUS_VS_WILD;
-            else
-                return MUS_RG_VS_WILD;
+            return (gMapHeader.region) ? MUS_RG_VS_WILD : MUS_VS_WILD;
     }
 }
 
@@ -6592,10 +6583,10 @@ void DoMonFrontSpriteAnimation(struct Sprite* sprite, u16 species, bool8 noCry, 
         if (!noCry)
         {
             PlayCry1(species, pan);
-            if (HasTwoFramesAnimation(species))
+            if (species != SPECIES_CASTFORM)
                 StartSpriteAnim(sprite, 1);
         }
-        if (sMonAnimationDelayTable[species])
+        if (sMonAnimationDelayTable[species] != 0)
         {
             u8 taskId = CreateTask(Task_AnimateAfterDelay, 0);
             STORE_PTR_IN_TASK(sprite, taskId, 0);
@@ -6612,7 +6603,7 @@ void DoMonFrontSpriteAnimation(struct Sprite* sprite, u16 species, bool8 noCry, 
 
 void PokemonSummaryDoMonAnimation(struct Sprite* sprite, u16 species, bool8 oneFrame)
 {
-    if (!oneFrame && HasTwoFramesAnimation)
+    if (!oneFrame && species != SPECIES_CASTFORM)
         StartSpriteAnim(sprite, 1);
     if (sMonAnimationDelayTable[species])
     {
@@ -6731,11 +6722,6 @@ const u8 *GetTrainerNameFromId(u16 trainerId)
     if (trainerId >= TRAINERS_COUNT)
         trainerId = TRAINER_NONE;
     return gTrainers[trainerId].trainerName;
-}
-
-bool8 HasTwoFramesAnimation(u16 species)
-{
-    return (species != SPECIES_CASTFORM);
 }
 
 static bool8 ShouldSkipFriendshipChange(void)

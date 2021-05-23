@@ -1695,7 +1695,7 @@ void LaunchBattleAnimation(const u8 *const animsTable[], u16 tableId, bool8 isMo
     else
     {
         sub_80A8278();
-        UpdateOamPriorityInAllHealthboxes(0, hideHpBoxes);
+        UpdateOamPriorityInAllHealthboxes_(0, hideHpBoxes);
         for (i = 0; i < MAX_BATTLERS_COUNT; i++)
         {
             if (GetBattlerSide(i) == B_SIDE_OPPONENT)
@@ -1992,7 +1992,7 @@ static void ScriptCmd_end(void)
         if (!IsContest())
         {
             sub_80A8278();
-            UpdateOamPriorityInAllHealthboxes(1, TRUE);
+            UpdateOamPriorityInAllHealthboxes_(1, TRUE);
         }
         gAnimScriptActive = FALSE;
     }

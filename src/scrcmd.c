@@ -1590,9 +1590,8 @@ bool8 ScrCmd_givemon(struct ScriptContext *ctx)
     u16 species = VarGet(ScriptReadHalfword(ctx));
     u8 level = ScriptReadByte(ctx);
     u16 item = VarGet(ScriptReadHalfword(ctx));
-    u8 form = ScriptReadWord(ctx);
 
-    gSpecialVar_Result = ScriptGiveMon(species, level, item, form);
+    gSpecialVar_Result = ScriptGiveMon(species, level, item);
     return FALSE;
 }
 

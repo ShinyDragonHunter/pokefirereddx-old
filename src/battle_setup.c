@@ -717,6 +717,8 @@ static u8 GetWildBattleTransition(void)
     case SPECIES_MEW:
         return B_TRANSITION_RECTANGULAR_SPIRAL;
     default:
+        if (WILD_DOUBLE_BATTLE)
+            return (Overworld_GetFlashLevel()) ? B_TRANSITION_BLUR : B_TRANSITION_ANTI_CLOCKWISE_SPIRAL;
         if (enemyLevel < playerLevel)
         {
             if (InBattlePyramid())
@@ -817,8 +819,8 @@ static void CB2_GiveStarter(void)
     u16 starterMon;
 
     *GetVarPointer(VAR_STARTER_MON) = gSpecialVar_Result;
-    starterMon = GetStarterPokemon(gSpecialVar_Result, FALSE);
-    ScriptGiveMon(starterMon, 5, ITEM_NONE, 0);
+    starterMon = GetStarterPokemon(gSpecialVar_Result);
+    ScriptGiveMon(starterMon, 5, ITEM_NONE);
     ResetTasks();
     PlayBattleBGM();
     SetMainCallback2(CB2_StartFirstBattle);

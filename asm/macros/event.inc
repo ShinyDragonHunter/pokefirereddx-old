@@ -932,12 +932,11 @@
 	.endm
 
 	@ Gives the player one of the specified (species) Pokemon (with form) at level level holding item.
-	.macro givemon species:req, level:req, item:req, form=0
+	.macro givemon species:req, level:req, item:req
 	.byte 0x79
 	.2byte \species
 	.byte \level
 	.2byte \item
-	.byte \form
 	.endm
 
 	.macro giveegg species:req

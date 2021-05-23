@@ -42,6 +42,7 @@
 #include "play_time.h"
 #include "random.h"
 #include "roamer.h"
+#include "region_map.h"
 #include "rotating_gate.h"
 #include "safari_zone.h"
 #include "save.h"
@@ -594,12 +595,14 @@ static void LoadCurrentMapData(void)
     gMapHeader = *Overworld_GetMapHeaderByGroupAndId(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum);
     gSaveBlock1Ptr->mapLayoutId = gMapHeader.mapLayoutId;
     gMapHeader.mapLayout = GetMapLayout();
+    gMapHeader.region = gMapsecToRegion[gMapHeader.regionMapSectionId];
 }
 
 static void LoadSaveblockMapHeader(void)
 {
     gMapHeader = *Overworld_GetMapHeaderByGroupAndId(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum);
     gMapHeader.mapLayout = GetMapLayout();
+    gMapHeader.region = gMapsecToRegion[gMapHeader.regionMapSectionId];
 }
 
 static void SetPlayerCoordsFromWarp(void)
@@ -1129,7 +1132,7 @@ void Overworld_PlaySpecialMapMusic(void)
         else if (GetCurrentMapType() == MAP_TYPE_UNDERWATER)
             music = MUS_UNDERWATER;
         else if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
-            music = MUS_SURF;
+            music = (gMapHeader.region) ? MUS_RG_SURF : MUS_SURF;
     }
 
     if (music != GetCurrentMapMusic())
@@ -1159,7 +1162,7 @@ static void TransitionMapMusic(void)
              || currentMusic == MUS_RG_SURF)
                 return;
             if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
-                newMusic = MUS_RG_SURF;
+                newMusic = (gMapHeader.region) ? MUS_RG_SURF : MUS_SURF;
         }
         if (newMusic != currentMusic)
         {

@@ -1261,13 +1261,13 @@ static void PlayerPartnerHandleDrawTrainerPic(void)
     {
         trainerPicId = TRAINER_BACK_PIC_OLD_MAN;
         xPos = 90;
-        yPos = (8 - gTrainerBackPicCoords[trainerPicId].size) * 4 + 80;
+        yPos = 80 + 4 * (8 - gTrainerBackPicCoords[trainerPicId].size);
     }
     else
     {
         trainerPicId = GetFrontierTrainerFrontSpriteId(gPartnerTrainerId);
         xPos = 32;
-        yPos = (8 - gTrainerFrontPicCoords[trainerPicId].size) * 4 + 80;
+        yPos = 80 + 4 * (8 - gTrainerFrontPicCoords[trainerPicId].size);
     }
 
     // Use back pic only if the partner is Steven

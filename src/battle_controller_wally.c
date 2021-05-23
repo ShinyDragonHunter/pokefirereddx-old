@@ -1026,9 +1026,9 @@ static void WallyHandleDrawTrainerPic(void)
     LoadPalette(gTrainerBackPicPaletteTable[TRAINER_BACK_PIC_POKE_DUDE].data, 0x100 + 16 * gActiveBattler, 32);
     SetMultiuseSpriteTemplateToTrainerBack(TRAINER_BACK_PIC_POKE_DUDE, GetBattlerPosition(gActiveBattler));
     gBattlerSpriteIds[gActiveBattler] = CreateSprite(&gMultiuseSpriteTemplate,
-                                               80,
-                                               80 + 4 * (8 - gTrainerBackPicCoords[TRAINER_BACK_PIC_POKE_DUDE].size),
-                                               30);
+    80,
+    80 + 4 * (8 - gTrainerBackPicCoords[TRAINER_BACK_PIC_POKE_DUDE].size),
+    30);
     gSprites[gBattlerSpriteIds[gActiveBattler]].oam.paletteNum = gActiveBattler;
     gSprites[gBattlerSpriteIds[gActiveBattler]].pos2.x = DISPLAY_WIDTH;
     gSprites[gBattlerSpriteIds[gActiveBattler]].sSpeedX = -2;
@@ -1041,9 +1041,9 @@ static void WallyHandleTrainerSlide(void)
     LoadPalette(gTrainerBackPicPaletteTable[TRAINER_BACK_PIC_POKE_DUDE].data, 0x100 + 16 * gActiveBattler, 32);
     SetMultiuseSpriteTemplateToTrainerBack(TRAINER_BACK_PIC_POKE_DUDE, GetBattlerPosition(gActiveBattler));
     gBattlerSpriteIds[gActiveBattler] = CreateSprite(&gMultiuseSpriteTemplate,
-                                               80,
-                                               80 + 4 * (8 - gTrainerBackPicCoords[TRAINER_BACK_PIC_POKE_DUDE].size),
-                                               30);
+    80,
+    80 + 4 * (8 - gTrainerBackPicCoords[TRAINER_BACK_PIC_POKE_DUDE].size),
+    30);
     gSprites[gBattlerSpriteIds[gActiveBattler]].oam.paletteNum = gActiveBattler;
     gSprites[gBattlerSpriteIds[gActiveBattler]].pos2.x = -96;
     gSprites[gBattlerSpriteIds[gActiveBattler]].sSpeedX = 2;
@@ -1467,7 +1467,7 @@ static void StartSendOutAnim(u8 battlerId)
     gSprites[gBattlerSpriteIds[battlerId]].data[2] = species;
     gSprites[gBattlerSpriteIds[battlerId]].oam.paletteNum = battlerId;
 
-    StartSpriteAnim(&gSprites[gBattlerSpriteIds[battlerId]], gBattleMonForms[battlerId]);
+    StartSpriteAnim(&gSprites[gBattlerSpriteIds[battlerId]], 0);
     gSprites[gBattlerSpriteIds[battlerId]].invisible = TRUE;
     gSprites[gBattlerSpriteIds[battlerId]].callback = SpriteCallbackDummy;
     gSprites[gBattleControllerData[battlerId]].data[0] = DoPokeballSendOutAnimation(0, POKEBALL_PLAYER_SENDOUT);

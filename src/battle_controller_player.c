@@ -234,10 +234,10 @@ static void HandleInputChooseAction(void)
 
         switch (gActionSelectionCursor[gActiveBattler])
         {
-        case B_ACTION_USE_MOVE:
-        case B_ACTION_USE_ITEM:
-        case B_ACTION_SWITCH:
-        case B_ACTION_RUN:
+        case 0:
+        case 1:
+        case 2:
+        case 3:
             BtlController_EmitTwoReturnValues(1, gActionSelectionCursor[gActiveBattler], 0);
             break;
         }
@@ -2104,7 +2104,7 @@ static void StartSendOutAnim(u8 battlerId, bool8 dontClearSubstituteBit)
     gSprites[gBattleControllerData[battlerId]].data[2] = battlerId;
 
     gSprites[gBattlerSpriteIds[battlerId]].data[0] = battlerId;
-    gSprites[gBattlerSpriteIds[battlerId]].data[2] = species;
+    gSprites[gBattlerSpriteIds[battlerId]].data[2] = GetFormSpecies(species, form);
     gSprites[gBattlerSpriteIds[battlerId]].oam.paletteNum = battlerId;
 
     StartSpriteAnim(&gSprites[gBattlerSpriteIds[battlerId]], gBattleMonForms[battlerId]);

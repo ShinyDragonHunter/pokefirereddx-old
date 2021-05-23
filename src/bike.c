@@ -983,16 +983,15 @@ void GetOnOffBike(u8 transitionFlags)
     else
     {
         SetPlayerAvatarTransitionFlags(transitionFlags);
-        if (gMapHeader.regionMapSectionId == MAPSEC_BATTLE_FRONTIER 
-         || gMapHeader.regionMapSectionId == MAPSEC_ARTISAN_CAVE)
-        {
-            Overworld_SetSavedMusic(MUS_CYCLING);
-            Overworld_ChangeMusicTo(MUS_CYCLING);
-        }
-        else
+        if (gMapHeader.region)
         {
             Overworld_SetSavedMusic(MUS_RG_CYCLING);
             Overworld_ChangeMusicTo(MUS_RG_CYCLING);
+        }
+        else
+        {
+            Overworld_SetSavedMusic(MUS_CYCLING);
+            Overworld_ChangeMusicTo(MUS_CYCLING);
         }
     }
 }

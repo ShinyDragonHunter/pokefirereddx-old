@@ -124,6 +124,7 @@ static const u8 sRegionMapPlayerIcon_MayGfx[] = INCBIN_U8("graphics/pokenav/may_
 static const u8 sRegionMap_MapSectionLayout[] = INCBIN_U8("graphics/pokenav/region_map_section_layout.bin");
 
 #include "data/region_map/region_map_entries.h"
+#include "data/region_map/region_identifiers.h"
 
 static const u16 sRegionMap_SpecialPlaceLocations[][2] =
 {

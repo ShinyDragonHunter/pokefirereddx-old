@@ -1045,7 +1045,7 @@ static void TryToggleHealboxVisibility(u8 priority, u8 healthboxLeftSpriteId, u8
     }
 }
 
-void UpdateOamPriorityInAllHealthboxes(u8 priority, bool32 hideHPBoxes)
+void UpdateOamPriorityInAllHealthboxes_(u8 priority, bool32 hideHPBoxes)
 {
     s32 i;
 
@@ -1062,6 +1062,11 @@ void UpdateOamPriorityInAllHealthboxes(u8 priority, bool32 hideHPBoxes)
         if (hideHPBoxes && IsBattlerAlive(i))
             TryToggleHealboxVisibility(priority, healthboxLeftSpriteId, healthboxRightSpriteId, healthbarSpriteId);
     }
+}
+
+void UpdateOamPriorityInAllHealthboxes(u8 priority)
+{
+    UpdateOamPriorityInAllHealthboxes_(priority, FALSE);
 }
 
 void InitBattlerHealthboxCoords(u8 battler)

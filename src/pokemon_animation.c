@@ -1056,7 +1056,7 @@ static bool32 InitAnimData(u8 id)
 
 static u8 AddNewAnim(void)
 {
-    sAnimIdx = (sAnimIdx) % MAX_BATTLERS_COUNT;
+    sAnimIdx = (sAnimIdx + 1) % MAX_BATTLERS_COUNT;
     InitAnimData(sAnimIdx);
     return sAnimIdx;
 }

@@ -3159,7 +3159,7 @@ u8 FldEff_NPCFlyOut(void)
     u8 spriteId;
     struct Sprite *sprite;
 
-    LoadFieldEffectPalette(FLDEFFOBJ_BIRD);
+    LoadFieldEffectPaletteGammaType(FLDEFFOBJ_BIRD);
     spriteId = CreateSprite(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_BIRD], 0x78, 0, 1);
     sprite = &gSprites[spriteId];
 
@@ -3343,7 +3343,7 @@ static u8 CreateFlyBirdSprite(void)
     u8 spriteId;
     struct Sprite *sprite;
 
-    LoadFieldEffectPalette(FLDEFFOBJ_BIRD);
+    LoadFieldEffectPaletteGammaType(FLDEFFOBJ_BIRD);
     spriteId = CreateSprite(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_BIRD], 0xff, 0xb4, 0x1);
     sprite = &gSprites[spriteId];
     sprite->oam.priority = 1;
