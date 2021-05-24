@@ -2704,13 +2704,17 @@ void SetBattleTowerLinkPlayerGfx(void)
     u8 i;
     for (i = 0; i < 2; i++)
     {
-        if (gLinkPlayers[i].gender == MALE)
+        switch (gLinkPlayers[i].version)
         {
-            VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_BRENDAN_NORMAL);
-        }
-        else
-        {
-            VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_MAY_NORMAL);
+            case VERSION_EMERALD:
+                if (gLinkPlayers[i].gender) 
+                    VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_MAY_NORMAL);
+                else
+                    VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_BRENDAN_NORMAL);
+                break;
+            default:
+                VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_RED + gLinkPlayers[i].gender);
+                break;
         }
     }
 }

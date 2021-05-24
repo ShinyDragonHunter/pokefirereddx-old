@@ -1753,6 +1753,12 @@
 	DYNAMIC_6   = 15
 	RESET       = 0xFF
 
+    @ Deoxys form IDs
+	NORMAL   = 0
+	SPEED    = 1
+	ATTACK   = 2
+	DEFENSE  = 3
+
 	@ Message box types
 	MSGBOX_NPC = 2
 	MSGBOX_SIGN = 3
