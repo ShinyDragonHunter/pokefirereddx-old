@@ -701,6 +701,8 @@ static const u8 sStatsLeftColumnLayout[] = _("{DYNAMIC 0}/{DYNAMIC 1}\n{DYNAMIC 
 static const u8 sStatsRightColumnLayout[] = _("{DYNAMIC 0}\n{DYNAMIC 1}\n{DYNAMIC 2}");
 static const u8 sMovesPPLayout[] = _("{PP}{DYNAMIC 0}/{DYNAMIC 1}");
 
+#include "data/region_map/orre_met_locations.h"
+
 #define TAG_MOVE_SELECTOR 30000
 #define TAG_MON_STATUS 30001
 #define TAG_MOVE_TYPES 30002
@@ -3030,6 +3032,7 @@ static void BufferMonTrainerMemo(void)
         // IDs with their own. TODO: Look into Orange GBA compatiblity.
         u16 mapsecShift = MAPSEC_LITTLEROOT_TOWN;
         u16 maxMapsec = MAPSEC_NONE;
+        u16 var = sum->metLocation + mapsecShift;
         u8 *metLevelString = Alloc(32);
         u8 *metLocationString = Alloc(32);
         GetMetLevelString(metLevelString);
@@ -3043,16 +3046,11 @@ static void BufferMonTrainerMemo(void)
         {
             mapsecShift = ORRE_MAPSEC_START;
             maxMapsec = ORRE_MAPSEC_END;
-
-            if (sMonSummaryScreen->eventLegal)
-            {
-                mapsecShift = XD_ORRE_MAPSEC_START;
-                maxMapsec = XD_ORRE_MAPSEC_END;
-            }
+            var = sOrreMetLocationTable[sum->metLocation][sMonSummaryScreen->eventLegal];
         }
-        if (sum->metLocation < maxMapsec)
+        if (mapsecShift < maxMapsec)
         {
-            GetMapNameGeneric(metLocationString, sum->metLocation + mapsecShift);
+            GetMapNameGeneric(metLocationString, var);
             DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
         }
 
@@ -3077,9 +3075,9 @@ static void BufferMonTrainerMemo(void)
         if (DoesMonOTMatchOwner())
         {
             if (sum->metLevel)
-                text = (sum->metLocation >= MAPSEC_NONE) ? gText_XNatureMetSomewhereAt : gText_XNatureMetAtYZ;
+                text = (sum->metLocation >= maxMapsec) ? gText_XNatureMetSomewhereAt : gText_XNatureMetAtYZ;
             else
-                text = (sum->metLocation >= MAPSEC_NONE) ? gText_XNatureHatchedSomewhereAt : gText_XNatureHatchedAtYZ;
+                text = (sum->metLocation >= maxMapsec) ? gText_XNatureHatchedSomewhereAt : gText_XNatureHatchedAtYZ;
         }
         else if (sum->metLocation == METLOC_FATEFUL_ENCOUNTER)
         {
@@ -3088,22 +3086,26 @@ static void BufferMonTrainerMemo(void)
         else if (sum->metLocation != METLOC_IN_GAME_TRADE)
         {
             if (sum->metLocation >= maxMapsec)
-                text = (sum->metGame == VERSION_GAMECUBE) ? gText_XNatureMetDistantLand : gText_XNatureObtainedInTrade;
+                text = gText_XNatureObtainedInTrade;
             else
                 text = gText_XNatureProbablyMetAt;
         }
         else
         {
-            text = (sum->metGame == VERSION_GAMECUBE) ? gText_XNatureMetDistantLand : gText_XNatureObtainedInTrade;
+            text = gText_XNatureObtainedInTrade;
         }
         if (sum->metGame == VERSION_GAMECUBE)
         {
-            if (sum->metLocation == XD_ORRE_METLOC_STARTER_EEVEE - XD_ORRE_MAPSEC_START)
+            if (sum->metLocation == ORRE_REGION(DISTANT_LAND))
+            {
+                gText_XNatureMetDistantLand;
+            }
+            if (sum->metLocation == ORRE_REGION(XD_STARTER_EEVEE))
             {
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, sum->OTName);
                 text = gText_ObtainedFromDad;
             }
-            if (sum->metLocation == ORRE_METLOC_STARTER_AND_PLUSLE - ORRE_MAPSEC_START)
+            if (sum->metLocation == ORRE_REGION(STARTER_AND_PLUSLE))
             {
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, sum->OTName);
                 text = (sum->species == SPECIES_PLUSLE) ? gText_Receivedfrom : gText_OldFriend;
@@ -3206,6 +3208,8 @@ static void PrintEggState(void)
     PrintTextOnWindow(AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_ABILITY), text, 0, 1, 0, 0);
 }
 
+#define JOHTO_REGION(location)(JOHTO_MAPSEC_##location - JOHTO_MAPSEC_START)
+
 static void PrintEggMemo(void)
 {
     const u8 *text;
@@ -3222,7 +3226,7 @@ static void PrintEggMemo(void)
         text = gText_PeculiarEggNicePlace;
     else if (!DoesMonOTMatchOwner() || !sMonSummaryScreen->summary.sanity)
         text = gText_PeculiarEggTrade;
-    else if (sum->metLocation == JOHTO_MAPSEC_GOLDENROD_CITY - JOHTO_MAPSEC_START)
+    else if (sum->metLocation == JOHTO_REGION(GOLDENROD_CITY))
         text = gText_EggFromPokecomCenter;
     else
         text = gText_OddEggFoundByCouple;

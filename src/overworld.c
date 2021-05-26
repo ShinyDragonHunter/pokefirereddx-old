@@ -42,7 +42,6 @@
 #include "play_time.h"
 #include "random.h"
 #include "roamer.h"
-#include "region_map.h"
 #include "rotating_gate.h"
 #include "safari_zone.h"
 #include "save.h"
@@ -97,6 +96,7 @@ struct CableClubPlayer
 extern const struct MapLayout *const gMapLayouts[];
 extern const struct MapHeader *const *const gMapGroups[];
 
+static const u8 sMapsecToRegion[];
 static void Overworld_ResetStateAfterWhiteOut(void);
 static void CB2_ReturnToFieldLocal(void);
 static void CB2_ReturnToFieldLink(void);
@@ -206,6 +206,8 @@ EWRAM_DATA static struct InitialPlayerAvatarState sInitialPlayerAvatarState = {0
 EWRAM_DATA static u16 sAmbientCrySpecies = 0;
 EWRAM_DATA static bool8 sIsAmbientCryWaterMon = FALSE;
 EWRAM_DATA struct LinkPlayerObjectEvent gLinkPlayerObjectEvents[4] = {0};
+
+#include "data/region_map/region_identifiers.h"
 
 // const rom data
 static const struct WarpData sDummyWarpData =
@@ -595,14 +597,14 @@ static void LoadCurrentMapData(void)
     gMapHeader = *Overworld_GetMapHeaderByGroupAndId(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum);
     gSaveBlock1Ptr->mapLayoutId = gMapHeader.mapLayoutId;
     gMapHeader.mapLayout = GetMapLayout();
-    gMapHeader.region = gMapsecToRegion[gMapHeader.regionMapSectionId];
+    gMapHeader.region = sMapsecToRegion[gMapHeader.regionMapSectionId];
 }
 
 static void LoadSaveblockMapHeader(void)
 {
     gMapHeader = *Overworld_GetMapHeaderByGroupAndId(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum);
     gMapHeader.mapLayout = GetMapLayout();
-    gMapHeader.region = gMapsecToRegion[gMapHeader.regionMapSectionId];
+    gMapHeader.region = sMapsecToRegion[gMapHeader.regionMapSectionId];
 }
 
 static void SetPlayerCoordsFromWarp(void)

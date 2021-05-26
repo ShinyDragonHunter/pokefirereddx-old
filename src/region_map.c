@@ -124,7 +124,8 @@ static const u8 sRegionMapPlayerIcon_MayGfx[] = INCBIN_U8("graphics/pokenav/may_
 static const u8 sRegionMap_MapSectionLayout[] = INCBIN_U8("graphics/pokenav/region_map_section_layout.bin");
 
 #include "data/region_map/region_map_entries.h"
-#include "data/region_map/region_identifiers.h"
+#include "data/region_map/johto_region_map_entries.h"
+#include "data/region_map/orre_region_map_entries.h"
 
 static const u16 sRegionMap_SpecialPlaceLocations[][2] =
 {
@@ -1522,12 +1523,10 @@ u8 *GetMapName(u8 *dest, u16 regionMapId, u16 padLength)
     }
     else if (regionMapId > METLOC_FATEFUL_ENCOUNTER)
     {
-        if (regionMapId < ORRE_MAPSEC_START)
+        if (regionMapId < JOHTO_MAPSEC_END)
             str = StringCopy(dest, gJohtoRegionMapNames[regionMapId - JOHTO_MAPSEC_START]);
-        if (regionMapId < XD_ORRE_MAPSEC_START && gOrreRegionMapNames[regionMapId - ORRE_MAPSEC_START])
+        if (regionMapId < ORRE_MAPSEC_END)
             str = StringCopy(dest, gOrreRegionMapNames[regionMapId - ORRE_MAPSEC_START]);
-        if (regionMapId <= XD_ORRE_MAPSEC_END && gXDOrreRegionMapNames[regionMapId - ORRE_MAPSEC_START])
-            str = StringCopy(dest, gXDOrreRegionMapNames[regionMapId - XD_ORRE_MAPSEC_START]);
     }
     else
     {

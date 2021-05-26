@@ -1,7 +1,7 @@
 #ifndef GUARD_DATA_REGION_IDENTIFIERS_H
 #define GUARD_DATA_REGION_IDENTIFIERS_H
 
-const u8 gMapsecToRegion[] = {
+static const u8 sMapsecToRegion[] = {
     [MAPSEC_LITTLEROOT_TOWN]            = REGION_HOENN,
     [MAPSEC_OLDALE_TOWN]                = REGION_HOENN,
     [MAPSEC_DEWFORD_TOWN]               = REGION_HOENN,
@@ -14,7 +14,7 @@ const u8 gMapsecToRegion[] = {
     [MAPSEC_MAUVILLE_CITY]              = REGION_HOENN,
     [MAPSEC_RUSTBORO_CITY]              = REGION_HOENN,
     [MAPSEC_FORTREE_CITY]               = REGION_HOENN,
-    [MAPSEC_LILYCOVE_CITY ]             = REGION_HOENN,
+    [MAPSEC_LILYCOVE_CITY]              = REGION_HOENN,
     [MAPSEC_MOSSDEEP_CITY]              = REGION_HOENN,
     [MAPSEC_SOOTOPOLIS_CITY]            = REGION_HOENN,
     [MAPSEC_EVER_GRANDE_CITY]           = REGION_HOENN,
@@ -202,7 +202,7 @@ const u8 gMapsecToRegion[] = {
     [MAPSEC_AQUA_HIDEOUT]               = REGION_HOENN,
     [MAPSEC_MAGMA_HIDEOUT]              = REGION_HOENN,
     [MAPSEC_MIRAGE_TOWER]               = REGION_HOENN,
-    [MAPSEC_BIRTH_ISLAND]               = REGION_HOENN,
+    [MAPSEC_BIRTH_ISLAND]               = REGION_SEVII,
     [MAPSEC_FARAWAY_ISLAND]             = REGION_HOENN,
     [MAPSEC_ARTISAN_CAVE]               = REGION_HOENN,
     [MAPSEC_MARINE_CAVE]                = REGION_HOENN,
@@ -213,7 +213,7 @@ const u8 gMapsecToRegion[] = {
     [MAPSEC_UNDERWATER_129]             = REGION_HOENN,
     [MAPSEC_DESERT_UNDERPASS]           = REGION_HOENN,
     [MAPSEC_ALTERING_CAVE]              = REGION_HOENN,
-    [MAPSEC_NAVEL_ROCK]                 = REGION_HOENN,
+    [MAPSEC_NAVEL_ROCK]                 = REGION_SEVII,
     [MAPSEC_TRAINER_HILL]               = REGION_HOENN
 };
 

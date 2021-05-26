@@ -97,9 +97,17 @@ void LoadObjectReflectionPalette(struct ObjectEvent *objectEvent, struct Sprite 
 void LoadSpecialReflectionPalette(struct Sprite *sprite)
 {
     struct SpritePalette reflectionPalette;
+    u16 tempUnfaded[16];
+    u16 tempFaded[16];
 
-    CpuCopy16(&gPlttBufferUnfaded[0x100 + sprite->oam.paletteNum * 16], gReflectionPaletteBuffer, 32);
-    TintPalette_CustomTone(gReflectionPaletteBuffer, 16, Q_8_8(1.0), Q_8_8(1.0), Q_8_8(3.5));
+    // First save the current sprite's palette
+    CpuCopy16(&gPlttBufferUnfaded[0x100 + sprite->oam.paletteNum * 16], tempUnfaded, 32);
+    CpuCopy16(&gPlttBufferFaded[0x100 + sprite->oam.paletteNum * 16], tempFaded, 32);
+    BlendPalette((sprite->oam.paletteNum + 16) * 16, 16, 10, RGB_WHITE);
+    // Copy reflection palette into global buffer, and restore original palette
+    CpuCopy16(&gPlttBufferFaded[0x100 + sprite->oam.paletteNum * 16], gReflectionPaletteBuffer, 32);
+    CpuCopy16(tempFaded, &gPlttBufferFaded[0x100 + sprite->oam.paletteNum * 16], 32);
+    CpuCopy16(tempUnfaded, &gPlttBufferUnfaded[0x100 + sprite->oam.paletteNum * 16], 32);
     reflectionPalette.data = gReflectionPaletteBuffer;
     reflectionPalette.tag = GetSpritePaletteTagByPaletteNum(sprite->oam.paletteNum) + 0x1000;
     LoadSpritePaletteDayNight(&reflectionPalette);

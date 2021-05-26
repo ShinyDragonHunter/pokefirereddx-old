@@ -1390,6 +1390,14 @@ const s8 gNatureStatTable[NUM_NATURES][NUM_NATURE_STATS] =
 #include "data/pokemon/form_species_tables.h"
 #include "data/pokemon/form_species_table_pointers.h"
 
+static const u16 sBattleMusicTable[][3] =
+{
+    // Hoenn                // Kanto              // Sevii
+    {MUS_VS_FRONTIER_BRAIN, MUS_RG_VS_GYM_LEADER, MUS_DUMMY},         // Gym Leader
+    {MUS_VS_TRAINER,        MUS_RG_VS_TRAINER,    MUS_RG_VS_TRAINER}, // Trainer
+    {MUS_VS_WILD,           MUS_RG_VS_WILD,       MUS_RG_VS_WILD},    // Wild
+};
+
 static const u8 sMonFrontAnimIdsTable[] =
 {
     [SPECIES_NONE]        = ANIM_V_SQUISH_AND_BOUNCE,
@@ -6173,9 +6181,6 @@ u16 GetBattleBGM(void)
             return MUS_VS_AQUA_MAGMA;
         case TRAINER_CLASS_LEADER:
         case TRAINER_CLASS_ELITE_FOUR:
-            return MUS_RG_VS_GYM_LEADER;
-        case TRAINER_CLASS_CHAMPION:
-            return MUS_RG_VS_CHAMPION;
         case HOENN_TRAINER_CLASS_SALON_MAIDEN:
         case HOENN_TRAINER_CLASS_DOME_ACE:
         case HOENN_TRAINER_CLASS_PALACE_MAVEN:
@@ -6183,12 +6188,17 @@ u16 GetBattleBGM(void)
         case HOENN_TRAINER_CLASS_FACTORY_HEAD:
         case HOENN_TRAINER_CLASS_PIKE_QUEEN:
         case HOENN_TRAINER_CLASS_PYRAMID_KING:
-            return MUS_VS_FRONTIER_BRAIN;
+            return sBattleMusicTable[0][gMapHeader.region];
+        case TRAINER_CLASS_CHAMPION:
+            return MUS_RG_VS_CHAMPION;
         default:
-            return (!gMapHeader.region || gBattleTypeFlags & BATTLE_TYPE_RECORDED) ? MUS_VS_TRAINER : MUS_RG_VS_TRAINER;
+            if (gBattleTypeFlags & BATTLE_TYPE_RECORDED)
+                return MUS_VS_TRAINER;
+            return sBattleMusicTable[1][gMapHeader.region];
         }
     }
     else
+    {
         switch (GetMonData(&gEnemyParty[0], MON_DATA_SPECIES, NULL))
         {
         case SPECIES_ARTICUNO:
@@ -6207,7 +6217,8 @@ u16 GetBattleBGM(void)
         case SPECIES_DEOXYS:
             return MUS_RG_VS_DEOXYS;
 	    default:
-            return (gMapHeader.region) ? MUS_RG_VS_WILD : MUS_VS_WILD;
+            return sBattleMusicTable[2][gMapHeader.region];
+        }
     }
 }
 
@@ -6586,7 +6597,7 @@ void DoMonFrontSpriteAnimation(struct Sprite* sprite, u16 species, bool8 noCry, 
             if (species != SPECIES_CASTFORM)
                 StartSpriteAnim(sprite, 1);
         }
-        if (sMonAnimationDelayTable[species] != 0)
+        if (sMonAnimationDelayTable[species])
         {
             u8 taskId = CreateTask(Task_AnimateAfterDelay, 0);
             STORE_PTR_IN_TASK(sprite, taskId, 0);

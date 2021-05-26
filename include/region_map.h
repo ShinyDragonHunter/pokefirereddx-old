@@ -24,12 +24,6 @@ enum {
     MAPSECTYPE_BATTLE_FRONTIER
 };
 
-enum {
-    REGION_HOENN,
-    REGION_KANTO,
-    REGION_SEVII
-};
-
 struct RegionMap {
     /*0x000*/ u16 mapSecId;
     /*0x002*/ u8 mapSecType;
@@ -124,6 +118,5 @@ extern const struct RegionMapLocation gRegionMapEntries[];
 extern const u8 *const gJohtoRegionMapNames[];
 extern const u8 *const gOrreRegionMapNames[];
 extern const u8 *const gXDOrreRegionMapNames[];
-extern const u8 gMapsecToRegion[];
 
 #endif //GUARD_REGION_MAP_H

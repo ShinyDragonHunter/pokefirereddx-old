@@ -2,6 +2,7 @@ EventScript_StartTrainerApproach:: @ 8271354
 	selectapproachingtrainer
 	lockfortrainer
 EventScript_TrainerApproach:: @ 8271356
+	textcolor RESET
 	special PlayTrainerEncounterMusic
 	special DoTrainerApproach
 	waitstate

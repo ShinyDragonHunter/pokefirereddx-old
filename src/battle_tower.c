@@ -56,8 +56,7 @@ static void SetTowerBattleWon(void);
 static void AwardBattleTowerRibbons(void);
 static void SaveTowerChallenge(void);
 static void GetOpponentIntroSpeech(void);
-static void BattleTowerNop1(void);
-static void BattleTowerNop2(void);
+static void BattleTowerNop(void);
 static void LoadMultiPartnerCandidatesData(void);
 static void ShowPartnerCandidateMessage(void);
 static void LoadLinkMultiOpponentsData(void);
@@ -784,8 +783,8 @@ static void (* const sBattleTowerFuncs[])(void) =
     [BATTLE_TOWER_FUNC_GIVE_RIBBONS]        = AwardBattleTowerRibbons,
     [BATTLE_TOWER_FUNC_SAVE]                = SaveTowerChallenge,
     [BATTLE_TOWER_FUNC_GET_OPPONENT_INTRO]  = GetOpponentIntroSpeech,
-    [BATTLE_TOWER_FUNC_NOP]                 = BattleTowerNop1,
-    [BATTLE_TOWER_FUNC_NOP2]                = BattleTowerNop2,
+    [BATTLE_TOWER_FUNC_NOP]                 = BattleTowerNop,
+    [BATTLE_TOWER_FUNC_NOP2]                = BattleTowerNop,
     [BATTLE_TOWER_FUNC_LOAD_PARTNERS]       = LoadMultiPartnerCandidatesData,
     [BATTLE_TOWER_FUNC_PARTNER_MSG]         = ShowPartnerCandidateMessage,
     [BATTLE_TOWER_FUNC_LOAD_LINK_OPPONENTS] = LoadLinkMultiOpponentsData,
@@ -2062,12 +2061,7 @@ static void SaveTowerChallenge(void)
     SaveGameFrontier();
 }
 
-static void BattleTowerNop1(void)
-{
-
-}
-
-static void BattleTowerNop2(void)
+static void BattleTowerNop(void)
 {
 
 }
@@ -2154,9 +2148,8 @@ static void LoadMultiPartnerCandidatesData(void)
             trainerId = GetRandomScaledFrontierTrainerId(challengeNum, 0);
             for (i = 0; i < j; i++)
             {
-                if (gSaveBlock2Ptr->frontier.trainerIds[i] == trainerId)
-                    break;
-                if (gFacilityTrainers[gSaveBlock2Ptr->frontier.trainerIds[i]].facilityClass == gFacilityTrainers[trainerId].facilityClass)
+                if (gSaveBlock2Ptr->frontier.trainerIds[i] == trainerId
+                 || gFacilityTrainers[gSaveBlock2Ptr->frontier.trainerIds[i]].facilityClass == gFacilityTrainers[trainerId].facilityClass)
                     break;
             }
         } while (i != j);
@@ -2179,11 +2172,9 @@ static void LoadMultiPartnerCandidatesData(void)
 
                 for (k = 8; k < r10; k++)
                 {
-                    if (gFacilityTrainerMons[gSaveBlock2Ptr->frontier.trainerIds[k]].species == gFacilityTrainerMons[monId].species)
-                        break;
-                    if (species1 == gFacilityTrainerMons[monId].species)
-                        break;
-                    if (species2 == gFacilityTrainerMons[monId].species)
+                    if (gFacilityTrainerMons[gSaveBlock2Ptr->frontier.trainerIds[k]].species == gFacilityTrainerMons[monId].species
+                     || species1 == gFacilityTrainerMons[monId].species
+                     || species2 == gFacilityTrainerMons[monId].species)
                         break;
                 }
                 if (k == r10)

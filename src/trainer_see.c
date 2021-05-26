@@ -203,9 +203,8 @@ bool8 CheckForTrainersWantingBattle(void)
     {
         u8 numTrainers;
 
-        if (!gObjectEvents[i].active)
-            continue;
-        if (gObjectEvents[i].trainerType != TRAINER_TYPE_NORMAL && gObjectEvents[i].trainerType != TRAINER_TYPE_BURIED)
+        if (!gObjectEvents[i].active
+         || (gObjectEvents[i].trainerType != TRAINER_TYPE_NORMAL && gObjectEvents[i].trainerType != TRAINER_TYPE_BURIED))
             continue;
 
         numTrainers = CheckTrainer(i);
@@ -215,9 +214,8 @@ bool8 CheckForTrainersWantingBattle(void)
         if (numTrainers == 0)
             continue;
 
-        if (gNoOfApproachingTrainers > 1)
-            break;
-        if (GetMonsStateToDoubles_2() != 0) // one trainer found and cant have a double battle
+        if (gNoOfApproachingTrainers > 1
+         || GetMonsStateToDoubles_2() != 0)
             break;
     }
 
@@ -225,7 +223,7 @@ bool8 CheckForTrainersWantingBattle(void)
     {
         ResetTrainerOpponentIds();
         ConfigureAndSetUpOneTrainerBattle(gApproachingTrainers[gNoOfApproachingTrainers - 1].objectEventId,
-                                          gApproachingTrainers[gNoOfApproachingTrainers - 1].trainerScriptPtr);
+                                        gApproachingTrainers[gNoOfApproachingTrainers - 1].trainerScriptPtr);
         gTrainerApproachedPlayer = TRUE;
         return TRUE;
     }
@@ -281,8 +279,8 @@ static u8 CheckTrainer(u8 objectEventId)
     if (approachDistance != 0)
     {
         if (scriptPtr[1] == TRAINER_BATTLE_DOUBLE
-            || scriptPtr[1] == TRAINER_BATTLE_REMATCH_DOUBLE
-            || scriptPtr[1] == TRAINER_BATTLE_CONTINUE_SCRIPT_DOUBLE)
+         || scriptPtr[1] == TRAINER_BATTLE_REMATCH_DOUBLE
+         || scriptPtr[1] == TRAINER_BATTLE_CONTINUE_SCRIPT_DOUBLE)
         {
             if (GetMonsStateToDoubles_2() != 0)
                 return 0;
