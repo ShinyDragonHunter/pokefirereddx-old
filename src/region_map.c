@@ -1523,9 +1523,9 @@ u8 *GetMapName(u8 *dest, u16 regionMapId, u16 padLength)
     }
     else if (regionMapId > METLOC_FATEFUL_ENCOUNTER)
     {
-        if (regionMapId < JOHTO_MAPSEC_END)
+        if (regionMapId < ORRE_MAPSEC_START)
             str = StringCopy(dest, gJohtoRegionMapNames[regionMapId - JOHTO_MAPSEC_START]);
-        if (regionMapId < ORRE_MAPSEC_END)
+        if (regionMapId <= ORRE_MAPSEC_END)
             str = StringCopy(dest, gOrreRegionMapNames[regionMapId - ORRE_MAPSEC_START]);
     }
     else

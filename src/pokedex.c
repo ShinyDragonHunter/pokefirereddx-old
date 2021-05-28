@@ -1619,15 +1619,15 @@ void CB2_OpenPokedex(void)
         sPokedexView->selectedPokemon = sLastSelectedPokemon;
         sPokedexView->pokeBallRotation = sPokeBallRotation;
         sPokedexView->selectedScreen = AREA_SCREEN;
-        if (!IsNationalPokedexEnabled())
-        {
-            sPokedexView->seenCount = GetHoennPokedexCount(FLAG_GET_SEEN);
-            sPokedexView->ownCount = GetHoennPokedexCount(FLAG_GET_CAUGHT);
-        }
-        else
+        if (IsNationalPokedexEnabled())
         {
             sPokedexView->seenCount = GetNationalPokedexCount(FLAG_GET_SEEN);
             sPokedexView->ownCount = GetNationalPokedexCount(FLAG_GET_CAUGHT);
+        }
+        else
+        {
+            sPokedexView->seenCount = GetKantoPokedexCount(FLAG_GET_SEEN);
+            sPokedexView->ownCount = GetKantoPokedexCount(FLAG_GET_CAUGHT);
         }
         sPokedexView->initialVOffset = 8;
         gMain.state++;
@@ -2138,7 +2138,7 @@ static bool8 LoadPokedexListPage(u8 page)
 
 static void LoadPokedexBgPalette(bool8 isSearchResults)
 {
-    if (isSearchResults == TRUE)
+    if (isSearchResults)
         LoadPalette(gPokedexSearchResults_Pal + 1, 1, 0xBE);
     else if (!IsNationalPokedexEnabled())
         LoadPalette(gPokedexBgHoenn_Pal + 1, 1, 0xBE);
@@ -2180,7 +2180,7 @@ static void CreatePokedexList(u8 dexMode, u8 order)
     {
     default:
     case DEX_MODE_HOENN:
-        temp_dexCount = HOENN_DEX_COUNT;
+        temp_dexCount = KANTO_DEX_COUNT;
         temp_isHoennDex = TRUE;
         break;
     case DEX_MODE_NATIONAL:
@@ -2191,7 +2191,7 @@ static void CreatePokedexList(u8 dexMode, u8 order)
         }
         else
         {
-            temp_dexCount = HOENN_DEX_COUNT;
+            temp_dexCount = KANTO_DEX_COUNT;
             temp_isHoennDex = TRUE;
         }
         break;
@@ -2878,7 +2878,7 @@ static void CreateInterfaceSprites(u8 page)
             StartSpriteAnim(&gSprites[spriteId], 1);
 
             // Hoenn seen value - 100s
-            seenOwnedCount = GetHoennPokedexCount(FLAG_GET_SEEN);
+            seenOwnedCount = GetKantoPokedexCount(FLAG_GET_SEEN);
             drawNextDigit = FALSE;
             spriteId = CreateSprite(&sNationalDexSeenOwnNumberSpriteTemplate, 40, 45, 1);
             digitNum = seenOwnedCount / 100;
@@ -2924,7 +2924,7 @@ static void CreateInterfaceSprites(u8 page)
             digitNum = (sPokedexView->seenCount % 100) % 10;
             StartSpriteAnim(&gSprites[spriteId], digitNum);
 
-            seenOwnedCount = GetHoennPokedexCount(FLAG_GET_CAUGHT);
+            seenOwnedCount = GetKantoPokedexCount(FLAG_GET_CAUGHT);
 
             // Hoenn owned value - 100s
             drawNextDigit = FALSE;
@@ -4295,16 +4295,16 @@ u16 GetNationalPokedexCount(u8 caseID)
     u16 count = 0;
     u16 i;
 
-    for (i = 0; i < NATIONAL_DEX_COUNT; i++)
+    for (i = 1; i < NATIONAL_DEX_COUNT; i++)
     {
         switch (caseID)
         {
         case FLAG_GET_SEEN:
-            if (GetSetPokedexFlag(i + 1, FLAG_GET_SEEN))
+            if (GetSetPokedexFlag(i, FLAG_GET_SEEN))
                 count++;
             break;
         case FLAG_GET_CAUGHT:
-            if (GetSetPokedexFlag(i + 1, FLAG_GET_CAUGHT))
+            if (GetSetPokedexFlag(i, FLAG_GET_CAUGHT))
                 count++;
             break;
         }
@@ -4317,16 +4317,16 @@ u16 GetHoennPokedexCount(u8 caseID)
     u16 count = 0;
     u16 i;
 
-    for (i = 0; i < HOENN_DEX_COUNT; i++)
+    for (i = 1; i < HOENN_DEX_COUNT; i++)
     {
         switch (caseID)
         {
         case FLAG_GET_SEEN:
-            if (GetSetPokedexFlag(HoennToNationalOrder(i + 1), FLAG_GET_SEEN))
+            if (GetSetPokedexFlag(HoennToNationalOrder(i), FLAG_GET_SEEN))
                 count++;
             break;
         case FLAG_GET_CAUGHT:
-            if (GetSetPokedexFlag(HoennToNationalOrder(i + 1), FLAG_GET_CAUGHT))
+            if (GetSetPokedexFlag(HoennToNationalOrder(i), FLAG_GET_CAUGHT))
                 count++;
             break;
         }
@@ -4339,16 +4339,16 @@ u16 GetKantoPokedexCount(u8 caseID)
     u16 count = 0;
     u16 i;
 
-    for (i = 0; i < KANTO_DEX_COUNT; i++)
+    for (i = 1; i < KANTO_DEX_COUNT; i++)
     {
         switch (caseID)
         {
         case FLAG_GET_SEEN:
-            if (GetSetPokedexFlag(i + 1, FLAG_GET_SEEN))
+            if (GetSetPokedexFlag(i, FLAG_GET_SEEN))
                 count++;
             break;
         case FLAG_GET_CAUGHT:
-            if (GetSetPokedexFlag(i + 1, FLAG_GET_CAUGHT))
+            if (GetSetPokedexFlag(i, FLAG_GET_CAUGHT))
                 count++;
             break;
         }
@@ -4361,16 +4361,16 @@ u16 GetJohtoPokedexCount(u8 caseID)
     u16 count = 0;
     u16 i;
 
-    for (i = 0; i < JOHTO_DEX_COUNT; i++)
+    for (i = 1; i < JOHTO_DEX_COUNT; i++)
     {
         switch (caseID)
         {
         case FLAG_GET_SEEN:
-            if (GetSetPokedexFlag(HoennToNationalOrder(i + 1), FLAG_GET_SEEN))
+            if (GetSetPokedexFlag(i, FLAG_GET_SEEN))
                 count++;
             break;
         case FLAG_GET_CAUGHT:
-            if (GetSetPokedexFlag(HoennToNationalOrder(i + 1), FLAG_GET_CAUGHT))
+            if (GetSetPokedexFlag(i, FLAG_GET_CAUGHT))
                 count++;
             break;
         }
@@ -4382,10 +4382,10 @@ bool16 HasAllHoennMons(void)
 {
     u16 i;
 
-    // -2 excludes Jirachi and Deoxys
-    for (i = 0; i < HOENN_DEX_COUNT - 2; i++)
+    // Excludes Jirachi and Deoxys
+    for (i = 1; i < HOENN_DEX_JIRACHI; i++)
     {
-        if (!GetSetPokedexFlag(HoennToNationalOrder(i + 1), FLAG_GET_CAUGHT))
+        if (!GetSetPokedexFlag(HoennToNationalOrder(i), FLAG_GET_CAUGHT))
             return FALSE;
     }
     return TRUE;
@@ -4395,10 +4395,10 @@ bool8 HasAllKantoMons(void)
 {
     u16 i;
 
-    // -1 excludes Mew
-    for (i = 0; i < KANTO_DEX_COUNT - 1; i++)
+    // Excludes Mew
+    for (i = 1; i < KANTO_DEX_COUNT; i++)
     {
-        if (!GetSetPokedexFlag(i + 1, FLAG_GET_CAUGHT))
+        if (!GetSetPokedexFlag(i, FLAG_GET_CAUGHT))
             return FALSE;
     }
     return TRUE;
@@ -4408,10 +4408,10 @@ bool8 HasAllJohtoMons(void)
 {
     u16 i;
 
-    // -1 excludes Celebi
-    for (i = KANTO_DEX_COUNT; i < JOHTO_DEX_COUNT - 1; i++)
+    // Excludes Celebi
+    for (i = 1; i < JOHTO_DEX_COUNT; i++)
     {
-        if (!GetSetPokedexFlag(HoennToNationalOrder(i + 1), FLAG_GET_CAUGHT))
+        if (!GetSetPokedexFlag(i, FLAG_GET_CAUGHT))
             return FALSE;
     }
     return TRUE;
@@ -4421,24 +4421,24 @@ bool16 HasAllMons(void)
 {
     u16 i;
 
-    // -1 excludes Mew
-    for (i = 0; i < KANTO_DEX_COUNT - 1; i++)
+    // Excludes Mew
+    for (i = 1; i < KANTO_DEX_COUNT; i++)
     {
-        if (!GetSetPokedexFlag(i + 1, FLAG_GET_CAUGHT))
+        if (!GetSetPokedexFlag(i, FLAG_GET_CAUGHT))
             return FALSE;
     }
 
-    // -3 excludes Lugia, Ho-Oh, and Celebi
-    for (i = KANTO_DEX_COUNT; i < JOHTO_DEX_COUNT - 3; i++)
+    // Excludes Lugia, Ho-Oh, and Celebi
+    for (i = KANTO_DEX_COUNT; i < NATIONAL_DEX_LUGIA; i++)
     {
-        if (!GetSetPokedexFlag(i + 1, FLAG_GET_CAUGHT))
+        if (!GetSetPokedexFlag(i, FLAG_GET_CAUGHT))
             return FALSE;
     }
 
-    // -2 excludes Jirachi and Deoxys
-    for (i = JOHTO_DEX_COUNT; i < NATIONAL_DEX_COUNT - 2; i++)
+    // Excludes Jirachi and Deoxys
+    for (i = JOHTO_DEX_COUNT; i < NATIONAL_DEX_JIRACHI; i++)
     {
-        if (!GetSetPokedexFlag(i + 1, FLAG_GET_CAUGHT))
+        if (!GetSetPokedexFlag(i, FLAG_GET_CAUGHT))
             return FALSE;
     }
     return TRUE;

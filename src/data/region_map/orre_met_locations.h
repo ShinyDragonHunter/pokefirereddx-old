@@ -1,14 +1,14 @@
 #ifndef GUARD_ORRE_MET_LOCATIONS_H
 #define GUARD_ORRE_MET_LOCATIONS_H
 
-// Colosseum and XD don't account for each other in regards to met locations.
-// What's one location in Colosseum could be another in XD.
+// Colosseum and XD clash with each other in regards to met locations.
+// What's one location in one game could be another location in the other.
 // This accounts for those differences. Many of these go unused in normal gameplay
 // but they're accounted for the sake of compatibility.
 static const u16 sOrreMetLocationTable[][2] =
 {
     //Colosseum                      // XD
-    {ORRE_MAPSEC_DISTANT_LAND,       ORRE_MAPSEC_XD_STARTER_EEVEE},// 0
+    {ORRE_MAPSEC_DISTANT_LAND,       ORRE_MAPSEC_XD_STARTER},      // 0
     {ORRE_MAPSEC_OUTSKIRT_STAND,     ORRE_MAPSEC_CIPHER_LAB},      // 1
     {ORRE_MAPSEC_OUTSKIRT_STAND,     ORRE_MAPSEC_DISTANT_LAND},    // 2
     {ORRE_MAPSEC_PHENAC_CITY,        ORRE_MAPSEC_DISTANT_LAND},    // 3
@@ -136,7 +136,7 @@ static const u16 sOrreMetLocationTable[][2] =
     {ORRE_MAPSEC_DEEP_COLOSSEUM,     ORRE_MAPSEC_AGATE_VILLAGE},   // 125
     {ORRE_MAPSEC_ORRE_COLOSSEUM,     ORRE_MAPSEC_AGATE_VILLAGE},   // 126
     {ORRE_MAPSEC_THE_UNDER,          ORRE_MAPSEC_AGATE_VILLAGE},   // 127
-    {ORRE_MAPSEC_PHENAC_CITY,        ORRE_MAPSEC_AGATE_VILLAGE},   // 128 // Colosseum; Pokémon from the eReader are obtained here
+    {ORRE_MAPSEC_PHENAC_CITY,        ORRE_MAPSEC_AGATE_VILLAGE},   // 128 // Colosseum; Pokémon from the eReader are here
     {ORRE_MAPSEC_SNAGEM_HIDEOUT,     ORRE_MAPSEC_AGATE_VILLAGE},   // 129
     {ORRE_MAPSEC_SNAGEM_HIDEOUT,     ORRE_MAPSEC_AGATE_VILLAGE},   // 130
     {ORRE_MAPSEC_SNAGEM_HIDEOUT,     ORRE_MAPSEC_AGATE_VILLAGE},   // 131

@@ -359,6 +359,12 @@ static void (*const gMovementStatusHandler[])(struct LinkPlayerObjectEvent *, st
     MovementStatusHandler_TryAdvanceScript,
 };
 
+static const u16 sSurfMusicTable[][3] =
+{
+    // Hoenn   // Kanto     // Sevii
+    {MUS_SURF, MUS_RG_SURF, MUS_RG_SURF},
+};
+
 // code
 void DoWhiteOut(void)
 {
@@ -1134,7 +1140,7 @@ void Overworld_PlaySpecialMapMusic(void)
         else if (GetCurrentMapType() == MAP_TYPE_UNDERWATER)
             music = MUS_UNDERWATER;
         else if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
-            music = (gMapHeader.region) ? MUS_RG_SURF : MUS_SURF;
+            music = sSurfMusicTable[0][gMapHeader.region];
     }
 
     if (music != GetCurrentMapMusic())
@@ -1160,11 +1166,10 @@ static void TransitionMapMusic(void)
         if (newMusic != MUS_ABNORMAL_WEATHER && newMusic != MUS_NONE)
         {
             if (currentMusic == MUS_UNDERWATER
-             || currentMusic == MUS_SURF
-             || currentMusic == MUS_RG_SURF)
+             || currentMusic == sSurfMusicTable[0][gMapHeader.region])
                 return;
             if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
-                newMusic = (gMapHeader.region) ? MUS_RG_SURF : MUS_SURF;
+                newMusic = sSurfMusicTable[0][gMapHeader.region];
         }
         if (newMusic != currentMusic)
         {
@@ -1205,7 +1210,7 @@ void TryFadeOutOldMapMusic(void)
     u16 warpMusic = GetWarpDestinationMusic();
     if (FlagGet(FLAG_DONT_TRANSITION_MUSIC) != TRUE && warpMusic != GetCurrentMapMusic())
     {
-        if (currentMusic == MUS_SURF
+        if (currentMusic == sSurfMusicTable[0][gMapHeader.region]
             && VarGet(VAR_SKY_PILLAR_STATE) == 2
             && gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(SOOTOPOLIS_CITY)
             && gSaveBlock1Ptr->location.mapNum == MAP_NUM(SOOTOPOLIS_CITY)

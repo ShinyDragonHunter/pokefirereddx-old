@@ -3036,19 +3036,18 @@ static void BufferMonTrainerMemo(void)
         u8 *metLevelString = Alloc(32);
         u8 *metLocationString = Alloc(32);
         GetMetLevelString(metLevelString);
-
         if (sum->metGame == VERSION_CRYSTAL_DUST && sum->metLocation < KANTO_MAPSEC_START)
         {
             mapsecShift = JOHTO_MAPSEC_START;
-            maxMapsec = JOHTO_MAPSEC_END;
+            maxMapsec = JOHTO_REGION(END);
         }
         if (sum->metGame == VERSION_GAMECUBE)
         {
             mapsecShift = ORRE_MAPSEC_START;
-            maxMapsec = ORRE_MAPSEC_END;
+            maxMapsec = ORRE_REGION(END);
             var = sOrreMetLocationTable[sum->metLocation][sMonSummaryScreen->eventLegal];
         }
-        if (mapsecShift < maxMapsec)
+        if (sum->metLocation < maxMapsec)
         {
             GetMapNameGeneric(metLocationString, var);
             DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
@@ -3085,27 +3084,25 @@ static void BufferMonTrainerMemo(void)
         }
         else if (sum->metLocation != METLOC_IN_GAME_TRADE)
         {
-            if (sum->metLocation >= maxMapsec)
-                text = gText_XNatureObtainedInTrade;
-            else
-                text = gText_XNatureProbablyMetAt;
+            text = (sum->metLocation >= maxMapsec) ? gText_XNatureObtainedInTrade : gText_XNatureProbablyMetAt;
         }
         else
         {
             text = gText_XNatureObtainedInTrade;
         }
+
         if (sum->metGame == VERSION_GAMECUBE)
         {
-            if (sum->metLocation == ORRE_REGION(DISTANT_LAND))
+            if (var == ORRE_MAPSEC_DISTANT_LAND)
             {
-                gText_XNatureMetDistantLand;
+                text = gText_XNatureMetDistantLand;
             }
-            if (sum->metLocation == ORRE_REGION(XD_STARTER_EEVEE))
+            if (var == ORRE_MAPSEC_XD_STARTER)
             {
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, sum->OTName);
                 text = gText_ObtainedFromDad;
             }
-            if (sum->metLocation == ORRE_REGION(STARTER_AND_PLUSLE))
+            if (var == ORRE_MAPSEC_STARTER_AND_PLUSLE)
             {
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, sum->OTName);
                 text = (sum->species == SPECIES_PLUSLE) ? gText_Receivedfrom : gText_OldFriend;
@@ -3207,8 +3204,6 @@ static void PrintEggState(void)
 
     PrintTextOnWindow(AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_ABILITY), text, 0, 1, 0, 0);
 }
-
-#define JOHTO_REGION(location)(JOHTO_MAPSEC_##location - JOHTO_MAPSEC_START)
 
 static void PrintEggMemo(void)
 {

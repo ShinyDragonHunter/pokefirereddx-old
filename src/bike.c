@@ -124,6 +124,12 @@ static const struct BikeHistoryInputInfo sAcroBikeTricksList[] =
     {DIR_EAST, B_BUTTON, 0xF, 0xF, sAcroBikeJumpTimerList, sAcroBikeJumpTimerList, DIR_EAST},
 };
 
+static const u16 sBikeMusicTable[][3] =
+{
+    // Hoenn      // Kanto        // Sevii
+    {MUS_CYCLING, MUS_RG_CYCLING, MUS_RG_CYCLING},
+};
+
 // code
 void MovePlayerOnBike(u8 direction, u16 newKeys, u16 heldKeys)
 {
@@ -899,9 +905,8 @@ bool32 IsRunningDisallowed(u8 metatile)
 
 static bool8 IsRunningDisallowedByMetatile(u8 tile)
 {
-    if (MetatileBehavior_IsRunningDisallowed(tile))
-        return TRUE;
-    if (MetatileBehavior_IsFortreeBridge(tile) && (PlayerGetZCoord() & 1) == 0)
+    if (MetatileBehavior_IsRunningDisallowed(tile)
+     || (MetatileBehavior_IsFortreeBridge(tile) && (PlayerGetZCoord() & 1) == 0))
         return TRUE;
     return FALSE;
 }
@@ -982,17 +987,10 @@ void GetOnOffBike(u8 transitionFlags)
     }
     else
     {
+        u16 music = sBikeMusicTable[0][gMapHeader.region];
         SetPlayerAvatarTransitionFlags(transitionFlags);
-        if (gMapHeader.region)
-        {
-            Overworld_SetSavedMusic(MUS_RG_CYCLING);
-            Overworld_ChangeMusicTo(MUS_RG_CYCLING);
-        }
-        else
-        {
-            Overworld_SetSavedMusic(MUS_CYCLING);
-            Overworld_ChangeMusicTo(MUS_CYCLING);
-        }
+        Overworld_SetSavedMusic(music);
+        Overworld_ChangeMusicTo(music);
     }
 }
 

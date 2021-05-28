@@ -2,7 +2,6 @@
 #define GUARD_DATA_ORRE_REGION_MAP_REGION_MAP_ENTRIES_H
 
 // Colosseum/XD met location strings
-
 static const u8 sMapName_OutskirtStand[] = _("OUTSKIRT STAND");
 static const u8 sMapName_CipherLab[] = _("CIPHER LAB");
 static const u8 sMapName_PhenacCity[] = _("PHENAC CITY");
