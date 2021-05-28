@@ -70,6 +70,7 @@ static bool8 sLocked;
 static void WriteCommand(u8 value);
 static void WriteData(u8 value);
 static u8 ReadData();
+
 static void EnableGpioPortRead();
 static void DisableGpioPortRead();
 
@@ -97,7 +98,7 @@ u8 SiiRtcProbe(void)
 
     errorCode = 0;
 
-    if (rtc.status & (SIIRTCINFO_POWER | ~SIIRTCINFO_24HOUR))
+    if (!(rtc.status & SIIRTCINFO_24HOUR) || (rtc.status & SIIRTCINFO_POWER))
     {
         // The RTC is in 12-hour mode. Reset it and switch to 24-hour mode.
 
@@ -124,7 +125,7 @@ u8 SiiRtcProbe(void)
 
 bool8 SiiRtcReset(void)
 {
-    u8 result;
+    bool8 result;
     struct SiiRtcInfo rtc;
 
     if (sLocked)
@@ -381,6 +382,8 @@ static void WriteCommand(u8 value)
         GPIO_PORT_DATA = (temp << 1) | CS_HI;
         GPIO_PORT_DATA = (temp << 1) | SCK_HI | CS_HI;
     }
+
+    return 0;
 }
 
 static void WriteData(u8 value)
@@ -396,6 +399,8 @@ static void WriteData(u8 value)
         GPIO_PORT_DATA = (temp << 1) | CS_HI;
         GPIO_PORT_DATA = (temp << 1) | SCK_HI | CS_HI;
     }
+
+    return 0;
 }
 
 static u8 ReadData()
@@ -422,10 +427,10 @@ static u8 ReadData()
 
 static void EnableGpioPortRead()
 {
-    GPIO_PORT_READ_ENABLE = 1;
+    GPIO_PORT_READ_ENABLE = TRUE;
 }
 
 static void DisableGpioPortRead()
 {
-    GPIO_PORT_READ_ENABLE = 0;
+    GPIO_PORT_READ_ENABLE = FALSE;
 }
