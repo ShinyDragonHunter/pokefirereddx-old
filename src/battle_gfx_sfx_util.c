@@ -538,7 +538,7 @@ bool8 IsBattleSEPlaying(u8 battlerId)
     return TRUE;
 }
 
-void BattleLoadOpponentMonSpriteGfx(struct Pokemon *mon, u8 battlerId)
+static void BattleLoadMonSpriteGfx(struct Pokemon *mon, u8 battlerId, bool32 opponent)
 {
     u32 monsPersonality, currentPersonality, otId;
     u16 species;
@@ -563,7 +563,10 @@ void BattleLoadOpponentMonSpriteGfx(struct Pokemon *mon, u8 battlerId)
     otId = GetMonData(mon, MON_DATA_OT_ID);
     position = GetBattlerPosition(battlerId);
 
-    HandleLoadSpecialPokePic(&gMonFrontPicTable[species], gMonSpritesGfxPtr->sprites.ptr[position], species, currentPersonality);
+    if (opponent)
+        HandleLoadSpecialPokePic(&gMonFrontPicTable[species], gMonSpritesGfxPtr->sprites.ptr[position], species, currentPersonality);
+    else
+        HandleLoadSpecialPokePic(&gMonBackPicTable[species], gMonSpritesGfxPtr->sprites.ptr[position], species, currentPersonality);
 
     paletteOffset = 0x100 + battlerId * 16;
 
@@ -593,64 +596,14 @@ void BattleLoadOpponentMonSpriteGfx(struct Pokemon *mon, u8 battlerId)
     }
 }
 
-void BattleLoadPlayerMonSpriteGfx(struct Pokemon *mon, u8 battlerId)
+void BattleLoadOpponentMonSpriteGfx(struct Pokemon *mon, u8 battlerId)
 {
-    u32 monsPersonality, currentPersonality, otId;
-    u16 species;
-    u8 position;
-    u16 paletteOffset;
-    const void *paletteData;
-
-    monsPersonality = GetMonData(mon, MON_DATA_PERSONALITY);
-
-    if (gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies)
-    {
-        species = gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies;
-        currentPersonality = gTransformedPersonalities[battlerId];
-    }
-    else
-    {
-        species = GetFormSpecies(GetMonData(mon, MON_DATA_SPECIES),
-                                GetMonData(mon, MON_DATA_FORM));
-        currentPersonality = monsPersonality;
-    }
-
-    otId = GetMonData(mon, MON_DATA_OT_ID);
-    position = GetBattlerPosition(battlerId);
-
-    HandleLoadSpecialPokePic(&gMonBackPicTable[species], gMonSpritesGfxPtr->sprites.ptr[position], species, currentPersonality);
-
-    paletteOffset = 0x100 + battlerId * 16;
-
-    if (gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies)
-        paletteData = GetMonSpritePalFromSpeciesAndPersonality(species, otId, currentPersonality);
-    else
-        paletteData = GetMonFrontSpritePal(mon);
-
-    LoadPalette(paletteData, paletteOffset, 0x20);
-
-    if (species == SPECIES_CASTFORM)
-    {
-        paletteOffset = 0x80 + battlerId * 16;
-        LoadPalette(gBattleStruct->castformPalette[battlerId], paletteOffset, 32);
-    }
-
-	UniquePalette(0x100 + battlerId * 16, currentPersonality);
-	CpuCopy32(gPlttBufferFaded + 0x100 + battlerId * 16, gPlttBufferUnfaded + 0x100 + battlerId * 16, 32);
-	UniquePalette(0x80 + battlerId * 16, currentPersonality);
-	CpuCopy32(gPlttBufferFaded + 0x80 + battlerId * 16, gPlttBufferUnfaded + 0x80 + battlerId * 16, 32);
-
-    // transform's pink color
-    if (gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies)
-    {
-        BlendPalette(paletteOffset, 16, 6, RGB_WHITE);
-        CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
-    }
+    BattleLoadMonSpriteGfx(mon, battlerId, TRUE);
 }
 
-// Unused
-static void BattleGfxSfxDummy1(void)
+void BattleLoadPlayerMonSpriteGfx(struct Pokemon *mon, u8 battlerId)
 {
+    BattleLoadMonSpriteGfx(mon, battlerId, FALSE);
 }
 
 void BattleGfxSfxDummy2(u16 species)
