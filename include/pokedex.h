@@ -1,7 +1,6 @@
 #ifndef GUARD_POKEDEX_H
 #define GUARD_POKEDEX_H
 
-extern u8 gUnusedPokedexU8;
 extern void (*gPokedexVBlankCB)(void);
 
 enum
