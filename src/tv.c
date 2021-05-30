@@ -1032,7 +1032,7 @@ void TryPutPokemonTodayOnAir(void)
                     if (gBattleResults.usedMasterBall)
                     {
                         ballsUsed = 1;
-                        itemLastUsed = ITEM_MASTER_BALL;
+                        itemLastUsed = MASTER_BALL;
                     }
                     else
                     {
@@ -1921,7 +1921,7 @@ void TryPutBreakingNewsOnAir(void)
         {
         case 0:
             if (gBattleResults.usedMasterBall)
-                show->breakingNews.caughtMonBall = ITEM_MASTER_BALL;
+                show->breakingNews.caughtMonBall = MASTER_BALL;
             else
                 show->breakingNews.caughtMonBall = gBattleResults.caughtMonBall;
             show->breakingNews.balls = balls;
@@ -3129,10 +3129,10 @@ void GetMomOrDadStringForTVMessage(void)
     }
     else if (VarGet(VAR_TEMP_3) > 2)
     {
-        if (VarGet(VAR_TEMP_3) % 2 == 0)
-            StringCopy(gStringVar1, gText_Mom);
-        else
+        if (VarGet(VAR_TEMP_3) % 2)
             StringCopy(gStringVar1, gText_Dad);
+        else
+            StringCopy(gStringVar1, gText_Mom);
     }
     else
     {
@@ -3269,7 +3269,7 @@ static bool8 TryMixTVShow(TVShow *dest[TV_SHOWS_COUNT], TVShow *src[TV_SHOWS_COU
     }
     
     // Show was mixed, delete from array
-    if (success == TRUE)
+    if (success)
     {
         DeleteTVShowInArrayByIdx(tv2, sTVShowMixingCurSlot);
         return TRUE;
@@ -3656,82 +3656,6 @@ static void ClearPokeNewsIfGameNotComplete(void)
         for (i = 0; i < POKE_NEWS_COUNT; i++)
             gSaveBlock1Ptr->pokeNews[i].state = 0;
     }
-}
-
-#define SetStrLanguage(strptr, langptr, langfix) \
-if (IsStringJapanese(strptr)) \
-{   \
-    (langptr) = LANGUAGE_JAPANESE; \
-} \
-else \
-{ \
-    (langptr) = langfix; \
-}
-
-// Unused
-static void TranslateShowNames(TVShow *show, u32 language)
-{
-    int i;
-    TVShow **shows;
-
-    shows = calloc(11, sizeof(TVShow *));
-    for (i = 0; i < LAST_TVSHOW_IDX; i++)
-    {
-        switch (show[i].common.kind)
-        {
-        case TVSHOW_FAN_CLUB_LETTER:
-        case TVSHOW_RECENT_HAPPENINGS: // NOTE: These two shows are assumed to have the same struct layout
-            shows[0] = &show[i];
-            SetStrLanguage(shows[0]->fanclubLetter.playerName, shows[0]->fanclubLetter.language, language);
-            break;
-        case TVSHOW_PKMN_FAN_CLUB_OPINIONS:
-            shows[1] = &show[i];
-            SetStrLanguage(shows[1]->fanclubOpinions.playerName, shows[1]->fanclubOpinions.language, language);
-            SetStrLanguage(shows[1]->fanclubOpinions.nickname, shows[1]->fanclubOpinions.pokemonNameLanguage, language);
-            break;
-        case TVSHOW_POKEMON_TODAY_CAUGHT:
-            shows[6] = &show[i];
-            SetStrLanguage(shows[6]->pokemonToday.playerName, shows[6]->pokemonToday.language, language);
-            SetStrLanguage(shows[6]->pokemonToday.nickname, shows[6]->pokemonToday.language2, language);
-            break;
-        case TVSHOW_SMART_SHOPPER:
-            shows[7] = &show[i];
-            SetStrLanguage(shows[7]->smartshopperShow.playerName, shows[7]->smartshopperShow.language, language);
-            break;
-        case TVSHOW_BRAVO_TRAINER_BATTLE_TOWER_PROFILE:
-            shows[5] = &show[i];
-            SetStrLanguage(shows[5]->bravoTrainerTower.trainerName, shows[5]->bravoTrainerTower.language, language);
-            SetStrLanguage(shows[5]->bravoTrainerTower.pokemonName, shows[5]->bravoTrainerTower.pokemonNameLanguage, language);
-            break;
-        case TVSHOW_BRAVO_TRAINER_POKEMON_PROFILE:
-            shows[4] = &show[i];
-            SetStrLanguage(shows[4]->bravoTrainer.playerName, shows[4]->bravoTrainer.language, language);
-            SetStrLanguage(shows[4]->bravoTrainer.pokemonNickname, shows[4]->bravoTrainer.pokemonNameLanguage, language);
-            break;
-        case TVSHOW_NAME_RATER_SHOW:
-            shows[3] = &show[i];
-            SetStrLanguage(shows[3]->nameRaterShow.trainerName, shows[3]->nameRaterShow.language, language);
-            SetStrLanguage(shows[3]->nameRaterShow.pokemonName, shows[3]->nameRaterShow.pokemonNameLanguage, language);
-            break;
-        case TVSHOW_POKEMON_TODAY_FAILED:
-            shows[2] = &show[i];
-            SetStrLanguage(shows[2]->pokemonTodayFailed.playerName, shows[2]->pokemonTodayFailed.language, language);
-            break;
-        case TVSHOW_FISHING_ADVICE:
-            shows[8] = &show[i];
-            SetStrLanguage(shows[8]->pokemonAngler.playerName, shows[8]->pokemonAngler.language, language);
-            break;
-        case TVSHOW_WORLD_OF_MASTERS:
-            shows[9] = &show[i];
-            SetStrLanguage(shows[9]->worldOfMasters.playerName, shows[9]->worldOfMasters.language, language);
-            break;
-        case TVSHOW_MASS_OUTBREAK:
-            shows[10] = &show[i];
-            shows[10]->massOutbreak.language = language;
-            break;
-        }
-    }
-    free(shows);
 }
 
 void SanitizeTVShowsForRuby(TVShow *shows)
@@ -4354,7 +4278,7 @@ static void DoTVShowPokemonTodaySuccessfulCapture(void)
         TVShowConvertInternationalString(gStringVar1, show->pokemonToday.playerName, show->pokemonToday.language);
         StringCopy(gStringVar2, gSpeciesNames[show->pokemonToday.species]);
         TVShowConvertInternationalString(gStringVar3, show->pokemonToday.nickname, show->pokemonToday.language2);
-        if (show->pokemonToday.ball == ITEM_MASTER_BALL)
+        if (show->pokemonToday.ball == MASTER_BALL)
             sTVShowState = 5;
         else
             sTVShowState = 1;

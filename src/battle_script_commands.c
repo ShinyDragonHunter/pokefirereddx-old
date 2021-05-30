@@ -1633,11 +1633,6 @@ static inline void ApplyRandomDmgMultiplier(void)
     }
 }
 
-static void Unused_ApplyRandomDmgMultiplier(void)
-{
-    ApplyRandomDmgMultiplier();
-}
-
 static void Cmd_adjustnormaldamage(void)
 {
     u8 holdEffect, param;

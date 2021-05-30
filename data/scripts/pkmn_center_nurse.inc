@@ -16,11 +16,11 @@ EventScript_PkmnCenterNurse_Goodbye:: @ 8271954
 
 EventScript_PkmnCenterNurse_GetTime::
     gettime
-    compare VAR_0x8003, TIME_MORNING
+    compare VAR_0x8002, TIME_MORNING
     call_if_eq EventScript_PkmnCenterNurse_IntroMorning
-    compare VAR_0x8003, TIME_DAY
+    compare VAR_0x8002, TIME_DAY
     call_if_eq EventScript_PkmnCenterNurse_IntroDay
-    compare VAR_0x8003, TIME_NIGHT
+    compare VAR_0x8002, TIME_NIGHT
     call_if_eq EventScript_PkmnCenterNurse_IntroNight
     return
 
