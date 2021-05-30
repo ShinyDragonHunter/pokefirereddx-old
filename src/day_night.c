@@ -7,6 +7,8 @@
 #include "overworld.h"
 #include "palette.h"
 #include "rtc.h"
+#include "strings.h"
+#include "string_util.h"
 #include "constants/day_night.h"
 #include "constants/region_map_sections.h"
 #include "constants/rgb.h"
@@ -54,6 +56,17 @@ const u16 sTimeOfDayTints[][3] = {
     [23] =  {TINT_NIGHT},
 };
 
+const u8 *const gDayOfWeekTable[] = 
+{
+    gText_Sunday,
+    gText_Monday,
+    gText_Tuesday,
+    gText_Wednesday,
+    gText_Thursday,
+    gText_Friday,
+    gText_Saturday
+};
+
 u8 GetCurrentTimeOfDay(void)
 {
     return GetTimeOfDay(gLocalTime.hours);
@@ -69,6 +82,28 @@ u8 GetTimeOfDay(s8 hours)
         return TIME_NIGHT;
 }
 
+const u8 *GetDayOfWeekString(u8 dayOfWeek)
+{
+    return gDayOfWeekTable[dayOfWeek];
+}
+
+void CopyDayOfWeekStringToVar1(void)
+{
+    if (gSpecialVar_0x8004 <= DAY_SATURDAY)
+        StringCopy(gStringVar1, gDayOfWeekTable[gSpecialVar_0x8004]);
+    else
+        StringCopy(gStringVar1, gText_None);
+}
+
+void CopyCurrentDayOfWeekStringToVar1(void)
+{
+    RtcCalcLocalTime();
+    if (gLocalTime.dayOfWeek <= DAY_SATURDAY)
+        StringCopy(gStringVar1, gDayOfWeekTable[gLocalTime.dayOfWeek]);
+    else
+        StringCopy(gStringVar1, gText_None);
+}
+
 static void LoadPaletteOverrides(void)
 {
     u8 i, j;
@@ -76,7 +111,7 @@ static void LoadPaletteOverrides(void)
     u16* dest;
     s8 hour;
 
-    hour = gLocalTime.hours;
+    hour = (gMapHeader.regionMapSectionId == MAPSEC_PETALBURG_WOODS) ? 0 : gLocalTime.hours;
 
     for (i = 0; i < ARRAY_COUNT(gPaletteOverrides); i++)
     {

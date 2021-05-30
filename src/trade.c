@@ -1897,7 +1897,7 @@ static void BufferTradeMonMoves(u8 *str, u8 whichParty, u8 partyIdx)
             }
         }
 
-        StringCopy(str, sText_EmptyString);
+        StringCopy(str, gText_GenderlessSymbol);
 
         for (i = 0; i < MAX_MON_MOVES; i++)
         {
@@ -1911,7 +1911,7 @@ static void BufferTradeMonMoves(u8 *str, u8 whichParty, u8 partyIdx)
     }
     else
     {
-        StringCopy(str, sText_EmptyString);
+        StringCopy(str, gText_GenderlessSymbol);
         StringAppend(str, sText_FourQuestionMarks);
     }
 }

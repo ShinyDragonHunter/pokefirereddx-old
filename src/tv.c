@@ -1032,7 +1032,7 @@ void TryPutPokemonTodayOnAir(void)
                     if (gBattleResults.usedMasterBall)
                     {
                         ballsUsed = 1;
-                        itemLastUsed = BALL_MASTER;
+                        itemLastUsed = ITEM_MASTER_BALL;
                     }
                     else
                     {
@@ -1921,7 +1921,7 @@ void TryPutBreakingNewsOnAir(void)
         {
         case 0:
             if (gBattleResults.usedMasterBall)
-                show->breakingNews.caughtMonBall = BALL_MASTER;
+                show->breakingNews.caughtMonBall = ITEM_MASTER_BALL;
             else
                 show->breakingNews.caughtMonBall = gBattleResults.caughtMonBall;
             show->breakingNews.balls = balls;

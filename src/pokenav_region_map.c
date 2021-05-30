@@ -504,7 +504,7 @@ static void LoadPokenavRegionMapGfx(struct Pokenav5Struct_2 *state)
     CpuFill16(0x1040, state->tilemapBuffer, 0x800);
     SetBgTilemapBuffer(1, state->tilemapBuffer);
     state->infoWindowId = AddWindow(&sMapSecInfoWindowTemplate);
-    LoadUserWindowBorderGfx_(state->infoWindowId, 0x42, 0x40);
+    LoadThinWindowBorderGfx(state->infoWindowId, 0x42, 0x40);
     DrawTextBorderOuter(state->infoWindowId, 0x42, 4);
     DecompressAndCopyTileDataToVram(1, sRegionMapCityZoomTiles_Gfx, 0, 0, 0);
     FillWindowPixelBuffer(state->infoWindowId, PIXEL_FILL(1));

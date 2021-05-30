@@ -493,15 +493,6 @@ static const struct Subsprite sUnknown_0832C260[] =
     }
 };
 
-// unused subsprite table
-static const struct SubspriteTable sUnknown_0832C26C[] =
-{
-    {ARRAY_COUNT(sUnknown_0832C220), sUnknown_0832C220},
-    {ARRAY_COUNT(sUnknown_0832C248), sUnknown_0832C248},
-    {ARRAY_COUNT(sUnknown_0832C234), sUnknown_0832C234},
-    {ARRAY_COUNT(sUnknown_0832C250), sUnknown_0832C250}
-};
-
 static const struct SubspriteTable sUnknown_0832C28C[] =
 {
     {ARRAY_COUNT(sUnknown_0832C258), sUnknown_0832C258},
@@ -606,9 +597,6 @@ static const struct SubspriteTable sUnknown_0832C2CC[] =
     {ARRAY_COUNT(sUnknown_0832C2AC), sUnknown_0832C2AC}
 };
 
-// unused unknown image
-static const u8 sUnknown_0832C2D4[] = INCBIN_U8("graphics/battle_interface/unknown_32C2D4.4bpp");
-
 static const struct CompressedSpriteSheet sStatusSummaryBarSpriteSheet =
 {
     gBattleInterface_BallStatusBarGfx, 0x200, TAG_STATUS_SUMMARY_BAR_TILE
@@ -627,24 +615,6 @@ static const struct SpritePalette sStatusSummaryBallsSpritePal =
 static const struct SpriteSheet sStatusSummaryBallsSpriteSheet =
 {
     gBattleInterface_BallDisplayGfx, 0x80, TAG_STATUS_SUMMARY_BALLS_TILE
-};
-
-// unused oam data
-static const struct OamData sUnknown_0832C354 =
-{
-    .y = 0,
-    .affineMode = ST_OAM_AFFINE_OFF,
-    .objMode = ST_OAM_OBJ_NORMAL,
-    .mosaic = 0,
-    .bpp = ST_OAM_4BPP,
-    .shape = SPRITE_SHAPE(64x32),
-    .x = 0,
-    .matrixNum = 0,
-    .size = SPRITE_SIZE(64x32),
-    .tileNum = 0,
-    .priority = 1,
-    .paletteNum = 0,
-    .affineParam = 0,
 };
 
 static const struct OamData sOamData_StatusSummaryBalls =

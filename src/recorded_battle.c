@@ -228,12 +228,6 @@ u8 RecordedBattle_GetBattlerAction(u8 battlerId)
     }
 }
 
-// Unused
-static u8 GetRecordedBattleMode(void)
-{
-    return sRecordMode;
-}
-
 u8 RecordedBattle_BufferNewBattlerData(u8 *dst)
 {
     u8 i, j;
@@ -304,11 +298,9 @@ bool32 CanCopyRecordedBattleSaveData(void)
 
 static bool32 IsRecordedBattleSaveValid(struct RecordedBattleSave *save)
 {
-    if (save->battleFlags == 0)
-        return FALSE;
-    if (save->battleFlags & ILLEGAL_BATTLE_TYPES)
-        return FALSE;
-    if (CalcByteArraySum((void*)(save), sizeof(*save) - 4) != save->checksum)
+    if (save->battleFlags == 0
+     || save->battleFlags & ILLEGAL_BATTLE_TYPES
+     || CalcByteArraySum((void*)(save), sizeof(*save) - 4) != save->checksum)
         return FALSE;
 
     return TRUE;
@@ -715,11 +707,9 @@ void RecordedBattle_CopyBattlerMoves(void)
 {
     s32 i;
 
-    if (GetBattlerSide(gActiveBattler) == B_SIDE_OPPONENT)
-        return;
-    if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK))
-        return;
-    if (sRecordMode == B_RECORD_MODE_PLAYBACK)
+    if (GetBattlerSide(gActiveBattler) == B_SIDE_OPPONENT
+     || gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK)
+     || sRecordMode == B_RECORD_MODE_PLAYBACK)
         return;
 
     for (i = 0; i < MAX_MON_MOVES; i++)

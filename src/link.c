@@ -1259,15 +1259,7 @@ bool8 DoesLinkPlayerCountMatchSaved(void)
 void ClearSavedLinkPlayers(void)
 {
     int i;
-    // The CpuSet loop below is incorrectly writing to NULL
-    // instead of sSavedLinkPlayers.
-    // Additionally it's using the wrong array size.
-#ifdef UBFIX
     memset(sSavedLinkPlayers, 0, sizeof(sSavedLinkPlayers));
-#else
-    for (i = 0; i < MAX_LINK_PLAYERS; i++)
-        CpuSet(&sSavedLinkPlayers[i], NULL, sizeof(struct LinkPlayer));
-#endif
 }
 
 void CheckLinkPlayersMatchSaved(void)
@@ -1759,12 +1751,6 @@ bool32 IsLinkRecvQueueLengthAtLeast3(void)
         return TRUE;
 
     return FALSE;
-}
-
-// Unused
-u8 GetWirelessCommType(void)
-{
-    return gWirelessCommType;
 }
 
 void ConvertLinkPlayerName(struct LinkPlayer *player)

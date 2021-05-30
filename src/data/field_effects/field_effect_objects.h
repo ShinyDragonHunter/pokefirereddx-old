@@ -569,18 +569,6 @@ const struct SpriteTemplate gFieldEffectObjectTemplate_JumpLongGrass = {
     .callback = UpdateJumpImpactEffect,
 };
 
-static const struct SpriteFrameImage sPicTable_UnusedGrass[] = {
-    overworld_frame(gFieldEffectObjectPic_JumpLongGrass, 2, 2, 6),
-    overworld_frame(gFieldEffectObjectPic_Unknown17, 2, 2, 0),
-    overworld_frame(gFieldEffectObjectPic_Unknown17, 2, 2, 1),
-    overworld_frame(gFieldEffectObjectPic_Unknown17, 2, 2, 2),
-    overworld_frame(gFieldEffectObjectPic_Unknown17, 2, 2, 3),
-    overworld_frame(gFieldEffectObjectPic_Unknown17, 2, 2, 4),
-    overworld_frame(gFieldEffectObjectPic_Unknown17, 2, 2, 5),
-    overworld_frame(gFieldEffectObjectPic_Unknown17, 2, 2, 6),
-    overworld_frame(gFieldEffectObjectPic_Unknown17, 2, 2, 7),
-};
-
 static const struct SpriteFrameImage sPicTable_SandPile[] = {
     overworld_frame(gFieldEffectObjectPic_SandPile, 2, 1, 0),
     overworld_frame(gFieldEffectObjectPic_SandPile, 2, 1, 1),

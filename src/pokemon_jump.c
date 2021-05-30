@@ -52,7 +52,6 @@ enum {
 
 enum {
     PACKET_MON_INFO = 1,
-    PACKET_UNUSED,
     PACKET_LEADER_STATE,
     PACKET_MEMBER_STATE,
 };
@@ -3956,23 +3955,6 @@ static bool32 RecvPacket_MonInfo(int multiplayerId, struct PokemonJump_MonInfo *
     return FALSE;
 }
 
-struct UnusedPacket
-{
-    u8 id;
-    u32 data;
-    u32 filler;
-};
-
-// Data packet that's never sent
-// No function to read it either
-static void SendPacket_Unused(u32 data)
-{
-    struct UnusedPacket packet;
-    packet.id = PACKET_UNUSED;
-    packet.data = data;
-    Rfu_SendPacket(&packet);
-}
-
 struct LeaderStatePacket
 {
     u8 id;
@@ -4210,7 +4192,7 @@ static void PrintRecordsText(u16 windowId, int width)
     recordNums[1] = records->bestJumpScore;
     recordNums[2] = records->excellentsInRow;
 
-    LoadUserWindowBorderGfx_(windowId, 0x21D, 0xD0);
+    LoadThinWindowBorderGfx(windowId, 0x21D, 0xD0);
     DrawTextBorderOuter(windowId, 0x21D, 0xD);
     FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
     AddTextPrinterParameterized(windowId, 2, gText_PkmnJumpRecords, GetStringCenterAlignXOffset(1, gText_PkmnJumpRecords, width * 8), 1, TEXT_SPEED_FF, NULL);

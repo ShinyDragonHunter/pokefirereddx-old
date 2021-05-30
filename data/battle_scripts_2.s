@@ -13,27 +13,27 @@
 
 	.align 2
 gBattlescriptsForBallThrow:: @ 82DBD08
-	.4byte BattleScript_BallThrow        @ BALL_NONE
-	.4byte BattleScript_BallThrow        @ BALL_MASTER
-	.4byte BattleScript_BallThrow        @ BALL_ULTRA
-	.4byte BattleScript_BallThrow        @ BALL_GREAT
-	.4byte BattleScript_BallThrow        @ BALL_POKE
-	.4byte BattleScript_SafariBallThrow  @ BALL_SAFARI
-	.4byte BattleScript_BallThrow        @ BALL_NET
-	.4byte BattleScript_BallThrow        @ BALL_DIVE
-	.4byte BattleScript_BallThrow        @ BALL_NEST
-	.4byte BattleScript_BallThrow        @ BALL_REPEAT
-	.4byte BattleScript_BallThrow        @ BALL_TIMER
-	.4byte BattleScript_BallThrow        @ BALL_LUXURY
-	.4byte BattleScript_BallThrow        @ BALL_PREMIER
-	.4byte BattleScript_BallThrow        @ BALL_LEVEL
-	.4byte BattleScript_BallThrow        @ BALL_LURE
-	.4byte BattleScript_BallThrow        @ BALL_MOON
-	.4byte BattleScript_BallThrow        @ BALL_FRIEND
-	.4byte BattleScript_BallThrow        @ BALL_FAST
-	.4byte BattleScript_BallThrow        @ BALL_HEAVY
-	.4byte BattleScript_BallThrow        @ BALL_LOVE
-	.4byte BattleScript_BallThrow        @ BALL_PARK
+	.4byte BattleScript_BallThrow        @ ITEM_NONE
+	.4byte BattleScript_BallThrow        @ ITEM_MASTER_BALL
+	.4byte BattleScript_BallThrow        @ ITEM_ULTRA_BALL
+	.4byte BattleScript_BallThrow        @ ITEM_GREAT_BALL
+	.4byte BattleScript_BallThrow        @ ITEM_POKE_BALL
+	.4byte BattleScript_SafariBallThrow  @ ITEM_SAFARI_BALL
+	.4byte BattleScript_BallThrow        @ ITEM_NET_BALL
+	.4byte BattleScript_BallThrow        @ ITEM_DIVE_BALL
+	.4byte BattleScript_BallThrow        @ ITEM_NEST_BALL
+	.4byte BattleScript_BallThrow        @ ITEM_REPEAT_BALL
+	.4byte BattleScript_BallThrow        @ ITEM_TIMER_BALL
+	.4byte BattleScript_BallThrow        @ ITEM_LUXURY_BALL
+	.4byte BattleScript_BallThrow        @ ITEM_PREMIER_BALL
+	.4byte BattleScript_BallThrow        @ ITEM_LEVEL_BALL
+	.4byte BattleScript_BallThrow        @ ITEM_LURE_BALL
+	.4byte BattleScript_BallThrow        @ ITEM_MOON_BALL
+	.4byte BattleScript_BallThrow        @ ITEM_FRIEND_BALL
+	.4byte BattleScript_BallThrow        @ ITEM_FAST_BALL
+	.4byte BattleScript_BallThrow        @ ITEM_HEAVY_BALL
+	.4byte BattleScript_BallThrow        @ ITEM_LOVE_BALL
+	.4byte BattleScript_BallThrow        @ ITEM_PARK_BALL
 
 	.align 2
 gBattlescriptsForUsingItem:: @ 82DBD3C

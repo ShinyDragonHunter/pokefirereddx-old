@@ -3,12 +3,11 @@
 
 enum
 {
-    BALL_NONE,
-    BALL_MASTER,
-    BALL_ULTRA,
-    BALL_GREAT,
     BALL_POKE,
+    BALL_GREAT,
     BALL_SAFARI,
+    BALL_ULTRA,
+    BALL_MASTER,
     BALL_NET,
     BALL_DIVE,
     BALL_NEST,
@@ -27,6 +26,31 @@ enum
     POKEBALL_COUNT
 };
 
+enum
+{
+    NONE,
+    MASTER_BALL,
+    ULTRA_BALL,
+    GREAT_BALL,
+    POKE_BALL,
+    SAFARI_BALL,
+    NET_BALL,
+    DIVE_BALL,
+    NEST_BALL,
+    REPEAT_BALL,
+    TIMER_BALL,
+    LUXURY_BALL,
+    PREMIER_BALL,
+    LEVEL_BALL,
+    LURE_BALL,
+    MOON_BALL,
+    FRIEND_BALL,
+    FAST_BALL,
+    HEAVY_BALL,
+    LOVE_BALL,
+    PARK_BALL
+};
+
 enum {
     BALL_AFFINE_ANIM_0,
     BALL_ROTATE_RIGHT,
@@ -36,8 +60,6 @@ enum {
 };
 
 extern const struct SpriteTemplate gBallSpriteTemplates[];
-
-#define FIRST_BALL BALL_MASTER
 
 #define POKEBALL_PLAYER_SENDOUT     0xFF
 #define POKEBALL_OPPONENT_SENDOUT   0xFE

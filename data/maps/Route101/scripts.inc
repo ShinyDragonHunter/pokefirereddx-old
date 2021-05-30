@@ -198,6 +198,14 @@ Route101_EventScript_Boy:: @ 81EBE04
 	end
 
 Route101_EventScript_RouteSign:: @ 81EBE0D
+	giveitem ITEM_LEVEL_BALL, 99
+	giveitem ITEM_LURE_BALL, 99
+	giveitem ITEM_MOON_BALL, 99
+	giveitem ITEM_FRIEND_BALL, 99
+	giveitem ITEM_FAST_BALL, 99
+	giveitem ITEM_HEAVY_BALL, 99
+	giveitem ITEM_LOVE_BALL, 99
+	giveitem ITEM_PARK_BALL, 99
 	msgbox Route101_Text_RouteSign, MSGBOX_SIGN
 	end
 

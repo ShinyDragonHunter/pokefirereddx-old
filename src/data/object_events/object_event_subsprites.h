@@ -386,39 +386,6 @@ static const struct SubspriteTable sOamTables_48x48[] = {
     {12, sOamTable_48x48}
 };
 
-static const struct Subsprite sOamTable_64x32_0[] = {
-    {
-        .x = -32, 
-        .y = -16, 
-        .shape = SPRITE_SHAPE(64x32), 
-        .size = SPRITE_SIZE(64x32), 
-        .tileOffset = 0, 
-        .priority = 2
-    }
-};
-
-static const struct Subsprite sOamTable_64x32_1[] = {
-    {
-        .x = -32, 
-        .y = -16, 
-        .shape = SPRITE_SHAPE(64x32), 
-        .size = SPRITE_SIZE(64x32), 
-        .tileOffset = 0, 
-        .priority = 1
-    }
-};
-
-
-// Unused
-static const struct SubspriteTable sOamTables_64x32[] = {
-    {0, NULL},
-    {1, sOamTable_64x32_0},
-    {1, sOamTable_64x32_1},
-    {1, sOamTable_64x32_0},
-    {1, sOamTable_64x32_0},
-    {1, sOamTable_64x32_0}
-};
-
 static const struct Subsprite sOamTable_64x64_0[] = {
     {
         .x = -32, 

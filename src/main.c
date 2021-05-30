@@ -35,7 +35,7 @@ const u8 gGameVersion = GAME_VERSION;
 
 const u8 gGameLanguage = GAME_LANGUAGE; // English
 
-const char BuildDateTime[] = "2005 02 21 11:10";
+const char BuildDateTime[] = __DATE__ " " __TIME__;
 
 const IntrFunc gIntrTableTemplate[] =
 {
@@ -69,13 +69,12 @@ u8 gLinkVSyncDisabled;
 u32 IntrMain_Buffer[0x200];
 s8 gPcmDmaCounter;
 
-static EWRAM_DATA u16 gTrainerId = 0;
-
-//EWRAM_DATA void (**gFlashTimerIntrFunc)(void) = NULL;
+EWRAM_DATA void (**gFlashTimerIntrFunc)(void) = NULL;
 
 static void UpdateLinkAndCallCallbacks(void);
 static void InitMainCallbacks(void);
 static void CallCallbacks(void);
+static void SeedRngWithRtc(void);
 static void ReadKeys(void);
 void InitIntrHandlers(void);
 static void WaitForVBlank(void);
@@ -102,6 +101,7 @@ void AgbMain()
     CheckForFlashMemory();
     InitMainCallbacks();
     InitMapMusic();
+    SeedRngWithRtc();
     ClearDma3Requests();
     ResetBgs();
     SetDefaultFontsPointer();
@@ -116,16 +116,16 @@ void AgbMain()
     {
         ReadKeys();
 
-        if (gSoftResetDisabled == FALSE
-         && (gMain.heldKeysRaw & A_BUTTON)
-         && (gMain.heldKeysRaw & B_START_SELECT) == B_START_SELECT)
+        if (!gSoftResetDisabled
+         && JOY_HELD_RAW(A_BUTTON)
+         && JOY_HELD_RAW(B_START_SELECT) == B_START_SELECT)
         {
             rfu_REQ_stopMode();
             rfu_waitREQComplete();
             DoSoftReset();
         }
 
-        if (Overworld_SendKeysToLinkIsRunning() == TRUE)
+        if (Overworld_SendKeysToLinkIsRunning())
         {
             gLinkTransferringData = TRUE;
             UpdateLinkAndCallCallbacks();
@@ -136,7 +136,7 @@ void AgbMain()
             gLinkTransferringData = FALSE;
             UpdateLinkAndCallCallbacks();
 
-            if (Overworld_RecvKeysFromLinkIsRunning() == TRUE)
+            if (Overworld_RecvKeysFromLinkIsRunning())
             {
                 gMain.newKeys = 0;
                 ClearSpriteCopyRequests();
@@ -184,29 +184,18 @@ void SetMainCallback2(MainCallback callback)
     gMain.state = 0;
 }
 
-void StartTimer1(void)
-{
-    REG_TM1CNT_H = 0x80;
-}
-
-void SeedRngAndSetTrainerId(void)
-{
-    u16 val = REG_TM1CNT_L;
-    SeedRng(val);
-    REG_TM1CNT_H = 0;
-    gTrainerId = val;
-}
-
-u16 GetGeneratedTrainerIdLower(void)
-{
-    return gTrainerId;
-}
-
 void EnableVCountIntrAtLine150(void)
 {
     u16 gpuReg = (GetGpuReg(REG_OFFSET_DISPSTAT) & 0xFF) | (150 << 8);
     SetGpuReg(REG_OFFSET_DISPSTAT, gpuReg | DISPSTAT_VCOUNT_INTR);
     EnableInterrupts(INTR_FLAG_VCOUNT);
+}
+
+static void SeedRngWithRtc(void)
+{
+    u32 seed = RtcGetMinuteCount();
+    seed = (seed >> 16) ^ (seed & 0xFFFF);
+    SeedRng(seed);
 }
 
 void InitKeys(void)
@@ -347,7 +336,7 @@ static void VBlankIntr(void)
 
 void InitFlashTimer(void)
 {
-    SetFlashTimerIntr(2, gIntrTable + 0x7);
+    SetFlashTimerIntr(2, gFlashTimerIntrFunc);
 }
 
 static void HBlankIntr(void)
@@ -384,7 +373,6 @@ static void IntrDummy(void)
 static void WaitForVBlank(void)
 {
     gMain.intrCheck &= ~INTR_FLAG_VBLANK;
-
     asm("swi 0x5");
 }
 

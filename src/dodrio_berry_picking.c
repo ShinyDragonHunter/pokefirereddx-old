@@ -1944,10 +1944,8 @@ static void HandlePickBerries(void)
                 sGame->inputState[playerIdPicked] = INPUTSTATE_ATE_BERRY;
                 sGame->berryEatenBy[column] = playerIdPicked;
                 sGame->players[playerIdPicked].comm.ateBerry = TRUE;
-#ifdef UBFIX
                 if (playerIdMissed != PLAYER_NONE)
-#endif
-                    sGame->players[playerIdMissed].comm.missedBerry = TRUE; // UB: playerIdMissed can be PLAYER_NONE here, which is out of bounds
+                    sGame->players[playerIdMissed].comm.missedBerry = TRUE;
 
                 sGame->berriesEaten[playerIdPicked]++;
                 IncrementBerryResult(0, column, playerIdPicked);
@@ -4167,7 +4165,7 @@ static void LoadWindowFrameGfx(u8 frameId)
 
 static void LoadUserWindowFrameGfx(void)
 {
-    LoadUserWindowBorderGfx_(0, 0xA, 0xB0);
+    LoadThinWindowBorderGfx(0, 0xA, 0xB0);
 }
 
 static void ResetGfxState(void)

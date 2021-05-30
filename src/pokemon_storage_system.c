@@ -448,9 +448,9 @@ struct PokemonStorageSystemData
     s16 iconScrollSpeed;
     u16 iconScrollNumIncoming;
     u8 iconScrollCurColumn;
-    s8 iconScrollUnused1; // Never read
+    u8 boxForm[IN_BOX_COUNT];
     u8 iconScrollState;
-    u8 iconScrollUnused2; // Never read
+    u8 iconScrollUnused1; // Never read
     struct WindowTemplate menuWindow;
     struct StorageMenu menuItems[7];
     u8 menuItemsCount;
@@ -4440,7 +4440,7 @@ static u8 CreateBoxMonIconsInColumn(u8 column, u16 distance, s16 speed)
                 sStorage->boxMonsSprites[boxPosition] = CreateMonIconSprite(sStorage->boxSpecies[boxPosition],
                                                                                         sStorage->boxPersonalities[boxPosition],
                                                                                         x, y, 2, subpriority,
-                                                                                        sStorage->displayMonForm);
+                                                                                        sStorage->boxForm[boxPosition]);
                 if (sStorage->boxMonsSprites[boxPosition])
                 {
                     sStorage->boxMonsSprites[boxPosition]->sDistance = distance;
@@ -4465,14 +4465,14 @@ static u8 CreateBoxMonIconsInColumn(u8 column, u16 distance, s16 speed)
                 sStorage->boxMonsSprites[boxPosition] = CreateMonIconSprite(sStorage->boxSpecies[boxPosition],
                                                                                         sStorage->boxSpecies[boxPosition],
                                                                                         x, y, 2, subpriority,
-                                                                                        sStorage->displayMonForm);
+                                                                                        sStorage->boxForm[boxPosition]);
                 if (sStorage->boxMonsSprites[boxPosition])
                 {
                     sStorage->boxMonsSprites[boxPosition]->sDistance = distance;
                     sStorage->boxMonsSprites[boxPosition]->sSpeed = speed;
                     sStorage->boxMonsSprites[boxPosition]->sScrollInDestX = xDest;
                     sStorage->boxMonsSprites[boxPosition]->callback = SpriteCB_BoxMonIconScrollIn;
-                    if (!GetBoxMonDataAt(sStorage->incomingBoxId, boxPosition, MON_DATA_HELD_ITEM) )
+                    if (!GetBoxMonDataAt(sStorage->incomingBoxId, boxPosition, MON_DATA_HELD_ITEM))
                         sStorage->boxMonsSprites[boxPosition]->oam.objMode = ST_OAM_OBJ_BLEND;
                     iconsCreated++;
                 }
@@ -4561,6 +4561,7 @@ static bool8 UpdateBoxMonIconScroll(void)
 
 static void GetIncomingBoxMonData(u8 boxId)
 {
+    u16 formSpecies;
     s32 i, j, boxPosition;
 
     boxPosition = 0;
@@ -4569,7 +4570,9 @@ static void GetIncomingBoxMonData(u8 boxId)
         for (j = 0; j < IN_BOX_COLUMNS; j++)
         {
             sStorage->boxSpecies[boxPosition] = GetBoxMonDataAt(boxId, boxPosition, MON_DATA_SPECIES2);
-            if (sStorage->boxSpecies[boxPosition])
+            sStorage->boxForm[boxPosition] = GetBoxMonDataAt(boxId, boxPosition, MON_DATA_FORM);
+            formSpecies = GetFormSpecies(sStorage->boxSpecies[boxPosition], sStorage->boxForm[boxPosition]);
+            if (formSpecies)
                 sStorage->boxPersonalities[boxPosition] = GetBoxMonDataAt(boxId, boxPosition, MON_DATA_PERSONALITY);
             boxPosition++;
         }
@@ -4605,10 +4608,10 @@ static void CreatePartyMonsSprites(bool8 visible)
     for (i = 1; i < PARTY_SIZE; i++)
     {
         species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES2);
+        form = GetMonData(&gPlayerParty[i], MON_DATA_FORM);
         if (species)
         {
             personality = GetMonData(&gPlayerParty[i], MON_DATA_PERSONALITY);
-            form = GetMonData(&gPlayerParty[i], MON_DATA_FORM);
             sStorage->partySprites[i] = CreateMonIconSprite(species, personality, 152,  8 * (3 * (i - 1)) + 16, 1, 12, form);
             count++;
         }
@@ -6704,8 +6707,8 @@ static void SetDisplayMonData(void *pokemon, u8 mode)
     {
         struct Pokemon *mon = (struct Pokemon *)pokemon;
 
-        sStorage->displayMonSpecies = GetFormSpecies(GetMonData(mon, MON_DATA_SPECIES2),
-                                                    GetMonData(mon, MON_DATA_FORM));
+        sStorage->displayMonSpecies = GetMonData(mon, MON_DATA_SPECIES2);
+        sStorage->displayMonForm = GetMonData(mon, MON_DATA_FORM);
         if (sStorage->displayMonSpecies)
         {
             sanityIsBadEgg = GetMonData(mon, MON_DATA_SANITY_IS_BAD_EGG);
@@ -6725,8 +6728,8 @@ static void SetDisplayMonData(void *pokemon, u8 mode)
     {
         struct BoxPokemon *boxMon = (struct BoxPokemon *)pokemon;
 
-        sStorage->displayMonSpecies = GetFormSpecies(GetBoxMonData(boxMon, MON_DATA_SPECIES2),
-                                                    GetBoxMonData(boxMon, MON_DATA_FORM));
+        sStorage->displayMonSpecies = GetBoxMonData(boxMon, MON_DATA_SPECIES2);
+        sStorage->displayMonForm = GetBoxMonData(boxMon, MON_DATA_FORM);
         if (sStorage->displayMonSpecies)
         {
             u32 otId = GetBoxMonData(boxMon, MON_DATA_OT_ID);
@@ -6738,7 +6741,7 @@ static void SetDisplayMonData(void *pokemon, u8 mode)
             sStorage->displayMonLevel = GetLevelFromBoxMonExp(boxMon);
             sStorage->displayMonMarkings = GetBoxMonData(boxMon, MON_DATA_MARKINGS);
             sStorage->displayMonPersonality = GetBoxMonData(boxMon, MON_DATA_PERSONALITY);
-            sStorage->displayMonPalette = GetMonSpritePalFromSpeciesAndPersonality(sStorage->displayMonSpecies, otId, sStorage->displayMonPersonality);
+            sStorage->displayMonPalette = GetMonSpritePalFromSpeciesAndPersonality(GetFormSpecies(sStorage->displayMonSpecies, sStorage->displayMonForm), otId, sStorage->displayMonPersonality);
             gender = GetGenderFromSpeciesAndPersonality(sStorage->displayMonSpecies, sStorage->displayMonPersonality);
             sStorage->displayMonItemId = GetBoxMonData(boxMon, MON_DATA_HELD_ITEM);
         }
@@ -9211,18 +9214,6 @@ static void SpriteCB_ItemIcon_HideParty(struct Sprite *sprite)
 //  SECTION: General utility
 //------------------------------------------------------------------------------
 
-
-// Unused, leftover from FRLG
-static void BackupPokemonStorage(void/*struct PokemonStorage * dest*/)
-{
-    //*dest = *gPokemonStoragePtr;
-}
-
-// Unused, leftover from FRLG
-static void RestorePokemonStorage(void/*struct PokemonStorage * src*/)
-{
-    //*gPokemonStoragePtr = *src;
-}
 
 // Functions here are general utility functions.
 u8 StorageGetCurrentBox(void)

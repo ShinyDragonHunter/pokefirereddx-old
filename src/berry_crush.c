@@ -1737,7 +1737,7 @@ static bool32 OpenResultsWindow(struct BerryCrushGame *game, struct BerryCrushGa
         FillWindowPixelBuffer(gfx->resultsWindowId, PIXEL_FILL(0));
         break;
     case 2:
-        LoadUserWindowBorderGfx_(gfx->resultsWindowId, 541, 208);
+        LoadThinWindowBorderGfx(gfx->resultsWindowId, 541, 208);
         DrawStdFrameWithCustomTileAndPalette(gfx->resultsWindowId, 0, 541, 13);
         break;
     case 3:
@@ -1795,7 +1795,7 @@ static void Task_ShowRankings(u8 taskId)
         tWindowId = AddWindow(&sWindowTemplate_Rankings);
         PutWindowTilemap(tWindowId);
         FillWindowPixelBuffer(tWindowId, PIXEL_FILL(0));
-        LoadUserWindowBorderGfx_(tWindowId, 541, 208);
+        LoadThinWindowBorderGfx(tWindowId, 541, 208);
         DrawStdFrameWithCustomTileAndPalette(tWindowId, 0, 541, 13);
         break;
     case 1:

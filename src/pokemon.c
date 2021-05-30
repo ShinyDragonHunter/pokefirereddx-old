@@ -1787,7 +1787,7 @@ static const u8 sMonFrontAnimIdsTable[] =
     [SPECIES_JIRACHI]     = ANIM_SWING_CONVEX,
     [SPECIES_DEOXYS]      = ANIM_H_PIVOT,
     [SPECIES_CHIMECHO]    = ANIM_H_SLIDE_WOBBLE,
-    [SPECIES_DEOXYS_SPEED]   = ANIM_FIGURE_8,
+    [SPECIES_DEOXYS_SPEED]   = ANIM_FLICKER_INCREASING,
     [SPECIES_DEOXYS_ATTACK]  = ANIM_GROW_VIBRATE,
     [SPECIES_DEOXYS_DEFENSE] = ANIM_V_SQUISH_AND_BOUNCE_SLOW,
 };
@@ -2187,7 +2187,8 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
     u16 checksum;
     u16 formSpecies = GetFormSpecies(species, form);
 
-    if (species > NUM_SPECIES && !form)
+    if ((species > NUM_SPECIES && !form)
+     || (species >= SPECIES_COUNT && form))
         species = SPECIES_NONE;
 
     ZeroBoxMonData(boxMon);
@@ -2257,7 +2258,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
     SetBoxMonData(boxMon, MON_DATA_MET_LOCATION, &value);
     SetBoxMonData(boxMon, MON_DATA_MET_LEVEL, &level);
     SetBoxMonData(boxMon, MON_DATA_MET_GAME, &gGameVersion);
-    value = BALL_POKE;
+    value = POKE_BALL;
     SetBoxMonData(boxMon, MON_DATA_POKEBALL, &value);
     SetBoxMonData(boxMon, MON_DATA_OT_GENDER, &gSaveBlock2Ptr->playerGender);
 
@@ -3909,7 +3910,8 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
         break;
     }
 
-    if (substruct0->species > NUM_SPECIES && !boxMon->form)
+    if ((substruct0->species > NUM_SPECIES && !boxMon->form)
+     || (substruct0->species >= SPECIES_COUNT && boxMon->form))
         substruct0->species = SPECIES_NONE;
 
     if (field > MON_DATA_ENCRYPT_SEPARATOR)
@@ -4239,7 +4241,8 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
         break;
     }
 
-    if (substruct0->species > NUM_SPECIES && !boxMon->form)
+    if ((substruct0->species > NUM_SPECIES && !boxMon->form)
+     || (substruct0->species >= SPECIES_COUNT && boxMon->form))
         substruct0->species = SPECIES_NONE;
 
     if (field > MON_DATA_ENCRYPT_SEPARATOR)
@@ -4424,7 +4427,10 @@ void GetSpeciesName(u8 *name, u16 species)
 
     for (i = 0; i <= POKEMON_NAME_LENGTH; i++)
     {
-        name[i] = gSpeciesNames[species][i];
+        if (species > NUM_SPECIES)
+            name[i] = gSpeciesNames[0][i];
+        else
+            name[i] = gSpeciesNames[species][i];
 
         if (name[i] == EOS)
             break;
@@ -4526,7 +4532,7 @@ bool8 ExecuteTableBasedItemEffect(struct Pokemon *mon, u16 item, u8 partyIndex, 
             friendship += friendshipChange;                                                             \
         if (friendshipChange > 0)                                                                       \
         {                                                                                               \
-            if (GetMonData(mon, MON_DATA_POKEBALL, NULL) == BALL_LUXURY)                                \
+            if (GetMonData(mon, MON_DATA_POKEBALL, NULL) == LUXURY_BALL)                           \
                 friendship++;                                                                           \
             if (GetMonData(mon, MON_DATA_MET_LOCATION, NULL) == GetCurrentRegionMapSectionId())         \
                 friendship++;                                                                           \
@@ -5731,7 +5737,7 @@ void AdjustFriendship(struct Pokemon *mon, u8 event)
             friendship += mod;
             if (mod > 0)
             {
-                if (GetMonData(mon, MON_DATA_POKEBALL, 0) == BALL_LUXURY)
+                if (GetMonData(mon, MON_DATA_POKEBALL, 0) == LUXURY_BALL)
                     friendship++;
                 if (GetMonData(mon, MON_DATA_MET_LOCATION, 0) == GetCurrentRegionMapSectionId())
                     friendship++;

@@ -181,6 +181,17 @@ extern const u8 gText_InGameClockUsable[];
 extern const u8 gText_Day[];
 extern const u8 gText_Colon3[];
 extern const u8 gText_Confirm2[];
+
+// Day of week
+extern const u8 *const gDayOfWeekTable[];
+extern const u8 gText_Sunday[];
+extern const u8 gText_Monday[];
+extern const u8 gText_Tuesday[];
+extern const u8 gText_Wednesday[];
+extern const u8 gText_Thursday[];
+extern const u8 gText_Friday[];
+extern const u8 gText_Saturday[];
+
 extern const u8 gText_PresentTime[];
 extern const u8 gText_PreviousTime[];
 extern const u8 gText_ResetRTCConfirmCancel[];

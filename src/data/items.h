@@ -20,10 +20,10 @@ const struct Item gItems[] =
         .price = 0,
         .description = sMasterBallDesc,
         .pocket = POCKET_POKE_BALLS,
-        .type = BALL_MASTER,
+        .type = MASTER_BALL,
         .battleUsage = ITEM_B_USE_OTHER,
         .battleUseFunc = ItemUseInBattle_PokeBall,
-        .secondaryId = BALL_MASTER,
+        .secondaryId = MASTER_BALL,
     },
 
     [ITEM_ULTRA_BALL] =
@@ -33,10 +33,10 @@ const struct Item gItems[] =
         .price = 1200,
         .description = sUltraBallDesc,
         .pocket = POCKET_POKE_BALLS,
-        .type = BALL_ULTRA,
+        .type = ULTRA_BALL,
         .battleUsage = ITEM_B_USE_OTHER,
         .battleUseFunc = ItemUseInBattle_PokeBall,
-        .secondaryId = BALL_ULTRA,
+        .secondaryId = ULTRA_BALL,
     },
 
     [ITEM_GREAT_BALL] =
@@ -46,10 +46,10 @@ const struct Item gItems[] =
         .price = 600,
         .description = sGreatBallDesc,
         .pocket = POCKET_POKE_BALLS,
-        .type = BALL_GREAT,
+        .type = GREAT_BALL,
         .battleUsage = ITEM_B_USE_OTHER,
         .battleUseFunc = ItemUseInBattle_PokeBall,
-        .secondaryId = BALL_GREAT,
+        .secondaryId = GREAT_BALL,
     },
 
     [ITEM_POKE_BALL] =
@@ -59,10 +59,10 @@ const struct Item gItems[] =
         .price = 200,
         .description = sPokeBallDesc,
         .pocket = POCKET_POKE_BALLS,
-        .type = BALL_POKE,
+        .type = POKE_BALL,
         .battleUsage = ITEM_B_USE_OTHER,
         .battleUseFunc = ItemUseInBattle_PokeBall,
-        .secondaryId = BALL_POKE,
+        .secondaryId = POKE_BALL,
     },
 
     [ITEM_SAFARI_BALL] =
@@ -72,10 +72,10 @@ const struct Item gItems[] =
         .price = 0,
         .description = sSafariBallDesc,
         .pocket = POCKET_POKE_BALLS,
-        .type = BALL_SAFARI,
+        .type = SAFARI_BALL,
         .battleUsage = ITEM_B_USE_OTHER,
         .battleUseFunc = ItemUseInBattle_PokeBall,
-        .secondaryId = BALL_SAFARI,
+        .secondaryId = SAFARI_BALL,
     },
 
     [ITEM_NET_BALL] =
@@ -85,10 +85,10 @@ const struct Item gItems[] =
         .price = 1000,
         .description = sNetBallDesc,
         .pocket = POCKET_POKE_BALLS,
-        .type = BALL_NET,
+        .type = NET_BALL,
         .battleUsage = ITEM_B_USE_OTHER,
         .battleUseFunc = ItemUseInBattle_PokeBall,
-        .secondaryId = BALL_NET,
+        .secondaryId = NET_BALL,
     },
 
     [ITEM_DIVE_BALL] =
@@ -98,10 +98,10 @@ const struct Item gItems[] =
         .price = 1000,
         .description = sDiveBallDesc,
         .pocket = POCKET_POKE_BALLS,
-        .type = BALL_DIVE,
+        .type = DIVE_BALL,
         .battleUsage = ITEM_B_USE_OTHER,
         .battleUseFunc = ItemUseInBattle_PokeBall,
-        .secondaryId = BALL_DIVE,
+        .secondaryId = DIVE_BALL,
     },
 
     [ITEM_NEST_BALL] =
@@ -111,10 +111,10 @@ const struct Item gItems[] =
         .price = 1000,
         .description = sNestBallDesc,
         .pocket = POCKET_POKE_BALLS,
-        .type = BALL_NEST,
+        .type = NEST_BALL,
         .battleUsage = ITEM_B_USE_OTHER,
         .battleUseFunc = ItemUseInBattle_PokeBall,
-        .secondaryId = BALL_NEST,
+        .secondaryId = NEST_BALL,
     },
 
     [ITEM_REPEAT_BALL] =
@@ -124,10 +124,10 @@ const struct Item gItems[] =
         .price = 1000,
         .description = sRepeatBallDesc,
         .pocket = POCKET_POKE_BALLS,
-        .type = BALL_REPEAT,
+        .type = REPEAT_BALL,
         .battleUsage = ITEM_B_USE_OTHER,
         .battleUseFunc = ItemUseInBattle_PokeBall,
-        .secondaryId = BALL_REPEAT,
+        .secondaryId = REPEAT_BALL,
     },
 
     [ITEM_TIMER_BALL] =
@@ -137,10 +137,10 @@ const struct Item gItems[] =
         .price = 1000,
         .description = sTimerBallDesc,
         .pocket = POCKET_POKE_BALLS,
-        .type = BALL_TIMER,
+        .type = TIMER_BALL,
         .battleUsage = ITEM_B_USE_OTHER,
         .battleUseFunc = ItemUseInBattle_PokeBall,
-        .secondaryId = BALL_TIMER,
+        .secondaryId = TIMER_BALL,
     },
 
     [ITEM_LUXURY_BALL] =
@@ -150,10 +150,10 @@ const struct Item gItems[] =
         .price = 1000,
         .description = sLuxuryBallDesc,
         .pocket = POCKET_POKE_BALLS,
-        .type = BALL_LUXURY,
+        .type = LUXURY_BALL,
         .battleUsage = ITEM_B_USE_OTHER,
         .battleUseFunc = ItemUseInBattle_PokeBall,
-        .secondaryId = BALL_LUXURY,
+        .secondaryId = LUXURY_BALL,
     },
 
     [ITEM_PREMIER_BALL] =
@@ -163,10 +163,10 @@ const struct Item gItems[] =
         .price = 200,
         .description = sPremierBallDesc,
         .pocket = POCKET_POKE_BALLS,
-        .type = BALL_PREMIER,
+        .type = PREMIER_BALL,
         .battleUsage = ITEM_B_USE_OTHER,
         .battleUseFunc = ItemUseInBattle_PokeBall,
-        .secondaryId = BALL_PREMIER,
+        .secondaryId = PREMIER_BALL,
     },
 
 // Medicine
@@ -4550,10 +4550,10 @@ const struct Item gItems[] =
         .description = sLevelBallDesc,
         .importance = 1,
         .pocket = POCKET_POKE_BALLS,
-        .type = BALL_LEVEL,
+        .type = LEVEL_BALL,
         .battleUsage = ITEM_B_USE_OTHER,
         .battleUseFunc = ItemUseInBattle_PokeBall,
-        .secondaryId = BALL_LEVEL,
+        .secondaryId = LEVEL_BALL,
     },
 
     [ITEM_LURE_BALL] =
@@ -4564,10 +4564,10 @@ const struct Item gItems[] =
         .description = sLureBallDesc,
         .importance = 1,
         .pocket = POCKET_POKE_BALLS,
-        .type = BALL_LURE,
+        .type = LURE_BALL,
         .battleUsage = ITEM_B_USE_OTHER,
         .battleUseFunc = ItemUseInBattle_PokeBall,
-        .secondaryId = BALL_LURE,
+        .secondaryId = LURE_BALL,
     },
 
     [ITEM_MOON_BALL] =
@@ -4578,10 +4578,10 @@ const struct Item gItems[] =
         .description = sMoonBallDesc,
         .importance = 1,
         .pocket = POCKET_POKE_BALLS,
-        .type = BALL_MOON,
+        .type = MOON_BALL,
         .battleUsage = ITEM_B_USE_OTHER,
         .battleUseFunc = ItemUseInBattle_PokeBall,
-        .secondaryId = BALL_MOON,
+        .secondaryId = MOON_BALL,
     },
 
     [ITEM_FRIEND_BALL] =
@@ -4592,10 +4592,10 @@ const struct Item gItems[] =
         .description = sFriendBallDesc,
         .importance = 1,
         .pocket = POCKET_POKE_BALLS,
-        .type = BALL_FRIEND,
+        .type = FRIEND_BALL,
         .battleUsage = ITEM_B_USE_OTHER,
         .battleUseFunc = ItemUseInBattle_PokeBall,
-        .secondaryId = BALL_FRIEND,
+        .secondaryId = FRIEND_BALL,
     },
 
     [ITEM_FAST_BALL] =
@@ -4606,10 +4606,10 @@ const struct Item gItems[] =
         .description = sFastBallDesc,
         .importance = 1,
         .pocket = POCKET_POKE_BALLS,
-        .type = BALL_FAST,
+        .type = FAST_BALL,
         .battleUsage = ITEM_B_USE_OTHER,
         .battleUseFunc = ItemUseInBattle_PokeBall,
-        .secondaryId = BALL_FAST,
+        .secondaryId = FAST_BALL,
     },
 
     [ITEM_HEAVY_BALL] =
@@ -4620,10 +4620,10 @@ const struct Item gItems[] =
         .description = sHeavyBallDesc,
         .importance = 1,
         .pocket = POCKET_POKE_BALLS,
-        .type = BALL_HEAVY,
+        .type = HEAVY_BALL,
         .battleUsage = ITEM_B_USE_OTHER,
         .battleUseFunc = ItemUseInBattle_PokeBall,
-        .secondaryId = BALL_HEAVY,
+        .secondaryId = HEAVY_BALL,
     },
 
     [ITEM_LOVE_BALL] =
@@ -4634,10 +4634,10 @@ const struct Item gItems[] =
         .description = sLoveBallDesc,
         .importance = 1,
         .pocket = POCKET_POKE_BALLS,
-        .type = BALL_LOVE,
+        .type = LOVE_BALL,
         .battleUsage = ITEM_B_USE_OTHER,
         .battleUseFunc = ItemUseInBattle_PokeBall,
-        .secondaryId = BALL_LOVE,
+        .secondaryId = LOVE_BALL,
     },
 
     [ITEM_PARK_BALL] =
@@ -4648,9 +4648,9 @@ const struct Item gItems[] =
         .description = sParkBallDesc,
         .importance = 1,
         .pocket = POCKET_POKE_BALLS,
-        .type = BALL_PARK,
+        .type = PARK_BALL,
         .battleUsage = ITEM_B_USE_OTHER,
         .battleUseFunc = ItemUseInBattle_PokeBall,
-        .secondaryId = BALL_PARK,
+        .secondaryId = PARK_BALL,
     },
 };

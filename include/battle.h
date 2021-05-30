@@ -258,7 +258,7 @@ struct BattleResults
     u16 caughtMonSpecies;     // 0x28
     u8 caughtMonNick[POKEMON_NAME_LENGTH + 1];     // 0x2A
     u8 filler35;           // 0x35
-    u8 catchAttempts[POKEBALL_COUNT - FIRST_BALL];     // 0x36 Doesn't include Master Ball.
+    u8 catchAttempts[POKEBALL_COUNT - 1];     // 0x36 Doesn't include Master Ball.
 };
 
 struct BattleTv_Side

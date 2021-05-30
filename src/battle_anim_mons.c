@@ -206,6 +206,11 @@ u8 GetBattlerYDelta(u8 battlerId, u16 species)
         {
             ret = sCastformBackSpriteYCoords[gBattleMonForms[battlerId]];
         }
+        else if ((species > NUM_SPECIES && !form)
+         || (species >= SPECIES_COUNT && form))
+        {
+            ret = gMonBackPicCoords[SPECIES_NONE].y_offset;
+        }
         else
         {
             ret = gMonBackPicCoords[formSpecies].y_offset;
@@ -232,6 +237,11 @@ u8 GetBattlerYDelta(u8 battlerId, u16 species)
         {
             ret = gCastformFrontSpriteCoords[gBattleMonForms[battlerId]].y_offset;
         }
+        else if ((species > NUM_SPECIES && !form)
+         || (species >= SPECIES_COUNT && form))
+        {
+            ret = gMonFrontPicCoords[SPECIES_NONE].y_offset;
+        }
         else
         {
             ret = gMonFrontPicCoords[formSpecies].y_offset;
@@ -243,14 +253,18 @@ u8 GetBattlerYDelta(u8 battlerId, u16 species)
 u8 GetBattlerElevation(u8 battlerId, u16 species)
 {
     u8 ret = 0;
+    u8 form = GetMonData(&gEnemyParty[gBattlerPartyIndexes[battlerId]], MON_DATA_FORM);
     if (GetBattlerSide(battlerId) == B_SIDE_OPPONENT)
     {
         if (!IsContest())
         {
             if (species == SPECIES_CASTFORM)
                 ret = sCastformElevations[gBattleMonForms[battlerId]];
+            else if ((species > NUM_SPECIES && !form)
+             || (species >= SPECIES_COUNT && form))
+                ret = gEnemyMonElevation[SPECIES_NONE];
             else
-                ret = gEnemyMonElevation[GetFormSpecies(species, GetMonData(&gEnemyParty[gBattlerPartyIndexes[battlerId]], MON_DATA_FORM))];
+                ret = gEnemyMonElevation[GetFormSpecies(species, form)];
         }
     }
     return ret;

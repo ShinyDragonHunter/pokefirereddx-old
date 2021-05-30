@@ -1852,7 +1852,7 @@ void ItemMenu_Give(u8 taskId)
     BagMenu_RemoveSomeWindow();
     if (!IsWritingMailAllowed(gSpecialVar_ItemId))
     {
-        DisplayItemMessage(taskId, 1, gText_CantWriteMail, sub_81AD350);
+        DisplayItemMessage(taskId, 2, gText_CantWriteMail, sub_81AD350);
     }
     else if (!ItemId_GetImportance(gSpecialVar_ItemId))
     {
@@ -1872,14 +1872,14 @@ void ItemMenu_Give(u8 taskId)
 
 void BagMenu_PrintThereIsNoPokemon(u8 taskId)
 {
-    DisplayItemMessage(taskId, 1, gText_NoPokemon, sub_81AD350);
+    DisplayItemMessage(taskId, 2, gText_NoPokemon, sub_81AD350);
 }
 
 static void BagMenu_PrintItemCantBeHeld(u8 taskId)
 {
     CopyItemName(gSpecialVar_ItemId, gStringVar1);
     StringExpandPlaceholders(gStringVar4, gText_Var1CantBeHeld);
-    DisplayItemMessage(taskId, 1, gStringVar4, sub_81AD350);
+    DisplayItemMessage(taskId, 2, gStringVar4, sub_81AD350);
 }
 
 void sub_81AD350(u8 taskId)
@@ -1927,13 +1927,13 @@ void Task_ItemContext_FieldGive(u8 taskId)
 {
     if (!IsWritingMailAllowed(gSpecialVar_ItemId))
     {
-        DisplayItemMessage(taskId, 1, gText_CantWriteMail, sub_81AD350);
+        DisplayItemMessage(taskId, 2, gText_CantWriteMail, sub_81AD350);
     }
     else if (!sub_8122148(gSpecialVar_ItemId))
     {
         CopyItemName(gSpecialVar_ItemId, gStringVar1);
         StringExpandPlaceholders(gStringVar4, gText_Var1CantBeHeldHere);
-        DisplayItemMessage(taskId, 1, gStringVar4, sub_81AD350);
+        DisplayItemMessage(taskId, 2, gStringVar4, sub_81AD350);
     }
     else if (gBagPositionStruct.pocket != KEYITEMS_POCKET && !ItemId_GetImportance(gSpecialVar_ItemId))
     {
@@ -1948,7 +1948,7 @@ void Task_ItemContext_FieldGive(u8 taskId)
 void Task_ItemContext_ItemPC_2(u8 taskId)
 {
     if (ItemIsMail(gSpecialVar_ItemId) == TRUE)
-        DisplayItemMessage(taskId, 1, gText_CantWriteMail, sub_81AD350);
+        DisplayItemMessage(taskId, 2, gText_CantWriteMail, sub_81AD350);
     else if (gBagPositionStruct.pocket != KEYITEMS_POCKET && !ItemId_GetImportance(gSpecialVar_ItemId))
         gTasks[taskId].func = Task_FadeAndCloseBagMenu;
     else
@@ -1997,7 +1997,7 @@ void Task_ItemContext_Sell(u8 taskId)
     {
         CopyItemName(gSpecialVar_ItemId, gStringVar2);
         StringExpandPlaceholders(gStringVar4, gText_CantBuyKeyItem);
-        DisplayItemMessage(taskId, 1, gStringVar4, BagMenu_InitListsMenu);
+        DisplayItemMessage(taskId, 2, gStringVar4, BagMenu_InitListsMenu);
     }
     else
     {
@@ -2011,7 +2011,7 @@ void Task_ItemContext_Sell(u8 taskId)
         {
             CopyItemName(gSpecialVar_ItemId, gStringVar2);
             StringExpandPlaceholders(gStringVar4, gText_HowManyToSell);
-            DisplayItemMessage(taskId, 1, gStringVar4, sub_81AD730);
+            DisplayItemMessage(taskId, 2, gStringVar4, sub_81AD730);
         }
     }
 }
@@ -2022,7 +2022,7 @@ static void DisplaySellItemPriceAndConfirm(u8 taskId)
 
     ConvertIntToDecimalStringN(gStringVar1, (ItemId_GetPrice(gSpecialVar_ItemId) / 2) * tItemCount, STR_CONV_MODE_LEFT_ALIGN, 6);
     StringExpandPlaceholders(gStringVar4, gText_ICanPayVar1);
-    DisplayItemMessage(taskId, 1, gStringVar4, sub_81AD6E4);
+    DisplayItemMessage(taskId, 2, gStringVar4, sub_81AD6E4);
 }
 
 void sub_81AD6E4(u8 taskId)
@@ -2082,7 +2082,7 @@ void BagMenu_ConfirmSell(u8 taskId)
     CopyItemName(gSpecialVar_ItemId, gStringVar2);
     ConvertIntToDecimalStringN(gStringVar1, (ItemId_GetPrice(gSpecialVar_ItemId) / 2) * tItemCount, STR_CONV_MODE_LEFT_ALIGN, 6);
     StringExpandPlaceholders(gStringVar4, gText_TurnedOverVar1ForVar2);
-    DisplayItemMessage(taskId, 1, gStringVar4, BagMenu_Sell_UpdateItemListAndMoney);
+    DisplayItemMessage(taskId, 2, gStringVar4, BagMenu_Sell_UpdateItemListAndMoney);
 }
 
 static void BagMenu_Sell_UpdateItemListAndMoney(u8 taskId)

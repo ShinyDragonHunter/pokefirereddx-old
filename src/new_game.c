@@ -80,8 +80,7 @@ void CopyTrainerId(u8 *dst, u8 *src)
 
 static void InitPlayerTrainerId(void)
 {
-    u32 trainerId = (Random() << 16) | GetGeneratedTrainerIdLower();
-    SetTrainerId(trainerId, gSaveBlock2Ptr->playerTrainerId);
+    SetTrainerId((Random() << 16) | Random(), gSaveBlock2Ptr->playerTrainerId);
 }
 
 // L=A isnt set here for some reason.

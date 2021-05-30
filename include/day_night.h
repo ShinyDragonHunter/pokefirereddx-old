@@ -21,5 +21,6 @@ void ProcessImmediateTimeEvents(void);
 extern const u16 sTimeOfDayTints[][3];
 bool8 ShouldTintOverworld(void);
 void TintPaletteForDayNight(u16 offset, u16 size);
+const u8 *GetDayOfWeekString(u8 timeOfDay);
 
 #endif // GUARD_DAY_NIGHT_H

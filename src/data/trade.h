@@ -12,34 +12,18 @@
 #define PALTAG_GBA       5555
 #define PALTAG_POKEBALL  5558
 
-// Exists unused in RS as well
-static const u32 sUnusedStructSizes[] =
-{
-    sizeof(struct SaveBlock2),
-    sizeof(struct SaveBlock1),
-    sizeof(struct MapHeader),
- // 0x00000530, in RS
-    sizeof(struct MailStruct),  //or ObjectEvent / ObjectEventGraphicsInfo
-    sizeof(struct Pokemon),     //or TrainerCard
-    0x00000528  // 0x000004D8, in RS
-};
-
 static const u16 sTradeMovesBoxTilemap[] = INCBIN_U16("graphics/trade/moves_box_map.bin");
 static const u16 sTradePartyBoxTilemap[] = INCBIN_U16("graphics/trade/party_box_map.bin");
 static const u8 sTradeStripesBG2Tilemap[] = INCBIN_U8("graphics/trade/stripes_bg2_map.bin");
 static const u8 sTradeStripesBG3Tilemap[] = INCBIN_U8("graphics/trade/stripes_bg3_map.bin");
-static const u8 sText_EmptyString[] = _("");
-static const u8 sText_UnusedTextFormat[] = _("{COLOR WHITE}{HIGHLIGHT TRANSPARENT}{SHADOW DARK_GRAY}");
+const u8 gText_GenderlessSymbol[] = _("");
 const u8 gText_MaleSymbol4[] = _("♂");
 const u8 gText_FemaleSymbol4[] = _("♀");
-const u8 gText_GenderlessSymbol[] = _("");
-static const u8 sText_SpaceMove[] = _(" MOVE"); // unused
 static const u8 sText_NewLine[] = _("\n");
 static const u8 sText_Slash[] = _("/");
 static const u8 sText_Lv[] = _("Lv. ");
 static const u8 sText_ThreeDashes[] = _("---");
 static const u8 sText_FourQuestionMarks[] = _("????");
-static const u8 sText_UnusedEmpty[] = _("");
 static const u8 sText_IsThisTradeOkay[] = _("Is this trade okay?");
 static const u8 sText_Cancel[] = _("CANCEL");
 static const u8 sText_ChooseAPkmn[] = _("Choose a POKéMON.");
@@ -47,11 +31,8 @@ static const u8 sText_Summary[] = _("SUMMARY");
 static const u8 sText_Trade[] = _("TRADE");
 static const u8 sText_CancelTrade[] = _("Cancel trade?");
 static const u8 sJPText_PressBButtonToQuit[] = _("Bボタン　で　もどります");
-static const u8 sText_Summary2[] = _("SUMMARY");
-static const u8 sText_Trade2[] = _("TRADE");
 static const u8 sText_CommunicationStandby[] = _("{COLOR DARK_GRAY}{HIGHLIGHT WHITE}{SHADOW LIGHT_GRAY}Communication standby…\nPlease wait.");
 static const u8 sText_TheTradeHasBeenCanceled[] = _("{COLOR DARK_GRAY}{HIGHLIGHT WHITE}{SHADOW LIGHT_GRAY}The trade has\nbeen canceled.");
-static const u8 sText_OnlyPkmnForBattle[] = _("That's your only\nPOKéMON for battle.");
 static const u8 sText_WaitingForYourFriend[] = _("{COLOR DARK_GRAY}{HIGHLIGHT WHITE}{SHADOW LIGHT_GRAY}Waiting for your friend\nto finish…");
 static const u8 sText_YourFriendWantsToTrade[] = _("Your friend wants\nto trade POKéMON.");
 
@@ -357,28 +338,6 @@ static const u8 sTradeMonBoxCoords[][2][2] =
     },
 };
 
-static const u8 sUnusedCoords[][2] =
-{
-    { 0, 14},
-    {15, 29},
-    { 3,  5},
-    { 3,  7},
-    {18,  5},
-    {18,  7},
-    { 8,  7},
-    {22, 12},
-    { 8,  7},
-    {22, 12},
-    { 6,  7},
-    {24, 12},
-    { 6,  7},
-    {24, 12},
-    { 8,  7},
-    {22, 12},
-    { 7,  7},
-    {23, 12}
-};
-
 static const u8 *const sTradeActionTexts[] =
 {
     [TRADE_TEXT_CANCEL]       = sText_Cancel,
@@ -391,16 +350,16 @@ static const u8 *const sTradeActionTexts[] =
 
 static const struct MenuAction sSelectTradeMonActions[] =
 {
-    {sText_Summary2, Task_DrawSelectionSummary},
-    {sText_Trade2,   Task_DrawSelectionTrade}
+    {sText_Summary, Task_DrawSelectionSummary},
+    {sText_Trade,   Task_DrawSelectionTrade}
 };
 
 static const u8 *const sTradeMessages[] = 
 {
     [TRADE_MSG_STANDBY]                    = sText_CommunicationStandby,
     [TRADE_MSG_CANCELED]                   = sText_TheTradeHasBeenCanceled,
-    [TRADE_MSG_ONLY_MON1]                  = sText_OnlyPkmnForBattle,
-    [TRADE_MSG_ONLY_MON2]                  = gText_OnlyPkmnForBattle, //identical text to above
+    [TRADE_MSG_ONLY_MON1]                  = gText_OnlyPkmnForBattle,
+    [TRADE_MSG_ONLY_MON2]                  = gText_OnlyPkmnForBattle,
     [TRADE_MSG_WAITING_FOR_FRIEND]         = sText_WaitingForYourFriend,
     [TRADE_MSG_FRIEND_WANTS_TO_TRADE]      = sText_YourFriendWantsToTrade,
     [TRADE_MSG_MON_CANT_BE_TRADED]         = gText_PkmnCantBeTradedNow,
@@ -642,13 +601,8 @@ static const u8 sTradeMenuPartyMonBoxDimensions[3][2] =
 
 static const u16 sPokeball_Pal[] = INCBIN_U16("graphics/trade/pokeball.gbapal");
 static const u8 sPokeball_Gfx[] = INCBIN_U8("graphics/trade/pokeball.4bpp");
-static const u8 sPokeballSymbol_Gfx[] = INCBIN_U8("graphics/trade/pokeball_symbol.8bpp"); // unused
 static const u16 sCrossingHighlightCable_Tilemap[] = INCBIN_U16("graphics/trade/crossing_highlight_cable.bin");
-static const u16 sTradeTilemap_PokeBallSymbol[] = INCBIN_U16("graphics/trade/pokeball_symbol_map.bin"); // unused?
-static const u16 sUnusedPal1[] = INCBIN_U16("graphics/trade/unused1.gbapal");
 static const u16 sGba_Pal[] = INCBIN_U16("graphics/trade/gba.gbapal");
-static const u16 sUnusedPal2[] = INCBIN_U16("graphics/trade/unused2.gbapal");
-static const u16 sWirelessSignalNone_Pal_Unused[] = INCBIN_U16("graphics/trade/wireless_signal_none.gbapal");
 static const u16 sLinkMon_Pal[] = INCBIN_U16("graphics/trade/link_mon.gbapal");
 static const u8 sLinkMonGlow_Gfx[] = INCBIN_U8("graphics/trade/link_mon_glow.4bpp");
 static const u8 sLinkMonShadow_Gfx[] = INCBIN_U8("graphics/trade/link_mon_shadow.4bpp");
@@ -656,7 +610,6 @@ static const u8 sCableEnd_Gfx[] = INCBIN_U8("graphics/trade/cable_end.4bpp");
 static const u8 sGbaScreen_Gfx[] = INCBIN_U8("graphics/trade/gba_screen.4bpp");
 const u16 gTradePlatform_Tilemap[] = INCBIN_U16("graphics/trade/platform.bin");
 static const u8 sGbaAffine_Gfx[] = INCBIN_U8("graphics/trade/gba_affine.8bpp"); // Only the gfx for when the GBA is zooming in/out
-static const u8 sEmptyGfx[64] = {};
 static const u8 sGbaCable_AffineTilemap[] = INCBIN_U8("graphics/trade/gba_affine_map_cable.bin");
 static const u8 sGbaWireless_AffineTilemap[] = INCBIN_U8("graphics/trade/gba_affine_map_wireless.bin");
 static const u16 sGbaWireless_Tilemap[] = INCBIN_U16("graphics/trade/gba_map_wireless.bin");
@@ -781,7 +734,7 @@ static const struct OamData sOamData_LinkMonGlow =
 
 static const union AnimCmd sAnim_LinkMonGlow[] =
 {
-    ANIMCMD_FRAME(0, 5, .hFlip = TRUE, .vFlip = TRUE), // ? The graphic is a perfect circle, no need to flip
+    ANIMCMD_FRAME(0, 5),
     ANIMCMD_END
 };
 

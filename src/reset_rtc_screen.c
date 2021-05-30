@@ -13,6 +13,7 @@
 #include "strings.h"
 #include "task.h"
 #include "text.h"
+#include "text_window.h"
 #include "scanline_effect.h"
 #include "bg.h"
 #include "window.h"
@@ -255,6 +256,7 @@ static void SpriteCB_Cursor_UpOrRight(struct Sprite *sprite)
             sprite->pos1.y = 68;
             break;
         case SELECTION_CONFIRM:
+            sprite->animNum = ARROW_RIGHT;
             sprite->pos1.x = 153;
             sprite->pos1.y = 80;
             break;
@@ -675,7 +677,8 @@ static void Task_ResetRtcScreen(u8 taskId)
                     gLocalTime.days,
                     gLocalTime.hours,
                     gLocalTime.minutes,
-                    gLocalTime.seconds);
+                    gLocalTime.seconds,
+                    gLocalTime.dayOfWeek);
                 gSaveBlock2Ptr->lastBerryTreeUpdate = gLocalTime;
                 VarSet(VAR_DAYS, gLocalTime.days);
                 DisableResetRTC();

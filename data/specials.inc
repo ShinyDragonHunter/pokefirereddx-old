@@ -22,7 +22,7 @@ gSpecials:: @ 81DBA64
 	def_special CloseLink
 	def_special ColosseumPlayerSpotTriggered
 	def_special PlayerEnteredTradeSeat
-	def_special nullsub_37
+	def_special CopyDayOfWeekStringToVar1
 	def_special CableClubSaveGame
 	def_special TryBerryBlenderLinkup
 	def_special GetLinkPartnerNames
@@ -380,7 +380,6 @@ gSpecials:: @ 81DBA64
 	def_special GetDeptStoreDefaultFloorChoice
 	def_special BufferVarsForIVRater
 	def_special LinkContestWaitForConnection
-	def_special GetWirelessCommType
 	def_special LinkContestTryShowWirelessIndicator
 	def_special LinkContestTryHideWirelessIndicator
 	def_special IsWirelessContest
@@ -468,3 +467,4 @@ gSpecials:: @ 81DBA64
 	def_special CloseDeptStoreElevatorWindow
 	def_special TrySetBattleTowerLinkType
     def_special ChangeForm
+	def_special CopyCurrentDayOfWeekStringToVar1
