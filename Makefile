@@ -1,29 +1,28 @@
 TOOLCHAIN := $(DEVKITARM)
 COMPARE ?= 0
 
-ifeq ($(CC),)
-HOSTCC := gcc
-else
-HOSTCC := $(CC)
-endif
+# don't use dkP's base_tools anymore
+# because the redefinition of $(CC) conflicts
+# with when we want to use $(CC) to preprocess files
+# thus, manually create the variables for the bin
+# files, or use arm-none-eabi binaries on the system
+# if dkP is not installed on this system
 
-ifeq ($(CXX),)
-HOSTCXX := g++
-else
-HOSTCXX := $(CXX)
-endif
-
-ifneq (,$(wildcard $(TOOLCHAIN)/base_tools))
-include $(TOOLCHAIN)/base_tools
-else
+ifneq (,$(TOOLCHAIN))
+ifneq ($(wildcard $(TOOLCHAIN)/bin),)
 export PATH := $(TOOLCHAIN)/bin:$(PATH)
+endif
+endif
+
 PREFIX := arm-none-eabi-
 OBJCOPY := $(PREFIX)objcopy
-export CC := $(PREFIX)gcc
-export AS := $(PREFIX)as
-endif
-export CPP := $(PREFIX)cpp
-export LD := $(PREFIX)ld
+AS := $(PREFIX)as
+
+LD := $(PREFIX)ld
+
+# note: the makefile must be set up so MODERNCC is never called
+# if MODERN=0
+MODERNCC := $(PREFIX)gcc
 
 ifeq ($(OS),Windows_NT)
 EXE := .exe
@@ -41,6 +40,43 @@ MAKER_CODE  := 01
 REVISION    := 0
 UK          ?= 0
 MODERN      ?= 0
+
+# use arm-none-eabi-cpp for macOS
+# as macOS's default compiler is clang
+# and clang's preprocessor will warn on \u
+# when preprocessing asm files, expecting a unicode literal
+# we can't unconditionally use arm-none-eabi-cpp
+# as installations which install binutils-arm-none-eabi
+# don't come with it
+ifneq ($(MODERN),1)
+  ifeq ($(shell uname -s),Darwin)
+    CPP := $(PREFIX)cpp
+  else
+    CPP := $(CC) -E
+  endif
+else
+  CPP := $(PREFIX)cpp
+endif
+
+ROM_NAME := pokeemerald.gba
+ELF_NAME := $(ROM_NAME:.gba=.elf)
+MAP_NAME := $(ROM_NAME:.gba=.map)
+OBJ_DIR_NAME := build/emerald
+
+MODERN_ROM_NAME := pokeemerald_modern.gba
+MODERN_ELF_NAME := $(MODERN_ROM_NAME:.gba=.elf)
+MODERN_MAP_NAME := $(MODERN_ROM_NAME:.gba=.map)
+MODERN_OBJ_DIR_NAME := build/modern
+
+UK_ROM_NAME := pokeemerald_uk.gba
+UK_ELF_NAME := $(UK_ROM_NAME:.gba=.elf)
+UK_MAP_NAME := $(UK_ROM_NAME:.gba=.map)
+UK_OBJ_DIR_NAME := build/emerald_uk
+
+UK_MODERN_ROM_NAME := pokeemerald_uk_modern.gba
+UK_MODERN_ELF_NAME := $(UK_MODERN_ROM_NAME:.gba=.elf)
+UK_MODERN_MAP_NAME := $(UK_MODERN_ROM_NAME:.gba=.map)
+UK_MODERN_OBJ_DIR_NAME := build/emerald_uk_modern
 
 SHELL := /bin/bash -o pipefail
 
@@ -69,30 +105,32 @@ ASFLAGS := -mcpu=arm7tdmi --defsym MODERN=$(MODERN) --defsym UK=$(UK)
 ifeq ($(MODERN),0)
 CC1             := tools/agbcc/bin/agbcc$(EXE)
 override CFLAGS += -mthumb-interwork -Wimplicit -Wparentheses -Werror -O2 -fhex-asm -g
-ROM := pokeemerald.gba
-OBJ_DIR := build/emerald
+ifeq ($(UK),1)
+ROM := $(UK_ROM_NAME)
+OBJ_DIR := $(UK_OBJ_DIR_NAME)
+else
+ROM := $(ROM_NAME)
+OBJ_DIR := $(OBJ_DIR_NAME)
+endif
 LIBPATH := -L ../../tools/agbcc/lib
 LIB := $(LIBPATH) -lgcc -lc -L../../libagbsyscall -lagbsyscall
 else
-CC1              = $(shell $(CC) --print-prog-name=cc1) -quiet
+CC1              = $(shell $(MODERNCC) --print-prog-name=cc1) -quiet
 override CFLAGS += -mthumb -mthumb-interwork -O2 -mabi=apcs-gnu -mtune=arm7tdmi -march=armv4t -fno-toplevel-reorder -Wno-pointer-to-int-cast -g
-ROM := pokeemerald_modern.gba
-OBJ_DIR := build/modern
-LIBPATH := -L "$(dir $(shell $(CC) -mthumb -print-file-name=libgcc.a))" -L "$(dir $(shell $(CC) -mthumb -print-file-name=libnosys.a))" -L "$(dir $(shell $(CC) -mthumb -print-file-name=libc.a))"
+ifeq ($(UK),1)
+ROM := $(UK_MODERN_ROM_NAME)
+OBJ_DIR := $(UK_MODERN_OBJ_DIR_NAME)
+else
+ROM := $(MODERN_ROM_NAME)
+OBJ_DIR := $(MODERN_OBJ_DIR_NAME)
+endif
+LIBPATH := -L "$(dir $(shell $(MODERNCC) -mthumb -print-file-name=libgcc.a))" -L "$(dir $(shell $(MODERNCC) -mthumb -print-file-name=libnosys.a))" -L "$(dir $(shell $(MODERNCC) -mthumb -print-file-name=libc.a))"
 LIB := $(LIBPATH) -lc -lnosys -lgcc -L../../libagbsyscall -lagbsyscall
 endif
 
-ifeq ($(UK),1)
-CC1             := tools/agbcc/bin/agbcc$(EXE)
-override CFLAGS += -mthumb-interwork -Wimplicit -Wparentheses -Werror -O2 -fhex-asm
-ROM := pokeemerald_uk.gba
-OBJ_DIR := build/emerald_uk
-LIBPATH := -L ../../tools/agbcc/lib
-endif
-
 CPPFLAGS := -iquote include -iquote $(GFLIB_SUBDIR) -Wno-trigraphs -DMODERN=$(MODERN) -DUK=$(UK)
-ifeq ($(MODERN),0)
-CPPFLAGS += -I tools/agbcc/include -I tools/agbcc
+ifneq ($(MODERN),1)
+CPPFLAGS += -I tools/agbcc/include -I tools/agbcc -nostdinc -undef
 endif
 
 LDFLAGS = -Map ../../$(MAP)
@@ -124,7 +162,7 @@ MAKEFLAGS += --no-print-directory
 # Secondary expansion is required for dependency variables in object rules.
 .SECONDEXPANSION:
 
-.PHONY: all rom clean compare tidy tools mostlyclean clean-tools $(TOOLDIRS) berry_fix libagbsyscall modern uk
+.PHONY: all rom clean compare tidy tools mostlyclean clean-tools $(TOOLDIRS) berry_fix libagbsyscall modern uk tidymodern tidynonmodern
 
 infoshell = $(foreach line, $(shell $1 | sed "s/ /__SPACE__/g"), $(info $(subst __SPACE__, ,$(line))))
 
@@ -175,7 +213,7 @@ all: rom
 tools: $(TOOLDIRS)
 
 $(TOOLDIRS):
-	@$(MAKE) -C $@ CC=$(HOSTCC) CXX=$(HOSTCXX)
+	@$(MAKE) -C $@
 
 rom: $(ROM)
 ifeq ($(COMPARE),1)
@@ -190,7 +228,7 @@ clean: mostlyclean clean-tools
 clean-tools:
 	@$(foreach tooldir,$(TOOLDIRS),$(MAKE) clean -C $(tooldir);)
 
-mostlyclean: tidy
+mostlyclean: tidynonmodern tidymodern
 	rm -f $(SAMPLE_SUBDIR)/*.bin
 	rm -f $(CRY_SUBDIR)/*.bin
 	rm -f $(MID_SUBDIR)/*.s
@@ -202,16 +240,23 @@ mostlyclean: tidy
 	@$(MAKE) clean -C berry_fix
 	@$(MAKE) clean -C libagbsyscall
 
-tidy:
-	rm -f $(ROM) $(ELF) $(MAP)
-	rm -r $(OBJ_DIR)
-ifeq ($(MODERN),0)
-	@$(MAKE) tidy MODERN=1
-endif
+tidy: tidynonmodern tidyuknonmodern tidymodern tidyukmodern
 
-ifeq ($(UK),0)
-	@$(MAKE) tidy UK=1
-endif
+tidynonmodern:
+	rm -f $(ROM_NAME) $(ELF_NAME) $(MAP_NAME)
+	rm -rf $(OBJ_DIR_NAME)
+
+tidyuknonmodern:
+	rm -f $(UK_ROM_NAME) $(UK_ELF_NAME) $(UK_MAP_NAME)
+	rm -rf $(UK_OBJ_DIR_NAME)
+
+tidymodern:
+	rm -f $(MODERN_ROM_NAME) $(MODERN_ELF_NAME) $(MODERN_MAP_NAME)
+	rm -rf $(MODERN_OBJ_DIR_NAME)
+
+tidyukmodern:
+	rm -f $(UK_MODERN_ROM_NAME) $(UK_MODERN_ELF_NAME) $(UK_MODERN_MAP_NAME)
+	rm -rf $(UK_MODERN_OBJ_DIR_NAME)
 
 ifneq ($(MODERN),0)
 $(C_BUILDDIR)/berry_crush.o: override CFLAGS += -Wno-address-of-packed-member
@@ -240,7 +285,7 @@ sound/%.bin: sound/%.aif ; $(AIF) $< $@
 
 
 ifeq ($(MODERN),0)
-$(C_BUILDDIR)/libc.o: CC1 := tools/agbcc/bin/old_agbcc
+$(C_BUILDDIR)/libc.o: CC1 := tools/agbcc/bin/old_agbcc$(EXE)
 $(C_BUILDDIR)/libc.o: CFLAGS := -O2
 
 $(C_BUILDDIR)/siirtc.o: CFLAGS := -mthumb-interwork
@@ -249,10 +294,10 @@ $(C_BUILDDIR)/agb_flash.o: CFLAGS := -O -mthumb-interwork
 $(C_BUILDDIR)/agb_flash_1m.o: CFLAGS := -O -mthumb-interwork
 $(C_BUILDDIR)/agb_flash_mx.o: CFLAGS := -O -mthumb-interwork
 
-$(C_BUILDDIR)/m4a.o: CC1 := tools/agbcc/bin/old_agbcc
+$(C_BUILDDIR)/m4a.o: CC1 := tools/agbcc/bin/old_agbcc$(EXE)
 
 $(C_BUILDDIR)/record_mixing.o: CFLAGS += -ffreestanding
-$(C_BUILDDIR)/librfu_intr.o: CC1 := tools/agbcc/bin/agbcc_arm
+$(C_BUILDDIR)/librfu_intr.o: CC1 := tools/agbcc/bin/agbcc_arm$(EXE)
 $(C_BUILDDIR)/librfu_intr.o: CFLAGS := -O2 -mthumb-interwork -quiet
 else
 $(C_BUILDDIR)/librfu_intr.o: CFLAGS := -mthumb-interwork -O2 -mabi=apcs-gnu -mtune=arm7tdmi -march=armv4t -fno-toplevel-reorder -Wno-pointer-to-int-cast
@@ -313,11 +358,11 @@ endif
 
 ifeq ($(NODEP),1)
 $(DATA_ASM_BUILDDIR)/%.o: $(DATA_ASM_SUBDIR)/%.s
-	$(PREPROC) $< charmap.txt | $(CPP) -I include | $(AS) $(ASFLAGS) -o $@
+	$(PREPROC) $< charmap.txt | $(CPP) -I include - | $(AS) $(ASFLAGS) -o $@
 else
 define DATA_ASM_DEP
 $1: $2 $$(shell $(SCANINC) -I include -I "" $2)
-	$$(PREPROC) $$< charmap.txt | $$(CPP) -I include | $$(AS) $$(ASFLAGS) -o $$@
+	$$(PREPROC) $$< charmap.txt | $$(CPP) -I include - | $$(AS) $$(ASFLAGS) -o $$@
 endef
 $(foreach src, $(REGULAR_DATA_ASM_SRCS), $(eval $(call DATA_ASM_DEP,$(patsubst $(DATA_ASM_SUBDIR)/%.s,$(DATA_ASM_BUILDDIR)/%.o, $(src)),$(src))))
 $(foreach src, $(C_ASM_SRCS), $(eval $(call DATA_ASM_DEP,$(patsubst $(C_SUBDIR)/%.s,$(C_BUILDDIR)/%.o, $(src)),$(src))))
@@ -335,11 +380,6 @@ $(OBJ_DIR)/sym_common.ld: sym_common.txt $(C_OBJS) $(wildcard common_syms/*.txt)
 $(OBJ_DIR)/sym_ewram.ld: sym_ewram.txt
 	$(RAMSCRGEN) ewram_data $< ENGLISH > $@
 
-ifeq ($(UK),1)
-LD_SCRIPT := ld_script.txt
-LD_SCRIPT_DEPS := $(OBJ_DIR)/sym_bss.ld $(OBJ_DIR)/sym_common.ld $(OBJ_DIR)/sym_ewram.ld
-endif
-
 ifeq ($(MODERN),0)
 LD_SCRIPT := ld_script.txt
 LD_SCRIPT_DEPS := $(OBJ_DIR)/sym_bss.ld $(OBJ_DIR)/sym_common.ld $(OBJ_DIR)/sym_ewram.ld
@@ -352,20 +392,22 @@ $(OBJ_DIR)/ld_script.ld: $(LD_SCRIPT) $(LD_SCRIPT_DEPS)
 	cd $(OBJ_DIR) && sed "s#tools/#../../tools/#g" ../../$(LD_SCRIPT) > ld_script.ld
 
 $(ELF): $(OBJ_DIR)/ld_script.ld $(OBJS) berry_fix libagbsyscall
-	cd $(OBJ_DIR) && $(LD) $(LDFLAGS) -T ld_script.ld -o ../../$@ $(OBJS_REL) $(LIB)
+	@echo "cd $(OBJ_DIR) && $(LD) $(LDFLAGS) -T ld_script.ld -o ../../$@ <objects> <lib>"
+	@cd $(OBJ_DIR) && $(LD) $(LDFLAGS) -T ld_script.ld -o ../../$@ $(OBJS_REL) $(LIB)
 	$(FIX) $@ -t"$(TITLE)" -c$(GAME_CODE) -m$(MAKER_CODE) -r$(REVISION) --silent
 
 $(ROM): $(ELF)
 	$(OBJCOPY) -O binary $< $@
 	$(FIX) $@ -p --silent
 
-modern: ; @$(MAKE) MODERN=1
 uk:     ; @$(MAKE) UK=1
+modern: ; @$(MAKE) MODERN=1
+uk_modern: ; @$(MAKE) MODERN=1 UK=1
 
 berry_fix/berry_fix.gba: berry_fix
 
 berry_fix:
-	@$(MAKE) -C berry_fix COMPARE=$(COMPARE) TOOLCHAIN=$(TOOLCHAIN)
+	@$(MAKE) -C berry_fix COMPARE=$(COMPARE) TOOLCHAIN=$(TOOLCHAIN) MODERN=$(MODERN)
 
 libagbsyscall:
-	@$(MAKE) -C libagbsyscall TOOLCHAIN=$(TOOLCHAIN)
+	@$(MAKE) -C libagbsyscall TOOLCHAIN=$(TOOLCHAIN) MODERN=$(MODERN)
