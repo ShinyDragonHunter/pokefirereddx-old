@@ -2258,7 +2258,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
     SetBoxMonData(boxMon, MON_DATA_MET_LOCATION, &value);
     SetBoxMonData(boxMon, MON_DATA_MET_LEVEL, &level);
     SetBoxMonData(boxMon, MON_DATA_MET_GAME, &gGameVersion);
-    value = POKE_BALL;
+    value = BALL_POKE;
     SetBoxMonData(boxMon, MON_DATA_POKEBALL, &value);
     SetBoxMonData(boxMon, MON_DATA_OT_GENDER, &gSaveBlock2Ptr->playerGender);
 
@@ -4532,7 +4532,7 @@ bool8 ExecuteTableBasedItemEffect(struct Pokemon *mon, u16 item, u8 partyIndex, 
             friendship += friendshipChange;                                                             \
         if (friendshipChange > 0)                                                                       \
         {                                                                                               \
-            if (GetMonData(mon, MON_DATA_POKEBALL, NULL) == LUXURY_BALL)                           \
+            if (GetMonData(mon, MON_DATA_POKEBALL, NULL) == BALL_LUXURY)                           \
                 friendship++;                                                                           \
             if (GetMonData(mon, MON_DATA_MET_LOCATION, NULL) == GetCurrentRegionMapSectionId())         \
                 friendship++;                                                                           \
@@ -5345,7 +5345,7 @@ u16 GetEvolutionTargetSpecies(struct Pokemon *mon, u8 mode, u16 evolutionItem, u
                 }
                 break;
             case EVO_FRIENDSHIP_NIGHT:
-                RtcCalcLocalTime();
+               RtcCalcLocalTime();
                if (GetCurrentTimeOfDay() == TIME_NIGHT && friendship >= 220)
                 {
                     *targetForm = GetFormFromFormSpecies(gEvolutionTable[species][i].targetSpecies);
@@ -5536,10 +5536,7 @@ u16 SpeciesToCryId(u16 species)
     if ((species > SPECIES_CELEBI)
      && (species < SPECIES_TREECKO))
         return SPECIES_UNOWN;
-
-    if (species > SPECIES_OLD_UNOWN_Z)
-        return species - 25;
-    return species;
+    return (species > SPECIES_OLD_UNOWN_Z) ? species - 25 : species;
 }
 
 #define DRAW_SPINDA_SPOTS                                                       \
@@ -5737,7 +5734,7 @@ void AdjustFriendship(struct Pokemon *mon, u8 event)
             friendship += mod;
             if (mod > 0)
             {
-                if (GetMonData(mon, MON_DATA_POKEBALL, 0) == LUXURY_BALL)
+                if (GetMonData(mon, MON_DATA_POKEBALL, 0) == BALL_LUXURY)
                     friendship++;
                 if (GetMonData(mon, MON_DATA_MET_LOCATION, 0) == GetCurrentRegionMapSectionId())
                     friendship++;
@@ -6198,9 +6195,7 @@ u16 GetBattleBGM(void)
         case TRAINER_CLASS_CHAMPION:
             return MUS_RG_VS_CHAMPION;
         default:
-            if (gBattleTypeFlags & BATTLE_TYPE_RECORDED)
-                return MUS_VS_TRAINER;
-            return sBattleMusicTable[1][gMapHeader.region];
+            return (gBattleTypeFlags & BATTLE_TYPE_RECORDED) ? MUS_VS_TRAINER : sBattleMusicTable[1][gMapHeader.region];
         }
     }
     else

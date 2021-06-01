@@ -3,11 +3,12 @@
 
 enum
 {
-    BALL_POKE,
-    BALL_GREAT,
-    BALL_SAFARI,
-    BALL_ULTRA,
+    BALL_NONE,
     BALL_MASTER,
+    BALL_ULTRA,
+    BALL_GREAT,
+    BALL_POKE,
+    BALL_SAFARI,
     BALL_NET,
     BALL_DIVE,
     BALL_NEST,
@@ -24,31 +25,6 @@ enum
     BALL_LOVE,
     BALL_PARK,
     POKEBALL_COUNT
-};
-
-enum
-{
-    NONE,
-    MASTER_BALL,
-    ULTRA_BALL,
-    GREAT_BALL,
-    POKE_BALL,
-    SAFARI_BALL,
-    NET_BALL,
-    DIVE_BALL,
-    NEST_BALL,
-    REPEAT_BALL,
-    TIMER_BALL,
-    LUXURY_BALL,
-    PREMIER_BALL,
-    LEVEL_BALL,
-    LURE_BALL,
-    MOON_BALL,
-    FRIEND_BALL,
-    FAST_BALL,
-    HEAVY_BALL,
-    LOVE_BALL,
-    PARK_BALL
 };
 
 enum {

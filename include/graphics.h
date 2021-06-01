@@ -8,14 +8,14 @@ extern const u16 gMessageBox_Pal[];
 // interface pokeballs
 extern const u32 gInterfaceGfx_PokeBall[];
 extern const u32 gInterfacePal_PokeBall[];
+extern const u32 gInterfaceGfx_MasterBall[];
+extern const u32 gInterfacePal_MasterBall[];
+extern const u32 gInterfaceGfx_UltraBall[];
+extern const u32 gInterfacePal_UltraBall[];
 extern const u32 gInterfaceGfx_GreatBall[];
 extern const u32 gInterfacePal_GreatBall[];
 extern const u32 gInterfaceGfx_SafariBall[];
 extern const u32 gInterfacePal_SafariBall[];
-extern const u32 gInterfaceGfx_UltraBall[];
-extern const u32 gInterfacePal_UltraBall[];
-extern const u32 gInterfaceGfx_MasterBall[];
-extern const u32 gInterfacePal_MasterBall[];
 extern const u32 gInterfaceGfx_NetBall[];
 extern const u32 gInterfacePal_NetBall[];
 extern const u32 gInterfaceGfx_DiveBall[];

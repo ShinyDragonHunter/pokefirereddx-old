@@ -369,7 +369,7 @@ static void AddHatchedMonToParty(u8 id)
 
     GetMonNickname2(mon, gStringVar1);
 
-    ball = POKE_BALL;
+    ball = BALL_POKE;
     SetMonData(mon, MON_DATA_POKEBALL, &ball);
 
     caughtLvl = 0;
