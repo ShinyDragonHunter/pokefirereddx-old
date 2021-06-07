@@ -82,7 +82,7 @@ static void ShowLinkContestResultsWindow(void);
 static void CopyFrontierBrainText(bool8 playerWonText);
 
 // const rom data
-static const u8 sFrontierBrainStreakAppearances[NUM_FRONTIER_FACILITIES][4] =
+const u8 gFrontierBrainStreakAppearances[NUM_FRONTIER_FACILITIES][4] =
 {
     [FRONTIER_FACILITY_TOWER]   = {35,  70, 35, 1},
     [FRONTIER_FACILITY_DOME]    = { 4,   9,  5, 0},
@@ -954,7 +954,7 @@ static void PrintAligned(const u8 *str, s32 y)
 {
     s32 x = GetStringCenterAlignXOffset(1, str, 224);
     y = (y * 8) + 1;
-    AddTextPrinterParameterized(gRecordsWindowId, 1, str, x, y, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(gRecordsWindowId, 2, str, x, y, TEXT_SPEED_FF, NULL);
 }
 
 static void PrintHyphens(s32 y)
@@ -967,18 +967,18 @@ static void PrintHyphens(s32 y)
     text[i] = EOS;
 
     y = (y * 8) + 1;
-    AddTextPrinterParameterized(gRecordsWindowId, 1, text, 4, y, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(gRecordsWindowId, 2, text, 4, y, TEXT_SPEED_FF, NULL);
 }
 
 // Battle Tower records.
 static void TowerPrintStreak(const u8 *str, u16 num, u8 x1, u8 x2, u8 y)
 {
-    AddTextPrinterParameterized(gRecordsWindowId, 1, str, x1, y, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(gRecordsWindowId, 2, str, x1, y, TEXT_SPEED_FF, NULL);
     if (num > MAX_STREAK)
         num = MAX_STREAK;
     ConvertIntToDecimalStringN(gStringVar1, num, STR_CONV_MODE_RIGHT_ALIGN, 4);
     StringExpandPlaceholders(gStringVar4, gText_WinStreak);
-    AddTextPrinterParameterized(gRecordsWindowId, 1, gStringVar4, x2, y, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(gRecordsWindowId, 2, gStringVar4, x2, y, TEXT_SPEED_FF, NULL);
 }
 
 static void TowerPrintRecordStreak(u8 battleMode, u8 lvlMode, u8 x1, u8 x2, u8 y)
@@ -1258,7 +1258,7 @@ static void ShowPikeResultsWindow(void)
 // Battle Arena records.
 static void ArenaPrintStreak(const u8 *str, u16 num, u8 x1, u8 x2, u8 y)
 {
-    AddTextPrinterParameterized(gRecordsWindowId, 1, str, x1, y, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(gRecordsWindowId, 2, str, x1, y, TEXT_SPEED_FF, NULL);
     if (num > MAX_STREAK)
         num = MAX_STREAK;
     ConvertIntToDecimalStringN(gStringVar1, num, STR_CONV_MODE_RIGHT_ALIGN, 4);
@@ -1478,37 +1478,37 @@ static void ShowLinkContestResultsWindow(void)
 
     StringExpandPlaceholders(gStringVar4, gText_LinkContestResults);
     x = GetStringCenterAlignXOffset(1, gStringVar4, 208);
-    AddTextPrinterParameterized(gRecordsWindowId, 1, gStringVar4, x, 1, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(gRecordsWindowId, 2, gStringVar4, x, 1, TEXT_SPEED_FF, NULL);
 
     str = gText_1st;
     x = GetStringRightAlignXOffset(1, str, 38) + 50;
-    AddTextPrinterParameterized(gRecordsWindowId, 1, str, x, 25, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(gRecordsWindowId, 2, str, x, 25, TEXT_SPEED_FF, NULL);
 
     str = gText_2nd;
     x = GetStringRightAlignXOffset(1, str, 38) + 88;
-    AddTextPrinterParameterized(gRecordsWindowId, 1, str, x, 25, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(gRecordsWindowId, 2, str, x, 25, TEXT_SPEED_FF, NULL);
 
     str = gText_3rd;
     x = GetStringRightAlignXOffset(1, str, 38) + 126;
-    AddTextPrinterParameterized(gRecordsWindowId, 1, str, x, 25, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(gRecordsWindowId, 2, str, x, 25, TEXT_SPEED_FF, NULL);
 
     str = gText_4th;
     x = GetStringRightAlignXOffset(1, str, 38) + 164;
-    AddTextPrinterParameterized(gRecordsWindowId, 1, str, x, 25, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(gRecordsWindowId, 2, str, x, 25, TEXT_SPEED_FF, NULL);
 
     x = 6;
-    AddTextPrinterParameterized(gRecordsWindowId, 1, gText_Cool, x, 41, TEXT_SPEED_FF, NULL);
-    AddTextPrinterParameterized(gRecordsWindowId, 1, gText_Beauty, x, 57, TEXT_SPEED_FF, NULL);
-    AddTextPrinterParameterized(gRecordsWindowId, 1, gText_Cute, x, 73, TEXT_SPEED_FF, NULL);
-    AddTextPrinterParameterized(gRecordsWindowId, 1, gText_Smart, x, 89, TEXT_SPEED_FF, NULL);
-    AddTextPrinterParameterized(gRecordsWindowId, 1, gText_Tough, x, 105, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(gRecordsWindowId, 2, gText_Cool, x, 41, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(gRecordsWindowId, 2, gText_Beauty, x, 57, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(gRecordsWindowId, 2, gText_Cute, x, 73, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(gRecordsWindowId, 2, gText_Smart, x, 89, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(gRecordsWindowId, 2, gText_Tough, x, 105, TEXT_SPEED_FF, NULL);
 
     for (i = 0; i < CONTEST_CATEGORIES_COUNT; i++)
     {
         for (j = 0; j < CONTESTANT_COUNT; j++)
         {
             ConvertIntToDecimalStringN(gStringVar4, gSaveBlock2Ptr->contestLinkResults[i][j], STR_CONV_MODE_RIGHT_ALIGN, 4);
-            AddTextPrinterParameterized(gRecordsWindowId, 1, gStringVar4, (j * 38) + 64, (i * 16) + 41, TEXT_SPEED_FF, NULL);
+            AddTextPrinterParameterized(gRecordsWindowId, 2, gStringVar4, (j * 38) + 64, (i * 16) + 41, TEXT_SPEED_FF, NULL);
         }
     }
 
@@ -1648,7 +1648,7 @@ u8 GetFrontierBrainStatus(void)
     s32 facility = VarGet(VAR_FRONTIER_FACILITY);
     s32 battleMode = VarGet(VAR_FRONTIER_BATTLE_MODE);
     u16 winStreakNoModifier = GetCurrentFacilityWinStreak();
-    s32 winStreak = winStreakNoModifier + sFrontierBrainStreakAppearances[facility][3];
+    s32 winStreak = winStreakNoModifier + gFrontierBrainStreakAppearances[facility][3];
     s32 symbolsCount;
 
     if (battleMode != FRONTIER_MODE_SINGLES)
@@ -1660,19 +1660,19 @@ u8 GetFrontierBrainStatus(void)
     // Missing a symbol
     case 0:
     case 1:
-        if (winStreak == sFrontierBrainStreakAppearances[facility][symbolsCount])
+        if (winStreak == gFrontierBrainStreakAppearances[facility][symbolsCount])
             status = symbolsCount + 1; // FRONTIER_BRAIN_SILVER and FRONTIER_BRAIN_GOLD
         break;
     // Already received both symbols
     default:
         // Silver streak is reached
-        if (winStreak == sFrontierBrainStreakAppearances[facility][0])
+        if (winStreak == gFrontierBrainStreakAppearances[facility][0])
             status = FRONTIER_BRAIN_STREAK;
         // Gold streak is reached
-        else if (winStreak == sFrontierBrainStreakAppearances[facility][1])
+        else if (winStreak == gFrontierBrainStreakAppearances[facility][1])
             status = FRONTIER_BRAIN_STREAK_LONG;
         // Some increment of the gold streak is reached
-        else if (winStreak > sFrontierBrainStreakAppearances[facility][1] && (winStreak - sFrontierBrainStreakAppearances[facility][1]) % sFrontierBrainStreakAppearances[facility][2] == 0)
+        else if (winStreak > gFrontierBrainStreakAppearances[facility][1] && (winStreak - gFrontierBrainStreakAppearances[facility][1]) % gFrontierBrainStreakAppearances[facility][2] == 0)
             status = FRONTIER_BRAIN_STREAK_LONG;
         break;
     }
@@ -2216,7 +2216,7 @@ static void Print1PRecord(s32 position, s32 x, s32 y, struct RankingHall1P *hall
     if (hallRecord->winStreak)
     {
         TVShowConvertInternationalString(text, hallRecord->name, hallRecord->language);
-        AddTextPrinterParameterized(gRecordsWindowId, 1, text, (x + 2) * 8, (8 * (y + 5 * position)) + 1, TEXT_SPEED_FF, NULL);
+        AddTextPrinterParameterized(gRecordsWindowId, 2, text, (x + 2) * 8, (8 * (y + 5 * position)) + 1, TEXT_SPEED_FF, NULL);
         winStreak = hallRecord->winStreak;
         if (winStreak > MAX_STREAK)
             winStreak = MAX_STREAK;
@@ -2574,12 +2574,12 @@ s32 GetFronterBrainSymbol(void)
     if (symbol == 2)
     {
         u16 winStreak = GetCurrentFacilityWinStreak();
-        if (winStreak + sFrontierBrainStreakAppearances[facility][3] == sFrontierBrainStreakAppearances[facility][0])
+        if (winStreak + gFrontierBrainStreakAppearances[facility][3] == gFrontierBrainStreakAppearances[facility][0])
             symbol = 0;
-        else if (winStreak + sFrontierBrainStreakAppearances[facility][3] == sFrontierBrainStreakAppearances[facility][1])
+        else if (winStreak + gFrontierBrainStreakAppearances[facility][3] == gFrontierBrainStreakAppearances[facility][1])
             symbol = 1;
-        else if (winStreak + sFrontierBrainStreakAppearances[facility][3] > sFrontierBrainStreakAppearances[facility][1]
-                 && (winStreak + sFrontierBrainStreakAppearances[facility][3] - sFrontierBrainStreakAppearances[facility][1]) % sFrontierBrainStreakAppearances[facility][2] == 0)
+        else if (winStreak + gFrontierBrainStreakAppearances[facility][3] > gFrontierBrainStreakAppearances[facility][1]
+                 && (winStreak + gFrontierBrainStreakAppearances[facility][3] - gFrontierBrainStreakAppearances[facility][1]) % gFrontierBrainStreakAppearances[facility][2] == 0)
             symbol = 1;
     }
     return symbol;

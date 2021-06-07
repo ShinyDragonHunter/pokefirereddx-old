@@ -1551,11 +1551,8 @@ static void OpenContextMenu(u8 unused)
                         memcpy(&gBagMenu->contextMenuItemsBuffer, &sContextMenuItems_KeyItemsPocket, sizeof(sContextMenuItems_KeyItemsPocket));
                         if (gSaveBlock1Ptr->registeredItem == gSpecialVar_ItemId)
                             gBagMenu->contextMenuItemsBuffer[1] = ITEMMENUACTION_DESELECT;
-                        if (gSpecialVar_ItemId == ITEM_MACH_BIKE || gSpecialVar_ItemId == ITEM_ACRO_BIKE)
-                        {
-                            if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
-                                gBagMenu->contextMenuItemsBuffer[0] = ITEMMENUACTION_WALK;
-                        }
+                        if (gSpecialVar_ItemId == ITEM_MACH_BIKE || (gSpecialVar_ItemId == ITEM_ACRO_BIKE && TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE)))
+                            gBagMenu->contextMenuItemsBuffer[0] = ITEMMENUACTION_WALK;
                         break;
                     case BALLS_POCKET:
                         gBagMenu->contextMenuItemsPtr = sContextMenuItems_BallsPocket;

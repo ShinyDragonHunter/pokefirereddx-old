@@ -10,7 +10,7 @@ gTilesetPalOverrides_General::
 	.byte HOUR_NIGHT    @ start hour (inclusive)
 	.byte HOUR_MORNING  @ end hour (exclusive)
 	.byte 0             @ padding
-	.4byte gTilesetPalOverride_General01
+	.4byte gTilesetPalOverride_General05
 
 	.byte 0xFF
 	.byte 0
@@ -31,6 +31,20 @@ gTilesetPalOverrides_Petalburg::
 	.byte HOUR_MORNING  @ end hour (exclusive)
 	.byte 0             @ padding
 	.4byte gTilesetPalOverride_Petalburg06
+
+	.byte 0xFF
+	.byte 0
+	.byte 0
+	.byte 0 @ padding
+	.4byte NULL
+
+	.align 2
+gTilesetPalOverrides_Slateport::
+	.byte 10            @ palette index
+	.byte HOUR_NIGHT    @ start hour (inclusive)
+	.byte HOUR_MORNING  @ end hour (exclusive)
+	.byte 0             @ padding
+	.4byte gTilesetPalOverride_Slateport10
 
 	.byte 0xFF
 	.byte 0

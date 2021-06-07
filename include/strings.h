@@ -1102,7 +1102,6 @@ extern const u8 gText_DexSortHeaviestDescription[];
 extern const u8 gText_DexSortLightestDescription[];
 extern const u8 gText_DexSortTallestDescription[];
 extern const u8 gText_DexSortSmallestDescription[];
-extern const u8 gText_DexEmptyString[];
 extern const u8 gText_DexSearchDontSpecify[];
 extern const u8 gText_DexSearchTypeNone[];
 
@@ -1170,7 +1169,6 @@ extern const u8 gText_AboutE_Mode[];
 extern const u8 gText_AboutG_Mode[];
 extern const u8 gText_E_Mode[];
 extern const u8 gText_G_Mode[];
-extern const u8 gText_Blank[];
 extern const u8 gText_5BP[];
 extern const u8 gText_10BP[];
 extern const u8 gText_15BP[];

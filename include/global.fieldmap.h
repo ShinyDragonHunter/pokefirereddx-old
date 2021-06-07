@@ -45,6 +45,8 @@ struct MapLayout
     /*0x0c*/ u16 *map;
     /*0x10*/ struct Tileset *primaryTileset;
     /*0x14*/ struct Tileset *secondaryTileset;
+    /*0x18*/ u8 borderWidth;
+    /*0x19*/ u8 borderHeight;
 };
 
 struct BackupMapLayout
@@ -142,8 +144,8 @@ struct MapHeader
     /* 0x15 */ u8 cave;
     /* 0x16 */ u8 weather;
     /* 0x17 */ u8 mapType;
-    /* 0x18 */ u8 filler_18;
-    /* 0x19 */ u8 region;
+    /* 0x18 */ u8 region;
+    /* 0x19 */ s8 floorNum;
     /* 0x1A */ u8 flags;
     /* 0x1B */ u8 battleType;
 };
@@ -239,7 +241,6 @@ struct ObjectEventGraphicsInfo
 enum {
     PLAYER_AVATAR_STATE_NORMAL,
     PLAYER_AVATAR_STATE_MACH_BIKE,
-    PLAYER_AVATAR_STATE_ACRO_BIKE,
     PLAYER_AVATAR_STATE_SURFING,
     PLAYER_AVATAR_STATE_UNDERWATER,
     PLAYER_AVATAR_STATE_FIELD_MOVE,
@@ -249,23 +250,11 @@ enum {
 
 #define PLAYER_AVATAR_FLAG_ON_FOOT     (1 << 0)
 #define PLAYER_AVATAR_FLAG_MACH_BIKE   (1 << 1)
-#define PLAYER_AVATAR_FLAG_ACRO_BIKE   (1 << 2)
-#define PLAYER_AVATAR_FLAG_SURFING     (1 << 3)
-#define PLAYER_AVATAR_FLAG_UNDERWATER  (1 << 4)
-#define PLAYER_AVATAR_FLAG_5           (1 << 5)
-#define PLAYER_AVATAR_FLAG_FORCED_MOVE (1 << 6)
-#define PLAYER_AVATAR_FLAG_DASH        (1 << 7)
-
-enum
-{
-    ACRO_BIKE_NORMAL,
-    ACRO_BIKE_TURNING,
-    ACRO_BIKE_WHEELIE_STANDING,
-    ACRO_BIKE_BUNNY_HOP,
-    ACRO_BIKE_WHEELIE_MOVING,
-    ACRO_BIKE_STATE5,
-    ACRO_BIKE_STATE6,
-};
+#define PLAYER_AVATAR_FLAG_SURFING     (1 << 2)
+#define PLAYER_AVATAR_FLAG_UNDERWATER  (1 << 3)
+#define PLAYER_AVATAR_FLAG_4           (1 << 4)
+#define PLAYER_AVATAR_FLAG_FORCED_MOVE (1 << 5)
+#define PLAYER_AVATAR_FLAG_DASH        (1 << 6)
 
 enum
 {
@@ -312,15 +301,6 @@ struct PlayerAvatar
     /*0x06*/ bool8 preventStep;
     /*0x07*/ u8 gender;
     /*0x08*/ u8 acroBikeState; // 00 is normal, 01 is turning, 02 is standing wheelie, 03 is hopping wheelie
-    /*0x09*/ u8 newDirBackup; // during bike movement, the new direction as opposed to player's direction is backed up here.
-    /*0x0A*/ u8 bikeFrameCounter; // on the mach bike, when this value is 1, the bike is moving but not accelerating yet for 1 tile. on the acro bike, this acts as a timer for acro bike.
-    /*0x0B*/ u8 bikeSpeed;
-    // acro bike only
-    /*0x0C*/ u32 directionHistory; // up/down/left/right history is stored in each nybble, but using the field directions and not the io inputs.
-    /*0x10*/ u32 abStartSelectHistory; // same as above but for A + B + start + select only
-    // these two are timer history arrays which [0] is the active timer for acro bike. every element is backed up to the next element upon update.
-    /*0x14*/ u8 dirTimerHistory[8];
-    /*0x1C*/ u8 abStartSelectTimerHistory[8];
 };
 
 struct Camera

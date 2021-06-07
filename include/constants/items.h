@@ -523,10 +523,6 @@
 #define GOOD_ROD  1
 #define SUPER_ROD 2
 
-// Secondary IDs for bikes
-#define MACH_BIKE 0
-#define ACRO_BIKE 1
-
 // Item type IDs (used to determine the exit callback)
 #define ITEM_USE_MAIL        0
 #define ITEM_USE_PARTY_MENU  1

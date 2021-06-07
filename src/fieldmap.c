@@ -51,13 +51,20 @@ static bool8 IsCoordInIncomingConnectingMap(int coord, int srcMax, int destMax, 
 
 #define MapGridGetBorderTileAt(x, y) ({                                                            \
     u16 block;                                                                                     \
-    int i;                                                                                         \
-    u16 *border = gMapHeader.mapLayout->border;                                                    \
+    s32 xprime;                                                                                    \
+    s32 yprime;                                                                                    \
                                                                                                    \
-    i = (x + 1) & 1;                                                                               \
-    i += ((y + 1) & 1) * 2;                                                                        \
+    const struct MapLayout *mapLayout = gMapHeader.mapLayout;                                      \
                                                                                                    \
-    block = gMapHeader.mapLayout->border[i] | METATILE_COLLISION_MASK;                             \
+    xprime = x - 7;                                                                                \
+    xprime += 8 * mapLayout->borderWidth;                                                          \
+    xprime %= mapLayout->borderWidth;                                                              \
+                                                                                                   \
+    yprime = y - 7;                                                                                \
+    yprime += 8 * mapLayout->borderHeight;                                                         \
+    yprime %= mapLayout->borderHeight;                                                             \
+                                                                                                   \
+    block = mapLayout->border[xprime + yprime * mapLayout->borderWidth] | METATILE_COLLISION_MASK; \
 })
 
 #define AreCoordsWithinMapGridBounds(x, y) (x >= 0 && x < gBackupMapLayout.width && y >= 0 && y < gBackupMapLayout.height)

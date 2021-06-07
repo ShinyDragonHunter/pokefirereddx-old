@@ -465,18 +465,6 @@ static const u16 sNPCSpeeches[][EASY_CHAT_BATTLE_WORDS_COUNT] =
     {EC_MOVE2(TOXIC), EC_WORD_IS, EC_WORD_A, EC_WORD_TERRIBLE, EC_WORD_THING, EC_WORD_ISN_T_IT_QUES},
 };
 
-// Table duplicated from frontier_util, only Battle Pike entry used
-static const u8 sFrontierBrainStreakAppearances[NUM_FRONTIER_FACILITIES][4] =
-{
-    [FRONTIER_FACILITY_TOWER]   = {35,  70, 35, 1},
-    [FRONTIER_FACILITY_DOME]    = { 4,   9,  5, 0},
-    [FRONTIER_FACILITY_PALACE]  = {21,  42, 21, 1},
-    [FRONTIER_FACILITY_ARENA]   = {28,  56, 28, 1},
-    [FRONTIER_FACILITY_FACTORY] = {21,  42, 21, 1},
-    [FRONTIER_FACILITY_PIKE]    = {28, 140, 56, 1},
-    [FRONTIER_FACILITY_PYRAMID] = {21,  70, 35, 0},
-};
-
 static void (* const sBattlePikeFunctions[])(void) =
 {
     [BATTLE_PIKE_FUNC_SET_ROOM_TYPE]           = SetRoomType,
@@ -1502,16 +1490,16 @@ static u8 GetPikeQueenFightType(u8 nextRoom)
     {
     case 0:
     case 1:
-        if (winStreak == sFrontierBrainStreakAppearances[facility][numPikeSymbols] - sFrontierBrainStreakAppearances[facility][3])
+        if (winStreak == gFrontierBrainStreakAppearances[facility][numPikeSymbols] - gFrontierBrainStreakAppearances[facility][3])
             ret = numPikeSymbols + 1; // FRONTIER_BRAIN_SILVER and FRONTIER_BRAIN_GOLD
         break;
     case 2:
     default:
-        if (winStreak == sFrontierBrainStreakAppearances[facility][0] - sFrontierBrainStreakAppearances[facility][3])
+        if (winStreak == gFrontierBrainStreakAppearances[facility][0] - gFrontierBrainStreakAppearances[facility][3])
             ret = FRONTIER_BRAIN_STREAK;
-        else if (winStreak == sFrontierBrainStreakAppearances[facility][1] - sFrontierBrainStreakAppearances[facility][3]
-                 || (winStreak > sFrontierBrainStreakAppearances[facility][1]
-                     && (winStreak - sFrontierBrainStreakAppearances[facility][1] + sFrontierBrainStreakAppearances[facility][3]) % sFrontierBrainStreakAppearances[facility][2] == 0))
+        else if (winStreak == gFrontierBrainStreakAppearances[facility][1] - gFrontierBrainStreakAppearances[facility][3]
+                 || (winStreak > gFrontierBrainStreakAppearances[facility][1]
+                     && (winStreak - gFrontierBrainStreakAppearances[facility][1] + gFrontierBrainStreakAppearances[facility][3]) % gFrontierBrainStreakAppearances[facility][2] == 0))
             ret = FRONTIER_BRAIN_STREAK_LONG;
         break;
     }

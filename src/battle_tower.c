@@ -1900,7 +1900,7 @@ void DoSpecialTrainerBattle(void)
         }
         CreateTask(Task_StartBattleAfterTransition, 1);
         PlayMapChosenOrBattleBGM(0);
-        BattleTransition_StartOnField(GetSpecialBattleTransition(0));
+        BattleTransition_StartOnField(GetSpecialBattleTransition(SPECIAL_BATTLE_TOWER));
         break;
     case SPECIAL_BATTLE_EREADER:
         ZeroEnemyPartyMons();
@@ -3140,8 +3140,6 @@ static u16 GetBattleTentTrainerId(void)
         return Random() % NUM_BATTLE_TENT_TRAINERS;
     else if (facility == FRONTIER_FACILITY_FACTORY) // Slateport Tent; uses Factory mechanics
         return Random() % NUM_BATTLE_TENT_TRAINERS;
-    else if (facility == FRONTIER_FACILITY_TOWER)
-        return 0;
     else
         return 0;
 }

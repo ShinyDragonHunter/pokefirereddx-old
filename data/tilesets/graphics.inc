@@ -95,6 +95,10 @@ gTilesetPalettes_Slateport:: @ 833F708
 	.incbin "data/tilesets/secondary/slateport/palettes/15.gbapal"
 
 	.align 2
+gTilesetPalOverride_Slateport10::
+	.incbin "data/tilesets/secondary/slateport/palettes/10_over.gbapal"
+
+	.align 2
 gTilesetTiles_Mauville:: @ 833F908
 	.incbin "data/tilesets/secondary/mauville/tiles.4bpp.lz"
 

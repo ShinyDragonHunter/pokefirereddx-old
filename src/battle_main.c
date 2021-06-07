@@ -3691,7 +3691,7 @@ static void TryDoEventsBeforeFirstTurn(void)
     TurnValuesCleanUp(FALSE);
     SpecialStatusesClear();
     *(&gBattleStruct->field_91) = gAbsentBattlerFlags;
-    BattlePutTextOnWindow(gText_EmptyString3, 0);
+    BattlePutTextOnWindow(gText_ExpandedPlaceholder_Empty, 0);
     gBattleMainFunc = HandleTurnActionSelectionState;
     ResetSentPokesToOpponentValue();
 
@@ -3798,7 +3798,7 @@ void BattleTurnPassed(void)
         *(gBattleStruct->monToSwitchIntoId + i) = PARTY_SIZE;
 
     *(&gBattleStruct->field_91) = gAbsentBattlerFlags;
-    BattlePutTextOnWindow(gText_EmptyString3, 0);
+    BattlePutTextOnWindow(gText_ExpandedPlaceholder_Empty, 0);
     gBattleMainFunc = HandleTurnActionSelectionState;
     gRandomTurnNumber = Random();
 

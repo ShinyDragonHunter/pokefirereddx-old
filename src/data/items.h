@@ -3149,7 +3149,7 @@ const struct Item gItems[] =
         .pocket = POCKET_KEY_ITEMS,
         .type = ITEM_USE_FIELD,
         .fieldUseFunc = ItemUseOutOfBattle_Bike,
-        .secondaryId = MACH_BIKE,
+        .secondaryId = 0,
     },
 
     [ITEM_COIN_CASE] =
@@ -3308,7 +3308,7 @@ const struct Item gItems[] =
         .pocket = POCKET_KEY_ITEMS,
         .type = ITEM_USE_FIELD,
         .fieldUseFunc = ItemUseOutOfBattle_Bike,
-        .secondaryId = ACRO_BIKE,
+        .secondaryId = 0,
     },
 
     [ITEM_POKEBLOCK_CASE] =

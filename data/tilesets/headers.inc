@@ -56,7 +56,7 @@ gTileset_Slateport:: @ 83DF764
 	.4byte gMetatiles_Slateport
 	.4byte gMetatileAttributes_Slateport
 	.4byte InitTilesetAnim_Slateport
-	.4byte NULL @ palette overrides
+	.4byte gTilesetPalOverrides_Slateport
 
 	.align 2
 gTileset_Mauville:: @ 83DF77C

@@ -9796,11 +9796,11 @@ static void Cmd_handleballthrow(void)
                     ballMultiplier = 40;
                 else if (gBattleMons[gBattlerAttacker].level > gBattleMons[gBattlerTarget].level)
                     ballMultiplier = 20;
-				break;
+                break;
             case BALL_LURE:
                 if (gIsFishingEncounter)
                     ballMultiplier = 30;
-				break;
+                break;
             case BALL_MOON:
                 for (i = 0; i < EVOS_PER_MON; i++)
                 {
@@ -9808,11 +9808,11 @@ static void Cmd_handleballthrow(void)
                      && gEvolutionTable[gBattleMons[gBattlerTarget].species][i].param == ITEM_MOON_STONE)
                         ballMultiplier = 40;
                 }
-				break;
+                break;
             case BALL_FAST:
                 if (gBaseStats[gBattleMons[gBattlerTarget].species].baseSpeed > 99)
                     ballMultiplier = 40;
-				break;
+                break;
             case BALL_HEAVY:
                 // i is reused as weight value
                 i = GetPokedexHeightWeight(SpeciesToNationalPokedexNum(gBattleMons[gBattlerTarget].species), 1);
