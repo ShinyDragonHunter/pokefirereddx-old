@@ -607,6 +607,48 @@ BattleFrontier_BattleFactoryPreBattleRoom_Text_TrainerSkilledInSteelType: @ 825A
 	.string "The TRAINER is apparently skilled\n"
 	.string "in the handling of the STEEL type.$"
 
+.if UK
+BattleFrontier_BattleFactoryPreBattleRoom_Text_TrainerHasNoClearFavorite: @ 825A893
+	.string "The TRAINER appears to have no clear\n"
+	.string "favourites when it comes to type.$"
+
+BattleFrontier_BattleFactoryPreBattleRoom_Text_StyleSlowAndSteady: @ 825A8D9
+	.string "The favourite battle style appears to\n"
+	.string "be slow and steady.$"
+
+BattleFrontier_BattleFactoryPreBattleRoom_Text_StyleEndurance: @ 825A912
+	.string "The favourite battle style appears to\n"
+	.string "be one of endurance.$"
+
+BattleFrontier_BattleFactoryPreBattleRoom_Text_StyleHighRisk: @ 825A94C
+	.string "The favourite battle style appears to\n"
+	.string "be high risk, high return.$"
+
+BattleFrontier_BattleFactoryPreBattleRoom_Text_StyleDependsOnFlow: @ 825A98C
+	.string "The favourite battle style appears to\n"
+	.string "depend on the battle's flow.$"
+
+BattleFrontier_BattleFactoryPreBattleRoom_Text_StyleTotalPreparation: @ 825A9CE
+	.string "The favourite battle style appears to\n"
+	.string "be one based on total preparation.$"
+
+BattleFrontier_BattleFactoryPreBattleRoom_Text_StyleWeakenFoe: @ 825AA16
+	.string "The favourite battle style appears\n"
+	.string "to be weakening the foe to start.$"
+
+BattleFrontier_BattleFactoryPreBattleRoom_Text_StyleFlexible: @ 825AA5A
+	.string "The favourite battle style appears to\n"
+	.string "be flexibly adaptable to the situation.$"
+
+BattleFrontier_BattleFactoryPreBattleRoom_Text_StyleImpossibleToPredict: @ 825AAA7
+	.string "The favourite battle style appears to\n"
+	.string "be impossible to predict.$"
+
+BattleFrontier_BattleFactoryPreBattleRoom_Text_StyleUnrestrained: @ 825AAE6
+	.string "The favourite battle style appears to\n"
+	.string "be free-spirited and unrestrained.$"
+
+.else
 BattleFrontier_BattleFactoryPreBattleRoom_Text_TrainerHasNoClearFavorite: @ 825A893
 	.string "The TRAINER appears to have no clear\n"
 	.string "favorites when it comes to type.$"
@@ -646,6 +688,7 @@ BattleFrontier_BattleFactoryPreBattleRoom_Text_StyleImpossibleToPredict: @ 825AA
 BattleFrontier_BattleFactoryPreBattleRoom_Text_StyleUnrestrained: @ 825AAE6
 	.string "The favorite battle style appears to\n"
 	.string "be free-spirited and unrestrained.$"
+.endif
 
 BattleFrontier_BattleFactoryPreBattleRoom_Text_LikeToSwapMon: @ 825AB2E
 	.string "Before starting the battle, would you\n"

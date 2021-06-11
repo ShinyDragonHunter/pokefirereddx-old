@@ -1670,21 +1670,7 @@ void LaunchBattleAnimation(const u8 *const animsTable[], u16 tableId, bool8 isMo
 
     if (!isMoveAnim)
     {
-        switch (tableId)
-        {
-        case B_ANIM_TURN_TRAP:
-        case B_ANIM_LEECH_SEED_DRAIN:
-        case B_ANIM_MON_HIT:
-        case B_ANIM_SNATCH_MOVE:
-        case B_ANIM_FUTURE_SIGHT_HIT:
-        case B_ANIM_DOOM_DESIRE_HIT:
-        case B_ANIM_WISH_HEAL:
-            hideHpBoxes = TRUE;
-            break;
-        default:
-            hideHpBoxes = FALSE;
-            break;
-        }
+        hideHpBoxes = (tableId == B_ANIM_STATS_CHANGE) ? FALSE : TRUE;
     }
 
     if (IsContest())

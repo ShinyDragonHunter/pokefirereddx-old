@@ -24,6 +24,8 @@
 #define MOVEMENT_MODE_FROZEN 1
 #define MOVEMENT_MODE_SCRIPTED 2
 
+#define NUM_REGION 3
+
 #define SKIP_OBJECT_EVENT_LOAD  1
 
 enum {
@@ -45,6 +47,9 @@ struct LinkPlayerObjectEvent
     u8 objEventId;
     u8 movementMode;
 };
+
+extern const u8 gMapsecToRegion[];
+extern const u16 gSurfMusicTable[NUM_REGION];
 
 // Exported RAM declarations
 extern struct WarpData gLastUsedWarp;

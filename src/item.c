@@ -111,10 +111,10 @@ void GetBerryCountString(u8 *dst, const u8 *berryName, u32 quantity)
     const u8 *berryString;
     u8 *txtPtr;
 
-    if (quantity < 2)
-        berryString = gText_Berry;
-    else
+    if (quantity > 1)
         berryString = gText_BerriesPocket;
+    else
+        berryString = gText_Berry;
 
     txtPtr = StringCopy(dst, berryName);
     *txtPtr = CHAR_SPACE;
@@ -127,7 +127,7 @@ bool8 IsBagPocketNonEmpty(u8 pocket)
 
     for (i = 0; i < gBagPockets[pocket - 1].capacity; i++)
     {
-        if (gBagPockets[pocket - 1].itemSlots[i].itemId != 0)
+        if (gBagPockets[pocket - 1].itemSlots[i].itemId)
             return TRUE;
     }
     return FALSE;
@@ -138,9 +138,9 @@ bool8 CheckBagHasItem(u16 itemId, u16 count)
     u8 i;
     u8 pocket;
 
-    if (ItemId_GetPocket(itemId) == 0)
+    if (!ItemId_GetPocket(itemId))
         return FALSE;
-    if (InBattlePyramid() || FlagGet(FLAG_STORING_ITEMS_IN_PYRAMID_BAG) == TRUE)
+    if (InBattlePyramid() || FlagGet(FLAG_STORING_ITEMS_IN_PYRAMID_BAG))
         return CheckPyramidBagHasItem(itemId, count);
     pocket = ItemId_GetPocket(itemId) - 1;
     // Check for item slots that contain the item
@@ -155,7 +155,7 @@ bool8 CheckBagHasItem(u16 itemId, u16 count)
                 return TRUE;
             count -= quantity;
             // Does this item slot and all previous slots contain enough of the item?
-            if (count == 0)
+            if (!count)
                 return TRUE;
         }
     }
@@ -168,7 +168,7 @@ bool8 HasAtLeastOneBerry(void)
 
     for (i = FIRST_BERRY_INDEX; i < ITEM_BRIGHT_POWDER; i++)
     {
-        if (CheckBagHasItem(i, 1) == TRUE)
+        if (CheckBagHasItem(i, 1))
         {
             gSpecialVar_Result = TRUE;
             return TRUE;
@@ -188,7 +188,7 @@ bool8 CheckBagHasSpace(u16 itemId, u16 count)
     if (ItemId_GetPocket(itemId) == POCKET_NONE)
         return FALSE;
 
-    if (InBattlePyramid() || FlagGet(FLAG_STORING_ITEMS_IN_PYRAMID_BAG) == TRUE)
+    if (InBattlePyramid() || FlagGet(FLAG_STORING_ITEMS_IN_PYRAMID_BAG))
     {
         return CheckPyramidBagHasSpace(itemId, count);
     }
@@ -220,7 +220,7 @@ bool8 CheckBagHasSpace(u16 itemId, u16 count)
     {
         for (i = 0; i < gBagPockets[pocket].capacity; i++)
         {
-            if (gBagPockets[pocket].itemSlots[i].itemId == 0)
+            if (!gBagPockets[pocket].itemSlots[i].itemId)
             {
                 if (count > slotCapacity)
                 {
@@ -249,7 +249,7 @@ bool8 AddBagItem(u16 itemId, u16 count)
         return FALSE;
 
     // check Battle Pyramid Bag
-    if (InBattlePyramid() || FlagGet(FLAG_STORING_ITEMS_IN_PYRAMID_BAG) == TRUE)
+    if (InBattlePyramid() || FlagGet(FLAG_STORING_ITEMS_IN_PYRAMID_BAG))
     {
         return AddPyramidBagItem(itemId, count);
     }
@@ -297,7 +297,7 @@ bool8 AddBagItem(u16 itemId, u16 count)
                         count -= slotCapacity - ownedCount;
                         SetBagItemQuantity(&newItems[i].quantity, slotCapacity);
                         // don't create another instance of the item if it's at max slot capacity and count is equal to 0
-                        if (count == 0)
+                        if (!count)
                         {
                             break;
                         }
@@ -312,7 +312,7 @@ bool8 AddBagItem(u16 itemId, u16 count)
             // either no existing item was found or we have to create another instance, because the capacity was exceeded
             for (i = 0; i < itemPocket->capacity; i++)
             {
-                if (newItems[i].itemId == ITEM_NONE)
+                if (!newItems[i].itemId)
                 {
                     newItems[i].itemId = itemId;
                     if (count > slotCapacity)
@@ -353,11 +353,11 @@ bool8 RemoveBagItem(u16 itemId, u16 count)
     u8 i;
     u16 totalQuantity = 0;
 
-    if (ItemId_GetPocket(itemId) == POCKET_NONE || itemId == ITEM_NONE)
+    if (!ItemId_GetPocket(itemId) || !itemId)
         return FALSE;
 
     // check Battle Pyramid Bag
-    if (InBattlePyramid() || FlagGet(FLAG_STORING_ITEMS_IN_PYRAMID_BAG) == TRUE)
+    if (InBattlePyramid() || FlagGet(FLAG_STORING_ITEMS_IN_PYRAMID_BAG))
     {
         return RemovePyramidBagItem(itemId, count);
     }
@@ -396,10 +396,10 @@ bool8 RemoveBagItem(u16 itemId, u16 count)
                 SetBagItemQuantity(&itemPocket->itemSlots[var].quantity, 0);
             }
 
-            if (GetBagItemQuantity(&itemPocket->itemSlots[var].quantity) == 0)
+            if (!GetBagItemQuantity(&itemPocket->itemSlots[var].quantity))
                 itemPocket->itemSlots[var].itemId = ITEM_NONE;
 
-            if (count == 0)
+            if (!count)
                 return TRUE;
         }
 
@@ -419,10 +419,10 @@ bool8 RemoveBagItem(u16 itemId, u16 count)
                     SetBagItemQuantity(&itemPocket->itemSlots[i].quantity, 0);
                 }
 
-                if (GetBagItemQuantity(&itemPocket->itemSlots[i].quantity) == 0)
+                if (!GetBagItemQuantity(&itemPocket->itemSlots[i].quantity))
                     itemPocket->itemSlots[i].itemId = ITEM_NONE;
 
-                if (count == 0)
+                if (!count)
                     return TRUE;
             }
         }
@@ -452,7 +452,7 @@ static s32 FindFreePCItemSlot(void)
 
     for (i = 0; i < PC_ITEMS_COUNT; i++)
     {
-        if (gSaveBlock1Ptr->pcItems[i].itemId == ITEM_NONE)
+        if (!gSaveBlock1Ptr->pcItems[i].itemId)
             return i;
     }
     return -1;
@@ -465,7 +465,7 @@ u8 CountUsedPCItemSlots(void)
 
     for (i = 0; i < PC_ITEMS_COUNT; i++)
     {
-        if (gSaveBlock1Ptr->pcItems[i].itemId != ITEM_NONE)
+        if (gSaveBlock1Ptr->pcItems[i].itemId)
             usedSlots++;
     }
     return usedSlots;
@@ -509,7 +509,7 @@ bool8 AddPCItem(u16 itemId, u16 count)
             }
             count += ownedCount - MAX_PC_ITEM_CAPACITY;
             SetPCItemQuantity(&newItems[i].quantity, MAX_PC_ITEM_CAPACITY);
-            if (count == 0)
+            if (!count)
             {
                 memcpy(gSaveBlock1Ptr->pcItems, newItems, sizeof(gSaveBlock1Ptr->pcItems));
                 Free(newItems);
@@ -543,7 +543,7 @@ bool8 AddPCItem(u16 itemId, u16 count)
 void RemovePCItem(u8 index, u16 count)
 {
     gSaveBlock1Ptr->pcItems[index].quantity -= count;
-    if (gSaveBlock1Ptr->pcItems[index].quantity == 0)
+    if (!gSaveBlock1Ptr->pcItems[index].quantity)
     {
         gSaveBlock1Ptr->pcItems[index].itemId = ITEM_NONE;
         CompactPCItems();
@@ -559,26 +559,13 @@ void CompactPCItems(void)
     {
         for (j = i + 1; j < PC_ITEMS_COUNT; j++)
         {
-            if (gSaveBlock1Ptr->pcItems[i].itemId == 0)
+            if (!gSaveBlock1Ptr->pcItems[i].itemId)
             {
                 struct ItemSlot temp = gSaveBlock1Ptr->pcItems[i];
                 gSaveBlock1Ptr->pcItems[i] = gSaveBlock1Ptr->pcItems[j];
                 gSaveBlock1Ptr->pcItems[j] = temp;
             }
         }
-    }
-}
-
-void SwapRegisteredBike(void)
-{
-    switch (gSaveBlock1Ptr->registeredItem)
-    {
-    case ITEM_MACH_BIKE:
-        gSaveBlock1Ptr->registeredItem = ITEM_ACRO_BIKE;
-        break;
-    case ITEM_ACRO_BIKE:
-        gSaveBlock1Ptr->registeredItem = ITEM_MACH_BIKE;
-        break;
     }
 }
 
@@ -606,7 +593,7 @@ void CompactItemsInBagPocket(struct BagPocket *bagPocket)
     {
         for (j = i + 1; j < bagPocket->capacity; j++)
         {
-            if (GetBagItemQuantity(&bagPocket->itemSlots[i].quantity) == 0)
+            if (!GetBagItemQuantity(&bagPocket->itemSlots[i].quantity))
                 SwapItemSlots(&bagPocket->itemSlots[i], &bagPocket->itemSlots[j]);
         }
     }
@@ -620,9 +607,9 @@ void SortBerriesOrTMHMs(struct BagPocket *bagPocket)
     {
         for (j = i + 1; j < bagPocket->capacity; j++)
         {
-            if (GetBagItemQuantity(&bagPocket->itemSlots[i].quantity) != 0)
+            if (GetBagItemQuantity(&bagPocket->itemSlots[i].quantity))
             {
-                if (GetBagItemQuantity(&bagPocket->itemSlots[j].quantity) == 0)
+                if (!GetBagItemQuantity(&bagPocket->itemSlots[j].quantity))
                     continue;
                 if (bagPocket->itemSlots[i].itemId <= bagPocket->itemSlots[j].itemId)
                     continue;
@@ -697,7 +684,7 @@ static bool8 CheckPyramidBagHasItem(u16 itemId, u16 count)
                 return TRUE;
 
             count -= quantities[i];
-            if (count == 0)
+            if (!count)
                 return TRUE;
         }
     }
@@ -713,13 +700,13 @@ static bool8 CheckPyramidBagHasSpace(u16 itemId, u16 count)
 
     for (i = 0; i < PYRAMID_BAG_ITEMS_COUNT; i++)
     {
-        if (items[i] == itemId || items[i] == ITEM_NONE)
+        if (items[i] == itemId || !items[i])
         {
             if (quantities[i] + count <= MAX_BAG_ITEM_CAPACITY)
                 return TRUE;
 
             count = (quantities[i] + count) - MAX_BAG_ITEM_CAPACITY;
-            if (count == 0)
+            if (!count)
                 return TRUE;
         }
     }
@@ -755,7 +742,7 @@ bool8 AddPyramidBagItem(u16 itemId, u16 count)
                 count = 0;
             }
 
-            if (count == 0)
+            if (!count)
                 break;
         }
     }
@@ -778,25 +765,25 @@ bool8 AddPyramidBagItem(u16 itemId, u16 count)
                     count = 0;
                 }
 
-                if (count == 0)
+                if (!count)
                     break;
             }
         }
     }
 
-    if (count == 0)
+    if (count)
+    {
+        Free(newItems);
+        Free(newQuantities);
+        return FALSE;
+    }
+    else
     {
         memcpy(items, newItems, PYRAMID_BAG_ITEMS_COUNT * sizeof(u16));
         memcpy(quantities, newQuantities, PYRAMID_BAG_ITEMS_COUNT * sizeof(u8));
         Free(newItems);
         Free(newQuantities);
         return TRUE;
-    }
-    else
-    {
-        Free(newItems);
-        Free(newQuantities);
-        return FALSE;
     }
 }
 
@@ -811,7 +798,7 @@ bool8 RemovePyramidBagItem(u16 itemId, u16 count)
     if (items[i] == itemId && quantities[i] >= count)
     {
         quantities[i] -= count;
-        if (quantities[i] == 0)
+        if (!quantities[i])
             items[i] = ITEM_NONE;
         return TRUE;
     }
@@ -831,7 +818,7 @@ bool8 RemovePyramidBagItem(u16 itemId, u16 count)
                 {
                     newQuantities[i] -= count;
                     count = 0;
-                    if (newQuantities[i] == 0)
+                    if (!newQuantities[i])
                         newItems[i] = ITEM_NONE;
                 }
                 else
@@ -841,24 +828,24 @@ bool8 RemovePyramidBagItem(u16 itemId, u16 count)
                     newItems[i] = ITEM_NONE;
                 }
 
-                if (count == 0)
+                if (!count)
                     break;
             }
         }
 
-        if (count == 0)
+        if (count)
+        {
+            Free(newItems);
+            Free(newQuantities);
+            return FALSE;
+        }
+        else
         {
             memcpy(items, newItems, PYRAMID_BAG_ITEMS_COUNT * sizeof(u16));
             memcpy(quantities, newQuantities, PYRAMID_BAG_ITEMS_COUNT * sizeof(u8));
             Free(newItems);
             Free(newQuantities);
             return TRUE;
-        }
-        else
-        {
-            Free(newItems);
-            Free(newQuantities);
-            return FALSE;
         }
     }
 }

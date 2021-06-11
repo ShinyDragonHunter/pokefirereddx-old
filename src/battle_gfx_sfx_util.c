@@ -487,7 +487,21 @@ static bool8 ShouldAnimBeDoneRegardlessOfSubstitute(u8 animId)
 void InitAndLaunchSpecialAnimation(u8 activeBattler, u8 atkBattler, u8 defBattler, u8 tableId)
 {
     u8 taskId;
+    bool8 hideHpBoxes;
 
+    switch (tableId)
+    {
+    case B_ANIM_LVL_UP:
+    case B_ANIM_SWITCH_OUT_PLAYER_MON:
+    case B_ANIM_SWITCH_OUT_OPPONENT_MON:
+        hideHpBoxes = FALSE;
+        break;
+    default:
+        hideHpBoxes = TRUE;
+        break;
+    }
+
+    UpdateOamPriorityInAllHealthboxes_(0, hideHpBoxes);
     gBattleAnimAttacker = atkBattler;
     gBattleAnimTarget = defBattler;
     LaunchBattleAnimation(gBattleAnims_Special, tableId, FALSE);
@@ -583,17 +597,16 @@ static void BattleLoadMonSpriteGfx(struct Pokemon *mon, u8 battlerId, bool32 opp
         LoadPalette(gBattleStruct->castformPalette[battlerId], paletteOffset, 32);
     }
 
-	UniquePalette(0x100 + battlerId * 16, currentPersonality);
-	CpuCopy32(gPlttBufferFaded + 0x100 + battlerId * 16, gPlttBufferUnfaded + 0x100 + battlerId * 16, 32);
-	UniquePalette(0x80 + battlerId * 16, currentPersonality);
-	CpuCopy32(gPlttBufferFaded + 0x80 + battlerId * 16, gPlttBufferUnfaded + 0x80 + battlerId * 16, 32);
-
     // transform's pink color
     if (gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies)
     {
         BlendPalette(paletteOffset, 16, 6, RGB_WHITE);
         CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 0x20);
     }
+	UniquePalette(0x100 + battlerId * 16, currentPersonality);
+	CpuCopy32(gPlttBufferFaded + 0x100 + battlerId * 16, gPlttBufferUnfaded + 0x100 + battlerId * 16, 32);
+	UniquePalette(0x80 + battlerId * 16, currentPersonality);
+	CpuCopy32(gPlttBufferFaded + 0x80 + battlerId * 16, gPlttBufferUnfaded + 0x80 + battlerId * 16, 32);
 }
 
 void BattleLoadOpponentMonSpriteGfx(struct Pokemon *mon, u8 battlerId)

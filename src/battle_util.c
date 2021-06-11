@@ -319,7 +319,7 @@ void HandleAction_UseItem(void)
 
     if (ItemId_GetPocket(gLastUsedItem) == POCKET_POKE_BALLS) // is ball
     {
-        gBattlescriptCurrInstr = gBattlescriptsForBallThrow[ItemId_GetSecondaryId(gLastUsedItem)];
+        gBattlescriptCurrInstr = gBattlescriptsForBallThrow[ItemId_GetType(gLastUsedItem)];
     }
     else if (gLastUsedItem == ITEM_POKE_DOLL || gLastUsedItem == ITEM_FLUFFY_TAIL)
     {

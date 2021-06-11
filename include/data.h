@@ -118,7 +118,7 @@ extern const struct SpritePalette gTrainerBackPicPaletteTable[];
 extern const u8 gEnemyMonElevation[SPECIES_COUNT];
 extern const bool8 SpeciesHasGenderDifference[SPECIES_COUNT];
 
-extern const union AnimCmd *const *const gMonFrontAnimsPtrTable[];
+extern const union AnimCmd *const *const gMonFrontAnimsPtrTable[SPECIES_COUNT];
 
 extern const struct Trainer gTrainers[];
 extern const u8 gTrainerClassNames[][13];

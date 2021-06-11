@@ -889,8 +889,7 @@ u8 GetSpeciesBackAnimSet(u16 species)
 {
     if (sSpeciesToBackAnimSet[species])
         return sSpeciesToBackAnimSet[species];
-    else
-        return BACK_ANIM_NONE;
+    return BACK_ANIM_NONE;
 }
 
 #define tState  data[0]

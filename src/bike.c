@@ -52,10 +52,11 @@ static u8 (*const sAcroBikeInputHandlers[])(u8 *, u16, u16) =
     [ACRO_STATE_WHEELIE_STANDING] = AcroBikeHandleInputNormal,
 };
 
-static const u16 sBikeMusicTable[][3] =
+static const u16 sBikeMusicTable[NUM_REGION] =
 {
-    // Hoenn      // Kanto        // Sevii
-    {MUS_CYCLING, MUS_RG_CYCLING, MUS_RG_CYCLING},
+    [REGION_HOENN] = MUS_CYCLING,
+    [REGION_KANTO] = MUS_RG_CYCLING, 
+    [REGION_SEVII] = MUS_RG_CYCLING,
 };
 
 // code
@@ -236,7 +237,7 @@ void GetOnOffBike(u8 transitionFlags)
     }
     else
     {
-        u16 music = sBikeMusicTable[0][gMapHeader.region];
+        u16 music = sBikeMusicTable[gMapsecToRegion[gMapHeader.regionMapSectionId]];
         PlaySE(SE_BIKE_BELL);
         SetPlayerAvatarTransitionFlags(transitionFlags);
         Overworld_SetSavedMusic(music);

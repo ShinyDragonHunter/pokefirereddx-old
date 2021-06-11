@@ -421,10 +421,7 @@ u8 *StringBraille(u8 *dest, const u8 *src)
 
 static const u8 *ExpandPlaceholder_PlayerName(void)
 {
-    if (gSaveBlock2Ptr->playerName)
-        return gSaveBlock2Ptr->playerName;
-    else
-        return gText_ExpandedPlaceholder_Empty;
+    return gSaveBlock2Ptr->playerName;
 }
 
 static const u8 *ExpandPlaceholder_StringVar1(void)

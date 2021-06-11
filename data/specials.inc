@@ -98,7 +98,6 @@ gSpecials:: @ 81DBA64
 	def_special IsTrendyPhraseBoring
 	def_special BufferDeepLinkPhrase
 	def_special GetDewfordHallPaintingNameIndex
-	def_special SwapRegisteredBike
 	def_special CalculatePlayerPartyCount
 	def_special CountPartyNonEggMons
 	def_special CountPartyAliveNonEggMons_IgnoreVar0x8004Slot
@@ -466,5 +465,5 @@ gSpecials:: @ 81DBA64
 	def_special RemoveRecordsWindow
 	def_special CloseDeptStoreElevatorWindow
 	def_special TrySetBattleTowerLinkType
-    def_special ChangeForm
+	def_special ChangeForm
 	def_special CopyCurrentDayOfWeekStringToVar1

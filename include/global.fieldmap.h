@@ -144,8 +144,8 @@ struct MapHeader
     /* 0x15 */ u8 cave;
     /* 0x16 */ u8 weather;
     /* 0x17 */ u8 mapType;
-    /* 0x18 */ u8 region;
-    /* 0x19 */ s8 floorNum;
+    /* 0x18 */ s8 floorNum;
+    /* 0x19 */ u8 filler;
     /* 0x1A */ u8 flags;
     /* 0x1B */ u8 battleType;
 };

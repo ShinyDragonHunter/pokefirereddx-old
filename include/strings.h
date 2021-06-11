@@ -421,7 +421,6 @@ extern const u8 gText_NoMoreThanVar1Pkmn[];
 extern const u8 gText_PkmnCantBeTradedNow[];
 extern const u8 gText_EggCantBeTradedNow[];
 extern const u8 gText_OnlyPkmnForBattle[];
-extern const u8 gJPText_AreYouSureYouWantToSpinTradeMon[];
 extern const u8 gText_PauseUntilPress[];
 extern const u8 gText_CantUseUntilNewBadge[];
 extern const u8 gText_ReturnToHealingSpot[];

@@ -1390,12 +1390,11 @@ const s8 gNatureStatTable[NUM_NATURES][NUM_NATURE_STATS] =
 #include "data/pokemon/form_species_tables.h"
 #include "data/pokemon/form_species_table_pointers.h"
 
-static const u16 sBattleMusicTable[][3] =
+static const u16 sBattleMusicTable[NUM_REGION][3] =
 {
-    // Hoenn                // Kanto              // Sevii
-    {MUS_VS_FRONTIER_BRAIN, MUS_RG_VS_GYM_LEADER, MUS_DUMMY},         // Gym Leader
-    {MUS_VS_TRAINER,        MUS_RG_VS_TRAINER,    MUS_RG_VS_TRAINER}, // Trainer
-    {MUS_VS_WILD,           MUS_RG_VS_WILD,       MUS_RG_VS_WILD},    // Wild
+    [REGION_HOENN] = {MUS_VS_FRONTIER_BRAIN, MUS_VS_TRAINER,    MUS_VS_WILD},
+    [REGION_KANTO] = {MUS_RG_VS_GYM_LEADER,  MUS_RG_VS_TRAINER, MUS_RG_VS_WILD},
+    [REGION_SEVII] = {MUS_DUMMY,             MUS_RG_VS_TRAINER, MUS_RG_VS_WILD},
 };
 
 static const u8 sMonFrontAnimIdsTable[] =
@@ -2187,10 +2186,6 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
     u16 checksum;
     u16 formSpecies = GetFormSpecies(species, form);
 
-    if ((species > NUM_SPECIES && !form)
-     || (species >= SPECIES_COUNT && form))
-        species = SPECIES_NONE;
-
     ZeroBoxMonData(boxMon);
 
     if (hasFixedPersonality)
@@ -2298,6 +2293,9 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
         value = personality & 1;
         SetBoxMonData(boxMon, MON_DATA_ABILITY_NUM, &value);
     }
+    if ((species > NUM_SPECIES && !form)
+     || (species >= SPECIES_COUNT && form))
+        species = SPECIES_NONE;
 
     GiveBoxMonInitialMoveset(boxMon);
 }
@@ -3367,9 +3365,11 @@ u8 GetGenderFromSpeciesAndPersonality(u16 species, u32 personality)
 
 void SetMultiuseSpriteTemplateToPokemon(u16 speciesTag, u8 battlerPosition, u8 form)
 {
-    u16 formSpeciesTag = GetFormSpecies(speciesTag, form);
+    u16 formSpeciesTag;
     if (speciesTag > SPECIES_SHINY_TAG)
         formSpeciesTag = GetFormSpecies(speciesTag - SPECIES_SHINY_TAG, form);
+    else
+        formSpeciesTag = GetFormSpecies(speciesTag, form);
 
     if (gMonSpritesGfxPtr)
         gMultiuseSpriteTemplate = gMonSpritesGfxPtr->templates[battlerPosition];
@@ -3383,7 +3383,8 @@ void SetMultiuseSpriteTemplateToPokemon(u16 speciesTag, u8 battlerPosition, u8 f
     gMultiuseSpriteTemplate.paletteTag = speciesTag;
     if (battlerPosition == B_POSITION_PLAYER_LEFT || battlerPosition == B_POSITION_PLAYER_RIGHT)
         gMultiuseSpriteTemplate.anims = gAnims_MonPic;
-    gMultiuseSpriteTemplate.anims = gMonFrontAnimsPtrTable[formSpeciesTag];
+    else
+        gMultiuseSpriteTemplate.anims = gMonFrontAnimsPtrTable[formSpeciesTag];
 }
 
 void SetMultiuseSpriteTemplateToTrainerBack(u16 trainerSpriteId, u8 battlerPosition)
@@ -6191,11 +6192,11 @@ u16 GetBattleBGM(void)
         case HOENN_TRAINER_CLASS_FACTORY_HEAD:
         case HOENN_TRAINER_CLASS_PIKE_QUEEN:
         case HOENN_TRAINER_CLASS_PYRAMID_KING:
-            return sBattleMusicTable[0][gMapHeader.region];
+            return sBattleMusicTable[gMapsecToRegion[gMapHeader.regionMapSectionId]][0];
         case TRAINER_CLASS_CHAMPION:
             return MUS_RG_VS_CHAMPION;
         default:
-            return (gBattleTypeFlags & BATTLE_TYPE_RECORDED) ? MUS_VS_TRAINER : sBattleMusicTable[1][gMapHeader.region];
+            return (gBattleTypeFlags & BATTLE_TYPE_RECORDED) ? MUS_VS_TRAINER : sBattleMusicTable[gMapsecToRegion[gMapHeader.regionMapSectionId]][1];
         }
     }
     else
@@ -6218,7 +6219,7 @@ u16 GetBattleBGM(void)
         case SPECIES_DEOXYS:
             return MUS_RG_VS_DEOXYS;
 	    default:
-            return sBattleMusicTable[2][gMapHeader.region];
+            return sBattleMusicTable[gMapsecToRegion[gMapHeader.regionMapSectionId]][2];
         }
     }
 }

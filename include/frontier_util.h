@@ -1,6 +1,8 @@
 #ifndef GUARD_FRONTIER_UTIL_H
 #define GUARD_FRONTIER_UTIL_H
 
+#include "constants/battle_frontier.h"
+
 void CallFrontierUtilFunc(void);
 u8 GetFrontierBrainStatus(void);
 void CopyFrontierTrainerText(u8 whichText, u16 trainerId);
@@ -25,7 +27,7 @@ u8 GetFrontierBrainMonNature(u8 monId);
 u8 GetFrontierBrainMonEvs(u8 monId, u8 evStatId);
 s32 GetFronterBrainSymbol(void);
 
-extern const u8 gFrontierBrainStreakAppearances[7][4];
+extern const u8 gFrontierBrainStreakAppearances[NUM_FRONTIER_FACILITIES][4];
 extern const u16 gFrontierBannedSpecies[];
 
 #endif // GUARD_FRONTIER_UTIL_H

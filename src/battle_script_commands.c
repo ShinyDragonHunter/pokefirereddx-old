@@ -9750,7 +9750,7 @@ static void Cmd_handleballthrow(void)
     }
     else
     {
-        u16 ball = ItemId_GetSecondaryId(gLastUsedItem); // Gets the secondaryId of gLastUsedItem
+        u16 ball = ItemId_GetType(gLastUsedItem); // Gets the type of gLastUsedItem
         u8 catchRate;
         u32 i, odds;
         u8 maxShakes, shakes;
