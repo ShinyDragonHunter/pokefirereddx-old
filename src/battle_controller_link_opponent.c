@@ -504,11 +504,7 @@ static void LinkOpponentHandleGetMonData(void)
     u8 monToCheck;
     s32 i;
 
-    if (gBattleBufferA[gActiveBattler][2] == 0)
-    {
-        size += CopyLinkOpponentMonData(gBattlerPartyIndexes[gActiveBattler], monData);
-    }
-    else
+    if (gBattleBufferA[gActiveBattler][2])
     {
         monToCheck = gBattleBufferA[gActiveBattler][2];
         for (i = 0; i < PARTY_SIZE; i++)
@@ -517,6 +513,10 @@ static void LinkOpponentHandleGetMonData(void)
                 size += CopyLinkOpponentMonData(i, monData + size);
             monToCheck >>= 1;
         }
+    }
+    else
+    {
+        size += CopyLinkOpponentMonData(gBattlerPartyIndexes[gActiveBattler], monData);
     }
     BtlController_EmitDataTransfer(1, size, monData);
     LinkOpponentBufferExecCompleted();
@@ -572,7 +572,8 @@ static u32 CopyLinkOpponentMonData(u8 monId, u8 *dst)
             dst[size] = src[size];
         break;
     case REQUEST_SPECIES_BATTLE:
-        data16 = GetFormSpecies(GetMonData(&gEnemyParty[monId], MON_DATA_SPECIES), GetMonData(&gEnemyParty[monId], MON_DATA_FORM));
+        data16 = GetFormSpecies(GetMonData(&gEnemyParty[monId], MON_DATA_SPECIES),
+                                GetMonData(&gEnemyParty[monId], MON_DATA_FORM));
         dst[0] = data16;
         dst[1] = data16 >> 8;
         size = 2;
@@ -838,11 +839,7 @@ static void LinkOpponentHandleSetMonData(void)
     u8 monToCheck;
     u8 i;
 
-    if (gBattleBufferA[gActiveBattler][2] == 0)
-    {
-        SetLinkOpponentMonData(gBattlerPartyIndexes[gActiveBattler]);
-    }
-    else
+    if (gBattleBufferA[gActiveBattler][2])
     {
         monToCheck = gBattleBufferA[gActiveBattler][2];
         for (i = 0; i < PARTY_SIZE; i++)
@@ -851,6 +848,10 @@ static void LinkOpponentHandleSetMonData(void)
                 SetLinkOpponentMonData(i);
             monToCheck >>= 1;
         }
+    }
+    else
+    {
+        SetLinkOpponentMonData(gBattlerPartyIndexes[gActiveBattler]);
     }
     LinkOpponentBufferExecCompleted();
 }
@@ -1147,18 +1148,18 @@ static void StartSendOutAnim(u8 battlerId, bool8 dontClearSubstituteBit)
 
 static void LinkOpponentHandleReturnMonToBall(void)
 {
-    if (gBattleBufferA[gActiveBattler][1] == 0)
-    {
-        gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].animationState = 0;
-        gBattlerControllerFuncs[gActiveBattler] = DoSwitchOutAnimation;
-    }
-    else
+    if (gBattleBufferA[gActiveBattler][1])
     {
         FreeSpriteOamMatrix(&gSprites[gBattlerSpriteIds[gActiveBattler]]);
         DestroySprite(&gSprites[gBattlerSpriteIds[gActiveBattler]]);
         HideBattlerShadowSprite(gActiveBattler);
         SetHealthboxSpriteInvisible(gHealthboxSpriteIds[gActiveBattler]);
         LinkOpponentBufferExecCompleted();
+    }
+    else
+    {
+        gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].animationState = 0;
+        gBattlerControllerFuncs[gActiveBattler] = DoSwitchOutAnimation;
     }
 }
 
@@ -1478,7 +1479,7 @@ static void LinkOpponentHandleStatusAnimation(void)
 
 static void LinkOpponentHandleHitAnimation(void)
 {
-    if (gSprites[gBattlerSpriteIds[gActiveBattler]].invisible == TRUE)
+    if (gSprites[gBattlerSpriteIds[gActiveBattler]].invisible)
     {
         LinkOpponentBufferExecCompleted();
     }

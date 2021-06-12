@@ -98,7 +98,6 @@ extern const union AffineAnimCmd *const gAffineAnims_BattleSpriteOpponentSide[];
 extern const union AffineAnimCmd *const gAffineAnims_BattleSpriteContest[];
 
 extern const union AnimCmd *const gAnims_MonPic[]; // Castform's front pic animation uses this
-extern const union AnimCmd *const gAnims_NONE[]; // Defined here because gTrainerFrontAnimsPtrTable uses it
 extern const struct MonCoords gMonFrontPicCoords[];
 extern const struct CompressedSpriteSheet gMonFrontPicTable[];
 extern const struct CompressedSpriteSheet gFemaleMonFrontPicTable[];
@@ -108,6 +107,7 @@ extern const struct CompressedSpriteSheet gFemaleMonBackPicTable[];
 extern const struct SpritePalette gMonPaletteTable[];
 extern const struct SpritePalette gMonShinyPaletteTable[];
 extern const union AnimCmd *const *const gTrainerFrontAnimsPtrTable[];
+extern const union AnimCmd *const gAnims_NONE[]; // Defined here because gTrainerFrontAnimsPtrTable uses it
 extern const struct MonCoords gTrainerFrontPicCoords[];
 extern const struct CompressedSpriteSheet gTrainerFrontPicTable[];
 extern const struct SpritePalette gTrainerFrontPicPaletteTable[];
@@ -118,7 +118,7 @@ extern const struct SpritePalette gTrainerBackPicPaletteTable[];
 extern const u8 gEnemyMonElevation[SPECIES_COUNT];
 extern const bool8 SpeciesHasGenderDifference[SPECIES_COUNT];
 
-extern const union AnimCmd *const *const gMonFrontAnimsPtrTable[SPECIES_COUNT];
+extern const union AnimCmd *const *const gMonFrontAnimsPtrTable[];
 
 extern const struct Trainer gTrainers[];
 extern const u8 gTrainerClassNames[][13];

@@ -1015,7 +1015,7 @@ static void TryToggleHealboxVisibility(u8 priority, u8 healthboxLeftSpriteId, u8
     }
 }
 
-void UpdateOamPriorityInAllHealthboxes_(u8 priority, bool32 hideHPBoxes)
+void UpdateOamPriorityInAllHealthboxes(u8 priority, bool32 hideHPBoxes)
 {
     s32 i;
 
@@ -1034,9 +1034,14 @@ void UpdateOamPriorityInAllHealthboxes_(u8 priority, bool32 hideHPBoxes)
     }
 }
 
-void UpdateOamPriorityInAllHealthboxes(u8 priority)
+void UpdateOamPriorityInAllHealthboxesNoInvisibility(u8 priority)
 {
-    UpdateOamPriorityInAllHealthboxes_(priority, FALSE);
+    UpdateOamPriorityInAllHealthboxes(priority, FALSE);
+}
+
+void UpdateOamPriorityInAllHealthboxesInvisibility(u8 priority)
+{
+    UpdateOamPriorityInAllHealthboxes(priority, TRUE);
 }
 
 void InitBattlerHealthboxCoords(u8 battler)

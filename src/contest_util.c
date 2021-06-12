@@ -2242,7 +2242,7 @@ void Task_LinkContest_FinalizeConnection(u8 taskId)
             StringGetEnd10(gContestMons[i].nickname);
 
         DestroyTask(taskId);
-        SetDynamicWarp(0, gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum, -1);
+        SetDynamicWarp(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum, -1);
         ScriptContext2_Disable();
         EnableBothScriptContexts();
     }

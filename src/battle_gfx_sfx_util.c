@@ -487,21 +487,7 @@ static bool8 ShouldAnimBeDoneRegardlessOfSubstitute(u8 animId)
 void InitAndLaunchSpecialAnimation(u8 activeBattler, u8 atkBattler, u8 defBattler, u8 tableId)
 {
     u8 taskId;
-    bool8 hideHpBoxes;
 
-    switch (tableId)
-    {
-    case B_ANIM_LVL_UP:
-    case B_ANIM_SWITCH_OUT_PLAYER_MON:
-    case B_ANIM_SWITCH_OUT_OPPONENT_MON:
-        hideHpBoxes = FALSE;
-        break;
-    default:
-        hideHpBoxes = TRUE;
-        break;
-    }
-
-    UpdateOamPriorityInAllHealthboxes_(0, hideHpBoxes);
     gBattleAnimAttacker = atkBattler;
     gBattleAnimTarget = defBattler;
     LaunchBattleAnimation(gBattleAnims_Special, tableId, FALSE);

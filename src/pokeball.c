@@ -404,12 +404,11 @@ const struct SpriteTemplate gBallSpriteTemplates[POKEBALL_COUNT] =
 
 u8 DoPokeballSendOutAnimation(s16 pan, u8 kindOfThrow)
 {
-    u8 taskId;
+    u8 taskId = CreateTask(Task_DoPokeballSendOutAnim, 5);
 
     gDoingBattleAnim = TRUE;
     gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].ballAnimActive = 1;
 
-    taskId = CreateTask(Task_DoPokeballSendOutAnim, 5);
     gTasks[taskId].tPan = pan;
     gTasks[taskId].tThrowId = kindOfThrow;
     gTasks[taskId].tBattler = gActiveBattler;
@@ -420,8 +419,10 @@ u8 DoPokeballSendOutAnimation(s16 pan, u8 kindOfThrow)
 
 static void Task_DoPokeballSendOutAnim(u8 taskId)
 {
-    u16 throwCaseId, itemId, ballId;
-    u8 battlerId, ballSpriteId;
+    u16 throwCaseId = gTasks[taskId].tThrowId;
+    u8 battlerId = gTasks[taskId].tBattler;
+    u16 itemId, ballId;
+    u8 ballSpriteId;
     bool8 notSendOut = FALSE;
 
     if (!gTasks[taskId].tFrames)
@@ -429,9 +430,6 @@ static void Task_DoPokeballSendOutAnim(u8 taskId)
         gTasks[taskId].tFrames++;
         return;
     }
-
-    throwCaseId = gTasks[taskId].tThrowId;
-    battlerId = gTasks[taskId].tBattler;
 
     if (GetBattlerSide(battlerId))
         itemId = GetMonData(&gEnemyParty[gBattlerPartyIndexes[battlerId]], MON_DATA_POKEBALL);
@@ -450,7 +448,7 @@ static void Task_DoPokeballSendOutAnim(u8 taskId)
     case POKEBALL_PLAYER_SENDOUT:
         gBattlerTarget = battlerId;
         gSprites[ballSpriteId].pos1.x = 24;
-        gSprites[ballSpriteId].pos1.y = 70;
+        gSprites[ballSpriteId].pos1.y = 80;
         gSprites[ballSpriteId].callback = SpriteCB_PlayerMonSendOut_1;
         break;
     case POKEBALL_OPPONENT_SENDOUT:
@@ -1079,8 +1077,8 @@ static void SpriteCB_PokeballReleaseMon(struct Sprite *sprite)
         else
             r5 = 0;
 
-        StartSpriteAnim(sprite, 1);
         LoadBallGfx(BALL_POKE);
+        StartSpriteAnim(sprite, 1);
         AnimateBallOpenParticlesForPokeball(sprite->pos1.x, sprite->pos1.y - 5, sprite->oam.priority, r5);
         sprite->data[1] = LaunchBallFadeMonTaskForPokeball(1, battlerId, r4);
         sprite->callback = SpriteCB_ReleasedMonFlyOut;
@@ -1097,8 +1095,6 @@ static void SpriteCB_ReleasedMonFlyOut(struct Sprite *sprite)
     bool8 r12 = FALSE;
     bool8 r6 = FALSE;
     u8 monSpriteId = sprite->data[0];
-    u16 var1;
-    u16 var2;
 
     if (sprite->animEnded)
         sprite->invisible = TRUE;
@@ -1107,10 +1103,8 @@ static void SpriteCB_ReleasedMonFlyOut(struct Sprite *sprite)
         StartSpriteAffineAnim(&gSprites[monSpriteId], BATTLER_AFFINE_NORMAL);
         r12 = TRUE;
     }
-    var1 = (sprite->data[5] - sprite->pos1.x) * sprite->data[7] / 128 + sprite->pos1.x;
-    var2 = (sprite->data[6] - sprite->pos1.y) * sprite->data[7] / 128 + sprite->pos1.y;
-    gSprites[monSpriteId].pos1.x = var1;
-    gSprites[monSpriteId].pos1.y = var2;
+    gSprites[monSpriteId].pos1.x = (sprite->data[5] - sprite->pos1.x) * sprite->data[7] / 128 + sprite->pos1.x;
+    gSprites[monSpriteId].pos1.y = (sprite->data[6] - sprite->pos1.y) * sprite->data[7] / 128 + sprite->pos1.y;
     if (sprite->data[7] < 128)
     {
         s16 sine = -(gSineTable[(u8)sprite->data[7]] / 8);
@@ -1173,8 +1167,8 @@ static void SpriteCB_TradePokeball(struct Sprite *sprite)
         else
             r6 = 0;
 
-        StartSpriteAnim(sprite, 1);
         LoadBallGfx(BALL_POKE);
+        StartSpriteAnim(sprite, 1);
         AnimateBallOpenParticlesForPokeball(sprite->pos1.x, sprite->pos1.y - 5, sprite->oam.priority, r6);
         sprite->data[1] = LaunchBallFadeMonTaskForPokeball(1, r8, r5);
         sprite->callback = SpriteCB_TradePokeballSendOff;
@@ -1187,12 +1181,11 @@ static void SpriteCB_TradePokeball(struct Sprite *sprite)
 
 static void SpriteCB_TradePokeballSendOff(struct Sprite *sprite)
 {
-    u8 monSpriteId;
+    u8 monSpriteId = sprite->data[0];
 
     sprite->data[5]++;
     if (sprite->data[5] == 11)
         PlaySE(SE_BALL_TRADE);
-    monSpriteId = sprite->data[0];
     if (gSprites[monSpriteId].affineAnimEnded)
     {
         StartSpriteAnim(sprite, 2);
@@ -1263,9 +1256,8 @@ static void SpriteCB_HealthboxSlideIn(struct Sprite *sprite)
 
 void DoHitAnimHealthboxEffect(u8 battlerId)
 {
-    u8 spriteId;
+    u8 spriteId = CreateInvisibleSpriteWithCallback(SpriteCB_HitAnimHealthoxEffect);
 
-    spriteId = CreateInvisibleSpriteWithCallback(SpriteCB_HitAnimHealthoxEffect);
     gSprites[spriteId].data[0] = 1;
     gSprites[spriteId].data[1] = gHealthboxSpriteIds[battlerId];
     gSprites[spriteId].callback = SpriteCB_HitAnimHealthoxEffect;
@@ -1288,8 +1280,6 @@ static void SpriteCB_HitAnimHealthoxEffect(struct Sprite *sprite)
 
 void LoadBallGfx(u8 ballId)
 {
-    u16 var;
-
     if (GetSpriteTileStartByTag(gBallSpriteSheets[ballId].tag) == 0xFFFF)
     {
         LoadCompressedSpriteSheetUsingHeap(&gBallSpriteSheets[ballId]);
@@ -1298,8 +1288,7 @@ void LoadBallGfx(u8 ballId)
     switch (ballId)
     {
     default:
-        var = GetSpriteTileStartByTag(gBallSpriteSheets[ballId].tag);
-        LZDecompressVram(gOpenPokeballGfx, (void *)(OBJ_VRAM0 + 0x100 + var * 32));
+        LZDecompressVram(gOpenPokeballGfx, (void *)(OBJ_VRAM0 + 0x100 + GetSpriteTileStartByTag(gBallSpriteSheets[ballId].tag) * 32));
     case BALL_DIVE:
     case BALL_LUXURY:
     case BALL_PREMIER:

@@ -87,7 +87,7 @@ struct MapHeader const *const GetDestinationWarpMapHeader(void);
 void WarpIntoMap(void);
 void SetWarpDestination(s8 mapGroup, s8 mapNum, s8 warpId, s8 x, s8 y);
 void SetWarpDestinationToMapWarp(s8 mapGroup, s8 mapNum, s8 warpId);
-void SetDynamicWarp(s32 unused, s8 mapGroup, s8 mapNum, s8 warpId);
+void SetDynamicWarp(s8 mapGroup, s8 mapNum, s8 warpId);
 void SetDynamicWarpWithCoords(s32 unused, s8 mapGroup, s8 mapNum, s8 warpId, s8 x, s8 y);
 void SetWarpDestinationToDynamicWarp(u8 unused);
 void SetWarpDestinationToHealLocation(u8 a1);
