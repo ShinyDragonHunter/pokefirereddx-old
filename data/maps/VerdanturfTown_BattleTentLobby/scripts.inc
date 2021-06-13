@@ -161,7 +161,7 @@ VerdanturfTown_BattleTentLobby_EventScript_EnterChallenge:: @ 82019AE
 	frontier_setpartyorder FRONTIER_PARTY_SIZE
 	msgbox VerdanturfTown_BattleTentLobby_Text_NowFollowMe, MSGBOX_DEFAULT
 	closemessage
-	call VerdanturfTown_BattleTentLobby_EventScript_WalkToDoor
+	call FallarborTown_BattleTentLobby_EventScript_WalkToDoor
 	warp MAP_VERDANTURF_TOWN_BATTLE_TENT_CORRIDOR, 255, 2, 7
 	setvar VAR_TEMP_0, 0
 	waitstate
@@ -178,11 +178,11 @@ VerdanturfTown_BattleTentLobby_EventScript_NotEnoughValidMons:: @ 82019E8
 
 VerdanturfTown_BattleTentLobby_EventScript_NotEnoughValidMonsLv50:: @ 8201A03
 	msgbox VerdanturfTown_BattleTentLobby_Text_NotEnoughValidMonsLv50, MSGBOX_DEFAULT
-	goto VerdanturfTown_BattleTentLobby_EventScript_EndCancelChallenge
+	goto FallarborTown_BattleTentLobby_EventScript_EndCancelChallenge
 
 VerdanturfTown_BattleTentLobby_EventScript_NotEnoughValidMonsLvOpen:: @ 8201A10
 	msgbox VerdanturfTown_BattleTentLobby_Text_NotEnoughValidMonsLvOpen, MSGBOX_DEFAULT
-	goto VerdanturfTown_BattleTentLobby_EventScript_EndCancelChallenge
+	goto FallarborTown_BattleTentLobby_EventScript_EndCancelChallenge
 
 VerdanturfTown_BattleTentLobby_EventScript_CancelChallengeSaveFailed:: @ 8201A1D
 	frontier_set FRONTIER_DATA_CHALLENGE_STATUS, 0
@@ -192,39 +192,8 @@ VerdanturfTown_BattleTentLobby_EventScript_LoadPartyCancelChallenge:: @ 8201A34
 	special LoadPlayerParty
 VerdanturfTown_BattleTentLobby_EventScript_CancelChallenge:: @ 8201A37
 	msgbox VerdanturfTown_BattleTentLobby_Text_ReturnFortified, MSGBOX_DEFAULT
-VerdanturfTown_BattleTentLobby_EventScript_EndCancelChallenge:: @ 8201A3F
 	release
 	end
-
-VerdanturfTown_BattleTentLobby_EventScript_WalkToDoor:: @ 8201A41
-	applymovement LOCALID_ATTENDANT, VerdanturfTown_BattleTentLobby_Movement_WalkToDoor
-	applymovement OBJ_EVENT_ID_PLAYER, VerdanturfTown_BattleTentLobby_Movement_WalkToDoor
-	waitmovement 0
-	opendoor 6, 1
-	waitdooranim
-	applymovement LOCALID_ATTENDANT, VerdanturfTown_BattleTentLobby_Movement_AttendantEnterDoor
-	applymovement OBJ_EVENT_ID_PLAYER, VerdanturfTown_BattleTentLobby_Movement_PlayerEnterDoor
-	waitmovement 0
-	closedoor 6, 1
-	waitdooranim
-	return
-
-VerdanturfTown_BattleTentLobby_Movement_WalkToDoor: @ 8201A70
-	walk_up
-	walk_up
-	walk_up
-	step_end
-
-VerdanturfTown_BattleTentLobby_Movement_AttendantEnterDoor: @ 8201A74
-	walk_up
-	set_invisible
-	step_end
-
-VerdanturfTown_BattleTentLobby_Movement_PlayerEnterDoor: @ 8201A77
-	walk_up
-	walk_up
-	set_invisible
-	step_end
 
 VerdanturfTown_BattleTentLobby_EventScript_AttractGiver:: @ 8201A7B
 	lock
@@ -282,7 +251,7 @@ VerdanturfTown_BattleTentLobby_EventScript_RulesBoard:: @ 8201B02
 	end
 
 VerdanturfTown_BattleTentLobby_EventScript_ReadRulesBoard:: @ 8201B11
-	message BattleFrontier_BattlePalaceLobby_Text_ReadWhichHeading
+	message BattleFrontier_BattleTowerLobby_Text_ReadWhichHeading
 	waitmessage
 	setvar VAR_0x8004, SCROLL_MULTI_BATTLE_TENT_RULES
 	special ShowScrollableMultichoice
@@ -294,8 +263,8 @@ VerdanturfTown_BattleTentLobby_EventScript_ReadRulesBoard:: @ 8201B11
 	case 3, VerdanturfTown_BattleTentLobby_EventScript_RulesMoves
 	case 4, VerdanturfTown_BattleTentLobby_EventScript_RulesUnderpowered
 	case 5, VerdanturfTown_BattleTentLobby_EventScript_RulesWhenInDanger
-	case 6, VerdanturfTown_BattleTentLobby_EventScript_ExitRules
-	case MULTI_B_PRESSED, VerdanturfTown_BattleTentLobby_EventScript_ExitRules
+	case 6, BattleFrontier_BattleTowerLobby_EventScript_ExitRules
+	case MULTI_B_PRESSED, BattleFrontier_BattleTowerLobby_EventScript_ExitRules
 	end
 
 VerdanturfTown_BattleTentLobby_EventScript_RulesLevel:: @ 8201B7E
@@ -326,10 +295,6 @@ VerdanturfTown_BattleTentLobby_EventScript_RulesUnderpowered:: @ 8201BB6
 VerdanturfTown_BattleTentLobby_EventScript_RulesWhenInDanger:: @ 8201BC4
 	msgbox BattleFrontier_BattlePalaceLobby_Text_ExplainRulesWhenInDanger, MSGBOX_DEFAULT
 	goto VerdanturfTown_BattleTentLobby_EventScript_ReadRulesBoard
-	end
-
-VerdanturfTown_BattleTentLobby_EventScript_ExitRules:: @ 8201BD2
-	releaseall
 	end
 
 VerdanturfTown_BattleTentLobby_Text_MonsReluctantToUseDislikedMoves: @ 8201BD4

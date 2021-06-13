@@ -196,7 +196,7 @@ FallarborTown_BattleTentLobby_EventScript_EndCancelChallenge:: @ 82001CD
 
 FallarborTown_BattleTentLobby_EventScript_WalkToDoor:: @ 82001CF
 	applymovement LOCALID_ATTENDANT, FallarborTown_BattleTentLobby_Movement_AttendantWalkToDoor
-	applymovement OBJ_EVENT_ID_PLAYER, FallarborTown_BattleTentLobby_Movement_PlayerWalkToDoor
+	applymovement OBJ_EVENT_ID_PLAYER, FallarborTown_BattleTentLobby_Movement_AttendantWalkToDoor
 	waitmovement 0
 	opendoor 6, 1
 	waitdooranim
@@ -213,19 +213,9 @@ FallarborTown_BattleTentLobby_Movement_AttendantWalkToDoor: @ 82001FE
 	walk_up
 	step_end
 
-FallarborTown_BattleTentLobby_Movement_AttendantEnterDoor: @ 8200202
-	walk_up
-	set_invisible
-	step_end
-
-FallarborTown_BattleTentLobby_Movement_PlayerWalkToDoor: @ 8200205
-	walk_up
-	walk_up
-	walk_up
-	step_end
-
 FallarborTown_BattleTentLobby_Movement_PlayerEnterDoor: @ 8200209
 	walk_up
+FallarborTown_BattleTentLobby_Movement_AttendantEnterDoor: @ 8200202
 	walk_up
 	set_invisible
 	step_end
@@ -264,7 +254,7 @@ FallarborTown_BattleTentLobby_EventScript_RulesBoard:: @ 820024F
 	end
 
 FallarborTown_BattleTentLobby_EventScript_ReadRulesBoard:: @ 820025E
-	message BattleFrontier_BattleArenaLobby_Text_ReadWhichHeading
+	message BattleFrontier_BattleTowerLobby_Text_ReadWhichHeading
 	waitmessage
 	multichoice 17, 0, MULTI_FALLARBOR_TENT_RULES, FALSE
 	switch VAR_RESULT
@@ -273,8 +263,8 @@ FallarborTown_BattleTentLobby_EventScript_ReadRulesBoard:: @ 820025E
 	case 2, FallarborTown_BattleTentLobby_EventScript_RulesMind
 	case 3, FallarborTown_BattleTentLobby_EventScript_RulesSkill
 	case 4, FallarborTown_BattleTentLobby_EventScript_RulesBody
-	case 5, FallarborTown_BattleTentLobby_EventScript_ExitRules
-	case MULTI_B_PRESSED, FallarborTown_BattleTentLobby_EventScript_ExitRules
+	case 5, BattleFrontier_BattleTowerLobby_EventScript_ExitRules
+	case MULTI_B_PRESSED, BattleFrontier_BattleTowerLobby_EventScript_ExitRules
 	end
 
 FallarborTown_BattleTentLobby_EventScript_RulesLevel:: @ 82002BC
@@ -300,10 +290,6 @@ FallarborTown_BattleTentLobby_EventScript_RulesSkill:: @ 82002E6
 FallarborTown_BattleTentLobby_EventScript_RulesBody:: @ 82002F4
 	msgbox BattleFrontier_BattleArenaLobby_Text_ExplainBodyRules, MSGBOX_DEFAULT
 	goto FallarborTown_BattleTentLobby_EventScript_ReadRulesBoard
-	end
-
-FallarborTown_BattleTentLobby_EventScript_ExitRules:: @ 8200302
-	releaseall
 	end
 
 FallarborTown_BattleTentLobby_Text_MakeThinkImJustKid: @ 8200304

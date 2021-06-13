@@ -237,15 +237,15 @@ BattleFrontier_BattlePikeLobby_EventScript_RulesBoard:: @ 825BAC6
 	end
 
 BattleFrontier_BattlePikeLobby_EventScript_ReadRulesBoard:: @ 825BAD5
-	message BattleFrontier_BattlePikeLobby_Text_ReadWhichHeading
+	message BattleFrontier_BattleTowerLobby_Text_ReadWhichHeading
 	waitmessage
 	multichoice 16, 4, MULTI_BATTLE_PIKE_RULES, FALSE
 	switch VAR_RESULT
 	case 0, BattleFrontier_BattlePikeLobby_EventScript_RulesPokenavBag
 	case 1, BattleFrontier_BattlePikeLobby_EventScript_RulesHeldItems
 	case 2, BattleFrontier_BattlePikeLobby_EventScript_RulesMonOrder
-	case 3, BattleFrontier_BattlePikeLobby_EventScript_ExitRules
-	case MULTI_B_PRESSED, BattleFrontier_BattlePikeLobby_EventScript_ExitRules
+	case 3, BattleFrontier_BattleTowerLobby_EventScript_ExitRules
+	case MULTI_B_PRESSED, BattleFrontier_BattleTowerLobby_EventScript_ExitRules
 	end
 
 BattleFrontier_BattlePikeLobby_EventScript_RulesPokenavBag:: @ 825BB1D
@@ -261,10 +261,6 @@ BattleFrontier_BattlePikeLobby_EventScript_RulesHeldItems:: @ 825BB2B
 BattleFrontier_BattlePikeLobby_EventScript_RulesMonOrder:: @ 825BB39
 	msgbox BattleFrontier_BattlePikeLobby_Text_ExplainMonOrderRules, MSGBOX_DEFAULT
 	goto BattleFrontier_BattlePikeLobby_EventScript_ReadRulesBoard
-	end
-
-BattleFrontier_BattlePikeLobby_EventScript_ExitRules:: @ 825BB47
-	releaseall
 	end
 
 BattleFrontier_BattlePike_EventScript_CloseCurtain:: @ 825BB49
@@ -397,9 +393,6 @@ BattleFrontier_BattlePikeLobby_Text_ThinkAbilitiesUsefulHere: @ 825C4FD
 
 BattleFrontier_BattlePikeLobby_Text_RulesAreListed: @ 825C5FB
 	.string "The Battle Choice's rules are listed.$"
-
-BattleFrontier_BattlePikeLobby_Text_ReadWhichHeading: @ 825C621
-	.string "Which heading do you want to read?$"
 
 BattleFrontier_BattlePikeLobby_Text_ExplainPokenavBagRules: @ 825C644
 	.string "The BAG and POKéNAV may not be used\n"

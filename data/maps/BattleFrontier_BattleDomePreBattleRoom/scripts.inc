@@ -253,9 +253,6 @@ BattleFrontier_BattleDomePreBattleRoom_Movement_PlayerEnter: @ 824B652
 	walk_up
 	walk_up
 	walk_up
-	walk_up
-	step_end
-
 BattleFrontier_BattleDomePreBattleRoom_Movement_PlayerWalkToDoor: @ 824B657
 	walk_up
 	step_end

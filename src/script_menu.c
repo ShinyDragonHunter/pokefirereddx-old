@@ -28,6 +28,7 @@ static void Task_HandleMultichoiceInput(u8 taskId);
 static void Task_HandleYesNoInput(u8 taskId);
 static void Task_HandleMultichoiceGridInput(u8 taskId);
 static void DrawMultichoiceMenu(u8 left, u8 top, u8 multichoiceId, bool8 ignoreBPress, u8 cursorPos);
+static u8 GetMultichoiceWindowHeight(u8 count);
 static void InitMultichoiceCheckWrap(bool8 ignoreBPress, u8 count, u8 windowId, u8 multichoiceId);
 static void DrawLinkServicesMultichoiceMenu(u8 multichoiceId);
 static void CreatePCMultichoice(void);
@@ -72,6 +73,7 @@ static void DrawMultichoiceMenu(u8 left, u8 top, u8 multichoiceId, bool8 ignoreB
     const struct MenuAction *actions = sMultichoiceLists[multichoiceId].list;
     int width = 0;
     u8 newWidth;
+    u8 height;
 
     for (i = 0; i < count; i++)
     {
@@ -80,12 +82,38 @@ static void DrawMultichoiceMenu(u8 left, u8 top, u8 multichoiceId, bool8 ignoreB
 
     newWidth = ConvertPixelWidthToTileWidth(width);
     left = ScriptMenu_AdjustLeftCoordFromWidth(left, newWidth);
-    windowId = CreateWindowFromRect(left, top, newWidth, count * 2);
+    height = GetMultichoiceWindowHeight(count);
+    windowId = CreateWindowFromRect(left, top, newWidth, height);
     SetStandardWindowBorderStyle(windowId, 0);
-    PrintMenuTable(windowId, count, actions);
-    InitMenuInUpperLeftCornerPlaySoundWhenAPressed(windowId, count, cursorPos);
+    MultichoiceList_PrintItems(windowId, 1, 8, 2, 14, count, actions, 0, 2);
+    InitMenuInUpperLeftCornerPlaySoundWhenAPressed(windowId, 2, 0, 2, 14, count, cursorPos);
     ScheduleBgCopyTilemapToVram(0);
     InitMultichoiceCheckWrap(ignoreBPress, count, windowId, multichoiceId);
+}
+
+static u8 GetMultichoiceWindowHeight(u8 count)
+{
+    switch (count)
+    {
+    case 1:
+        return 2;
+    case 2:
+        return 4;
+    case 3:
+        return 6;
+    case 4:
+        return 7;
+    case 5:
+        return 9;
+    case 6:
+        return 11;
+    case 7:
+        return 13;
+    case 8:
+        return 14;
+    default:
+        return 1;
+    }
 }
 
 #define tLeft           data[0]
@@ -345,7 +373,7 @@ static void CreatePCMultichoice(void)
 
     StringExpandPlaceholders(gStringVar4, gText_PlayersPC);
     PrintPlayerNameOnWindow(windowId, gStringVar4, y, 17);
-    InitMenuInUpperLeftCornerPlaySoundWhenAPressed(windowId, numChoices, 0);
+    InitMenuInUpperLeftCornerPlaySoundWhenAPressed(windowId, 2, 0, 2, 16, numChoices, 0);
     CopyWindowToVram(windowId, 3);
     InitMultichoiceCheckWrap(FALSE, numChoices, windowId, MULTI_PC);
 }
@@ -505,7 +533,7 @@ static void CreateLilycoveSSTidalMultichoice(void)
             }
         }
 
-        InitMenuInUpperLeftCornerPlaySoundWhenAPressed(windowId, count, count - 1);
+        InitMenuInUpperLeftCornerPlaySoundWhenAPressed(windowId, 2, 0, 1, 16, count, count - 1);
         CopyWindowToVram(windowId, 3);
         InitMultichoiceCheckWrap(FALSE, count, windowId, MULTI_SSTIDAL_LILYCOVE);
     }

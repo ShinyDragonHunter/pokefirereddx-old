@@ -326,7 +326,7 @@ BattleFrontier_BattleArenaLobby_EventScript_RulesBoard:: @ 82560CA
 	end
 
 BattleFrontier_BattleArenaLobby_EventScript_ReadRulesBoard:: @ 82560D9
-	message BattleFrontier_BattleArenaLobby_Text_ReadWhichHeading
+	message BattleFrontier_BattleTowerLobby_Text_ReadWhichHeading
 	waitmessage
 	multichoice 17, 2, MULTI_BATTLE_ARENA_RULES, FALSE
 	switch VAR_RESULT
@@ -334,8 +334,8 @@ BattleFrontier_BattleArenaLobby_EventScript_ReadRulesBoard:: @ 82560D9
 	case 1, BattleFrontier_BattleArenaLobby_EventScript_MindRules
 	case 2, BattleFrontier_BattleArenaLobby_EventScript_SkillRules
 	case 3, BattleFrontier_BattleArenaLobby_EventScript_BodyRules
-	case 4, BattleFrontier_BattleArenaLobby_EventScript_ExitRules
-	case MULTI_B_PRESSED, BattleFrontier_BattleArenaLobby_EventScript_ExitRules
+	case 4, BattleFrontier_BattleTowerLobby_EventScript_ExitRules
+	case MULTI_B_PRESSED, BattleFrontier_BattleTowerLobby_EventScript_ExitRules
 	end
 
 BattleFrontier_BattleArenaLobby_EventScript_BattleRules:: @ 825612C
@@ -356,10 +356,6 @@ BattleFrontier_BattleArenaLobby_EventScript_SkillRules:: @ 8256148
 BattleFrontier_BattleArenaLobby_EventScript_BodyRules:: @ 8256156
 	msgbox BattleFrontier_BattleArenaLobby_Text_ExplainBodyRules, MSGBOX_DEFAULT
 	goto BattleFrontier_BattleArenaLobby_EventScript_ReadRulesBoard
-	end
-
-BattleFrontier_BattleArenaLobby_EventScript_ExitRules:: @ 8256164
-	releaseall
 	end
 
 BattleFrontier_BattleArenaLobby_Text_WelcomeToBattleArena: @ 8256166
@@ -502,9 +498,6 @@ BattleFrontier_BattleArenaLobby_Text_OrderOfMonsImportant: @ 8256C9A
 
 BattleFrontier_BattleArenaLobby_Text_RulesAreListed: @ 8256DB8
 	.string "The Set KO Tourney's rules are listed.$"
-
-BattleFrontier_BattleArenaLobby_Text_ReadWhichHeading: @ 8256DDF
-	.string "Which heading do you want to read?$"
 
 BattleFrontier_BattleArenaLobby_Text_ExplainBattleRules: @ 8256E02
 	.string "The Set KO Tourney has special rules,\n"

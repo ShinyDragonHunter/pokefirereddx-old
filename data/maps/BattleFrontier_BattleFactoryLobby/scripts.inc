@@ -294,7 +294,7 @@ BattleFrontier_BattleFactoryLobby_EventScript_RulesBoard:: @ 8258839
 	end
 
 BattleFrontier_BattleFactoryLobby_EventScript_ReadRulesBoard:: @ 8258848
-	message BattleFrontier_BattleFactoryLobby_Text_ReadWhichHeading
+	message BattleFrontier_BattleTowerLobby_Text_ReadWhichHeading
 	waitmessage
 	multichoice 17, 0, MULTI_BATTLE_FACTORY_RULES, FALSE
 	switch VAR_RESULT
@@ -303,8 +303,8 @@ BattleFrontier_BattleFactoryLobby_EventScript_ReadRulesBoard:: @ 8258848
 	case 2, BattleFrontier_BattleFactoryLobby_EventScript_RulesSwapNumber
 	case 3, BattleFrontier_BattleFactoryLobby_EventScript_RulesSwapNotes
 	case 4, BattleFrontier_BattleFactoryLobby_EventScript_RulesOpenLv
-	case 5, BattleFrontier_BattleFactoryLobby_EventScript_ExitRules
-	case MULTI_B_PRESSED, BattleFrontier_BattleFactoryLobby_EventScript_ExitRules
+	case 5, BattleFrontier_BattleTowerLobby_EventScript_ExitRules
+	case MULTI_B_PRESSED, BattleFrontier_BattleTowerLobby_EventScript_ExitRules
 	end
 
 BattleFrontier_BattleFactoryLobby_EventScript_RulesBasics:: @ 82588A6
@@ -330,10 +330,6 @@ BattleFrontier_BattleFactoryLobby_EventScript_RulesSwapNotes:: @ 82588D0
 BattleFrontier_BattleFactoryLobby_EventScript_RulesOpenLv:: @ 82588DE
 	msgbox BattleFrontier_BattleFactoryLobby_Text_ExplainOpenLvRules, MSGBOX_DEFAULT
 	goto BattleFrontier_BattleFactoryLobby_EventScript_ReadRulesBoard
-	end
-
-BattleFrontier_BattleFactoryLobby_EventScript_ExitRules:: @ 82588EC
-	releaseall
 	end
 
 BattleFrontier_BattleFactoryLobby_Text_WelcomeForSingleBattle: @ 82588EE
@@ -385,11 +381,6 @@ BattleFrontier_BattleFactoryLobby_Text_ReturnMonsSaveResults: @ 8258CC7
 	.string "for our rental POKéMON.\p"
 	.string "I must also save the event results.\n"
 	.string "Please wait.$"
-
-@ Unused
-BattleFrontier_BattleFactoryLobby_Text_ReturnMons: @ 8258D54
-	.string "I will return your POKéMON in exchange\n"
-	.string "for our rental POKéMON.$"
 
 BattleFrontier_BattleFactoryLobby_Text_CongratsSevenWins: @ 8258D93
 	.string "Congratulations! You've won seven\n"
@@ -488,9 +479,6 @@ BattleFrontier_BattleFactoryLobby_Text_CantFigureOutStaffHints: @ 82595C4
 
 BattleFrontier_BattleFactoryLobby_Text_RulesAreListed: @ 8259721
 	.string "The Battle Swap rules are listed.$"
-
-BattleFrontier_BattleFactoryLobby_Text_ReadWhichHeading: @ 8259743
-	.string "Which heading do you want to read?$"
 
 BattleFrontier_BattleFactoryLobby_Text_ExplainBasicRules: @ 8259766
 	.string "In a Battle Swap event, you may use\n"

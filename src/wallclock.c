@@ -680,22 +680,21 @@ static void WallClockInit(void)
 
 void CB2_StartWallClock(void)
 {
-    u8 taskId;
-    u8 spriteId;
+    u8 taskId = CreateTask(Task_SetClock_WaitFadeIn, 0);
+    u8 spriteId = CreateSprite(&sSpriteTemplate_MinuteHand, 120, 80, 1);
 
+    RtcCalcLocalTime();
     LoadWallClockGraphics();
     LZ77UnCompVram(gWallClockStart_Tilemap, (u16 *)BG_SCREEN_ADDR(7));
 
-    taskId = CreateTask(Task_SetClock_WaitFadeIn, 0);
-    gTasks[taskId].tHours = 10;
-    gTasks[taskId].tMinutes = 0;
+    gTasks[taskId].tHours = gLocalTime.hours;
+    gTasks[taskId].tMinutes = gLocalTime.minutes;
     gTasks[taskId].tMoveDir = 0;
     gTasks[taskId].tPeriod = 0;
     gTasks[taskId].tMoveSpeed = 0;
     gTasks[taskId].tMinuteHandAngle = 0;
     gTasks[taskId].tHourHandAngle = 300;
 
-    spriteId = CreateSprite(&sSpriteTemplate_MinuteHand, 120, 80, 1);
     gSprites[spriteId].data[0] = taskId;
     gSprites[spriteId].oam.affineMode = ST_OAM_AFFINE_NORMAL;
     gSprites[spriteId].oam.matrixNum = 0;
@@ -715,7 +714,7 @@ void CB2_StartWallClock(void)
 
     WallClockInit();
 
-    AddTextPrinterParameterized(1, 1, gText_Confirm3, 0, 1, 0, NULL);
+    AddTextPrinterParameterized(1, 2, gText_Confirm3, 0, 1, 0, NULL);
     PutWindowTilemap(1);
     ScheduleBgCopyTilemapToVram(2);
 }
@@ -763,7 +762,7 @@ void CB2_ViewWallClock(void)
 
     WallClockInit();
 
-    AddTextPrinterParameterized(1, 1, gText_Cancel4, 0, 1, 0, NULL);
+    AddTextPrinterParameterized(1, 2, gText_Cancel4, 0, 1, 0, NULL);
     PutWindowTilemap(1);
     ScheduleBgCopyTilemapToVram(2);
 }
@@ -828,10 +827,10 @@ static void Task_SetClock_HandleInput(u8 taskId)
 static void Task_SetClock_AskConfirm(u8 taskId)
 {
     DrawStdFrameWithCustomTileAndPalette(0, FALSE, 0x250, 0x0d);
-    AddTextPrinterParameterized(0, 1, gText_IsThisTheCorrectTime, 0, 1, 0, NULL);
+    AddTextPrinterParameterized(0, 2, gText_IsThisTheCorrectTime, 0, 1, 0, NULL);
     PutWindowTilemap(0);
     ScheduleBgCopyTilemapToVram(0);
-    CreateYesNoMenu(&sWindowTemplate_ConfirmYesNo, 0x250, 0x0d, 1);
+        CreateYesNoMenu(&sWindowTemplate_ConfirmYesNo, 2, 0, 2, 0x250, 13, 0);
     gTasks[taskId].func = Task_SetClock_HandleConfirmInput;
 }
 

@@ -407,21 +407,6 @@ BattleFrontier_BattleDomeLobby_EventScript_Man:: @ 8249E10
 	msgbox BattleFrontier_BattleDomeLobby_Text_NeedToCheckOpponentCarefully, MSGBOX_NPC
 	end
 
-@ A few OutsideWest event scripts are inserted here instead, two of which are unused
-BattleFrontier_OutsideWest_EventScript_Man3:: @ 8249E19
-	msgbox BattleFrontier_OutsideWest_Text_LongDreamedAboutBattleFrontier, MSGBOX_NPC
-	end
-
-@ Unused
-BattleFrontier_OutsideWest_EventScript_BattleDomeSign2:: @ 8249E22
-	msgbox BattleFrontier_OutsideWest_Text_BattleDomeSign2, MSGBOX_NPC
-	end
-
-@ Unused
-BattleFrontier_OutsideWest_EventScript_UnderConstructionSign:: @ 8249E2B
-	msgbox BattleFrontier_OutsideWest_Text_QuestionMarkUnderConstruction, MSGBOX_NPC
-	end
-
 BattleFrontier_BattleDomeLobby_EventScript_RulesBoard:: @ 8249E34
 	lockall
 	msgbox BattleFrontier_BattleDomeLobby_Text_RulesAreListed, MSGBOX_DEFAULT
@@ -429,15 +414,15 @@ BattleFrontier_BattleDomeLobby_EventScript_RulesBoard:: @ 8249E34
 	end
 
 BattleFrontier_BattleDomeLobby_EventScript_ReadRulesBoard:: @ 8249E43
-	message BattleFrontier_BattleDomeLobby_Text_ReadWhichHeading
+	message BattleFrontier_BattleTowerLobby_Text_ReadWhichHeading
 	waitmessage
 	multichoice 17, 4, MULTI_BATTLE_DOME_RULES, FALSE
 	switch VAR_RESULT
 	case 0, BattleFrontier_BattleDomeLobby_EventScript_RulesMatchup
 	case 1, BattleFrontier_BattleDomeLobby_EventScript_RulesTourneyTree
 	case 2, BattleFrontier_BattleDomeLobby_EventScript_RulesDoubleKO
-	case 3, BattleFrontier_BattleDomeLobby_EventScript_ExitRules
-	case MULTI_B_PRESSED, BattleFrontier_BattleDomeLobby_EventScript_ExitRules
+	case 3, BattleFrontier_BattleTowerLobby_EventScript_ExitRules
+	case MULTI_B_PRESSED, BattleFrontier_BattleTowerLobby_EventScript_ExitRules
 	end
 
 BattleFrontier_BattleDomeLobby_EventScript_RulesMatchup:: @ 8249E8B
@@ -453,10 +438,6 @@ BattleFrontier_BattleDomeLobby_EventScript_RulesTourneyTree:: @ 8249E99
 BattleFrontier_BattleDomeLobby_EventScript_RulesDoubleKO:: @ 8249EA7
 	msgbox BattleFrontier_BattleDomeLobby_Text_ExplainDoubleKORules, MSGBOX_DEFAULT
 	goto BattleFrontier_BattleDomeLobby_EventScript_ReadRulesBoard
-	end
-
-BattleFrontier_BattleDomeLobby_EventScript_ExitRules:: @ 8249EB5
-	releaseall
 	end
 
 BattleFrontier_BattleDomeLobby_Text_WelcomeSingleBattle: @ 8249EB7
@@ -615,16 +596,6 @@ BattleFrontier_OutsideWest_Text_LongDreamedAboutBattleFrontier: @ 824AB06
 	.string "The BATTLE FRONTIER…\n"
 	.string "I've long dreamed about a place like it.$"
 
-@ Functionally unused
-BattleFrontier_OutsideWest_Text_BattleDomeSign2: @ 824AB44
-	.string "The BATTLE DOME\n"
-	.string "Become the Unbeatable Superstar!$"
-
-@ Functionally unused
-BattleFrontier_OutsideWest_Text_QuestionMarkUnderConstruction: @ 824AB75
-	.string "The ??????\n"
-	.string "Under Construction!$"
-
 BattleFrontier_BattleDomeLobby_Text_WinnersGainReputation: @ 824AB94
 	.string "When a TRAINER chains tournament\n"
 	.string "wins at the BATTLE DOME, he or she\l"
@@ -664,9 +635,6 @@ BattleFrontier_BattleDomeLobby_Text_RecordLastMatch: @ 824AE17
 BattleFrontier_BattleDomeLobby_Text_RulesAreListed: @ 824AE63
 	.string "The Battle Tournament rules\n"
 	.string "are listed.$"
-
-BattleFrontier_BattleDomeLobby_Text_ReadWhichHeading: @ 824AE8B
-	.string "Which heading do you want to read?$"
 
 BattleFrontier_BattleDomeLobby_Text_ExplainMatchupRules: @ 824AEAE
 	.string "The tournament matchups are drawn up\n"

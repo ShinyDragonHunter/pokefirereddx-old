@@ -155,8 +155,16 @@ void TintPaletteForDayNight(u16 offset, u16 size)
     {
         RtcCalcLocalTimeFast();
 
-        hour = gLocalTime.hours;
-        hourPhase = gLocalTime.minutes / MINUTES_PER_TINT_PERIOD;
+        if (gMapHeader.regionMapSectionId == MAPSEC_PETALBURG_WOODS)
+        {
+            hour = 0;
+            hourPhase = 0;
+        }
+        else
+        {
+            hour = gLocalTime.hours;
+            hourPhase = gLocalTime.minutes / MINUTES_PER_TINT_PERIOD;
+        }
 
         period = (hour * TINT_PERIODS_PER_HOUR) + hourPhase;
 
@@ -204,8 +212,16 @@ void ProcessImmediateTimeEvents(void)
         }
         else
         {
-            hour = gLocalTime.hours;
-            hourPhase = gLocalTime.minutes / MINUTES_PER_TINT_PERIOD;
+            if (gMapHeader.regionMapSectionId == MAPSEC_PETALBURG_WOODS)
+            {
+                hour = 0;
+                hourPhase = 0;
+            }
+            else
+            {
+                hour = gLocalTime.hours;
+                hourPhase = gLocalTime.minutes / MINUTES_PER_TINT_PERIOD;
+            }
 
             period = (hour * TINT_PERIODS_PER_HOUR) + hourPhase;
 
@@ -226,6 +242,6 @@ void ProcessImmediateTimeEvents(void)
     if (sDNSystemControl.timeOfDay != timeOfDay)
     {
         sDNSystemControl.timeOfDay = timeOfDay;
-        ForceTimeBasedEvents();     // for misc events that should run on time of day boundaries
+        ForceTimeBasedEvents(); // for misc events that should run on time of day boundaries
     }
 }

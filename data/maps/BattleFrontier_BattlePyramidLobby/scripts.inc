@@ -490,7 +490,7 @@ BattleFrontier_BattlePyramidLobby_EventScript_RulesBoard:: @ 8250E95
 	end
 
 BattleFrontier_BattlePyramidLobby_EventScript_ReadRulesBoard:: @ 8250EA4
-	message BattleFrontier_BattlePyramidLobby_Text_ReadWhichHeading
+	message BattleFrontier_BattleTowerLobby_Text_ReadWhichHeading
 	waitmessage
 	multichoice 15, 2, MULTI_BATTLE_PYRAMID_RULES, FALSE
 	switch VAR_RESULT
@@ -498,8 +498,8 @@ BattleFrontier_BattlePyramidLobby_EventScript_ReadRulesBoard:: @ 8250EA4
 	case 1, BattleFrontier_BattlePyramidLobby_EventScript_RulesTrainers
 	case 2, BattleFrontier_BattlePyramidLobby_EventScript_RulesMaze
 	case 3, BattleFrontier_BattlePyramidLobby_EventScript_RulesBag
-	case 4, BattleFrontier_BattlePyramidLobby_EventScript_ExitRules
-	case MULTI_B_PRESSED, BattleFrontier_BattlePyramidLobby_EventScript_ExitRules
+	case 4, BattleFrontier_BattleTowerLobby_EventScript_ExitRules
+	case MULTI_B_PRESSED, BattleFrontier_BattleTowerLobby_EventScript_ExitRules
 	end
 
 BattleFrontier_BattlePyramidLobby_EventScript_RulesPokemon:: @ 8250EF7
@@ -520,10 +520,6 @@ BattleFrontier_BattlePyramidLobby_EventScript_RulesMaze:: @ 8250F13
 BattleFrontier_BattlePyramidLobby_EventScript_RulesBag:: @ 8250F21
 	msgbox BattleFrontier_BattlePyramidLobby_Text_ExplainBagRules, MSGBOX_DEFAULT
 	goto BattleFrontier_BattlePyramidLobby_EventScript_ReadRulesBoard
-	end
-
-BattleFrontier_BattlePyramidLobby_EventScript_ExitRules:: @ 8250F2F
-	releaseall
 	end
 
 BattleFrontier_BattlePyramidLobby_Text_WelcomeToBattlePyramid: @ 8250F31
@@ -836,9 +832,6 @@ BattleFrontier_BattlePyramidLobby_Text_GiveYouTheseBattlePoints: @ 8252662
 
 BattleFrontier_BattlePyramidLobby_Text_RulesAreListed: @ 82526B6
 	.string "The Battle Quest rules are listed.$"
-
-BattleFrontier_BattlePyramidLobby_Text_ReadWhichHeading: @ 82526D9
-	.string "Which heading do you want to read?$"
 
 BattleFrontier_BattlePyramidLobby_Text_ExplainMonRules: @ 82526FC
 	.string "When the PYRAMID is conquered,\n"

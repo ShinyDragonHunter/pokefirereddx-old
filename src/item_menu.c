@@ -885,7 +885,9 @@ void BagMenu_MoveCursorCallback(s32 itemIndex, bool8 onInit, struct ListMenu *li
     }
     if (gBagMenu->itemOriginalLocation == 0xFF)
     {
-        RemoveBagItemIconSprite(gBagMenu->itemIconSlot ^ 1);
+        // Hide current icon, remove icon from two instances ago
+        HideBagItemIconSprite(gBagMenu->itemIconSlot ^ 1);
+        RemoveBagItemIconSprite(gBagMenu->itemIconSlot);
         if (itemIndex != LIST_CANCEL)
            AddBagItemIconSprite(BagGetItemIdByPocketPosition(gBagPositionStruct.pocket + 1, itemIndex), gBagMenu->itemIconSlot);
         else
@@ -1172,7 +1174,7 @@ void Task_BagMenu_HandleInput(u8 taskId)
                     if (CanSwapItems() == TRUE)
                     {
                         ListMenuGetScrollAndRow(data[0], scrollPos, cursorPos);
-                        if ((*scrollPos + *cursorPos) != gBagMenu->numItemStacks[gBagPositionStruct.pocket] - 1)
+                        if ((*scrollPos + *cursorPos) != gBagMenu->numItemStacks[gBagPositionStruct.pocket])
                         {
                             PlaySE(SE_SELECT);
                             BagMenu_SwapItems(taskId);
@@ -1597,7 +1599,7 @@ static void OpenContextMenu(u8 unused)
 void sub_81ACAF8(u8 a)
 {
     AddItemMenuActionTextPrinters(a, 7, 8, 1, 0, 16, gBagMenu->contextMenuNumItems, sItemMenuActions, gBagMenu->contextMenuItemsPtr);
-    InitMenuInUpperLeftCornerPlaySoundWhenAPressed(a, gBagMenu->contextMenuNumItems, 0);
+    InitMenuInUpperLeftCornerPlaySoundWhenAPressed(a, 2, 0, 1, 16, gBagMenu->contextMenuNumItems, 0);
 }
 
 void sub_81ACB54(u8 a, u8 b, u8 c)

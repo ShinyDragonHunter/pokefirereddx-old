@@ -507,7 +507,7 @@ static void (* const sTurnActionsFuncsTable[])(void) =
     [B_ACTION_SAFARI_GO_NEAR] = HandleAction_GoNear,
     [B_ACTION_SAFARI_RUN] = HandleAction_SafariZoneRun,
     [B_ACTION_WALLY_THROW] = HandleAction_WallyBallThrow,
-    [B_ACTION_EXEC_SCRIPT] = HandleAction_RunBattleScript,
+    [B_ACTION_EXEC_SCRIPT] = RunBattleScriptCommands,
     [B_ACTION_TRY_FINISH] = HandleAction_TryFinish,
     [B_ACTION_FINISHED] = HandleAction_ActionFinished,
     [B_ACTION_NOTHING_FAINTED] = HandleAction_NothingIsFainted,
@@ -610,16 +610,14 @@ static void CB2_InitBattleInternal(void)
         i = 0;
         while (i < 80)
         {
-            gScanlineEffectRegBuffers[0][i] = 0xF0;
-            gScanlineEffectRegBuffers[1][i] = 0xF0;
-            i++;
+            gScanlineEffectRegBuffers[0][i] = DISPLAY_WIDTH;
+            gScanlineEffectRegBuffers[1][i] = DISPLAY_WIDTH;
         }
 
         while (i < 160)
         {
-            gScanlineEffectRegBuffers[0][i] = 0xFF10;
-            gScanlineEffectRegBuffers[1][i] = 0xFF10;
-            i++;
+            gScanlineEffectRegBuffers[0][i] = WIN_RANGE(255, 16);
+            gScanlineEffectRegBuffers[1][i] = WIN_RANGE(255, 16);
         }
 
         ScanlineEffect_SetParams(sIntroScanlineParams16Bit);

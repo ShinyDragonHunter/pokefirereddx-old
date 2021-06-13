@@ -2669,7 +2669,7 @@ static void CB2_EndBlenderGame(void)
         break;
     case 9:
         sBerryBlender->yesNoAnswer = 0;
-        CreateYesNoMenu(&sYesNoWindowTemplate_ContinuePlaying, 1, 0xD, 0);
+        CreateYesNoMenu(&sYesNoWindowTemplate_ContinuePlaying, 2, 0, 2, 1, 0xD, 0);
         sBerryBlender->gameEndState++;
         break;
     case 10:

@@ -496,12 +496,12 @@ void DisplayItemMessageOnField(u8 taskId, const u8 *string, TaskFunc callback)
 
 void DisplayYesNoMenuDefaultYes(void)
 {
-    CreateYesNoMenu(&sYesNo_WindowTemplates, STD_WINDOW_BASE_TILE_NUM, STD_WINDOW_PALETTE_NUM, 0);
+    CreateYesNoMenu(&sYesNo_WindowTemplates, 2, 0, 2, STD_WINDOW_BASE_TILE_NUM, STD_WINDOW_PALETTE_NUM, 0);
 }
 
 void DisplayYesNoMenuWithDefault(u8 initialCursorPos)
 {
-    CreateYesNoMenu(&sYesNo_WindowTemplates, STD_WINDOW_BASE_TILE_NUM, STD_WINDOW_PALETTE_NUM, initialCursorPos);
+    CreateYesNoMenu(&sYesNo_WindowTemplates, 2, 0, 2, STD_WINDOW_BASE_TILE_NUM, STD_WINDOW_PALETTE_NUM, initialCursorPos);
 }
 
 u32 GetPlayerTextSpeed(void)
@@ -1534,17 +1534,17 @@ s8 sub_81993D8(void)
     return MENU_NOTHING_CHOSEN;
 }
 
-u8 InitMenuInUpperLeftCorner(u8 windowId, u8 itemCount, u8 initialCursorPos, bool8 APressMuted)
+u8 InitMenuInUpperLeftCorner(u8 windowId, u8 fontId, u8 left, u8 top, u8 cursorHeight, u8 itemCount, u8 initialCursorPos, bool8 APressMuted)
 {
     s32 pos;
 
-    sMenu.left = 0;
-    sMenu.top = 1;
+    sMenu.left = left;
+    sMenu.top = top;
     sMenu.minCursorPos = 0;
     sMenu.maxCursorPos = itemCount - 1;
     sMenu.windowId = windowId;
-    sMenu.fontId = 2;
-    sMenu.optionHeight = 16;
+    sMenu.fontId = fontId;
+    sMenu.optionHeight = cursorHeight;
     sMenu.APressMuted = APressMuted;
 
     pos = initialCursorPos;
@@ -1557,9 +1557,9 @@ u8 InitMenuInUpperLeftCorner(u8 windowId, u8 itemCount, u8 initialCursorPos, boo
     return Menu_MoveCursor(0);
 }
 
-u8 InitMenuInUpperLeftCornerPlaySoundWhenAPressed(u8 windowId, u8 itemCount, u8 initialCursorPos)
+u8 InitMenuInUpperLeftCornerPlaySoundWhenAPressed(u8 windowId, u8 fontId, u8 left, u8 top, u8 cursorHeight, u8 itemCount, u8 initialCursorPos)
 {
-    return InitMenuInUpperLeftCorner(windowId, itemCount, initialCursorPos, FALSE);
+    return InitMenuInUpperLeftCorner(windowId, fontId, left, top, cursorHeight, itemCount, initialCursorPos, FALSE);
 }
 
 void PrintMenuTable(u8 windowId, u8 itemCount, const struct MenuAction *strs)
@@ -1568,9 +1568,18 @@ void PrintMenuTable(u8 windowId, u8 itemCount, const struct MenuAction *strs)
 
     for (i = 0; i < itemCount; i++)
     {
-        AddTextPrinterParameterized(windowId, 2, strs[i].text, 8, (i * 16) + 1, 0xFF, NULL);
+        AddTextPrinterParameterized(windowId, 2, strs[i].text, 8, (i * 14) + 1, 0xFF, NULL);
     }
 
+    CopyWindowToVram(windowId, 2);
+}
+
+void MultichoiceList_PrintItems(u8 windowId, u8 fontId, u8 left, u8 top, u8 lineHeight, u8 itemCount, const struct MenuAction *strs, u8 letterSpacing, u8 lineSpacing)
+{
+    u8 i;
+
+    for (i = 0; i < itemCount; i++)
+        AddTextPrinterParameterized5(windowId, fontId, strs[i].text, left, (lineHeight * i) + top, 0xFF, NULL, letterSpacing, lineSpacing);
     CopyWindowToVram(windowId, 2);
 }
 
@@ -1601,7 +1610,7 @@ void sub_81995E4(u8 windowId, u8 itemCount, const struct MenuAction *strs, const
     CopyWindowToVram(windowId, 2);
 }
 
-void CreateYesNoMenu(const struct WindowTemplate *window, u16 baseTileNum, u8 paletteNum, u8 initialCursorPos)
+static void _CreateYesNoMenu(const struct WindowTemplate *window, u8 fontId, u8 left, u8 top, u16 baseTileNum, u8 paletteNum, u8 initialCursorPos, u8 type)
 {
     struct TextPrinterTemplate printer;
 
@@ -1610,20 +1619,25 @@ void CreateYesNoMenu(const struct WindowTemplate *window, u16 baseTileNum, u8 pa
 
     printer.currentChar = gText_YesNo;
     printer.windowId = sYesNoWindowId;
-    printer.fontId = 2;
-    printer.x = 8;
-    printer.y = 1;
+    printer.fontId = fontId;
+    printer.x = GetMenuCursorDimensionByFont(fontId, 0) + left;
+    printer.y = top;
     printer.currentX = printer.x;
     printer.currentY = printer.y;
-    printer.fgColor = GetFontAttribute(1, FONTATTR_COLOR_FOREGROUND);
-    printer.bgColor = GetFontAttribute(1, FONTATTR_COLOR_BACKGROUND);
-    printer.shadowColor = GetFontAttribute(1, FONTATTR_COLOR_SHADOW);
-    printer.unk = GetFontAttribute(1, FONTATTR_UNKNOWN);
-    printer.letterSpacing = 0;
-    printer.lineSpacing = 0;
+    printer.fgColor = GetFontAttribute(fontId, FONTATTR_COLOR_FOREGROUND);
+    printer.bgColor = GetFontAttribute(fontId, FONTATTR_COLOR_BACKGROUND);
+    printer.shadowColor = GetFontAttribute(fontId, FONTATTR_COLOR_SHADOW);
+    printer.unk = GetFontAttribute(fontId, FONTATTR_UNKNOWN);
+    printer.letterSpacing = GetFontAttribute(fontId, FONTATTR_LETTER_SPACING);
+    printer.lineSpacing = GetFontAttribute(fontId, FONTATTR_LINE_SPACING);
 
     AddTextPrinter(&printer, 0xFF, NULL);
-    InitMenuInUpperLeftCornerPlaySoundWhenAPressed(sYesNoWindowId, 2, initialCursorPos);
+    InitMenuInUpperLeftCornerPlaySoundWhenAPressed(sYesNoWindowId, fontId, left, top, GetFontAttribute(fontId, FONTATTR_MAX_LETTER_HEIGHT) + printer.lineSpacing, 2, initialCursorPos);
+}
+
+void CreateYesNoMenu(const struct WindowTemplate *window, u8 fontId, u8 left, u8 top, u16 baseTileNum, u8 paletteNum, u8 initialCursorPos)
+{
+    _CreateYesNoMenu(window, fontId, left, top, baseTileNum, paletteNum, initialCursorPos, 0);
 }
 
 void PrintMenuGridTable(u8 windowId, u8 optionWidth, u8 columns, u8 rows, const struct MenuAction *strs)

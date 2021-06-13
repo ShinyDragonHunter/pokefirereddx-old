@@ -297,7 +297,7 @@ static u8 CreateShopMenu(u8 martType)
 
     SetStandardWindowBorderStyle(sMartInfo.windowId, 0);
     PrintMenuTable(sMartInfo.windowId, numMenuItems, sMartInfo.menuActions);
-    InitMenuInUpperLeftCornerPlaySoundWhenAPressed(sMartInfo.windowId, numMenuItems, 0);
+    InitMenuInUpperLeftCornerPlaySoundWhenAPressed(sMartInfo.windowId, 2, 0, 2, 16, numMenuItems, 0);
     PutWindowTilemap(sMartInfo.windowId);
     CopyWindowToVram(sMartInfo.windowId, 1);
 

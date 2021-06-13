@@ -58,7 +58,7 @@ BattleFrontier_ReceptionGate_EventScript_ScottScene:: @ 8266229
 	textcolor RED
 	msgbox BattleFrontier_ReceptionGate_Text_OhMrScottGoodDay, MSGBOX_DEFAULT
 	closemessage
-	applymovement LOCALID_GREETER, BattleFrontier_ReceptionGate_Movement_GreeterFaceScott
+	applymovement LOCALID_GREETER, BattleFrontier_ReceptionGate_Movement_PlayerFaceScott
 	applymovement LOCALID_GUIDE, BattleFrontier_ReceptionGate_Movement_FacilityGuideFaceScott
 	applymovement OBJ_EVENT_ID_PLAYER, BattleFrontier_ReceptionGate_Movement_PlayerFaceScott
 	applymovement LOCALID_SCOTT, BattleFrontier_ReceptionGate_Movement_ScottEnter
@@ -105,14 +105,6 @@ BattleFrontier_ReceptionGate_Movement_ScottExit: @ 82662E8
 	walk_up
 	walk_up
 	walk_up
-	step_end
-
-BattleFrontier_ReceptionGate_Movement_GreeterFaceScott: @ 82662F0
-	delay_16
-	delay_16
-	delay_16
-	delay_8
-	walk_in_place_fastest_right
 	step_end
 
 BattleFrontier_ReceptionGate_Movement_FacilityGuideFaceScott: @ 82662F6

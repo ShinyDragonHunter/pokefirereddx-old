@@ -879,7 +879,7 @@ static void AskUsePokeblock(void)
     AddTextPrinterParameterized(WIN_TEXT, 1, gStringVar4, 0, 1, 0, NULL);
     PutWindowTilemap(WIN_TEXT);
     CopyWindowToVram(WIN_TEXT, 3);
-    CreateYesNoMenu(&sUsePokeblockYesNoWinTemplate, 151, 14, 0);
+    CreateYesNoMenu(&sUsePokeblockYesNoWinTemplate, 2, 0, 2, 151, 14, 0);
 }
 
 static s8 HandleAskUsePokeblockInput(void)

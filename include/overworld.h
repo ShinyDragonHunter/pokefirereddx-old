@@ -70,7 +70,6 @@ extern const struct UCoords32 gDirectionToVectors[];
 void DoWhiteOut(void);
 void Overworld_ResetStateAfterFly(void);
 void Overworld_ResetStateAfterTeleport(void);
-void Overworld_ResetStateAfterDigEscRope(void);
 void ResetGameStats(void);
 void IncrementGameStat(u8 index);
 u32 GetGameStat(u8 index);

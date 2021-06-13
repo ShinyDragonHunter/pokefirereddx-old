@@ -448,7 +448,7 @@ static void Task_DoPokeballSendOutAnim(u8 taskId)
     case POKEBALL_PLAYER_SENDOUT:
         gBattlerTarget = battlerId;
         gSprites[ballSpriteId].pos1.x = 24;
-        gSprites[ballSpriteId].pos1.y = 80;
+        gSprites[ballSpriteId].pos1.y = 70;
         gSprites[ballSpriteId].callback = SpriteCB_PlayerMonSendOut_1;
         break;
     case POKEBALL_OPPONENT_SENDOUT:

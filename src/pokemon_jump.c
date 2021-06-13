@@ -3617,7 +3617,7 @@ static void CreatePokeJumpYesNoMenu(u16 left, u16 top, u8 cursorPos)
     window.paletteNum = 2;
     window.baseBlock = 0x2B;
 
-    CreateYesNoMenu(&window, 1, 0xD, a);
+    CreateYesNoMenu(&window, 2, 0, 2, 1, 0xD, a);
 }
 
 // "Points" for jump score and "times" for number of jumps in a row

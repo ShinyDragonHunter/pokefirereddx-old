@@ -155,7 +155,6 @@ static void RunConfirmLeaveCableClubScript(void);
 static void InitMenuBasedScript(const u8 *);
 static void LoadCableClubPlayer(s32, s32, struct CableClubPlayer *);
 static bool32 IsCableClubPlayerUnfrozen(struct CableClubPlayer *);
-static bool32 CanCableClubPlayerPressStart(struct CableClubPlayer *);
 static u8 *TryGetTileEventScript(struct CableClubPlayer *);
 static bool32 PlayerIsAtSouthExit(struct CableClubPlayer *);
 static const u8 *TryInteractWithPlayer(struct CableClubPlayer *);
@@ -316,13 +315,12 @@ static const struct ScanlineEffectParams sFlashEffectParams =
 
 static u8 MovementEventModeCB_Normal(struct LinkPlayerObjectEvent *, struct ObjectEvent *, u8);
 static u8 MovementEventModeCB_Ignored(struct LinkPlayerObjectEvent *, struct ObjectEvent *, u8);
-static u8 MovementEventModeCB_Scripted(struct LinkPlayerObjectEvent *, struct ObjectEvent *, u8);
 
 static u8 (*const gLinkPlayerMovementModes[])(struct LinkPlayerObjectEvent *, struct ObjectEvent *, u8) =
 {
     [MOVEMENT_MODE_FREE]     = MovementEventModeCB_Normal,
     [MOVEMENT_MODE_FROZEN]   = MovementEventModeCB_Ignored,
-    [MOVEMENT_MODE_SCRIPTED] = MovementEventModeCB_Scripted,
+    [MOVEMENT_MODE_SCRIPTED] = MovementEventModeCB_Normal,
 };
 
 static u8 FacingHandler_DoNothing(struct LinkPlayerObjectEvent *, struct ObjectEvent *, u8);
@@ -394,16 +392,6 @@ void Overworld_ResetStateAfterTeleport(void)
     FlagClear(FLAG_SYS_USE_STRENGTH);
     FlagClear(FLAG_SYS_USE_FLASH);
     ScriptContext2_RunNewScript(EventScript_ResetMrBriney);
-}
-
-void Overworld_ResetStateAfterDigEscRope(void)
-{
-    ResetInitialPlayerAvatarState();
-    FlagClear(FLAG_SYS_CYCLING_ROAD);
-    FlagClear(FLAG_SYS_CRUISE_MODE);
-    FlagClear(FLAG_SYS_SAFARI_MODE);
-    FlagClear(FLAG_SYS_USE_STRENGTH);
-    FlagClear(FLAG_SYS_USE_FLASH);
 }
 
 static void Overworld_ResetStateAfterWhiteOut(void)
@@ -479,12 +467,34 @@ void ApplyNewEncryptionKeyToGameStats(u32 newKey)
 void LoadObjEventTemplatesFromHeader(void)
 {
     // Clear map object templates
-    CpuFill32(0, gSaveBlock1Ptr->objectEventTemplates, sizeof(gSaveBlock1Ptr->objectEventTemplates));
+    /*CpuFill32(0, gSaveBlock1Ptr->objectEventTemplates, sizeof(gSaveBlock1Ptr->objectEventTemplates));
 
     // Copy map header events to save block
     CpuCopy32(gMapHeader.events->objectEvents,
               gSaveBlock1Ptr->objectEventTemplates,
-              gMapHeader.events->objectEventCount * sizeof(struct ObjectEventTemplate));
+              gMapHeader.events->objectEventCount * sizeof(struct ObjectEventTemplate));*/
+
+    u8 i;
+
+    for (i = 0; i < gMapHeader.events->objectEventCount; i++)
+    {
+        if (gMapHeader.events->objectEvents[i].inConnection == 0xFF)
+        {
+            gSaveBlock1Ptr->objectEventTemplates[i] = Overworld_GetMapHeaderByGroupAndId(gMapHeader.events->objectEvents[i].trainerRange_berryTreeId, gMapHeader.events->objectEvents[i].trainerType)->events->objectEvents[gMapHeader.events->objectEvents[i].elevation - 1];
+            gSaveBlock1Ptr->objectEventTemplates[i].localId = gMapHeader.events->objectEvents[i].localId;
+            gSaveBlock1Ptr->objectEventTemplates[i].x = gMapHeader.events->objectEvents[i].x;
+            gSaveBlock1Ptr->objectEventTemplates[i].y = gMapHeader.events->objectEvents[i].y;
+            // set up object for seamless map transitions
+            gSaveBlock1Ptr->objectEventTemplates[i].elevation = gMapHeader.events->objectEvents[i].elevation;
+            gSaveBlock1Ptr->objectEventTemplates[i].trainerType = gMapHeader.events->objectEvents[i].trainerType;
+            gSaveBlock1Ptr->objectEventTemplates[i].trainerRange_berryTreeId = gMapHeader.events->objectEvents[i].trainerRange_berryTreeId;
+            gSaveBlock1Ptr->objectEventTemplates[i].inConnection = 0xFF;
+        }
+        else
+        {
+            gSaveBlock1Ptr->objectEventTemplates[i] = gMapHeader.events->objectEvents[i];
+        }
+    }
 }
 
 void LoadSaveblockObjEventScripts(void)
@@ -1078,7 +1088,7 @@ u16 GetLocationMusic(struct WarpData *warp)
 
 u16 GetCurrLocationDefaultMusic(void)
 {
-    u16 music;
+    u16 music = GetLocationMusic(&gSaveBlock1Ptr->location);
 
     // Play the desert music only when the sandstorm is active on Route 111.
     if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(ROUTE111)
@@ -1086,7 +1096,6 @@ u16 GetCurrLocationDefaultMusic(void)
      && GetSav1Weather() == WEATHER_SANDSTORM)
         return MUS_ROUTE111;
 
-    music = GetLocationMusic(&gSaveBlock1Ptr->location);
     if (music != MUS_ROUTE118)
     {
         return music;
@@ -1204,13 +1213,13 @@ void TryFadeOutOldMapMusic(void)
     if (FlagGet(FLAG_DONT_TRANSITION_MUSIC) != TRUE && warpMusic != GetCurrentMapMusic())
     {
         if (currentMusic == gSurfMusicTable[gMapsecToRegion[gMapHeader.regionMapSectionId]]
-            && VarGet(VAR_SKY_PILLAR_STATE) == 2
-            && gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(SOOTOPOLIS_CITY)
-            && gSaveBlock1Ptr->location.mapNum == MAP_NUM(SOOTOPOLIS_CITY)
-            && sWarpDestination.mapGroup == MAP_GROUP(SOOTOPOLIS_CITY)
-            && sWarpDestination.mapNum == MAP_NUM(SOOTOPOLIS_CITY)
-            && sWarpDestination.x == 29
-            && sWarpDestination.y == 53)
+         && VarGet(VAR_SKY_PILLAR_STATE) == 2
+         && gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(SOOTOPOLIS_CITY)
+         && gSaveBlock1Ptr->location.mapNum == MAP_NUM(SOOTOPOLIS_CITY)
+         && sWarpDestination.mapGroup == MAP_GROUP(SOOTOPOLIS_CITY)
+         && sWarpDestination.mapNum == MAP_NUM(SOOTOPOLIS_CITY)
+         && sWarpDestination.x == 29
+         && sWarpDestination.y == 53)
             return;
         FadeOutMapMusic(GetMapMusicFadeoutSpeed());
     }
@@ -1472,14 +1481,14 @@ static bool8 RunFieldCallback(void)
 {
     if (gFieldCallback2)
     {
-        if (!gFieldCallback2())
-        {
-            return FALSE;
-        }
-        else
+        if (gFieldCallback2())
         {
             gFieldCallback2 = NULL;
             gFieldCallback = NULL;
+        }
+        else
+        {
+            return FALSE;
         }
     }
     else
@@ -2304,7 +2313,7 @@ static void HandleLinkPlayerKeyInput(u32 playerId, u16 key, struct CableClubPlay
         switch (key)
         {
         case LINK_KEY_CODE_START_BUTTON:
-            if (CanCableClubPlayerPressStart(trainer))
+            if (IsCableClubPlayerUnfrozen(trainer))
             {
                 sPlayerLinkStates[playerId] = PLAYER_LINK_STATE_BUSY;
                 if (trainer->isLocalPlayer)
@@ -2407,9 +2416,9 @@ static void UpdateHeldKeyCode(u16 key)
         gHeldKeyCodeToSend = LINK_KEY_CODE_EMPTY;
 
     if (gWirelessCommType != 0
-        && GetLinkSendQueueLength() > 1
-        && IsUpdateLinkStateCBActive()
-        && IsSendingKeysToLink())
+     && GetLinkSendQueueLength() > 1
+     && IsUpdateLinkStateCBActive()
+     && IsSendingKeysToLink())
     {
         switch (key)
         {
@@ -2596,12 +2605,6 @@ static u16 KeyInterCB_SendExitRoomKey(u32 key)
     return LINK_KEY_CODE_EXIT_ROOM;
 }
 
-// Identical to KeyInterCB_SendNothing
-static u16 KeyInterCB_InLinkActivity(u32 key)
-{
-    return LINK_KEY_CODE_EMPTY;
-}
-
 u32 GetCableClubPartnersReady(void)
 {
     if (IsAnyPlayerInLinkState(PLAYER_LINK_STATE_EXITING_ROOM))
@@ -2637,7 +2640,7 @@ u16 QueueExitLinkRoomKey(void)
 
 u16 SetStartedCableClubActivity(void)
 {
-    SetKeyInterceptCallback(KeyInterCB_InLinkActivity);
+    SetKeyInterceptCallback(KeyInterCB_SendNothing);
     return 0;
 }
 
@@ -2657,16 +2660,6 @@ static void LoadCableClubPlayer(s32 linkPlayerId, s32 myPlayerId, struct CableCl
 }
 
 static bool32 IsCableClubPlayerUnfrozen(struct CableClubPlayer *player)
-{
-    u8 mode = player->movementMode;
-    if (mode == MOVEMENT_MODE_SCRIPTED || mode == MOVEMENT_MODE_FREE)
-        return TRUE;
-    else
-        return FALSE;
-}
-
-// Identical to IsCableClubPlayerUnfrozen
-static bool32 CanCableClubPlayerPressStart(struct CableClubPlayer *player)
 {
     u8 mode = player->movementMode;
     if (mode == MOVEMENT_MODE_SCRIPTED || mode == MOVEMENT_MODE_FREE)
@@ -3027,12 +3020,6 @@ static u8 MovementEventModeCB_Normal(struct LinkPlayerObjectEvent *linkPlayerObj
 static u8 MovementEventModeCB_Ignored(struct LinkPlayerObjectEvent *linkPlayerObjEvent, struct ObjectEvent *objEvent, u8 dir)
 {
     return FACING_UP;
-}
-
-// Identical to MovementEventModeCB_Normal
-static u8 MovementEventModeCB_Scripted(struct LinkPlayerObjectEvent *linkPlayerObjEvent, struct ObjectEvent *objEvent, u8 dir)
-{
-    return gLinkPlayerFacingHandlers[dir](linkPlayerObjEvent, objEvent, dir);
 }
 
 static bool8 FacingHandler_DoNothing(struct LinkPlayerObjectEvent *linkPlayerObjEvent, struct ObjectEvent *objEvent, u8 dir)

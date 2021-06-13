@@ -3879,12 +3879,6 @@ void ClearFuryCutterDestinyBondGrudge(u8 battlerId)
     gStatuses3[battlerId] &= ~(STATUS3_GRUDGE);
 }
 
-void HandleAction_RunBattleScript(void) // identical to RunBattleScriptCommands
-{
-    if (gBattleControllerExecFlags == 0)
-        gBattleScriptingCommandsTable[*gBattlescriptCurrInstr]();
-}
-
 u8 GetMoveTarget(u16 move, u8 setTarget)
 {
     u8 targetBattler = 0;

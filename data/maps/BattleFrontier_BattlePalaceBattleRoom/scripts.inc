@@ -383,38 +383,6 @@ BattleFrontier_BattlePalaceBattleRoom_Movement_FaceDown: @ 824FEAC
 	face_down
 	step_end
 
-BattleFrontier_BattlePalaceBattleRoom_Movement_UnusedOpponentEnter1: @ 824FEAE
-	set_visible
-	walk_slow_down
-	walk_slow_down
-	face_left
-	step_end
-
-BattleFrontier_BattlePalaceBattleRoom_Movement_UnusedOpponentEnter2: @ 824FEB3
-	set_visible
-	walk_slow_down
-	step_end
-
-BattleFrontier_BattlePalaceBattleRoom_Movement_UnusedOpponentEnter3: @ 824FEB6
-	walk_slow_down
-	walk_slow_down
-	walk_slow_down
-	face_left
-	step_end
-
-BattleFrontier_BattlePalaceBattleRoom_EventScript_WarpToLobby:: @ 824FEBB
-	copyvar VAR_RESULT, VAR_FRONTIER_BATTLE_MODE
-	compare VAR_RESULT, FRONTIER_MODE_DOUBLES
-	goto_if_eq BattleFrontier_BattlePalaceBattleRoom_EventScript_WarpToLobbyDoubles
-	warp MAP_BATTLE_FRONTIER_BATTLE_PALACE_LOBBY, 255, 5, 7
-	waitstate
-	end
-
-BattleFrontier_BattlePalaceBattleRoom_EventScript_WarpToLobbyDoubles:: @ 824FED5
-	warp MAP_BATTLE_FRONTIER_BATTLE_PALACE_LOBBY, 255, 19, 7
-	waitstate
-	end
-
 BattleFrontier_BattlePalaceBattleRoom_Movement_DusclopsEnter: @ 824FEDF
 	delay_16
 	delay_16
@@ -453,6 +421,19 @@ BattleFrontier_BattlePalaceBattleRoom_Movement_SpenserEnter: @ 824FEF2
 	walk_slow_down
 	face_left
 	step_end
+
+BattleFrontier_BattlePalaceBattleRoom_EventScript_WarpToLobby:: @ 824FEBB
+	copyvar VAR_RESULT, VAR_FRONTIER_BATTLE_MODE
+	compare VAR_RESULT, FRONTIER_MODE_DOUBLES
+	goto_if_eq BattleFrontier_BattlePalaceBattleRoom_EventScript_WarpToLobbyDoubles
+	warp MAP_BATTLE_FRONTIER_BATTLE_PALACE_LOBBY, 255, 5, 7
+	waitstate
+	end
+
+BattleFrontier_BattlePalaceBattleRoom_EventScript_WarpToLobbyDoubles:: @ 824FED5
+	warp MAP_BATTLE_FRONTIER_BATTLE_PALACE_LOBBY, 255, 19, 7
+	waitstate
+	end
 
 BattleFrontier_BattlePalaceBattleRoom_Text_LetMeRestoreYourMons: @ 824FF00
 	.string "Excellent…\n"

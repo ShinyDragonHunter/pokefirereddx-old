@@ -897,7 +897,7 @@ void Task_UseDigEscapeRopeOnField(u8 taskId)
 
 static void ItemUseOnFieldCB_EscapeRope(u8 taskId)
 {
-    Overworld_ResetStateAfterDigEscRope();
+    Overworld_ResetStateAfterFly();
     RemoveUsedItem();
     gTasks[taskId].data[0] = 0;
     DisplayItemMessageOnField(taskId, gStringVar4, Task_UseDigEscapeRopeOnField);

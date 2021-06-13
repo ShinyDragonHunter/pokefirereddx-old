@@ -513,7 +513,7 @@ static void Task_AskConfirmStarter(u8 taskId)
     FillWindowPixelBuffer(0, PIXEL_FILL(1));
     AddTextPrinterParameterized(0, 2, gText_ConfirmStarterChoice, 0, 1, 0, NULL);
     ScheduleBgCopyTilemapToVram(0);
-    CreateYesNoMenu(&sWindowTemplate_ConfirmStarter, 0x2A8, 0xD, 0);
+    CreateYesNoMenu(&sWindowTemplate_ConfirmStarter, 2, 0, 2, 0x2A8, 0xD, 0);
     gTasks[taskId].func = Task_HandleConfirmStarterInput;
 }
 

@@ -443,7 +443,7 @@ static u8 EggHatchCreateMonSprite(u8 a0, u8 switchID, u8 pokeID, u16* speciesLoc
         break;
     case 1:
         SetMultiuseSpriteTemplateToPokemon(GetMonSpritePalStruct(mon)->tag, r5, form);
-        spriteID = CreateSprite(&gMultiuseSpriteTemplate, 120, 75, 6);
+        spriteID = CreateSprite(&gMultiuseSpriteTemplate, 120, 70, 6);
         gSprites[spriteID].invisible = TRUE;
         gSprites[spriteID].callback = SpriteCallbackDummy;
         break;
@@ -660,7 +660,7 @@ static void CB2_EggHatch_1(void)
         if (!IsTextPrinterActive(sEggHatchData->windowId))
         {
             LoadUserWindowBorderGfx(sEggHatchData->windowId, 0x140, 0xE0);
-            CreateYesNoMenu(&sYesNoWinTemplate, 0x140, 0xE, 0);
+            CreateYesNoMenu(&sYesNoWinTemplate, 2, 0, 2, 0x140, 0xE, 0);
             sEggHatchData->CB2_state++;
         }
         break;
@@ -760,7 +760,7 @@ static void SpriteCB_Egg_2(struct Sprite* sprite)
             species = GetFormSpecies(GetMonData(&gPlayerParty[sEggHatchData->eggPartyID], MON_DATA_SPECIES),
                                     GetMonData(&gPlayerParty[sEggHatchData->eggPartyID], MON_DATA_FORM));
             gSprites[sEggHatchData->pokeSpriteID].pos2.x = 0;
-            gSprites[sEggHatchData->pokeSpriteID].pos2.y = 0;
+            gSprites[sEggHatchData->pokeSpriteID].pos2.y = gMonFrontPicCoords[species].y_offset;
         }
         else
         {
@@ -864,7 +864,7 @@ static void EggHatchPrintMessage(u8 windowId, u8* string, u8 x, u8 y, u8 speed)
     sEggHatchData->textColor[0] = 0;
     sEggHatchData->textColor[1] = 5;
     sEggHatchData->textColor[2] = 6;
-    AddTextPrinterParameterized4(windowId, 2, x, y, 0, 0, sEggHatchData->textColor, speed, string);
+    AddTextPrinterParameterized4(windowId, 2, x, y, 1, 1, sEggHatchData->textColor, speed, string);
 }
 
 u8 GetEggCyclesToSubtract(void)

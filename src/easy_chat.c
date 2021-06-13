@@ -3862,7 +3862,7 @@ static void PrintEasyChatStdMessage(u8 msgId)
 
 static void CreateEasyChatYesNoMenu(u8 initialCursorPos)
 {
-    CreateYesNoMenu(&sEasyChatYesNoWindowTemplate, 1, 14, initialCursorPos);
+    CreateYesNoMenu(&sEasyChatYesNoWindowTemplate, 2, 0, 2, 1, 14, initialCursorPos);
 }
 
 static void AddPhraseWindow(void)

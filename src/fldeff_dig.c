@@ -30,7 +30,7 @@ bool8 SetUpFieldMove_Dig(void)
 
 static void FieldCallback_Dig(void)
 {
-    Overworld_ResetStateAfterDigEscRope();
+    Overworld_ResetStateAfterFly();
     FieldEffectStart(FLDEFF_USE_DIG);
     gFieldEffectArguments[0] = GetCursorSelectionMonId();
 }

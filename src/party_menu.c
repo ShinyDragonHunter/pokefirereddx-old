@@ -592,7 +592,7 @@ static bool8 ShowPartyMenu(void)
         gMain.state++;
         break;
     case 22:
-        BeginNormalPaletteFade(PALETTES_ALL, 0, 16, 0, RGB_BLACK);
+        BeginNormalPaletteFade(PALETTES_ALL, -2, 16, 0, RGB_BLACK);
         gMain.state++;
         break;
     default:
@@ -605,7 +605,7 @@ static bool8 ShowPartyMenu(void)
 
 static void ExitPartyMenu(void)
 {
-    BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
+    BeginNormalPaletteFade(PALETTES_ALL, -2, 0, 16, RGB_BLACK);
     CreateTask(Task_ExitPartyMenu, 0);
     SetVBlankCallback(VBlankCB_PartyMenu);
     SetMainCallback2(CB2_UpdatePartyMenu);
@@ -1147,7 +1147,7 @@ static void SwapPartyPokemon(struct Pokemon *mon1, struct Pokemon *mon2)
 
 static void Task_ClosePartyMenu(u8 taskId)
 {
-    BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
+    BeginNormalPaletteFade(PALETTES_ALL, -2, 0, 16, RGB_BLACK);
     gTasks[taskId].func = Task_ClosePartyMenuAndSetCB2;
 }
 
@@ -2444,7 +2444,7 @@ static u8 DisplaySelectionWindow(u8 windowType)
         AddTextPrinterParameterized4(sPartyMenuInternal->windowId[0], 2, cursorDimension, (i * 16) + 1, fontAttribute, 0, sFontColorTable[fontColorsId], 0, sCursorOptions[sPartyMenuInternal->actions[i]].text);
     }
 
-    InitMenuInUpperLeftCorner(sPartyMenuInternal->windowId[0], sPartyMenuInternal->numActions, 0, 1);
+    InitMenuInUpperLeftCorner(sPartyMenuInternal->windowId[0], 2, 0, 1, 16, sPartyMenuInternal->numActions, 0, 1);
     ScheduleBgCopyTilemapToVram(2);
 
     return sPartyMenuInternal->windowId[0];
@@ -2459,7 +2459,7 @@ static void PartyMenuPrintText(const u8 *text)
 
 static void PartyMenuDisplayYesNoMenu(void)
 {
-    CreateYesNoMenu(&sPartyMenuYesNoWindowTemplate, 0x4F, 13, 0);
+    CreateYesNoMenu(&sPartyMenuYesNoWindowTemplate, 2, 0, 2, 0x4F, 13, 0);
 }
 
 static u8 CreateLevelUpStatsWindow(void)
@@ -4385,7 +4385,7 @@ static void ShowMoveSelectWindow(u8 slot)
         if (move != MOVE_NONE)
             moveCount++;
     }
-    InitMenuInUpperLeftCornerPlaySoundWhenAPressed(windowId, moveCount, 0);
+    InitMenuInUpperLeftCornerPlaySoundWhenAPressed(windowId, 2, 0, 1, 16, moveCount, 0);
     ScheduleBgCopyTilemapToVram(2);
 }
 

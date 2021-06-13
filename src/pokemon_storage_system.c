@@ -1302,7 +1302,7 @@ void DrawTextWindowAndBufferTiles(const u8 *string, void *dst, u8 zero1, u8 zero
         txtColor[0] = TEXT_COLOR_TRANSPARENT;
     txtColor[1] = TEXT_DYNAMIC_COLOR_6;
     txtColor[2] = TEXT_DYNAMIC_COLOR_5;
-    AddTextPrinterParameterized4(windowId, 2, 0, 1, 0, 0, txtColor, -1, string);
+    AddTextPrinterParameterized4(windowId, 2, 0, 2, 0, 0, txtColor, -1, string);
 
     tileBytesToBuffer = bytesToBuffer;
     if (tileBytesToBuffer > 6u)
@@ -1586,7 +1586,7 @@ static void CreateMainMenu(u8 whichMenu, s16 *windowIdPtr)
 
     DrawStdWindowFrame(windowId, FALSE);
     PrintMenuTable(windowId, OPTIONS_COUNT, (void *)sMainMenuTexts);
-    InitMenuInUpperLeftCornerPlaySoundWhenAPressed(windowId, OPTIONS_COUNT, whichMenu);
+    InitMenuInUpperLeftCornerPlaySoundWhenAPressed(windowId, 2, 0, 1, 16, OPTIONS_COUNT, whichMenu);
     *windowIdPtr = windowId;
 }
 
@@ -3855,14 +3855,14 @@ static void PrintDisplayMonInfo(void)
         AddTextPrinterParameterized(0, 2, sStorage->displayMonNameText, 6, 0, TEXT_SPEED_FF, NULL);
         AddTextPrinterParameterized(0, 2, sStorage->displayMonSpeciesName, 6, 15, TEXT_SPEED_FF, NULL);
         AddTextPrinterParameterized(0, 2, sStorage->displayMonGenderLvlText, 10, 29, TEXT_SPEED_FF, NULL);
-        AddTextPrinterParameterized(0, 7, sStorage->displayMonItemName, 6, 43, TEXT_SPEED_FF, NULL);
+        AddTextPrinterParameterized(0, 0, sStorage->displayMonItemName, 6, 43, TEXT_SPEED_FF, NULL);
     }
     else
     {
         AddTextPrinterParameterized(0, 2, sStorage->displayMonNameText, 6, 13, TEXT_SPEED_FF, NULL);
         AddTextPrinterParameterized(0, 2, sStorage->displayMonSpeciesName, 6, 28, TEXT_SPEED_FF, NULL);
         AddTextPrinterParameterized(0, 2, sStorage->displayMonGenderLvlText, 10, 42, TEXT_SPEED_FF, NULL);
-        AddTextPrinterParameterized(0, 7, sStorage->displayMonItemName, 6, 0, TEXT_SPEED_FF, NULL);
+        AddTextPrinterParameterized(0, 0, sStorage->displayMonItemName, 6, 0, TEXT_SPEED_FF, NULL);
     }
 
     CopyWindowToVram(0, 2);
@@ -4158,8 +4158,8 @@ static void PrintMessage(u8 id)
 
     DynamicPlaceholderTextUtil_ExpandPlaceholders(sStorage->messageText, sMessages[id].text);
     FillWindowPixelBuffer(1, PIXEL_FILL(1));
-    AddTextPrinterParameterized(1, 2, sStorage->messageText, 0, 1, TEXT_SPEED_FF, NULL);
-    DrawTextBorderOuter(1, 2, 14);
+    AddTextPrinterParameterized(1, 2, sStorage->messageText, 0, 2, TEXT_SPEED_FF, NULL);
+    DrawTextBorderOuter(1, 2, 13);
     PutWindowTilemap(1);
     CopyWindowToVram(1, 2);
     ScheduleBgCopyTilemapToVram(0);
@@ -4167,7 +4167,7 @@ static void PrintMessage(u8 id)
 
 static void ShowYesNoWindow(s8 cursorPos)
 {
-    CreateYesNoMenu(&sYesNoWindowTemplate, 11, 14, 0);
+    CreateYesNoMenu(&sYesNoWindowTemplate, 2, 0, 2, 11, 14, 0);
     Menu_MoveCursorNoWrapAround(cursorPos);
 }
 
@@ -7838,7 +7838,7 @@ static void AddMenu(void)
     ClearWindowTilemap(sStorage->menuWindowId);
     DrawStdFrameWithCustomTileAndPalette(sStorage->menuWindowId, FALSE, 11, 14);
     PrintMenuTable(sStorage->menuWindowId, sStorage->menuItemsCount, (void*)sStorage->menuItems);
-    InitMenuInUpperLeftCornerPlaySoundWhenAPressed(sStorage->menuWindowId, sStorage->menuItemsCount, 0);
+    InitMenuInUpperLeftCornerPlaySoundWhenAPressed(sStorage->menuWindowId, 2, 0, 2, 16, sStorage->menuItemsCount, 0);
     ScheduleBgCopyTilemapToVram(0);
 }
 

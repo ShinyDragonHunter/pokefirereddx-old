@@ -133,47 +133,11 @@ SlateportCity_BattleTentLobby_EventScript_SaveBeforeChallenge:: @ 8208950
 SlateportCity_BattleTentLobby_EventScript_EnterChallenge:: @ 82089AC
 	msgbox SlateportCity_BattleTentLobby_Text_StepThisWay, MSGBOX_DEFAULT
 	closemessage
-	call SlateportCity_BattleTentLobby_EventScript_WalkToDoor
+	call FallarborTown_BattleTentLobby_EventScript_WalkToDoor
 	warp MAP_SLATEPORT_CITY_BATTLE_TENT_CORRIDOR, 255, 2, 7
 	setvar VAR_TEMP_0, 0
 	waitstate
 	end
-
-SlateportCity_BattleTentLobby_EventScript_WalkToDoor:: @ 82089C9
-	applymovement LOCALID_ATTENDANT, SlateportCity_BattleTentLobby_Movement_AttendantWalkToDoor
-	applymovement OBJ_EVENT_ID_PLAYER, SlateportCity_BattleTentLobby_Movement_PlayerWalkToDoor
-	waitmovement 0
-	opendoor 6, 1
-	waitdooranim
-	applymovement LOCALID_ATTENDANT, SlateportCity_BattleTentLobby_Movement_AttendantEnterDoor
-	applymovement OBJ_EVENT_ID_PLAYER, SlateportCity_BattleTentLobby_Movement_PlayerEnterDoor
-	waitmovement 0
-	closedoor 6, 1
-	waitdooranim
-	return
-
-SlateportCity_BattleTentLobby_Movement_AttendantWalkToDoor: @ 82089F8
-	walk_up
-	walk_up
-	walk_up
-	step_end
-
-SlateportCity_BattleTentLobby_Movement_AttendantEnterDoor: @ 82089FC
-	walk_up
-	set_invisible
-	step_end
-
-SlateportCity_BattleTentLobby_Movement_PlayerWalkToDoor: @ 82089FF
-	walk_up
-	walk_up
-	walk_up
-	step_end
-
-SlateportCity_BattleTentLobby_Movement_PlayerEnterDoor: @ 8208A03
-	walk_up
-	walk_up
-	set_invisible
-	step_end
 
 SlateportCity_BattleTentLobby_EventScript_ExplainChallenge:: @ 8208A07
 	msgbox SlateportCity_BattleTentLobby_Text_ExplainSlateportTent, MSGBOX_DEFAULT
@@ -189,14 +153,6 @@ SlateportCity_BattleTentLobby_EventScript_CancelChallenge:: @ 8208A2E
 	msgbox SlateportCity_BattleTentLobby_Text_LookForwardToNextVisit, MSGBOX_DEFAULT
 	release
 	end
-
-@ Unused
-SlateportCity_BattleTentLobby_Movement_UnusedEnterDoor:: @ 8208A38
-	walk_up
-	walk_up
-	walk_up
-	set_invisible
-	step_end
 
 SlateportCity_BattleTentLobby_EventScript_TormentGiver:: @ 8208A3D
 	lock
@@ -235,7 +191,7 @@ SlateportCity_BattleTentLobby_EventScript_RulesBoard:: @ 8208A99
 	end
 
 SlateportCity_BattleTentLobby_EventScript_ReadRulesBoard:: @ 8208AA8
-	message BattleFrontier_BattleFactoryLobby_Text_ReadWhichHeading
+	message BattleFrontier_BattleTowerLobby_Text_ReadWhichHeading
 	waitmessage
 	multichoice 17, 0, MULTI_SLATEPORT_TENT_RULES, FALSE
 	switch VAR_RESULT
@@ -244,8 +200,8 @@ SlateportCity_BattleTentLobby_EventScript_ReadRulesBoard:: @ 8208AA8
 	case 2, SlateportCity_BattleTentLobby_EventScript_RulesSwapNumber
 	case 3, SlateportCity_BattleTentLobby_EventScript_RulesSwapNotes
 	case 4, SlateportCity_BattleTentLobby_EventScript_RulesMons
-	case 5, SlateportCity_BattleTentLobby_EventScript_ExitRules
-	case MULTI_B_PRESSED, SlateportCity_BattleTentLobby_EventScript_ExitRules
+	case 5, BattleFrontier_BattleTowerLobby_EventScript_ExitRules
+	case MULTI_B_PRESSED, BattleFrontier_BattleTowerLobby_EventScript_ExitRules
 	end
 
 SlateportCity_BattleTentLobby_EventScript_RulesBasics:: @ 8208B06
@@ -271,10 +227,6 @@ SlateportCity_BattleTentLobby_EventScript_RulesSwapNotes:: @ 8208B30
 SlateportCity_BattleTentLobby_EventScript_RulesMons:: @ 8208B3E
 	msgbox SlateportCity_BattleTentLobby_Text_ExplainMonRules, MSGBOX_DEFAULT
 	goto SlateportCity_BattleTentLobby_EventScript_ReadRulesBoard
-	end
-
-SlateportCity_BattleTentLobby_EventScript_ExitRules:: @ 8208B4C
-	releaseall
 	end
 
 SlateportCity_BattleTentLobby_Text_CouldntFindMonForMe: @ 8208B4E

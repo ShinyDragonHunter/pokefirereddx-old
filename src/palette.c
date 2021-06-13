@@ -69,8 +69,8 @@ static const struct PaletteStructTemplate gDummyPaletteStructTemplate = {
 };
 
 static const u8 sRoundedDownGrayscaleMap[] = {
-     0,  0,  0,  0,  0,
-     5,  5,  5,  5,  5,
+    0,  0,  0,  0,  0,
+    5,  5,  5,  5,  5,
     11, 11, 11, 11, 11,
     16, 16, 16, 16, 16,
     21, 21, 21, 21, 21,
@@ -173,8 +173,8 @@ void ReadPlttIntoBuffers(void)
 
 bool8 BeginNormalPaletteFade(u32 selectedPalettes, s8 delay, u8 startY, u8 targetY, u16 blendColor)
 {
-    u8 temp;
     u16 color = blendColor;
+    u8 temp = gPaletteFade.bufferTransferDisabled;
 
     if (gPaletteFade.active)
     {
@@ -206,7 +206,6 @@ bool8 BeginNormalPaletteFade(u32 selectedPalettes, s8 delay, u8 startY, u8 targe
 
         UpdatePaletteFade();
 
-        temp = gPaletteFade.bufferTransferDisabled;
         gPaletteFade.bufferTransferDisabled = 0;
         CpuCopy32(gPlttBufferFaded, (void *)PLTT, PLTT_SIZE);
         sPlttBufferTransferPending = 0;
@@ -239,17 +238,16 @@ void ResetPaletteStruct(u8 paletteNum)
 void ResetPaletteFadeControl(void)
 {
     gPaletteFade.multipurpose1 = 0;
-    gPaletteFade.multipurpose2 = 0;
     gPaletteFade.delayCounter = 0;
     gPaletteFade.y = 0;
     gPaletteFade.targetY = 0;
     gPaletteFade.blendColor = 0;
     gPaletteFade.active = 0;
+    gPaletteFade.multipurpose2 = 0;
     gPaletteFade.yDec = 0;
     gPaletteFade.bufferTransferDisabled = 0;
     gPaletteFade.shouldResetBlendRegisters = 0;
     gPaletteFade.hardwareFadeFinishing = 0;
-    gPaletteFade.softwareFadeFinishing = 0;
     gPaletteFade.softwareFadeFinishingCounter = 0;
     gPaletteFade.objPaletteToggle = 0;
     gPaletteFade.deltaY = 2;
@@ -275,81 +273,75 @@ static u8 UpdateNormalPaletteFade(void)
         return PALETTE_FADE_STATUS_DONE;
 
     if (IsSoftwarePaletteFadeFinishing())
-    {
         return gPaletteFade.active ? PALETTE_FADE_STATUS_ACTIVE : PALETTE_FADE_STATUS_DONE;
+
+    if (!gPaletteFade.objPaletteToggle)
+    {
+        if (gPaletteFade.delayCounter < gPaletteFade_delay)
+        {
+            gPaletteFade.delayCounter++;
+            return 2;
+        }
+        gPaletteFade.delayCounter = 0;
+    }
+
+    paletteOffset = 0;
+
+    if (gPaletteFade.objPaletteToggle)
+    {
+        selectedPalettes = gPaletteFade_selectedPalettes >> 16;
+        paletteOffset = 256;
     }
     else
     {
-        if (!gPaletteFade.objPaletteToggle)
-        {
-            if (gPaletteFade.delayCounter < gPaletteFade_delay)
-            {
-                gPaletteFade.delayCounter++;
-                return 2;
-            }
-            gPaletteFade.delayCounter = 0;
-        }
+        selectedPalettes = gPaletteFade_selectedPalettes;
+    }
 
-        paletteOffset = 0;
+    while (selectedPalettes)
+    {
+        if (selectedPalettes & 1)
+            BlendPalette(
+                paletteOffset,
+                16,
+                gPaletteFade.y,
+                gPaletteFade.blendColor);
+        selectedPalettes >>= 1;
+        paletteOffset += 16;
+    }
 
-        if (!gPaletteFade.objPaletteToggle)
+    gPaletteFade.objPaletteToggle ^= 1;
+
+    if (!gPaletteFade.objPaletteToggle)
+    {
+        if (gPaletteFade.y == gPaletteFade.targetY)
         {
-            selectedPalettes = gPaletteFade_selectedPalettes;
+            gPaletteFade_selectedPalettes = 0;
+            gPaletteFade.softwareFadeFinishing = 1;
         }
         else
         {
-            selectedPalettes = gPaletteFade_selectedPalettes >> 16;
-            paletteOffset = 256;
-        }
+            s8 val;
 
-        while (selectedPalettes)
-        {
-            if (selectedPalettes & 1)
-                BlendPalette(
-                    paletteOffset,
-                    16,
-                    gPaletteFade.y,
-                    gPaletteFade.blendColor);
-            selectedPalettes >>= 1;
-            paletteOffset += 16;
-        }
-
-        gPaletteFade.objPaletteToggle ^= 1;
-
-        if (!gPaletteFade.objPaletteToggle)
-        {
-            if (gPaletteFade.y == gPaletteFade.targetY)
+            if (gPaletteFade.yDec)
             {
-                gPaletteFade_selectedPalettes = 0;
-                gPaletteFade.softwareFadeFinishing = 1;
+                val = gPaletteFade.y;
+                val -= gPaletteFade.deltaY;
+                if (val < gPaletteFade.targetY)
+                    val = gPaletteFade.targetY;
+                gPaletteFade.y = val;
             }
             else
             {
-                s8 val;
-
-                if (!gPaletteFade.yDec)
-                {
-                    val = gPaletteFade.y;
-                    val += gPaletteFade.deltaY;
-                    if (val > gPaletteFade.targetY)
-                        val = gPaletteFade.targetY;
-                    gPaletteFade.y = val;
-                }
-                else
-                {
-                    val = gPaletteFade.y;
-                    val -= gPaletteFade.deltaY;
-                    if (val < gPaletteFade.targetY)
-                        val = gPaletteFade.targetY;
-                    gPaletteFade.y = val;
-                }
+                val = gPaletteFade.y;
+                val += gPaletteFade.deltaY;
+                if (val > gPaletteFade.targetY)
+                    val = gPaletteFade.targetY;
+                gPaletteFade.y = val;
             }
         }
-
-        // gPaletteFade.active cannot change since the last time it was checked. So this
-        // is equivalent to `return PALETTE_FADE_STATUS_ACTIVE;`
-        return PALETTE_FADE_STATUS_ACTIVE;
     }
+
+    return PALETTE_FADE_STATUS_ACTIVE;
 }
 
 void InvertPlttBuffer(u32 selectedPalettes)
@@ -447,7 +439,6 @@ static u8 UpdateFastPaletteFade(void)
 
     if (IsSoftwarePaletteFadeFinishing())
         return gPaletteFade.active ? PALETTE_FADE_STATUS_ACTIVE : PALETTE_FADE_STATUS_DONE;
-        
 
     if (gPaletteFade.objPaletteToggle)
     {
@@ -615,22 +606,22 @@ static u8 UpdateHardwarePaletteFade(void)
 
     gPaletteFade.delayCounter = 0;
 
-    if (!gPaletteFade.yDec)
-    {
-        gPaletteFade.y++;
-        if (gPaletteFade.y > gPaletteFade.targetY)
-        {
-            gPaletteFade.hardwareFadeFinishing++;
-            gPaletteFade.y--;
-        }
-    }
-    else
+    if (gPaletteFade.yDec)
     {
         s32 y = gPaletteFade.y--;
         if (y - 1 < gPaletteFade.targetY)
         {
             gPaletteFade.hardwareFadeFinishing++;
             gPaletteFade.y++;
+        }
+    }
+    else
+    {
+        gPaletteFade.y++;
+        if (gPaletteFade.y > gPaletteFade.targetY)
+        {
+            gPaletteFade.hardwareFadeFinishing++;
+            gPaletteFade.y--;
         }
     }
 
@@ -669,7 +660,6 @@ static bool8 IsSoftwarePaletteFadeFinishing(void)
         {
             gPaletteFade.active = 0;
             gPaletteFade.softwareFadeFinishing = 0;
-            gPaletteFade.softwareFadeFinishingCounter = 0;
         }
         else
         {
@@ -686,14 +676,47 @@ static bool8 IsSoftwarePaletteFadeFinishing(void)
 
 void BlendPalettes(u32 selectedPalettes, u8 coeff, u16 color)
 {
-    u16 paletteOffset;
+    BlendPalettesFine(selectedPalettes, gPlttBufferUnfaded, gPlttBufferFaded, coeff, color);
+}
 
-    for (paletteOffset = 0; selectedPalettes; paletteOffset += 16)
-    {
+void BlendPalettesFine(u32 selectedPalettes, u16 *src, u16 *dst, u32 coeff, u32 blendColor)
+{
+    s32 newR = (blendColor << 27) >> 27;
+    s32 newG = (blendColor << 22) >> 27;
+    s32 newB = (blendColor << 17) >> 27;
+
+    if (!selectedPalettes)
+        return;
+
+    coeff *= 2;
+
+    do {
         if (selectedPalettes & 1)
-            BlendPalette(paletteOffset, 16, coeff, color);
+        { // Transparency is blended because it can matter for tile palettes
+            u16 *srcEnd = src + 16;
+            while (src != srcEnd)
+            {
+                u32 srcColor = *src;
+
+                s32 r = (srcColor << 27) >> 27;
+                s32 g = (srcColor << 22) >> 27;
+                s32 b = (srcColor << 17) >> 27;
+
+                *dst++ = ((r + (((newR - r) * coeff) >> 5)) << 0)
+                                | ((g + (((newG - g) * coeff) >> 5)) << 5)
+                                | ((b + (((newB - b) * coeff) >> 5)) << 10);
+
+                src++;
+            }
+        }
+        else
+        {
+            src += 16;
+            dst += 16;
+        }
         selectedPalettes >>= 1;
-    }
+
+    } while (selectedPalettes);
 }
 
 void BlendPalettesUnfaded(u32 selectedPalettes, u8 coeff, u16 color)
@@ -865,9 +888,8 @@ void TintPalette_CustomToneWithCopy(const u16 *src, u16 *dest, u16 count, u16 rT
 // One call is used to fade the bg from white, while another fades the duo from black
 void BlendPalettesGradually(u32 selectedPalettes, s8 delay, u8 coeff, u8 coeffTarget, u16 color, u8 priority, u8 id)
 {
-    u8 taskId;
+    u8 taskId = CreateTask((void *)Task_BlendPalettesGradually, priority);
 
-    taskId = CreateTask((void *)Task_BlendPalettesGradually, priority);
     gTasks[taskId].tCoeff = coeff;
     gTasks[taskId].tCoeffTarget = coeffTarget;
 
@@ -893,12 +915,9 @@ void BlendPalettesGradually(u32 selectedPalettes, s8 delay, u8 coeff, u8 coeffTa
 
 static void Task_BlendPalettesGradually(u8 taskId)
 {
-    u32 palettes;
-    s16 *data;
+    s16 *data = gTasks[taskId].data;
+    u32 palettes = GetWordTaskArg(taskId, tPalettes);
     s16 target;
-
-    data = gTasks[taskId].data;
-    palettes = GetWordTaskArg(taskId, tPalettes);
 
     if (++tDelayTimer > tDelay)
     {

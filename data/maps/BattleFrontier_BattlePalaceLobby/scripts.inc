@@ -349,7 +349,7 @@ BattleFrontier_BattlePalaceLobby_EventScript_RulesBoard:: @ 824DCA6
 	end
 
 BattleFrontier_BattlePalaceLobby_EventScript_ReadRulesBoard:: @ 824DCB5
-	message BattleFrontier_BattlePalaceLobby_Text_ReadWhichHeading
+	message BattleFrontier_BattleTowerLobby_Text_ReadWhichHeading
 	waitmessage
 	multichoice 16, 0, MULTI_BATTLE_PALACE_RULES, FALSE
 	switch VAR_RESULT
@@ -358,8 +358,8 @@ BattleFrontier_BattlePalaceLobby_EventScript_ReadRulesBoard:: @ 824DCB5
 	case 2, BattleFrontier_BattlePalaceLobby_EventScript_RulesMoves
 	case 3, BattleFrontier_BattlePalaceLobby_EventScript_RulesUnderpowered
 	case 4, BattleFrontier_BattlePalaceLobby_EventScript_RulesWhenInDanger
-	case 5, BattleFrontier_BattlePalaceLobby_EventScript_ExitRules
-	case MULTI_B_PRESSED, BattleFrontier_BattlePalaceLobby_EventScript_ExitRules
+	case 5, BattleFrontier_BattleTowerLobby_EventScript_ExitRules
+	case MULTI_B_PRESSED, BattleFrontier_BattleTowerLobby_EventScript_ExitRules
 	end
 
 BattleFrontier_BattlePalaceLobby_EventScript_RulesBasics:: @ 824DD13
@@ -385,10 +385,6 @@ BattleFrontier_BattlePalaceLobby_EventScript_RulesUnderpowered:: @ 824DD3D
 BattleFrontier_BattlePalaceLobby_EventScript_RulesWhenInDanger:: @ 824DD4B
 	msgbox BattleFrontier_BattlePalaceLobby_Text_ExplainRulesWhenInDanger, MSGBOX_DEFAULT
 	goto BattleFrontier_BattlePalaceLobby_EventScript_ReadRulesBoard
-	end
-
-BattleFrontier_BattlePalaceLobby_EventScript_ExitRules:: @ 824DD59
-	releaseall
 	end
 
 BattleFrontier_BattlePalaceLobby_Text_WelcomeForSingleBattle: @ 824DD5B
@@ -685,9 +681,6 @@ BattleFrontier_BattlePalaceLobby_Text_LikeToRecordMatch: @ 824EF16
 
 BattleFrontier_BattlePalaceLobby_Text_RulesAreListed: @ 824EF66
 	.string "The BATTLE HALL rules are listed.$"
-
-BattleFrontier_BattlePalaceLobby_Text_ReadWhichHeading: @ 824EF88
-	.string "Which heading do you want to read?$"
 
 BattleFrontier_BattlePalaceLobby_Text_ExplainRulesBasics: @ 824EFAB
 	.string "Here, POKéMON are required to think\n"
