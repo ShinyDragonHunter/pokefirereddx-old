@@ -375,10 +375,10 @@ static bool8 IsHiddenItemPresentAtCoords(const struct MapEvents *events, s16 x, 
     {
         if (bgEvent[i].kind == BG_EVENT_HIDDEN_ITEM && x == (u16)bgEvent[i].x && y == (u16)bgEvent[i].y) // hidden item and coordinates matches x and y passed?
         {
-            if (!FlagGet(bgEvent[i].bgUnion.hiddenItem.hiddenItemId + FLAG_HIDDEN_ITEMS_START))
-                return TRUE;
-            else
+            if (FlagGet(bgEvent[i].bgUnion.hiddenItem.hiddenItemId + FLAG_HIDDEN_ITEMS_START))
                 return FALSE;
+            else
+                return TRUE;
         }
     }
     return FALSE;
@@ -519,7 +519,7 @@ static u8 GetDirectionToHiddenItem(s16 itemDistanceX, s16 itemDistanceY)
 {
     s16 absX, absY;
 
-    if (itemDistanceX == 0 && itemDistanceY == 0)
+    if (!itemDistanceX && !itemDistanceY)
         return DIR_NONE; // player is standing on the item.
 
     // Get absolute X distance.
@@ -810,21 +810,21 @@ static void RemoveUsedItem(void)
     RemoveBagItem(gSpecialVar_ItemId, 1);
     CopyItemName(gSpecialVar_ItemId, gStringVar2);
     StringExpandPlaceholders(gStringVar4, gText_PlayerUsedVar2);
-    if (!InBattlePyramid())
-    {
-        UpdatePocketItemList(ItemId_GetPocket(gSpecialVar_ItemId));
-        SetInitialScrollAndCursorPositions(ItemId_GetPocket(gSpecialVar_ItemId));
-    }
-    else
+    if (InBattlePyramid())
     {
         UpdatePyramidBagList();
         UpdatePyramidBagCursorPos();
+    }
+    else
+    {
+        UpdatePocketItemList(ItemId_GetPocket(gSpecialVar_ItemId));
+        SetInitialScrollAndCursorPositions(ItemId_GetPocket(gSpecialVar_ItemId));
     }
 }
 
 void ItemUseOutOfBattle_Repel(u8 taskId)
 {
-    if (VarGet(VAR_REPEL_STEP_COUNT) == 0)
+    if (!VarGet(VAR_REPEL_STEP_COUNT))
         gTasks[taskId].func = Task_StartUseRepel;
     else if (!InBattlePyramid())
         DisplayItemMessage(taskId, 2, gText_RepelEffectsLingered, BagMenu_InitListsMenu);

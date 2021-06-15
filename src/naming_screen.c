@@ -140,13 +140,12 @@ enum
 
 struct NamingScreenTemplate
 {
-    u8 copyExistingString;
-    u8 maxChars;
-    u8 iconFunction;
-    u8 addGenderIcon;
-    u8 initialPage;
-    u8 unused;
-    const u8 *title;
+ /* 0x00 */ u8 copyExistingString;
+ /* 0x01 */ u8 maxChars;
+ /* 0x02 */ u8 iconFunction;
+ /* 0x02 */ u8 addGenderIcon;
+ /* 0x03 */ u8 initialPage;
+ /* 0x04 */ const u8 *title;
 };
 
 struct NamingScreenData 
@@ -817,7 +816,7 @@ static void StartPageSwapAnim(void)
 
 static void Task_HandlePageSwapAnim(u8 taskId)
 {
-    while (sPageSwapAnimStateFuncs[gTasks[taskId].tState](&gTasks[taskId]) != 0);
+    while (sPageSwapAnimStateFuncs[gTasks[taskId].tState](&gTasks[taskId]));
 }
 
 static bool8 IsPageSwapAnimNotInProgress(void)
@@ -964,7 +963,7 @@ static void Task_UpdateButtonFlash(u8 taskId)
     {
         task->tColorIncr = -4;
     }
-    else if (task->tColor == 0)
+    else if (!task->tColor)
     {
         task->tAllowFlash = task->tKeepFlashing;
         task->tColorIncr = 2;
@@ -1037,10 +1036,10 @@ static void SpriteCB_Cursor(struct Sprite *sprite)
     }
 
     sprite->sColorDelay--;
-    if (sprite->sColorDelay == 0)
+    if (!sprite->sColorDelay)
     {
         sprite->sColor += sprite->sColorIncr;
-        if (sprite->sColor == 16 || sprite->sColor == 0)
+        if (sprite->sColor == 16 || !sprite->sColor)
             sprite->sColorIncr = -sprite->sColorIncr;
         sprite->sColorDelay = 2;
     }
@@ -1062,7 +1061,7 @@ static void SpriteCB_InputArrow(struct Sprite *sprite)
 {
     const s16 x[] = {0, -4, -2, -1};
 
-    if (sprite->sDelay == 0 || --sprite->sDelay == 0)
+    if (!sprite->sDelay || --sprite->sDelay == 0)
     {
         sprite->sDelay = 8;
         sprite->sXPosId = (sprite->sXPosId + 1) & (ARRAY_COUNT(x) - 1);
@@ -1648,7 +1647,7 @@ static void HandleDpadMovement(struct Task *task)
 
     
     // Handle moving on/off the button column
-    if (sDpadDeltaX[input] != 0)
+    if (sDpadDeltaX[input])
     {
         if (cursorX == GetCurrentPageColumnCount())
         {
@@ -1679,7 +1678,7 @@ static void HandleDpadMovement(struct Task *task)
         if (cursorY >= BUTTON_COUNT)
             cursorY = 0;
 
-        if (cursorY == 0)
+        if (!cursorY)
             task->tButtonId = BUTTON_BACK;
         else if (cursorY == BUTTON_COUNT - 1)
             task->tButtonId = BUTTON_OK;
@@ -2067,7 +2066,6 @@ static const struct NamingScreenTemplate sPlayerNamingScreenTemplate =
     .iconFunction = 1,
     .addGenderIcon = FALSE,
     .initialPage = KBPAGE_LETTERS_UPPER,
-    .unused = 35,
     .title = gText_YourName,
 };
 
@@ -2078,7 +2076,6 @@ static const struct NamingScreenTemplate sPCBoxNamingTemplate =
     .iconFunction = 2,
     .addGenderIcon = FALSE,
     .initialPage = KBPAGE_LETTERS_UPPER,
-    .unused = 19,
     .title = gText_BoxName,
 };
 
@@ -2089,7 +2086,6 @@ static const struct NamingScreenTemplate sMonNamingScreenTemplate =
     .iconFunction = 3,
     .addGenderIcon = TRUE,
     .initialPage = KBPAGE_LETTERS_UPPER,
-    .unused = 35,
     .title = gText_PkmnsNickname,
 };
 
@@ -2100,7 +2096,6 @@ static const struct NamingScreenTemplate sWaldaWordsScreenTemplate =
     .iconFunction = 4,
     .addGenderIcon = FALSE,
     .initialPage = KBPAGE_LETTERS_UPPER,
-    .unused = 11,
     .title = gText_TellHimTheWords,
 };
 

@@ -2237,7 +2237,7 @@ u32 BattleStringExpandPlaceholders(const u8 *src, u8 *dst)
                     {
                         if (!(gBattleTypeFlags & BATTLE_TYPE_MULTI))
                         {
-                            if ((gBattleScripting.multiplayerId != 0 && (gPotentialItemEffectBattler & BIT_SIDE))
+                            if ((gBattleScripting.multiplayerId && (gPotentialItemEffectBattler & BIT_SIDE))
                                 || (gBattleScripting.multiplayerId == 0 && !(gPotentialItemEffectBattler & BIT_SIDE)))
                             {
                                 StringCopy(text, gEnigmaBerries[gPotentialItemEffectBattler].name);
@@ -2642,7 +2642,7 @@ void BattlePutTextOnWindow(const u8 *text, u8 windowId)
     {
         u32 width = GetBattleWindowTemplatePixelWidth(windowId);
         s32 alignX = GetStringCenterAlignXOffsetWithLetterSpacing(printerTemplate.fontId, printerTemplate.currentChar, width, printerTemplate.letterSpacing);
-        printerTemplate.x = alignX;
+        printerTemplate.x = printerTemplate.currentX = alignX;
     }
 
     if (windowId == 0x16)

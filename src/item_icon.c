@@ -56,11 +56,11 @@ const struct SpriteTemplate gItemIconSpriteTemplate =
 bool8 AllocItemIconTemporaryBuffers(void)
 {
     gItemIconDecompressionBuffer = Alloc(0x120);
-    if (gItemIconDecompressionBuffer == NULL)
+    if (!gItemIconDecompressionBuffer)
         return FALSE;
 
     gItemIcon4x4Buffer = AllocZeroed(0x200);
-    if (gItemIcon4x4Buffer == NULL)
+    if (!gItemIcon4x4Buffer)
     {
         Free(gItemIconDecompressionBuffer);
         return FALSE;
@@ -85,11 +85,7 @@ void CopyItemIconPicTo4x4Buffer(const void *src, void *dest)
 
 u8 AddItemIconSprite(u16 tilesTag, u16 paletteTag, u16 itemId)
 {
-    if (!AllocItemIconTemporaryBuffers())
-    {
-        return MAX_SPRITES;
-    }
-    else
+    if (AllocItemIconTemporaryBuffers())
     {
         u8 spriteId;
         struct SpriteSheet spriteSheet;
@@ -118,20 +114,20 @@ u8 AddItemIconSprite(u16 tilesTag, u16 paletteTag, u16 itemId)
 
         return spriteId;
     }
+    else
+    {
+        return MAX_SPRITES;
+    }
 }
 
 u8 AddCustomItemIconSprite(const struct SpriteTemplate *customSpriteTemplate, u16 tilesTag, u16 paletteTag, u16 itemId)
 {
-    if (!AllocItemIconTemporaryBuffers())
-    {
-        return MAX_SPRITES;
-    }
-    else
+    if (AllocItemIconTemporaryBuffers())
     {
         u8 spriteId;
         struct SpriteSheet spriteSheet;
         struct CompressedSpritePalette spritePalette;
-        struct SpriteTemplate *spriteTemplate;
+        struct SpriteTemplate spriteTemplate;
 
         LZDecompressWram(GetItemIconPicOrPalette(itemId, 0), gItemIconDecompressionBuffer);
         CopyItemIconPicTo4x4Buffer(gItemIconDecompressionBuffer, gItemIcon4x4Buffer);
@@ -144,16 +140,18 @@ u8 AddCustomItemIconSprite(const struct SpriteTemplate *customSpriteTemplate, u1
         spritePalette.tag = paletteTag;
         LoadCompressedSpritePalette(&spritePalette);
 
-        spriteTemplate = Alloc(sizeof(*spriteTemplate));
-        CpuCopy16(customSpriteTemplate, spriteTemplate, sizeof(*spriteTemplate));
-        spriteTemplate->tileTag = tilesTag;
-        spriteTemplate->paletteTag = paletteTag;
-        spriteId = CreateSprite(spriteTemplate, 0, 0, 0);
+        CpuCopy16(customSpriteTemplate, &spriteTemplate, sizeof(spriteTemplate));
+        spriteTemplate.tileTag = tilesTag;
+        spriteTemplate.paletteTag = paletteTag;
+        spriteId = CreateSprite(&spriteTemplate, 0, 0, 0);
 
         FreeItemIconTemporaryBuffers();
-        Free(spriteTemplate);
 
         return spriteId;
+    }
+    else
+    {
+        return MAX_SPRITES;
     }
 }
 

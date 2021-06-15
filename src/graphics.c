@@ -936,11 +936,13 @@ const u32 gUnknown_08D9AF44[] = INCBIN_U32("graphics/unknown/unknown_D9AF44.gbap
 const u32 gBagSwapLineGfx[] = INCBIN_U32("graphics/interface/bag_swap.4bpp.lz");
 const u32 gBagSwapLinePal[] = INCBIN_U32("graphics/interface/bag_swap.gbapal.lz");
 
-const u32 gBuyMenuFrame_Gfx[] = INCBIN_U32("graphics/interface/mart_frame.4bpp.lz");
-const u32 gMenuMoneyPal[] = INCBIN_U32("graphics/interface/mart_frame.gbapal.lz");
-const u32 gBuyMenuFrame_Tilemap[] = INCBIN_U32("graphics/interface/mart_frame.bin.lz");
+const u32 gBuyMenuFrame_Gfx[] = INCBIN_U32("graphics/interface/shop_menu.4bpp.lz");
+const u32 gBuyMenuFrame_Palette[] = INCBIN_U32("graphics/interface/shop_menu.gbapal.lz");
+const u32 gBuyMenuFrame_Tilemap[] = INCBIN_U32("graphics/interface/shop_menu.bin.lz");
+const u32 gBuyMenuFrame_TmHmTilemap[] = INCBIN_U32("graphics/interface/shop_menu_tm_hm.bin.lz");
 
 const u32 gMenuMoneyGfx[] = INCBIN_U32("graphics/interface/money.4bpp.lz");
+const u32 gMenuMoneyPal[] = INCBIN_U32("graphics/interface/money.gbapal.lz");
 
 // Pokeblock
 
@@ -1232,8 +1234,6 @@ const u32 gTilesetTiles_General[] = INCBIN_U32("data/tilesets/primary/general/ti
 const u16 gTradeGba_Pal[] = INCBIN_U16("graphics/link/gba.gbapal");
 const u16 gTradeGba2_Pal[] = INCBIN_U16("graphics/link/gba_pal2.gbapal");
 const u8 gTradeGba_Gfx[] = INCBIN_U8("graphics/link/gba.4bpp");
-
-#include "data/graphics/berry_fix.h"
 
 // Trade
 const u16 gTradeMenu_Pal[] = INCBIN_U16("graphics/trade/menu.gbapal");

@@ -770,7 +770,12 @@ static void Task_HandleSendLinkBuffersData(u8 taskId)
     case 3:
         if (gTasks[taskId].data[15] != gTasks[taskId].data[14])
         {
-            if (gTasks[taskId].data[13] == 0)
+            if (gTasks[taskId].data[13])
+            {
+                gTasks[taskId].data[13]--;
+                break;
+            }
+            else
             {
                 if (gTasks[taskId].data[15] > gTasks[taskId].data[14]
                  && gTasks[taskId].data[15] == gTasks[taskId].data[12])
@@ -781,11 +786,6 @@ static void Task_HandleSendLinkBuffersData(u8 taskId)
                 blockSize = (gLinkBattleSendBuffer[gTasks[taskId].data[15] + LINK_BUFF_SIZE_LO] | (gLinkBattleSendBuffer[gTasks[taskId].data[15] + LINK_BUFF_SIZE_HI] << 8)) + LINK_BUFF_DATA;
                 SendBlock(bitmask_all_link_players_but_self(), &gLinkBattleSendBuffer[gTasks[taskId].data[15]], blockSize);
                 gTasks[taskId].data[11]++;
-            }
-            else
-            {
-                gTasks[taskId].data[13]--;
-                break;
             }
         }
         break;
@@ -800,7 +800,7 @@ static void Task_HandleSendLinkBuffersData(u8 taskId)
         break;
     case 5:
         gTasks[taskId].data[13]--;
-        if (gTasks[taskId].data[13] == 0)
+        if (!gTasks[taskId].data[13])
         {
             gTasks[taskId].data[13] = 1;
             gTasks[taskId].data[11] = 3;
@@ -815,7 +815,7 @@ void TryReceiveLinkBattleData(void)
     s32 j;
     u8 *recvBuffer;
 
-    if (gReceivedRemoteLinkPlayers != 0 && (gBattleTypeFlags & BATTLE_TYPE_LINK_IN_BATTLE))
+    if (gReceivedRemoteLinkPlayers && (gBattleTypeFlags & BATTLE_TYPE_LINK_IN_BATTLE))
     {
         DestroyTask_RfuIdle();
         for (i = 0; i < GetLinkPlayerCount(); i++)

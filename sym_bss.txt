@@ -48,7 +48,6 @@
 	.include "src/battle_tent.o"
 	.include "src/multiboot.o"
 	.include "src/mirage_tower.o"
-	.include "src/berry_fix_program.o"
 	.include "src/pokenav_conditions_2.o"
 	.include "src/pokenav_ribbons_2.o"
 	.include "src/ereader_helpers.o"

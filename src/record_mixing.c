@@ -44,10 +44,10 @@ struct RecordMixingHallRecords
 
 struct PlayerRecordsRS
 {
-    struct SecretBase secretBases[SECRET_BASES_COUNT];
+    u8 filler_0000[0xC80];
     TVShow tvShows[TV_SHOWS_COUNT];
     PokeNews pokeNews[POKE_NEWS_COUNT];
-    OldMan oldMan;
+    u8 filler_1044[0x40];
     struct DewfordTrend dewfordTrends[SAVED_TRENDS_COUNT];
     struct RecordMixingDaycareMail daycareMail;
     struct RSBattleTowerRecord battleTowerRecord;
@@ -57,10 +57,10 @@ struct PlayerRecordsRS
 
 struct PlayerRecordsEmerald
 {
-    /* 0x0000 */ struct SecretBase secretBases[SECRET_BASES_COUNT];
+    /* 0x0000 */ u8 filler_0000[0xC80];
     /* 0x0c80 */ TVShow tvShows[TV_SHOWS_COUNT];
     /* 0x1004 */ PokeNews pokeNews[POKE_NEWS_COUNT];
-    /* 0x1044 */ OldMan oldMan;
+    /* 0x1044 */ u8 filler_1044[0x40];
     /* 0x1084 */ struct DewfordTrend dewfordTrends[SAVED_TRENDS_COUNT];
     /* 0x10ac */ struct RecordMixingDaycareMail daycareMail;
     /* 0x1124 */ struct EmeraldBattleTowerRecord battleTowerRecord;
@@ -174,7 +174,7 @@ static void PrepareUnknownExchangePacket(struct PlayerRecordsRS *dest)
     GetRecordMixingDaycareMail(&dest->daycareMail);
     EmeraldBattleTowerRecordToRuby(sBattleTowerSave, &dest->battleTowerRecord);
 
-    if (GetMultiplayerId() == 0)
+    if (!GetMultiplayerId())
         dest->giftItem = GetRecordMixingGift();
 }
 
@@ -185,7 +185,7 @@ static void PrepareExchangePacketForRubySapphire(struct PlayerRecordsRS *dest)
     EmeraldBattleTowerRecordToRuby(sBattleTowerSave, &dest->battleTowerRecord);
     SanitizeRubyBattleTowerRecord(&dest->battleTowerRecord);
 
-    if (GetMultiplayerId() == 0)
+    if (!GetMultiplayerId())
         dest->giftItem = GetRecordMixingGift();
 }
 
@@ -206,7 +206,7 @@ static void PrepareExchangePacket(void)
         memcpy(&sSentRecord->emerald.battleTowerRecord, sBattleTowerSave, sizeof(sSentRecord->emerald.battleTowerRecord));
         SanitizeEmeraldBattleTowerRecord(&sSentRecord->emerald.battleTowerRecord);
 
-        if (GetMultiplayerId() == 0)
+        if (!GetMultiplayerId())
             sSentRecord->emerald.giftItem = GetRecordMixingGift();
 
         GetSavedApprentices(sSentRecord->emerald.apprentices, sApprenticesSave);
@@ -294,7 +294,7 @@ static void Task_RecordMixing_Main(u8 taskId)
         if (!gTasks[data[10]].isActive)
         {
             tState = 4;
-            if (gWirelessCommType == 0)
+            if (!gWirelessCommType)
                 data[10] = CreateTask_ReestablishCableClubLink();
 
             PrintTextOnRecordMixing(gText_RecordMixingComplete);
@@ -311,7 +311,7 @@ static void Task_RecordMixing_Main(u8 taskId)
             free(sReceivedRecords);
             free(sSentRecord);
             SetLinkWaitingForScript();
-            if (gWirelessCommType != 0)
+            if (gWirelessCommType)
             {
                 CreateTask(Task_ReturnToFieldRecordMixing, 10);
             }
@@ -339,7 +339,7 @@ static void Task_MixingRecordsRecv(u8 taskId)
         ClearLinkCallback_2();
         break;
     case 1: // wait for handshake
-        if (gReceivedRemoteLinkPlayers != 0)
+        if (gReceivedRemoteLinkPlayers)
         {
             ConvertIntToDecimalStringN(gStringVar1, GetMultiplayerId_(), STR_CONV_MODE_LEADING_ZEROS, 2);
             task->data[0] = 5;
@@ -391,7 +391,7 @@ static void Task_MixingRecordsRecv(u8 taskId)
     case 101:
         {
             u8 players = GetLinkPlayerCount_2();
-            if (IsLinkMaster() == TRUE)
+            if (IsLinkMaster())
             {
                 if (players == GetSavedPlayerCount())
                 {
@@ -445,7 +445,7 @@ static void Task_SendPacket(u8 taskId)
         }
         break;
     case 1:
-        if (GetMultiplayerId() == 0)
+        if (!GetMultiplayerId())
             SendBlockRequest(1);
         task->data[0]++;
         break;
@@ -514,7 +514,7 @@ static void Task_ReceivePacket(u8 taskId)
     struct Task *task = &gTasks[taskId];
 
     task->func = sub_80E776C;
-    if (gUnknown_03001130 == TRUE)
+    if (gUnknown_03001130)
         ReceiveExchangePacket(task->data[5]);
 }
 
@@ -742,22 +742,22 @@ static void ReceiveDaycareMailData(struct RecordMixingDaycareMail *src, size_t r
     for (i = 0; i < linkPlayerCount; i++)
     {
         _src = (void *)src + i * recordSize;
-        if (sp1c[i][0] == TRUE || sp1c[i][1] == TRUE)
+        if (sp1c[i][0] || sp1c[i][1])
             sp34++;
 
-        if (sp1c[i][0] == TRUE && sp1c[i][1] == FALSE)
+        if (sp1c[i][0] && !sp1c[i][1])
         {
             sp24[j][0] = i;
             sp24[j][1] = 0;
             j++;
         }
-        else if (sp1c[i][0] == FALSE && sp1c[i][1] == TRUE)
+        else if (!sp1c[i][0] && sp1c[i][1])
         {
             sp24[j][0] = i;
             sp24[j][1] = 1;
             j++;
         }
-        else if (sp1c[i][0] == TRUE && sp1c[i][1] == TRUE)
+        else if (sp1c[i][0] && sp1c[i][1])
         {
             u32 var1, var2;
 
@@ -817,7 +817,7 @@ static void ReceiveDaycareMailData(struct RecordMixingDaycareMail *src, size_t r
 
 static void ReceiveGiftItem(u16 *item, u8 which)
 {
-    if (which != 0 && *item != ITEM_NONE && GetPocketByItemId(*item) == POCKET_KEY_ITEMS)
+    if (which && *item && GetPocketByItemId(*item) == POCKET_KEY_ITEMS)
     {
         if (!CheckBagHasItem(*item, 1) && !CheckPCHasItem(*item, 1) && AddBagItem(*item, 1))
         {
@@ -871,7 +871,7 @@ static void Task_DoRecordMixing(u8 taskId)
         }
         break;
     case 5:
-        if (gReceivedRemoteLinkPlayers == FALSE)
+        if (!gReceivedRemoteLinkPlayers)
             DestroyTask(taskId);
         break;
 
@@ -944,7 +944,7 @@ static void GetSavedApprentices(struct Apprentice *dst, struct Apprentice *src)
     }
 
     // Prefer passing on other mixed Apprentices rather than old player's Apprentices
-    if (numMixApprentices == 0 && numOldPlayerApprentices != 0)
+    if (!numMixApprentices && numOldPlayerApprentices)
     {
         numMixApprentices = numOldPlayerApprentices;
         apprenticeSaveId = oldPlayerApprenticeSaveId;
@@ -1010,7 +1010,7 @@ static bool32 IsApprenticeAlreadySaved(struct Apprentice *mixApprentice, struct 
     for (i = 0; i < APPRENTICE_COUNT; i++)
     {
         if (GetTrainerId(mixApprentice->playerId) == GetTrainerId(apprentices[i].playerId)
-            && mixApprentice->number == apprentices[i].number)
+         && mixApprentice->number == apprentices[i].number)
         {
             return TRUE;
         }
@@ -1096,7 +1096,7 @@ static void sub_80E8578(struct RecordMixingHallRecords *dst, void *hallRecords, 
                             dst->hallRecords1P[i][j][l] = gUnknown_03001168[k]->onePlayer[i][j];
                     }
                 }
-                if (var_68 == 0)
+                if (!var_68)
                     dst->hallRecords1P[i][j][k + 3] = gUnknown_03001168[k]->onePlayer[i][j];
             }
         }
@@ -1120,7 +1120,7 @@ static void sub_80E8578(struct RecordMixingHallRecords *dst, void *hallRecords, 
                         dst->hallRecords2P[j][l] = gUnknown_03001168[k]->twoPlayers[j];
                 }
             }
-            if (var_68 == 0)
+            if (!var_68)
                 dst->hallRecords2P[j][k + 3] = gUnknown_03001168[k]->twoPlayers[j];
         }
     }
@@ -1215,7 +1215,7 @@ static void SanitizeDaycareMailForRuby(struct RecordMixingDaycareMail *src)
     for (i = 0; i < src->numDaycareMons; i++)
     {
         struct DaycareMail *mail = &src->mail[i];
-        if (mail->message.itemId != 0)
+        if (mail->message.itemId)
         {
             if (mail->gameLanguage != LANGUAGE_JAPANESE)
                 PadNameString(mail->OT_name, EXT_CTRL_CODE_BEGIN);
@@ -1237,7 +1237,7 @@ static void SanitizeEmeraldBattleTowerRecord(struct EmeraldBattleTowerRecord *ds
     for (i = 0; i < MAX_FRONTIER_PARTY_SIZE; i++)
     {
         struct BattleTowerPokemon *towerMon = &dst->party[i];
-        if (towerMon->species != SPECIES_NONE)
+        if (towerMon->species)
             StripExtCtrlCodes(towerMon->nickname);
     }
 

@@ -50,6 +50,7 @@ struct Menu
     bool8 APressMuted;
 };
 
+
 static EWRAM_DATA u8 sStartMenuWindowId = 0;
 static EWRAM_DATA u8 sMapNamePopupWindowId = 0;
 static EWRAM_DATA struct Menu sMenu = {0};
@@ -866,7 +867,7 @@ void sub_8198204(const u8 *string, const u8 *string2, u8 a3, u8 a4, bool8 copyTo
 
     if (sWindowId != WINDOW_NONE)
     {
-        if (a3 != 0)
+        if (a3)
         {
             color[0] = TEXT_COLOR_TRANSPARENT;
         }
@@ -1130,12 +1131,13 @@ void PrintTextArray(u8 windowId, u8 fontId, u8 left, u8 top, u8 lineHeight, u8 i
     CopyWindowToVram(windowId, 2);
 }
 
-void sub_81987BC(u8 windowId, u8 fontId, u8 left, u8 top, u8 lineHeight, u8 itemCount, const struct MenuAction *strs, u8 a6, u8 a7)
+void MultichoiceList_PrintItems(u8 windowId, u8 fontId, u8 left, u8 top, u8 lineHeight, u8 itemCount, const struct MenuAction *strs, u8 letterSpacing, u8 lineSpacing)
 {
     u8 i;
+
     for (i = 0; i < itemCount; i++)
     {
-        AddTextPrinterParameterized5(windowId, fontId, strs[i].text, left, (lineHeight * i) + top, 0xFF, NULL, a6, a7);
+        AddTextPrinterParameterized5(windowId, fontId, strs[i].text, left, (lineHeight * i) + top, 0xFF, NULL, letterSpacing, lineSpacing);
     }
     CopyWindowToVram(windowId, 2);
 }
@@ -1349,7 +1351,7 @@ u8 ChangeListMenuCursorPosition(s8 deltaX, s8 deltaY)
 {
     u8 oldPos = sMenu.cursorPos;
 
-    if (deltaX != 0)
+    if (deltaX)
     {
         if ((sMenu.cursorPos % sMenu.columns) + deltaX < 0)
             sMenu.cursorPos += sMenu.columns - 1;
@@ -1359,7 +1361,7 @@ u8 ChangeListMenuCursorPosition(s8 deltaX, s8 deltaY)
             sMenu.cursorPos += deltaX;
     }
 
-    if (deltaY != 0)
+    if (deltaY)
     {
         if ((sMenu.cursorPos / sMenu.columns) + deltaY < 0)
             sMenu.cursorPos += sMenu.columns * (sMenu.rows - 1);
@@ -1385,7 +1387,7 @@ u8 ChangeGridMenuCursorPosition(s8 deltaX, s8 deltaY)
 {
     u8 oldPos = sMenu.cursorPos;
 
-    if (deltaX != 0)
+    if (deltaX)
     {
         if (((sMenu.cursorPos % sMenu.columns) + deltaX >= 0) &&
         ((sMenu.cursorPos % sMenu.columns) + deltaX < sMenu.columns))
@@ -1394,7 +1396,7 @@ u8 ChangeGridMenuCursorPosition(s8 deltaX, s8 deltaY)
         }
     }
 
-    if (deltaY != 0)
+    if (deltaY)
     {
         if (((sMenu.cursorPos / sMenu.columns) + deltaY >= 0) &&
         ((sMenu.cursorPos / sMenu.columns) + deltaY < sMenu.rows))
@@ -1534,7 +1536,7 @@ s8 sub_81993D8(void)
     return MENU_NOTHING_CHOSEN;
 }
 
-u8 InitMenuInUpperLeftCorner(u8 windowId, u8 fontId, u8 left, u8 top, u8 cursorHeight, u8 itemCount, u8 initialCursorPos, bool8 APressMuted)
+u8 InitMenuInUpperLeftCorner_(u8 windowId, u8 fontId, u8 left, u8 top, u8 cursorHeight, u8 itemCount, u8 initialCursorPos, bool8 APressMuted)
 {
     s32 pos;
 
@@ -1557,9 +1559,14 @@ u8 InitMenuInUpperLeftCorner(u8 windowId, u8 fontId, u8 left, u8 top, u8 cursorH
     return Menu_MoveCursor(0);
 }
 
-u8 InitMenuInUpperLeftCornerPlaySoundWhenAPressed(u8 windowId, u8 fontId, u8 left, u8 top, u8 cursorHeight, u8 itemCount, u8 initialCursorPos)
+u8 InitMenuInUpperLeftCorner(u8 windowId, u8 itemCount, u8 initialCursorPos, bool8 APressMuted)
 {
-    return InitMenuInUpperLeftCorner(windowId, fontId, left, top, cursorHeight, itemCount, initialCursorPos, FALSE);
+    InitMenuInUpperLeftCorner_(windowId, 2, 0, 2, 16, itemCount, initialCursorPos, 1);
+}
+
+u8 InitMenuInUpperLeftCornerPlaySoundWhenAPressed(u8 windowId, u8 itemCount, u8 initialCursorPos)
+{
+    InitMenuInUpperLeftCorner_(windowId, 2, 0, 2, 16, itemCount, initialCursorPos, 0);
 }
 
 void PrintMenuTable(u8 windowId, u8 itemCount, const struct MenuAction *strs)
@@ -1571,15 +1578,6 @@ void PrintMenuTable(u8 windowId, u8 itemCount, const struct MenuAction *strs)
         AddTextPrinterParameterized(windowId, 2, strs[i].text, 8, (i * 14) + 1, 0xFF, NULL);
     }
 
-    CopyWindowToVram(windowId, 2);
-}
-
-void MultichoiceList_PrintItems(u8 windowId, u8 fontId, u8 left, u8 top, u8 lineHeight, u8 itemCount, const struct MenuAction *strs, u8 letterSpacing, u8 lineSpacing)
-{
-    u8 i;
-
-    for (i = 0; i < itemCount; i++)
-        AddTextPrinterParameterized5(windowId, fontId, strs[i].text, left, (lineHeight * i) + top, 0xFF, NULL, letterSpacing, lineSpacing);
     CopyWindowToVram(windowId, 2);
 }
 
@@ -1628,11 +1626,11 @@ static void _CreateYesNoMenu(const struct WindowTemplate *window, u8 fontId, u8 
     printer.bgColor = GetFontAttribute(fontId, FONTATTR_COLOR_BACKGROUND);
     printer.shadowColor = GetFontAttribute(fontId, FONTATTR_COLOR_SHADOW);
     printer.unk = GetFontAttribute(fontId, FONTATTR_UNKNOWN);
-    printer.letterSpacing = GetFontAttribute(fontId, FONTATTR_LETTER_SPACING);
-    printer.lineSpacing = GetFontAttribute(fontId, FONTATTR_LINE_SPACING);
+    printer.letterSpacing = GetFontAttribute(0, FONTATTR_LETTER_SPACING);
+    printer.lineSpacing = GetFontAttribute(0, FONTATTR_LINE_SPACING);
 
     AddTextPrinter(&printer, 0xFF, NULL);
-    InitMenuInUpperLeftCornerPlaySoundWhenAPressed(sYesNoWindowId, fontId, left, top, GetFontAttribute(fontId, FONTATTR_MAX_LETTER_HEIGHT) + printer.lineSpacing, 2, initialCursorPos);
+    InitMenuInUpperLeftCorner_(sYesNoWindowId, fontId, left, top, GetFontAttribute(fontId, FONTATTR_MAX_LETTER_HEIGHT) + printer.lineSpacing, 2, initialCursorPos, 0);
 }
 
 void CreateYesNoMenu(const struct WindowTemplate *window, u8 fontId, u8 left, u8 top, u16 baseTileNum, u8 paletteNum, u8 initialCursorPos)

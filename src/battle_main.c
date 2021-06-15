@@ -600,7 +600,7 @@ static void CB2_InitBattleInternal(void)
     {
         gBattle_WIN0V = DISPLAY_HEIGHT - 1;
         gBattle_WIN1H = DISPLAY_WIDTH;
-        gBattle_WIN1V = 32;
+        gBattle_WIN1V = WIN_RANGE(0, 32);
     }
     else
     {
@@ -612,12 +612,14 @@ static void CB2_InitBattleInternal(void)
         {
             gScanlineEffectRegBuffers[0][i] = DISPLAY_WIDTH;
             gScanlineEffectRegBuffers[1][i] = DISPLAY_WIDTH;
+            i++;
         }
 
         while (i < 160)
         {
             gScanlineEffectRegBuffers[0][i] = WIN_RANGE(255, 16);
             gScanlineEffectRegBuffers[1][i] = WIN_RANGE(255, 16);
+            i++;
         }
 
         ScanlineEffect_SetParams(sIntroScanlineParams16Bit);
@@ -681,15 +683,18 @@ static void CB2_InitBattleInternal(void)
         if (!species)                                               \
             continue;                                               \
                                                                     \
+        /* Is healthy mon? */                                       \
         if (species != SPECIES_EGG && hp && !status)                \
             (flags) |= 1 << (i) * 2;                                \
                                                                     \
-        if (hp && (species == SPECIES_EGG || status))               \
+        /* Is Egg or statused? */                                   \
+        if (hp != 0 && (species == SPECIES_EGG || status))          \
             (flags) |= 2 << (i) * 2;                                \
                                                                     \
+        /* Is fainted? */                                           \
         if (species != SPECIES_EGG && !hp)                          \
             (flags) |= 3 << (i) * 2;                                \
-    }
+    }     
 
 // For Vs Screen at link battle start
 static void BufferPartyVsScreenHealth_AtStart(void)
@@ -2436,15 +2441,15 @@ static void sub_803939C(void)
         else if (JOY_NEW(A_BUTTON))
         {
             PlaySE(SE_SELECT);
-            if (gBattleCommunication[CURSOR_POSITION] == 0)
+            if (gBattleCommunication[CURSOR_POSITION])
+            {
+                gBattleCommunication[MULTIUSE_STATE]++;
+            }
+            else
             {
                 HandleBattleWindow(0x18, 8, 0x1D, 0xD, WINDOW_CLEAR);
                 gBattleCommunication[1] = MoveRecordedBattleToSaveData();
                 gBattleCommunication[MULTIUSE_STATE] = 10;
-            }
-            else
-            {
-                gBattleCommunication[MULTIUSE_STATE]++;
             }
         }
         else if (JOY_NEW(B_BUTTON))

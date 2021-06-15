@@ -1389,8 +1389,8 @@ static void TradeMenuProcessInput(void)
         {
             DrawTextBorderOuter(1, 1, 14);
             FillWindowPixelBuffer(1, PIXEL_FILL(1));
-            PrintMenuTable(1, ARRAY_COUNT(sSelectTradeMonActions), sSelectTradeMonActions);
-            InitMenuInUpperLeftCornerPlaySoundWhenAPressed(1, 2, 0, 0, 16, 2, 0);
+            PrintTextArray(1, 3, GetMenuCursorDimensionByFont(3, 0), 0, 16, ARRAY_COUNT(sSelectTradeMonActions), sSelectTradeMonActions);
+            InitMenuInUpperLeftCornerPlaySoundWhenAPressed(1, 2, 0);
             PutWindowTilemap(1);
             CopyWindowToVram(1, 3);
             sTradeMenuData->tradeMenuFunc = TRADEMENUFUNC_SELECTED_MON;

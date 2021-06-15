@@ -895,8 +895,8 @@ static u8 InitObjectEventStateFromTemplate(struct ObjectEventTemplate *template,
         template = &Overworld_GetMapHeaderByGroupAndId(mapGroup, mapNum)->events->objectEvents[template->elevation - 1];
     }
 
-    if (GetAvailableObjectEventId(template->localId, mapNum, mapGroup, &objectEventId) ||
-        !ShouldTreeOrRockObjectBeCreated(template, inConnection, cloneX, cloneY))
+    if (GetAvailableObjectEventId(template->localId, mapNum, mapGroup, &objectEventId)
+     || !ShouldTreeOrRockObjectBeCreated(template, inConnection, cloneX, cloneY))
     {
         return OBJECT_EVENTS_COUNT;
     }
@@ -963,8 +963,8 @@ static bool8 ShouldTreeOrRockObjectBeCreated(struct ObjectEventTemplate *templat
 
 static bool8 IsConnectionTreeOrRockOnScreen(struct ObjectEventTemplate *template, s16 x, s16 y)
 {
-    if (template->graphicsId == OBJ_EVENT_GFX_CUTTABLE_TREE ||
-        template->graphicsId == OBJ_EVENT_GFX_BREAKABLE_ROCK)
+    if (template->graphicsId == OBJ_EVENT_GFX_CUTTABLE_TREE
+     || template->graphicsId == OBJ_EVENT_GFX_BREAKABLE_ROCK)
     {
         // if player is to left of object
         if (gSaveBlock1Ptr->pos.x < x)
@@ -972,8 +972,8 @@ static bool8 IsConnectionTreeOrRockOnScreen(struct ObjectEventTemplate *template
             if (gSaveBlock1Ptr->pos.x + CONNECTION_OBJECT_RADIUS_X < x)
                 return TRUE;
 
-            if (gSaveBlock1Ptr->pos.y - CONNECTION_OBJECT_RADIUS_Y <= y &&
-                gSaveBlock1Ptr->pos.y + CONNECTION_OBJECT_RADIUS_Y >= y)
+            if (gSaveBlock1Ptr->pos.y - CONNECTION_OBJECT_RADIUS_Y <= y
+             && gSaveBlock1Ptr->pos.y + CONNECTION_OBJECT_RADIUS_Y >= y)
                 return FALSE;
         }
         else 
@@ -981,8 +981,8 @@ static bool8 IsConnectionTreeOrRockOnScreen(struct ObjectEventTemplate *template
             if (gSaveBlock1Ptr->pos.x - CONNECTION_OBJECT_RADIUS_X > x)
                 return TRUE;
 
-            if (gSaveBlock1Ptr->pos.y - CONNECTION_OBJECT_RADIUS_Y <= y &&
-                gSaveBlock1Ptr->pos.y + CONNECTION_OBJECT_RADIUS_Y >= y)
+            if (gSaveBlock1Ptr->pos.y - CONNECTION_OBJECT_RADIUS_Y <= y
+             && gSaveBlock1Ptr->pos.y + CONNECTION_OBJECT_RADIUS_Y >= y)
                 return FALSE;
         }
     }
@@ -1002,37 +1002,37 @@ static bool8 IsTreeOrRockOffScreenPostWalkTransition(struct ObjectEventTemplate 
     width = gBackupMapLayout.width - 16;
     height = gBackupMapLayout.height - 15;
 
-    if (template->graphicsId != OBJ_EVENT_GFX_CUTTABLE_TREE &&
-        template->graphicsId != OBJ_EVENT_GFX_BREAKABLE_ROCK)
+    if (template->graphicsId != OBJ_EVENT_GFX_CUTTABLE_TREE
+     && template->graphicsId != OBJ_EVENT_GFX_BREAKABLE_ROCK)
         return TRUE;
 
     // player is at left edge of map and object is within sight to right
-    if ((gSaveBlock1Ptr->pos.x == 0) &&
-        (x <= CONNECTION_OBJECT_RADIUS_X))
+    if ((gSaveBlock1Ptr->pos.x == 0)
+     && (x <= CONNECTION_OBJECT_RADIUS_X))
     {
         SetObjectTemplateFlagIfTemporary(template);
         return FALSE;
     }
 
     // player is at right edge of map and object is within sight to left
-    if ((gSaveBlock1Ptr->pos.x == width) &&
-        (x >= (width - CONNECTION_OBJECT_RADIUS_X)))
+    if ((gSaveBlock1Ptr->pos.x == width)
+     && (x >= (width - CONNECTION_OBJECT_RADIUS_X)))
     {
         SetObjectTemplateFlagIfTemporary(template);
         return FALSE;
     }
 
     // player is at top edge of map and object is within sight below
-    if ((gSaveBlock1Ptr->pos.y == 0) &&
-        (y <= CONNECTION_OBJECT_RADIUS_Y))
+    if ((gSaveBlock1Ptr->pos.y == 0)
+     && (y <= CONNECTION_OBJECT_RADIUS_Y))
     {
         SetObjectTemplateFlagIfTemporary(template);
         return FALSE;
     }
 
     // player is at bottom edge of map and object is within sight above
-    if ((gSaveBlock1Ptr->pos.y == height) &&
-        (y >= (height - CONNECTION_OBJECT_RADIUS_Y)))
+    if ((gSaveBlock1Ptr->pos.y == height)
+     && (y >= (height - CONNECTION_OBJECT_RADIUS_Y)))
     {
         SetObjectTemplateFlagIfTemporary(template);
         return FALSE;
@@ -2097,15 +2097,6 @@ void TryOverrideObjectEventTemplateCoords(u8 localId, u8 mapNum, u8 mapGroup)
     u8 objectEventId;
     if (!TryGetObjectEventIdByLocalIdAndMap(localId, mapNum, mapGroup, &objectEventId))
         OverrideTemplateCoordsForObjectEvent(&gObjectEvents[objectEventId]);
-}
-
-void OverrideSecretBaseDecorationSpriteScript(u8 localId, u8 mapNum, u8 mapGroup, u8 decorationCategory)
-{
-    u8 objectEventId;
-    if (!TryGetObjectEventIdByLocalIdAndMap(localId, mapNum, mapGroup, &objectEventId))
-    {
-
-    }
 }
 
 movement_type_empty_callback(MovementType_None)

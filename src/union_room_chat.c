@@ -2731,7 +2731,7 @@ static void AddYesNoMenuAt(u8 left, u8 top, u8 initialCursorPos)
         AddTextPrinterParameterized(sDisplay->yesNoMenuWindowId, 2, gText_Yes, 8, 1, TEXT_SPEED_FF, NULL);
         AddTextPrinterParameterized(sDisplay->yesNoMenuWindowId, 2, gText_No, 8, 17, TEXT_SPEED_FF, NULL);
         DrawTextBorderOuter(sDisplay->yesNoMenuWindowId, 1, 13);
-        InitMenuInUpperLeftCornerPlaySoundWhenAPressed(sDisplay->yesNoMenuWindowId, 2, 0, 1, 16, 2, initialCursorPos);
+        InitMenuInUpperLeftCornerPlaySoundWhenAPressed(sDisplay->yesNoMenuWindowId, 2, initialCursorPos);
     }
 }
 

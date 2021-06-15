@@ -8,6 +8,7 @@
 #include "window.h"
 #include "sprite.h"
 #include "strings.h"
+#include "text_window.h"
 #include "decompress.h"
 
 #define MAX_MONEY 999999
@@ -132,7 +133,19 @@ void SubtractMoneyFromVar0x8005(void)
 
 void PrintMoneyAmountInMoneyBox(u8 windowId, int amount, u8 speed)
 {
-    PrintMoneyAmount(windowId, 0x26, 1, amount, speed);
+    u8 *txtPtr;
+    s32 strLength;
+
+    ConvertIntToDecimalStringN(gStringVar1, amount, STR_CONV_MODE_LEFT_ALIGN, 6);
+
+    strLength = 6 - StringLength(gStringVar1);
+    txtPtr = gStringVar4;
+
+    while (strLength--)
+        *(txtPtr++) = 0;
+
+    StringExpandPlaceholders(txtPtr, gText_PokedollarVar1);
+    AddTextPrinterParameterized(windowId, 7, gStringVar4, 64 - GetStringWidth(0, gStringVar4, 0), 0xC, speed, NULL);
 }
 
 void PrintMoneyAmount(u8 windowId, u8 x, u8 y, int amount, u8 speed)
@@ -145,11 +158,11 @@ void PrintMoneyAmount(u8 windowId, u8 x, u8 y, int amount, u8 speed)
     strLength = 6 - StringLength(gStringVar1);
     txtPtr = gStringVar4;
 
-    while (strLength-- > 0)
-        *(txtPtr++) = 0x77;
+    while (strLength--)
+        *(txtPtr++) = 0;
 
     StringExpandPlaceholders(txtPtr, gText_PokedollarVar1);
-    AddTextPrinterParameterized(windowId, 2, gStringVar4, x, y, speed, NULL);
+    AddTextPrinterParameterized(windowId, 7, gStringVar4, x, y, speed, NULL);
 }
 
 void PrintMoneyAmountInMoneyBoxWithBorder(u8 windowId, u16 tileStart, u8 pallete, int amount)
@@ -167,20 +180,16 @@ void DrawMoneyBox(int amount, u8 x, u8 y)
 {
     struct WindowTemplate template;
 
-    SetWindowTemplateFields(&template, 0, x + 1, y + 1, 10, 2, 15, 8);
+    SetWindowTemplateFields(&template, 0, x + 1, y + 1, 8, 3, 15, 8);
     sMoneyBoxWindowId = AddWindow(&template);
     FillWindowPixelBuffer(sMoneyBoxWindowId, PIXEL_FILL(0));
     PutWindowTilemap(sMoneyBoxWindowId);
-    CopyWindowToVram(sMoneyBoxWindowId, 1);
-    PrintMoneyAmountInMoneyBoxWithBorder(sMoneyBoxWindowId, 0x214, 14, amount);
-    AddMoneyLabelObject((8 * x) + 19, (8 * y) + 11);
+    PrintMoneyAmountInMoneyBoxWithBorder(sMoneyBoxWindowId, 0x21D, 13, amount);
 }
 
 void HideMoneyBox(void)
 {
-    RemoveMoneyLabelObject();
-    ClearStdWindowAndFrameToTransparent(sMoneyBoxWindowId, FALSE);
-    CopyWindowToVram(sMoneyBoxWindowId, 2);
+    ClearStdWindowAndFrameToTransparent(sMoneyBoxWindowId, TRUE);
     RemoveWindow(sMoneyBoxWindowId);
 }
 

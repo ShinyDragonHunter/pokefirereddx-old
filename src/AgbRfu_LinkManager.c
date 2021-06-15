@@ -581,7 +581,7 @@ static void rfu_LMAN_REQ_callback(u16 reqCommandId, u16 reqResult)
     u8 *stwiRecvBuffer;
     u8 i;
 
-    if (lman.active != 0)
+    if (lman.active)
     {
         lman.active = 0;
         switch (reqCommandId)
@@ -910,9 +910,9 @@ static void rfu_LMAN_REQ_callback(u16 reqCommandId, u16 reqResult)
         }
         break;
     }
-    if (reqResult != 0)
+    if (reqResult)
     {
-        if (reqCommandId == ID_SP_START_REQ && reqResult != 0 && lman.pcswitch_flag == PCSWITCH_2ND_SP)
+        if (reqCommandId == ID_SP_START_REQ && reqResult && lman.pcswitch_flag == PCSWITCH_2ND_SP)
         {
             gRfuLinkStatus->parentChild = MODE_PARENT;
             gRfuLinkStatus->connSlotFlag = 0xF;
@@ -1069,14 +1069,9 @@ static void rfu_LMAN_PARENT_checkRecvChildName(void)
                 rfu_LMAN_occureCallback(LMAN_MSG_NEW_CHILD_CONNECT_REJECTED, 1);
             }
         }
-        if (lman.nameAcceptTimer.active == 0 && lman.state == LMAN_STATE_WAIT_RECV_CHILD_NAME)
+        if (!lman.nameAcceptTimer.active && lman.state == LMAN_STATE_WAIT_RECV_CHILD_NAME)
         {
-            if (lman.pcswitch_flag == 0)
-            {
-                lman.state = lman.next_state = LMAN_STATE_READY;
-                rfu_LMAN_occureCallback(LMAN_MSG_END_WAIT_CHILD_NAME, 0);
-            }
-            else
+            if (lman.pcswitch_flag)
             {
                 if (lman.pcswitch_flag == PCSWITCH_1ST_SC)
                 {
@@ -1094,6 +1089,11 @@ static void rfu_LMAN_PARENT_checkRecvChildName(void)
                     lman.pcswitch_flag = PCSWITCH_SC_LOCK;
                     lman.state = LMAN_STATE_START_SEARCH_CHILD;
                 }
+            }
+            else
+            {
+                lman.state = lman.next_state = LMAN_STATE_READY;
+                rfu_LMAN_occureCallback(LMAN_MSG_END_WAIT_CHILD_NAME, 0);
             }
         }
     }
@@ -1285,7 +1285,7 @@ static void rfu_LMAN_setLMANCallback(void (*func)(u8, u8))
 u8 rfu_LMAN_setLinkRecovery(u8 enable_flag, u16 recovery_period)
 {
     u16 imeBak;
-    if (lman.linkRecovery_enable && enable_flag == 0 && lman.linkRecoveryTimer.active)
+    if (lman.linkRecovery_enable && !enable_flag && lman.linkRecoveryTimer.active)
     {
         return LMAN_ERROR_NOW_LINK_RECOVERY;
     }

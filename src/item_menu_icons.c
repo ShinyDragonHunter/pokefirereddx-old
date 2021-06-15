@@ -17,6 +17,8 @@ struct CompressedTilesPal
     const u32 *pal;
 };
 
+static EWRAM_DATA u8 sItemMenuIconSpriteIds[12] = {0};
+
 // this file's functions
 static void SpriteCB_BagVisualSwitchingPockets(struct Sprite *sprite);
 static void SpriteCB_ShakeBagSprite(struct Sprite *sprite);
@@ -407,9 +409,17 @@ static const struct SpriteTemplate gBerryCheckCircleSpriteTemplate =
 };
 
 // code
+void ResetItemMenuIconState(void)
+{
+    u16 i;
+
+    for (i = 0; i < ARRAY_COUNT(sItemMenuIconSpriteIds); i++)
+        sItemMenuIconSpriteIds[i] = 0xFF;
+}
+
 void RemoveBagSprite(u8 id)
 {
-    u8 *spriteId = &gBagMenu->spriteId[id];
+    u8 *spriteId = &sItemMenuIconSpriteIds[10];
     if (*spriteId != SPRITE_NONE)
     {
         FreeSpriteTilesByTag(id + 100);
@@ -422,14 +432,14 @@ void RemoveBagSprite(u8 id)
 
 void AddBagVisualSprite(u8 bagPocketId)
 {
-    u8 *spriteId = &gBagMenu->spriteId[0];
+    u8 *spriteId = &sItemMenuIconSpriteIds[0];
     *spriteId = CreateSprite(&gBagSpriteTemplate, 68, 66, 0);
     SetBagVisualPocketId(bagPocketId, FALSE);
 }
 
 void SetBagVisualPocketId(u8 bagPocketId, bool8 isSwitchingPockets)
 {
-    struct Sprite *sprite = &gSprites[gBagMenu->spriteId[0]];
+    struct Sprite *sprite = &gSprites[sItemMenuIconSpriteIds[0]];
     if (isSwitchingPockets)
     {
         sprite->pos2.y = -5;
@@ -515,7 +525,7 @@ static void SpriteCB_SwitchPocketRotatingBallContinue(struct Sprite *sprite)
 
 void AddBagItemIconSprite(u16 itemId, u8 id)
 {
-    u8 *spriteId = &gBagMenu->spriteId[id + 2];
+    u8 *spriteId = &sItemMenuIconSpriteIds[10];
     if (*spriteId == SPRITE_NONE)
     {
         u8 iconSpriteId;
@@ -532,18 +542,18 @@ void AddBagItemIconSprite(u16 itemId, u8 id)
     }
 }
 
+void RemoveBagItemIconSprite(u8 id)
+{
+    RemoveBagSprite(id + 2);
+}
+
 void HideBagItemIconSprite(u8 id)
 {
-    u8 *spriteId = &gBagMenu->spriteId[10];
+    u8 *spriteId = &sItemMenuIconSpriteIds[10];
     if (spriteId[id] != 0xFF)
     {
         gSprites[spriteId[id]].invisible = TRUE;
     }
-}
-
-void RemoveBagItemIconSprite(u8 id)
-{
-    RemoveBagSprite(id + 2);
 }
 
 void CreateItemMenuSwapLine(void)

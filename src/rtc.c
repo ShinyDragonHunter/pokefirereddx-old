@@ -89,10 +89,7 @@ u16 ConvertDateToDayCount(u8 year, u8 month, u8 day)
 
 u16 RtcGetDayCount(struct SiiRtcInfo *rtc)
 {
-    u8 year = ConvertBcdToBinary(rtc->year);
-    u8 month = ConvertBcdToBinary(rtc->month);
-    u8 day = ConvertBcdToBinary(rtc->day);
-    return ConvertDateToDayCount(year, month, day);
+    return ConvertDateToDayCount(ConvertBcdToBinary(rtc->year), ConvertBcdToBinary(rtc->month), ConvertBcdToBinary(rtc->day));
 }
 
 void RtcInit(void)
@@ -175,13 +172,8 @@ void RtcGetRawInfoFast(struct SiiRtcInfo *rtc)
 
 u16 RtcCheckInfo(struct SiiRtcInfo *rtc)
 {
-    u16 errorFlags = 0;
-    s32 year;
-    s32 month;
-    s32 value;
-
-    if (rtc->status & SIIRTCINFO_POWER)
-        errorFlags |= RTC_ERR_POWER_FAILURE;
+    s32 year, month, value;
+    u16 errorFlags = (rtc->status & SIIRTCINFO_POWER) ? RTC_ERR_POWER_FAILURE : 0;
 
     if (!(rtc->status & SIIRTCINFO_24HOUR))
         errorFlags |= RTC_ERR_12HOUR_CLOCK;

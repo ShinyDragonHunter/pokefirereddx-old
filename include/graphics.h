@@ -2778,25 +2778,6 @@ extern const u16 gWallClockFemale_Pal[];
 extern const u32 gWallClockStart_Tilemap[];
 extern const u32 gWallClockView_Tilemap[];
 
-extern const u32 gBerryFixGameboy_Gfx[];
-extern const u32 gBerryFixGameboy_Tilemap[];
-extern const u16 gBerryFixGameboy_Pal[];
-extern const u32 gBerryFixGameboyLogo_Gfx[];
-extern const u32 gBerryFixGameboyLogo_Tilemap[];
-extern const u16 gBerryFixGameboyLogo_Pal[];
-extern const u32 gBerryFixGbaTransfer_Gfx[];
-extern const u32 gBerryFixGbaTransfer_Tilemap[];
-extern const u16 gBerryFixGbaTransfer_Pal[];
-extern const u32 gBerryFixGbaTransferHighlight_Gfx[];
-extern const u32 gBerryFixGbaTransferHighlight_Tilemap[];
-extern const u16 gBerryFixGbaTransferHighlight_Pal[];
-extern const u32 gBerryFixGbaTransferError_Gfx[];
-extern const u32 gBerryFixGbaTransferError_Tilemap[];
-extern const u16 gBerryFixGbaTransferError_Pal[];
-extern const u32 gBerryFixWindow_Gfx[];
-extern const u32 gBerryFixWindow_Tilemap[];
-extern const u16 gBerryFixWindow_Pal[];
-
 extern const u32 gBattleTextboxTiles[];
 extern const u32 gBattleTextboxTilemap[];
 extern const u32 gBattleTextboxPalette[];
@@ -3665,6 +3646,8 @@ extern const u32 gStatusPal_Icons[];
 
 extern const u32 gBuyMenuFrame_Gfx[];
 extern const u32 gBuyMenuFrame_Tilemap[];
+extern const u32 gBuyMenuFrame_TmHmTilemap[];
+extern const u32 gBuyMenuFrame_Palette[];
 extern const u32 gMenuMoneyGfx[];
 extern const u32 gMenuMoneyPal[];
 

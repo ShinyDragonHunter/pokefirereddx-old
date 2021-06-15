@@ -115,7 +115,6 @@ SECTIONS {
     ALIGN(4)
     {
         data/unknown_serial_data.o(.rodata);
-        data/multiboot_berry_glitch_fix.o(.rodata);
         data/multiboot_pokemon_colosseum.o(.rodata);
     } =0
 

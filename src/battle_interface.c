@@ -1522,11 +1522,11 @@ u8 CreatePartyStatusSummarySprites(u8 battlerId, struct HpAndStatus *partyInfo, 
                     gSprites[ballIconSpritesIds[i]].oam.tileNum += 1;
                     gSprites[ballIconSpritesIds[i]].data[7] = 1;
                 }
-                else if (partyInfo[i].hp == 0) // fainted mon
+                else if (!partyInfo[i].hp) // fainted mon
                 {
                     gSprites[ballIconSpritesIds[i]].oam.tileNum += 3;
                 }
-                else if (partyInfo[i].status != 0) // mon with major status
+                else if (partyInfo[i].status) // mon with major status
                 {
                     gSprites[ballIconSpritesIds[i]].oam.tileNum += 2;
                 }
@@ -1543,7 +1543,7 @@ u8 CreatePartyStatusSummarySprites(u8 battlerId, struct HpAndStatus *partyInfo, 
                     var--;
                     continue;
                 }
-                else if (partyInfo[j].hp == 0) // fainted mon
+                else if (!partyInfo[j].hp) // fainted mon
                 {
                     gSprites[ballIconSpritesIds[i]].oam.tileNum += 3;
                 }
@@ -1551,7 +1551,7 @@ u8 CreatePartyStatusSummarySprites(u8 battlerId, struct HpAndStatus *partyInfo, 
                 {
                     gSprites[ballIconSpritesIds[i]].oam.tileNum += 3;
                 }
-                else if (partyInfo[j].status != 0) // mon with major status
+                else if (partyInfo[j].status) // mon with major status
                 {
                     gSprites[ballIconSpritesIds[i]].oam.tileNum += 2;
                 }
@@ -1570,11 +1570,11 @@ u8 CreatePartyStatusSummarySprites(u8 battlerId, struct HpAndStatus *partyInfo, 
                     gSprites[ballIconSpritesIds[var]].oam.tileNum += 1;
                     gSprites[ballIconSpritesIds[var]].data[7] = 1;
                 }
-                else if (partyInfo[i].hp == 0) // fainted mon
+                else if (!partyInfo[i].hp) // fainted mon
                 {
                     gSprites[ballIconSpritesIds[var]].oam.tileNum += 3;
                 }
-                else if (partyInfo[i].status != 0) // mon with major status
+                else if (partyInfo[i].status) // mon with major status
                 {
                     gSprites[ballIconSpritesIds[var]].oam.tileNum += 2;
                 }
@@ -1592,7 +1592,7 @@ u8 CreatePartyStatusSummarySprites(u8 battlerId, struct HpAndStatus *partyInfo, 
                     i++;
                     continue;
                 }
-                else if (partyInfo[j].hp == 0) // fainted mon
+                else if (!partyInfo[j].hp) // fainted mon
                 {
                     gSprites[ballIconSpritesIds[5 - var]].oam.tileNum += 3;
                 }
@@ -1600,7 +1600,7 @@ u8 CreatePartyStatusSummarySprites(u8 battlerId, struct HpAndStatus *partyInfo, 
                 {
                     gSprites[ballIconSpritesIds[5 - var]].oam.tileNum += 3;
                 }
-                else if (partyInfo[j].status != 0) // mon with major status
+                else if (partyInfo[j].status) // mon with major status
                 {
                     gSprites[ballIconSpritesIds[5 - var]].oam.tileNum += 2;
                 }
@@ -1775,7 +1775,7 @@ static void sub_8073F98(u8 taskId)
 
 static void SpriteCB_StatusSummaryBar(struct Sprite *sprite)
 {
-    if (sprite->pos2.x != 0)
+    if (sprite->pos2.x)
         sprite->pos2.x += sprite->data[0];
 }
 
@@ -1806,7 +1806,7 @@ static void SpriteCB_StatusSummaryBallsOnBattleStart(struct Sprite *sprite)
     var2 += 56;
     sprite->data[3] = var2 & 0xFFF0;
 
-    if (var1 != 0)
+    if (var1)
     {
         sprite->pos2.x += var2 >> 4;
         if (sprite->pos2.x > 0)
@@ -1819,13 +1819,13 @@ static void SpriteCB_StatusSummaryBallsOnBattleStart(struct Sprite *sprite)
             sprite->pos2.x = 0;
     }
 
-    if (sprite->pos2.x == 0)
+    if (!sprite->pos2.x)
     {
         pan = SOUND_PAN_TARGET;
-        if (var1 != 0)
+        if (var1)
             pan = SOUND_PAN_ATTACKER;
 
-        if (sprite->data[7] != 0)
+        if (sprite->data[7])
             PlaySE2WithPanning(SE_BALL_TRAY_EXIT, pan);
         else
             PlaySE1WithPanning(SE_BALL_TRAY_BALL, pan);
@@ -1848,7 +1848,7 @@ static void sub_8074158(struct Sprite *sprite)
     var2 = sprite->data[3];
     var2 += 56;
     sprite->data[3] = var2 & 0xFFF0;
-    if (var1 != 0)
+    if (var1)
         sprite->pos2.x += var2 >> 4;
     else
         sprite->pos2.x -= var2 >> 4;
@@ -2512,7 +2512,7 @@ static void TextIntoHealthboxObject(void *dest, u8 *windowTileData, s32 windowWi
             CpuCopy32(windowTileData + 20, dest + 20, 12);
             dest += 32, windowTileData += 32;
             windowWidth--;
-        } while (windowWidth != 0);
+        } while (windowWidth);
     }
 }
 

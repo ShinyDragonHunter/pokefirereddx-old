@@ -20,7 +20,7 @@ int GameClear(void)
 
     HealPlayerParty();
 
-    if (FlagGet(FLAG_SYS_GAME_CLEAR) == TRUE)
+    if (FlagGet(FLAG_SYS_GAME_CLEAR))
     {
         gHasHallOfFameRecords = TRUE;
     }
@@ -30,15 +30,15 @@ int GameClear(void)
         FlagSet(FLAG_SYS_GAME_CLEAR);
     }
 
-    if (GetGameStat(GAME_STAT_FIRST_HOF_PLAY_TIME) == 0)
+    if (!GetGameStat(GAME_STAT_FIRST_HOF_PLAY_TIME))
         SetGameStat(GAME_STAT_FIRST_HOF_PLAY_TIME, (gSaveBlock2Ptr->playTimeHours << 16) | (gSaveBlock2Ptr->playTimeMinutes << 8) | gSaveBlock2Ptr->playTimeSeconds);
 
     SetContinueGameWarpStatus();
 
-    if (gSaveBlock2Ptr->playerGender == MALE)
-        SetContinueGameWarpToHealLocation(HEAL_LOCATION_LITTLEROOT_TOWN_BRENDANS_HOUSE_2F);
-    else
+    if (gSaveBlock2Ptr->playerGender)
         SetContinueGameWarpToHealLocation(HEAL_LOCATION_LITTLEROOT_TOWN_MAYS_HOUSE_2F);
+    else
+        SetContinueGameWarpToHealLocation(HEAL_LOCATION_LITTLEROOT_TOWN_BRENDANS_HOUSE_2F);
 
     ribbonGet = FALSE;
 
@@ -60,7 +60,7 @@ int GameClear(void)
         }
     }
 
-    if (ribbonGet == TRUE)
+    if (ribbonGet)
     {
         IncrementGameStat(GAME_STAT_RECEIVED_RIBBONS);
         FlagSet(FLAG_SYS_RIBBON_GET);

@@ -1580,13 +1580,11 @@ static void FieldTask_ReturnToPcMenu(void)
 static void CreateMainMenu(u8 whichMenu, s16 *windowIdPtr)
 {
     s16 windowId;
-    struct WindowTemplate template = sWindowTemplate_MainMenu;
-    template.width = GetMaxWidthInMenuTable((void *)sMainMenuTexts, OPTIONS_COUNT);
-    windowId = AddWindow(&template);
+    windowId = AddWindow(&sWindowTemplate_MainMenu);
 
     DrawStdWindowFrame(windowId, FALSE);
-    PrintMenuTable(windowId, OPTIONS_COUNT, (void *)sMainMenuTexts);
-    InitMenuInUpperLeftCornerPlaySoundWhenAPressed(windowId, 2, 0, 1, 16, OPTIONS_COUNT, whichMenu);
+    PrintTextArray(windowId, 2, GetMenuCursorDimensionByFont(1, 0), 1, 16, ARRAY_COUNT(sMainMenuTexts), (void *)sMainMenuTexts);
+    InitMenuInUpperLeftCornerPlaySoundWhenAPressed(windowId, ARRAY_COUNT(sMainMenuTexts), whichMenu);
     *windowIdPtr = windowId;
 }
 
@@ -2492,15 +2490,15 @@ static void Task_OnSelectedMon(u8 taskId)
             SetPokeStorageTask(Task_PlaceMon);
             break;
         case MENU_SHIFT:
-            if (!CanShiftMon())
-            {
-                sStorage->state = 3;
-            }
-            else
+            if (CanShiftMon())
             {
                 PlaySE(SE_SELECT);
                 ClearBottomWindow();
                 SetPokeStorageTask(Task_ShiftMon);
+            }
+            else
+            {
+                sStorage->state = 3;
             }
             break;
         case MENU_WITHDRAW:
@@ -2933,14 +2931,14 @@ static void Task_TakeItemForMoving(u8 taskId)
     switch (sStorage->state)
     {
     case 0:
-        if (!ItemIsMail(sStorage->displayMonItemId))
+        if (ItemIsMail(sStorage->displayMonItemId))
         {
-            ClearBottomWindow();
-            sStorage->state++;
+            SetPokeStorageTask(Task_PrintCantStoreMail);
         }
         else
         {
-            SetPokeStorageTask(Task_PrintCantStoreMail);
+            ClearBottomWindow();
+            sStorage->state++;
         }
         break;
     case 1:
@@ -3333,11 +3331,10 @@ static void Task_HandleWallpapers(u8 taskId)
         sStorage->wallpaperId = HandleMenuInput();
         switch (sStorage->wallpaperId)
         {
-        case MENU_NOTHING_CHOSEN:
-            break;
         case MENU_B_PRESSED:
             ClearBottomWindow();
             sStorage->state = 0;
+        case MENU_NOTHING_CHOSEN:
             break;
         default:
             PlaySE(SE_SELECT);
@@ -5375,17 +5372,17 @@ static void CreateIncomingBoxTitle(u8 boxId, s8 direction)
     struct SpriteTemplate template = sSpriteTemplate_BoxTitle;
 
     sStorage->boxTitleCycleId = (sStorage->boxTitleCycleId == 0);
-    if (sStorage->boxTitleCycleId == 0)
-    {
-        spriteSheet.tag = GFXTAG_BOX_TITLE;
-        palOffset = sStorage->boxTitlePalOffset;
-    }
-    else
+    if (sStorage->boxTitleCycleId)
     {
         spriteSheet.tag = GFXTAG_BOX_TITLE_ALT;
         palOffset = sStorage->boxTitlePalOffset;
         template.tileTag = GFXTAG_BOX_TITLE_ALT;
         template.paletteTag = PALTAG_BOX_TITLE;
+    }
+    else
+    {
+        spriteSheet.tag = GFXTAG_BOX_TITLE;
+        palOffset = sStorage->boxTitlePalOffset;
     }
 
     StringCopyPadded(sStorage->boxTitleText, GetBoxNamePtr(boxId), 0, 8);
@@ -5912,14 +5909,12 @@ static void DoCursorNewPosUpdate(void)
     TryRefreshDisplayMon();
     switch (sCursorArea)
     {
-    case CURSOR_AREA_BUTTONS:
-        SetMovingMonPriority(1);
-        break;
     case CURSOR_AREA_BOX_TITLE:
         AnimateBoxScrollArrows(TRUE);
         break;
     case CURSOR_AREA_IN_PARTY:
         sStorage->cursorShadowSprite->subpriority = 13;
+    case CURSOR_AREA_BUTTONS:
         SetMovingMonPriority(1);
         break;
     case CURSOR_AREA_IN_BOX:
@@ -5939,15 +5934,15 @@ static void SetCursorInParty(void)
 {
     u8 partyCount;
 
-    if (!sIsMonBeingMoved)
-    {
-        partyCount = 0;
-    }
-    else
+    if (sIsMonBeingMoved)
     {
         partyCount = CalculatePlayerPartyCount();
         if (partyCount >= PARTY_SIZE)
             partyCount = PARTY_SIZE - 1;
+    }
+    else
+    {
+        partyCount = 0;
     }
     if (sStorage->cursorSprite->vFlip)
         sStorage->cursorFlipTimer = 1;
@@ -6353,7 +6348,7 @@ static void GetRestrictedReleaseMoves(u16 *moves)
     for (i = 0; i < ARRAY_COUNT(sRestrictedReleaseMoves); i++)
     {
         if (sRestrictedReleaseMoves[i].mapGroup == MAP_GROUPS_COUNT
-        || (sRestrictedReleaseMoves[i].mapGroup == gSaveBlock1Ptr->location.mapGroup 
+         || (sRestrictedReleaseMoves[i].mapGroup == gSaveBlock1Ptr->location.mapGroup 
          && sRestrictedReleaseMoves[i].mapNum == gSaveBlock1Ptr->location.mapNum))
         {
             *moves = sRestrictedReleaseMoves[i].move;
@@ -6466,20 +6461,20 @@ static s8 RunCanReleaseMon(void)
                 sStorage->restrictedReleaseMonMoves &= ~(knownMoves);
             }
         }
-        if (sStorage->restrictedReleaseMonMoves == 0)
-        {
-            // No restricted moves on release Pokémon that
-            // aren't resolved by the party, it can be released.
-            sStorage->releaseStatusResolved = TRUE;
-            sStorage->canReleaseMon = TRUE;
-        }
-        else
+        if (sStorage->restrictedReleaseMonMoves)
         {
             // Release Pokémon has restricted moves not resolved by the party.
             // Continue and check the PC next
             sStorage->releaseCheckBoxId = 0;
             sStorage->releaseCheckBoxPos = 0;
             sStorage->releaseCheckState++;
+        }
+        else
+        {
+            // No restricted moves on release Pokémon that
+            // aren't resolved by the party, it can be released.
+            sStorage->releaseStatusResolved = TRUE;
+            sStorage->canReleaseMon = TRUE;
         }
         break;
     case 1:
@@ -6489,11 +6484,11 @@ static s8 RunCanReleaseMon(void)
         {
             knownMoves = GetAndCopyBoxMonDataAt(sStorage->releaseCheckBoxId, sStorage->releaseCheckBoxPos, MON_DATA_KNOWN_MOVES, (u8*)sStorage->restrictedMoveList);
             if (knownMoves && !(sStorage->releaseBoxId == sStorage->releaseCheckBoxId 
-                                  && sStorage->releaseBoxPos == sStorage->releaseCheckBoxPos))
+             && sStorage->releaseBoxPos == sStorage->releaseCheckBoxPos))
             {
                 // Found PC Pokémon with restricted move, clear move from list
                 sStorage->restrictedReleaseMonMoves &= ~(knownMoves);
-                if (sStorage->restrictedReleaseMonMoves == 0)
+                if (!sStorage->restrictedReleaseMonMoves)
                 {
                     // No restricted moves on release Pokémon that
                     // aren't resolved, it can be released.
@@ -7837,8 +7832,8 @@ static void AddMenu(void)
     sStorage->menuWindowId = AddWindow(&sStorage->menuWindow);
     ClearWindowTilemap(sStorage->menuWindowId);
     DrawStdFrameWithCustomTileAndPalette(sStorage->menuWindowId, FALSE, 11, 14);
-    PrintMenuTable(sStorage->menuWindowId, sStorage->menuItemsCount, (void*)sStorage->menuItems);
-    InitMenuInUpperLeftCornerPlaySoundWhenAPressed(sStorage->menuWindowId, 2, 0, 2, 16, sStorage->menuItemsCount, 0);
+    PrintTextArray(sStorage->menuWindowId, 2, 8, 2, 16, sStorage->menuItemsCount, (void*)sStorage->menuItems);
+    InitMenuInUpperLeftCornerPlaySoundWhenAPressed(sStorage->menuWindowId, sStorage->menuItemsCount, 0);
     ScheduleBgCopyTilemapToVram(0);
 }
 
@@ -8161,7 +8156,7 @@ static bool8 MultiMove_TryMoveGroup(u8 dir)
     switch (dir)
     {
     case 0: // Up
-        if (sMultiMove->minRow == 0)
+        if (!sMultiMove->minRow)
             return FALSE;
         sMultiMove->minRow--;
         MultiMove_InitMove(0, 1024, 6);
@@ -8173,7 +8168,7 @@ static bool8 MultiMove_TryMoveGroup(u8 dir)
         MultiMove_InitMove(0, -1024, 6);
         break;
     case 2: // Left
-        if (sMultiMove->minColumn == 0)
+        if (!sMultiMove->minColumn)
             return FALSE;
         sMultiMove->minColumn--;
         MultiMove_InitMove(1024, 0, 6);
@@ -8264,8 +8259,8 @@ static void MultiMove_SetIconToBg(u8 x, u8 y)
 {
     u8 position = x + (IN_BOX_COLUMNS * y);
     u16 species = GetCurrentBoxMonData(position, MON_DATA_SPECIES2);
-    u8 form = GetCurrentBoxMonData(position, MON_DATA_FORM);
     u32 personality = GetCurrentBoxMonData(position, MON_DATA_PERSONALITY);
+    u8 form = GetCurrentBoxMonData(position, MON_DATA_FORM);
 
     if (species)
     {
@@ -9421,7 +9416,7 @@ u32 CountStorageNonEggMons(void)
         for (j = 0; j < IN_BOX_COUNT; j++)
         {
             if (GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_SANITY_HAS_SPECIES)
-                && !GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_SANITY_IS_EGG))
+             && !GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_SANITY_IS_EGG))
                 count++;
         }
     }
@@ -9439,7 +9434,7 @@ u32 CountAllStorageMons(void)
         for (j = 0; j < IN_BOX_COUNT; j++)
         {
             if (GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_SANITY_HAS_SPECIES)
-                || GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_SANITY_IS_EGG))
+             || GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_SANITY_IS_EGG))
                 count++;
         }
     }

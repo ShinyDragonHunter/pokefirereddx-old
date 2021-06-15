@@ -344,7 +344,7 @@ void sub_812220C(struct ItemSlot *slots, u8 count, u8 *arg2, u8 *usedSlotsCount,
 
 void sub_812225C(u16 *scrollOffset, u16 *cursorPos, u8 maxShownItems, u8 numItems)
 {
-    if (*scrollOffset != 0 && *scrollOffset + maxShownItems > numItems)
+    if (*scrollOffset && *scrollOffset + maxShownItems > numItems)
         *scrollOffset = numItems - maxShownItems;
 
     if (*scrollOffset + *cursorPos >= numItems)
@@ -360,7 +360,7 @@ void sub_8122298(u16 *arg0, u16 *arg1, u8 arg2, u8 arg3, u8 arg4)
 {
     u8 i;
 
-    if (arg4 % 2 != 0)
+    if (arg4 % 2)
     {
         if ((*arg1) >= arg4 / 2)
         {
@@ -401,7 +401,7 @@ void CreateSwapLineSprites(u8 *spriteIds, u8 count)
     for (i = 0; i < count; i++)
     {
         spriteIds[i] = CreateSprite(&sSpriteTemplate_SwapLine, i * 16, 0, 0);
-        if (i != 0)
+        if (i)
             StartSpriteAnim(&gSprites[spriteIds[i]], 1);
 
         gSprites[spriteIds[i]].invisible = TRUE;

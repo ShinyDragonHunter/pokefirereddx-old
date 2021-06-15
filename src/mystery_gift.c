@@ -477,15 +477,15 @@ void PrintMysteryGiftOrEReaderTopMenu(bool8 mg_or_ereader, bool32 usePickOkCance
     const u8 * header;
     const u8 * options;
     FillWindowPixelBuffer(0, 0);
-    if (mg_or_ereader == 0)
-    {
-        header = gText_MysteryGift;
-        options = !usePickOkCancel ? gText_PickOKExit : gText_PickOKCancel;
-    }
-    else
+    if (mg_or_ereader)
     {
         header = gJPText_MysteryGift;
         options = gJPText_DecideStop;
+    }
+    else
+    {
+        header = gText_MysteryGift;
+        options = !usePickOkCancel ? gText_PickOKExit : gText_PickOKCancel;
     }
 
     AddTextPrinterParameterized4(0, 2, 4, 1, 0, 0, sMG_Ereader_TextColor_1, -1, header);
@@ -624,20 +624,20 @@ static bool32 PrintStringAndWait2Seconds(u8 * counter, const u8 * str)
     }
 }
 
-static u32 MysteryGift_HandleThreeOptionMenu(u8 * unused0, u16 * unused1, u8 whichMenu)
+static u32 MysteryGift_HandleThreeOptionMenu(u8 whichMenu)
 {
     struct ListMenuTemplate listMenuTemplate = sListMenuTemplate_ThreeOptions;
     struct WindowTemplate windowTemplate = sWindowTemplate_ThreeOptions;
     s32 width;
     s32 response;
 
-    if (whichMenu == 0)
+    if (whichMenu)
     {
-        listMenuTemplate.items = sListMenuItems_CardsOrNews;
+        listMenuTemplate.items = sListMenuItems_WirelessOrFriend;
     }
     else
     {
-        listMenuTemplate.items = sListMenuItems_WirelessOrFriend;
+        listMenuTemplate.items = sListMenuItems_CardsOrNews;
     }
     width = Intl_GetListMenuWidth(&listMenuTemplate);
     if (width & 1)
@@ -671,13 +671,13 @@ s8 mevent_message_print_and_prompt_yes_no(u8 * textState, u16 * windowId, bool8 
     {
     case 0:
         StringExpandPlaceholders(gStringVar4, str);
-        if (yesNoBoxPlacement == 0)
+        if (yesNoBoxPlacement)
         {
-            *windowId = AddWindow(&sWindowTemplate_PromptYesOrNo_Width28);
+            *windowId = AddWindow(&sWindowTemplate_PromptYesOrNo_Width20);
         }
         else
         {
-            *windowId = AddWindow(&sWindowTemplate_PromptYesOrNo_Width20);
+            *windowId = AddWindow(&sWindowTemplate_PromptYesOrNo_Width28);
         }
         FillWindowPixelBuffer(*windowId, 0x11);
         AddTextPrinterParameterized4(*windowId, 2, 0, 1, 0, 0, sMG_Ereader_TextColor_2, 0, gStringVar4);
@@ -688,20 +688,20 @@ s8 mevent_message_print_and_prompt_yes_no(u8 * textState, u16 * windowId, bool8 
         break;
     case 1:
         windowTemplate = sWindowTemplate_YesNoBox;
-        if (yesNoBoxPlacement == 0)
+        if (yesNoBoxPlacement)
         {
-            windowTemplate.tilemapTop = 9;
+            windowTemplate.tilemapTop = 15;
         }
         else
         {
-            windowTemplate.tilemapTop = 15;
+            windowTemplate.tilemapTop = 9;
         }
         CreateYesNoMenu(&windowTemplate, 2, 0, 2, 10, 14, 0);
         (*textState)++;
         break;
     case 2:
         input = Menu_ProcessInputNoWrapClearOnChoose();
-        if (input == -1 || input == 0 || input == 1)
+        if (input == -1 || !input || input == 1)
         {
             *textState = 0;
             rbox_fill_rectangle(*windowId);
@@ -731,13 +731,13 @@ static s32 HandleMysteryGiftListMenu(u8 * textState, u16 * windowId, bool32 cann
     switch (*textState)
     {
     case 0:
-        if (cannotToss == 0)
+        if (cannotToss)
         {
-            StringExpandPlaceholders(gStringVar4, gText_WhatToDoWithCards);
+            StringExpandPlaceholders(gStringVar4, gText_WhatToDoWithNews);
         }
         else
         {
-            StringExpandPlaceholders(gStringVar4, gText_WhatToDoWithNews);
+            StringExpandPlaceholders(gStringVar4, gText_WhatToDoWithCards);
         }
         *windowId = AddWindow(&sMysteryGiftMenuWindowTemplate);
         FillWindowPixelBuffer(*windowId, 0x11);
@@ -751,24 +751,24 @@ static s32 HandleMysteryGiftListMenu(u8 * textState, u16 * windowId, bool32 cann
         windowTemplate = sWindowTemplate_YesNoBox;
         if (cannotSend)
         {
-            if (cannotToss == 0)
+            if (cannotToss)
             {
-                input = DoMysteryGiftListMenu(&sWindowTemplate_7by6, &sListMenu_ReceiveToss, 1, 0x00A, 0xE0);
+                input = DoMysteryGiftListMenu(&sWindowTemplate_7by4, &sListMenu_Receive, 1, 0x00A, 0xE0);
             }
             else
             {
-                input = DoMysteryGiftListMenu(&sWindowTemplate_7by4, &sListMenu_Receive, 1, 0x00A, 0xE0);
+                input = DoMysteryGiftListMenu(&sWindowTemplate_7by6, &sListMenu_ReceiveToss, 1, 0x00A, 0xE0);
             }
         }
         else
         {
-            if (cannotToss == 0)
+            if (cannotToss)
             {
-                input = DoMysteryGiftListMenu(&sWindowTemplate_7by8, &sListMenu_ReceiveSendToss, 1, 0x00A, 0xE0);
+                input = DoMysteryGiftListMenu(&sWindowTemplate_7by6, &sListMenu_ReceiveSend, 1, 0x00A, 0xE0);
             }
             else
             {
-                input = DoMysteryGiftListMenu(&sWindowTemplate_7by6, &sListMenu_ReceiveSend, 1, 0x00A, 0xE0);
+                input = DoMysteryGiftListMenu(&sWindowTemplate_7by8, &sListMenu_ReceiveSendToss, 1, 0x00A, 0xE0);
             }
         }
         if (input != -1)
@@ -795,13 +795,13 @@ static s32 HandleMysteryGiftListMenu(u8 * textState, u16 * windowId, bool32 cann
 
 static bool32 ValidateCardOrNews(bool32 cardOrNews)
 {
-    if (cardOrNews == 0)
+    if (cardOrNews)
     {
-        return ValidateReceivedWonderCard();
+        return ValidateReceivedWonderNews();
     }
     else
     {
-        return ValidateReceivedWonderNews();
+        return ValidateReceivedWonderCard();
     }
 }
 
@@ -821,16 +821,16 @@ static bool32 HandleLoadWonderCardOrNews(u8 * state, bool32 cardOrNews)
         (*state)++;
         break;
     case 1:
-        if (cardOrNews == 0)
+        if (cardOrNews)
         {
-            if (!FadeToWonderCardMenu())
+            if (!FadeToWonderNewsMenu())
             {
                 return FALSE;
             }
         }
         else
         {
-            if (!FadeToWonderNewsMenu())
+            if (!FadeToWonderCardMenu())
             {
                 return FALSE;
             }
@@ -955,11 +955,11 @@ static const u8 * mevent_message(u32 * a0, u8 a1, u8 cardOrNews, u32 msgId)
         break;
     case 2:
         *a0 = 1;
-        msg = cardOrNews == 0 ? gText_WonderCardReceived : gText_WonderCardReceivedFrom;
+        msg = cardOrNews ? gText_WonderCardReceivedFrom : gText_WonderCardReceived;
         break;
     case 3:
         *a0 = 1;
-        msg = cardOrNews == 0 ? gText_WonderNewsReceived : gText_WonderNewsReceivedFrom;
+        msg = cardOrNews ? gText_WonderNewsReceivedFrom : gText_WonderNewsReceived;
         break;
     case 4:
         *a0 = 1;
@@ -987,7 +987,7 @@ static const u8 * mevent_message(u32 * a0, u8 a1, u8 cardOrNews, u32 msgId)
         break;
     case 10:
         *a0 = 0;
-        msg = a1 == 0 ? gText_CantAcceptCardFromTrainer : gText_CantAcceptNewsFromTrainer;
+        msg = a1 ? gText_CantAcceptNewsFromTrainer : gText_CantAcceptCardFromTrainer;
         break;
     case 11:
         *a0 = 0;
@@ -1013,7 +1013,7 @@ static bool32 PrintMGSuccessMessage(u8 * state, const u8 * arg1, u16 * arg2)
     switch (*state)
     {
     case 0:
-        if (arg1 != NULL)
+        if (arg1)
         {
             AddTextPrinterToWindow1(arg1);
         }
@@ -1138,7 +1138,7 @@ void task00_mystery_gift(u8 taskId)
         data->state = 1;
         break;
     case  1:
-        switch (MysteryGift_HandleThreeOptionMenu(&data->textState, &data->curPromptWindowId, FALSE))
+        switch (MysteryGift_HandleThreeOptionMenu(FALSE))
         {
         case 0:
             data->IsCardOrNews = 0;
@@ -1169,9 +1169,9 @@ void task00_mystery_gift(u8 taskId)
         break;
     case  2:
     {
-        if (data->IsCardOrNews == 0)
+        if (data->IsCardOrNews)
         {
-            if (MG_PrintTextOnWindow1AndWaitButton(&data->textState, gText_DontHaveCardNewOneInput))
+            if (MG_PrintTextOnWindow1AndWaitButton(&data->textState, gText_DontHaveNewsNewOneInput))
             {
                 data->state = 3;
                 PrintMysteryGiftOrEReaderTopMenu(0, 1);
@@ -1179,7 +1179,7 @@ void task00_mystery_gift(u8 taskId)
         }
         else
         {
-            if (MG_PrintTextOnWindow1AndWaitButton(&data->textState, gText_DontHaveNewsNewOneInput))
+            if (MG_PrintTextOnWindow1AndWaitButton(&data->textState, gText_DontHaveCardNewOneInput))
             {
                 data->state = 3;
                 PrintMysteryGiftOrEReaderTopMenu(0, 1);
@@ -1188,18 +1188,18 @@ void task00_mystery_gift(u8 taskId)
         break;
     }
     case  3:
-        if (data->IsCardOrNews == 0)
+        if (data->IsCardOrNews)
         {
-            AddTextPrinterToWindow1(gText_WhereShouldCardBeAccessed);
+            AddTextPrinterToWindow1(gText_WhereShouldNewsBeAccessed);
         }
         else
         {
-            AddTextPrinterToWindow1(gText_WhereShouldNewsBeAccessed);
+            AddTextPrinterToWindow1(gText_WhereShouldCardBeAccessed);
         }
         data->state = 4;
         break;
     case  4:
-        switch (MysteryGift_HandleThreeOptionMenu(&data->textState, &data->curPromptWindowId, TRUE))
+        switch (MysteryGift_HandleThreeOptionMenu(TRUE))
         {
         case 0:
             ClearTextWindow();
@@ -1237,7 +1237,7 @@ void task00_mystery_gift(u8 taskId)
             {
                 MEvent_CreateTask_CardOrNewsWithFriend(ACTIVITY_WONDER_CARD2);
             }
-            else if (data->source == 0)
+            else if (!data->source)
             {
                 MEvent_CreateTask_CardOrNewsOverWireless(ACTIVITY_WONDER_CARD2);
             }
@@ -1247,7 +1247,7 @@ void task00_mystery_gift(u8 taskId)
             {
                 MEvent_CreateTask_CardOrNewsWithFriend(ACTIVITY_WONDER_NEWS2);
             }
-            else if (data->source == 0)
+            else if (!data->source)
             {
                 MEvent_CreateTask_CardOrNewsOverWireless(ACTIVITY_WONDER_NEWS2);
             }
@@ -1256,7 +1256,7 @@ void task00_mystery_gift(u8 taskId)
         data->state = 6;
         break;
     case  6:
-        if (gReceivedRemoteLinkPlayers != 0)
+        if (gReceivedRemoteLinkPlayers)
         {
             ClearScreenInBg0(TRUE);
             data->state = 7;
@@ -1362,7 +1362,7 @@ void task00_mystery_gift(u8 taskId)
         }
         break;
     case 13:
-        if (gReceivedRemoteLinkPlayers == 0)
+        if (!gReceivedRemoteLinkPlayers)
         {
             DestroyWirelessStatusIndicatorSprite();
             data->state = 14;
@@ -1380,7 +1380,7 @@ void task00_mystery_gift(u8 taskId)
         break;
     case 15:
         r1 = mevent_message(&sp0, data->IsCardOrNews, data->source, data->prevPromptWindowId);
-        if (r1 == NULL)
+        if (!r1)
         {
             r1 = data->buffer;
         }
@@ -1405,14 +1405,14 @@ void task00_mystery_gift(u8 taskId)
                     GenerateRandomNews(2);
                 }
             }
-            if (!sp0)
+            if (sp0)
             {
-                data->state = 0;
-                PrintMysteryGiftOrEReaderTopMenu(0, 0);
+                data->state = 17;
             }
             else
             {
-                data->state = 17;
+                data->state = 0;
+                PrintMysteryGiftOrEReaderTopMenu(0, 0);
             }
         }
         break;
@@ -1436,18 +1436,7 @@ void task00_mystery_gift(u8 taskId)
         }
         break;
     case 20:
-        if (data->IsCardOrNews == 0)
-        {
-            if (({JOY_NEW(A_BUTTON);}))
-            {
-                data->state = 21;
-            }
-            if (({JOY_NEW(B_BUTTON);}))
-            {
-                data->state = 27;
-            }
-        }
-        else
+        if (data->IsCardOrNews)
         {
             switch (MENews_GetInput(gMain.newKeys))
             {
@@ -1460,13 +1449,24 @@ void task00_mystery_gift(u8 taskId)
                 break;
             }
         }
+        else
+        {
+            if (({JOY_NEW(A_BUTTON);}))
+            {
+                data->state = 21;
+            }
+            if (({JOY_NEW(B_BUTTON);}))
+            {
+                data->state = 27;
+            }
+        }
         break;
     case 21:
     {
         u32 result;
-        if (data->IsCardOrNews == 0)
+        if (data->IsCardOrNews)
         {
-            if (WonderCard_Test_Unk_08_6())
+            if (WonderNews_Test_Unk_02())
             {
                 result = HandleMysteryGiftListMenu(&data->textState, &data->curPromptWindowId, data->IsCardOrNews, FALSE);
             }
@@ -1477,7 +1477,7 @@ void task00_mystery_gift(u8 taskId)
         }
         else
         {
-            if (WonderNews_Test_Unk_02())
+            if (WonderCard_Test_Unk_08_6())
             {
                 result = HandleMysteryGiftListMenu(&data->textState, &data->curPromptWindowId, data->IsCardOrNews, FALSE);
             }
@@ -1511,7 +1511,7 @@ void task00_mystery_gift(u8 taskId)
         switch (mevent_message_prompt_discard(&data->textState, &data->curPromptWindowId, data->IsCardOrNews))
         {
         case 0:
-            if (data->IsCardOrNews == 0 && CheckReceivedGiftFromWonderCard())
+            if (!data->IsCardOrNews && CheckReceivedGiftFromWonderCard())
             {
                 data->state = 23;
             }
@@ -1605,15 +1605,15 @@ void task00_mystery_gift(u8 taskId)
         *gStringVar2 = EOS;
         *gStringVar3 = EOS;
 
-        if (data->IsCardOrNews == 0)
-        {
-            AddTextPrinterToWindow1(gText_SendingWonderCard);
-            mevent_srv_new_wcard();
-        }
-        else
+        if (data->IsCardOrNews)
         {
             AddTextPrinterToWindow1(gText_SendingWonderNews);
             mevent_srv_init_wnews();
+        }
+        else
+        {
+            AddTextPrinterToWindow1(gText_SendingWonderCard);
+            mevent_srv_new_wcard();
         }
         data->state = 32;
         break;
@@ -1630,7 +1630,7 @@ void task00_mystery_gift(u8 taskId)
         data->state = 34;
         break;
     case 34:
-        if (gReceivedRemoteLinkPlayers == 0)
+        if (!gReceivedRemoteLinkPlayers)
         {
             DestroyWirelessStatusIndicatorSprite();
             data->state = 35;

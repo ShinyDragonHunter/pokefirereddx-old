@@ -99,7 +99,7 @@ void PickLotteryCornerTicket(void)
         }
     }
 
-    if (gSpecialVar_0x8004 != 0)
+    if (gSpecialVar_0x8004)
     {
         gSpecialVar_0x8005 = sLotteryPrizes[gSpecialVar_0x8004 - 1];
 
