@@ -19,8 +19,6 @@
 #include "constants/items.h"
 #include "constants/maps.h"
 
-#define TAG_SWAP_LINE 109
-
 static void Task_ContinueTaskAfterMessagePrints(u8 taskId);
 static void Task_CallYesOrNoCallback(u8 taskId);
 
@@ -28,69 +26,6 @@ EWRAM_DATA static struct YesNoFuncTable gUnknown_0203A138 = {0};
 EWRAM_DATA static u8 gUnknown_0203A140 = 0;
 
 static TaskFunc gUnknown_0300117C;
-
-static const struct OamData sOamData_SwapLine =
-{
-    .y = 0,
-    .affineMode = ST_OAM_AFFINE_OFF,
-    .objMode = ST_OAM_OBJ_NORMAL,
-    .mosaic = 0,
-    .bpp = ST_OAM_4BPP,
-    .shape = SPRITE_SHAPE(16x16),
-    .x = 0,
-    .matrixNum = 0,
-    .size = SPRITE_SIZE(16x16),
-    .tileNum = 0,
-    .priority = 0,
-    .paletteNum = 0,
-    .affineParam = 0
-};
-
-static const union AnimCmd sAnim_SwapLine_RightArrow[] =
-{
-    ANIMCMD_FRAME(0, 0),
-    ANIMCMD_END
-};
-
-static const union AnimCmd sAnim_SwapLine_Line[] =
-{
-    ANIMCMD_FRAME(4, 0),
-    ANIMCMD_END
-};
-
-static const union AnimCmd sAnim_SwapLine_LeftArrow[] =
-{
-    ANIMCMD_FRAME(0, 0, .hFlip = TRUE),
-    ANIMCMD_END
-};
-
-static const union AnimCmd *const sAnims_SwapLine[] =
-{
-    sAnim_SwapLine_RightArrow,
-    sAnim_SwapLine_Line,
-    sAnim_SwapLine_LeftArrow
-};
-
-static const struct CompressedSpriteSheet sSpriteSheet_SwapLine =
-{
-    gBagSwapLineGfx, 0x100, TAG_SWAP_LINE
-};
-
-static const struct CompressedSpritePalette sSpritePalette_SwapLine =
-{
-    gBagSwapLinePal, TAG_SWAP_LINE
-};
-
-static const struct SpriteTemplate sSpriteTemplate_SwapLine =
-{
-    .tileTag = TAG_SWAP_LINE,
-    .paletteTag = TAG_SWAP_LINE,
-    .oam = &sOamData_SwapLine,
-    .anims = sAnims_SwapLine,
-    .images = NULL,
-    .affineAnims = gDummySpriteAffineAnimTable,
-    .callback = SpriteCallbackDummy,
-};
 
 // code
 void ResetVramOamAndBgCntRegs(void)
@@ -307,10 +242,10 @@ bool8 MenuHelpers_LinkSomething(void)
 
 static bool8 sub_81221D0(void)
 {
-    if (!MenuHelpers_LinkSomething())
-        return FALSE;
-    else
+    if (MenuHelpers_LinkSomething())
         return Overworld_LinkRecvQueueLengthMoreThan2();
+    else
+        return FALSE;
 }
 
 bool8 MenuHelpers_CallLinkSomething(void)
@@ -331,7 +266,7 @@ void sub_812220C(struct ItemSlot *slots, u8 count, u8 *arg2, u8 *usedSlotsCount,
     (*usedSlotsCount) = 0;
     for (i = 0; i < count; i++)
     {
-        if (slots_[i].itemId != ITEM_NONE)
+        if (slots_[i].itemId)
             (*usedSlotsCount)++;
     }
 
@@ -349,99 +284,9 @@ void sub_812225C(u16 *scrollOffset, u16 *cursorPos, u8 maxShownItems, u8 numItem
 
     if (*scrollOffset + *cursorPos >= numItems)
     {
-        if (numItems == 0)
-            *cursorPos = 0;
-        else
+        if (numItems)
             *cursorPos = numItems - 1;
-    }
-}
-
-void sub_8122298(u16 *arg0, u16 *arg1, u8 arg2, u8 arg3, u8 arg4)
-{
-    u8 i;
-
-    if (arg4 % 2)
-    {
-        if ((*arg1) >= arg4 / 2)
-        {
-            for (i = 0; i < (*arg1) - (arg4 / 2); i++)
-            {
-                if ((*arg0) + arg2 == arg3)
-                    break;
-                (*arg1)--;
-                (*arg0)++;
-            }
-        }
-    }
-    else
-    {
-        if ((*arg1) >= (arg4 / 2) + 1)
-        {
-            for (i = 0; i <= (*arg1) - (arg4 / 2); i++)
-            {
-                if ((*arg0) + arg2 == arg3)
-                    break;
-                (*arg1)--;
-                (*arg0)++;
-            }
-        }
-    }
-}
-
-void LoadListMenuSwapLineGfx(void)
-{
-    LoadCompressedSpriteSheet(&sSpriteSheet_SwapLine);
-    LoadCompressedSpritePalette(&sSpritePalette_SwapLine);
-}
-
-void CreateSwapLineSprites(u8 *spriteIds, u8 count)
-{
-    u8 i;
-
-    for (i = 0; i < count; i++)
-    {
-        spriteIds[i] = CreateSprite(&sSpriteTemplate_SwapLine, i * 16, 0, 0);
-        if (i)
-            StartSpriteAnim(&gSprites[spriteIds[i]], 1);
-
-        gSprites[spriteIds[i]].invisible = TRUE;
-    }
-}
-
-void DestroySwapLineSprites(u8 *spriteIds, u8 count)
-{
-    u8 i;
-
-    for (i = 0; i < count; i++)
-    {
-        if (i == count - 1)
-            DestroySpriteAndFreeResources(&gSprites[spriteIds[i]]);
         else
-            DestroySprite(&gSprites[spriteIds[i]]);
-    }
-}
-
-void SetSwapLineSpritesInvisibility(u8 *spriteIds, u8 count, bool8 invisible)
-{
-    u8 i;
-
-    for (i = 0; i < count; i++)
-        gSprites[spriteIds[i]].invisible = invisible;
-}
-
-void UpdateSwapLineSpritesPos(u8 *spriteIds, u8 count, s16 x, u16 y)
-{
-    u8 i;
-    bool8 unknownBit = count & 0x80;
-    count &= ~(0x80);
-
-    for (i = 0; i < count; i++)
-    {
-        if (i == count - 1 && unknownBit)
-            gSprites[spriteIds[i]].pos2.x = x - 8;
-        else
-            gSprites[spriteIds[i]].pos2.x = x;
-
-        gSprites[spriteIds[i]].pos1.y = 1 + y;
+            *cursorPos = 0;
     }
 }

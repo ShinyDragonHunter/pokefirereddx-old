@@ -3,39 +3,39 @@ static const u8 sDummyDesc[] = _(
 
 // Pokéballs
 static const u8 sMasterBallDesc[] = _(
-    "The best BALL that\n"
-    "catches a POKéMON\n"
-    "without fail.");
+    "The best POKé BALL with the ultimate\n"
+    "level of performance. With it, you will\n"
+    "catch any wild POKéMON without fail.");
 
 static const u8 sUltraBallDesc[] = _(
-    "A better BALL with\n"
-    "a higher catch rate\n"
-    "than a GREAT BALL.");
+    "An ultra-high performance POKé BALL\n"
+    "that provides a higher POKéMON catch\n"
+    "rate than a GREAT BALL.");
 
 static const u8 sGreatBallDesc[] = _(
-    "A good BALL with a\n"
-    "higher catch rate\n"
-    "than a POKé BALL.");
+    "A good, high-performance POKé BALL\n"
+    "that provides a higher POKéMON catch\n"
+    "than a standard POKé BALL can.");
 
 static const u8 sPokeBallDesc[] = _(
-    "A tool used for\n"
-    "catching wild\n"
-    "POKéMON.");
+    "A device for catching wild POKéMON.\n"
+    "It is thrown like a ball at the target.\n"
+    "It is designed as a capsule system.");
 
 static const u8 sSafariBallDesc[] = _(
-    "A special BALL that\n"
-    "is used only in the\n"
-    "SAFARI ZONE.");
+    "A special POKé BALL that is used only\n"
+    "in the SAFARI ZONE. It is decorated\n"
+    "in a camouflage pattern.");
 
 static const u8 sNetBallDesc[] = _(
-    "A BALL that works\n"
-    "well on WATER- and\n"
-    "BUG-type POKéMON.");
+    "A somewhat different POKé BALL that\n"
+    "is more effective when attempting to\n"
+    "catch WATER- or BUG-type POKéMON.");
 
 static const u8 sDiveBallDesc[] = _(
-    "A BALL that works\n"
-    "better on POKéMON\n"
-    "on the ocean floor.");
+    "A somewhat different POKé BALL that\n"
+    "especially well when catching\n"
+    "POKéMON that live underwater.");
 
 static const u8 sNestBallDesc[] = _(
     "A BALL that works\n"
@@ -64,9 +64,9 @@ static const u8 sPremierBallDesc[] = _(
 
 // Medicine
 static const u8 sPotionDesc[] = _(
-    "Restores the HP of\n"
-    "a POKéMON by\n"
-    "20 points.");
+    "A spray-type medicine for treating\n"
+    "wounds. It can be used to restore\n"
+    "20 HP to an injured POKéMON.");
 
 static const u8 sAntidoteDesc[] = _(
     "Heals a poisoned\n"
@@ -498,9 +498,9 @@ static const u8 sRetroMailDesc[] = _(
 
 // Berries
 static const u8 sCheriBerryDesc[] = _(
-    "A hold item that\n"
-    "heals paralysis\n"
-    "in battle.");
+    "A BERRY to be consumed by a POKéMON.\n"
+    "If a POKéMON holds one, it can recover\n"
+    "from paralysis on its own in battle.");
 
 static const u8 sChestoBerryDesc[] = _(
     "A hold item that\n"
@@ -528,9 +528,9 @@ static const u8 sLeppaBerryDesc[] = _(
     "battle.");
 
 static const u8 sOranBerryDesc[] = _(
-    "A hold item that\n"
-    "restores 10 HP in\n"
-    "battle.");
+    "A BERRY to be consumed by a POKéMON.\n"
+    "If a POKéMON holds one, it can restore\n"
+    "its own HP by 10 points during battle.");
 
 static const u8 sPersimBerryDesc[] = _(
     "A hold item that\n"
@@ -543,159 +543,87 @@ static const u8 sLumBerryDesc[] = _(
     "problem in battle.");
 
 static const u8 sSitrusBerryDesc[] = _(
-    "A hold item that\n"
-    "restores 30 HP in\n"
-    "battle.");
+    "A BERRY to be consumed by a POKéMON.\n"
+    "If a POKéMON holds one, it can restore\n"
+    "its own HP by 30 points during battle.");
 
 static const u8 sFigyBerryDesc[] = _(
-    "A hold item that\n"
-    "restores HP but\n"
-    "may confuse.");
-
-static const u8 sWikiBerryDesc[] = _(
-    "A hold item that\n"
-    "restores HP but\n"
-    "may confuse.");
-
-static const u8 sMagoBerryDesc[] = _(
-    "A hold item that\n"
-    "restores HP but\n"
-    "may confuse.");
-
-static const u8 sAguavBerryDesc[] = _(
-    "A hold item that\n"
-    "restores HP but\n"
-    "may confuse.");
-
-static const u8 sIapapaBerryDesc[] = _(
-    "A hold item that\n"
-    "restores HP but\n"
-    "may confuse.");
+    "If held by a POKéMON, it restores the\n"
+    "user's HP in a pinch but it will cause\n"
+    "confusion if the user hates the taste.");
 
 static const u8 sRazzBerryDesc[] = _(
-    "{POKEBLOCK} ingredient.\n"
-    "Plant in loamy soil\n"
-    "to grow RAZZ.");
-
-static const u8 sBlukBerryDesc[] = _(
-    "{POKEBLOCK} ingredient.\n"
-    "Plant in loamy soil\n"
-    "to grow BLUK.");
-
-static const u8 sNanabBerryDesc[] = _(
-    "{POKEBLOCK} ingredient.\n"
-    "Plant in loamy soil\n"
-    "to grow NANAB.");
-
-static const u8 sWepearBerryDesc[] = _(
-    "{POKEBLOCK} ingredient.\n"
-    "Plant in loamy soil\n"
-    "to grow WEPEAR.");
-
-static const u8 sPinapBerryDesc[] = _(
-    "{POKEBLOCK} ingredient.\n"
-    "Plant in loamy soil\n"
-    "to grow PINAP.");
+    "Can be ground up into a powder as\n"
+    "an ingredient for medicine.");
 
 static const u8 sPomegBerryDesc[] = _(
-    "Makes a POKéMON\n"
-    "friendly but lowers\n"
-    "base HP.");
+    "A BERRY to be consumed by a POKéMON.\n"
+    "Using it on a POKéMON makes it more\n"
+    "friendly but lowers its base HP.");
 
 static const u8 sKelpsyBerryDesc[] = _(
-    "Makes a POKéMON\n"
-    "friendly but lowers\n"
-    "base ATTACK.");
+    "A BERRY to be consumed by a POKéMON.\n"
+    "Using it on a POKéMON makes it more\n"
+    "friendly but lowers its base ATTACK.");
 
+#if UK
 static const u8 sQualotBerryDesc[] = _(
-    "Makes a POKéMON\n"
-    "friendly but lowers\n"
-    "base DEFENSE.");
+    "A BERRY to be consumed by a POKéMON.\n"
+    "Using it on a POKéMON makes it more\n"
+    "friendly but lowers its base DEFENCE.");
+#else
+static const u8 sQualotBerryDesc[] = _(
+    "A BERRY to be consumed by a POKéMON.\n"
+    "Using it on a POKéMON makes it more\n"
+    "friendly but lowers its base DEFENSE.");
+#endif
 
 static const u8 sHondewBerryDesc[] = _(
-    "Makes a POKéMON\n"
-    "friendly but lowers\n"
-    "base SP. ATK.");
+    "A BERRY to be consumed by a POKéMON.\n"
+    "Using it on a POKéMON makes it more\n"
+    "friendly but lowers its base SP. ATK.");
 
 static const u8 sGrepaBerryDesc[] = _(
-    "Makes a POKéMON\n"
-    "friendly but lowers\n"
-    "base SP. DEF.");
+    "A BERRY to be consumed by a POKéMON.\n"
+    "Using it on a POKéMON makes it more\n"
+    "friendly but lowers its base SP. DEF.");
 
 static const u8 sTamatoBerryDesc[] = _(
-    "Makes a POKéMON\n"
-    "friendly but lowers\n"
-    "base SPEED.");
-
-static const u8 sCornnBerryDesc[] = _(
-    "{POKEBLOCK} ingredient.\n"
-    "Plant in loamy soil\n"
-    "to grow CORNN.");
-
-static const u8 sMagostBerryDesc[] = _(
-    "{POKEBLOCK} ingredient.\n"
-    "Plant in loamy soil\n"
-    "to grow MAGOST.");
-
-static const u8 sRabutaBerryDesc[] = _(
-    "{POKEBLOCK} ingredient.\n"
-    "Plant in loamy soil\n"
-    "to grow RABUTA.");
-
-static const u8 sNomelBerryDesc[] = _(
-    "{POKEBLOCK} ingredient.\n"
-    "Plant in loamy soil\n"
-    "to grow NOMEL.");
-
-static const u8 sSpelonBerryDesc[] = _(
-    "{POKEBLOCK} ingredient.\n"
-    "Plant in loamy soil\n"
-    "to grow SPELON.");
-
-static const u8 sPamtreBerryDesc[] = _(
-    "{POKEBLOCK} ingredient.\n"
-    "Plant in loamy soil\n"
-    "to grow PAMTRE.");
-
-static const u8 sWatmelBerryDesc[] = _(
-    "{POKEBLOCK} ingredient.\n"
-    "Plant in loamy soil\n"
-    "to grow WATMEL.");
-
-static const u8 sDurinBerryDesc[] = _(
-    "{POKEBLOCK} ingredient.\n"
-    "Plant in loamy soil\n"
-    "to grow DURIN.");
-
-static const u8 sBelueBerryDesc[] = _(
-    "{POKEBLOCK} ingredient.\n"
-    "Plant in loamy soil\n"
-    "to grow BELUE.");
+    "A BERRY to be consumed by a POKéMON.\n"
+    "Using it on a POKéMON makes it more\n"
+    "friendly but lowers its base SPEED.");
 
 static const u8 sLiechiBerryDesc[] = _(
-    "A hold item that\n"
-    "raises ATTACK in\n"
-    "a pinch.");
+    "A BERRY to be consumed by a POKéMON.\n"
+    "If a POKéMON holds one, its ATTACK\n"
+    "stat will increase when in a pinch.");
 
+#if UK
 static const u8 sGanlonBerryDesc[] = _(
-    "A hold item that\n"
-    "raises DEFENSE in\n"
-    "a pinch.");
+    "A BERRY to be consumed by a POKéMON.\n"
+    "If a POKéMON holds one, its DEFENCE\n"
+    "stat will increase when in a pinch.");
+#else
+static const u8 sGanlonBerryDesc[] = _(
+    "A BERRY to be consumed by a POKéMON.\n"
+    "If a POKéMON holds one, its DEFENSE\n"
+    "stat will increase when in a pinch.");
+#endif
 
 static const u8 sSalacBerryDesc[] = _(
-    "A hold item that\n"
-    "raises SPEED in\n"
-    "a pinch.");
+    "A BERRY to be consumed by a POKéMON.\n"
+    "If a POKéMON holds one, its SPEED\n"
+    "stat will increase when in a pinch.");
 
 static const u8 sPetayaBerryDesc[] = _(
-    "A hold item that\n"
-    "raises SP. ATK in\n"
-    "a pinch.");
+    "A BERRY to be consumed by a POKéMON.\n"
+    "If a POKéMON holds one, its SP. ATK\n"
+    "stat will increase when in a pinch.");
 
 static const u8 sApicotBerryDesc[] = _(
-    "A hold item that\n"
-    "raises SP. DEF in\n"
-    "a pinch.");
+    "A BERRY to be consumed by a POKéMON.\n"
+    "If a POKéMON holds one, its SP. DEF\n"
+    "stat will increase when in a pinch.");
 
 static const u8 sLansatBerryDesc[] = _(
     "A hold item that\n"
@@ -706,11 +634,6 @@ static const u8 sStarfBerryDesc[] = _(
     "A hold item that\n"
     "sharply boosts a\n"
     "stat in a pinch.");
-
-static const u8 sEnigmaBerryDesc[] = _(
-    "{POKEBLOCK} ingredient.\n"
-    "Plant in loamy soil\n"
-    "to grow a mystery.");
 
 // Hold items
 static const u8 sBrightPowderDesc[] = _(
@@ -774,9 +697,9 @@ static const u8 sCleanseTagDesc[] = _(
     "POKéMON.");
 
 static const u8 sSoulDewDesc[] = _(
-    "Hold item: raises\n"
-    "SP. ATK & SP. DEF of\n"
-    "LATIOS & LATIAS.");
+    "A wondrous orb to be held by\n"
+    "LATIOS or LATIAS. It raises both\n"
+    "the SP. ATK and SP. DEF stats.");
 
 static const u8 sDeepSeaToothDesc[] = _(
     "A hold item that\n"
@@ -973,11 +896,6 @@ static const u8 sYellowScarfDesc[] = _(
     "CONTESTS.");
 
 // Key items
-static const u8 sMachBikeDesc[] = _(
-    "A folding bicycle\n"
-    "that doubles your\n"
-    "speed or better.");
-
 static const u8 sCoinCaseDesc[] = _(
     "A case that holds\n"
     "up to 9,999 COINS.");
@@ -1003,118 +921,19 @@ static const u8 sSuperRodDesc[] = _(
     "wild POKéMON.");
 
 static const u8 sSSTicketDesc[] = _(
-    "The ticket required\n"
-    "for sailing on a\n"
-    "ferry.");
-
-static const u8 sContestPassDesc[] = _(
-    "The pass required\n"
-    "for entering\n"
-    "POKéMON CONTESTS.");
-
-static const u8 sWailmerPailDesc[] = _(
-    "A tool used for\n"
-    "watering BERRIES\n"
-    "and plants.");
-
-static const u8 sDevonGoodsDesc[] = _(
-    "A package that\n"
-    "contains DEVON's\n"
-    "machine parts.");
-
-static const u8 sSootSackDesc[] = _(
-    "A sack used to\n"
-    "gather and hold\n"
-    "volcanic ash.");
-
-static const u8 sBasementKeyDesc[] = _(
-    "The key for NEW\n"
-    "MAUVILLE beneath\n"
-    "MAUVILLE CITY.");
-
-static const u8 sAcroBikeDesc[] = _(
-    "A folding bicycle\n"
-    "capable of jumps\n"
-    "and wheelies.");
-
-static const u8 sPokeblockCaseDesc[] = _(
-    "A case for holding\n"
-    "{POKEBLOCK}S made with\n"
-    "a BERRY BLENDER.");
-
-static const u8 sLetterDesc[] = _(
-    "A letter to STEVEN\n"
-    "from the PRESIDENT\n"
-    "of the DEVON CORP.");
+    "The ticket required for sailing on\n"
+    "the ferry S.S. ANNE.\n"
+    "It has a drawing of a ship on it.");
 
 static const u8 sEonTicketDesc[] = _(
-    "The ticket for a\n"
-    "ferry to a distant\n"
-    "southern island.");
-
-static const u8 sRedOrbDesc[] = _(
-    "A red, glowing orb\n"
-    "said to contain an\n"
-    "ancient power.");
-
-static const u8 sBlueOrbDesc[] = _(
-    "A blue, glowing orb\n"
-    "said to contain an\n"
-    "ancient power.");
-
-static const u8 sScannerDesc[] = _(
-    "A device found\n"
-    "inside the\n"
-    "ABANDONED SHIP.");
-
-static const u8 sGoGogglesDesc[] = _(
-    "Nifty goggles that\n"
-    "protect eyes from\n"
-    "desert sandstorms.");
+    "The ticket required for sailing on a\n"
+    "ferry to a distant southern island.\n"
+    "It features a drawing of an island.");
 
 static const u8 sMeteoriteDesc[] = _(
-    "A meteorite found\n"
-    "at METEOR FALLS.");
-
-static const u8 sRoom1KeyDesc[] = _(
-    "A key that opens a\n"
-    "door inside the\n"
-    "ABANDONED SHIP.");
-
-static const u8 sRoom2KeyDesc[] = _(
-    "A key that opens a\n"
-    "door inside the\n"
-    "ABANDONED SHIP.");
-
-static const u8 sRoom4KeyDesc[] = _(
-    "A key that opens a\n"
-    "door inside the\n"
-    "ABANDONED SHIP.");
-
-static const u8 sRoom6KeyDesc[] = _(
-    "A key that opens a\n"
-    "door inside the\n"
-    "ABANDONED SHIP.");
-
-static const u8 sStorageKeyDesc[] = _(
-    "The key to the\n"
-    "storage inside the\n"
-    "ABANDONED SHIP.");
-
-static const u8 sRootFossilDesc[] = _(
-    "A fossil of an\n"
-    "ancient, seafloor-\n"
-    "dwelling POKéMON.");
-
-static const u8 sClawFossilDesc[] = _(
-    "A fossil of an\n"
-    "ancient, seafloor-\n"
-    "dwelling POKéMON.");
-
-static const u8 sDevonScopeDesc[] = _(
-    "A device by DEVON\n"
-    "that signals any\n"
-    "unseeable POKéMON.");
+    "A meteorite that fell from space\n"
+    "onto MT. MOON long ago.\n"
+    "It is very lumpy and hard.");
 
 // TMs/HMs
 static const u8 sTM01Desc[] = _(
@@ -1410,194 +1229,211 @@ static const u8 sHM08Desc[] = _(
 
 // FireRed/LeafGreen key items
 static const u8 sOaksParcelDesc[] = _(
-    "A parcel for PROF.\n"
-    "OAK from a POKéMON\n"
+    "A parcel to be delivered to PROF.\n"
+    "OAK from VIRIDIAN CITY's POKéMON\n"
     "MART's clerk.");
 
 static const u8 sPokeFluteDesc[] = _(
-    "A sweet-sounding\n"
-    "flute that awakens\n"
-    "POKéMON.");
+    "A flute that can play with such\n"
+    "a beautiful tone that even sleeping\n"
+    "POKéMON find themselves woken up.");
 
 static const u8 sSecretKeyDesc[] = _(
-    "The key to the\n"
-    "CINNABAR ISLAND\n"
-    "GYM's entrance.");
+    "The key that unlocks the front door\n"
+    "of the POKéMON GYM on CINNABAR ISLAND.\n"
+    "It has a red decoration.");
 
 static const u8 sBikeVoucherDesc[] = _(
-    "A voucher for\n"
-    "obtaining a bicycle\n"
-    "from the BIKE SHOP.");
+    "Take this voucher to the BIKE SHOP\n"
+    "in CERULEAN CITY and exchange it\n"
+    "for a bicycle.");
 
 static const u8 sGoldTeethDesc[] = _(
-    "Gold dentures lost\n"
-    "by the SAFARI\n"
-    "ZONE's WARDEN.");
+    "A set of golden false teeth lost by\n"
+    "the SAFARI ZONE's WARDEN.\n"
+    "They make his teeth sparkle.");
 
 static const u8 sOldAmberDesc[] = _(
-    "A stone containing\n"
-    "the genes of an\n"
-    "ancient POKéMON.");
+    "A piece of amber that contains\n"
+    "the genes of an ancient POKéMON.\n"
+    "It is clear with a reddish tint.");
 
 static const u8 sCardKeyDesc[] = _(
-    "A card-type door\n"
-    "key used in SILPH\n"
-    "CO's office.");
+    "A card-type key that unlocks doors\n"
+    "in SILPH CO.'s HEAD OFFICE in\n"
+    "SAFFRON CITY.");
 
+#if UK
 static const u8 sLiftKeyDesc[] = _(
-    "An elevator key\n"
-    "used in TEAM\n"
-    "ROCKET's HIDEOUT.");
+    "A key that operates the lift in\n"
+    "the TEAM ROCKET HIDEOUT.\n"
+    "It bears the TEAM ROCKET logo.");
+#else
+static const u8 sLiftKeyDesc[] = _(
+    "A key that operates the elevator\n"
+    "in the TEAM ROCKET HIDEOUT.\n"
+    "It bears the TEAM ROCKET logo.");
+#endif
 
 static const u8 sHelixFossilDesc[] = _(
-    "A piece of an\n"
-    "ancient marine\n"
-    "POKéMON's seashell.");
+    "A fossil from a prehistoric POKéMON\n"
+    "that once lived in the sea. It might\n"
+    "be a piece of a seashell.");
 
 static const u8 sDomeFossilDesc[] = _(
-    "A piece of an\n"
-    "ancient marine\n"
-    "POKéMON's shell.");
+    "A fossil from a prehistoric POKéMON\n"
+    "that once lived in the sea. It could\n"
+    "be a shell or carapace.");
 
 static const u8 sSilphScopeDesc[] = _(
-    "SILPH CO's scope\n"
-    "makes unseeable\n"
-    "POKéMON visible.");
+    "A scope that makes unseeable\n"
+    "POKéMON visible.\n"
+    "It is made by SILPH CO.");
 
 static const u8 sBicycleDesc[] = _(
-    "A folding bicycle\n"
-    "that is faster than\n"
-    "the RUNNING SHOES.");
+    "A folding bicycle that enables a rider\n"
+    "to get around much faster than with\n"
+    "RUNNING SHOES.");
 
 static const u8 sTownMapDesc[] = _(
-    "Can be viewed\n"
-    "anytime. Shows your\n"
-    "present location.");
+    "A very convenient map that can be\n"
+    "viewed anytime. It even shows your\n"
+    "present location in the region.");
 
+#if UK
 static const u8 sVSSeekerDesc[] = _(
-    "A rechargeable unit\n"
-    "that flags battle-\n"
-    "ready TRAINERS.");
+    "A device that indicates TRAINERS\n"
+    "who want to battle. The battery\n"
+    "charges while travelling.");
+#else
+static const u8 sVSSeekerDesc[] = _(
+    "A device that indicates TRAINERS\n"
+    "who want to battle. The battery\n"
+    "charges while traveling.");
+#endif
 
 static const u8 sFameCheckerDesc[] = _(
-    "Stores information\n"
-    "on famous people\n"
-    "for instant recall.");
+    "A device that enables you to\n"
+    "recall what you've heard and seen\n"
+    "about famous people.");
 
-static const u8 sTMCaseDesc[] = _(
-    "A convenient case \n"
-    "that holds TMs and\n"
-    "HMs.");
-
-static const u8 sBerryPouchDesc[] = _(
-    "A convenient\n"
-    "container that\n"
-    "holds BERRIES.");
-
+#if UK
 static const u8 sTeachyTVDesc[] = _(
-    "A TV set tuned to\n"
-    "an advice program\n"
-    "for TRAINERS.");
+    "A television set that is tuned to\n"
+    "a programme with useful tips for\n"
+    "novice TRAINERS.");
+#else
+static const u8 sTeachyTVDesc[] = _(
+    "A television set that is tuned to\n"
+    "a program with useful tips for\n"
+    "novice TRAINERS.");
+#endif
 
 static const u8 sTriPassDesc[] = _(
-    "A pass for ferries\n"
-    "between ONE, TWO,\n"
-    "and THREE ISLAND.");
+    "A pass for ferries between ONE,\n"
+    "TWO, and THREE ISLAND.\n"
+    "It has a drawing of three islands.");
 
 static const u8 sRainbowPassDesc[] = _(
-    "For ferries serving\n"
-    "VERMILION and the\n"
-    "SEVII ISLANDS.");
+    "A pass for ferries between\n"
+    "VERMILION and the SEVII ISLANDS.\n"
+    "It features a drawing of a rainbow.");
 
 static const u8 sTeaDesc[] = _(
-    "A thirst-quenching\n"
-    "tea prepared by an\n"
-    "old lady.");
+    "An aromatic tea prepared by an old\n"
+    "lady. It will slake even the worst\n"
+    "thirst.");
 
 static const u8 sMysticTicketDesc[] = _(
-    "A ticket required\n"
-    "to board the ship\n"
-    "to NAVEL ROCK.");
+    "A ticket required to board the ship\n"
+    "to NAVEL ROCK.\n"
+    "It glows with a mystic light.");
 
 static const u8 sAuroraTicketDesc[] = _(
-    "A ticket required\n"
-    "to board the ship\n"
-    "to BIRTH ISLAND.");
+    "A ticket required to board the ship\n"
+    "to BIRTH ISLAND.\n"
+    "It glows beautifully.");
 
 static const u8 sPowderJarDesc[] = _(
-    "Stores BERRY\n"
-    "POWDER made using\n"
-    "a BERRY CRUSHER.");
+    "A jar for storing BERRY POWDER\n"
+    "made using a BERRY CRUSHER.");
 
+#if UK
 static const u8 sRubyDesc[] = _(
-    "An exquisite, red-\n"
-    "glowing gem that\n"
-    "symbolizes passion.");
+    "An exquisitely beautiful gem that\n"
+    "has a red glow.\n"
+    "It symbolises passion.");
 
 static const u8 sSapphireDesc[] = _(
-    "A brilliant blue gem\n"
-    "that symbolizes\n"
-    "honesty.");
+    "An exquisitely beautiful gem that\n"
+    "has a blue glow.\n"
+    "It symbolises honesty.");
+#else
+static const u8 sRubyDesc[] = _(
+    "An exquisitely beautiful gem that\n"
+    "has a red glow.\n"
+    "It symbolizes passion.");
+
+static const u8 sSapphireDesc[] = _(
+    "An exquisitely beautiful gem that\n"
+    "has a blue glow.\n"
+    "It symbolizes honesty.");
+#endif
 
 // Emerald-specific key items
-static const u8 sMagmaEmblemDesc[] = _(
-    "A medal-like item in\n"
-    "the same shape as\n"
-    "TEAM MAGMA's mark.");
-
 static const u8 sOldSeaMapDesc[] = _(
-    "A faded sea chart\n"
-    "that shows the way\n"
-    "to a certain island.");
+    "An old, faded sea chart that shows\n"
+    "the way to a certain island located\n"
+    "somewhere far away.");
 
 // New key items
 static const u8 sShinyCharmDesc[] = _(
-    "A charm that will\n"
-    "raise the chance\n"
-    "for shiny POKéMON.");
+    "A shiny charm said to increase the\n"
+    "chance of finding a SHINY POKéMON\n"
+    "in the wild.");
 
 static const u8 sOvalCharmDesc[] = _(
-    "Raises the chance\n"
-    "of finding eggs at\n"
-    "the DAY CARE.");
+    "An oval charm said to increase the\n"
+    "chance of POKéMON EGGs being found\n"
+    "at the POKéMON DAY CARE.");
 
 // Apricorn Pokéballs
 static const u8 sLevelBallDesc[] = _(
-    "A BALL for catching\n"
-    "POKéMON that are\n"
-    "lower level.");
+    "A POKé BALL that makes it easier to\n"
+    "catch POKéMON that are at a lower\n"
+    "level than your own POKéMON.");
 
 static const u8 sLureBallDesc[] = _(
-    "A BALL for catching\n"
-    "POKéMON hooked by\n"
-    "a fishing ROD.");
+    "A POKé BALL that is good for catching\n"
+    "POKéMON that you reel in with a\n"
+    "fishing ROD while out fishing.");
 
 static const u8 sMoonBallDesc[] = _(
-    "A BALL for POKéMON\n"
-    "that evolve via a\n"
-    "MOON STONE.");
+    "A POKé BALL that makes it easier to\n"
+    "catch POKéMON that can evolve with\n"
+    "the use of a MOON STONE.");
 
 static const u8 sFriendBallDesc[] = _(
-    "A BALL that makes\n"
-    "a caught POKéMON\n"
-    "more friendly.");
+    "A strange POKé BALL that makes the\n"
+    "wild POKéMON caught with it more\n"
+    "friendly toward you immediately.");
 
 static const u8 sFastBallDesc[] = _(
-    "A BALL for catching\n"
-    "POKéMON that are\n"
-    "fast.");
+    "A POKé BALL that makes it easier to\n"
+    "catch POKéMON that are quick to run\n"
+    "away.");
 
 static const u8 sHeavyBallDesc[] = _(
-    "A BALL for catching\n"
-    "POKéMON that are\n"
-    "heavy.");
+    "A POKé BALL that is better than\n"
+    "usual at catching very heavy\n"
+    "POKéMON.");
 
 static const u8 sLoveBallDesc[] = _(
-    "A BALL for catching\n"
-    "POKéMON of the\n"
-    "opposite gender.");
+    "A POKé BALL that works best when\n"
+    "catching a POKéMON that is the\n"
+    "opposite gender of your POKéMON.");
 
 static const u8 sParkBallDesc[] = _(
-    "A BALL for the\n"
-    "BUG-CATCHING\n"
-    "CONTEST.");
+    "A special POKé BALL that is used\n"
+    "during the BUG-CATCHING CONTEST\n"
+    "in the JOHTO region.");

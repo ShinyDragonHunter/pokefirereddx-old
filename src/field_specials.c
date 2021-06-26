@@ -18,7 +18,7 @@
 #include "field_weather.h"
 #include "graphics.h"
 #include "international_string_util.h"
-#include "item_icon.h"
+#include "item_menu_icons.h"
 #include "link.h"
 #include "list_menu.h"
 #include "main.h"
@@ -564,16 +564,16 @@ void SpawnLinkPartnerObjectEvent(void)
             {
                 case VERSION_SAPPHIRE:
                 case VERSION_RUBY:
-                    if (gLinkPlayers[i].gender == 0)
-                        linkSpriteId = OBJ_EVENT_GFX_LINK_RS_BRENDAN;
+                    if (gLinkPlayers[i].gender)
+                        linkSpriteId = OBJ_EVENT_GFX_RS_MAY;
                     else
-                        linkSpriteId = OBJ_EVENT_GFX_LINK_RS_MAY;
+                        linkSpriteId = OBJ_EVENT_GFX_RS_BRENDAN;
                     break;
                 default:
-                    if (gLinkPlayers[i].gender == 0)
-                        linkSpriteId = OBJ_EVENT_GFX_BRENDAN_NORMAL;
+                    if (gLinkPlayers[i].gender)
+                        linkSpriteId = OBJ_EVENT_GFX_E_MAY;
                     else
-                        linkSpriteId = OBJ_EVENT_GFX_MAY_NORMAL;
+                        linkSpriteId = OBJ_EVENT_GFX_E_BRENDAN;
                     break;
             }
             SpawnSpecialObjectEventParameterized(linkSpriteId, movementTypes[j], 240 - i, coordOffsets[j][0] + x + 7, coordOffsets[j][1] + y + 7, 0);
@@ -2705,13 +2705,13 @@ void SetBattleTowerLinkPlayerGfx(void)
         switch (gLinkPlayers[i].version)
         {
             case VERSION_EMERALD:
-                if (gLinkPlayers[i].gender) 
-                    VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_MAY_NORMAL);
-                else
-                    VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_BRENDAN_NORMAL);
+                VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_E_BRENDAN + gLinkPlayers[i].gender);
                 break;
             default:
-                VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_RED + gLinkPlayers[i].gender);
+                if (gLinkPlayers[i].gender) 
+                    VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_LEAF_NORMAL);
+                else
+                    VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_RED_NORMAL);
                 break;
         }
     }

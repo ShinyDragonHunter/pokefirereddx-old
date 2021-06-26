@@ -108,6 +108,8 @@ void ListMenuGetScrollAndRow(u8 listTaskId, u16 *scrollOffset, u16 *selectedRow)
 u16 ListMenuGetYCoordForPrintingArrowCursor(u8 listTaskId);
 void ListMenuDefaultCursorMoveFunc(s32 arg0, u8 arg1, struct ListMenu *list);
 void ListMenuSetUnkIndicatorsStructField(u8 taskId, u8 field, s32 value);
+void ListMenuLoadStdPalAt(u8, u8);
+void BlitMenuInfoIcon(u8 winId, u8 a2, u16 x, u16 y);
 u8 AddScrollIndicatorArrowPair(const struct ScrollArrowsTemplate *arrowInfo, u16 *arg1);
 u8 AddScrollIndicatorArrowPairParameterized(u32 arrowType, s32 commonPos, s32 firstPos, s32 secondPos, s32 fullyDownThreshold, s32 tileTag, s32 palTag, u16 *currItemPtr);
 void RemoveScrollIndicatorArrowPair(u8 taskId);

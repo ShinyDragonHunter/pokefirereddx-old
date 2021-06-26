@@ -3294,8 +3294,6 @@ extern const u32 gItemIconPalette_PinkScarf[];
 extern const u32 gItemIconPalette_GreenScarf[];
 extern const u32 gItemIconPalette_YellowScarf[];
 // Key items
-extern const u32 gItemIcon_MachBike[];
-extern const u32 gItemIconPalette_MachBike[];
 extern const u32 gItemIcon_CoinCase[];
 extern const u32 gItemIconPalette_CoinCase[];
 extern const u32 gItemIcon_Itemfinder[];
@@ -3308,43 +3306,10 @@ extern const u32 gItemIcon_SuperRod[];
 extern const u32 gItemIconPalette_SuperRod[];
 extern const u32 gItemIcon_SSTicket[];
 extern const u32 gItemIconPalette_SSTicket[];
-extern const u32 gItemIcon_ContestPass[];
-extern const u32 gItemIconPalette_ContestPass[];
-extern const u32 gItemIcon_WailmerPail[];
-extern const u32 gItemIconPalette_WailmerPail[];
-extern const u32 gItemIcon_DevonGoods[];
-extern const u32 gItemIconPalette_DevonGoods[];
-extern const u32 gItemIcon_SootSack[];
-extern const u32 gItemIconPalette_SootSack[];
-extern const u32 gItemIcon_BasementKey[];
-extern const u32 gItemIconPalette_OldKey[];
-extern const u32 gItemIcon_AcroBike[];
-extern const u32 gItemIconPalette_AcroBike[];
-extern const u32 gItemIcon_PokeblockCase[];
-extern const u32 gItemIconPalette_PokeblockCase[];
-extern const u32 gItemIcon_Letter[];
 extern const u32 gItemIcon_EonTicket[];
 extern const u32 gItemIconPalette_EonTicket[];
-extern const u32 gItemIcon_Orb[];
-extern const u32 gItemIconPalette_RedOrb[];
-extern const u32 gItemIconPalette_BlueOrb[];
-extern const u32 gItemIcon_Scanner[];
-extern const u32 gItemIconPalette_Scanner[];
-extern const u32 gItemIcon_GoGoggles[];
-extern const u32 gItemIconPalette_GoGoggles[];
 extern const u32 gItemIcon_Meteorite[];
 extern const u32 gItemIconPalette_Meteorite[];
-extern const u32 gItemIcon_Room1Key[];
-extern const u32 gItemIconPalette_Key[];
-extern const u32 gItemIcon_Room2Key[];
-extern const u32 gItemIcon_Room4Key[];
-extern const u32 gItemIcon_Room6Key[];
-extern const u32 gItemIcon_StorageKey[];
-extern const u32 gItemIcon_RootFossil[];
-extern const u32 gItemIconPalette_HoennFossil[];
-extern const u32 gItemIcon_ClawFossil[];
-extern const u32 gItemIcon_DevonScope[];
-extern const u32 gItemIconPalette_DevonScope[];
 // TMs/HMs
 extern const u32 gItemIcon_TM[];
 extern const u32 gItemIconPalette_FightingTMHM[];
@@ -3394,10 +3359,6 @@ extern const u32 gItemIcon_VSSeeker[];
 extern const u32 gItemIconPalette_VSSeeker[];
 extern const u32 gItemIcon_FameChecker[];
 extern const u32 gItemIconPalette_FameChecker[];
-extern const u32 gItemIcon_TMCase[];
-extern const u32 gItemIconPalette_TMCase[];
-extern const u32 gItemIcon_BerryPouch[];
-extern const u32 gItemIconPalette_BerryPouch[];
 extern const u32 gItemIcon_TeachyTV[];
 extern const u32 gItemIconPalette_TeachyTV[];
 extern const u32 gItemIcon_TriPass[];
@@ -3416,8 +3377,6 @@ extern const u32 gItemIcon_Gem[];
 extern const u32 gItemIconPalette_Ruby[];
 extern const u32 gItemIconPalette_Sapphire[];
 // Emerald-only key items
-extern const u32 gItemIcon_MagmaEmblem[];
-extern const u32 gItemIconPalette_MagmaEmblem[];
 extern const u32 gItemIcon_OldSeaMap[];
 extern const u32 gItemIconPalette_OldSeaMap[];
 
@@ -3446,7 +3405,7 @@ extern const u32 gItemIcon_ParkBall[];
 extern const u32 gItemIcon_ReturnToFieldArrow[];
 extern const u32 gItemIconPalette_ReturnToFieldArrow[];
 
-//menu graphics
+// menu graphics
 extern const u16 gFireRedMenuElements1_Pal[16];
 extern const u16 gFireRedMenuElements2_Pal[16];
 extern const u16 gFireRedMenuElements3_Pal[16];
@@ -4443,8 +4402,8 @@ extern const u8 gFrontierFactorySelectMenu_Tilemap[];
 extern const u16 gFrontierFactorySelectMenu_Pal[];
 
 // Object event pals
-extern const u16 gObjectEventPal_Brendan[];
-extern const u16 gObjectEventPal_May[];
+extern const u16 gObjectEventPal_EmeraldBrendan[];
+extern const u16 gObjectEventPal_EmeraldMay[];
 extern const u16 gObjectEventPal_RubySapphireBrendan[];
 extern const u16 gObjectEventPal_RubySapphireMay[];
 

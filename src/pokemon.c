@@ -5602,7 +5602,6 @@ void EvolutionRenameMon(struct Pokemon *mon, u16 oldSpecies, u16 newSpecies)
         SetMonData(mon, MON_DATA_NICKNAME, gSpeciesNames[newSpecies]);
     if (language == LANGUAGE_GERMAN && !StringCompare(gGermanSpeciesNames[oldSpecies], gStringVar1))
         SetMonData(mon, MON_DATA_NICKNAME, gGermanSpeciesNames[newSpecies]);
-
 }
 
 // The below two functions determine which side of a multi battle the trainer battles on

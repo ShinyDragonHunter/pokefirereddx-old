@@ -40,7 +40,7 @@ struct BagStruct
     void (*bagCallback)(void);
     u8 location;
     u8 pocket;
-    u16 unk6;
+    bool8 bagOpen;
     u16 cursorPosition[POCKETS_COUNT];
     u16 scrollPosition[POCKETS_COUNT];
 };
@@ -51,14 +51,13 @@ struct BagMenuStruct
 {
     void (*exitCallback)(void);
     u8 tilemapBuffer[0x800];
-    u8 spriteId[12];
-    u8 windowPointers[10];
+    u8 windowPointers[11];
     u8 itemOriginalLocation;
     u8 pocketSwitchDisabled:4;
     u8 itemIconSlot:2;
     u8 inhibitItemDescriptionPrint:1;
     u8 hideCloseBagText:1;
-    u8 filler3[2];
+    u16 contextMenuSelectedItem;
     u8 pocketScrollArrowsTask;
     u8 pocketSwitchArrowsTask;
     const u8* contextMenuItemsPtr;
@@ -68,7 +67,6 @@ struct BagMenuStruct
     u8 numShownItems[6];
     s16 graphicsLoadState;
     u8 filler4[0xE];
-    u8 pocketNameBuffer[32][32];
     u8 filler2[4];
 };
 
@@ -96,7 +94,7 @@ void ResetBagScrollPositions(void);
 void ChooseBerryForMachine(void (*exitCallback)(void));
 void CB2_ChooseBerry(void);
 void Task_FadeAndCloseBagMenu(u8 taskId);
-void BagMenu_YesNo(u8, u8, const struct YesNoFuncTable*);
+void BagCreateYesNoMenuBottomRight(u8, const struct YesNoFuncTable*);
 void BagMenu_InitListsMenu(u8 taskId);
 void UpdatePocketItemList(u8 pocketId);
 void DisplayItemMessage(u8 taskId, u8 fontId, const u8 *str, void ( *callback)(u8 taskId));

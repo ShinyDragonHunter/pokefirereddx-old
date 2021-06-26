@@ -17,21 +17,15 @@ FallarborTown_BattleTentBattleRoom_OnTransition:: @ 82008A9
 	end
 
 FallarborTown_BattleTentBattleRoom_EventScript_SetPlayerGfx:: @ 82008AF
+	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_RED_NORMAL
 	checkplayergender
-	compare VAR_RESULT, MALE
-	goto_if_eq FallarborTown_BattleTentBattleRoom_EventScript_SetPlayerGfxMale
 	compare VAR_RESULT, FEMALE
 	goto_if_eq FallarborTown_BattleTentBattleRoom_EventScript_SetPlayerGfxFemale
-	return
-
-FallarborTown_BattleTentBattleRoom_EventScript_SetPlayerGfxMale:: @ 82008C7
-	setvar VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_BRENDAN_NORMAL
-	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_BRENDAN_NORMAL
+	setvar VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_RED_NORMAL
 	return
 
 FallarborTown_BattleTentBattleRoom_EventScript_SetPlayerGfxFemale:: @ 82008D2
-	setvar VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_MAY_NORMAL
-	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_MAY_NORMAL
+	setvar VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_LEAF_NORMAL
 	return
 
 FallarborTown_BattleTentBattleRoom_OnFrame: @ 82008DD

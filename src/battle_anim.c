@@ -1,6 +1,7 @@
 #include "global.h"
 #include "battle.h"
 #include "battle_anim.h"
+#include "battle_bg.h"
 #include "battle_controllers.h"
 #include "battle_interface.h"
 #include "bg.h"
@@ -2633,7 +2634,7 @@ static void LoadDefaultBg(void)
     if (IsContest())
         LoadContestBgAfterMoveAnim();
     else
-        DrawMainBattleBackground();
+        LoadBattleTerrainGfx(GetBattleTerrainOverride());
 }
 
 static void ScriptCmd_restorebg(void)

@@ -1,4 +1,5 @@
 #include "global.h"
+#include "graphics.h"
 #include "menu.h"
 #include "list_menu.h"
 #include "window.h"
@@ -8,6 +9,7 @@
 #include "trig.h"
 #include "decompress.h"
 #include "palette.h"
+#include "pokemon_icon.h"
 #include "malloc.h"
 #include "strings.h"
 #include "sound.h"
@@ -295,10 +297,48 @@ static const struct SpriteTemplate sSpriteTemplate_RedArrowCursor =
     .callback = SpriteCallback_RedArrowCursor,
 };
 
+struct MenuInfoIcon
+{
+    u8 width;
+    u8 height;
+    u16 offset;
+};
+
 static const u16 sRedArrowPal[] = INCBIN_U16("graphics/interface/red_arrow.gbapal");
 static const u32 sRedArrowOtherGfx[] = INCBIN_U32("graphics/interface/red_arrow_other.4bpp.lz");
 static const u32 sSelectorOutlineGfx[] = INCBIN_U32("graphics/interface/selector_outline.4bpp.lz");
 static const u32 sRedArrowGfx[] = INCBIN_U32("graphics/interface/red_arrow.4bpp.lz");
+
+// Table of move info icon offsets in graphics/interface_fr/menu.png
+static const struct MenuInfoIcon sMenuInfoIcons[] =
+{   // { width, height, offset }
+    { 12, 12, 0x00 },  // Unused
+    [TYPE_NORMAL + 1]   = { 32, 12, 0x20 },
+    [TYPE_FIGHTING + 1] = { 32, 12, 0x64 },
+    [TYPE_FLYING + 1]   = { 32, 12, 0x60 },
+    [TYPE_POISON + 1]   = { 32, 12, 0x80 },
+    [TYPE_GROUND + 1]   = { 32, 12, 0x48 },
+    [TYPE_ROCK + 1]     = { 32, 12, 0x44 },
+    [TYPE_BUG + 1]      = { 32, 12, 0x6C },
+    [TYPE_GHOST + 1]    = { 32, 12, 0x68 },
+    [TYPE_STEEL + 1]    = { 32, 12, 0x88 },
+    [TYPE_MYSTERY + 1]  = { 32, 12, 0xA4 },
+    [TYPE_FIRE + 1]     = { 32, 12, 0x24 },
+    [TYPE_WATER + 1]    = { 32, 12, 0x28 },
+    [TYPE_GRASS + 1]    = { 32, 12, 0x2C },
+    [TYPE_ELECTRIC + 1] = { 32, 12, 0x40 },
+    [TYPE_PSYCHIC + 1]  = { 32, 12, 0x84 },
+    [TYPE_ICE + 1]      = { 32, 12, 0x4C },
+    [TYPE_DRAGON + 1]   = { 32, 12, 0xA0 },
+    [TYPE_DARK + 1]     = { 32, 12, 0x8C },
+    [MENU_INFO_ICON_TYPE]      = { 42, 12, 0xA8 },
+    [MENU_INFO_ICON_POWER]     = { 42, 12, 0xC0 },
+    [MENU_INFO_ICON_ACCURACY]  = { 42, 12, 0xC8 },
+    [MENU_INFO_ICON_PP]        = { 42, 12, 0xE0 },
+    [MENU_INFO_ICON_EFFECT]    = { 42, 12, 0xE8 }, // Unused
+    [MENU_INFO_ICON_BALL_RED]  = {  8,  8, 0xAE }, // For placed decorations in Secret Base
+    [MENU_INFO_ICON_BALL_BLUE] = {  8,  8, 0xAF }, // For placed decorations in player's room
+};
 
 // code
 static void ListMenuDummyTask(u8 taskId)
@@ -856,6 +896,41 @@ void ListMenuSetUnkIndicatorsStructField(u8 taskId, u8 field, s32 value)
     }
 }
 
+void sub_819A25C(u8 palOffset, u16 speciesId, u8 form)
+{
+    LoadPalette(GetValidMonIconPalettePtr(speciesId, form), palOffset, 0x20);
+}
+
+void sub_819A27C(u8 windowId, u16 speciesId, u32 personality, u16 x, u16 y, u8 form)
+{
+    BlitBitmapToWindow(windowId, GetMonIconPtr(speciesId, personality, form), x, y, 32, 32);
+}
+
+void ListMenuLoadStdPalAt(u8 palOffset, u8 palId)
+{
+    const u16 *palette;
+
+    switch (palId)
+    {
+        default:
+            palette = gFireRedMenuElements1_Pal;
+            break;
+        case 1:
+            palette = gFireRedMenuElements2_Pal;
+            break;
+        case 2:
+            palette = gFireRedMenuElements3_Pal;
+            break;
+    }
+
+    LoadPalette(palette, palOffset, 0x20);
+}
+
+void BlitMenuInfoIcon(u8 windowId, u8 iconId, u16 x, u16 y)
+{
+    BlitBitmapRectToWindow(windowId, gFireRedMenuElements_Gfx + sMenuInfoIcons[iconId].offset * 32, 0, 0, 128, 128, x, y, sMenuInfoIcons[iconId].width, sMenuInfoIcons[iconId].height);
+}
+
 #define tState data[0]
 #define tAnimNum data[1]
 #define tBounceDir data[2]
@@ -1134,7 +1209,7 @@ void ListMenuSetUpRedOutlineCursorSpriteOamTable(u16 rowWidth, u16 rowHeight, st
         {
             subsprites[id] = sSubsprite_RedOutline3;
             subsprites[id].x = i - 120;
-            subsprites[id].y = -120;
+            subsprites[id].y = 136;
             id++;
 
             subsprites[id] = sSubsprite_RedOutline6;

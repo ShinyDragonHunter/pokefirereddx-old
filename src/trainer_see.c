@@ -172,7 +172,7 @@ static const union AnimCmd *const sSpriteAnimTable_Icons[] =
 static const struct SpriteTemplate sSpriteTemplate_ExclamationQuestionMark =
 {
     .tileTag = 0xffff,
-    .paletteTag = OBJ_EVENT_PAL_TAG_BRENDAN,
+    .paletteTag = OBJ_EVENT_PAL_TAG_RED_LEAF,
     .oam = &sOamData_Icons,
     .anims = sSpriteAnimTable_Icons,
     .images = sSpriteImageTable_ExclamationQuestionMark,
@@ -700,7 +700,7 @@ u8 FldEff_ExclamationMarkIcon(void)
 {
     u8 spriteId, paletteNum;
 
-    LoadObjectEventPalette(OBJ_EVENT_PAL_TAG_BRENDAN);
+    LoadObjectEventPalette(OBJ_EVENT_PAL_TAG_RED_LEAF);
     spriteId = CreateSpriteAtEnd(&sSpriteTemplate_ExclamationQuestionMark, 0, 0, 0x52);
 
     if (spriteId != MAX_SPRITES)
@@ -713,7 +713,7 @@ u8 FldEff_QuestionMarkIcon(void)
 {
     u8 spriteId;
 
-    LoadObjectEventPalette(OBJ_EVENT_PAL_TAG_BRENDAN);
+    LoadObjectEventPalette(OBJ_EVENT_PAL_TAG_RED_LEAF);
     spriteId = CreateSpriteAtEnd(&sSpriteTemplate_ExclamationQuestionMark, 0, 0, 0x52);
 
     if (spriteId != MAX_SPRITES)

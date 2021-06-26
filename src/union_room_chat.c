@@ -2971,8 +2971,8 @@ static void ShowKeyboardSwapMenu(void)
 {
     FillWindowPixelBuffer(3, PIXEL_FILL(1));
     DrawTextBorderOuter(3, 1, 13);
-    PrintTextArray(3, 2, 8, 1, 14, 5, sKeyboardPageTitleTexts);
-    sub_81983AC(3, 2, 0, 1, 14, 5, GetCurrentKeyboardPage());
+    UnionRoomAndTradeMenuPrintOptions(3, 2, 14, 5, sKeyboardPageTitleTexts);
+    InitMenuInUpperLeftCorner(3, 2, 0, 0, 14, 5, GetCurrentKeyboardPage(), 0);
     PutWindowTilemap(3);
 }
 
@@ -2990,7 +2990,7 @@ static void PrintChatMessage(u16 row, u8 *str, u8 colorIdx)
     color[1] = colorIdx * 2 + 2;
     color[2] = colorIdx * 2 + 3;
     FillWindowPixelRect(0, PIXEL_FILL(1), 0, row * 15, 168, 15);
-    AddTextPrinterParameterized3(0, 2, 0, row * 15 + 1, color, TEXT_SPEED_FF, str);
+    AddTextPrinterParameterized3(0, 2, 0, row * 15, color, TEXT_SPEED_FF, str);
 }
 
 static void ResetGpuBgState(void)

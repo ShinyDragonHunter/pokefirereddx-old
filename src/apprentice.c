@@ -868,7 +868,7 @@ static void PrintApprenticeMessage(void)
     }
 
     StringExpandPlaceholders(gStringVar4, string);
-    AddTextPrinterForMessageWithTextColor(TRUE);
+    AddTextPrinterDiffStyle(TRUE);
     CreateTask(Task_WaitForPrintingMessage, 1);
 }
 

@@ -1207,22 +1207,13 @@ static u8 GetNumStagesWateredByBerryTreeId(u8 id)
     return BerryTreeGetNumStagesWatered(GetBerryTreeInfo(id));
 }
 
-// Berries can be watered at 4 stages of growth. This function divides
-// the berry yield range equally into quartiles. If you watered the
-// tree n times, your yield is a random number in the nth quartile.
-static u8 CalcBerryYieldInternal(u16 max, u16 min, u8 water)
+static u8 CalcBerryYieldInternal (u16 min, u16 max, u8 water)
 {
-    u16 diff;
-    u32 minRand;
-    u32 rand;
- 
-    if (!water)
-        return min;
- 
-    diff = max - min + 1;
-    minRand = (water - 1) * diff;
-    rand = minRand + Random() % diff;
-    return min + rand / NUM_WATER_STAGES;
+    unsigned spread = max - min, bonus = 0;
+
+    if (water)
+        bonus = water * spread - Random() % spread;
+    return min + bonus / NUM_WATER_STAGES;
 }
 
 static u8 CalcBerryYield(struct BerryTree *tree)

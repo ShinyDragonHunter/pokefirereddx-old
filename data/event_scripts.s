@@ -805,17 +805,17 @@ Common_EventScript_PlayerHandedOverTheItem:: @ 82723E4
 
 @ The below and surf.inc could be split into some text/notices.inc
 gText_PokemartSign:: @ 8272B6A
-	.string "“Selected items for your convenience!”\n"
-	.string "POKéMON MART$"
+	.string "{SIZE 0}“Selected items for your convenience!”\n"
+	.string "{RESET_SIZE}POKéMON MART$"
 
 .if UK
 gText_PokemonCenterSign:: @ 8272B9E
-	.string "“Rejuvenate your tired partners!”\n"
-	.string "POKéMON CENTRE$"
+	.string "{SIZE 0}“Rejuvenate your tired partners!”\n"
+	.string "{RESET_SIZE}POKéMON CENTRE$"
 .else
 gText_PokemonCenterSign:: @ 8272B9E
-	.string "“Rejuvenate your tired partners!”\n"
-	.string "POKéMON CENTER$"
+	.string "{SIZE 0}“Rejuvenate your tired partners!”\n"
+	.string "{RESET_SIZE}POKéMON CENTER$"
 .endif
 
 gText_MomOrDadMightLikeThisProgram:: @ 8272BCF

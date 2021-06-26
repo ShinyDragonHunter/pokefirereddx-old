@@ -136,7 +136,6 @@
 	.include "src/item_menu.o"
 	.include "src/list_menu.o"
 	.include "src/dynamic_placeholder_text_util.o"
-	.include "src/item_icon.o"
 	.include "src/party_menu.o"
 	.include "src/mirage_tower.o"
 	.include "src/pokemon_summary_screen.o"

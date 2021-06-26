@@ -12,6 +12,7 @@
 #include "international_string_util.h"
 #include "item.h"
 #include "item_menu.h"
+#include "item_menu_icons.h"
 #include "lilycove_lady.h"
 #include "list_menu.h"
 #include "main.h"
@@ -669,7 +670,7 @@ static bool8 LoadPokeblockMenuGfx(void)
         sPokeblockMenu->gfxState++;
         break;
     case 5:
-        LoadListMenuSwapLineGfx();
+        LoadListMenuArrowsGfx();
         sPokeblockMenu->gfxState = 0;
         return TRUE;
     }

@@ -15,18 +15,14 @@ OldaleTown_OnTransition: @ 81E8EA8
 
 OldaleTown_EventScript_SetupRivalGfxId:: @ 81F0DC2
 	checkplayergender
-	compare VAR_RESULT, MALE
-	goto_if_eq OldaleTown_EventScript_SetupRivalGfxIdFemale
 	compare VAR_RESULT, FEMALE
 	goto_if_eq OldaleTown_EventScript_SetupRivalGfxIdMale
-	return
-
 OldaleTown_EventScript_SetupRivalGfxIdFemale:: @ 81F0DE0
-	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_MAY_NORMAL
+	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_LEAF_NORMAL
 	return
 
 OldaleTown_EventScript_SetupRivalGfxIdMale:: @ 81F0DDA
-	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_BRENDAN_NORMAL
+	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_RED_NORMAL
 	return
 
 OldaleTown_EventScript_BlockWestEntrance:: @ 81E8ED2

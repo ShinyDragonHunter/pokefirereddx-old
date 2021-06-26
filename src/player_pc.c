@@ -7,8 +7,8 @@
 #include "field_weather.h"
 #include "international_string_util.h"
 #include "item.h"
-#include "item_icon.h"
 #include "item_menu.h"
+#include "item_menu_icons.h"
 #include "constants/items.h"
 #include "list_menu.h"
 #include "mail.h"
@@ -536,7 +536,7 @@ static void ItemStorage_WithdrawToss_Helper(u8 taskId, bool8 toss)
     ItemStorage_SetItemAndMailCount(taskId);
     sub_816BC14();
     FreeAndReserveObjectSpritePalettes();
-    LoadListMenuSwapLineGfx();
+    LoadListMenuArrowsGfx();
     CreateSwapLineSprites(gUnknown_0203BCC4->spriteIds, 7);
     ClearDialogWindowAndFrame(0,0);
     gTasks[taskId].func = ItemStorage_ProcessWithdrawTossInput;

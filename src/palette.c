@@ -248,6 +248,7 @@ void ResetPaletteFadeControl(void)
     gPaletteFade.bufferTransferDisabled = 0;
     gPaletteFade.shouldResetBlendRegisters = 0;
     gPaletteFade.hardwareFadeFinishing = 0;
+    gPaletteFade.softwareFadeFinishing = 0;
     gPaletteFade.softwareFadeFinishingCounter = 0;
     gPaletteFade.objPaletteToggle = 0;
     gPaletteFade.deltaY = 2;
@@ -660,6 +661,7 @@ static bool8 IsSoftwarePaletteFadeFinishing(void)
         {
             gPaletteFade.active = 0;
             gPaletteFade.softwareFadeFinishing = 0;
+            gPaletteFade.softwareFadeFinishingCounter = 0;
         }
         else
         {
@@ -676,47 +678,14 @@ static bool8 IsSoftwarePaletteFadeFinishing(void)
 
 void BlendPalettes(u32 selectedPalettes, u8 coeff, u16 color)
 {
-    BlendPalettesFine(selectedPalettes, gPlttBufferUnfaded, gPlttBufferFaded, coeff, color);
-}
+    u16 paletteOffset;
 
-void BlendPalettesFine(u32 selectedPalettes, u16 *src, u16 *dst, u32 coeff, u32 blendColor)
-{
-    s32 newR = (blendColor << 27) >> 27;
-    s32 newG = (blendColor << 22) >> 27;
-    s32 newB = (blendColor << 17) >> 27;
-
-    if (!selectedPalettes)
-        return;
-
-    coeff *= 2;
-
-    do {
+    for (paletteOffset = 0; selectedPalettes; paletteOffset += 16)
+    {
         if (selectedPalettes & 1)
-        { // Transparency is blended because it can matter for tile palettes
-            u16 *srcEnd = src + 16;
-            while (src != srcEnd)
-            {
-                u32 srcColor = *src;
-
-                s32 r = (srcColor << 27) >> 27;
-                s32 g = (srcColor << 22) >> 27;
-                s32 b = (srcColor << 17) >> 27;
-
-                *dst++ = ((r + (((newR - r) * coeff) >> 5)) << 0)
-                                | ((g + (((newG - g) * coeff) >> 5)) << 5)
-                                | ((b + (((newB - b) * coeff) >> 5)) << 10);
-
-                src++;
-            }
-        }
-        else
-        {
-            src += 16;
-            dst += 16;
-        }
+            BlendPalette(paletteOffset, 16, coeff, color);
         selectedPalettes >>= 1;
-
-    } while (selectedPalettes);
+    }
 }
 
 void BlendPalettesUnfaded(u32 selectedPalettes, u8 coeff, u16 color)

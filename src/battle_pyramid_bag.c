@@ -11,8 +11,8 @@
 #include "gpu_regs.h"
 #include "international_string_util.h"
 #include "item.h"
-#include "item_icon.h"
 #include "item_menu.h"
+#include "item_menu_icons.h"
 #include "item_use.h"
 #include "list_menu.h"
 #include "mail.h"
@@ -590,7 +590,7 @@ static bool8 LoadPyramidBagGfx(void)
         gPyramidBagMenu->state++;
         break;
     default:
-        LoadListMenuSwapLineGfx();
+        LoadListMenuArrowsGfx();
         gPyramidBagMenu->state = 0;
         return TRUE;
     }

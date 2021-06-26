@@ -2467,12 +2467,12 @@ void SetLinkContestPlayerGfx(void)
         for (i = 0; i < gNumLinkContestPlayers; i++)
         {
             int version = (u8)gLinkPlayers[i].version;
-            if (version == VERSION_RUBY || version == VERSION_SAPPHIRE)
+            if (version < VERSION_EMERALD)
             {
-                if (gLinkPlayers[i].gender == MALE)
-                    gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_LINK_RS_BRENDAN;
+                if (gLinkPlayers[i].gender)
+                    gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_RS_MAY;
                 else
-                    gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_LINK_RS_MAY;
+                    gContestMons[i].trainerGfxId = OBJ_EVENT_GFX_RS_BRENDAN;
             }
         }
 
@@ -2500,19 +2500,19 @@ void LoadLinkContestPlayerPalettes(void)
             sprite = &gSprites[gObjectEvents[objectEventId].spriteId];
             sprite->oam.paletteNum = 6 + i;
             version = (u8)gLinkPlayers[i].version;
-            if (version == VERSION_RUBY || version == VERSION_SAPPHIRE)
+            if (version < VERSION_EMERALD)
             {
-                if (gLinkPlayers[i].gender == MALE)
-                    LoadPalette(gObjectEventPal_RubySapphireBrendan, 0x160 + i * 0x10, 0x20);
-                else
+                if (gLinkPlayers[i].gender)
                     LoadPalette(gObjectEventPal_RubySapphireMay, 0x160 + i * 0x10, 0x20);
+                else
+                    LoadPalette(gObjectEventPal_RubySapphireBrendan, 0x160 + i * 0x10, 0x20);
             }
             else
             {
-                if (gLinkPlayers[i].gender == MALE)
-                    LoadPalette(gObjectEventPal_Brendan, 0x160 + i * 0x10, 0x20);
+                if (gLinkPlayers[i].gender)
+                    LoadPalette(gObjectEventPal_EmeraldMay, 0x160 + i * 0x10, 0x20);
                 else
-                    LoadPalette(gObjectEventPal_May, 0x160 + i * 0x10, 0x20);
+                    LoadPalette(gObjectEventPal_EmeraldBrendan, 0x160 + i * 0x10, 0x20);
             }
         }
     }

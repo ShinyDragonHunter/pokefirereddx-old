@@ -40,29 +40,19 @@ static void InitMultichoiceNoWrap(bool8 ignoreBPress, u8 windowId, u8 multichoic
 bool8 ScriptMenu_Multichoice(u8 left, u8 top, u8 multichoiceId, bool8 ignoreBPress)
 {
     if (FuncIsActiveTask(Task_HandleMultichoiceInput))
-    {
         return FALSE;
-    }
-    else
-    {
-        gSpecialVar_Result = 0xFF;
-        DrawMultichoiceMenu(left, top, multichoiceId, ignoreBPress, 0);
-        return TRUE;
-    }
+    gSpecialVar_Result = 0xFF;
+    DrawMultichoiceMenu(left, top, multichoiceId, ignoreBPress, 0);
+    return TRUE;
 }
 
 bool8 ScriptMenu_MultichoiceWithDefault(u8 left, u8 top, u8 multichoiceId, bool8 ignoreBPress, u8 defaultChoice)
 {
     if (FuncIsActiveTask(Task_HandleMultichoiceInput))
-    {
         return FALSE;
-    }
-    else
-    {
-        gSpecialVar_Result = 0xFF;
-        DrawMultichoiceMenu(left, top, multichoiceId, ignoreBPress, defaultChoice);
-        return TRUE;
-    }
+    gSpecialVar_Result = 0xFF;
+    DrawMultichoiceMenu(left, top, multichoiceId, ignoreBPress, defaultChoice);
+    return TRUE;
 }
 
 static void DrawMultichoiceMenu(u8 left, u8 top, u8 multichoiceId, bool8 ignoreBPress, u8 cursorPos)
@@ -87,8 +77,8 @@ static void DrawMultichoiceMenu(u8 left, u8 top, u8 multichoiceId, bool8 ignoreB
     SetStandardWindowBorderStyle(windowId, 0);
     MultichoiceList_PrintItems(windowId, 2, 8, 2, 14, count, actions, 0, 2);
     InitMenuInUpperLeftCornerPlaySoundWhenAPressed(windowId, count, cursorPos);
-    ScheduleBgCopyTilemapToVram(0);
     InitMultichoiceCheckWrap(ignoreBPress, count, windowId, multichoiceId);
+    ScheduleBgCopyTilemapToVram(0);
 }
 
 static u8 GetMultichoiceWindowHeight(u8 count)
@@ -202,19 +192,12 @@ static void Task_HandleMultichoiceInput(u8 taskId)
 
 bool8 ScriptMenu_YesNo(u8 left, u8 top)
 {
-    u8 taskId;
-
     if (FuncIsActiveTask(Task_HandleYesNoInput))
-    {
         return FALSE;
-    }
-    else
-    {
-        gSpecialVar_Result = 0xFF;
-        DisplayYesNoMenuDefaultYes();
-        taskId = CreateTask(Task_HandleYesNoInput, 0x50);
-        return TRUE;
-    }
+    gSpecialVar_Result = 0xFF;
+    DisplayYesNoMenuDefaultYes();
+    CreateTask(Task_HandleYesNoInput, 0x50);
+    return TRUE;
 }
 
 static void Task_HandleYesNoInput(u8 taskId)
@@ -309,20 +292,15 @@ static void Task_HandleMultichoiceGridInput(u8 taskId)
 bool16 ScriptMenu_CreatePCMultichoice(void)
 {
     if (FuncIsActiveTask(Task_HandleMultichoiceInput))
-    {
         return FALSE;
-    }
-    else
-    {
-        gSpecialVar_Result = 0xFF;
-        CreatePCMultichoice();
-        return TRUE;
-    }
+    gSpecialVar_Result = 0xFF;
+    CreatePCMultichoice();
+    return TRUE;
 }
 
 static void CreatePCMultichoice(void)
 {
-    u8 y = GetMenuCursorDimensionByFont(1, 0);
+    u8 y = GetMenuCursorDimensionByFont(2, 0);
     u32 pixelWidth = 0;
     u8 width;
     u8 numChoices;
@@ -567,27 +545,22 @@ static void Task_PokemonPicWindow(u8 taskId)
 
 bool8 ScriptMenu_ShowPokemonPic(u16 species, u8 x, u8 y)
 {
-    u8 taskId;
     u8 spriteId;
+    u8 taskId;
 
     if (FindTaskIdByFunc(Task_PokemonPicWindow) != TASK_NONE)
-    {
         return FALSE;
-    }
-    else
-    {
-        spriteId = CreateMonSprite_PicBox(species, x * 8 + 40, y * 8 + 40, 0);
-        taskId = CreateTask(Task_PokemonPicWindow, 0x50);
-        gTasks[taskId].tWindowId = CreateWindowFromRect(x, y, 8, 8);
-        gTasks[taskId].tState = 0;
-        gTasks[taskId].tMonSpecies = species;
-        gTasks[taskId].tMonSpriteId = spriteId;
-        gSprites[spriteId].callback = SpriteCallbackDummy;
-        gSprites[spriteId].oam.priority = 0;
-        SetStandardWindowBorderStyle(gTasks[taskId].tWindowId, 1);
-        ScheduleBgCopyTilemapToVram(0);
-        return TRUE;
-    }
+    spriteId = CreateMonSprite_PicBox(species, x * 8 + 40, y * 8 + 40, FALSE);
+    taskId = CreateTask(Task_PokemonPicWindow, 0x50);
+    gTasks[taskId].tWindowId = CreateWindowFromRect(x, y, 8, 8);
+    gTasks[taskId].tState = 0;
+    gTasks[taskId].tMonSpecies = species;
+    gTasks[taskId].tMonSpriteId = spriteId;
+    gSprites[spriteId].callback = SpriteCallbackDummy;
+    gSprites[spriteId].oam.priority = 0;
+    SetStandardWindowBorderStyle(gTasks[taskId].tWindowId, TRUE);
+    ScheduleBgCopyTilemapToVram(0);
+    return TRUE;
 }
 
 bool8 (*ScriptMenu_GetPicboxWaitFunc(void))(void)
@@ -617,7 +590,7 @@ static bool8 IsPicboxClosed(void)
 
 u8 CreateWindowFromRect(u8 x, u8 y, u8 width, u8 height)
 {
-    struct WindowTemplate template = CreateWindowTemplate(0, x + 1, y + 1, width, height, 15, 100);
+    struct WindowTemplate template = CreateWindowTemplate(0, x + 1, y + 1, width, height, 15, 56);
     u8 windowId = AddWindow(&template);
     PutWindowTilemap(windowId);
     return windowId;
@@ -681,7 +654,7 @@ static void CreateStartMenuForPokenavTutorial(void)
     AddTextPrinterParameterized(windowId, 2, gText_MenuOptionSave, 8, 89, TEXT_SPEED_FF, NULL);
     AddTextPrinterParameterized(windowId, 2, gText_MenuOptionOption, 8, 105, TEXT_SPEED_FF, NULL);
     AddTextPrinterParameterized(windowId, 2, gText_MenuOptionExit, 8, 121, TEXT_SPEED_FF, NULL);
-    sub_81983AC(windowId, 1, 0, 9, 16, ARRAY_COUNT(MultichoiceList_ForcedStartMenu), 0);
+    InitMenuInUpperLeftCorner(windowId, 1, 0, 9, 16, ARRAY_COUNT(MultichoiceList_ForcedStartMenu), 0, 0);
     InitMultichoiceNoWrap(FALSE, windowId, MULTI_FORCED_START_MENU);
     CopyWindowToVram(windowId, 3);
 }

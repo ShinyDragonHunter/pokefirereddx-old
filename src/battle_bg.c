@@ -33,8 +33,6 @@ struct BattleBackground
     const void *palette;
 };
 
-static u8 GetBattleTerrainOverride(void);
-
 // .rodata
 
 static const struct OamData sVsLetter_V_OamData =
@@ -538,7 +536,7 @@ static const struct BattleBackground gBattleTerrainTable[] =
     }
 };
 
-static void LoadBattleTerrainGfx(u16 terrain)
+void LoadBattleTerrainGfx(u16 terrain)
 {
     // Copy to bg3
     LZDecompressVram(gBattleTerrainTable[terrain].tileset, (void *)BG_CHAR_ADDR(2));
@@ -555,7 +553,7 @@ static void LoadBattleTerrainEntryGfx(u16 terrain)
 
 void BattleInitBgsAndWindows(void)
 {
-    ResetBgsAndClearDma3BusyFlags(0);
+    ResetBgsAndClearDma3BusyFlags(FALSE);
     InitBgsFromTemplates(0, gBattleBgTemplates, ARRAY_COUNT(gBattleBgTemplates));
 
     if (gBattleTypeFlags & BATTLE_TYPE_ARENA)
@@ -570,7 +568,7 @@ void BattleInitBgsAndWindows(void)
 
 void InitBattleBgsVideo(void)
 {
-    DisableInterrupts(INTR_FLAG_HBLANK);
+//    DisableInterrupts(INTR_FLAG_HBLANK);
     EnableInterrupts(INTR_FLAG_VBLANK | INTR_FLAG_VCOUNT | INTR_FLAG_TIMER3 | INTR_FLAG_SERIAL);
     BattleInitBgsAndWindows();
     SetGpuReg(REG_OFFSET_BLDCNT, 0);
@@ -595,11 +593,6 @@ void LoadBattleMenuWindowGfx(void)
     }
 }
 
-void DrawMainBattleBackground(void)
-{
-    LoadBattleTerrainGfx(GetBattleTerrainOverride());
-}
-
 void LoadBattleTextboxAndBackground(void)
 {
     LZDecompressVram(gBattleTextboxTiles, (void*)(BG_CHAR_ADDR(0)));
@@ -607,7 +600,7 @@ void LoadBattleTextboxAndBackground(void)
     CopyBgTilemapBufferToVram(0);
     LoadCompressedPalette(gBattleTextboxPalette, 0, 0x40);
     LoadBattleMenuWindowGfx();
-    DrawMainBattleBackground();
+    LoadBattleTerrainGfx(GetBattleTerrainOverride());
 }
 
 static void DrawLinkBattleParticipantPokeballs(u8 taskId, u8 multiplayerId, u8 bgId, u8 destX, u8 destY)
@@ -875,9 +868,7 @@ void DrawBattleEntryBackground(void)
     else if (gBattleTypeFlags & (BATTLE_TYPE_FRONTIER | BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_EREADER_TRAINER))
     {
         if (!(gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER) || gPartnerTrainerId == TRAINER_STEVEN_PARTNER)
-        {
             LoadBattleTerrainEntryGfx(BATTLE_TERRAIN_BUILDING);
-        }
         else
         {
             SetBgAttribute(1, BG_ATTR_CHARBASEINDEX, 2);
@@ -889,35 +880,25 @@ void DrawBattleEntryBackground(void)
         }
     }
     else if (GetCurrentMapBattleScene() == MAP_BATTLE_SCENE_NORMAL)
-    {
         LoadBattleTerrainEntryGfx(gBattleTerrain);
-    }
     else
-    {
         LoadBattleTerrainEntryGfx(BATTLE_TERRAIN_BUILDING);
-    }
 }
 
-static u8 GetBattleTerrainOverride(void)
+u8 GetBattleTerrainOverride(void)
 {
     u8 battleScene = GetCurrentMapBattleScene();
 
     if (gBattleTypeFlags & (BATTLE_TYPE_FRONTIER | BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_EREADER_TRAINER))
-    {
         return BATTLE_TERRAIN_LINK;
-    }
     if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
     {
         if (gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_CHAMPION)
-        {
             return BATTLE_TERRAIN_CHAMPION;
-        }
     }
     if (battleScene == MAP_BATTLE_SCENE_NORMAL
      || battleScene > MAP_BATTLE_SCENE_COUNT)
-    {
         return gBattleTerrain;
-    }
     return BATTLE_TERRAIN_PLAIN + battleScene;
 }
 
