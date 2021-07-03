@@ -27,6 +27,7 @@ BerryTree_EventScript_CheckSoil:: @ 8274359
 	message BerryTree_Text_ItsSoftLoamySoil
 	waitmessage
 	waitbuttonpress
+BerryTree_EventScript_CancelPlanting:: @ 82743AF
 	release
 	end
 
@@ -34,8 +35,7 @@ BerryTree_EventScript_WantToPlant:: @ 8274374
 	msgbox BerryTree_Text_WantToPlant, MSGBOX_YESNO
 	compare VAR_RESULT, YES
 	goto_if_eq BerryTree_EventScript_ChooseBerryToPlant
-	compare VAR_RESULT, NO
-	goto_if_eq BerryTree_EventScript_CancelPlanting
+	goto_if_ne BerryTree_EventScript_CancelPlanting
 	end
 
 BerryTree_EventScript_ChooseBerryToPlant:: @ 8274393
@@ -47,10 +47,6 @@ BerryTree_EventScript_ChooseBerryToPlant:: @ 8274393
 	goto_if_eq BerryTree_EventScript_CancelPlanting
 	removeitem VAR_ITEM_ID
 	call BerryTree_EventScript_PlantBerry
-
-BerryTree_EventScript_CancelPlanting:: @ 82743AF
-	release
-	end
 
 BerryTree_EventScript_CheckBerryStage1:: @ 82743B1
 	lockall
@@ -112,8 +108,7 @@ BerryTree_EventScript_CheckBerryFullyGrown:: @ 8274421
 	msgbox BerryTree_Text_WantToPick, MSGBOX_YESNO
 	compare VAR_RESULT, YES
 	goto_if_eq BerryTree_EventScript_PickBerry
-	compare VAR_RESULT, NO
-	goto_if_eq BerryTree_EventScript_CancelPickingBerry
+	goto_if_ne BerryTree_EventScript_CancelPickingBerry
 
 BerryTree_EventScript_PickBerry:: @ 8274448
 	special ObjectEventInteractionPickBerryTree
@@ -150,6 +145,7 @@ BerryTree_EventScript_ItemUsePlantBerry:: @ 8274482
 	lockall
 	special ObjectEventInteractionGetBerryTreeData
 	call BerryTree_EventScript_PlantBerry
+BerryTree_EventScript_DontWater:: @ 82744BE
 	releaseall
 	end
 
@@ -161,12 +157,7 @@ BerryTree_EventScript_WantToWater:: @ 827448D
 	msgbox BerryTree_Text_WantToWater, MSGBOX_YESNO
 	compare VAR_RESULT, YES
 	goto_if_eq BerryTree_EventScript_WaterBerry
-	compare VAR_RESULT, NO
-	goto_if_eq BerryTree_EventScript_DontWater
-
-BerryTree_EventScript_DontWater:: @ 82744BE
-	releaseall
-	end
+	goto_if_ne BerryTree_EventScript_DontWater
 
 BerryTree_EventScript_ItemUseWailmerPail:: @ 82744C0
 	special ObjectEventInteractionGetBerryTreeData

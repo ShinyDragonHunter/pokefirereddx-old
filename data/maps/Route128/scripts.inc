@@ -191,7 +191,6 @@ Route128_EventScript_RegisterIsaiah:: @ 81F6CEA
 	special PlayerFaceTrainerAfterBattle
 	waitmovement 0
 	msgbox Route128_Text_IsaiahRegister, MSGBOX_DEFAULT
-	register_matchcall TRAINER_ISAIAH_1
 	release
 	end
 
@@ -213,7 +212,6 @@ Route128_EventScript_RegisterKatelyn:: @ 81F6D4C
 	special PlayerFaceTrainerAfterBattle
 	waitmovement 0
 	msgbox Route128_Text_KatelynRegister, MSGBOX_DEFAULT
-	register_matchcall TRAINER_KATELYN_1
 	release
 	end
 

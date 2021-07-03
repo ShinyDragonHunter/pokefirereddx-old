@@ -24,8 +24,8 @@ BattleFrontier_BattlePyramidLobby_EventScript_GetChallengeStatus:: @ 825075F
 	end
 
 BattleFrontier_BattlePyramidLobby_EventScript_QuitWithoutSaving:: @ 8250768
-	textcolor BLUE
 	lockall
+	textcolor BLUE
 	message BattleFrontier_BattlePyramidLobby_Text_DidntSaveBeforeQuittingTakeBag
 	waitmessage
 	playse SE_EXP_MAX
@@ -39,8 +39,8 @@ BattleFrontier_BattlePyramidLobby_EventScript_QuitWithoutSaving:: @ 8250768
 	end
 
 BattleFrontier_BattlePyramidLobby_EventScript_WonChallenge:: @ 82507B1
-	textcolor BLUE
 	lockall
+	textcolor BLUE
 	frontier_isbrain
 	compare VAR_RESULT, TRUE
 	goto_if_eq BattleFrontier_BattlePyramidLobby_EventScript_DefeatedKing
@@ -140,10 +140,9 @@ BattleFrontier_BattlePyramidLobby_EventScript_TryEnterChallenge:: @ 8250904
 	compare VAR_RESULT, 0
 	goto_if_eq BattleFrontier_BattlePyramidLobby_EventScript_LoadPartyAndCancelChallenge
 	msgbox BattleFrontier_BattlePyramidLobby_Text_OkayToSaveBeforeChallenge, MSGBOX_YESNO
-	switch VAR_RESULT
-	case NO, BattleFrontier_BattlePyramidLobby_EventScript_LoadPartyAndCancelChallenge
-	case YES, BattleFrontier_BattlePyramidLobby_EventScript_SaveBeforeChallenge
-	case MULTI_B_PRESSED, BattleFrontier_BattlePyramidLobby_EventScript_LoadPartyAndCancelChallenge
+	compare VAR_RESULT, YES
+	goto_if_eq BattleFrontier_BattlePyramidLobby_EventScript_SaveBeforeChallenge
+	goto_if_ne BattleFrontier_BattlePyramidLobby_EventScript_LoadPartyAndCancelChallenge
 
 BattleFrontier_BattlePyramidLobby_EventScript_SaveBeforeChallenge:: @ 82509A5
 	setvar VAR_TEMP_0, 0
@@ -380,7 +379,7 @@ BattleFrontier_BattlePyramidLobby_EventScript_WalkToPanelAndReceiveBag:: @ 8250D
 BattleFrontier_BattlePyramidLobby_EventScript_ReceiveNewBattleBag:: @ 8250D94
 	msgbox BattleFrontier_BattlePyramidLobby_Text_PleaseTakeThisBattleBag, MSGBOX_DEFAULT
 BattleFrontier_BattlePyramidLobby_EventScript_ReceiveBattleBag:: @ 8250D9C
-	textcolor DARK_GRAY
+	textcolor RESET
 	message BattleFrontier_BattlePyramidLobby_Text_ExchangedBagForBattleBag
 	waitmessage
 	playse SE_EXP_MAX
@@ -607,7 +606,7 @@ BattleFrontier_BattlePyramidLobby_Text_PleaseTakeThisBattleBag: @ 82515F4
 	.string "BATTLE BAG.$"
 
 BattleFrontier_BattlePyramidLobby_Text_ExchangedBagForBattleBag: @ 825161E
-	.string "{PLAYER} exchanged the BAG for\n"
+	.string "{COLOR DARK_GRAY}{PLAYER} exchanged the BAG for\n"
 	.string "the BATTLE BAG.$"
 
 BattleFrontier_BattlePyramidLobby_Text_StepOnFloorPanel: @ 8251647
@@ -625,7 +624,7 @@ BattleFrontier_BattlePyramidLobby_Text_DidntSaveBeforeQuittingTakeBag: @ 82516D6
 	.string "been disqualified, I'm sorry to say.\p"
 	.string "Here is the BAG we've been holding\n"
 	.string "for you.\p"
-	.string "{PLAYER} got the BAG back.$"
+	.string "{COLOR DARK_GRAY}{PLAYER} got the BAG back.$"
 
 BattleFrontier_BattlePyramidLobby_Text_YouveConqueredPyramid: @ 82517B5
 	.string "Excellent to see you back!\p"
@@ -660,7 +659,7 @@ BattleFrontier_BattlePyramidLobby_Text_PickItemsToKeep: @ 825197E
 BattleFrontier_BattlePyramidLobby_Text_UsedBattleBagWillBeKept: @ 82519F8
 	.string "The BATTLE BAG you used will be kept\n"
 	.string "in readiness for your next challenge.\p"
-	.string "{PLAYER} turned the BATTLE BAG over\n"
+	.string "{COLOR DARK_GRAY}{PLAYER} turned the BATTLE BAG over\n"
 	.string "for the BAG's return.$"
 
 BattleFrontier_BattlePyramidLobby_Text_RecordResultsWait: @ 8251A77
@@ -671,7 +670,7 @@ BattleFrontier_BattlePyramidLobby_Text_DisappointingHereIsBag: @ 8251B5A
 	.string "How disappointing for you…\p"
 	.string "Here is the BAG we've been holding\n"
 	.string "for you.\p"
-	.string "{PLAYER} got the BAG back.$"
+	.string "{COLOR DARK_GRAY}{PLAYER} got the BAG back.$"
 
 BattleFrontier_BattlePyramidLobby_Text_LookForwardToNextChallenge: @ 8251BB6
 	.string "We look forward to your\n"
@@ -866,4 +865,3 @@ BattleFrontier_BattlePyramidLobby_Text_ExplainBagRules: @ 8252924
 	.string "of ten kinds of items.\p"
 	.string "The contents of the BATTLE BAG are\n"
 	.string "lost if you fail in your quest.$"
-

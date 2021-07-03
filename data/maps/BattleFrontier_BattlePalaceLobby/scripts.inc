@@ -28,8 +28,8 @@ BattleFrontier_BattlePalaceLobby_EventScript_GetChallengeStatus:: @ 824D7C7
 	end
 
 BattleFrontier_BattlePalaceLobby_EventScript_QuitWithoutSaving:: @ 824D7D0
-	textcolor BLUE
 	lockall
+	textcolor BLUE
 	msgbox BattleFrontier_BattlePalaceLobby_Text_FailedToSaveBeforeEndingChallenge, MSGBOX_DEFAULT
 	closemessage
 	palace_set PALACE_DATA_WIN_STREAK, 0
@@ -40,8 +40,8 @@ BattleFrontier_BattlePalaceLobby_EventScript_QuitWithoutSaving:: @ 824D7D0
 	end
 
 BattleFrontier_BattlePalaceLobby_EventScript_WonChallenge:: @ 824D817
-	textcolor BLUE
 	lockall
+	textcolor BLUE
 	frontier_isbrain
 	compare VAR_RESULT, TRUE
 	goto_if_eq BattleFrontier_BattlePalaceLobby_EventScript_DefeatedMaven
@@ -64,8 +64,8 @@ BattleFrontier_BattlePalaceLobby_EventScript_GiveBattlePoints:: @ 824D840
 	end
 
 BattleFrontier_BattlePalaceLobby_EventScript_LostChallenge:: @ 824D873
-	textcolor BLUE
 	lockall
+	textcolor BLUE
 	message BattleFrontier_BattlePalaceLobby_Text_ResultsWillBeRecorded
 	waitmessage
 	palace_set PALACE_DATA_WIN_STREAK_ACTIVE, FALSE
@@ -89,10 +89,9 @@ BattleFrontier_BattlePalaceLobby_EventScript_SaveAfterChallenge:: @ 824D8A1
 	message BattleFrontier_BattlePalaceLobby_Text_LikeToRecordMatch
 	waitmessage
 	multichoicedefault 20, 8, MULTI_YESNO, 1, FALSE
-	switch VAR_RESULT
-	case 1, BattleFrontier_BattlePalaceLobby_EventScript_EndSaveAfterChallenge
-	case 0, BattleFrontier_BattlePalaceLobby_EventScript_RecordMatch
-	case MULTI_B_PRESSED, BattleFrontier_BattlePalaceLobby_EventScript_EndSaveAfterChallenge
+	compare VAR_RESULT, 0
+	goto_if_eq BattleFrontier_BattlePalaceLobby_EventScript_RecordMatch
+	goto_if_ne BattleFrontier_BattlePalaceLobby_EventScript_EndSaveAfterChallenge
 
 BattleFrontier_BattlePalaceLobby_EventScript_RecordMatch:: @ 824D902
 	call BattleFrontier_EventScript_SaveBattle
@@ -100,8 +99,8 @@ BattleFrontier_BattlePalaceLobby_EventScript_EndSaveAfterChallenge:: @ 824D907
 	return
 
 BattleFrontier_BattlePalaceLobby_EventScript_ResumeChallenge:: @ 824D908
-	textcolor BLUE
 	lockall
+	textcolor BLUE
 	msgbox BattleFrontier_BattlePalaceLobby_Text_WeHaveBeenWaiting, MSGBOX_DEFAULT
 	message BattleFrontier_BattlePalaceLobby_Text_MustSaveBeforeChallenge
 	waitmessage
@@ -171,10 +170,9 @@ BattleFrontier_BattlePalaceLobby_EventScript_TryEnterChallenge:: @ 824D9E6
 	compare VAR_RESULT, 0
 	goto_if_eq BattleFrontier_BattlePalaceLobby_EventScript_LoadPartyAndCancelChallenge
 	msgbox BattleFrontier_BattlePalaceLobby_Text_MustSaveBeforeChallenge2, MSGBOX_YESNO
-	switch VAR_RESULT
-	case NO, BattleFrontier_BattlePalaceLobby_EventScript_LoadPartyAndCancelChallenge
-	case YES, BattleFrontier_BattlePalaceLobby_EventScript_SaveBeforeChallenge
-	case MULTI_B_PRESSED, BattleFrontier_BattlePalaceLobby_EventScript_LoadPartyAndCancelChallenge
+	compare VAR_RESULT, YES
+	goto_if_eq BattleFrontier_BattlePalaceLobby_EventScript_SaveBeforeChallenge
+	goto_if_ne BattleFrontier_BattlePalaceLobby_EventScript_LoadPartyAndCancelChallenge
 
 BattleFrontier_BattlePalaceLobby_EventScript_SaveBeforeChallenge:: @ 824DA87
 	setvar VAR_TEMP_0, 0

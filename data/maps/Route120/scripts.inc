@@ -306,7 +306,6 @@ Route120_EventScript_RegisterRobert:: @ 81F581A
 	special PlayerFaceTrainerAfterBattle
 	waitmovement 0
 	msgbox Route120_Text_RobertRegister, MSGBOX_DEFAULT
-	register_matchcall TRAINER_ROBERT_1
 	release
 	end
 
@@ -338,7 +337,6 @@ Route120_EventScript_RegisterJeffrey:: @ 81F58AA
 	special PlayerFaceTrainerAfterBattle
 	waitmovement 0
 	msgbox Route120_Text_JeffreyRegister, MSGBOX_DEFAULT
-	register_matchcall TRAINER_JEFFREY_1
 	release
 	end
 

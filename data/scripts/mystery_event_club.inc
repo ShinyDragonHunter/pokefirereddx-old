@@ -91,10 +91,6 @@ MysteryEventClub_EventScript_DeclineNewProfile:: @ 829167C
 	release
 	end
 
-@ Unused
-MysteryEventClub_EventScript_Ret:: @ 8291686
-	return
-
 MysteryEventClub_Text_CollectTrainerProfiles: @ 8291687
 	.string "Hello there, TRAINER!\n"
 	.string "You've got a wonderful smile, there.\p"

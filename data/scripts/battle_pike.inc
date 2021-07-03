@@ -156,7 +156,6 @@ BattleFrontier_BattlePikeRoomNormal_EventScript_Exit:: @ 82C40A2
 	pike_ispartyfullhealth
 	compare VAR_RESULT, TRUE
 	call_if_eq BattleFrontier_BattlePikeRoom_EventScript_DisableHealing
-	compare VAR_RESULT, TRUE
 	call_if_ne BattleFrontier_BattlePikeRoom_EventScript_EnableHealing
 	pike_get PIKE_DATA_WIN_STREAK
 	addvar VAR_RESULT, 1
@@ -167,8 +166,7 @@ BattleFrontier_BattlePikeRoomNormal_EventScript_Exit:: @ 82C40A2
 	pike_isfinalroom
 	compare VAR_RESULT, TRUE
 	call_if_eq BattleFrontier_BattlePikeRoom_EventScript_WarpToFinalRoom
-	compare VAR_RESULT, FALSE
-	call_if_eq BattleFrontier_BattlePikeRoom_EventScript_WarpToThreePathRoom
+	call_if_ne BattleFrontier_BattlePikeRoom_EventScript_WarpToThreePathRoom
 	waitstate
 	end
 
@@ -199,7 +197,6 @@ BattleFrontier_BattlePikeRoomWildMons_EventScript_Exit:: @ 82C4174
 	pike_ispartyfullhealth
 	compare VAR_RESULT, TRUE
 	call_if_eq BattleFrontier_BattlePikeRoom_EventScript_DisableHealing
-	compare VAR_RESULT, TRUE
 	call_if_ne BattleFrontier_BattlePikeRoom_EventScript_EnableHealing
 	pike_get PIKE_DATA_WIN_STREAK
 	addvar VAR_RESULT, 1
@@ -210,8 +207,7 @@ BattleFrontier_BattlePikeRoomWildMons_EventScript_Exit:: @ 82C4174
 	pike_isfinalroom
 	compare VAR_RESULT, TRUE
 	call_if_eq BattleFrontier_BattlePikeRoom_EventScript_WarpToFinalRoom
-	compare VAR_RESULT, FALSE
-	call_if_eq BattleFrontier_BattlePikeRoom_EventScript_WarpToThreePathRoom
+	call_if_ne BattleFrontier_BattlePikeRoom_EventScript_WarpToThreePathRoom
 	waitstate
 	end
 

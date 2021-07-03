@@ -90,36 +90,10 @@ BattleFrontier_BattleTowerMultiCorridor_EventScript_EnterCorridor:: @ 8248DBC
 	waitdooranim
 	delay 30
 	setvar VAR_TEMP_1, 1
-	call BattleFrontier_BattleTowerMultiCorridor_EventScript_WarpToBattleRoom
+	warp MAP_BATTLE_FRONTIER_BATTLE_TOWER_MULTI_BATTLE_ROOM, 255, 4, 5
+	waitstate
 	releaseall
 	end
-
-BattleFrontier_BattleTowerMultiCorridor_EventScript_WarpToBattleRoom:: @ 8248E71
-	compare VAR_FRONTIER_BATTLE_MODE, FRONTIER_MODE_SINGLES
-	call_if_eq BattleFrontier_BattleTowerMultiCorridor_EventScript_WarpToNormalBattleRoom
-	compare VAR_FRONTIER_BATTLE_MODE, FRONTIER_MODE_DOUBLES
-	call_if_eq BattleFrontier_BattleTowerMultiCorridor_EventScript_WarpToNormalBattleRoom
-	compare VAR_FRONTIER_BATTLE_MODE, FRONTIER_MODE_MULTIS
-	call_if_eq BattleFrontier_BattleTowerMultiCorridor_EventScript_WarpToMultiBattleRoom
-	compare VAR_FRONTIER_BATTLE_MODE, FRONTIER_MODE_LINK_MULTIS
-	call_if_eq BattleFrontier_BattleTowerMultiCorridor_EventScript_WarpToLinkMultiBattleRoom
-	return
-
-BattleFrontier_BattleTowerMultiCorridor_EventScript_WarpToNormalBattleRoom:: @ 8248E9E
-	warp MAP_BATTLE_FRONTIER_BATTLE_TOWER_BATTLE_ROOM, 255, 4, 8
-	waitstate
-	return
-
-BattleFrontier_BattleTowerMultiCorridor_EventScript_WarpToMultiBattleRoom:: @ 8248EA8
-	warp MAP_BATTLE_FRONTIER_BATTLE_TOWER_MULTI_BATTLE_ROOM, 255, 4, 5
-	waitstate
-	return
-
-@ Unnecessary duplicate of the above
-BattleFrontier_BattleTowerMultiCorridor_EventScript_WarpToLinkMultiBattleRoom:: @ 8248EB2
-	warp MAP_BATTLE_FRONTIER_BATTLE_TOWER_MULTI_BATTLE_ROOM, 255, 4, 5
-	waitstate
-	return
 
 BattleFrontier_BattleTowerMultiCorridor_Movement_PlayerWalkToDoor: @ 8248EBC
 	walk_down

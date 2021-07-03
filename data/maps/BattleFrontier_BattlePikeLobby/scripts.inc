@@ -132,10 +132,9 @@ BattleFrontier_BattlePikeLobby_EventScript_TryEnterChallenge:: @ 825B8BB
 	compare VAR_RESULT, 0
 	goto_if_eq BattleFrontier_BattlePikeLobby_EventScript_LoadPartyAndCancelChallenge
 	msgbox BattleFrontier_BattlePikeLobby_Text_SaveBeforeChallenge, MSGBOX_YESNO
-	switch VAR_RESULT
-	case NO, BattleFrontier_BattlePikeLobby_EventScript_LoadPartyAndCancelChallenge
-	case YES, BattleFrontier_BattlePikeLobby_EventScript_SaveBeforeChallenge
-	case MULTI_B_PRESSED, BattleFrontier_BattlePikeLobby_EventScript_LoadPartyAndCancelChallenge
+	compare VAR_RESULT, YES
+	goto_if_eq BattleFrontier_BattlePikeLobby_EventScript_SaveBeforeChallenge
+	goto_if_ne BattleFrontier_BattlePikeLobby_EventScript_LoadPartyAndCancelChallenge
 
 BattleFrontier_BattlePikeLobby_EventScript_SaveBeforeChallenge:: @ 825B95C
 	setvar VAR_TEMP_0, 0
@@ -409,4 +408,3 @@ BattleFrontier_BattlePikeLobby_Text_ExplainMonOrderRules: @ 825C6EB
 	.string "changed.\p"
 	.string "The sequence must be set before\n"
 	.string "starting your challenge.$"
-

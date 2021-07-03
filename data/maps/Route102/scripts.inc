@@ -39,7 +39,6 @@ Route102_EventScript_CalvinRegisterMatchCallAfterBattle:: @ 81EC146
 
 Route102_EventScript_CalvinRegisterMatchCall:: @ 81EC157
 	msgbox Route102_Text_CalvinRegisterShort, MSGBOX_DEFAULT
-	register_matchcall TRAINER_CALVIN_1
 	release
 	end
 
@@ -51,7 +50,6 @@ Route102_EventScript_CalvinTryRegister:: @ 81EC170
 
 Route102_EventScript_CalvinRegister:: @ 81EC183
 	msgbox Route102_Text_CalvinRegister, MSGBOX_DEFAULT
-	register_matchcall TRAINER_CALVIN_1
 	release
 	end
 

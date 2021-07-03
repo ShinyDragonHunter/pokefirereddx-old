@@ -12,8 +12,7 @@ EventScript_ObtainItemMessage:: @ 8271AE3
 	call EventScript_BufferPocketNameAndTryFanfare
 	compare VAR_0x8007, 1
 	call_if_eq EventScript_ObtainedItem
-	compare VAR_0x8007, 0
-	call_if_eq EventScript_NoRoomForItem
+	call_if_ne EventScript_NoRoomForItem
 	return
 
 EventScript_BufferPocketNameAndTryFanfare:: @ 8271B08
@@ -102,8 +101,7 @@ Std_FindItem:: @ 8271BFD
 	call EventScript_BufferPocketNameAndTryFanfare
 	compare VAR_0x8007, 1
 	call_if_eq EventScript_PickUpItem
-	compare VAR_0x8007, 0
-	call_if_eq EventScript_NoRoomToPickUpItem
+	call_if_ne EventScript_NoRoomToPickUpItem
 	release
 	return
 
@@ -114,8 +112,7 @@ EventScript_PickUpItem:: @ 8271C3A
 	copyvar VAR_0x8008, VAR_RESULT
 	compare VAR_0x8008, 1
 	call_if_eq EventScript_FoundTMHM
-	compare VAR_0x8008, 0
-	call_if_eq EventScript_FoundItem
+	call_if_ne EventScript_FoundItem
 	waitfanfare
 	waitmessage
 	bufferitemnameplural 1, VAR_0x8004, VAR_0x8005
@@ -154,8 +151,7 @@ EventScript_HiddenItemScript:: @ 8271CB7
 	call EventScript_BufferPocketNameAndTryFanfare
 	compare VAR_0x8007, 1
 	goto_if_eq EventScript_PickUpHiddenItem
-	compare VAR_0x8007, 0
-	goto_if_eq EventScript_NoRoomForHiddenItem
+	goto_if_ne EventScript_NoRoomForHiddenItem
 	end
 
 EventScript_PickUpHiddenItem:: @ 8271CE8
@@ -164,8 +160,7 @@ EventScript_PickUpHiddenItem:: @ 8271CE8
 	specialvar VAR_RESULT, BufferTMHMMoveName
 	compare VAR_RESULT, 1
 	goto_if_eq EventScript_FoundHiddenTMHM
-	compare VAR_RESULT, 0
-	goto_if_eq EventScript_FoundHiddenItem
+	goto_if_ne EventScript_FoundHiddenItem
 	end
 
 EventScript_FoundHiddenTMHM:: @ 8271D0E

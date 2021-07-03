@@ -301,7 +301,6 @@ PetalburgWoods_EventScript_TryRegisterJames:: @ 822E2C5
 
 PetalburgWoods_EventScript_RegisterJames:: @ 822E2D6
 	msgbox PetalburgWoods_Text_IWantRematch1, MSGBOX_DEFAULT
-	register_matchcall TRAINER_JAMES_1
 	release
 	end
 
@@ -313,7 +312,6 @@ PetalburgWoods_EventScript_TryRegisterJames2:: @ 822E2EF
 
 PetalburgWoods_EventScript_RegisterJames2:: @ 822E302
 	msgbox PetalburgWoods_Text_IWantRematch2, MSGBOX_DEFAULT
-	register_matchcall TRAINER_JAMES_1
 	release
 	end
 

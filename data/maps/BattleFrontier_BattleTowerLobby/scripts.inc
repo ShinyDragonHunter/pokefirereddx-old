@@ -52,6 +52,7 @@ BattleFrontier_BattleTowerLobby_EventScript_GetChallengeStatus:: @ 823E707
 BattleFrontier_BattleTowerLobby_EventScript_QuitWithoutSaving:: @ 823E710
 	lock
 	faceplayer
+	textcolor RED
 	msgbox BattleFrontier_BattleTowerLobby_Text_DidntSaveBeforeQuitting, MSGBOX_DEFAULT
 	closemessage
 	tower_set TOWER_DATA_WIN_STREAK, 0
@@ -62,6 +63,7 @@ BattleFrontier_BattleTowerLobby_EventScript_QuitWithoutSaving:: @ 823E710
 	end
 
 BattleFrontier_BattleTowerLobby_EventScript_WonChallenge:: @ 823E758
+	textcolor RED
 	lock
 	faceplayer
 	frontier_isbrain
@@ -81,17 +83,17 @@ BattleFrontier_BattleTowerLobby_EventScript_GiveRibbons:: @ 823E780
 	waitmessage
 	playfanfare MUS_OBTAIN_ITEM
 	waitfanfare
+	textcolor RESET
 	msgbox BattleFrontier_BattleTowerLobby_Text_PutRibbonOnMons, MSGBOX_DEFAULT
 BattleFrontier_BattleTowerLobby_EventScript_GiveBattlePoints:: @ 823E7A5
+	textcolor RED
 	msgbox BattleFrontier_BattleTowerLobby_Text_AwardYouTheseBattlePoints, MSGBOX_DEFAULT
 	frontier_givepoints
-	textcolor DARK_GRAY
 	msgbox BattleFrontier_Text_ObtainedXBattlePoints, MSGBOX_GETPOINTS
 	call BattleFrontier_BattleTowerLobby_EventScript_AskSaveBattle
 	tower_get TOWER_DATA_WIN_STREAK
 	compare VAR_RESULT, 49
 	goto_if_ne BattleFrontier_BattleTowerLobby_EventScript_LookForwardToChallenge
-	textcolor RED
 	msgbox BattleFrontier_BattleTowerLobby_Text_AboutToFace50thTrainer, MSGBOX_DEFAULT
 BattleFrontier_BattleTowerLobby_EventScript_LookForwardToChallenge:: @ 823E7E2
 	msgbox BattleFrontier_BattleTowerLobby_Text_LookForwardToAnotherChallenge, MSGBOX_DEFAULT
@@ -136,10 +138,9 @@ BattleFrontier_BattleTowerLobby_EventScript_AskSaveBattle:: @ 823E84D
 	message BattleFrontier_BattleTowerLobby_Text_RecordLastMatch
 	waitmessage
 	multichoicedefault 20, 8, MULTI_YESNO, 1, FALSE
-	switch VAR_RESULT
-	case 1, BattleFrontier_BattleTowerLobby_EventScript_EndSaveBattle
-	case 0, BattleFrontier_EventScript_SaveBattle
-	case MULTI_B_PRESSED, BattleFrontier_BattleTowerLobby_EventScript_EndSaveBattle
+	compare VAR_RESULT, 0
+	goto_if_eq BattleFrontier_EventScript_SaveBattle
+	goto_if_ne BattleFrontier_BattleTowerLobby_EventScript_EndSaveBattle
 
 BattleFrontier_EventScript_SaveBattle:: @ 823E8B4
 	frontier_savebattle
@@ -216,10 +217,9 @@ BattleFrontier_BattleTowerLobby_EventScript_TryEnterSinglesChallenge:: @ 823E984
 	compare VAR_RESULT, 0
 	goto_if_eq BattleFrontier_BattleTowerLobby_EventScript_LoadPartyCancelChallenge
 	msgbox BattleFrontier_BattleTowerLobby_Text_OkayToSaveBeforeEntering, MSGBOX_YESNO
-	switch VAR_RESULT
-	case NO, BattleFrontier_BattleTowerLobby_EventScript_LoadPartyCancelChallenge
-	case YES, BattleFrontier_BattleTowerLobby_EventScript_SaveBeforeSinglesChallenge
-	case MULTI_B_PRESSED, BattleFrontier_BattleTowerLobby_EventScript_LoadPartyCancelChallenge
+	compare VAR_RESULT, YES
+	goto_if_eq BattleFrontier_BattleTowerLobby_EventScript_SaveBeforeSinglesChallenge
+	goto_if_ne BattleFrontier_BattleTowerLobby_EventScript_LoadPartyCancelChallenge
 
 BattleFrontier_BattleTowerLobby_EventScript_SaveBeforeSinglesChallenge:: @ 823EA2A
 	frontier_set FRONTIER_DATA_SELECTED_MON_ORDER
@@ -282,10 +282,9 @@ BattleFrontier_BattleTowerLobby_EventScript_TryEnterDoublesChallenge:: @ 823EAED
 	compare VAR_RESULT, 0
 	goto_if_eq BattleFrontier_BattleTowerLobby_EventScript_LoadPartyCancelChallenge
 	msgbox BattleFrontier_BattleTowerLobby_Text_OkayToSaveBeforeEntering, MSGBOX_YESNO
-	switch VAR_RESULT
-	case NO, BattleFrontier_BattleTowerLobby_EventScript_LoadPartyCancelChallenge
-	case YES, BattleFrontier_BattleTowerLobby_EventScript_SaveBeforeDoublesChallenge
-	case MULTI_B_PRESSED, BattleFrontier_BattleTowerLobby_EventScript_LoadPartyCancelChallenge
+	compare VAR_RESULT, YES
+	goto_if_eq BattleFrontier_BattleTowerLobby_EventScript_SaveBeforeDoublesChallenge
+	goto_if_ne BattleFrontier_BattleTowerLobby_EventScript_LoadPartyCancelChallenge
 
 BattleFrontier_BattleTowerLobby_EventScript_SaveBeforeDoublesChallenge:: @ 823EB93
 	frontier_set FRONTIER_DATA_SELECTED_MON_ORDER
@@ -349,10 +348,9 @@ BattleFrontier_BattleTowerLobby_EventScript_TryEnterMultisChallenge:: @ 823EC59
 	compare VAR_RESULT, 0
 	goto_if_eq BattleFrontier_BattleTowerLobby_EventScript_LoadPartyCancelChallenge
 	msgbox BattleFrontier_BattleTowerLobby_Text_OkayToSaveBeforeEntering, MSGBOX_YESNO
-	switch VAR_RESULT
-	case NO, BattleFrontier_BattleTowerLobby_EventScript_LoadPartyCancelChallenge
-	case YES, BattleFrontier_BattleTowerLobby_EventScript_SaveBeforeMultisChallenge
-	case MULTI_B_PRESSED, BattleFrontier_BattleTowerLobby_EventScript_LoadPartyCancelChallenge
+	compare VAR_RESULT, YES
+	goto_if_eq BattleFrontier_BattleTowerLobby_EventScript_SaveBeforeMultisChallenge
+	goto_if_ne BattleFrontier_BattleTowerLobby_EventScript_LoadPartyCancelChallenge
 
 BattleFrontier_BattleTowerLobby_EventScript_SaveBeforeMultisChallenge:: @ 823ECFF
 	frontier_set FRONTIER_DATA_SELECTED_MON_ORDER
@@ -415,10 +413,9 @@ BattleFrontier_BattleTowerLobby_EventScript_TryEnterLinkMultisChallenge:: @ 823E
 	compare VAR_RESULT, 0
 	goto_if_eq BattleFrontier_BattleTowerLobby_EventScript_LoadPartyCancelChallenge
 	msgbox BattleFrontier_BattleTowerLobby_Text_OkayToSaveBeforeEntering, MSGBOX_YESNO
-	switch VAR_RESULT
-	case NO, BattleFrontier_BattleTowerLobby_EventScript_LoadPartyCancelChallenge
-	case YES, BattleFrontier_BattleTowerLobby_EventScript_SaveBeforeLinkMultisChallenge
-	case MULTI_B_PRESSED, BattleFrontier_BattleTowerLobby_EventScript_LoadPartyCancelChallenge
+	compare VAR_RESULT, YES
+	goto_if_eq BattleFrontier_BattleTowerLobby_EventScript_SaveBeforeLinkMultisChallenge
+	goto_if_ne BattleFrontier_BattleTowerLobby_EventScript_LoadPartyCancelChallenge
 
 BattleFrontier_BattleTowerLobby_EventScript_SaveBeforeLinkMultisChallenge:: @ 823EE68
 	frontier_set FRONTIER_DATA_SELECTED_MON_ORDER
@@ -969,16 +966,14 @@ BattleFrontier_BattleTowerLobby_Text_ReceivedPrize: @ 823F68C
 	.string "{STR_VAR_1}.$"
 
 BattleFrontier_BattleTowerLobby_Text_ThankYouForPlaying: @ 823F6F7
-	.string "Thank you for playing!\p"
-	.string "$"
+	.string "Thank you for playing!\p$"
 
 BattleFrontier_BattleTowerLobby_Text_RecordWillBeSaved: @ 823F70F
 	.string "Your record will be saved.\n"
 	.string "Please wait.$"
 
 BattleFrontier_BattleTowerLobby_Text_WeveBeenWaitingForYou: @ 823F737
-	.string "We've been waiting for you!\p"
-	.string "$"
+	.string "We've been waiting for you!$"
 
 BattleFrontier_BattleTowerLobby_Text_ProgressWillBeSaved: @ 823F754
 	.string "Before entering a BATTLE ROOM, your\n"
@@ -995,7 +990,7 @@ BattleFrontier_BattleTowerLobby_Text_AboutToFace50thTrainer: @ 823F79D
 BattleFrontier_BattleTowerLobby_Text_HereAreSomeRibbons: @ 823F844
 	.string "Here are some RIBBONS for beating\n"
 	.string "seven tough TRAINERS in a row.\p"
-	.string "{PLAYER} received some RIBBONS!$"
+	.string "{COLOR DARK_GRAY}{PLAYER} received some RIBBONS!$"
 
 BattleFrontier_BattleTowerLobby_Text_PutRibbonOnMons: @ 823F89F
 	.string "{PLAYER} put the RIBBONS on\n"

@@ -32,6 +32,7 @@ BattleFrontier_BattlePikeRoomNormal_EventScript_EnterSingleBattleRoom:: @ 825D1C
 	applymovement LOCALID_OBJ_0, BattleFrontier_BattlePikeRoomNormal_Movement_ApproachPlayer
 	waitmovement 0
 	pike_gettrainerintro 0
+	call Common_EventScript_SetFrontierTrainer1TextColor
 	msgbox gStringVar4, MSGBOX_DEFAULT
 	waitmessage
 	closemessage
@@ -62,6 +63,7 @@ BattleFrontier_BattlePikeRoomNormal_EventScript_EnterHardBattleRoom:: @ 825D231
 	applymovement LOCALID_OBJ_0, BattleFrontier_BattlePikeRoomNormal_Movement_ApproachPlayer
 	waitmovement 0
 	pike_gettrainerintro 0
+	call Common_EventScript_SetFrontierTrainer1TextColor
 	msgbox gStringVar4, MSGBOX_DEFAULT
 	waitmessage
 	closemessage
@@ -258,12 +260,14 @@ BattleFrontier_BattlePikeRoomNormal_EventScript_EnterDoubleBattleRoom:: @ 825D53
 	applymovement OBJ_EVENT_ID_PLAYER, BattleFrontier_BattlePikeRoomNormal_Movement_PlayerFaceTrainer1
 	waitmovement 0
 	pike_gettrainerintro 0
+	call Common_EventScript_SetFrontierTrainer1TextColor
 	msgbox gStringVar4, MSGBOX_DEFAULT
 	closemessage
 	delay 16
 	applymovement OBJ_EVENT_ID_PLAYER, BattleFrontier_BattlePikeRoomNormal_Movement_MonFaceRight
 	waitmovement 0
 	pike_gettrainerintro 1
+	call Common_EventScript_SetFrontierTrainer2TextColor
 	msgbox gStringVar4, MSGBOX_DEFAULT
 	closemessage
 	setvar VAR_0x8004, SPECIAL_BATTLE_PIKE_DOUBLE
@@ -772,14 +776,6 @@ BattleFrontier_BattlePikeRoomNormal_Text_ChoseRoomHealTwo: @ 825E238
 	.string "Since you have chosen this room, I will\n"
 	.string "restore two POKéMON to full health…$"
 
-@ Unused
-BattleFrontier_BattlePikeRoomNormal_Text_WillRestoreAllMons: @ 825E293
-	.string "I welcome you…\p"
-	.string "Giggle…\n"
-	.string "You should thank your lucky stars…\p"
-	.string "Since you have chosen this room,\n"
-	.string "all your POKéMON will be restored…$"
-
 BattleFrontier_BattlePikeRoomNormal_Text_ShallFetchOurMaster: @ 825E311
 	.string "I shall go fetch our master…$"
 
@@ -788,4 +784,3 @@ BattleFrontier_BattlePikeRoomNormal_Text_WillRestoreTwoMons: @ 825E32E
 	.string "I'm in good spirits now.\p"
 	.string "I will restore two of your POKéMON\n"
 	.string "to full health!$"
-

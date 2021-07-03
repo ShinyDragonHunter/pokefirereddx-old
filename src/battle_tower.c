@@ -1092,8 +1092,7 @@ u16 GetRandomScaledFrontierTrainerId(u8 challengeNum, u8 battleNum)
 void SetBattleFacilityTrainerGfxId(u16 trainerId, u8 tempVarId)
 {
     u32 i;
-    u8 facilityClass;
-    u8 trainerObjectGfxId;
+    u8 facilityClass, trainerObjectGfxId;
 
     SetFacilityPtrsGetLevel();
     if (trainerId == TRAINER_EREADER)
@@ -1130,12 +1129,14 @@ void SetBattleFacilityTrainerGfxId(u16 trainerId, u8 tempVarId)
         switch (tempVarId)
         {
         case 1:
+            gSpecialVar_0x8001 = MALE;
             VarSet(VAR_OBJ_GFX_ID_1, trainerObjectGfxId);
             return;
         case 15:
             VarSet(VAR_OBJ_GFX_ID_E, trainerObjectGfxId);
             return;
         default:
+            gSpecialVar_0x8000 = MALE;
             VarSet(VAR_OBJ_GFX_ID_0, trainerObjectGfxId);
             return;
         }
@@ -1153,12 +1154,14 @@ void SetBattleFacilityTrainerGfxId(u16 trainerId, u8 tempVarId)
         switch (tempVarId)
         {
         case 1:
+            gSpecialVar_0x8001 = FEMALE;
             VarSet(VAR_OBJ_GFX_ID_1, trainerObjectGfxId);
             return;
         case 15:
             VarSet(VAR_OBJ_GFX_ID_E, trainerObjectGfxId);
             return;
         default:
+            gSpecialVar_0x8000 = FEMALE;
             VarSet(VAR_OBJ_GFX_ID_0, trainerObjectGfxId);
             return;
         }
@@ -1186,8 +1189,7 @@ void SetEReaderTrainerGfxId(void)
 u8 GetBattleFacilityTrainerGfxId(u16 trainerId)
 {
     u32 i;
-    u8 facilityClass;
-    u8 trainerObjectGfxId;
+    u8 facilityClass, trainerObjectGfxId;
 
     SetFacilityPtrsGetLevel();
     if (trainerId == TRAINER_EREADER)
@@ -1279,7 +1281,7 @@ void PutNewBattleTowerRecord(struct EmeraldBattleTowerRecord *newRecordEm)
     // Find an empty record slot.
     for (i = 0; i < BATTLE_TOWER_RECORD_COUNT; i++)
     {
-        if (gSaveBlock2Ptr->frontier.towerRecords[i].winStreak == 0)
+        if (!gSaveBlock2Ptr->frontier.towerRecords[i].winStreak)
             break;
     }
     if (i < BATTLE_TOWER_RECORD_COUNT)

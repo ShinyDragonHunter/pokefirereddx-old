@@ -858,10 +858,10 @@ bool8 ScrCmd_playse(struct ScriptContext *ctx)
 
 static bool8 WaitForSoundEffectFinish(void)
 {
-    if (!IsSEPlaying())
-        return TRUE;
-    else
+    if (IsSEPlaying())
         return FALSE;
+    else
+        return TRUE;
 }
 
 bool8 ScrCmd_waitse(struct ScriptContext *ctx)
@@ -1396,17 +1396,11 @@ bool8 ScrCmd_showcontestpainting(struct ScriptContext *ctx)
 
 bool8 ScrCmd_braillemessage(struct ScriptContext *ctx)
 {
-    u8 *ptr = (u8 *)ScriptReadWord(ctx);
     struct WindowTemplate winTemplate;
     s32 i;
     u8 width, height;
     u8 xWindow, yWindow, xText, yText;
     u8 temp;
-
-    // + 6 for the 6 bytes at the start of a braille message (brailleformat macro)
-    // In RS these bytes are used to position the text and window, but
-    // in Emerald they are unused and position is calculated below instead
-    StringExpandPlaceholders(gStringVar4, ptr + 6);
 
     width = GetStringWidth(6, gStringVar4, -1) / 8u;
 
@@ -1677,21 +1671,13 @@ bool8 ScrCmd_showmoneybox(struct ScriptContext *ctx)
 
 bool8 ScrCmd_hidemoneybox(struct ScriptContext *ctx)
 {
-    /*u8 x = ScriptReadByte(ctx);
-    u8 y = ScriptReadByte(ctx);*/
-
     HideMoneyBox();
     return FALSE;
 }
 
 bool8 ScrCmd_updatemoneybox(struct ScriptContext *ctx)
 {
-    u8 x = ScriptReadByte(ctx);
-    u8 y = ScriptReadByte(ctx);
-    u8 ignore = ScriptReadByte(ctx);
-
-    if (!ignore)
-        ChangeAmountInMoneyBox(GetMoney(&gSaveBlock1Ptr->money));
+    ChangeAmountInMoneyBox(GetMoney(&gSaveBlock1Ptr->money));
     return FALSE;
 }
 
@@ -1706,18 +1692,12 @@ bool8 ScrCmd_showcoinsbox(struct ScriptContext *ctx)
 
 bool8 ScrCmd_hidecoinsbox(struct ScriptContext *ctx)
 {
-    u8 x = ScriptReadByte(ctx);
-    u8 y = ScriptReadByte(ctx);
-
     HideCoinsWindow();
     return FALSE;
 }
 
 bool8 ScrCmd_updatecoinsbox(struct ScriptContext *ctx)
 {
-    u8 x = ScriptReadByte(ctx);
-    u8 y = ScriptReadByte(ctx);
-
     PrintCoinsString(GetCoins());
     return FALSE;
 }
@@ -1796,13 +1776,9 @@ bool8 ScrCmd_setwildbattle(struct ScriptContext *ctx)
 bool8 ScrCmd_dowildbattle(struct ScriptContext *ctx)
 {
     if (gIsScriptedWildDouble)
-    {
         BattleSetup_StartScriptedDoubleWildBattle();
-    }
     else
-    {
         BattleSetup_StartScriptedWildBattle();
-    }
 
     ScriptContext1_Stop();
     return TRUE;

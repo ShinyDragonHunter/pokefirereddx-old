@@ -10,12 +10,12 @@ BattleFrontier_BattlePikeRoomFinal_OnFrame: @ 825E39D
 	.2byte 0
 
 BattleFrontier_BattlePikeRoomFinal_EventScript_EnterRoom:: @ 825E3A7
-	textcolor RED
 	delay 16
 	applymovement LOCALID_ATTENDANT, BattleFrontier_BattlePikeRoomFinal_Movement_AttendantApproachPlayer
 	waitmovement 0
 	frontier_set FRONTIER_DATA_CHALLENGE_STATUS, CHALLENGE_STATUS_WON
 	lockall
+	textcolor RED
 	msgbox BattleFrontier_BattlePikeRoomFinal_Text_CongratsThisWayPlease, MSGBOX_DEFAULT
 	closemessage
 	releaseall
@@ -40,4 +40,3 @@ BattleFrontier_BattlePikeRoomFinal_EventScript_TurnPlayerNorth:: @ 825E3E8
 BattleFrontier_BattlePikeRoomFinal_Text_CongratsThisWayPlease: @ 825E3F2
 	.string "Congratulations…\n"
 	.string "Now, this way, please…$"
-

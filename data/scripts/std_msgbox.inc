@@ -39,9 +39,6 @@ Std_10: @ 8271347
 	waitmessage
 	return
 
-EventScript_UnusedReturn: @ 827134E
-	return
-
 Common_EventScript_SaveGame:: @ 827134F
 	special SaveGame
 	waitstate

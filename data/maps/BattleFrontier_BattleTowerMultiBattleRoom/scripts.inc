@@ -6,7 +6,7 @@
 .set LOCALID_PARTNER, 6
 
 BattleFrontier_BattleTowerMultiBattleRoom_MapScripts:: @ 8248EE8
-	map_script MAP_SCRIPT_ON_TRANSITION, BattleFrontier_BattleTowerMultiBattleRoom_OnTransition
+	map_script MAP_SCRIPT_ON_TRANSITION, BattleFrontier_BattleTowerMultiCorridor_OnTransition
 	map_script MAP_SCRIPT_ON_WARP_INTO_MAP_TABLE, BattleFrontier_BattleTowerMultiBattleRoom_OnWarp
 	map_script MAP_SCRIPT_ON_FRAME_TABLE, BattleFrontier_BattleTowerMultiBattleRoom_OnFrame
 	.byte 0
@@ -14,29 +14,6 @@ BattleFrontier_BattleTowerMultiBattleRoom_MapScripts:: @ 8248EE8
 	@ On this map the player (OBJ_EVENT_ID_PLAYER) is hidden
 	@ The player is represented instead by LOCALID_PLAYER, which has the gfx id VAR_OBJ_GFX_ID_F
 	@ The multi partner is represented by LOCALID_PARTNER, which has the gfx id VAR_OBJ_GFX_ID_E
-
-BattleFrontier_BattleTowerMultiBattleRoom_OnTransition: @ 8248EF8
-	compare VAR_FRONTIER_BATTLE_MODE, FRONTIER_MODE_MULTIS
-	call_if_eq BattleFrontier_BattleTowerMultiBattleRoom_EventScript_SetObjGfx
-	compare VAR_FRONTIER_BATTLE_MODE, FRONTIER_MODE_LINK_MULTIS
-	call_if_eq BattleFrontier_BattleTowerMultiBattleRoom_EventScript_SetLinkPlayerGfx
-	end
-
-BattleFrontier_BattleTowerMultiBattleRoom_EventScript_SetObjGfx:: @ 8248F0F
-	tower_setpartnergfx
-	checkplayergender
-	compare VAR_RESULT, FEMALE
-	goto_if_eq BattleFrontier_BattleTowerMultiBattleRoom_EventScript_SetPlayerGfxFemale
-	setvar VAR_OBJ_GFX_ID_F, OBJ_EVENT_GFX_RED_NORMAL
-	return
-
-BattleFrontier_BattleTowerMultiBattleRoom_EventScript_SetPlayerGfxFemale:: @ 8248F29
-	setvar VAR_OBJ_GFX_ID_F, OBJ_EVENT_GFX_LEAF_NORMAL
-	return
-
-BattleFrontier_BattleTowerMultiBattleRoom_EventScript_SetLinkPlayerGfx:: @ 8248F2F
-	special SetBattleTowerLinkPlayerGfx
-	return
 
 BattleFrontier_BattleTowerMultiBattleRoom_OnWarp: @ 8248F33
 	map_script_2 VAR_TEMP_1, 0, BattleFrontier_BattleTowerMultiBattleRoom_EventScript_HidePlayerObj
@@ -68,7 +45,6 @@ BattleFrontier_BattleTowerMultiBattleRoom_EventScript_EnterRoom:: @ 8248F4D
 	goto BattleFrontier_BattleTowerMultiBattleRoom_EventScript_AskReadyForOpponents
 
 BattleFrontier_BattleTowerMultiBattleRoom_EventScript_OpponentsEnter:: @ 8248FB4
-	textcolor RESET
 	tower_setopponent
 	addobject LOCALID_OPPONENT_1
 	addobject LOCALID_OPPONENT_2
@@ -81,11 +57,13 @@ BattleFrontier_BattleTowerMultiBattleRoom_EventScript_OpponentsEnter:: @ 8248FB4
 	delay 15
 	applymovement LOCALID_OPPONENT_1, BattleFrontier_BattleTowerMultiBattleRoom_Movement_WalkInPlaceLeft
 	waitmovement 0
+	call Common_EventScript_SetFrontierTrainer1TextColor
 	msgbox gStringVar4, MSGBOX_DEFAULT
 	waitmessage
 	tower_getopponentintro 1
 	applymovement LOCALID_OPPONENT_2, BattleFrontier_BattleTowerMultiBattleRoom_Movement_WalkInPlaceLeft
 	waitmovement 0
+	call Common_EventScript_SetFrontierTrainer2TextColor
 	msgbox gStringVar4, MSGBOX_DEFAULT
 	waitmessage
 	goto BattleFrontier_BattleTowerMultiBattleRoom_EventScript_DoTowerBattle
@@ -116,7 +94,6 @@ BattleFrontier_BattleTowerMultiBattleRoom_EventScript_WarpToLobbyLost:: @ 824907
 	goto BattleFrontier_BattleTowerBattleRoom_EventScript_WarpToLobby
 
 BattleFrontier_BattleTowerMultiBattleRoom_EventScript_DefeatedOpponents:: @ 82490AA
-	textcolor RED
 	call BattleFrontier_EventScript_IncrementWinStreak
 	tower_setbattlewon
 	switch VAR_RESULT
@@ -134,6 +111,7 @@ BattleFrontier_BattleTowerMultiBattleRoom_EventScript_DefeatedOpponents:: @ 8249
 	waitmovement 0
 	compare VAR_FRONTIER_BATTLE_MODE, FRONTIER_MODE_LINK_MULTIS
 	goto_if_eq BattleFrontier_BattleTowerMultiBattleRoom_EventScript_RetorePartyMsgLink
+	textcolor RED
 	msgbox BattleFrontier_BattleTowerBattleRoom_Text_RestoreMonsToFullHealth, MSGBOX_DEFAULT
 	goto BattleFrontier_BattleTowerMultiBattleRoom_EventScript_RestoreParty
 
@@ -177,10 +155,9 @@ BattleFrontier_BattleTowerMultiBattleRoom_EventScript_AskRecordBattle:: @ 82491E
 	message BattleFrontier_BattleTowerBattleRoom_Text_RecordYourBattle
 	waitmessage
 	multichoicedefault 20, 8, MULTI_YESNO, 1, FALSE
-	switch VAR_RESULT
-	case 1, BattleFrontier_BattleTowerMultiBattleRoom_EventScript_AskReadyForOpponents
-	case 0, BattleFrontier_BattleTowerMultiBattleRoom_EventScript_RecordBattle
-	case MULTI_B_PRESSED, BattleFrontier_BattleTowerMultiBattleRoom_EventScript_AskReadyForOpponents
+	compare VAR_RESULT, 0
+	goto_if_eq BattleFrontier_BattleTowerMultiBattleRoom_EventScript_RecordBattle
+	goto_if_ne BattleFrontier_BattleTowerMultiBattleRoom_EventScript_AskReadyForOpponents
 
 BattleFrontier_BattleTowerMultiBattleRoom_EventScript_RecordBattle:: @ 8249219
 	call BattleFrontier_EventScript_SaveBattle
@@ -188,19 +165,17 @@ BattleFrontier_BattleTowerMultiBattleRoom_EventScript_RecordBattle:: @ 8249219
 
 BattleFrontier_BattleTowerMultiBattleRoom_EventScript_AskPauseChallenge:: @ 8249223
 	msgbox BattleFrontier_BattleTowerBattleRoom_Text_SaveAndQuitGame, MSGBOX_YESNO
-	switch VAR_RESULT
-	case NO, BattleFrontier_BattleTowerMultiBattleRoom_EventScript_AskReadyForOpponents
-	case YES, BattleFrontier_BattleTowerMultiBattleRoom_EventScript_PauseChallenge
-	case MULTI_B_PRESSED, BattleFrontier_BattleTowerMultiBattleRoom_EventScript_AskReadyForOpponents
+	compare VAR_RESULT, YES
+	goto_if_eq BattleFrontier_BattleTowerMultiBattleRoom_EventScript_PauseChallenge
+	goto_if_ne BattleFrontier_BattleTowerMultiBattleRoom_EventScript_AskReadyForOpponents
 
 BattleFrontier_BattleTowerMultiBattleRoom_EventScript_AskRetireChallenge:: @ 8249251
 	message BattleFrontier_BattleTowerBattleRoom_Text_CancelYourChallenge
 	waitmessage
 	multichoicedefault 20, 8, MULTI_YESNO, 1, FALSE
-	switch VAR_RESULT
-	case 1, BattleFrontier_BattleTowerMultiBattleRoom_EventScript_AskReadyForOpponents
-	case 0, BattleFrontier_BattleTowerMultiBattleRoom_EventScript_WarpToLobbyLost
-	case MULTI_B_PRESSED, BattleFrontier_BattleTowerMultiBattleRoom_EventScript_AskReadyForOpponents
+	compare VAR_RESULT, 0
+	goto_if_eq BattleFrontier_BattleTowerMultiBattleRoom_EventScript_WarpToLobbyLost
+	goto_if_ne BattleFrontier_BattleTowerMultiBattleRoom_EventScript_AskReadyForOpponents
 
 BattleFrontier_BattleTowerMultiBattleRoom_EventScript_ContinueChallenge:: @ 8249283
 	closemessage
@@ -358,9 +333,8 @@ BattleFrontier_BattleTowerMultiBattleRoom_EventScript_AskRecordBattleLink:: @ 82
 	message BattleFrontier_BattleTowerBattleRoom_Text_RecordYourBattle
 	waitmessage
 	multichoicedefault 20, 8, MULTI_YESNO, 1, FALSE
-	switch VAR_RESULT
-	case 1, BattleFrontier_BattleTowerMultiBattleRoom_EventScript_AskReadyForOpponents
-	case MULTI_B_PRESSED, BattleFrontier_BattleTowerMultiBattleRoom_EventScript_AskReadyForOpponents
+	compare VAR_RESULT, 0
+	goto_if_ne BattleFrontier_BattleTowerMultiBattleRoom_EventScript_AskReadyForOpponents
 	call BattleFrontier_EventScript_SaveBattle
 	setflag FLAG_TEMP_2
 	goto BattleFrontier_BattleTowerMultiBattleRoom_EventScript_AskReadyForOpponents

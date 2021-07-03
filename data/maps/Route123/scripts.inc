@@ -72,7 +72,6 @@ Route123_EventScript_RegisterCameron:: @ 81F6236
 	special PlayerFaceTrainerAfterBattle
 	waitmovement 0
 	msgbox Route123_Text_CameronRegister, MSGBOX_DEFAULT
-	register_matchcall TRAINER_CAMERON_1
 	release
 	end
 
@@ -94,7 +93,6 @@ Route123_EventScript_RegisterJacki:: @ 81F6298
 	special PlayerFaceTrainerAfterBattle
 	waitmovement 0
 	msgbox Route123_Text_JackiRegister, MSGBOX_DEFAULT
-	register_matchcall TRAINER_JACKI_1
 	release
 	end
 
@@ -166,7 +164,6 @@ Route123_EventScript_RegisterFernando:: @ 81F63E8
 	special PlayerFaceTrainerAfterBattle
 	waitmovement 0
 	msgbox Route123_Text_FernandoRegister, MSGBOX_DEFAULT
-	register_matchcall TRAINER_FERNANDO_1
 	release
 	end
 

@@ -73,7 +73,6 @@ Route105_EventScript_AndresRegisterMatchCallAfterBattle:: @ 81EE300
 	special PlayerFaceTrainerAfterBattle
 	waitmovement 0
 	msgbox Route105_Text_AndresRegister, MSGBOX_DEFAULT
-	register_matchcall TRAINER_ANDRES_1
 	release
 	end
 

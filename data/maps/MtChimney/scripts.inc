@@ -133,7 +133,7 @@ MtChimney_EventScript_BagIsFull:: @ 822EF51
 
 MtChimney_EventScript_RemoveMoney:: @ 822EF5E
 	removemoney 200, 0
-	updatemoneybox 0, 0
+	updatemoneybox
 	return
 
 MtChimney_EventScript_DeclineLavaCookie:: @ 822EF69
@@ -493,7 +493,6 @@ MtChimney_EventScript_DefeatedShelby:: @ 822F176
 	special PlayerFaceTrainerAfterBattle
 	waitmovement 0
 	msgbox MtChimney_Text_ShelbyRegister, MSGBOX_DEFAULT
-	register_matchcall TRAINER_SHELBY_1
 	release
 	end
 
@@ -535,7 +534,6 @@ MtChimney_EventScript_SawyerDefeated:: @ 822F234
 	special PlayerFaceTrainerAfterBattle
 	waitmovement 0
 	msgbox MtChimney_Text_SawyerRegister, MSGBOX_DEFAULT
-	register_matchcall TRAINER_SAWYER_1
 	release
 	end
 

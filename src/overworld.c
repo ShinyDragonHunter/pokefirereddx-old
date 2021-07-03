@@ -965,7 +965,7 @@ static u16 GetCenterScreenMetatileBehavior(void)
 
 bool32 Overworld_IsBikingAllowed(void)
 {
-    if ((gMapHeader.flags & MAP_ALLOW_CYCLING))
+    if (gMapHeader.allowCycling)
         return TRUE;
     else
         return FALSE;
@@ -1672,7 +1672,7 @@ void CB2_ReturnToFieldFadeFromBlack(void)
 
 static void FieldCB_FadeTryShowMapPopup(void)
 {
-    if (SHOW_MAP_NAME_ENABLED)
+    if (gMapHeader.showMapName)
         ShowMapNamePopup();
     FieldCB_WarpExitFadeFromBlack();
 }
@@ -1919,7 +1919,7 @@ static bool32 LoadMapInStepsLocal(u8 *state, bool32 a2)
         (*state)++;
         break;
     case 11:
-        if (SHOW_MAP_NAME_ENABLED)
+        if (gMapHeader.showMapName)
             ShowMapNamePopup();
         (*state)++;
         break;

@@ -15,12 +15,9 @@ SafariZone_EventScript_RetirePrompt:: @ 82A4B6F
 	lockall
 	msgbox SafariZone_Text_WouldYouLikeToExit, MSGBOX_YESNO
 	compare VAR_RESULT, YES
-	goto_if_eq SafariZone_EventScript_Retire
+	goto_if_eq SafariZone_EventScript_Exit
 	releaseall
 	end
-
-SafariZone_EventScript_Retire:: @ 82A4B85
-	goto SafariZone_EventScript_Exit
 
 SafariZone_EventScript_TimesUp:: @ 82A4B8A
 	lockall

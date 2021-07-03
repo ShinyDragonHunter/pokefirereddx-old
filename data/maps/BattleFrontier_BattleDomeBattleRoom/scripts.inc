@@ -50,7 +50,7 @@ BattleFrontier_BattleDomeBattleRoom_EventScript_PlayerEnter:: @ 824BD4E
 	goto BattleFrontier_BattleDomeBattleRoom_EventScript_AudienceReactToPlayer
 
 BattleFrontier_BattleDomeBattleRoom_EventScript_PlayerEnterForTucker:: @ 824BD5A
-	applymovement LOCALID_PLAYER, BattleFrontier_BattleDomeBattleRoom_Movement_PlayerEnterForTucker
+	applymovement LOCALID_PLAYER, BattleFrontier_BattleDomeBattleRoom_Movement_PlayerEnter
 BattleFrontier_BattleDomeBattleRoom_EventScript_AudienceReactToPlayer:: @ 824BD61
 	playse SE_M_ENCORE2
 	call BattleFrontier_BattleDomeBattleRoom_EventScript_AudienceLookAround
@@ -66,15 +66,15 @@ BattleFrontier_BattleDomeBattleRoom_EventScript_BattleOpponent:: @ 824BD82
 	applymovement LOCALID_PLAYER, BattleFrontier_BattleDomeBattleRoom_Movement_PlayerStepForward
 	applymovement LOCALID_OPPONENT, BattleFrontier_BattleDomeBattleRoom_Movement_OpponentStepForward
 	waitmovement 0
-	textcolor RESET
 	tower_getopponentintro 0
+	call Common_EventScript_SetFrontierTrainer1TextColor
 	msgbox gStringVar4, MSGBOX_DEFAULT
 	closemessage
 	dome_initopponentparty
 	call BattleFrontier_BattleDomeBattleRoom_EventScript_DoDomeBattle
+	textcolor BLUE
 	setvar VAR_TEMP_2, NO_DRAW
 	switch VAR_RESULT
-	textcolor BLUE
 	case B_OUTCOME_WON, BattleFrontier_BattleDomeBattleRoom_EventScript_DefeatedOpponent
 	case B_OUTCOME_LOST, BattleFrontier_BattleDomeBattleRoom_EventScript_LostToOpponent
 	case B_OUTCOME_FORFEITED, BattleFrontier_BattleDomeBattleRoom_EventScript_LostToOpponent
@@ -435,8 +435,8 @@ BattleFrontier_BattleDomeBattleRoom_EventScript_BattleTuckerGold:: @ 824C373
 BattleFrontier_BattleDomeBattleRoom_EventScript_DoTuckerBattle:: @ 824C400
 	msgbox BattleFrontier_BattleDomeBattleRoom_Text_PlayerVersusTucker, MSGBOX_DEFAULT
 	closemessage
-	applymovement LOCALID_PLAYER, BattleFrontier_BattleDomeBattleRoom_Movement_PlayerStepForward2
-	applymovement LOCALID_OPPONENT, BattleFrontier_BattleDomeBattleRoom_Movement_TuckerStepForward
+	applymovement LOCALID_PLAYER, BattleFrontier_BattleDomeBattleRoom_Movement_PlayerStepForward
+	applymovement LOCALID_OPPONENT, BattleFrontier_BattleDomeBattleRoom_Movement_SetInvisibleFacingUp
 	waitmovement 0
 	call BattleFrontier_BattleDomeBattleRoom_EventScript_DoDomeBattle
 	return
@@ -588,10 +588,6 @@ BattleFrontier_BattleDomeBattleRoom_EventScript_AddFinalAudience:: @ 824C652
 	createvobject OBJ_EVENT_GFX_WOMAN_5, 31, 8, 2, 3, DIR_SOUTH
 	return
 
-BattleFrontier_BattleDomeBattleRoom_Movement_SetInvisible: @ 824C773
-	set_invisible
-	step_end
-
 BattleFrontier_BattleDomeBattleRoom_Movement_PlayerEnter: @ 824C775
 	set_visible
 	delay_16
@@ -607,27 +603,13 @@ BattleFrontier_BattleDomeBattleRoom_Movement_PlayerApproachAudience: @ 824C77D
 	walk_up
 	step_end
 
-@ Identical to Movement_PlayerEnter
-BattleFrontier_BattleDomeBattleRoom_Movement_PlayerEnterForTucker: @ 824C77F
-	set_visible
-	delay_16
-	walk_up
-	walk_up
-	walk_up
-	walk_right
-	walk_right
-	step_end
-
-BattleFrontier_BattleDomeBattleRoom_Movement_PlayerStepForward2: @ 824C787
-	walk_right
-	step_end
-
 BattleFrontier_BattleDomeBattleRoom_Movement_OpponentStepForward: @ 824C789
 	walk_left
 	step_end
 
 BattleFrontier_BattleDomeBattleRoom_Movement_SetInvisibleFacingUp: @ 824C78B
 	face_up
+BattleFrontier_BattleDomeBattleRoom_Movement_SetInvisible: @ 824C773
 	set_invisible
 	step_end
 
@@ -736,6 +718,7 @@ BattleFrontier_BattleDomeBattleRoom_Movement_TuckerEnterAndDance: @ 824C78E
 	delay_2
 	face_left
 	delay_4
+BattleFrontier_BattleDomeBattleRoom_Movement_TuckerApproachPlayer: @ 824C82B
 	walk_left
 	walk_left
 	step_end
@@ -788,15 +771,6 @@ BattleFrontier_BattleDomeBattleRoom_Movement_AnnouncerMoveForTuckerEntrance: @ 8
 	walk_right
 	walk_right
 	walk_in_place_fastest_down
-	step_end
-
-BattleFrontier_BattleDomeBattleRoom_Movement_TuckerStepForward: @ 824C829
-	walk_left
-	step_end
-
-BattleFrontier_BattleDomeBattleRoom_Movement_TuckerApproachPlayer: @ 824C82B
-	walk_left
-	walk_left
 	step_end
 
 BattleFrontier_BattleDomeBattleRoom_EventScript_AudienceLookAround:: @ 824C82E
@@ -1170,18 +1144,6 @@ BattleFrontier_BattleDomeBattleRoom_Text_LookForwardToNextEncounter: @ 824D54D
 	.string "a superstar like me.\p"
 	.string "I will very much look forward to\n"
 	.string "our next encounter!$"
-
-@ Unused
-BattleFrontier_BattleDomeBattleRoom_Text_PlayerIsLv50Champ2: @ 824D5F5
-	.string "{PLAYER} is the Level 50\n"
-	.string "Battle Tournament Champion!\p"
-	.string "Congratulations!$"
-
-@ Unused
-BattleFrontier_BattleDomeBattleRoom_Text_PlayerIsLvOpenChamp2: @ 824D635
-	.string "{PLAYER} is the Open Level\n"
-	.string "Battle Tournament Champion!\p"
-	.string "Congratulations!$"
 
 BattleFrontier_BattleDomeBattleRoom_Text_PlayerVersusTucker: @ 824D677
 	.string "The final match!\p"

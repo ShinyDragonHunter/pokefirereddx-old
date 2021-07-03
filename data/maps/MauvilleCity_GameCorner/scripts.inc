@@ -50,12 +50,12 @@ MauvilleCity_GameCorner_EventScript_Buy50Coins:: @ 820FC33
 	goto_if_eq MauvilleCity_GameCorner_EventScript_NotEnoughMoney
 	addcoins 50
 	removemoney COINS_PRICE_50, 0
-	updatemoneybox 0, 0
-	updatecoinsbox 1, 6
+	updatemoneybox
+	updatecoinsbox
 	playse SE_SHOP
 	msgbox MauvilleCity_GameCorner_Text_ThankYouHereAreYourCoins, MSGBOX_DEFAULT
 	hidemoneybox
-	hidecoinsbox 0, 5
+	hidecoinsbox
 	release
 	end
 
@@ -68,12 +68,12 @@ MauvilleCity_GameCorner_EventScript_Buy500Coins:: @ 820FC75
 	goto_if_eq MauvilleCity_GameCorner_EventScript_NotEnoughMoney
 	addcoins 500
 	removemoney COINS_PRICE_500, 0
-	updatemoneybox 0, 0
-	updatecoinsbox 1, 6
+	updatemoneybox
+	updatecoinsbox
 	playse SE_SHOP
 	msgbox MauvilleCity_GameCorner_Text_ThankYouHereAreYourCoins, MSGBOX_DEFAULT
 	hidemoneybox
-	hidecoinsbox 0, 5
+	hidecoinsbox
 	release
 	end
 
@@ -85,21 +85,21 @@ MauvilleCity_GameCorner_EventScript_NeedCoinCase:: @ 820FCB7
 MauvilleCity_GameCorner_EventScript_NotEnoughMoney:: @ 820FCC1
 	msgbox MauvilleCity_GameCorner_Text_DontHaveEnoughMoney, MSGBOX_DEFAULT
 	hidemoneybox
-	hidecoinsbox 0, 5
+	hidecoinsbox
 	release
 	end
 
 MauvilleCity_GameCorner_EventScript_CancelBuyCoins:: @ 820FCD1
 	msgbox MauvilleCity_GameCorner_Text_DontNeedCoinsThen, MSGBOX_DEFAULT
 	hidemoneybox
-	hidecoinsbox 0, 5
+	hidecoinsbox
 	release
 	end
 
 MauvilleCity_GameCorner_EventScript_NoRoomForCoins:: @ 820FCE1
 	msgbox MauvilleCity_GameCorner_Text_CoinCaseIsFull, MSGBOX_DEFAULT
 	hidemoneybox
-	hidecoinsbox 0, 5
+	hidecoinsbox
 	release
 	end
 
@@ -189,7 +189,7 @@ MauvilleCity_GameCorner_EventScript_BuyTM32:: @ 820FFDD
 	goto_if_eq MauvilleCity_GameCorner_EventScript_NoRoomForTM
 	removecoins TM32_COINS
 	additem ITEM_TM32
-	updatecoinsbox 1, 1
+	updatecoinsbox
 	playse SE_SHOP
 	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
 	goto MauvilleCity_GameCorner_EventScript_ReturnToChooseTMPrize
@@ -204,7 +204,7 @@ MauvilleCity_GameCorner_EventScript_BuyTM29:: @ 8210017
 	goto_if_eq MauvilleCity_GameCorner_EventScript_NoRoomForTM
 	removecoins TM29_COINS
 	additem ITEM_TM29
-	updatecoinsbox 1, 1
+	updatecoinsbox
 	playse SE_SHOP
 	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
 	goto MauvilleCity_GameCorner_EventScript_ReturnToChooseTMPrize
@@ -219,7 +219,7 @@ MauvilleCity_GameCorner_EventScript_BuyTM35:: @ 8210051
 	goto_if_eq MauvilleCity_GameCorner_EventScript_NoRoomForTM
 	removecoins TM35_COINS
 	additem ITEM_TM35
-	updatecoinsbox 1, 1
+	updatecoinsbox
 	playse SE_SHOP
 	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
 	goto MauvilleCity_GameCorner_EventScript_ReturnToChooseTMPrize
@@ -234,7 +234,7 @@ MauvilleCity_GameCorner_EventScript_BuyTM24:: @ 821008B
 	goto_if_eq MauvilleCity_GameCorner_EventScript_NoRoomForTM
 	removecoins TM24_COINS
 	additem ITEM_TM24
-	updatecoinsbox 1, 1
+	updatecoinsbox
 	playse SE_SHOP
 	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
 	goto MauvilleCity_GameCorner_EventScript_ReturnToChooseTMPrize
@@ -249,7 +249,7 @@ MauvilleCity_GameCorner_EventScript_BuyTM13:: @ 82100C5
 	goto_if_eq MauvilleCity_GameCorner_EventScript_NoRoomForTM
 	removecoins TM13_COINS
 	additem ITEM_TM13
-	updatecoinsbox 1, 1
+	updatecoinsbox
 	playse SE_SHOP
 	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
 	goto MauvilleCity_GameCorner_EventScript_ReturnToChooseTMPrize
@@ -267,7 +267,7 @@ MauvilleCity_GameCorner_EventScript_NoRoomForTM:: @ 821010D
 
 MauvilleCity_GameCorner_EventScript_CancelTMSelect:: @ 8210118
 	msgbox MauvilleCity_GameCorner_Text_OhIsThatSo, MSGBOX_DEFAULT
-	hidecoinsbox 0, 0
+	hidecoinsbox
 	release
 	end
 

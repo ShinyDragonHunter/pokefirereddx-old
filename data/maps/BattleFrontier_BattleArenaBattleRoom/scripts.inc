@@ -76,8 +76,8 @@ BattleFrontier_BattleArenaBattleRoom_EventScript_AnnounceTrainers:: @ 825752E
 	applymovement LOCALID_PLAYER, BattleFrontier_BattleArenaBattleRoom_Movement_PlayerStepForward
 	applymovement LOCALID_OPPONENT, BattleFrontier_BattleArenaBattleRoom_Movement_OpponentStepForward
 	waitmovement 0
-	textcolor RESET
 	palace_getopponentintro
+	call Common_EventScript_SetFrontierTrainer1TextColor
 	msgbox gStringVar4, MSGBOX_DEFAULT
 	waitmessage
 	call BattleFrontier_BattleArenaBattleRoom_EventScript_DoArenaBattle
@@ -421,15 +421,12 @@ BattleFrontier_BattleArenaBattleRoom_Movement_PlayerStepForward: @ 8257BE5
 BattleFrontier_BattleArenaBattleRoom_Movement_PlayerWalkBackToLine: @ 8257BE7
 	walk_left
 	walk_left
+BattleFrontier_BattleArenaBattleRoom_Movement_WalkInPlaceRight: @ 8257BED
 	walk_in_place_fastest_right
 	step_end
 
 BattleFrontier_BattleArenaBattleRoom_Movement_WalkInPlaceLeft: @ 8257BEB
 	walk_in_place_fastest_up
-	step_end
-
-BattleFrontier_BattleArenaBattleRoom_Movement_WalkInPlaceRight: @ 8257BED
-	walk_in_place_fastest_right
 	step_end
 
 BattleFrontier_BattleArenaBattleRoom_Movement_OpponentEnter: @ 8257BEF

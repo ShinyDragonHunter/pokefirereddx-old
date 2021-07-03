@@ -14,8 +14,7 @@ SlateportCity_PokemonFanClub_EventScript_ReporterNoNickname:: @ 828C7F0
 	msgbox SlateportCity_PokemonFanClub_Text_InterviewRequest, MSGBOX_YESNO
 	compare VAR_RESULT, YES
 	goto_if_eq SlateportCity_PokemonFanClub_EventScript_AcceptInterview2
-	compare VAR_RESULT, NO
-	goto_if_eq SlateportCity_PokemonFanClub_EventScript_DeclineInterview2
+	goto_if_ne SlateportCity_PokemonFanClub_EventScript_DeclineInterview2
 	end
 
 SlateportCity_PokemonFanClub_EventScript_AcceptInterview2:: @ 828C827
@@ -28,8 +27,7 @@ SlateportCity_PokemonFanClub_EventScript_AcceptInterview2:: @ 828C827
 	faceplayer
 	compare VAR_RESULT, 1
 	goto_if_eq SlateportCity_PokemonFanClub_EventScript_SubmitResponse2
-	compare VAR_RESULT, 0
-	goto_if_eq SlateportCity_PokemonFanClub_EventScript_DeclineInterview2
+	goto_if_ne SlateportCity_PokemonFanClub_EventScript_DeclineInterview2
 	end
 
 SlateportCity_PokemonFanClub_EventScript_DeclineInterview2:: @ 828C85C
@@ -61,16 +59,14 @@ SlateportCity_OceanicMuseum_1F_EventScript_Reporter:: @ 828C883
 	msgbox SlateportCity_OceanicMuseum_1F_Text_InterviewRequest, MSGBOX_YESNO
 	compare VAR_RESULT, YES
 	goto_if_eq SlateportCity_OceanicMuseum_1F_EventScript_AcceptInterview
-	compare VAR_RESULT, NO
-	goto_if_eq SlateportCity_OceanicMuseum_1F_EventScript_DeclineInterview
+	goto_if_ne SlateportCity_OceanicMuseum_1F_EventScript_DeclineInterview
 	end
 
 SlateportCity_OceanicMuseum_1F_EventScript_RequestInterviewShort:: @ 828C8C8
 	msgbox SlateportCity_OceanicMuseum_1F_Text_InterviewRequestShort, MSGBOX_YESNO
 	compare VAR_RESULT, YES
 	goto_if_eq SlateportCity_OceanicMuseum_1F_EventScript_AcceptInterview
-	compare VAR_RESULT, NO
-	goto_if_eq SlateportCity_OceanicMuseum_1F_EventScript_DeclineInterview
+	goto_if_ne SlateportCity_OceanicMuseum_1F_EventScript_DeclineInterview
 	end
 
 SlateportCity_OceanicMuseum_1F_EventScript_AcceptInterview:: @ 828C8E7
@@ -83,8 +79,7 @@ SlateportCity_OceanicMuseum_1F_EventScript_AcceptInterview:: @ 828C8E7
 	faceplayer
 	compare VAR_RESULT, 1
 	goto_if_eq SlateportCity_OceanicMuseum_1F_EventScript_SubmitResponse
-	compare VAR_RESULT, 0
-	goto_if_eq SlateportCity_OceanicMuseum_1F_EventScript_DeclineInterview
+	goto_if_ne SlateportCity_OceanicMuseum_1F_EventScript_DeclineInterview
 	end
 
 SlateportCity_OceanicMuseum_1F_EventScript_DeclineInterview:: @ 828C91C
@@ -117,8 +112,7 @@ SlateportCity_PokemonFanClub_EventScript_Reporter:: @ 828C943
 	msgbox SlateportCity_PokemonFanClub_Text_InterviewRequestHasName, MSGBOX_YESNO
 	compare VAR_RESULT, YES
 	goto_if_eq SlateportCity_PokemonFanClub_EventScript_AcceptInterview
-	compare VAR_RESULT, NO
-	goto_if_eq SlateportCity_PokemonFanClub_EventScript_DeclineInterview
+	goto_if_ne SlateportCity_PokemonFanClub_EventScript_DeclineInterview
 	end
 
 SlateportCity_PokemonFanClub_EventScript_AcceptInterview:: @ 828C98C
@@ -190,8 +184,7 @@ LilycoveCity_ContestLobby_EventScript_Reporter:: @ 828CA59
 	msgbox LilycoveCity_ContestLobby_Text_InterviewRequest, MSGBOX_YESNO
 	compare VAR_RESULT, YES
 	goto_if_eq LilycoveCity_ContestLobby_EventScript_AcceptInterview
-	compare VAR_RESULT, NO
-	goto_if_eq LilycoveCity_ContestLobby_EventScript_DeclineInterview
+	goto_if_ne LilycoveCity_ContestLobby_EventScript_DeclineInterview
 	end
 
 LilycoveCity_ContestLobby_EventScript_AcceptInterview:: @ 828CA9B
@@ -204,8 +197,7 @@ LilycoveCity_ContestLobby_EventScript_AcceptInterview:: @ 828CA9B
 	faceplayer
 	compare VAR_RESULT, 1
 	goto_if_eq LilycoveCity_ContestLobby_EventScript_SubmitResponse
-	compare VAR_RESULT, 0
-	goto_if_eq LilycoveCity_ContestLobby_EventScript_DeclineInterview
+	goto_if_ne LilycoveCity_ContestLobby_EventScript_DeclineInterview
 	end
 
 LilycoveCity_ContestLobby_EventScript_DeclineInterview:: @ 828CAD0
@@ -271,8 +263,7 @@ BattleFrontier_BattleTowerLobby_EventScript_Reporter:: @ 828CB96
 	msgbox BattleFrontier_BattleTowerLobby_Text_InterviewRequest, MSGBOX_YESNO
 	compare VAR_RESULT, YES
 	goto_if_eq BattleFrontier_BattleTowerLobby_EventScript_AcceptInterview
-	compare VAR_RESULT, NO
-	goto_if_eq BattleFrontier_BattleTowerLobby_EventScript_DeclineInterview
+	goto_if_ne BattleFrontier_BattleTowerLobby_EventScript_DeclineInterview
 	end
 
 BattleFrontier_BattleTowerLobby_EventScript_AcceptInterview:: @ 828CBD8
@@ -282,8 +273,7 @@ BattleFrontier_BattleTowerLobby_EventScript_AcceptInterview:: @ 828CBD8
 	copyvar VAR_0x8008, VAR_RESULT
 	compare VAR_RESULT, 0
 	call_if_eq BattleFrontier_BattleTowerLobby_EventScript_Satisfied
-	compare VAR_RESULT, 1
-	call_if_eq BattleFrontier_BattleTowerLobby_EventScript_Dissatisfied
+	call_if_ne BattleFrontier_BattleTowerLobby_EventScript_Dissatisfied
 	msgbox BattleFrontier_BattleTowerLobby_Text_DescribeYourBattle, MSGBOX_DEFAULT
 	setvar VAR_0x8004, EASY_CHAT_TYPE_BATTLE_TOWER_INTERVIEW
 	copyvar VAR_0x8005, VAR_0x8009
@@ -292,8 +282,7 @@ BattleFrontier_BattleTowerLobby_EventScript_AcceptInterview:: @ 828CBD8
 	faceplayer
 	compare VAR_RESULT, 1
 	goto_if_eq BattleFrontier_BattleTowerLobby_EventScript_SubmitResponse
-	compare VAR_RESULT, 0
-	goto_if_eq BattleFrontier_BattleTowerLobby_EventScript_CancelInterview
+	goto_if_ne BattleFrontier_BattleTowerLobby_EventScript_CancelInterview
 	end
 
 BattleFrontier_BattleTowerLobby_EventScript_DeclineInterview:: @ 828CC2E
@@ -341,17 +330,4 @@ BattleFrontier_BattleTowerLobby_EventScript_ShowOrHideReporter:: @ 828CC84
 
 BattleFrontier_BattleTowerLobby_EventScript_HideReporter:: @ 828CCA6
 	setflag FLAG_HIDE_BATTLE_TOWER_REPORTER
-	return
-
-@ Unused
-EventScript_ContestLiveInterview:: @ 828CCAA
-	setvar VAR_0x8005, TVSHOW_CONTEST_LIVE_UPDATES
-	special InterviewBefore
-	compare VAR_RESULT, TRUE
-	goto_if_eq EventScript_ContestLiveInterviewEnd
-	setvar VAR_0x8005, TVSHOW_CONTEST_LIVE_UPDATES
-	special InterviewAfter
-	return
-
-EventScript_ContestLiveInterviewEnd:: @ 828CCC6
 	return

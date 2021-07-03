@@ -218,7 +218,6 @@ Route103_EventScript_Amy:: @ 81EC60B
 
 Route102_EventScript_AmyRegisterMatchCallAfterBattle:: @ 81EC63A
 	msgbox Route103_Text_AmyLivRegister, MSGBOX_DEFAULT
-	register_matchcall TRAINER_AMY_AND_LIV_1
 	release
 	end
 
@@ -237,7 +236,6 @@ Route103_EventScript_Liv:: @ 81EC66E
 
 Route102_EventScript_LivRegisterMatchCallAfterBattle:: @ 81EC69D
 	msgbox Route103_Text_AmyLivRegister, MSGBOX_DEFAULT
-	register_matchcall TRAINER_AMY_AND_LIV_1
 	release
 	end
 
@@ -264,7 +262,6 @@ Route102_EventScript_MiguelRegisterMatchCallAfterBattle:: @ 81EC714
 	special PlayerFaceTrainerAfterBattle
 	waitmovement 0
 	msgbox Route103_Text_MiguelRegister, MSGBOX_DEFAULT
-	register_matchcall TRAINER_MIGUEL_1
 	release
 	end
 

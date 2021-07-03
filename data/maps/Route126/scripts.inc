@@ -54,7 +54,6 @@ Route126_EventScript_RegisterPablo:: @ 81F69A3
 	special PlayerFaceTrainerAfterBattle
 	waitmovement 0
 	msgbox Route126_Text_PabloRegister, MSGBOX_DEFAULT
-	register_matchcall TRAINER_PABLO_1
 	release
 	end
 

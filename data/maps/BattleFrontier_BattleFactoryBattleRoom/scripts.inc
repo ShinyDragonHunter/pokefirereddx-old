@@ -46,10 +46,6 @@ BattleFrontier_BattleFactoryBattleRoom_EventScript_HideObjects:: @ 825AE0A
 BattleFrontier_BattleFactoryBattleRoom_EventScript_EndHideObjects:: @ 825AE24
 	end
 
-BattleFrontier_BattleFactoryBattleRoom_EventScript_SetPlayerGfxMale:: @ 825AE25
-	setvar VAR_OBJ_GFX_ID_F, OBJ_EVENT_GFX_RED_NORMAL
-	return
-
 BattleFrontier_BattleFactoryBattleRoom_EventScript_SetPlayerGfxFemale:: @ 825AE2B
 	setvar VAR_OBJ_GFX_ID_F, OBJ_EVENT_GFX_LEAF_NORMAL
 	return
@@ -88,6 +84,7 @@ BattleFrontier_BattleFactoryBattleRoom_EventScript_BattleOpponent:: @ 825AEA7
 	goto_if_ne BattleFrontier_BattleFactoryBattleRoom_EventScript_BattleNoland
 	palace_getopponentintro
 	lockall
+	call Common_EventScript_SetFrontierTrainer1TextColor
 	msgbox gStringVar4, MSGBOX_DEFAULT
 	waitmessage
 	closemessage
@@ -150,11 +147,13 @@ BattleFrontier_BattleFactoryBattleRoom_EventScript_DefeatedNolandSilver:: @ 825B
 	closemessage
 	applymovement LOCALID_PLAYER, BattleFrontier_BattleFactoryBattleRoom_Movement_PlayerApproachNoland
 	waitmovement 0
+	textcolor RESET
 	playfanfare MUS_OBTAIN_SYMBOL
 	message BattleFrontier_BattleFactoryBattleRoom_Text_ReceivedKnowledgeSymbol
 	waitmessage
 	waitfanfare
 	frontier_givesymbol
+	textcolor BLUE
 	msgbox BattleFrontier_BattleFactoryBattleRoom_Text_NextTimeNoHoldsBarred, MSGBOX_DEFAULT
 	goto BattleFrontier_BattleFactoryBattleRoom_EventScript_DefeatedNoland
 
@@ -179,11 +178,13 @@ BattleFrontier_BattleFactoryBattleRoom_EventScript_DefeatedNolandGold:: @ 825B09
 	waitmessage
 	applymovement LOCALID_PLAYER, BattleFrontier_BattleFactoryBattleRoom_Movement_PlayerApproachNoland
 	waitmovement 0
+	textcolor RESET
 	playfanfare MUS_OBTAIN_SYMBOL
 	message BattleFrontier_BattleFactoryBattleRoom_Text_KnowledgeSymbolTookGoldenShine
 	waitmessage
 	waitfanfare
 	frontier_givesymbol
+	textcolor BLUE
 	msgbox BattleFrontier_BattleFactoryBattleRoom_Text_LastTimeILoseToYou, MSGBOX_DEFAULT
 	goto BattleFrontier_BattleFactoryBattleRoom_EventScript_DefeatedNoland
 
@@ -334,4 +335,3 @@ BattleFrontier_BattleFactoryBattleRoom_Text_LastTimeILoseToYou: @ 825B66D
 	.string "That's absolutely the last time\n"
 	.string "I lose to you!\p"
 	.string "We have to do this again, hey?$"
-

@@ -45,6 +45,7 @@ BattleFrontier_BattlePalaceBattleRoom_EventScript_NextOpponentEnter:: @ 824F8BF
 	waitmovement 0
 	textcolor RESET
 	palace_getopponentintro
+	call Common_EventScript_SetFrontierTrainer1TextColor
 	msgbox gStringVar4, MSGBOX_DEFAULT
 	waitmessage
 	call BattleFrontier_BattlePalaceBattleRoom_EventScript_DoPalaceBattle
@@ -266,7 +267,7 @@ BattleFrontier_BattlePalaceBattleRoom_EventScript_DefeatedSpenserGold:: @ 824FD8
 	applymovement LOCALID_ATTENDANT, BattleFrontier_BattlePalaceBattleRoom_Movement_FaceDown
 	msgbox BattleFrontier_BattlePalaceBattleRoom_Text_HurryWithFrontierPass, MSGBOX_DEFAULT
 	playfanfare MUS_OBTAIN_SYMBOL
-	textcolor DARK_GRAY
+	textcolor RESET
 	message BattleFrontier_BattlePalaceBattleRoom_Text_SpiritsSymbolTookGoldenShine
 	waitmessage
 	waitfanfare
@@ -358,6 +359,7 @@ BattleFrontier_BattlePalaceBattleRoom_Movement_FaceUp: @ 824FE99
 
 BattleFrontier_BattlePalaceBattleRoom_Movement_PlayerReturnToChallenge: @ 824FE9B
 	set_visible
+BattleFrontier_BattlePalaceBattleRoom_Movement_OpponentExit: @ 824FEA7
 	walk_up
 	walk_up
 	walk_up
@@ -370,13 +372,6 @@ BattleFrontier_BattlePalaceBattleRoom_Movement_OpponentEnter: @ 824FEA1
 	walk_down
 	walk_down
 	face_left
-	step_end
-
-BattleFrontier_BattlePalaceBattleRoom_Movement_OpponentExit: @ 824FEA7
-	walk_up
-	walk_up
-	walk_up
-	walk_up
 	step_end
 
 BattleFrontier_BattlePalaceBattleRoom_Movement_FaceDown: @ 824FEAC

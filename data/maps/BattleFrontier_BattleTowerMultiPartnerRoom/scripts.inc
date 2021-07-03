@@ -100,6 +100,7 @@ BattleFrontier_BattleTowerMultiPartnerRoom_EventScript_QuitChallenge:: @ 8243E9D
 	end
 
 BattleFrontier_BattleTowerMultiPartnerRoom_EventScript_EnterElevator:: @ 8243EB5
+	textcolor RED
 	msgbox BattleFrontier_BattleTowerMultiPartnerRoom_Text_ThankYouForChoosingPartner, MSGBOX_DEFAULT
 	closemessage
 	applymovement LOCALID_ATTENDANT, Common_Movement_WalkInPlaceFastestUp
@@ -120,40 +121,8 @@ BattleFrontier_BattleTowerMultiPartnerRoom_EventScript_MoveToElevator:: @ 8243EE
 	waitmovement 0
 	return
 
-@ Unused
-BattleFrontier_BattleTowerMultiPartnerRoom_EventScript_MoveToElevatorEast: @ 8243EF6
-	applymovement LOCALID_ATTENDANT, BattleFrontier_BattleTowerMultiPartnerRoom_Movement_AttendantEnterElevator
-	applymovement OBJ_EVENT_ID_PLAYER, BattleFrontier_BattleTowerMultiPartnerRoom_Movement_PlayerEnterElevatorEast
-	waitmovement 0
-	return
-
-@ Unused
-BattleFrontier_BattleTowerMultiPartnerRoom_EventScript_MoveToElevatorWest: @ 8243F08
-	applymovement LOCALID_ATTENDANT, BattleFrontier_BattleTowerMultiPartnerRoom_Movement_AttendantEnterElevator
-	applymovement OBJ_EVENT_ID_PLAYER, BattleFrontier_BattleTowerMultiPartnerRoom_Movement_PlayerEneterElevatorWest
-	waitmovement 0
-	return
-
 BattleFrontier_BattleTowerMultiPartnerRoom_Movement_PlayerEnterElevator: @ 8243F1A
 	walk_up
-	walk_up
-	set_invisible
-	step_end
-
-@ Functionally unused
-BattleFrontier_BattleTowerMultiPartnerRoom_Movement_PlayerEnterElevatorEast: @ 8243F1E
-	walk_right
-	walk_up
-	set_invisible
-	step_end
-
-@ Functionally unused
-BattleFrontier_BattleTowerMultiPartnerRoom_Movement_PlayerEneterElevatorWest: @ 8243F22
-	walk_left
-	walk_up
-	set_invisible
-	step_end
-
 BattleFrontier_BattleTowerMultiPartnerRoom_Movement_AttendantEnterElevator: @ 8243F26
 	walk_up
 	set_invisible
@@ -177,17 +146,15 @@ BattleFrontier_BattleTowerMultiPartnerRoom_EventScript_TalkToPotentialPartner:: 
 	tower_dopartnermsg PARTNER_MSGID_MON2_ASK
 	waitmessage
 	multichoicedefault 20, 8, MULTI_YESNO, 1, FALSE
-	switch VAR_RESULT
-	case 1, BattleFrontier_BattleTowerMultiPartnerRoom_EventScript_RejectPartner
-	case MULTI_B_PRESSED, BattleFrontier_BattleTowerMultiPartnerRoom_EventScript_RejectPartner
+	compare VAR_RESULT, 0
+	goto_if_ne BattleFrontier_BattleTowerMultiPartnerRoom_EventScript_RejectPartner
 	tower_dopartnermsg PARTNER_MSGID_ACCEPT
 	waitmessage
 	waitbuttonpress
 	closemessage
 	compare VAR_FACING, DIR_SOUTH
-	call_if_ne BattleFrontier_BattleTowerMultiPartnerRoom_EventScript_PartnerExit
-	compare VAR_FACING, DIR_SOUTH
 	call_if_eq BattleFrontier_BattleTowerMultiPartnerRoom_EventScript_PartnerExitSouth
+	call_if_ne BattleFrontier_BattleTowerMultiPartnerRoom_EventScript_PartnerExit
 	removeobject VAR_LAST_TALKED
 	setflag FLAG_CHOSEN_MULTI_BATTLE_NPC_PARTNER
 	warpsilent MAP_BATTLE_FRONTIER_BATTLE_TOWER_MULTI_PARTNER_ROOM, 255, 10, 3
@@ -212,18 +179,9 @@ BattleFrontier_BattleTowerMultiPartnerRoom_EventScript_PartnerExitSouth:: @ 8243
 	waitmovement 0
 	return
 
-BattleFrontier_BattleTowerMultiPartnerRoom_Movement_PartnerExit: @ 8243FEA
-	walk_fast_up
-	walk_fast_up
-	walk_fast_up
-	walk_fast_up
-	walk_fast_up
-	walk_fast_up
-	walk_fast_up
-	step_end
-
 BattleFrontier_BattleTowerMultiPartnerRoom_Movement_PartnerExitSouth: @ 8243FF2
 	walk_fast_left
+BattleFrontier_BattleTowerMultiPartnerRoom_Movement_PartnerExit: @ 8243FEA
 	walk_fast_up
 	walk_fast_up
 	walk_fast_up
@@ -1809,4 +1767,3 @@ BattleFrontier_BattleTowerMultiPartnerRoom_Text_SwimmerMAccept:: @ 8248CCF
 BattleFrontier_BattleTowerMultiPartnerRoom_Text_SwimmerMReject:: @ 8248D04
 	.string "If we meet again, you have to team up\n"
 	.string "with me. You'll do that, right?$"
-

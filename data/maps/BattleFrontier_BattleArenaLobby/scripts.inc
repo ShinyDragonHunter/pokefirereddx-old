@@ -27,8 +27,8 @@ BattleFrontier_BattleArenaLobby_EventScript_GetChallengeStatus:: @ 8255C7F
 	end
 
 BattleFrontier_BattleArenaLobby_EventScript_QuitWithoutSaving:: @ 8255C88
-	textcolor BLUE
 	lockall
+	textcolor BLUE
 	msgbox BattleFrontier_BattleArenaLobby_Text_DidntSaveBeforeShuttingDown, MSGBOX_DEFAULT
 	closemessage
 	arena_set ARENA_DATA_WIN_STREAK, 0
@@ -39,8 +39,8 @@ BattleFrontier_BattleArenaLobby_EventScript_QuitWithoutSaving:: @ 8255C88
 	end
 
 BattleFrontier_BattleArenaLobby_EventScript_WonChallenge:: @ 8255CCF
-	textcolor BLUE
 	lockall
+	textcolor BLUE
 	frontier_isbrain
 	compare VAR_RESULT, TRUE
 	goto_if_eq BattleFrontier_BattleArenaLobby_EventScript_DefeatedTycoon
@@ -63,8 +63,8 @@ BattleFrontier_BattleArenaLobby_EventScript_GiveBattlePoints:: @ 8255CF8
 	end
 
 BattleFrontier_BattleArenaLobby_EventScript_LostChallenge:: @ 8255D2B
-	textcolor BLUE
 	lockall
+	textcolor BLUE
 	message BattleFrontier_BattleArenaLobby_Text_ThankYouWaitWhileSave
 	waitmessage
 	arena_set ARENA_DATA_WIN_STREAK_ACTIVE, FALSE
@@ -235,6 +235,8 @@ BattleFrontier_BattleArenaLobby_Movement_AttendantWalkToLeftDoor: @ 8256034
 	walk_up
 	step_end
 
+BattleFrontier_BattleArenaLobby_Movement_PlayerEnterDoor: @ 825604C
+	walk_up
 BattleFrontier_BattleArenaLobby_Movement_AttendantEnterDoor: @ 825603E
 	walk_up
 	set_invisible
@@ -252,25 +254,6 @@ BattleFrontier_BattleArenaLobby_Movement_PlayerWalkToLeftDoor: @ 8256041
 	walk_left
 	walk_in_place_fastest_up
 	step_end
-
-BattleFrontier_BattleArenaLobby_Movement_PlayerEnterDoor: @ 825604C
-	walk_up
-	walk_up
-	set_invisible
-	step_end
-
-BattleFrontier_BattleArenaLobby_EventScript_WalkToDoorLvOpen:: @ 8256050
-	applymovement LOCALID_ATTENDANT, BattleFrontier_BattleArenaLobby_Movement_AttendantWalkToRightDoor
-	applymovement OBJ_EVENT_ID_PLAYER, BattleFrontier_BattleArenaLobby_Movement_PlayerWalkToRightDoor
-	waitmovement 0
-	opendoor 11, 2
-	waitdooranim
-	applymovement LOCALID_ATTENDANT, BattleFrontier_BattleArenaLobby_Movement_AttendantEnterDoor
-	applymovement OBJ_EVENT_ID_PLAYER, BattleFrontier_BattleArenaLobby_Movement_PlayerEnterDoor
-	waitmovement 0
-	closedoor 11, 2
-	waitdooranim
-	return
 
 BattleFrontier_BattleArenaLobby_Movement_AttendantWalkToRightDoor: @ 825607F
 	walk_up
@@ -294,6 +277,19 @@ BattleFrontier_BattleArenaLobby_Movement_PlayerWalkToRightDoor: @ 8256088
 	walk_right
 	walk_in_place_fastest_up
 	step_end
+
+BattleFrontier_BattleArenaLobby_EventScript_WalkToDoorLvOpen:: @ 8256050
+	applymovement LOCALID_ATTENDANT, BattleFrontier_BattleArenaLobby_Movement_AttendantWalkToRightDoor
+	applymovement OBJ_EVENT_ID_PLAYER, BattleFrontier_BattleArenaLobby_Movement_PlayerWalkToRightDoor
+	waitmovement 0
+	opendoor 11, 2
+	waitdooranim
+	applymovement LOCALID_ATTENDANT, BattleFrontier_BattleArenaLobby_Movement_AttendantEnterDoor
+	applymovement OBJ_EVENT_ID_PLAYER, BattleFrontier_BattleArenaLobby_Movement_PlayerEnterDoor
+	waitmovement 0
+	closedoor 11, 2
+	waitdooranim
+	return
 
 BattleFrontier_BattleArenaLobby_EventScript_ShowResults:: @ 8256092
 	lockall

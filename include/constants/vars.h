@@ -303,6 +303,6 @@
 #define VAR_PREV_TEXT_COLOR           0x8015
 #define VAR_TRAINER_BATTLE_OPPONENT_A 0x8016 // Alias of gTrainerBattleOpponent_A
 
-#define SPECIAL_VARS_END              0x8016
+#define SPECIAL_VARS_END              VAR_TRAINER_BATTLE_OPPONENT_A
 
 #endif // GUARD_CONSTANTS_VARS_H

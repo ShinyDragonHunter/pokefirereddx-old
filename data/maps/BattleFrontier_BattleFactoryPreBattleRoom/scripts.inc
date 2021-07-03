@@ -52,8 +52,7 @@ BattleFrontier_BattleFactoryPreBattleRoom_EventScript_EnterBattleRoom:: @ 8259B7
 	call BattleFrontier_EventScript_GetLvlMode
 	compare VAR_RESULT, FRONTIER_LVL_50
 	call_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_WalkToBattleRoomLv50
-	compare VAR_RESULT, FRONTIER_LVL_OPEN
-	call_if_eq BattleFrontier_BattleFactoryPreBattleRoom_EventScript_WalkToBattleRoomLvOpen
+	call_if_ne BattleFrontier_BattleFactoryPreBattleRoom_EventScript_WalkToBattleRoomLvOpen
 	waitmovement 0
 	warp MAP_BATTLE_FRONTIER_BATTLE_FACTORY_BATTLE_ROOM, 255, 6, 11
 	waitstate

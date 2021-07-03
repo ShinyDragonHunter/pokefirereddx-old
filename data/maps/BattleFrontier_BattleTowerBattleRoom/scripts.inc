@@ -41,6 +41,7 @@ BattleFrontier_BattleTowerBattleRoom_EventScript_OpponentEnter:: @ 8241BC3
 	applymovement LOCALID_OPPONENT, BattleFrontier_BattleTowerBattleRoom_Movement_OpponentEnter
 	waitmovement 0
 	tower_getopponentintro 0
+	call Common_EventScript_SetFrontierTrainer1TextColor
 	msgbox gStringVar4, MSGBOX_DEFAULT
 	waitmessage
 	call BattleFrontier_BattleTowerBattleRoom_EventScript_DoTowerBattle
@@ -103,10 +104,9 @@ BattleFrontier_BattleTowerBattleRoom_EventScript_AskRecordBattle:: @ 8241D40
 	message BattleFrontier_BattleTowerBattleRoom_Text_RecordYourBattle
 	waitmessage
 	multichoicedefault 20, 8, MULTI_YESNO, 1, FALSE
-	switch VAR_RESULT
-	case 1, BattleFrontier_BattleTowerBattleRoom_EventScript_AskReadyForOpponent
-	case 0, BattleFrontier_BattleTowerBattleRoom_EventScript_RecordBattle
-	case MULTI_B_PRESSED, BattleFrontier_BattleTowerBattleRoom_EventScript_AskReadyForOpponent
+	compare VAR_RESULT, 0
+	goto_if_eq BattleFrontier_BattleTowerBattleRoom_EventScript_RecordBattle
+	goto_if_ne BattleFrontier_BattleTowerBattleRoom_EventScript_AskReadyForOpponent
 
 BattleFrontier_BattleTowerBattleRoom_EventScript_RecordBattle:: @ 8241D72
 	call BattleFrontier_EventScript_SaveBattle
@@ -114,19 +114,17 @@ BattleFrontier_BattleTowerBattleRoom_EventScript_RecordBattle:: @ 8241D72
 
 BattleFrontier_BattleTowerBattleRoom_EventScript_AskPauseChallenge:: @ 8241D7C
 	msgbox BattleFrontier_BattleTowerBattleRoom_Text_SaveAndQuitGame, MSGBOX_YESNO
-	switch VAR_RESULT
-	case NO, BattleFrontier_BattleTowerBattleRoom_EventScript_AskReadyForOpponent
-	case YES, BattleFrontier_BattleTowerBattleRoom_EventScript_PauseChallenge
-	case MULTI_B_PRESSED, BattleFrontier_BattleTowerBattleRoom_EventScript_AskReadyForOpponent
+	compare VAR_RESULT, YES
+	goto_if_eq BattleFrontier_BattleTowerBattleRoom_EventScript_PauseChallenge
+	goto_if_ne BattleFrontier_BattleTowerBattleRoom_EventScript_AskReadyForOpponent
 
 BattleFrontier_BattleTowerBattleRoom_EventScript_AskRetireChallenge:: @ 8241DAA
 	message BattleFrontier_BattleTowerBattleRoom_Text_CancelYourChallenge
 	waitmessage
 	multichoicedefault 20, 8, MULTI_YESNO, 1, FALSE
-	switch VAR_RESULT
-	case 1, BattleFrontier_BattleTowerBattleRoom_EventScript_AskReadyForOpponent
-	case 0, BattleFrontier_BattleTowerBattleRoom_EventScript_RetireChallenge
-	case MULTI_B_PRESSED, BattleFrontier_BattleTowerBattleRoom_EventScript_AskReadyForOpponent
+	compare VAR_RESULT, 0
+	goto_if_eq BattleFrontier_BattleTowerBattleRoom_EventScript_RetireChallenge
+	goto_if_ne BattleFrontier_BattleTowerBattleRoom_EventScript_AskReadyForOpponent
 
 BattleFrontier_BattleTowerBattleRoom_EventScript_ContinueChallenge:: @ 8241DDC
 	closemessage
@@ -275,7 +273,7 @@ BattleFrontier_BattleTowerBattleRoom_EventScript_DefeatedAnabelSilver:: @ 824204
 	goto_if_ne BattleFrontier_BattleTowerBattleRoom_EventScript_WarpToLobbyWon
 	msgbox BattleFrontier_BattleTowerBattleRoom_Text_AnabelTalentShallBeRecognized, MSGBOX_DEFAULT
 	playfanfare MUS_OBTAIN_SYMBOL
-	textcolor DARK_GRAY
+	textcolor RESET
 	message BattleFrontier_BattleTowerBattleRoom_Text_ReceivedAbilitySymbol
 	waitmessage
 	waitfanfare
@@ -304,7 +302,7 @@ BattleFrontier_BattleTowerBattleRoom_EventScript_DefeatedAnabelGold:: @ 82420CF
 	goto_if_eq BattleFrontier_BattleTowerBattleRoom_EventScript_WarpToLobbyWon
 	msgbox BattleFrontier_BattleTowerBattleRoom_Text_AnabelCongratsYourPassPlease, MSGBOX_DEFAULT
 	playfanfare MUS_OBTAIN_SYMBOL
-	textcolor DARK_GRAY
+	textcolor RESET
 	message BattleFrontier_BattleTowerBattleRoom_Text_AbilitySymbolTookGoldenShine
 	waitmessage
 	waitfanfare
@@ -577,4 +575,3 @@ BattleFrontier_BattleTowerBattleRoom_Text_WishICouldBattleYouAgain: @ 824295D
 	.string "I have never had a POKéMON battle\n"
 	.string "so enjoyable before…\p"
 	.string "I wish I could battle with you again…$"
-

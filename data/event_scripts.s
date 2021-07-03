@@ -455,6 +455,27 @@ gStdScripts_End:: @ 81DC2CC
 	.include "data/maps/SafariZone_Southwest/scripts.inc"
 	.include "data/maps/SafariZone_South/scripts.inc"
 	.include "data/maps/BattleFrontier_OutsideWest/scripts.inc"
+
+Common_EventScript_SetFrontierTrainer1TextColor::
+	compare VAR_0x8000, MALE
+	call_if_eq Common_EventScript_SetFrontierTrainerTextColorBlue
+	call_if_ne Common_EventScript_SetFrontierTrainerTextColorRed
+	return
+
+Common_EventScript_SetFrontierTrainer2TextColor::
+	compare VAR_0x8001, MALE
+	call_if_eq Common_EventScript_SetFrontierTrainerTextColorBlue
+	call_if_ne Common_EventScript_SetFrontierTrainerTextColorRed
+	return
+
+Common_EventScript_SetFrontierTrainerTextColorBlue::
+	textcolor BLUE
+	return
+
+Common_EventScript_SetFrontierTrainerTextColorRed::
+	textcolor RED
+	return
+
 	.include "data/maps/BattleFrontier_BattleTowerLobby/scripts.inc"
 	.include "data/maps/BattleFrontier_BattleTowerElevator/scripts.inc"
 	.include "data/maps/BattleFrontier_BattleTowerCorridor/scripts.inc"
@@ -915,11 +936,9 @@ EventScript_SelectWithoutRegisteredItem:: @ 82736B3
 
 	.include "data/scripts/field_poison.inc"
 
-Common_EventScript_NopReturn:: @ 827374E
-	return
-
 EventScript_CableClub_SetVarResult0:: @ 8273755
 	setvar VAR_RESULT, 0
+Common_EventScript_NopReturn:: @ 827374E
 	return
 
 Common_EventScript_UnionRoomAttendant:: @ 827375B

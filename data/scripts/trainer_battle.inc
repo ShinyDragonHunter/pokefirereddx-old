@@ -2,7 +2,6 @@ EventScript_StartTrainerApproach:: @ 8271354
 	selectapproachingtrainer
 	lockfortrainer
 EventScript_TrainerApproach:: @ 8271356
-	textcolor RESET
 	special PlayTrainerEncounterMusic
 	special DoTrainerApproach
 	waitstate
@@ -75,7 +74,7 @@ EventScript_NoRematchTrainerBattle:: @ 82713F7
 EventScript_TryDoDoubleRematchBattle:: @ 82713F8
 	specialvar VAR_RESULT, IsTrainerReadyForRematch
 	compare VAR_RESULT, FALSE
-	goto_if_eq EventScript_NoDoubleRematchTrainerBattle
+	goto_if_eq EventScript_NoRematchTrainerBattle
 	special HasEnoughMonsForDoubleBattle
 	compare VAR_RESULT, PLAYER_HAS_TWO_USABLE_MONS
 	goto_if_ne EventScript_NotEnoughMonsForDoubleRematchBattle
@@ -88,9 +87,6 @@ EventScript_TryDoDoubleRematchBattle:: @ 82713F8
 	waitstate
 	releaseall
 	end
-
-EventScript_NoDoubleRematchTrainerBattle:: @ 8271427
-	gotopostbattlescript
 
 EventScript_NotEnoughMonsForDoubleRematchBattle:: @ 8271428
 	special ShowTrainerCantBattleSpeech
@@ -119,19 +115,6 @@ EventScript_ShowTrainerIntroMsg:: @ 827143C
 
 EventScript_DoTrainerBattle:: @ 8271454
 	trainerbattlebegin
-	@ Below battle mode check only needed in FRLG
-	specialvar VAR_RESULT, GetTrainerBattleMode
-	compare VAR_RESULT, TRAINER_BATTLE_SINGLE
-	goto_if_eq EventScript_EndTrainerBattle
-	compare VAR_RESULT, TRAINER_BATTLE_CONTINUE_SCRIPT
-	goto_if_eq EventScript_EndTrainerBattle
-	compare VAR_RESULT, TRAINER_BATTLE_CONTINUE_SCRIPT_NO_MUSIC
-	goto_if_eq EventScript_EndTrainerBattle
-	compare VAR_RESULT, TRAINER_BATTLE_CONTINUE_SCRIPT_DOUBLE
-	goto_if_eq EventScript_EndTrainerBattle
-	compare VAR_RESULT, TRAINER_BATTLE_CONTINUE_SCRIPT_DOUBLE_NO_MUSIC
-	goto_if_eq EventScript_EndTrainerBattle
-EventScript_EndTrainerBattle:: @ 8271491
 	gotobeatenscript
 	releaseall
 	end

@@ -382,7 +382,6 @@ Route119_EventScript_RegisterJackson:: @ 81F483C
 	special PlayerFaceTrainerAfterBattle
 	waitmovement 0
 	msgbox Route119_Text_JacksonRegister, MSGBOX_DEFAULT
-	register_matchcall TRAINER_JACKSON_1
 	release
 	end
 
@@ -404,7 +403,6 @@ Route119_EventScript_RegisterCatherine:: @ 81F489E
 	special PlayerFaceTrainerAfterBattle
 	waitmovement 0
 	msgbox Route119_Text_CatherineRegister, MSGBOX_DEFAULT
-	register_matchcall TRAINER_CATHERINE_1
 	release
 	end
 

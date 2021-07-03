@@ -73,7 +73,6 @@ Route127_EventScript_RegisterKoji:: @ 81F6B02
 	special PlayerFaceTrainerAfterBattle
 	waitmovement 0
 	msgbox Route127_Text_KojiRegister, MSGBOX_DEFAULT
-	register_matchcall TRAINER_KOJI_1
 	release
 	end
 

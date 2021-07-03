@@ -53,8 +53,7 @@
 	@ callstd function names
 	STD_OBTAIN_ITEM = 0
 	STD_FIND_ITEM = 1
-	STD_OBTAIN_DECORATION = 7
-	STD_REGISTER_MATCH_CALL = 8
+	STD_REGISTER_MATCH_CALL = 7
 
 	@ Calls the standard function at index function.
 	.macro callstd function:req
@@ -305,14 +304,14 @@
 	.2byte \a
 	.endm
 
-	@ Initializes the RTC`s local time offset to the given hour and minute. In FireRed, this command is a nop.
+	@ Initializes the RTC`s local time offset to the given hour and minute.
 	.macro initclock hour:req, minute:req
 	.byte 0x2c
 	.2byte \hour
 	.2byte \minute
 	.endm
 
-	@ Runs time based events. In FireRed, this command is a nop.
+	@ Runs time based events.
 	.macro dotimebasedevents
 	.byte 0x2d
 	.endm
@@ -522,29 +521,24 @@
 	.2byte \quantity
 	.endm
 
-	@ Adds decoration to the player's PC. In FireRed, this command is a nop. (The argument is read, but not used for anything.)
-	.macro adddecoration decoration:req
+	@ This command is a nop.
+	.macro adddecoration
 	.byte 0x4b
-	.2byte \decoration
 	.endm
 
-	@ Removes a decoration from the player's PC. In FireRed, this command is a nop. (The argument is read, but not used for anything.)
-	.macro removedecoration decoration:req
+	@ This command is a nop.
+	.macro removedecoration
 	.byte 0x4c
-	.2byte \decoration
 	.endm
 
-	@ Checks for decoration in the player's PC. In FireRed, this command is a nop. (The argument is read, but not used for anything.)
-	.macro checkdecor decoration:req
+	@ This command is a nop.
+	.macro checkdecor
 	.byte 0x4d
-	.2byte \decoration
 	.endm
 
-	@ Checks if the player has enough space in their PC to hold decoration. Sets VAR_RESULT to TRUE if there is room, or 
-	@ FALSE is there is no room. In FireRed, this command is a nop. (The argument is read, but not used for anything.)
-	.macro checkdecorspace decoration:req
+	@ This command is a nop.
+	.macro checkdecorspace
 	.byte 0x4e
-	.2byte \decoration
 	.endm
 
 	@ Applies the movement data at movements to the specified (index) Object. Also closes any standard message boxes that are still open.
@@ -879,17 +873,17 @@
 	.byte \ignoreBPress
 	.endm
 
-	@ Nopped in Emerald.
+	@ This command is a nop.
 	.macro drawbox
 	.byte 0x72
 	.endm
 
-	@ Nopped in Emerald.
+	@ This command is a nop.
 	.macro erasebox
 	.byte 0x73
 	.endm
 
-	@ Nopped in Emerald.
+	@ This command is a nop.
 	.macro drawboxtext
 	.byte 0x74
 	.endm
@@ -919,17 +913,6 @@
 	.macro braillemessage text:req
 	.byte 0x78
 	.4byte \text
-	.endm
-
-	@ Formatting for the braille window, to be put at the start of a pointer used by braillemessage.
-	@ These are from RS and are ignored in Emerald (see ScrCmd_braillemessage, and comment above)
-	.macro brailleformat winLeft:req, winTop:req, winRight:req, winBottom:req, textLeft:req, textTop:req
-	.byte \winLeft
-	.byte \winTop
-	.byte \winRight
-	.byte \winBottom
-	.byte \textLeft
-	.byte \textTop
 	.endm
 
 	@ Gives the player one of the specified (species) Pokemon (with form) at level level holding item.
@@ -989,11 +972,9 @@
 	.2byte \item
 	.endm
 
-	@ Writes the name of the decoration at index decoration to the specified buffer. In FireRed, this command is a nop.
-	.macro bufferdecorationname out:req, decoration:req
+	@ This command is a nop.
+	.macro bufferdecorationname
 	.byte 0x81
-	.byte \out
-	.2byte \decoration
 	.endm
 
 	@ Writes the name of the move at index move to the specified buffer.
@@ -1049,7 +1030,7 @@
 	.2byte \word
 	.endm
 
-	@ Sets a berry tree's specific berry and growth stage. In FireRed, this command is a nop.
+	@ Sets a berry tree's specific berry and growth stage.
 	.macro setberrytree tree_id:req, berry:req, growth_stage:req
 	.byte 0x8a
 	.byte \tree_id
@@ -1113,19 +1094,14 @@
 	.byte \check
 	.endm
 
-	@ Hides the secondary box spawned by showmoney. Consumption of the x and y arguments was dummied out.
+	@ Hides the secondary box spawned by showmoney.
 	.macro hidemoneybox
 	.byte 0x94
-	.byte 0  @ \x
-	.byte 0  @ \y
 	.endm
 
-	@ Updates the secondary box spawned by showmoney. Consumes but does not use arguments.
-	.macro updatemoneybox x:req, y:req
+	@ Updates the secondary box spawned by showmoney.
+	.macro updatemoneybox
 	.byte 0x95
-	.byte \x
-	.byte \y
-	.byte 0 @ 1 = don't perform this command. Always 0 in vanilla. Why this is a thing is beyond me.
 	.endm
 
 	@ Gets the price reduction for the index given. In FireRed, this command is a nop.
@@ -1297,12 +1273,12 @@
 	.2byte \y
 	.endm
 
-	@ In Emerald, this command consumes its parameters and does nothing. In FireRed, this command is a nop.
+	@ This command is a nop.
 	.macro addelevmenuitem
 	.byte 0xb1
 	.endm
 
-	@ In FireRed and Emerald, this command is a nop.
+	@ This command is a nop.
 	.macro showelevmenu
 	.byte 0xb2
 	.endm
@@ -1393,18 +1369,14 @@
 	.byte \y
 	.endm
 
-	@ Hides the secondary box spawned by showcoins. It consumes its arguments but doesn't use them.
-	.macro hidecoinsbox x:req, y:req
+	@ Hides the secondary box spawned by showcoins.
+	.macro hidecoinsbox
 	.byte 0xc1
-	.byte \x
-	.byte \y
 	.endm
 
-	@ Updates the secondary box spawned by showcoins. It consumes its arguments but doesn't use them.
-	.macro updatecoinsbox x:req, y:req
+	@ Updates the secondary box spawned by showcoins.
+	.macro updatecoinsbox
 	.byte 0xc2
-	.byte \x
-	.byte \y
 	.endm
 
 	@ Increases the value of the specified game stat by 1. The stat's value will not be allowed to exceed 0x00FFFFFF.
@@ -1443,17 +1415,12 @@
 	.byte \color
 	.endm
 
-	@ The exact purpose of this command is unknown, but it is related to the blue help-text box that appears on the bottom 
-	@ of the screen when the Main Menu is opened.
-	@ Used only in FireRed/LeafGreen, does nothing in Emerald.
-	.macro loadhelp pointer:req
+	@ This command is a nop.
+	.macro loadhelp
 	.byte 0xc8
-	.4byte \pointer
 	.endm
 
-	@ The exact purpose of this command is unknown, but it is related to the blue help-text box that appears on the bottom of
-	@ the screen when the Main Menu is opened.
-	@ Used only in FireRed/LeafGreen, does nothing in Emerald.
+	@ This command is a nop.
 	.macro unloadhelp
 	.byte 0xc9
 	.endm
@@ -1786,18 +1753,6 @@
 	setorcopyvar VAR_0x8000, \item
 	setorcopyvar VAR_0x8001, \amount
 	callstd STD_FIND_ITEM
-	.endm
-
-	.macro givedecoration decoration:req
-	setorcopyvar VAR_0x8000, \decoration
-	callstd STD_OBTAIN_DECORATION
-	.endm
-
-	.macro register_matchcall trainer:req
-	setvar VAR_0x8004, \trainer
-	special SetMatchCallRegisteredFlag
-	setorcopyvar VAR_0x8000, \trainer
-	callstd STD_REGISTER_MATCH_CALL
 	.endm
 
 	.macro dofieldeffectsparkle x:req, y:req, priority:req

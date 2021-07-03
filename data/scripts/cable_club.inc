@@ -613,13 +613,6 @@ Movement_PlayerExitLinkRoom: @ 827734F
 	walk_down
 	step_end
 
-@ Functionally unused
-Movement_PlayerApproachLinkRoomRight: @ 8277352
-	walk_right
-	walk_up
-	walk_up
-	step_end
-
 Movement_PlayerApproachLinkRoomLeft: @ 8277356
 	walk_left
 CableClub_Movement_PlayerApproachCounter: @ 8276E10
@@ -1426,8 +1419,7 @@ MossdeepCity_GameCorner_1F_EventScript_DontHaveRequiredMon:: @ 8277E55
 	goto_if_eq MossdeepCity_GameCorner_1F_EventScript_AbortMinigame
 	compare VAR_0x8005, 0
 	call_if_eq MossdeepCity_GameCorner_1F_EventScript_ExplainPokemonJumpRequirements
-	compare VAR_0x8005, 1
-	call_if_eq MossdeepCity_GameCorner_1F_EventScript_ExplainDodrioBerryPickingRequirements
+	call_if_ne MossdeepCity_GameCorner_1F_EventScript_ExplainDodrioBerryPickingRequirements
 	goto MossdeepCity_GameCorner_1F_EventScript_AbortMinigame
 	end
 

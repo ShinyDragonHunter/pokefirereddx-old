@@ -115,7 +115,6 @@ JaggedPass_EventScript_Diana:: @ 823079C
 JaggedPass_EventScript_RegisterDiana:: @ 82307C8
 	special PlayerFaceTrainerAfterBattle
 	msgbox JaggedPass_Text_DianaRegister, MSGBOX_DEFAULT
-	register_matchcall TRAINER_DIANA_1
 	release
 	end
 
@@ -136,7 +135,6 @@ JaggedPass_EventScript_Ethan:: @ 82307FB
 JaggedPass_EventScript_RegisterEthan:: @ 8230827
 	special PlayerFaceTrainerAfterBattle
 	msgbox JaggedPass_Text_EthanRegister, MSGBOX_DEFAULT
-	register_matchcall TRAINER_ETHAN_1
 	release
 	end
 

@@ -98,9 +98,6 @@ EventScript_SmashRock:: @ 82907FB
 	compare VAR_RESULT, FALSE
 	goto_if_eq EventScript_EndSmash
 	waitstate
-	releaseall
-	end
-
 EventScript_EndSmash:: @ 8290829
 	releaseall
 	end
@@ -235,18 +232,14 @@ EventScript_UseDive:: @ 8290B0F
 	setfieldeffectargument 1, 1
 	msgbox Text_WantToDive, MSGBOX_YESNO
 	compare VAR_RESULT, NO
-	goto_if_eq EventScript_EndDive
+	goto_if_eq EventScript_EndWaterfall
 	msgbox Text_MonUsedDive, MSGBOX_DEFAULT
 	dofieldeffect FLDEFF_USE_DIVE
-	goto EventScript_EndDive
+	goto EventScript_EndWaterfall
 	end
 
 EventScript_CantDive:: @ 8290B4E
 	msgbox Text_CantDive, MSGBOX_DEFAULT
-	releaseall
-	end
-
-EventScript_EndDive:: @ 8290B58
 	releaseall
 	end
 
@@ -260,20 +253,16 @@ EventScript_UseDiveUnderwater:: @ 8290B5A
 	setfieldeffectargument 1, 1
 	msgbox Text_WantToSurface, MSGBOX_YESNO
 	compare VAR_RESULT, NO
-	goto_if_eq EventScript_EndSurface
+	goto_if_eq EventScript_EndWaterfall
 	msgbox Text_MonUsedDive, MSGBOX_DEFAULT
 	dofieldeffect FLDEFF_USE_DIVE
-	goto EventScript_EndSurface
+	goto EventScript_EndWaterfall
 	end
 
 EventScript_CantSurface:: @ 8290B99
 	lockall
 	msgbox Text_CantSurface, MSGBOX_DEFAULT
-	goto EventScript_EndSurface
-	end
-
-EventScript_EndSurface:: @ 8290BA8
-	releaseall
+	goto EventScript_EndWaterfall
 	end
 
 Text_CantDive: @ 8290BAA

@@ -335,4 +335,3 @@ FallarborTown_BattleTentLobby_Text_ScottMakeChallenge: @ 8200653
 	.string "SCOTT: Instead of wasting your\n"
 	.string "time with the likes of me, why not\l"
 	.string "make a challenge?$"
-

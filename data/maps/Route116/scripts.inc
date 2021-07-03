@@ -278,7 +278,6 @@ Route116_EventScript_RegisterJerryAfterBattle:: @ 81F2F03
 	special PlayerFaceTrainerAfterBattle
 	waitmovement 0
 	msgbox Route116_Text_JerryRegister2, MSGBOX_DEFAULT
-	register_matchcall TRAINER_JERRY_1
 	release
 	end
 
@@ -290,7 +289,6 @@ Route116_EventScript_TryRegisterJerry:: @ 81F2F22
 
 Route116_EventScript_RegisterJerry:: @ 81F2F35
 	msgbox Route116_Text_JerryRegister1, MSGBOX_DEFAULT
-	register_matchcall TRAINER_JERRY_1
 	release
 	end
 
@@ -331,7 +329,6 @@ Route116_EventScript_RegisterKarenAfterBattle:: @ 81F2FDF
 	special PlayerFaceTrainerAfterBattle
 	waitmovement 0
 	msgbox Route116_Text_KarenRegister2, MSGBOX_DEFAULT
-	register_matchcall TRAINER_KAREN_1
 	release
 	end
 
@@ -343,7 +340,6 @@ Route116_EventScript_TryRegisterKaren:: @ 81F2FFE
 
 Route116_EventScript_RegisterKaren:: @ 81F3011
 	msgbox Route116_Text_KarenRegister1, MSGBOX_DEFAULT
-	register_matchcall TRAINER_KAREN_1
 	release
 	end
 
