@@ -72,7 +72,7 @@ struct __attribute__((packed, aligned(2))) GFtgtGname
     u8 started:1;
     u8 playerGender:1;
     u8 level:7;
-    u8 padding;
+    u8 versionModifier;
 }; // size: RFU_GNAME_SIZE
 
 struct RfuBlockSend

@@ -15,18 +15,6 @@ enum {
     WIRELESS_STATUS_ANIM_ERROR,
 };
 
-#define UNUSED_QUEUE_NUM_SLOTS 2
-#define UNUSED_QUEUE_SLOT_LENGTH 256
-
-struct RfuUnusedQueue
-{
-    u8 slots[UNUSED_QUEUE_NUM_SLOTS][UNUSED_QUEUE_SLOT_LENGTH];
-    vu8 recvSlot;
-    vu8 sendSlot;
-    vu8 count;
-    vu8 full;
-};
-
 EWRAM_DATA u8 gWirelessStatusIndicatorSpriteId = 0;
 
 static u8 sUnknown_03000D74;
@@ -343,24 +331,6 @@ void RfuSendQueue_Reset(struct RfuSendQueue *queue)
     queue->full = FALSE;
 }
 
-static void RfuUnusedQueue_Reset(struct RfuUnusedQueue *queue)
-{
-    s32 i;
-    s32 j;
-
-    for (i = 0; i < UNUSED_QUEUE_NUM_SLOTS; i++)
-    {
-        for (j = 0; j < UNUSED_QUEUE_SLOT_LENGTH; j++)
-        {
-            queue->slots[i][j] = 0;
-        }
-    }
-    queue->sendSlot = 0;
-    queue->recvSlot = 0;
-    queue->count = 0;
-    queue->full = FALSE;
-}
-
 void RfuRecvQueue_Enqueue(struct RfuRecvQueue *queue, u8 *data)
 {
     s32 i;
@@ -519,41 +489,6 @@ bool8 RfuBackupQueue_Dequeue(struct RfuBackupQueue *queue, u8 *src)
     return TRUE;
 }
 
-static void RfuUnusedQueue_Enqueue(struct RfuUnusedQueue *queue, u8 *data)
-{
-    s32 i;
-
-    if (queue->count < UNUSED_QUEUE_NUM_SLOTS)
-    {
-        for (i = 0; i < UNUSED_QUEUE_SLOT_LENGTH; i++)
-            queue->slots[queue->recvSlot][i] = data[i];
-
-        queue->recvSlot++;
-        queue->recvSlot %= UNUSED_QUEUE_NUM_SLOTS;
-        queue->count++;
-    }
-    else
-    {
-        queue->full = TRUE;
-    }
-}
-
-static bool8 RfuUnusedQueue_Dequeue(struct RfuUnusedQueue *queue, u8 *dest)
-{
-    s32 i;
-
-    if (queue->recvSlot == queue->sendSlot || queue->full)
-        return FALSE;
-
-    for (i = 0; i < UNUSED_QUEUE_SLOT_LENGTH; i++)
-        dest[i] = queue->slots[queue->sendSlot][i];
-
-    queue->sendSlot++;
-    queue->sendSlot %= UNUSED_QUEUE_NUM_SLOTS;
-    queue->count--;
-    return TRUE;
-}
-
 // File boundary here maybe?
 
 static void PkmnStrToASCII(u8 *asciiStr, const u8 *pkmnStr)
@@ -626,11 +561,11 @@ void InitHostRFUtgtGname(struct GFtgtGname *data, u8 activity, bool32 started, s
     data->playerGender = gSaveBlock2Ptr->playerGender;
     data->activity = activity;
     data->started = started;
+	data->versionModifier = VERSION_MODIFIER;
     data->unk_00.language = GAME_LANGUAGE;
     data->unk_00.version = GAME_VERSION;
     data->unk_00.hasNews = FALSE;
     data->unk_00.hasCard = FALSE;
-    data->unk_00.unknown = FALSE;
     data->unk_00.isChampion = FlagGet(FLAG_IS_CHAMPION);
     data->unk_00.hasNationalDex = IsNationalPokedexEnabled();
     data->unk_00.gameClear = FlagGet(FLAG_SYS_GAME_CLEAR);
@@ -796,7 +731,7 @@ void UpdateWirelessStatusIndicatorSprite(void)
         {
             signalStrength = GetParentSignalStrength();
         }
-        if (IsRfuRecoveringFromLinkLoss() == TRUE)
+        if (IsRfuRecoveringFromLinkLoss())
         {
             sprite->sNextAnimNum = WIRELESS_STATUS_ANIM_ERROR;
         }

@@ -448,9 +448,9 @@ struct PokemonStorageSystemData
     s16 iconScrollSpeed;
     u16 iconScrollNumIncoming;
     u8 iconScrollCurColumn;
-    u8 boxForm[IN_BOX_COUNT];
-    u8 iconScrollState;
     u8 iconScrollUnused1; // Never read
+    u8 iconScrollState;
+    u8 iconScrollUnused2; // Never read
     struct WindowTemplate menuWindow;
     struct StorageMenu menuItems[7];
     u8 menuItemsCount;
@@ -523,13 +523,14 @@ struct PokemonStorageSystemData
     struct ItemIcon itemIcons[MAX_ITEM_ICONS];
     u16 movingItemId;
     u16 itemInfoWindowOffset;
-    u8 unkUnused2; // Unused
+    u8 displayMonShiny;
     u16 displayMonPalOffset;
     u16 *displayMonTilePtr;
     struct Sprite *displayMonSprite;
     u16 displayMonPalBuffer[0x40];
     u8 tileBuffer[0x800];
-    u8 unusedBuffer[0x1800]; // Unused
+    u8 unusedBuffer[0x17E2]; // Unused
+    u8 boxForm[IN_BOX_COUNT];
     u8 itemIconBuffer[0x800];
     u8 wallpaperBgTilemapBuffer[0x1000];
     u8 displayMenuTilemapBuffer[0x800];
@@ -3834,7 +3835,7 @@ static void LoadDisplayMonGfx(u16 species, u32 pid, u8 form)
         LoadSpecialPokePic(&gMonFrontPicTable[formSpecies], sStorage->tileBuffer, formSpecies, pid, TRUE);
         CpuCopy32(sStorage->tileBuffer, sStorage->displayMonTilePtr, MON_PIC_SIZE);
         LoadPalette(sStorage->displayMonPalette, sStorage->displayMonPalOffset, 0x20);
-        UniquePalette(sStorage->displayMonPalOffset, pid);
+        UniquePalette(sStorage->displayMonPalOffset, formSpecies, pid, sStorage->displayMonShiny);
         CpuCopy32(gPlttBufferFaded + sStorage->displayMonPalOffset, gPlttBufferUnfaded + sStorage->displayMonPalOffset, 32);
         sStorage->displayMonSprite->invisible = FALSE;
     }
@@ -6717,6 +6718,7 @@ static void SetDisplayMonData(void *pokemon, u8 mode)
             sStorage->displayMonPalette = GetMonFrontSpritePal(mon);
             gender = GetMonGender(mon);
             sStorage->displayMonItemId = GetMonData(mon, MON_DATA_HELD_ITEM);
+            sStorage->displayMonShiny = IsMonShiny(mon);
         }
     }
     else if (mode == MODE_BOX)
@@ -6739,6 +6741,7 @@ static void SetDisplayMonData(void *pokemon, u8 mode)
             sStorage->displayMonPalette = GetMonSpritePalFromSpeciesAndPersonality(GetFormSpecies(sStorage->displayMonSpecies, sStorage->displayMonForm), otId, sStorage->displayMonPersonality);
             gender = GetGenderFromSpeciesAndPersonality(sStorage->displayMonSpecies, sStorage->displayMonPersonality);
             sStorage->displayMonItemId = GetBoxMonData(boxMon, MON_DATA_HELD_ITEM);
+            sStorage->displayMonShiny = IsShinyOtIdPersonality(otId, sStorage->displayMonPersonality);
         }
     }
     else

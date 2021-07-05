@@ -21,10 +21,8 @@ gSavedLinkPlayerCount
 gSendCmd
 gSavedMultiplayerId
 gReceivedRemoteLinkPlayers
-gLinkTestBGInfo
 gLinkCallback
 gShouldAdvanceLinkState
-gLinkTestBlockChecksums
 gBlockRequestType
 gLinkFiller3
 gLinkFiller4

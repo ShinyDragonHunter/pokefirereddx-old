@@ -37,22 +37,12 @@ struct BlockTransfer
     u8 multiplayerId;
 };
 
-struct LinkTestBGInfo
-{
-    u32 screenBaseBlock;
-    u32 paletteNum;
-    u32 baseChar;
-    u32 unused;
-};
-
 static struct BlockTransfer sBlockSend;
 static struct BlockTransfer sBlockRecv[MAX_LINK_PLAYERS];
 static u32 sBlockSendDelayCounter;
 static bool32 sDummy1; // Never read
 static u32 sPlayerDataExchangeStatus;
 static bool32 sDummy3; // Never read
-static u8 sLinkTestLastBlockSendPos;
-static u8 sLinkTestLastBlockRecvPos[MAX_LINK_PLAYERS];
 static u8 sNumVBlanksWithoutSerialIntr;
 static bool8 sSendBufferEmpty;
 static u16 sSendNonzeroCheck;
@@ -83,10 +73,8 @@ bool8 gSavedLinkPlayerCount;
 u16 gSendCmd[CMD_LENGTH];
 u8 gSavedMultiplayerId;
 bool8 gReceivedRemoteLinkPlayers;
-struct LinkTestBGInfo gLinkTestBGInfo;
 void (*gLinkCallback)(void);
 u8 gShouldAdvanceLinkState;
-u16 gLinkTestBlockChecksums[MAX_LINK_PLAYERS];
 u8 gBlockRequestType;
 u32 gLinkFiller3;
 u32 gLinkFiller4;
@@ -96,7 +84,6 @@ struct Link gLink;
 u8 gLastRecvQueueCount;
 u16 gLinkSavedIme;
 
-static EWRAM_DATA u8 sLinkTestDebugValuesEnabled = 0;
 static EWRAM_DATA u8 sDummyFlag = FALSE;
 EWRAM_DATA u32 gBerryBlenderKeySendAttempts = 0;
 EWRAM_DATA u16 gBlockRecvBuffer[MAX_RFU_PLAYERS][BLOCK_BUFFER_SIZE / 2] = {};
@@ -118,7 +105,6 @@ static EWRAM_DATA void *sLinkErrorBgTilemapBuffer = NULL;
 
 static void InitLocalLinkPlayer(void);
 static void VBlankCB_LinkError(void);
-static void CB2_LinkTest(void);
 static void ProcessRecvCmds(u8 unused);
 static void LinkCB_SendHeldKeys(void);
 static void ResetBlockSend(void);
@@ -127,8 +113,6 @@ static void LinkCB_BlockSendBegin(void);
 static void LinkCB_BlockSend(void);
 static void LinkCB_BlockSendEnd(void);
 static void SetBlockReceivedFlag(u8 who);
-static u16 LinkTestCalcBlockChecksum(const u16 *src, u16 size);
-static void LinkTest_PrintHex(u32 pos, u8 a0, u8 a1, u8 a2);
 static void LinkCB_RequestPlayerDataExchange(void);
 static void Task_PrintTestData(u8 taskId);
 
@@ -160,8 +144,6 @@ static void SendRecvDone(void);
 static const u16 sWirelessLinkDisplayPal[] = INCBIN_U16("graphics/interface/wireless_link_display.gbapal");
 static const u32 sWirelessLinkDisplayGfx[] = INCBIN_U32("graphics/interface/wireless_link_display.4bpp.lz");
 static const u32 sWirelessLinkDisplayTilemap[] = INCBIN_U32("graphics/interface/wireless_link_display.bin.lz");
-static const u16 sLinkTestDigitsPal[] = INCBIN_U16("graphics/interface/link_test_digits.gbapal");
-static const u16 sLinkTestDigitsGfx[] = INCBIN_U16("graphics/interface/link_test_digits.4bpp");
 static const u16 sCommErrorBg_Gfx[] = INCBIN_U16("graphics/interface/comm_error_bg.4bpp");
 static const struct BlockRequest sBlockRequests[] = {
     {gBlockSendBuffer, 200},
@@ -242,29 +224,6 @@ void Task_DestroySelf(u8 taskId)
     DestroyTask(taskId);
 }
 
-static void InitLinkTestBG(u8 paletteNum, u8 bgNum, u8 screenBaseBlock, u8 charBaseBlock, u16 baseChar)
-{
-    LoadPalette(sLinkTestDigitsPal, paletteNum * 16, 0x20);
-    DmaCopy16(3, sLinkTestDigitsGfx, (u16 *)BG_CHAR_ADDR(charBaseBlock) + (16 * baseChar), sizeof sLinkTestDigitsGfx);
-    gLinkTestBGInfo.screenBaseBlock = screenBaseBlock;
-    gLinkTestBGInfo.paletteNum = paletteNum;
-    gLinkTestBGInfo.baseChar = baseChar;
-    switch (bgNum)
-    {
-        case 1:
-            SetGpuReg(REG_OFFSET_BG1CNT, BGCNT_SCREENBASE(screenBaseBlock) | BGCNT_PRIORITY(1) | BGCNT_CHARBASE(charBaseBlock));
-            break;
-        case 2:
-            SetGpuReg(REG_OFFSET_BG2CNT, BGCNT_SCREENBASE(screenBaseBlock) | BGCNT_PRIORITY(1) | BGCNT_CHARBASE(charBaseBlock));
-            break;
-        case 3:
-            SetGpuReg(REG_OFFSET_BG3CNT, BGCNT_SCREENBASE(screenBaseBlock) | BGCNT_PRIORITY(1) | BGCNT_CHARBASE(charBaseBlock));
-            break;
-    }
-    SetGpuReg(REG_OFFSET_BG0HOFS + bgNum * 4, 0);
-    SetGpuReg(REG_OFFSET_BG0VOFS + bgNum * 4, 0);
-}
-
 void SetLocalLinkPlayerId(u8 playerId)
 {
     gLocalLinkPlayer.id = playerId;
@@ -278,6 +237,7 @@ static void InitLocalLinkPlayer(void)
     gLocalLinkPlayer.linkType = gLinkType;
     gLocalLinkPlayer.language = gGameLanguage;
     gLocalLinkPlayer.version = gGameVersion + 0x4000;
+    gLocalLinkPlayer.versionModifier = VERSION_MODIFIER;
     gLocalLinkPlayer.lp_field_2 = 0x8000;
     gLocalLinkPlayer.progressFlags = IsNationalPokedexEnabled();
     if (FlagGet(FLAG_IS_CHAMPION))
@@ -355,85 +315,6 @@ void CloseLink(void)
     }
     sLinkOpen = FALSE;
     DisableSerial();
-}
-
-static void TestBlockTransfer(u8 nothing, u8 is, u8 used)
-{
-    u8 i;
-    u8 status;
-
-    if (sLinkTestLastBlockSendPos != sBlockSend.pos)
-    {
-        LinkTest_PrintHex(sBlockSend.pos, 2, 3, 2);
-        sLinkTestLastBlockSendPos = sBlockSend.pos;
-    }
-    for (i = 0; i < MAX_LINK_PLAYERS; i++)
-    {
-        if (sLinkTestLastBlockRecvPos[i] != sBlockRecv[i].pos)
-        {
-            LinkTest_PrintHex(sBlockRecv[i].pos, 2, i + 4, 2);
-            sLinkTestLastBlockRecvPos[i] = sBlockRecv[i].pos;
-        }
-    }
-    status = GetBlockReceivedStatus();
-    if (status == 0xF) // 0b1111
-    {
-        for (i = 0; i < MAX_LINK_PLAYERS; i++)
-        {
-            if ((status >> i) & 1)
-            {
-                gLinkTestBlockChecksums[i] = LinkTestCalcBlockChecksum(gBlockRecvBuffer[i], sBlockRecv[i].size);
-                ResetBlockReceivedFlag(i);
-                if (gLinkTestBlockChecksums[i] != 0x0342)
-                {
-                    sLinkTestDebugValuesEnabled = FALSE;
-                    sDummyFlag = FALSE;
-                }
-            }
-        }
-    }
-}
-
-static void LinkTestProcessKeyInput(void)
-{
-    if (JOY_NEW(A_BUTTON))
-    {
-        gShouldAdvanceLinkState = 1;
-    }
-    if (JOY_HELD(B_BUTTON))
-    {
-        InitBlockSend(gHeap + 0x4000, 0x00002004);
-    }
-    if (JOY_NEW(L_BUTTON))
-    {
-        BeginNormalPaletteFade(PALETTES_ALL, 0, 16, 0, RGB(2, 0, 0));
-    }
-    if (JOY_NEW(START_BUTTON))
-    {
-        SetSuppressLinkErrorMessage(TRUE);
-    }
-    if (JOY_NEW(R_BUTTON))
-    {
-        TrySavingData(SAVE_LINK);
-    }
-    if (JOY_NEW(SELECT_BUTTON))
-    {
-        SetCloseLinkCallback();
-    }
-    if (sLinkTestDebugValuesEnabled)
-    {
-        SetLinkDebugValues(gMain.vblankCounter2, gLinkCallback ? gLinkVSyncDisabled : gLinkVSyncDisabled | 0x10);
-    }
-}
-
-static void CB2_LinkTest(void)
-{
-    LinkTestProcessKeyInput();
-    TestBlockTransfer(1, 1, 0);
-    RunTasks();
-    AnimateSprites();
-    BuildOamBuffer();
-    UpdatePaletteFade();
 }
 
 u16 LinkMain2(const u16 *heldKeys)
@@ -555,10 +436,9 @@ static void ProcessRecvCmds(u8 unused)
                         block = (struct LinkPlayerBlock *)&gBlockRecvBuffer[i];
                         linkPlayer = &gLinkPlayers[i];
                         *linkPlayer = block->linkPlayer;
-                        if ((linkPlayer->version & 0xFF) == VERSION_RUBY || (linkPlayer->version & 0xFF) == VERSION_SAPPHIRE)
+                        if ((linkPlayer->version & 0xFF) < VERSION_EMERALD)
                         {
                             linkPlayer->progressFlagsCopy = 0;
-                            linkPlayer->neverRead = 0;
                             linkPlayer->progressFlags = 0;
                         }
                         ConvertLinkPlayerName(linkPlayer);
@@ -1049,101 +929,6 @@ void CheckShouldAdvanceLinkState(void)
         gShouldAdvanceLinkState = 1;
 }
 
-static u16 LinkTestCalcBlockChecksum(const u16 *src, u16 size)
-{
-    u16 chksum;
-    u16 i;
-
-    chksum = 0;
-    for (i = 0; i < size / 2; i++)
-        chksum += src[i];
-
-    return chksum;
-}
-
-static void LinkTest_PrintNumChar(char val, u8 x, u8 y)
-{
-    u16 *vAddr;
-
-    vAddr = (u16 *)BG_SCREEN_ADDR(gLinkTestBGInfo.screenBaseBlock);
-    vAddr[y * 32 + x] = (gLinkTestBGInfo.paletteNum << 12) | (val + 1 + gLinkTestBGInfo.baseChar);
-}
-
-static void LinkTest_PrintChar(char val, u8 x, u8 y)
-{
-    u16 *vAddr;
-
-    vAddr = (u16 *)BG_SCREEN_ADDR(gLinkTestBGInfo.screenBaseBlock);
-    vAddr[y * 32 + x] = (gLinkTestBGInfo.paletteNum << 12) | (val + gLinkTestBGInfo.baseChar);
-}
-
-static void LinkTest_PrintHex(u32 num, u8 x, u8 y, u8 length)
-{
-    char buff[16];
-    int i;
-
-    for (i = 0; i < length; i++)
-    {
-        buff[i] = num & 0xF;
-        num >>= 4;
-    }
-    for (i = length - 1; i >= 0; i--)
-    {
-        LinkTest_PrintNumChar(buff[i], x, y);
-        x++;
-    }
-}
-
-static void LinkTest_PrintInt(int num, u8 x, u8 y, u8 length)
-{
-    char buff[16];
-    int negX;
-    int i;
-
-    negX = -1;
-    if (num < 0)
-    {
-        negX = x;
-        num = -num;
-    }
-    for (i = 0; i < length; i++)
-    {
-        buff[i] = num % 10;
-        num /= 10;
-    }
-    for (i = length - 1; i >= 0; i--)
-    {
-        LinkTest_PrintNumChar(buff[i], x, y);
-        x++;
-    }
-
-    if (negX != -1)
-        LinkTest_PrintNumChar(*"\n", negX, y);
-}
-
-static void LinkTest_PrintString(const char *str, u8 x, u8 y)
-{
-    int xOffset;
-    int i;
-    int yOffset;
-
-    yOffset = 0;
-    xOffset = 0;
-    for (i = 0; str[i] != 0; str++)
-    {
-        if (str[i] == *"\n")
-        {
-            yOffset++;
-            xOffset = 0;
-        }
-        else
-        {
-            LinkTest_PrintChar(str[i], x + xOffset, y + yOffset);
-            xOffset++;
-        }
-    }
-}
-
 static void LinkCB_RequestPlayerDataExchange(void)
 {
     if (gLinkStatus & LINK_STAT_MASTER)
@@ -1151,32 +936,6 @@ static void LinkCB_RequestPlayerDataExchange(void)
         BuildSendCmd(LINKCMD_SEND_LINK_TYPE);
     }
     gLinkCallback = NULL;
-}
-
-static void Task_PrintTestData(u8 taskId)
-{
-    char testTitle[32];
-    int i;
-
-    strcpy(testTitle, sASCIITestPrint);
-    LinkTest_PrintString(testTitle, 5, 2);
-    LinkTest_PrintHex(gShouldAdvanceLinkState, 2, 1, 2);
-    LinkTest_PrintHex(gLinkStatus, 15, 1, 8);
-    LinkTest_PrintHex(gLink.state, 2, 10, 2);
-    LinkTest_PrintHex(EXTRACT_PLAYER_COUNT(gLinkStatus), 15, 10, 2);
-    LinkTest_PrintHex(GetMultiplayerId(), 15, 12, 2);
-    LinkTest_PrintHex(gLastSendQueueCount, 25, 1, 2);
-    LinkTest_PrintHex(gLastRecvQueueCount, 25, 2, 2);
-    LinkTest_PrintHex(GetBlockReceivedStatus(), 15, 5, 2);
-    LinkTest_PrintHex(gLinkDebugSeed, 2, 12, 8);
-    LinkTest_PrintHex(gLinkDebugFlags, 2, 13, 8);
-    LinkTest_PrintHex(GetSioMultiSI(), 25, 5, 1);
-    LinkTest_PrintHex(IsSioMultiMaster(), 25, 6, 1);
-    LinkTest_PrintHex(IsLinkConnectionEstablished(), 25, 7, 1);
-    LinkTest_PrintHex(HasLinkErrorOccurred(), 25, 8, 1);
-
-    for (i = 0; i < MAX_LINK_PLAYERS; i++)
-        LinkTest_PrintHex(gLinkTestBlockChecksums[i], 10, 4 + i, 4);
 }
 
 void SetLinkDebugValues(u32 seed, u32 flags)

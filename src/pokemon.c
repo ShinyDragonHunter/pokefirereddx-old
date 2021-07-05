@@ -3747,7 +3747,7 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
         retVal = substruct3->pokeball;
         if (retVal == BALL_LEVEL)
         {
-            retVal += boxMon->altBall;
+            retVal += boxMon->johtoBall;
         }
         break;
     case MON_DATA_OT_GENDER:
@@ -3905,8 +3905,12 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
                 | (substruct3->earthRibbon << 25)
                 | (substruct3->worldRibbon << 26);
         }
+        break;
     case MON_DATA_FORM:
         retVal = boxMon->form;
+        break;
+    case MON_DATA_VERSION_MODIFIER:
+        retVal = substruct0->versionModifier;
     default:
         break;
     }
@@ -4129,12 +4133,10 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
         if (pokeball >= BALL_LEVEL)
         {
             substruct3->pokeball = BALL_LEVEL;
-            boxMon->altBall = pokeball - BALL_LEVEL;
+            boxMon->johtoBall = pokeball - BALL_LEVEL;
         }
         else
-        {
             substruct3->pokeball = pokeball;
-        }
         break;
     }
     case MON_DATA_OT_GENDER:
@@ -4237,7 +4239,10 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
         break;
     }
     case MON_DATA_FORM:
-        boxMon->form = *data;
+        SET8(boxMon->form);
+        break;
+    case MON_DATA_VERSION_MODIFIER:
+        SET8(substruct0->versionModifier);
     default:
         break;
     }
@@ -6598,7 +6603,7 @@ void DoMonFrontSpriteAnimation(struct Sprite* sprite, u16 species, bool8 noCry, 
             if (species != SPECIES_CASTFORM)
                 StartSpriteAnim(sprite, 1);
         }
-        if (sMonAnimationDelayTable[species])
+        if (sMonAnimationDelayTable[species] != 0)
         {
             u8 taskId = CreateTask(Task_AnimateAfterDelay, 0);
             STORE_PTR_IN_TASK(sprite, taskId, 0);
@@ -6617,7 +6622,7 @@ void PokemonSummaryDoMonAnimation(struct Sprite* sprite, u16 species, bool8 oneF
 {
     if (!oneFrame && species != SPECIES_CASTFORM)
         StartSpriteAnim(sprite, 1);
-    if (sMonAnimationDelayTable[species])
+    if (sMonAnimationDelayTable[species] != 0)
     {
         u8 taskId = CreateTask(Task_PokemonSummaryAnimateAfterDelay, 0);
         STORE_PTR_IN_TASK(sprite, taskId, 0);
@@ -6706,7 +6711,7 @@ u16 FacilityClassToPicIndex(u16 facilityClass)
 
 u16 PlayerGenderToFrontTrainerPicId(u8 playerGender)
 {
-    return FacilityClassToPicIndex((playerGender) ? FACILITY_CLASS_LEAF : FACILITY_CLASS_RED);
+    return FacilityClassToPicIndex(FACILITY_CLASS_RED + playerGender);
 }
 
 void HandleSetPokedexFlag(u16 nationalNum, u8 caseId, u32 personality)

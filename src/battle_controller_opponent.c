@@ -577,9 +577,8 @@ static u32 GetOpponentMonData(u8 monId, u8 *dst)
             dst[size] = src[size];
         break;
     case REQUEST_SPECIES_BATTLE:
-        data16 = GetFormSpecies(GetMonData(&gEnemyParty[monId], MON_DATA_SPECIES),
-                                GetMonData(&gEnemyParty[monId], MON_DATA_FORM));
-        dst[0] = data16;
+        data16 = GetMonData(&gEnemyParty[monId], MON_DATA_SPECIES);
+        dst[0] = GetFormSpecies(data16, GetMonData(&gEnemyParty[monId], MON_DATA_FORM));
         dst[1] = data16 >> 8;
         size = 2;
         break;

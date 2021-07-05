@@ -564,16 +564,18 @@ void SpawnLinkPartnerObjectEvent(void)
             {
                 case VERSION_SAPPHIRE:
                 case VERSION_RUBY:
-                    if (gLinkPlayers[i].gender)
-                        linkSpriteId = OBJ_EVENT_GFX_RS_MAY;
-                    else
-                        linkSpriteId = OBJ_EVENT_GFX_RS_BRENDAN;
+                    linkSpriteId = OBJ_EVENT_GFX_RS_BRENDAN + gLinkPlayers[i].gender;
                     break;
                 default:
-                    if (gLinkPlayers[i].gender)
-                        linkSpriteId = OBJ_EVENT_GFX_E_MAY;
+                    if ((u8)gLinkPlayers[i].versionModifier == MODIFIER_HELIODOR)
+                        linkSpriteId = OBJ_EVENT_GFX_H_BRENDAN + gLinkPlayers[i].gender;
                     else
-                        linkSpriteId = OBJ_EVENT_GFX_E_BRENDAN;
+                    {
+                        if (gLinkPlayers[i].gender)
+                            linkSpriteId = OBJ_EVENT_GFX_E_MAY;
+                        else
+                            linkSpriteId = OBJ_EVENT_GFX_E_BRENDAN;
+                    }
                     break;
             }
             SpawnSpecialObjectEventParameterized(linkSpriteId, movementTypes[j], 240 - i, coordOffsets[j][0] + x + 7, coordOffsets[j][1] + y + 7, 0);

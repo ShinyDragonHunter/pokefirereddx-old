@@ -844,7 +844,7 @@ void ApplyWeatherGammaShiftToPal(u8 paletteIndex)
 
 void LoadCustomWeatherSpritePalette(const struct SpritePalette *palette)
 {
-    LoadSpritePaletteDayNight(palette);
+    LoadSpritePalette(palette);
     UpdateSpritePaletteWithWeather(IndexOfSpritePaletteTag(palette->tag));
 }
 

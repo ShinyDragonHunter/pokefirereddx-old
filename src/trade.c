@@ -2667,7 +2667,7 @@ static void LoadTradeMonPic(u8 whichParty, u8 state)
         else
             HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[1], formSpecies, personality);
 
-        LoadUniqueSpritePalette(GetMonSpritePalStruct(mon), personality);
+        LoadUniqueSpritePalette(GetMonSpritePalStruct(mon), formSpecies, personality, GetMonData(mon));
         sTradeData->monSpecies[whichParty] = formSpecies;
         sTradeData->monPersonalities[whichParty] = personality;
         break;

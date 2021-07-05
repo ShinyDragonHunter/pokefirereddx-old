@@ -381,9 +381,11 @@ const u32 gTrainerFrontPicEBrendan[] = INCBIN_U32("graphics/trainers/front_pics/
 #else
 const u32 gTrainerFrontPicEBrendan[] = INCBIN_U32("graphics/trainers/front_pics/e_brendan_front_pic.4bpp.lz");
 #endif
+const u16 gTrainerPaletteHBrendan[] = INCBIN_U16("graphics/trainers/palettes/h_brendan.gbapal");
 const u16 gTrainerPaletteEBrendan[] = INCBIN_U16("graphics/trainers/palettes/e_brendan.gbapal");
 
 const u32 gTrainerFrontPicEMay[] = INCBIN_U32("graphics/trainers/front_pics/e_may_front_pic.4bpp.lz");
+const u16 gTrainerPaletteHMay[] = INCBIN_U16("graphics/trainers/palettes/h_may.gbapal");
 const u16 gTrainerPaletteEMay[] = INCBIN_U16("graphics/trainers/palettes/e_may.gbapal");
 
 #if UK

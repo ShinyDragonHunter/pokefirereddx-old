@@ -184,7 +184,8 @@ static EWRAM_DATA struct PokemonSummaryScreenData
     u8 spriteIds[SPRITE_ARR_ID_COUNT];
     bool8 eventLegal; // Used to differentiate between Colosseum or XD when reading Orre metLocation IDs
     s16 switchCounter; // Used for various switch statement cases that decompress/load graphics or pokemon data
-    u8 unk_filler4[6];
+    u8 unk_filler4[5];
+    u8 versionModifier;
 } *sMonSummaryScreen = NULL;
 EWRAM_DATA u8 gLastViewedMonIndex = 0;
 static EWRAM_DATA u8 sMoveSlotToReplace = 0;
@@ -1345,8 +1346,6 @@ static bool8 ExtractMonDataToSummaryStruct(struct Pokemon *mon)
         sum->item = GetMonData(mon, MON_DATA_HELD_ITEM);
         sum->pid = GetMonData(mon, MON_DATA_PERSONALITY);
         sum->sanity = GetMonData(mon, MON_DATA_SANITY_IS_BAD_EGG);
-        sMonSummaryScreen->form = GetMonData(mon, MON_DATA_FORM);
-        sMonSummaryScreen->eventLegal = GetMonData(mon, MON_DATA_EVENT_LEGAL);
 
         if (sum->sanity)
             sum->isEgg = TRUE;
@@ -1385,6 +1384,9 @@ static bool8 ExtractMonDataToSummaryStruct(struct Pokemon *mon)
         break;
     default:
         sum->ribbonCount = GetMonData(mon, MON_DATA_RIBBON_COUNT);
+        sMonSummaryScreen->form = GetMonData(mon, MON_DATA_FORM);
+        sMonSummaryScreen->eventLegal = GetMonData(mon, MON_DATA_EVENT_LEGAL);
+		sMonSummaryScreen->versionModifier = GetMonData(mon, MON_DATA_VERSION_MODIFIER);
         return TRUE;
     }
     sMonSummaryScreen->switchCounter++;
@@ -3042,10 +3044,14 @@ static void BufferMonTrainerMemo(void)
         u8 *metLevelString = Alloc(32);
         u8 *metLocationString = Alloc(32);
         GetMetLevelString(metLevelString);
-        if (sum->metGame == VERSION_CRYSTAL_DUST && sum->metLocation < KANTO_MAPSEC_START)
+        if ((sum->metGame == VERSION_FIRE_RED && sMonSummaryScreen->versionModifier == MODIFIER_CRYSTALDUST)
+         || sum->metGame == VERSION_CRYSTAL_DUST)
         {
-            mapsecShift = JOHTO_MAPSEC_START;
-            maxMapsec = JOHTO_REGION(END);
+            if (sum->metLocation < KANTO_MAPSEC_START)
+            {
+                mapsecShift = JOHTO_MAPSEC_START;
+                maxMapsec = JOHTO_REGION(END);
+            }
         }
         if (sum->metGame == VERSION_GAMECUBE)
         {
@@ -3218,7 +3224,8 @@ static void PrintEggMemo(void)
 
     if (sum->metLocation == METLOC_SPECIAL_EGG)
     {
-        if (sum->metGame == VERSION_CRYSTAL_DUST)
+        if ((sum->metGame == VERSION_FIRE_RED && sMonSummaryScreen->versionModifier == MODIFIER_CRYSTALDUST)
+         || sum->metGame == VERSION_CRYSTAL_DUST)
             text = gText_EggFromElm;
         else
             text = (sum->metGame < VERSION_FIRE_RED) ? gText_EggFromHotSprings : gText_EggFromTraveler;
@@ -3822,7 +3829,7 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
         return 0xFF;
     case 1:
         pal = GetMonSpritePalStructFromOtIdPersonality(formSpecies, summary->OTID, summary->pid);
-        LoadUniqueSpritePalette(pal, summary->pid);
+        LoadUniqueSpritePalette(pal, formSpecies, summary->pid, IsMonShiny(mon));
         SetMultiuseSpriteTemplateToPokemon(pal->tag, 1, sMonSummaryScreen->form);
         (*state)++;
         return 0xFF;

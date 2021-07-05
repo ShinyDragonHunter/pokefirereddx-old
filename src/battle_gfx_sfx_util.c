@@ -580,8 +580,13 @@ static void BattleLoadMonSpriteGfx(struct Pokemon *mon, u8 battlerId, bool32 opp
     if (species == SPECIES_CASTFORM)
     {
         paletteOffset = 0x80 + battlerId * 16;
-        LoadPalette(gBattleStruct->castformPalette[battlerId], paletteOffset, 32);
+        LoadPalette(paletteData + gBattleMonForms[battlerId], paletteOffset, 32);
     }
+
+    UniquePalette(0x100 + battlerId * 16, species, monsPersonality, IsMonShiny(mon));
+    CpuCopy32(gPlttBufferFaded + 0x100 + battlerId * 16, gPlttBufferUnfaded + 0x100 + battlerId * 16, 32);
+    UniquePalette(0x80 + battlerId * 16, species, monsPersonality, IsMonShiny(mon));
+    CpuCopy32(gPlttBufferFaded + 0x80 + battlerId * 16, gPlttBufferUnfaded + 0x80 + battlerId * 16, 32);
 
     // transform's pink color
     if (gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies)
@@ -589,10 +594,6 @@ static void BattleLoadMonSpriteGfx(struct Pokemon *mon, u8 battlerId, bool32 opp
         BlendPalette(paletteOffset, 16, 6, RGB_WHITE);
         CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 0x20);
     }
-	UniquePalette(0x100 + battlerId * 16, currentPersonality);
-	CpuCopy32(gPlttBufferFaded + 0x100 + battlerId * 16, gPlttBufferUnfaded + 0x100 + battlerId * 16, 32);
-	UniquePalette(0x80 + battlerId * 16, currentPersonality);
-	CpuCopy32(gPlttBufferFaded + 0x80 + battlerId * 16, gPlttBufferUnfaded + 0x80 + battlerId * 16, 32);
 }
 
 void BattleLoadOpponentMonSpriteGfx(struct Pokemon *mon, u8 battlerId)
@@ -795,6 +796,7 @@ void HandleSpeciesGfxDataChange(u8 battlerAtk, u8 battlerDef, bool8 notTransform
     u32 personalityValue;
     u32 otId;
     u8 position;
+    u16 species;
     const u16 *paletteData;
 
     if (notTransform)
@@ -803,7 +805,9 @@ void HandleSpeciesGfxDataChange(u8 battlerAtk, u8 battlerDef, bool8 notTransform
         paletteOffset = 0x80 + battlerAtk * 16;
         LoadPalette(gBattleStruct->castformPalette[gBattleSpritesDataPtr->animationData->animArg], paletteOffset, 32);
         personalityValue = GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerAtk]], MON_DATA_PERSONALITY);
-        UniquePalette(paletteOffset, personalityValue);
+        species = GetFormSpecies(GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerAtk]], MON_DATA_SPECIES),
+                                GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerAtk]], MON_DATA_FORM));
+        UniquePalette(paletteOffset, species, personalityValue, IsMonShiny(&gPlayerParty[gBattlerPartyIndexes[battlerAtk]]));
         CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
         gBattleMonForms[battlerAtk] = gBattleSpritesDataPtr->animationData->animArg;
         if (gBattleSpritesDataPtr->battlerData[battlerAtk].transformSpecies != SPECIES_NONE)
@@ -865,11 +869,11 @@ void HandleSpeciesGfxDataChange(u8 battlerAtk, u8 battlerDef, bool8 notTransform
         if (targetSpecies == SPECIES_CASTFORM)
         {
             gSprites[gBattlerSpriteIds[battlerAtk]].anims = gMonFrontAnimsPtrTable[targetSpecies];
-            paletteOffset = 0x80 + battlerAtk * 16;
+            paletteOffset = 0x80 + battlerDef * 16;
             LoadPalette(gBattleStruct->castformPalette[0] + gBattleMonForms[battlerDef] * 16, paletteOffset, 32);
         }
 
-        UniquePalette(paletteOffset, personalityValue);
+        UniquePalette(paletteOffset, targetSpecies, personalityValue, IsShinyOtIdPersonality(otId, personalityValue));
         CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
 
         BlendPalette(paletteOffset, 16, 6, RGB_WHITE);

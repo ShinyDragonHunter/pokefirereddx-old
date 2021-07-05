@@ -177,12 +177,8 @@
 #define MON_DATA_KNOWN_MOVES       81
 #define MON_DATA_RIBBON_COUNT      82
 #define MON_DATA_RIBBONS           83
-#define MON_DATA_ATK2              84
-#define MON_DATA_DEF2              85
-#define MON_DATA_SPEED2            86
-#define MON_DATA_SPATK2            87
-#define MON_DATA_SPDEF2            88
-#define MON_DATA_FORM              89
+#define MON_DATA_FORM              84
+#define MON_DATA_VERSION_MODIFIER  85
 
 // Ribbon IDs used by TV and Pokénav
 #define CHAMPION_RIBBON       0

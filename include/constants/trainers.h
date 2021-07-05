@@ -142,10 +142,12 @@
 #define TRAINER_PIC_LEAF                        124
 #define TRAINER_PIC_GOLD                        125
 #define TRAINER_PIC_KRIS                        126
-#define TRAINER_PIC_E_BRENDAN                   127
-#define TRAINER_PIC_E_MAY                       128
-#define TRAINER_PIC_RS_BRENDAN                  129
-#define TRAINER_PIC_RS_MAY                      130
+#define TRAINER_PIC_H_BRENDAN                   127
+#define TRAINER_PIC_H_MAY                       128
+#define TRAINER_PIC_E_BRENDAN                   129
+#define TRAINER_PIC_E_MAY                       130
+#define TRAINER_PIC_RS_BRENDAN                  131
+#define TRAINER_PIC_RS_MAY                      132
 
 #define TRAINER_BACK_PIC_RED                     0
 #define TRAINER_BACK_PIC_LEAF                    1
@@ -153,10 +155,12 @@
 #define TRAINER_BACK_PIC_OLD_MAN                 3
 #define TRAINER_BACK_PIC_GOLD                    4
 #define TRAINER_BACK_PIC_KRIS                    5
-#define TRAINER_BACK_PIC_E_BRENDAN               6
-#define TRAINER_BACK_PIC_E_MAY                   7
-#define TRAINER_BACK_PIC_RS_BRENDAN              8
-#define TRAINER_BACK_PIC_RS_MAY                  9
+#define TRAINER_BACK_PIC_H_BRENDAN               6
+#define TRAINER_BACK_PIC_H_MAY                   7
+#define TRAINER_BACK_PIC_E_BRENDAN               8
+#define TRAINER_BACK_PIC_E_MAY                   9
+#define TRAINER_BACK_PIC_RS_BRENDAN              10
+#define TRAINER_BACK_PIC_RS_MAY                  11
 
 #define FACILITY_CLASS_YOUNGSTER                   0
 #define FACILITY_CLASS_BUG_CATCHER                 1
@@ -257,12 +261,14 @@
 #define FACILITY_CLASS_LEAF                        96
 #define FACILITY_CLASS_GOLD                        97
 #define FACILITY_CLASS_KRIS                        98
-#define FACILITY_CLASS_E_BRENDAN                   99
-#define FACILITY_CLASS_E_MAY                       100
-#define FACILITY_CLASS_RS_BRENDAN                  101
-#define FACILITY_CLASS_RS_MAY                      102
+#define FACILITY_CLASS_H_BRENDAN                   99
+#define FACILITY_CLASS_H_MAY                       100
+#define FACILITY_CLASS_E_BRENDAN                   101
+#define FACILITY_CLASS_E_MAY                       102
+#define FACILITY_CLASS_RS_BRENDAN                  103
+#define FACILITY_CLASS_RS_MAY                      104
 
-#define FACILITY_CLASSES_COUNT                     103
+#define FACILITY_CLASSES_COUNT                     105
 
 #define RS_FACILITY_CLASS_AQUA_LEADER_ARCHIE    0
 #define RS_FACILITY_CLASS_AQUA_GRUNT_M          1

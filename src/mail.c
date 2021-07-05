@@ -473,8 +473,8 @@ void ReadMail(struct MailStruct *mail, void (*exitCallback)(void), bool8 hasText
             break;
     }
     species = MailSpeciesToSpecies(GetFormSpecies(sMailRead->mail->species, sMailRead->mail->form), buffer);
-    if ((species > NUM_SPECIES && !sMailRead->mail->form)
-     || (species >= SPECIES_COUNT && sMailRead->mail->form))
+    if ((sMailRead->mail->species > NUM_SPECIES && !sMailRead->mail->form)
+     || (sMailRead->mail->species >= SPECIES_COUNT && sMailRead->mail->form))
     {
         sMailRead->iconType = ICON_TYPE_NONE;
     }

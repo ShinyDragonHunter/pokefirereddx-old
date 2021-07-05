@@ -163,7 +163,7 @@ struct LinkPlayer
     /* 0x04 */ u32 trainerId;
     /* 0x08 */ u8 name[PLAYER_NAME_LENGTH + 1];
     /* 0x10 */ u8 progressFlags; // (& 0x0F) is hasNationalDex, (& 0xF0) is hasClearedGame
-    /* 0x11 */ u8 neverRead;
+    /* 0x11 */ u8 versionModifier;
     /* 0x12 */ u8 progressFlagsCopy;
     /* 0x13 */ u8 gender;
     /* 0x14 */ u32 linkType;
@@ -321,10 +321,8 @@ extern u8 gSuppressLinkErrorMessage;
 extern u8 gWirelessCommType;
 extern bool8 gSavedLinkPlayerCount;
 extern u8 gSavedMultiplayerId;
-extern struct LinkTestBGInfo gLinkTestBGInfo;
 extern void (*gLinkCallback)(void);
 extern u8 gShouldAdvanceLinkState;
-extern u16 gLinkTestBlockChecksums[MAX_LINK_PLAYERS];
 extern u8 gBlockRequestType;
 extern u8 gLastSendQueueCount;
 extern u8 gLastRecvQueueCount;

@@ -1021,17 +1021,12 @@ void sub_808BCF4(void)
     SetObjectEventDirection(playerObjEvent, playerObjEvent->facingDirection);
 }
 
-u8 GetPlayerAvatarGraphicsIdByStateIdAndGender(u8 state, u8 gender)
+u8 GetRSAvatarGraphicsIdByGender(u8 gender)
 {
-    return sPlayerAvatarGfxIds[state][gender];
+    return sRSAvatarGfxIds[gender];
 }
 
-u8 GetCDAvatarGraphicsIdByGender(u8 gender)
-{
-    return sCDAvatarGfxIds[gender];
-}
-
-u8 GetHeliodorAvatarGraphicsIdByGender(u8 gender)
+u8 GetHAvatarGraphicsIdByGender(u8 gender)
 {
     return sHeliodorAvatarGfxIds[gender];
 }
@@ -1040,10 +1035,14 @@ u8 GetEAvatarGraphicsIdByGender(u8 gender)
 {
     return sEAvatarGfxIds[gender];
 }
-
-u8 GetRSAvatarGraphicsIdByGender(u8 gender)
+u8 GetCDAvatarGraphicsIdByGender(u8 gender)
 {
-    return sRSAvatarGfxIds[gender];
+    return sCDAvatarGfxIds[gender];
+}
+
+u8 GetPlayerAvatarGraphicsIdByStateIdAndGender(u8 state, u8 gender)
+{
+    return sPlayerAvatarGfxIds[state][gender];
 }
 
 u8 GetPlayerAvatarGraphicsIdByStateId(u8 state)

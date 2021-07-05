@@ -11,7 +11,8 @@ struct PokemonSubstruct0
     u32 experience;
     u8 ppBonuses;
     u8 friendship;
-    u16 filler;
+    u8 versionModifier;	//Used to identify mons originated from specific unoffical games
+    u8 filler;
 };
 
 struct PokemonSubstruct1
@@ -94,7 +95,7 @@ struct BoxPokemon
     u8 isBadEgg:1;
     u8 hasSpecies:1;
     u8 isEgg:1;
-    u8 altBall:3;
+    u8 johtoBall:3;
     u8 form:2;
     u8 otName[PLAYER_NAME_LENGTH];
     u8 markings;
@@ -204,8 +205,8 @@ struct BaseStats
  /* 0x15 */ u8 eggGroup2;
  /* 0x16 */ u8 abilities[2];
  /* 0x18 */ u8 safariZoneFleeRate;
- /* 0x19 */ u8 bodyColor : 7;
-            u8 noFlip : 1;
+ /* 0x19 */ u8 bodyColor:7;
+            u8 noFlip:1;
 };
 
 struct BattleMove

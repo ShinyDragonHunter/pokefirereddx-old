@@ -171,8 +171,8 @@ static const union AnimCmd *const sSpriteAnimTable_Icons[] =
 
 static const struct SpriteTemplate sSpriteTemplate_ExclamationQuestionMark =
 {
-    .tileTag = 0xffff,
-    .paletteTag = OBJ_EVENT_PAL_TAG_RED_LEAF,
+    .tileTag = SPRITE_INVALID_TAG,
+    .paletteTag = FLDEFF_PAL_TAG_ARROW,
     .oam = &sOamData_Icons,
     .anims = sSpriteAnimTable_Icons,
     .images = sSpriteImageTable_ExclamationQuestionMark,
@@ -182,7 +182,7 @@ static const struct SpriteTemplate sSpriteTemplate_ExclamationQuestionMark =
 
 static const struct SpriteTemplate sSpriteTemplate_HeartIcon =
 {
-    .tileTag = 0xffff,
+    .tileTag = SPRITE_INVALID_TAG,
     .paletteTag = FLDEFF_PAL_TAG_GENERAL_0,
     .oam = &sOamData_Icons,
     .anims = sSpriteAnimTable_Icons,
@@ -698,10 +698,9 @@ void TryPrepareSecondApproachingTrainer(void)
 
 u8 FldEff_ExclamationMarkIcon(void)
 {
-    u8 spriteId, paletteNum;
+    u8 spriteId = CreateSpriteAtEnd(&sSpriteTemplate_ExclamationQuestionMark, 0, 0, 0x52);
 
     LoadObjectEventPalette(OBJ_EVENT_PAL_TAG_RED_LEAF);
-    spriteId = CreateSpriteAtEnd(&sSpriteTemplate_ExclamationQuestionMark, 0, 0, 0x52);
 
     if (spriteId != MAX_SPRITES)
         SetIconSpriteData(&gSprites[spriteId], FLDEFF_EXCLAMATION_MARK_ICON, 0);
@@ -711,10 +710,9 @@ u8 FldEff_ExclamationMarkIcon(void)
 
 u8 FldEff_QuestionMarkIcon(void)
 {
-    u8 spriteId;
+    u8 spriteId = CreateSpriteAtEnd(&sSpriteTemplate_ExclamationQuestionMark, 0, 0, 0x52);
 
     LoadObjectEventPalette(OBJ_EVENT_PAL_TAG_RED_LEAF);
-    spriteId = CreateSpriteAtEnd(&sSpriteTemplate_ExclamationQuestionMark, 0, 0, 0x52);
 
     if (spriteId != MAX_SPRITES)
         SetIconSpriteData(&gSprites[spriteId], FLDEFF_QUESTION_MARK_ICON, 1);
@@ -724,17 +722,15 @@ u8 FldEff_QuestionMarkIcon(void)
 
 u8 FldEff_HeartIcon(void)
 {
-    u8 spriteId;
+    u8 spriteId = CreateSpriteAtEnd(&sSpriteTemplate_HeartIcon, 0, 0, 0x52);
 
     LoadSpritePalette(&gObjectEventPal_Npc1);
-    spriteId = CreateSpriteAtEnd(&sSpriteTemplate_HeartIcon, 0, 0, 0x52);
 
     if (spriteId != MAX_SPRITES)
     {
         struct Sprite *sprite = &gSprites[spriteId];
 
         SetIconSpriteData(sprite, FLDEFF_HEART_ICON, 0);
-        sprite->oam.paletteNum = 2;
     }
 
     return 0;
@@ -787,20 +783,15 @@ static void SpriteCB_TrainerIcons(struct Sprite *sprite)
 
 u8 GetCurrentApproachingTrainerObjectEventId(void)
 {
-    if (gApproachingTrainerId)
-        return gApproachingTrainers[1].objectEventId;
-    else
-        return gApproachingTrainers[0].objectEventId;
+    return gApproachingTrainers[gApproachingTrainerId].objectEventId;
 }
 
 u8 GetChosenApproachingTrainerObjectEventId(u8 arrayId)
 {
     if (arrayId >= ARRAY_COUNT(gApproachingTrainers))
         return 0;
-    else if (arrayId)
-        return gApproachingTrainers[1].objectEventId;
     else
-        return gApproachingTrainers[0].objectEventId;
+        return gApproachingTrainers[arrayId].objectEventId;
 }
 
 void PlayerFaceTrainerAfterBattle(void)
