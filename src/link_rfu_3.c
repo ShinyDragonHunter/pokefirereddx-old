@@ -561,7 +561,7 @@ void InitHostRFUtgtGname(struct GFtgtGname *data, u8 activity, bool32 started, s
     data->playerGender = gSaveBlock2Ptr->playerGender;
     data->activity = activity;
     data->started = started;
-	data->versionModifier = VERSION_MODIFIER;
+    data->versionModifier = VERSION_MODIFIER;
     data->unk_00.language = GAME_LANGUAGE;
     data->unk_00.version = GAME_VERSION;
     data->unk_00.hasNews = FALSE;

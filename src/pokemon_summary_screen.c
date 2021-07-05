@@ -1386,7 +1386,7 @@ static bool8 ExtractMonDataToSummaryStruct(struct Pokemon *mon)
         sum->ribbonCount = GetMonData(mon, MON_DATA_RIBBON_COUNT);
         sMonSummaryScreen->form = GetMonData(mon, MON_DATA_FORM);
         sMonSummaryScreen->eventLegal = GetMonData(mon, MON_DATA_EVENT_LEGAL);
-		sMonSummaryScreen->versionModifier = GetMonData(mon, MON_DATA_VERSION_MODIFIER);
+        sMonSummaryScreen->versionModifier = GetMonData(mon, MON_DATA_VERSION_MODIFIER);
         return TRUE;
     }
     sMonSummaryScreen->switchCounter++;

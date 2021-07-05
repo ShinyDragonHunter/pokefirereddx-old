@@ -36,9 +36,9 @@
 // The idea is that each unofficial game will have its own number they can use in conjunction with one of the offical origin game IDs
 // so that they do not have to requisition a new ID for every project
 #define MODIFIER_NONE             0 // official games
-#define MODIFIER_HELIODOR         1	// Heliodor.
+#define MODIFIER_HELIODOR         1 // Heliodor.
 #define MODIFIER_DX               2 // 4-2 is FireRed DX and 5-2 is LeafGreen DX
-#define MODIFIER_CRYSTALDUST      3	// 4-3 is modified CrystalDust
+#define MODIFIER_CRYSTALDUST      3 // 4-3 is modified CrystalDust
 
 // capacities of various saveblock objects
 #define DAYCARE_MON_COUNT 2
