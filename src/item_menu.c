@@ -88,7 +88,7 @@ void Task_BagMenu_HandleInput(u8);
 void GetItemName(s8*, u16);
 u16 ItemIdToBattleMoveId(u16);
 u16 BagGetItemIdByPocketPosition(u8, u16);
-void BagMenu_PrintDescription(int);
+void BagMenu_PrintDescription(s32 itemIndex);
 void BagMenu_PrintCursor(u8, u8);
 void BagMenu_Print(u8, u8, const u8*, u8, u8, u8, u8, u8, u8);
 bool8 ItemId_GetImportance(u16);
