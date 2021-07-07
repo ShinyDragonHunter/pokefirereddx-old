@@ -11,7 +11,7 @@ struct PokemonSubstruct0
     u32 experience;
     u8 ppBonuses;
     u8 friendship;
-    u8 versionModifier;	//Used to identify mons originated from specific unoffical games
+    u8 versionModifier; // Used to identify mons originated from unofficial games.
     u8 filler;
 };
 

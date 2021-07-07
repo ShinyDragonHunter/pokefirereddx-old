@@ -33,7 +33,7 @@
 #define VERSION_MODIFIER (MODIFIER_DX)
 
 // Version ID modifiers used for identifying unofficial games.
-// The idea is that each unofficial game will have its own number they can use in conjunction with one of the offical origin game IDs
+// The idea is that each unofficial game will have its own number they can use in conjunction with one of the official origin game IDs
 // so that they do not have to requisition a new ID for every project
 #define MODIFIER_NONE             0 // official games
 #define MODIFIER_HELIODOR         1 // Heliodor.

@@ -257,7 +257,7 @@ clean: mostlyclean clean-tools
 clean-tools:
 	@$(foreach tooldir,$(TOOLDIRS),$(MAKE) clean -C $(tooldir);)
 
-mostlyclean: tidynonmodern tidymodern
+mostlyclean: tidynonmodern tidyuknonmodern tidymodern tidyukmodern
 	rm -f $(SAMPLE_SUBDIR)/*.bin
 	rm -f $(CRY_SUBDIR)/*.bin
 	rm -f $(MID_SUBDIR)/*.s

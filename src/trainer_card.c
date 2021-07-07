@@ -770,7 +770,7 @@ static void TrainerCard_GenerateCardForLinkPlayer(struct TrainerCard *trainerCar
 {
     memset(trainerCard, 0, sizeof(struct TrainerCard));
     trainerCard->version = GAME_VERSION;
-	trainerCard->versionModifier = MODIFIER_DX;
+    trainerCard->versionModifier = VERSION_MODIFIER;
     SetPlayerCardData(trainerCard, VersionToCardType(trainerCard->version, trainerCard->versionModifier));
     trainerCard->hasAllSymbols = HasAllFrontierSymbols();
     trainerCard->frontierBP = gSaveBlock2Ptr->frontier.cardBattlePoints;
@@ -785,7 +785,7 @@ void TrainerCard_GenerateCardForPlayer(struct TrainerCard *trainerCard)
 {
     memset(trainerCard, 0, sizeof(struct TrainerCard));
     trainerCard->version = GAME_VERSION;
-	trainerCard->versionModifier = MODIFIER_DX;
+    trainerCard->versionModifier = VERSION_MODIFIER;
     SetPlayerCardData(trainerCard, VersionToCardType(trainerCard->version, trainerCard->versionModifier));
     trainerCard->hasAllFrontierSymbols = HasAllFrontierSymbols();
     *((u16*)&trainerCard->berryCrushPoints) = gSaveBlock2Ptr->frontier.cardBattlePoints;
@@ -1883,19 +1883,11 @@ static u8 GetSetCardType(void)
     if (sData->trainerCard.version < VERSION_EMERALD)
         return CARD_TYPE_RS;
     else if (sData->trainerCard.version == VERSION_EMERALD)
-    {
-        if (sData->trainerCard.versionModifier == MODIFIER_HELIODOR)
-            return CARD_TYPE_HELIODOR;
-        else
-            return CARD_TYPE_EMERALD;
-    }
+        return (sData->trainerCard.versionModifier == MODIFIER_HELIODOR) ? CARD_TYPE_HELIODOR : CARD_TYPE_EMERALD;
     else if (sData->trainerCard.version == VERSION_CRYSTAL_DUST)
         return CARD_TYPE_CRYSTALDUST;
     else
-        if (sData->trainerCard.versionModifier == MODIFIER_CRYSTALDUST)
-            return CARD_TYPE_CRYSTALDUST;
-        else
-            return CARD_TYPE_FRLG;
+        return (sData->trainerCard.versionModifier == MODIFIER_CRYSTALDUST) ? CARD_TYPE_CRYSTALDUST : CARD_TYPE_FRLG;
 }
 
 static u8 VersionToCardType(u8 version, u8 versionModifier)
@@ -1903,21 +1895,11 @@ static u8 VersionToCardType(u8 version, u8 versionModifier)
     if (version < VERSION_EMERALD)
         return CARD_TYPE_RS;
     else if (version == VERSION_EMERALD)
-    {
-        if (versionModifier == MODIFIER_HELIODOR)
-            return CARD_TYPE_HELIODOR;
-        else
-            return CARD_TYPE_EMERALD;
-    }
+        return (versionModifier == MODIFIER_HELIODOR) ? CARD_TYPE_HELIODOR : CARD_TYPE_EMERALD;
     else if (version == VERSION_CRYSTAL_DUST)
         return CARD_TYPE_CRYSTALDUST;
     else
-    {
-        if (versionModifier == MODIFIER_CRYSTALDUST)
-            return CARD_TYPE_CRYSTALDUST;
-        else
-            return CARD_TYPE_FRLG;
-    }
+        return (versionModifier == MODIFIER_CRYSTALDUST) ? CARD_TYPE_CRYSTALDUST : CARD_TYPE_FRLG;
 }
 
 static void CreateTrainerCardTrainerPic(void)

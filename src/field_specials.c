@@ -2697,19 +2697,23 @@ u8 ContextNpcGetTextColor(void)
 void SetBattleTowerLinkPlayerGfx(void)
 {
     u8 i;
+
     for (i = 0; i < 2; i++)
     {
-        switch (gLinkPlayers[i].version)
+        if ((u8)gLinkPlayers[i].version == VERSION_EMERALD)
         {
-            case VERSION_EMERALD:
-                VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_E_BRENDAN + gLinkPlayers[i].gender);
-                break;
-            default:
-                if (gLinkPlayers[i].gender) 
-                    VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_LEAF_NORMAL);
-                else
-                    VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_RED_NORMAL);
-                break;
+            if ((u8)gLinkPlayers[i].versionModifier == MODIFIER_HELIODOR)
+                VarSet(VAR_OBJ_GFX_ID_F - i, gLinkPlayers[i].gender + OBJ_EVENT_GFX_H_BRENDAN);
+            else
+                VarSet(VAR_OBJ_GFX_ID_F - i, gLinkPlayers[i].gender + OBJ_EVENT_GFX_E_BRENDAN);
+        }
+        else
+        {
+            if (gLinkPlayers[i].gender)
+                VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_LEAF_NORMAL);
+            else
+                VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_RED_NORMAL);
+            break;
         }
     }
 }
