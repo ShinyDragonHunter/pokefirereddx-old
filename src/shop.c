@@ -82,7 +82,7 @@ static void Task_ReturnToItemListAfterItemPurchase(u8 taskId);
 static void Task_HandleShopMenuBuy(u8 taskId);
 static void Task_HandleShopMenuSell(u8 taskId);
 static void BuyMenuPrintItemDescriptionAndShowItemIcon(s32 item, bool8 onInit, struct ListMenu *list);
-static void BuyMenuPrintPriceInList(u8 windowId, s32 item, u8 y);
+static void BuyMenuPrintPriceInList(u8 windowId, u32 itemId, u8 y);
 static void LoadTmHmNameInMart(s32 item);
 static void BuyMenuFreeMemory(void);
 static u8 GetMartTypeFromItemList(u32 martType);
@@ -519,16 +519,16 @@ static void BuyMenuPrintItemDescriptionAndShowItemIcon(s32 item, bool8 onInit, s
     }
 }
 
-static void BuyMenuPrintPriceInList(u8 windowId, s32 item, u8 y)
+static void BuyMenuPrintPriceInList(u8 windowId, u32 itemId, u8 y)
 {
     s32 x;
     u8 *loc;
 
-    if (item != LIST_CANCEL)
+    if (itemId != LIST_CANCEL)
     {
         ConvertIntToDecimalStringN(
             gStringVar1,
-            ItemId_GetPrice(item) >> GetPriceReduction(POKENEWS_SLATEPORT),
+            ItemId_GetPrice(itemId) >> GetPriceReduction(POKENEWS_SLATEPORT),
             STR_CONV_MODE_LEFT_ALIGN,
             5);
 

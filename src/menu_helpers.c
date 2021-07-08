@@ -99,14 +99,15 @@ void CreateYesNoMenuWithCallbacks(u8 taskId, const struct WindowTemplate *templa
 
 static void Task_CallYesOrNoCallback(u8 taskId)
 {
-    PlaySE(SE_SELECT);
     switch (Menu_ProcessInputNoWrapClearOnChoose())
     {
     case 0:
+        PlaySE(SE_SELECT);
         gUnknown_0203A138.yesFunc(taskId);
         break;
     case 1:
     case MENU_B_PRESSED:
+        PlaySE(SE_SELECT);
         gUnknown_0203A138.noFunc(taskId);
         break;
     }
