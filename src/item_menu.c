@@ -1098,29 +1098,31 @@ void Task_BagMenu_HandleInput(u8 taskId)
     u16 scrollPos, cursorPos;
     s32 listPosition = ListMenu_ProcessInput(data[0]);
 
-    if (!gPaletteFade.active || !FuncIsActiveTask(Task_AnimateWin0v) || !MenuHelpers_CallLinkSomething())
+    if (gPaletteFade.active
+     || FuncIsActiveTask(Task_AnimateWin0v)
+     || MenuHelpers_CallLinkSomething())
+        return;
+
+    switch (GetSwitchBagPocketDirection())
     {
-        switch (GetSwitchBagPocketDirection())
+    case SWITCH_POCKET_LEFT:
+        SwitchBagPocket(taskId, MENU_CURSOR_DELTA_LEFT, 0);
+        return;
+    case SWITCH_POCKET_RIGHT:
+        SwitchBagPocket(taskId, MENU_CURSOR_DELTA_RIGHT, 0);
+        return;
+    default:
+        if (JOY_NEW(SELECT_BUTTON) && CanSwapItems())
         {
-        case SWITCH_POCKET_LEFT:
-            SwitchBagPocket(taskId, MENU_CURSOR_DELTA_LEFT, 0);
-            return;
-        case SWITCH_POCKET_RIGHT:
-            SwitchBagPocket(taskId, MENU_CURSOR_DELTA_RIGHT, 0);
-            return;
-        default:
-            if (JOY_NEW(SELECT_BUTTON) && CanSwapItems())
+            ListMenuGetScrollAndRow(data[0], &cursorPos, &scrollPos);
+            if (cursorPos + scrollPos != gBagMenu->numItemStacks[gBagPositionStruct.pocket])
             {
-                ListMenuGetScrollAndRow(data[0], &cursorPos, &scrollPos);
-                if (cursorPos + scrollPos != gBagMenu->numItemStacks[gBagPositionStruct.pocket])
-                {
-                    PlaySE(SE_SELECT);
-                    BagMenu_SwapItems(taskId);
-                    return;
-                }
+                PlaySE(SE_SELECT);
+                BagMenu_SwapItems(taskId);
+                return;
             }
-        break;
         }
+        break;
     }
     ListMenuGetScrollAndRow(data[0], &gBagPositionStruct.scrollPosition[gBagPositionStruct.pocket], &gBagPositionStruct.cursorPosition[gBagPositionStruct.pocket]);
     switch (listPosition)

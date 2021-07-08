@@ -179,17 +179,6 @@ void GetPokeblockFeederWithinRange(void)
     gSpecialVar_Result = -1;
 }
 
-// unused
-struct Pokeblock *SafariZoneGetPokeblockInFront(void)
-{
-    GetPokeblockFeederInFront();
-
-    if (gSpecialVar_Result == 0xFFFF)
-        return NULL;
-    else
-        return &sPokeblockFeeders[gSpecialVar_Result].pokeblock;
-}
-
 struct Pokeblock *SafariZoneGetActivePokeblock(void)
 {
     GetPokeblockFeederWithinRange();
@@ -237,21 +226,4 @@ static void DecrementFeederStepCounters(void)
                 ClearPokeblockFeeder(i);
         }
     }
-}
-
-// unused
-bool8 GetInFrontFeederPokeblockAndSteps(void)
-{
-    GetPokeblockFeederInFront();
-
-    if (gSpecialVar_Result == 0xFFFF)
-    {
-        return FALSE;
-    }
-
-    ConvertIntToDecimalStringN(gStringVar2,
-        sPokeblockFeeders[gSpecialVar_Result].stepCounter,
-        STR_CONV_MODE_LEADING_ZEROS, 3);
-
-    return TRUE;
 }
