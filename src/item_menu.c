@@ -1677,12 +1677,11 @@ void ItemMenu_Toss(u8 taskId)
 void BagMenu_TossItems(u8 taskId)
 {
     s16* data = gTasks[taskId].data;
-
     CopyItemName(gSpecialVar_ItemId, gStringVar1);
     ConvertIntToDecimalStringN(gStringVar2, tItemCount, STR_CONV_MODE_LEFT_ALIGN, MAX_ITEM_DIGITS);
     StringExpandPlaceholders(gStringVar4, gText_ConfirmTossItems);
     BagMenu_Print(BagMenu_AddWindow(6, 1), 2, gStringVar4, 0, 2, 1, 0, 0, 1);
-    BagCreateYesNoMenuTopRight(taskId, &sYesNoTossFunctions);
+    BagCreateYesNoMenuBottomRight(taskId, &sYesNoTossFunctions);
 }
 
 void BagMenu_CancelToss(u8 taskId)
@@ -1936,14 +1935,14 @@ void Task_ItemContext_Sell(u8 taskId)
         }
         else
         {
-            CopyItemName(gSpecialVar_ItemId, gStringVar2);
+            CopyItemName(gSpecialVar_ItemId, gStringVar1);
             StringExpandPlaceholders(gStringVar4, gText_HowManyToSell);
             DisplayItemMessage(taskId, 2, gStringVar4, sub_81AD730);
         }
     }
     else
     {
-        CopyItemName(gSpecialVar_ItemId, gStringVar2);
+        CopyItemName(gSpecialVar_ItemId, gStringVar1);
         StringExpandPlaceholders(gStringVar4, gText_CantBuyKeyItem);
         DisplayItemMessage(taskId, 2, gStringVar4, BagMenu_InitListsMenu);
     }
@@ -2583,6 +2582,7 @@ void BagCreateYesNoMenuTopRight(u8 taskId, const struct YesNoFuncTable * funcTab
 static void DisplayCurrentMoneyWindow(void)
 {
     PrintMoneyAmountInMoneyBoxWithBorder(BagMenu_AddWindow(2, 0), 0x81, 0xC, GetMoney(&gSaveBlock1Ptr->money));
+    AddMoneyLabelObject(19, 11);
 }
 
 static void BagDrawTextBoxOnWindow(u8 windowId)
