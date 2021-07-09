@@ -7,24 +7,6 @@ LilycoveCity_PokemonCenter_1F_MapScripts:: @ 821C5B2
 
 LilycoveCity_PokemonCenter_1F_OnTransition: @ 821C5BD
 	setrespawn HEAL_LOCATION_LILYCOVE_CITY
-	goto LilycoveCity_PokemonCenter_1F_EventScript_SetLilycoveLadyGfx
-	end
-
-@ SetLilycoveLadyGfx returns TRUE if its the Contest Lady
-LilycoveCity_PokemonCenter_1F_EventScript_SetLilycoveLadyGfx:: @ 821C5C6
-	special SetLilycoveLadyGfx
-	compare VAR_RESULT, FALSE
-	goto_if_eq LilycoveCity_PokemonCenter_1F_EventScript_HideContestLadyMon
-	compare VAR_RESULT, TRUE
-	goto_if_eq LilycoveCity_PokemonCenter_1F_EventScript_ShowContestLadyMon
-	end
-
-LilycoveCity_PokemonCenter_1F_EventScript_HideContestLadyMon:: @ 821C5E0
-	setflag FLAG_HIDE_LILYCOVE_POKEMON_CENTER_CONTEST_LADY_MON
-	end
-
-LilycoveCity_PokemonCenter_1F_EventScript_ShowContestLadyMon:: @ 821C5E4
-	clearflag FLAG_HIDE_LILYCOVE_POKEMON_CENTER_CONTEST_LADY_MON
 	end
 
 LilycoveCity_PokemonCenter_1F_EventScript_Nurse:: @ 821C5E8
@@ -67,4 +49,3 @@ LilycoveCity_PokemonCenter_1F_Text_HaventSeenRottenScoundrels: @ 821C6F6
 	.string "Those rotten scoundrels who steal\n"
 	.string "POKéMON and rip off METEORITES…\p"
 	.string "I haven't seen them around recently.$"
-

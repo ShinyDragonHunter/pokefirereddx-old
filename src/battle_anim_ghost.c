@@ -785,52 +785,29 @@ void AnimTask_DestinyBondWhiteShadow(u8 taskId)
 
     baseX = GetBattlerSpriteCoord(gBattleAnimAttacker, 2);
     baseY = GetBattlerSpriteCoordAttr(gBattleAnimAttacker, BATTLER_COORD_ATTR_BOTTOM);
-    if (!IsContest())
+    for (battler = 0; battler < MAX_BATTLERS_COUNT; battler++)
     {
-        for (battler = 0; battler < MAX_BATTLERS_COUNT; battler++)
+        if (battler != gBattleAnimAttacker
+         && battler != (gBattleAnimAttacker ^ 2)
+         && IsBattlerSpriteVisible(battler))
         {
-            if (battler != gBattleAnimAttacker
-             && battler != (gBattleAnimAttacker ^ 2)
-             && IsBattlerSpriteVisible(battler))
+            spriteId = CreateSprite(&gDestinyBondWhiteShadowSpriteTemplate, baseX, baseY, 55);
+            if (spriteId != MAX_SPRITES)
             {
-                spriteId = CreateSprite(&gDestinyBondWhiteShadowSpriteTemplate, baseX, baseY, 55);
-                if (spriteId != MAX_SPRITES)
-                {
-                    x = GetBattlerSpriteCoord(battler, 2);
-                    y = GetBattlerSpriteCoordAttr(battler, BATTLER_COORD_ATTR_BOTTOM);
-                    gSprites[spriteId].data[0] = baseX << 4;
-                    gSprites[spriteId].data[1] = baseY << 4;
-                    gSprites[spriteId].data[2] = ((x - baseX) << 4) / gBattleAnimArgs[1];
-                    gSprites[spriteId].data[3] = ((y - baseY) << 4) / gBattleAnimArgs[1];
-                    gSprites[spriteId].data[4] = gBattleAnimArgs[1];
-                    gSprites[spriteId].data[5] = x;
-                    gSprites[spriteId].data[6] = y;
-                    gSprites[spriteId].callback = AnimDestinyBondWhiteShadow_Step;
+                x = GetBattlerSpriteCoord(battler, 2);
+                y = GetBattlerSpriteCoordAttr(battler, BATTLER_COORD_ATTR_BOTTOM);
+                gSprites[spriteId].data[0] = baseX << 4;
+                gSprites[spriteId].data[1] = baseY << 4;
+                gSprites[spriteId].data[2] = ((x - baseX) << 4) / gBattleAnimArgs[1];
+                gSprites[spriteId].data[3] = ((y - baseY) << 4) / gBattleAnimArgs[1];
+                gSprites[spriteId].data[4] = gBattleAnimArgs[1];
+                gSprites[spriteId].data[5] = x;
+                gSprites[spriteId].data[6] = y;
+                gSprites[spriteId].callback = AnimDestinyBondWhiteShadow_Step;
 
-                    task->data[task->data[12] + 13] = spriteId;
-                    task->data[12]++;
-                }
+                task->data[task->data[12] + 13] = spriteId;
+                task->data[12]++;
             }
-        }
-    }
-    else
-    {
-        spriteId = CreateSprite(&gDestinyBondWhiteShadowSpriteTemplate, baseX, baseY, 55);
-        if (spriteId != MAX_SPRITES)
-        {
-            x = 48;
-            y = 40;
-            gSprites[spriteId].data[0] = baseX << 4;
-            gSprites[spriteId].data[1] = baseY << 4;
-            gSprites[spriteId].data[2] = ((x - baseX) << 4) / gBattleAnimArgs[1];
-            gSprites[spriteId].data[3] = ((y - baseY) << 4) / gBattleAnimArgs[1];
-            gSprites[spriteId].data[4] = gBattleAnimArgs[1];
-            gSprites[spriteId].data[5] = x;
-            gSprites[spriteId].data[6] = y;
-            gSprites[spriteId].callback = AnimDestinyBondWhiteShadow_Step;
-
-            task->data[13] = spriteId;
-            task->data[12] = 1;
         }
     }
 
@@ -840,6 +817,7 @@ void AnimTask_DestinyBondWhiteShadow(u8 taskId)
 static void AnimTask_DestinyBondWhiteShadow_Step(u8 taskId)
 {
     u16 i;
+
     struct Task *task = &gTasks[taskId];
 
     switch (task->data[0])
@@ -928,7 +906,7 @@ void AnimTask_CurseStretchingBlackBg(u8 taskId)
     SetGpuReg(REG_OFFSET_BLDCNT, (BLDCNT_TGT1_BG3 | BLDCNT_EFFECT_DARKEN));
     SetGpuReg(REG_OFFSET_BLDY, 16);
 
-    if (GetBattlerSide(gBattleAnimAttacker) != B_SIDE_PLAYER || IsContest())
+    if (GetBattlerSide(gBattleAnimAttacker) != B_SIDE_PLAYER)
         startX = 40;
     else
         startX = 200;

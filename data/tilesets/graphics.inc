@@ -723,29 +723,6 @@ gTilesetPalettes_InsideOfTruck:: @ 836BC3C
 	.incbin "data/tilesets/secondary/inside_of_truck/palettes/15.gbapal"
 
 	.align 2
-gTilesetTiles_Contest:: @ 836BE3C
-	.incbin "data/tilesets/secondary/contest/tiles.4bpp.lz"
-
-	.align 2
-gTilesetPalettes_Contest:: @ 836C990
-	.incbin "data/tilesets/secondary/contest/palettes/00.gbapal"
-	.incbin "data/tilesets/secondary/contest/palettes/01.gbapal"
-	.incbin "data/tilesets/secondary/contest/palettes/02.gbapal"
-	.incbin "data/tilesets/secondary/contest/palettes/03.gbapal"
-	.incbin "data/tilesets/secondary/contest/palettes/04.gbapal"
-	.incbin "data/tilesets/secondary/contest/palettes/05.gbapal"
-	.incbin "data/tilesets/secondary/contest/palettes/06.gbapal"
-	.incbin "data/tilesets/secondary/contest/palettes/07.gbapal"
-	.incbin "data/tilesets/secondary/contest/palettes/08.gbapal"
-	.incbin "data/tilesets/secondary/contest/palettes/09.gbapal"
-	.incbin "data/tilesets/secondary/contest/palettes/10.gbapal"
-	.incbin "data/tilesets/secondary/contest/palettes/11.gbapal"
-	.incbin "data/tilesets/secondary/contest/palettes/12.gbapal"
-	.incbin "data/tilesets/secondary/contest/palettes/13.gbapal"
-	.incbin "data/tilesets/secondary/contest/palettes/14.gbapal"
-	.incbin "data/tilesets/secondary/contest/palettes/15.gbapal"
-
-	.align 2
 gTilesetTiles_LilycoveMuseum:: @ 836CB90
 	.incbin "data/tilesets/secondary/lilycove_museum/tiles.4bpp.lz"
 

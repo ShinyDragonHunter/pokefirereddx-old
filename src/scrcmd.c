@@ -4,9 +4,6 @@
 #include "berry.h"
 #include "clock.h"
 #include "coins.h"
-#include "contest.h"
-#include "contest_util.h"
-#include "contest_painting.h"
 #include "data.h"
 #include "day_night.h"
 #include "event_data.h"
@@ -22,7 +19,6 @@
 #include "field_weather.h"
 #include "fieldmap.h"
 #include "item.h"
-#include "lilycove_lady.h"
 #include "main.h"
 #include "menu.h"
 #include "money.h"
@@ -1254,19 +1250,6 @@ bool8 ScrCmd_messageautoscroll(struct ScriptContext *ctx)
     return FALSE;
 }
 
-// Prints all at once. Skips waiting for player input. Only used by link contests
-bool8 ScrCmd_messageinstant(struct ScriptContext *ctx)
-{
-    const u8 *msg = (const u8 *)ScriptReadWord(ctx);
-
-    if (!msg)
-        msg = (const u8 *)ctx->data[0];
-    LoadMessageBoxAndBorderGfx();
-    DrawDialogueFrame(0, 1);
-    AddTextPrinterParameterized(0, 1, msg, 0, 1, 0, 0);
-    return FALSE;
-}
-
 bool8 ScrCmd_waitmessage(struct ScriptContext *ctx)
 {
     SetupNativeScript(ctx, IsFieldMessageBoxHidden);
@@ -1382,19 +1365,6 @@ bool8 ScrCmd_hidemonpic(struct ScriptContext *ctx)
     if (!func)
         return FALSE;
     SetupNativeScript(ctx, func);
-    return TRUE;
-}
-
-bool8 ScrCmd_showcontestpainting(struct ScriptContext *ctx)
-{
-    u8 contestWinnerId = ScriptReadByte(ctx);
-
-    // Artist's painting is temporary and already has its data loaded
-    if (contestWinnerId != CONTEST_WINNER_ARTIST)
-        SetContestWinnerForPainting(contestWinnerId);
-
-    ShowContestPainting();
-    ScriptContext1_Stop();
     return TRUE;
 }
 
@@ -1534,15 +1504,6 @@ bool8 ScrCmd_bufferstdstring(struct ScriptContext *ctx)
     u16 index = VarGet(ScriptReadHalfword(ctx));
 
     StringCopy(sScriptStringVars[stringVarIndex], gStdStrings[index]);
-    return FALSE;
-}
-
-bool8 ScrCmd_buffercontesttype(struct ScriptContext *ctx)
-{
-    u8 stringVarIndex = ScriptReadByte(ctx);
-    u16 index = VarGet(ScriptReadHalfword(ctx));
-
-    BufferContestName(sScriptStringVars[stringVarIndex], index);
     return FALSE;
 }
 
@@ -1822,35 +1783,6 @@ bool8 ScrCmd_getpricereduction(struct ScriptContext *ctx)
 
     gSpecialVar_Result = GetPriceReduction(newsKind);
     return FALSE;
-}
-
-bool8 ScrCmd_choosecontestmon(struct ScriptContext *ctx)
-{
-    ChooseContestMon();
-    ScriptContext1_Stop();
-    return TRUE;
-}
-
-
-bool8 ScrCmd_startcontest(struct ScriptContext *ctx)
-{
-    StartContest();
-    ScriptContext1_Stop();
-    return TRUE;
-}
-
-bool8 ScrCmd_showcontestresults(struct ScriptContext *ctx)
-{
-    ShowContestResults();
-    ScriptContext1_Stop();
-    return TRUE;
-}
-
-bool8 ScrCmd_contestlinktransfer(struct ScriptContext *ctx)
-{
-    ContestLinkTransfer(gSpecialVar_ContestCategory);
-    ScriptContext1_Stop();
-    return TRUE;
 }
 
 bool8 ScrCmd_dofieldeffect(struct ScriptContext *ctx)

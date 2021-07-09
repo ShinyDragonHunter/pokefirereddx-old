@@ -159,12 +159,7 @@ LilycoveCity_EventScript_MotelSign:: @ 81E2D11
 	end
 
 LilycoveCity_EventScript_MuseumSign:: @ 81E2D1A
-	lockall
-	specialvar VAR_0x8004, CountPlayerMuseumPaintings
-	switch VAR_0x8004
-	case 0, LilycoveCity_EventScript_MuseumSignNoPaintings
 	msgbox LilycoveCity_Text_MuseumSignPlayersExhibit, MSGBOX_DEFAULT
-	releaseall
 	end
 
 LilycoveCity_EventScript_MuseumSignNoPaintings:: @ 81E2D3A
@@ -769,4 +764,3 @@ LilycoveCity_Text_HoneymoonVowToSeeRarePokemon: @ 81E49F4
 	.string "So we were delighted to see a rare\n"
 	.string "POKéMON as soon as we arrived.\p"
 	.string "I mean, we are totally happy!$"
-

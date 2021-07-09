@@ -3589,7 +3589,6 @@ extern const u32 gPageInfoTilemap[];
 extern const u32 gUnknown_08D98CC8[];
 extern const u32 gPageSkillsTilemap[];
 extern const u32 gPageBattleMovesTilemap[];
-extern const u32 gPageContestMovesTilemap[];
 extern const u32 gStatusScreenPalette[];
 extern const u16 gUnknown_08D85620[];
 extern const u16 gSummaryScreenWindow_Tilemap[];
@@ -3689,8 +3688,6 @@ extern const u32 gBattleArenaJudgementSymbolsGfx[];
 extern const u32 gBattleArenaJudgementSymbolsPalette[];
 
 extern const u32 gBattleWindowTextPalette[];
-
-extern const u32 gContest2Pal[];
 
 extern const u32 gSmokescreenImpactTiles[];
 extern const u32 gSmokescreenImpactPalette[];
@@ -3894,7 +3891,6 @@ extern const u32 gBattleAnimSpriteGfx_Shock3[];
 extern const u32 gBattleAnimSpriteGfx_WeatherBall[];
 extern const u32 gBattleAnimBgTilemap_ScaryFacePlayer[];
 extern const u32 gBattleAnimBgTilemap_ScaryFaceOpponent[];
-extern const u32 gBattleAnimBgTilemap_ScaryFaceContest[];
 extern const u32 gBattleAnimSpriteGfx_Bird[];
 extern const u32 gBattleAnimSpriteGfx_CrossImpact[];
 
@@ -4126,9 +4122,7 @@ extern const u32 gBattleAnimBgTilemap_Ghost[];
 extern const u32 gBattleAnimBgTilemap_Psychic[];
 extern const u32 gBattleAnimBgTilemap_ImpactOpponent[];
 extern const u32 gBattleAnimBgTilemap_ImpactPlayer[];
-extern const u32 gBattleAnimBgTilemap_ImpactContests[];
 extern const u32 gBattleAnimBgTilemap_Drill[];
-extern const u32 gBattleAnimBgTilemap_DrillContests[];
 extern const u32 gBattleAnimBgTilemap_HighspeedOpponent[];
 extern const u32 gBattleAnimBgTilemap_HighspeedPlayer[];
 extern const u32 gBattleAnimMaskImage_LightBeam[];
@@ -4137,7 +4131,6 @@ extern const u32 gBattleAnimMaskTilemap_LightBeam[];
 extern const u32 gBattleAnimBgTilemap_Thunder[];
 extern const u32 gBattleAnimBgTilemap_GuillotineOpponent[];
 extern const u32 gBattleAnimBgTilemap_GuillotinePlayer[];
-extern const u32 gBattleAnimBgTilemap_GuillotineContests[];
 extern const u32 gBattleAnimBgTilemap_Ice[];
 extern const u32 gBattleAnimBgTilemap_Cosmic[];
 extern const u32 gBattleAnimBgTilemap_InAir[];
@@ -4162,25 +4155,11 @@ extern const u32 gBattleStatMask6_Pal[];
 extern const u32 gBattleStatMask7_Pal[];
 extern const u32 gBattleStatMask8_Pal[];
 
-extern const u32 gContestMiscGfx[];
-extern const u32 gContestAudienceGfx[];
-extern const u8 gContestApplauseMeterGfx[];
-extern const u8 gContestNextTurnNumbersGfx[];
-extern const u8 gContestNextTurnRandomGfx[];
 extern const u32 gUnknown_08C17170[];
 extern const u32 gUnknown_08C17980[];
-extern const u32 gContestSliderHeart_Gfx[];
-extern const u32 gContestNextTurnGfx[];
-extern const u16 gContestPal[];
-extern const u32 gContestFaces_Gfx[];
-extern const u32 gContestApplauseGfx[];
-extern const u32 gContestJudgeGfx[];
-extern const u32 gContestJudgeSymbolsGfx[];
-extern const u32 gContest3Pal[];
 
 extern const u32 gBattleAnimBgTilemap_SurfOpponent[];
 extern const u32 gBattleAnimBgTilemap_SurfPlayer[];
-extern const u32 gBattleAnimBgTilemap_SurfContest[];
 extern const u32 gBattleAnimBgImage_Surf[];
 extern const u32 gBattleAnimBgPalette_Surf[];
 extern const u32 gBattleAnimBackgroundImageMuddyWater_Pal[];
@@ -4308,24 +4287,6 @@ extern const u32 gRouletteHeaders_Gfx[];
 extern const u32 gRouletteCredit_Gfx[];
 extern const u32 gRouletteNumbers_Gfx[];
 extern const u32 gRouletteMultiplier_Gfx[];
-
-// Contest util
-extern const u32 gContestResults_Gfx[];
-extern const u32 gContestResults_WinnerBanner_Tilemap[];
-extern const u32 gContestResults_Interface_Tilemap[];
-extern const u32 gContestResults_Bg_Tilemap[];
-extern const u32 gContestResults_Pal[];
-extern const u16 gContestResultsTitle_Link_Tilemap[];
-extern const u16 gContestResultsTitle_Normal_Tilemap[];
-extern const u16 gContestResultsTitle_Super_Tilemap[];
-extern const u16 gContestResultsTitle_Hyper_Tilemap[];
-extern const u16 gContestResultsTitle_Master_Tilemap[];
-extern const u16 gContestResultsTitle_Cool_Tilemap[];
-extern const u16 gContestResultsTitle_Beauty_Tilemap[];
-extern const u16 gContestResultsTitle_Cute_Tilemap[];
-extern const u16 gContestResultsTitle_Smart_Tilemap[];
-extern const u16 gContestResultsTitle_Tough_Tilemap[];
-extern const u16 gContestResultsTitle_Tilemap[];
 
 // Trainer Card.
 extern const u16 gHoennTrainerCard0Star_Pal[];

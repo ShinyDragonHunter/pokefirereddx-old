@@ -383,18 +383,6 @@ gTileset_InsideOfTruck:: @ 83DFA94
 	.4byte NULL @ palette overrides
 
 	.align 2
-gTileset_Contest:: @ 83DFAC4
-	.byte TRUE @ is compressed
-	.byte TRUE @ is secondary tileset
-	.2byte 0 @ padding
-	.4byte gTilesetTiles_Contest
-	.4byte gTilesetPalettes_Contest
-	.4byte gMetatiles_Contest
-	.4byte gMetatileAttributes_Contest
-	.4byte NULL @ animation callback
-	.4byte NULL @ palette overrides
-
-	.align 2
 gTileset_LilycoveMuseum:: @ 83DFADC
 	.byte TRUE @ is compressed
 	.byte TRUE @ is secondary tileset

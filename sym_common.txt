@@ -48,14 +48,12 @@ gReservedSpritePaletteCount:
 	.include "task.o"
 	.include "trainer_see.o"
 	.include "pokedex.o"
-	.include "contest.o"
 	.include "debug/sound_check_menu.o"
 	.include "tv.o"
 	.include "image_processing_effects.o"
-	
+
 	.space 0x4
-	
-	.include "contest_painting.o"
+
 	.include "field_specials.o"
 	.include "evolution_scene.o"
 	.include "pokedex_cry_screen.o"

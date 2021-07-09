@@ -23,7 +23,6 @@
 #include "fldeff_misc.h"
 #include "script.h"
 #include "event_data.h"
-#include "lilycove_lady.h"
 #include "strings.h"
 #include "string_util.h"
 #include "record_mixing.h"
@@ -65,7 +64,7 @@ struct PlayerRecordsEmerald
     /* 0x10ac */ struct RecordMixingDaycareMail daycareMail;
     /* 0x1124 */ struct EmeraldBattleTowerRecord battleTowerRecord;
     /* 0x1210 */ u16 giftItem;
-    /* 0x1214 */ LilycoveLady lilycoveLady;
+    /* 0x1214 */ u8 filler_1214[0x40];
     /* 0x1254 */ struct Apprentice apprentices[2];
     /* 0x12dc */ struct PlayerHallRecords hallRecords;
     /* 0x1434 */ u8 field_1434[0x10];

@@ -962,8 +962,6 @@ Move_MEGA_PUNCH:
 	end
 SetImpactBackground:
 	delay 2
-	createvisualtask AnimTask_IsContest, 2
-	jumprettrue SetImpactContestsBG
 	createvisualtask AnimTask_IsTargetPlayerSide, 2
 	jumpretfalse SetImpactOpponentBG
 	jumprettrue SetImpactPlayerBG
@@ -975,10 +973,6 @@ SetImpactOpponentBG:
 SetImpactPlayerBG:
 	changebg BG_IMPACT_PLAYER
 	goto SetImpactBackgroundRet
-SetImpactContestsBG:
-	changebg BG_IMPACT_CONTESTS
-	goto SetImpactBackgroundRet
-
 Move_MEGA_KICK:
 	loadspritegfx ANIM_TAG_IMPACT
 	loadspritegfx ANIM_TAG_HANDS_AND_FEET
@@ -1859,7 +1853,6 @@ Move_GUILLOTINE:
 	loadspritegfx ANIM_TAG_IMPACT
 	monbg ANIM_DEF_PARTNER
 	setalpha 12, 8
-	fadetobgfromset BG_GUILLOTINE_OPPONENT, BG_GUILLOTINE_PLAYER, BG_GUILLOTINE_CONTESTS
 	waitbgfadein
 	playsewithpan SE_M_VICEGRIP, SOUND_PAN_TARGET
 	createsprite gGuillotineSpriteTemplate, ANIM_ATTACKER, 2, 0
@@ -2465,7 +2458,6 @@ FuryAttackLeft:
 Move_HORN_DRILL:
 	loadspritegfx ANIM_TAG_IMPACT
 	loadspritegfx ANIM_TAG_HORN_HIT
-	jumpifcontest HornDrillInContest
 	fadetobg BG_DRILL
 	waitbgfadeout
 	createvisualtask AnimTask_StartSlidingBg, 5, -2304, 768, 1, -1
@@ -2522,12 +2514,6 @@ HornDrillContinue:
 	setarg 7, 0xFFFF
 	waitbgfadein
 	end
-
-HornDrillInContest:
-	fadetobg BG_DRILL_CONTESTS
-	waitbgfadeout
-	createvisualtask AnimTask_StartSlidingBg, 5, 2304, 768, 0, -1
-	goto HornDrillContinue
 
 Move_THRASH:
 	loadspritegfx ANIM_TAG_IMPACT
@@ -3074,21 +3060,12 @@ Move_SKETCH:
 Move_NIGHTMARE:
 	fadetobg BG_GHOST
 	waitbgfadein
-	jumpifcontest NightmareInContest
 	monbg ANIM_DEF_PARTNER
 	createvisualtask AnimTask_NightmareClone, 2
 	createvisualtask AnimTask_ShakeMon, 2, ANIM_TARGET, 3, 0, 40, 1
 	playsewithpan SE_M_NIGHTMARE, SOUND_PAN_TARGET
 	waitforvisualfinish
 	clearmonbg ANIM_DEF_PARTNER
-	restorebg
-	waitbgfadein
-	end
-NightmareInContest:
-	createvisualtask AnimTask_BlendMonInAndOut, 2, ANIM_ATTACKER, RGB_WHITE, 10, 2, 1
-	createvisualtask AnimTask_ShakeMon, 2, ANIM_ATTACKER, 3, 0, 32, 1
-	playsewithpan SE_M_NIGHTMARE, SOUND_PAN_TARGET
-	waitforvisualfinish
 	restorebg
 	waitbgfadein
 	end
@@ -6105,7 +6082,6 @@ Move_MEGAHORN:
 	loadspritegfx ANIM_TAG_IMPACT
 	monbg ANIM_DEF_PARTNER
 	playsewithpan SE_M_DRAGON_RAGE, SOUND_PAN_ATTACKER
-	jumpifcontest MegahornInContest
 	fadetobg BG_DRILL
 	waitbgfadeout
 	createvisualtask AnimTask_StartSlidingBg, 5, -2304, 768, 1, -1
@@ -6137,11 +6113,6 @@ MegahornContinue:
 	setarg 7, 0xFFFF
 	waitbgfadein
 	end
-MegahornInContest:
-	fadetobg BG_DRILL_CONTESTS
-	waitbgfadeout
-	createvisualtask AnimTask_StartSlidingBg, 5, 2304, 768, 0, -1
-	goto MegahornContinue
 
 Move_GUST:
 	loadspritegfx ANIM_TAG_GUST
@@ -7992,8 +7963,6 @@ Move_HYPER_FANG:
 	playsewithpan SE_M_BITE, SOUND_PAN_TARGET
 	delay 1
 	delay 2
-	createvisualtask AnimTask_IsContest, 2
-	jumprettrue HyperFangInContest
 	createvisualtask AnimTask_IsTargetPlayerSide, 2
 	jumpretfalse HyperFangOnOpponent
 	goto HyperFangOnPlayer
@@ -8013,9 +7982,6 @@ HyperFangOnOpponent:
 	goto HyperFangContinue
 HyperFangOnPlayer:
 	fadetobg BG_IMPACT_PLAYER
-	goto HyperFangContinue
-HyperFangInContest:
-	fadetobg BG_IMPACT_CONTESTS
 	goto HyperFangContinue
 
 Move_TRI_ATTACK:
@@ -8875,8 +8841,6 @@ FocusPunch:
 	loadspritegfx ANIM_TAG_IMPACT
 	loadspritegfx ANIM_TAG_HANDS_AND_FEET
 	delay 1
-	createvisualtask AnimTask_IsContest, 2
-	jumprettrue FocusPunchInContest
 	createvisualtask AnimTask_IsTargetPlayerSide, 2
 	jumpretfalse FocusPunchOnOpponent
 	jumprettrue FocusPunchOnPlayer
@@ -8909,9 +8873,6 @@ FocusPunchOnOpponent:
 	goto FocusPunchContinue
 FocusPunchOnPlayer:
 	fadetobg BG_IMPACT_PLAYER
-	goto FocusPunchContinue
-FocusPunchInContest:
-	fadetobg BG_IMPACT_CONTESTS
 	goto FocusPunchContinue
 
 Move_RETURN:
@@ -10170,18 +10131,12 @@ UnsetPsychicBackground:
 	return
 
 SetSkyBg:
-	jumpifcontest SetSkyBgContest
 	fadetobg BG_SKY
 	waitbgfadeout
 	createvisualtask AnimTask_StartSlidingBg, 5, -2304, 768, 1, -1
 SetSkyBgContinue:
 	waitbgfadein
 	return
-SetSkyBgContest:
-	fadetobg BG_SKY_CONTESTS
-	waitbgfadeout
-	createvisualtask AnimTask_StartSlidingBg, 5, 2304, 768, 0, -1
-	goto SetSkyBgContinue
 
 UnsetSkyBg:
 	restorebg
@@ -10191,17 +10146,12 @@ UnsetSkyBg:
 	return
 
 SetSolarbeamBg:
-	createvisualtask AnimTask_IsContest, 2
-	jumprettrue SetSolarbeamBgContest
 	createvisualtask AnimTask_IsTargetPlayerSide, 2
 	jumpretfalse SetSolarbeamBgOpponent
 	goto SetSolarbeamBgPlayer
 SetSolarbeamBgContinue:
 	waitbgfadein
 	return
-SetSolarbeamBgContest:
-	fadetobg BG_SOLARBEAM_CONTESTS
-	goto SetSolarbeamBgContinue
 SetSolarbeamBgPlayer:
 	fadetobg BG_SOLARBEAM_PLAYER
 	goto SetSolarbeamBgContinue

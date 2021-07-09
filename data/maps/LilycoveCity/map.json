@@ -342,13 +342,6 @@
       "dest_warp_id": 0
     },
     {
-      "x": 23,
-      "y": 24,
-      "elevation": 0,
-      "dest_map": "MAP_LILYCOVE_CITY_CONTEST_LOBBY",
-      "dest_warp_id": 0
-    },
-    {
       "x": 39,
       "y": 14,
       "elevation": 0,
@@ -412,7 +405,9 @@
       "dest_warp_id": 1
     }
   ],
-  "coord_events": [],
+  "coord_events": [
+
+  ],
   "bg_events": [
     {
       "type": "sign",

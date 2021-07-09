@@ -21,7 +21,6 @@
 #include "item.h"
 #include "item_menu_icons.h"
 #include "item_use.h"
-#include "lilycove_lady.h"
 #include "list_menu.h"
 #include "link.h"
 #include "mail.h"
@@ -133,8 +132,6 @@ static void BagMenu_TryDepositItem(u8);
 static void Task_ChooseHowManyToDeposit(u8 taskId);
 static void BagMenu_Deposit_WaitForABPress(u8);
 void CB2_ApprenticeExitBagMenu(void);
-void CB2_FavorLadyExitBagMenu(void);
-void CB2_QuizLadyExitBagMenu(void);
 void All_CalculateNItemsAndMaxShowed(void);
 static void SetPocketListPositions(void);
 void UpdatePocketScrollPositions(void);
@@ -1925,18 +1922,6 @@ void ApprenticeOpenBagMenu(void)
     gSpecialVar_Result = FALSE;
 }
 
-void FavorLadyOpenBagMenu(void)
-{
-    GoToBagMenu(ITEMMENULOCATION_FAVOR_LADY, POCKETS_COUNT, CB2_FavorLadyExitBagMenu);
-    gSpecialVar_Result = FALSE;
-}
-
-void QuizLadyOpenBagMenu(void)
-{
-    GoToBagMenu(ITEMMENULOCATION_QUIZ_LADY, POCKETS_COUNT, CB2_QuizLadyExitBagMenu);
-    gSpecialVar_Result = FALSE;
-}
-
 void Task_ItemContext_Sell(u8 taskId)
 {
     s16* data = gTasks[taskId].data;
@@ -2094,18 +2079,6 @@ static void BagMenu_Deposit_WaitForABPress(u8 taskId)
 void CB2_ApprenticeExitBagMenu(void)
 {
     gFieldCallback = Apprentice_EnableBothScriptContexts;
-    SetMainCallback2(CB2_ReturnToField);
-}
-
-void CB2_FavorLadyExitBagMenu(void)
-{
-    gFieldCallback = FieldCallback_FavorLadyEnableScriptContexts;
-    SetMainCallback2(CB2_ReturnToField);
-}
-
-void CB2_QuizLadyExitBagMenu(void)
-{
-    gFieldCallback = FieldCallback_QuizLadyEnableScriptContexts;
     SetMainCallback2(CB2_ReturnToField);
 }
 

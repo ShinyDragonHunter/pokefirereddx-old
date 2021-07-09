@@ -203,20 +203,15 @@
 	.byte \battler
 	.endm
 
-	.macro jumpifcontest ptr:req
-	.byte 0x24
-	.4byte \ptr
-	.endm
-
 	.macro fadetobgfromset param0:req, param1:req, param2:req
-	.byte 0x25
+	.byte 0x24
 	.byte \param0
 	.byte \param1
 	.byte \param2
 	.endm
 
 	.macro panse_26 se:req, param1:req, param2:req, param3:req, param4:req
-	.byte 0x26
+	.byte 0x25
 	.2byte \se
 	.byte \param1
 	.byte \param2
@@ -225,7 +220,7 @@
 	.endm
 
 	.macro panse_27 se:req, param1:req, param2:req, param3:req, param4:req
-	.byte 0x27
+	.byte 0x26
 	.2byte \se
 	.byte \param1
 	.byte \param2
@@ -234,41 +229,41 @@
 	.endm
 
 	.macro monbgprio_28 battler:req
-	.byte 0x28
+	.byte 0x27
 	.byte \battler
 	.endm
 
 	.macro monbgprio_29
-	.byte 0x29
+	.byte 0x28
 	.endm
 
 	.macro monbgprio_2A battler:req
-	.byte 0x2a
+	.byte 0x29
 	.byte \battler
 	.endm
 
 	.macro invisible battler:req
-	.byte 0x2b
+	.byte 0x2a
 	.byte \battler
 	.endm
 
 	.macro visible battler:req
-	.byte 0x2c
+	.byte 0x2b
 	.byte \battler
 	.endm
 
 	.macro doublebattle_2D battler:req
-	.byte 0x2d
+	.byte 0x2c
 	.byte \battler
 	.endm
 
 	.macro doublebattle_2E battler:req
-	.byte 0x2e
+	.byte 0x2d
 	.byte \battler
 	.endm
 
 	.macro stopsound
-	.byte 0x2f
+	.byte 0x2e
 	.endm
 	
 @ useful macros

@@ -45,7 +45,6 @@ LilycoveCity_House3_EventScript_GameBoyKid1:: @ 821EEA1
 	case 0, LilycoveCity_House3_EventScript_WereDoingMultiBattle
 	case 1, LilycoveCity_House3_EventScript_WereMixingRecords
 	case 2, LilycoveCity_House3_EventScript_WereBlendingBerries
-	case 3, LilycoveCity_House3_EventScript_WereDoingContest
 	end
 
 LilycoveCity_House3_EventScript_GameBoyKid2:: @ 821EED5
@@ -55,7 +54,6 @@ LilycoveCity_House3_EventScript_GameBoyKid2:: @ 821EED5
 	case 0, LilycoveCity_House3_EventScript_WereDoingMultiBattle
 	case 1, LilycoveCity_House3_EventScript_WereMixingRecords
 	case 2, LilycoveCity_House3_EventScript_WereBlendingBerries
-	case 3, LilycoveCity_House3_EventScript_WereDoingContest
 	end
 
 LilycoveCity_House3_EventScript_GameBoyKid3:: @ 821EF09
@@ -65,7 +63,6 @@ LilycoveCity_House3_EventScript_GameBoyKid3:: @ 821EF09
 	case 0, LilycoveCity_House3_EventScript_WereDoingMultiBattle
 	case 1, LilycoveCity_House3_EventScript_WereMixingRecords
 	case 2, LilycoveCity_House3_EventScript_WereBlendingBerries
-	case 3, LilycoveCity_House3_EventScript_WereDoingContest
 	end
 
 LilycoveCity_House3_EventScript_GameBoyKid4:: @ 821EF3D
@@ -75,7 +72,6 @@ LilycoveCity_House3_EventScript_GameBoyKid4:: @ 821EF3D
 	case 0, LilycoveCity_House3_EventScript_WereDoingMultiBattle
 	case 1, LilycoveCity_House3_EventScript_WereMixingRecords
 	case 2, LilycoveCity_House3_EventScript_WereBlendingBerries
-	case 3, LilycoveCity_House3_EventScript_WereDoingContest
 	end
 
 LilycoveCity_House3_EventScript_WereDoingMultiBattle:: @ 821EF71
@@ -90,11 +86,6 @@ LilycoveCity_House3_EventScript_WereMixingRecords:: @ 821EF7B
 
 LilycoveCity_House3_EventScript_WereBlendingBerries:: @ 821EF85
 	msgbox LilycoveCity_House3_Text_MakePokeblocksWithBerryBlender, MSGBOX_DEFAULT
-	release
-	end
-
-LilycoveCity_House3_EventScript_WereDoingContest:: @ 821EF8F
-	msgbox LilycoveCity_House3_Text_GoingToEnterContest, MSGBOX_DEFAULT
 	release
 	end
 
@@ -161,9 +152,3 @@ LilycoveCity_House3_Text_LikeMixingAtRecordCorner: @ 821F4E0
 LilycoveCity_House3_Text_MakePokeblocksWithBerryBlender: @ 821F523
 	.string "We're going to make super {POKEBLOCK}S\n"
 	.string "with a BERRY BLENDER!$"
-
-LilycoveCity_House3_Text_GoingToEnterContest: @ 821F55A
-	.string "I want to brag about how tough my\n"
-	.string "POKéMON is, so we're going to enter\l"
-	.string "a CONTEST together.$"
-

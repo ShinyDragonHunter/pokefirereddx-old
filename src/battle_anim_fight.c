@@ -411,12 +411,6 @@ static void AnimSlideHandOrFootToTarget(struct Sprite *sprite)
 
 static void AnimJumpKick(struct Sprite *sprite)
 {
-    if (IsContest())
-    {
-        gBattleAnimArgs[1] = -gBattleAnimArgs[1];
-        gBattleAnimArgs[3] = -gBattleAnimArgs[3];
-    }
-
     AnimSlideHandOrFootToTarget(sprite);
 }
 
@@ -888,9 +882,7 @@ static void AnimSuperpowerFireball(struct Sprite *sprite)
         sprite->oam.priority = GetBattlerSpriteBGPriority(gBattleAnimTarget);
     }
 
-    if (IsContest())
-        sprite->oam.matrixNum |= ST_OAM_HFLIP;
-    else if (GetBattlerSide(battler) == B_SIDE_PLAYER)
+    if (GetBattlerSide(battler) == B_SIDE_PLAYER)
         sprite->oam.matrixNum |= (ST_OAM_HFLIP | ST_OAM_VFLIP);
 
     sprite->data[0] = 16;
@@ -946,11 +938,7 @@ static void AnimRevengeScratch(struct Sprite *sprite)
     else
         InitSpritePosToAnimTarget(sprite, FALSE);
 
-    if (IsContest())
-    {
-        StartSpriteAnim(sprite, 2);
-    }
-    else if (GetBattlerSide(gBattleAnimAttacker) != B_SIDE_PLAYER)
+    if (GetBattlerSide(gBattleAnimAttacker) != B_SIDE_PLAYER)
     {
         StartSpriteAnim(sprite, 1);
     }

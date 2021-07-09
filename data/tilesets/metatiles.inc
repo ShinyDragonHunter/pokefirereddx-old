@@ -255,14 +255,6 @@ gMetatileAttributes_InsideOfTruck:: @ 83BD13A
 	.incbin "data/tilesets/secondary/inside_of_truck/metatile_attributes.bin"
 
 	.align 1
-gMetatiles_Contest:: @ 83BD186
-	.incbin "data/tilesets/secondary/contest/metatiles.bin"
-
-	.align 1
-gMetatileAttributes_Contest:: @ 83BE016
-	.incbin "data/tilesets/secondary/contest/metatile_attributes.bin"
-
-	.align 1
 gMetatiles_LilycoveMuseum:: @ 83BE1E8
 	.incbin "data/tilesets/secondary/lilycove_museum/metatiles.bin"
 
