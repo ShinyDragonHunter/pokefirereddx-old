@@ -314,11 +314,6 @@ static void StringExpandPlaceholders_AwaitingCommFromAnother(u8 *dst, u8 caseId)
     case ACTIVITY_BERRY_BLENDER:
     case ACTIVITY_WONDER_CARD2:
     case ACTIVITY_WONDER_NEWS2:
-    case ACTIVITY_CONTEST_COOL:
-    case ACTIVITY_CONTEST_BEAUTY:
-    case ACTIVITY_CONTEST_CUTE:
-    case ACTIVITY_CONTEST_SMART:
-    case ACTIVITY_CONTEST_TOUGH:
         StringExpandPlaceholders(dst, sText_AwaitingCommunication);
         break;
     }
@@ -333,11 +328,6 @@ static bool32 IsActivityWithVariableGroupSize(u32 caseId)
     case ACTIVITY_BERRY_PICK:
     case ACTIVITY_RECORD_CORNER:
     case ACTIVITY_BERRY_BLENDER:
-    case ACTIVITY_CONTEST_COOL:
-    case ACTIVITY_CONTEST_BEAUTY:
-    case ACTIVITY_CONTEST_CUTE:
-    case ACTIVITY_CONTEST_SMART:
-    case ACTIVITY_CONTEST_TOUGH:
         return TRUE;
     default:
         return FALSE;
@@ -718,11 +708,6 @@ static void Leader_GetAcceptNewMemberPrompt(u8 *dst, u8 caseId)
     case ACTIVITY_BERRY_PICK:
     case ACTIVITY_RECORD_CORNER:
     case ACTIVITY_BERRY_BLENDER:
-    case ACTIVITY_CONTEST_COOL:
-    case ACTIVITY_CONTEST_BEAUTY:
-    case ACTIVITY_CONTEST_CUTE:
-    case ACTIVITY_CONTEST_SMART:
-    case ACTIVITY_CONTEST_TOUGH:
         StringExpandPlaceholders(dst, sText_PlayerContactedYouAddToMembers);
         break;
     }
@@ -762,11 +747,6 @@ static void GetYouAskedToJoinGroupPleaseWaitMessage(u8 *dst, u8 caseId)
     case ACTIVITY_BERRY_PICK:
     case ACTIVITY_RECORD_CORNER:
     case ACTIVITY_BERRY_BLENDER:
-    case ACTIVITY_CONTEST_COOL:
-    case ACTIVITY_CONTEST_BEAUTY:
-    case ACTIVITY_CONTEST_CUTE:
-    case ACTIVITY_CONTEST_SMART:
-    case ACTIVITY_CONTEST_TOUGH:
         StringExpandPlaceholders(dst, sText_PlayerHasBeenAskedToRegisterYouPleaseWait);
         break;
     }
@@ -791,11 +771,6 @@ static void GetGroupLeaderSentAnOKMessage(u8 *dst, u8 caseId)
     case ACTIVITY_BERRY_PICK:
     case ACTIVITY_RECORD_CORNER:
     case ACTIVITY_BERRY_BLENDER:
-    case ACTIVITY_CONTEST_COOL:
-    case ACTIVITY_CONTEST_BEAUTY:
-    case ACTIVITY_CONTEST_CUTE:
-    case ACTIVITY_CONTEST_SMART:
-    case ACTIVITY_CONTEST_TOUGH:
         StringExpandPlaceholders(dst, sText_PlayerOKdRegistration);
         break;
     }
@@ -1064,11 +1039,6 @@ static void Task_TryJoinLinkGroup(u8 taskId)
             case ACTIVITY_BERRY_BLENDER:
             case ACTIVITY_WONDER_CARD2:
             case ACTIVITY_WONDER_NEWS2:
-            case ACTIVITY_CONTEST_COOL:
-            case ACTIVITY_CONTEST_BEAUTY:
-            case ACTIVITY_CONTEST_CUTE:
-            case ACTIVITY_CONTEST_SMART:
-            case ACTIVITY_CONTEST_TOUGH:
                 data->state = LG_STATE_READY_START_ACTIVITY;
                 return;
             }
@@ -1721,11 +1691,6 @@ static void Task_RunScriptAndFadeToActivity(u8 taskId)
             ResetBlockReceivedFlags();
             break;
         case ACTIVITY_BERRY_BLENDER:
-        case ACTIVITY_CONTEST_COOL:
-        case ACTIVITY_CONTEST_BEAUTY:
-        case ACTIVITY_CONTEST_CUTE:
-        case ACTIVITY_CONTEST_SMART:
-        case ACTIVITY_CONTEST_TOUGH:
             RecordMixTrainerNames();
             DestroyTask(taskId);
         default:
@@ -1744,16 +1709,8 @@ static void Task_RunScriptAndFadeToActivity(u8 taskId)
     case 2:
         if (!gPaletteFade.active)
         {
-            if (gPlayerCurrActivity == ACTIVITY_29)
-            {
-                DestroyTask(taskId);
-                SetMainCallback2(CB2_StartCreateTradeMenu);
-            }
-            else
-            {
-                SetLinkStandbyCallback();
-                data[0] = 3;
-            }
+            SetLinkStandbyCallback();
+            data[0] = 3;
         }
         break;
     case 3:

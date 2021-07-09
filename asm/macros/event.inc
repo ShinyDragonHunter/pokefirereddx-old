@@ -901,10 +901,9 @@
 	.byte 0x76
 	.endm
 
-	@ Draws an image of the winner of the contest. winnerId is any CONTEST_WINNER_* constant.
-	.macro showcontestpainting winnerId:req
+	@ This command is a nop.
+	.macro showcontestpainting
 	.byte 0x77
-	.byte \winnerId
 	.endm
 
 	@ Displays the string at pointer as braille text in a standard message box. The string must be formatted to use braille 
@@ -1038,22 +1037,22 @@
 	.byte \growth_stage
 	.endm
 
-	@ This allows you to choose a Pokemon to use in a contest. In FireRed, this command sets the byte at 0x03000EA8 to 0x01.
+	@ This command is a nop.
 	.macro choosecontestmon
 	.byte 0x8b
 	.endm
 
-	@ Starts a contest. In FireRed, this command is a nop.
+	@ This command is a nop.
 	.macro startcontest
 	.byte 0x8c
 	.endm
 
-	@ Shows the results of a contest. In FireRed, this command is a nop.
+	@ This command is a nop.
 	.macro showcontestresults
 	.byte 0x8d
 	.endm
 
-	@ Starts a contest over a link connection. In FireRed, this command is a nop.
+	@ This command is a nop.
 	.macro contestlinktransfer
 	.byte 0x8e
 	.endm
@@ -1567,10 +1566,8 @@
 	.2byte \word2
 	.endm
 
-	.macro buffercontesttypestring out:req, word:req
+	.macro buffercontesttypestring
 	.byte 0xe1
-	.byte \out
-	.2byte \word
 	.endm
 
 	@ Writes the name of the specified (item) item to the specified buffer. If the specified item is a Berry (0x85 - 0xAE) or

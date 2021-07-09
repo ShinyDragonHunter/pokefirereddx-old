@@ -101,8 +101,6 @@
 #define LINKTYPE_MYSTERY_EVENT         0x5501
 #define LINKTYPE_UNUSED_EREADER        0x5502 // Unused, inferred from gap
 #define LINKTYPE_EREADER               0x5503
-#define LINKTYPE_CONTEST_GMODE         0x6601
-#define LINKTYPE_CONTEST_EMODE         0x6602
 
 struct LinkStatus
 {
@@ -139,7 +137,6 @@ enum
     EXCHANGE_PLAYER_NOT_READY,
     EXCHANGE_PARTNER_NOT_READY,
     EXCHANGE_WRONG_NUM_PLAYERS,
-    EXCHANGE_STAT_7
 };
 
 enum

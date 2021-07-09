@@ -88,7 +88,6 @@ static void StorePlayerIdInRecordMixShow(TVShow *);
 static void DeleteTVShowInArrayByIdx(TVShow *, u8);
 static s8 FindFirstEmptyNormalTVShowSlot(TVShow *);
 static void TryReplaceOldTVShowOfKind(u8);
-static void InterviewBefore_BravoTrainerPkmnProfile(void);
 static void InterviewBefore_NameRater(void);
 static u16 GetRandomDifferentSpeciesSeenByPlayer(u16);
 static void Script_FindFirstEmptyNormalTVShowSlot(void);
@@ -169,7 +168,6 @@ static void DoTVShowPokemonLotteryWinnerFlashReport(void);
 static void DoTVShowThePokemonBattleSeminar(void);
 static void DoTVShowTrainerFanClubSpecial(void);
 static void DoTVShowTrainerFanClub(void);
-static void DoTVShowSpotTheCuties(void);
 static void DoTVShowPokemonNewsBattleFrontier(void);
 static void DoTVShowWhatsNo1InHoennToday(void);
 static void DoTVShowSafariFanClub(void);
@@ -333,18 +331,6 @@ static const u8 *const sTVTodaysSmartShopperTextGroup[] = {
     [SMARTSHOPPER_STATE_IS_VIP]         = SmartShopper_Text_IsVIP,
     [SMARTSHOPPER_STATE_CLERK_MAX]      = SmartShopper_Text_ClerkMax,
     [SMARTSHOPPER_STATE_OUTRO_MAX]      = SmartShopper_Text_OutroMax
-};
-
-static const u8 *const sTVBravoTrainerTextGroup[] = {
-    gTVBravoTrainerText00,
-    gTVBravoTrainerText01,
-    gTVBravoTrainerText02,
-    gTVBravoTrainerText03,
-    gTVBravoTrainerText04,
-    gTVBravoTrainerText05,
-    gTVBravoTrainerText06,
-    gTVBravoTrainerText07,
-    gTVBravoTrainerText08
 };
 
 static const u8 *const sTV3CheersForPokeblocksTextGroup[] = {
@@ -517,25 +503,6 @@ static const u8 *const sTVTrainerFanClubTextGroup[] = {
     gTVTrainerFanClubText09,
     gTVTrainerFanClubText10,
     gTVTrainerFanClubText11
-};
-
-static const u8 *const sTVCutiesTextGroup[] = {
-    [SPOTCUTIES_STATE_INTRO]           = TVSpotTheCuties_Text_Intro,
-    [SPOTCUTIES_STATE_RIBBONS_LOW]     = TVSpotTheCuties_Text_RibbonsLow,
-    [SPOTCUTIES_STATE_RIBBONS_MID]     = TVSpotTheCuties_Text_RibbonsMid,
-    [SPOTCUTIES_STATE_RIBBONS_HIGH]    = TVSpotTheCuties_Text_RibbonsHigh,
-    [SPOTCUTIES_STATE_RIBBON_INTRO]    = TVSpotTheCuties_Text_RibbonIntro,
-    [SPOTCUTIES_STATE_RIBBON_CHAMPION] = TVSpotTheCuties_Text_RibbonChampion,
-    [SPOTCUTIES_STATE_RIBBON_COOL]     = TVSpotTheCuties_Text_RibbonCool,
-    [SPOTCUTIES_STATE_RIBBON_BEAUTY]   = TVSpotTheCuties_Text_RibbonBeauty,
-    [SPOTCUTIES_STATE_RIBBON_CUTE]     = TVSpotTheCuties_Text_RibbonCute,
-    [SPOTCUTIES_STATE_RIBBON_SMART]    = TVSpotTheCuties_Text_RibbonSmart,
-    [SPOTCUTIES_STATE_RIBBON_TOUGH]    = TVSpotTheCuties_Text_RibbonTough,
-    [SPOTCUTIES_STATE_RIBBON_WINNING]  = TVSpotTheCuties_Text_RibbonWinning,
-    [SPOTCUTIES_STATE_RIBBON_VICTORY]  = TVSpotTheCuties_Text_RibbonVictory,
-    [SPOTCUTIES_STATE_RIBBON_ARTIST]   = TVSpotTheCuties_Text_RibbonArtist,
-    [SPOTCUTIES_STATE_RIBBON_EFFORT]   = TVSpotTheCuties_Text_RibbonEffort,
-    [SPOTCUTIES_STATE_OUTRO]           = TVSpotTheCuties_Text_Outro
 };
 
 static const u8 *const sTVPokemonNewsBattleFrontierTextGroup[] = {
@@ -931,9 +898,6 @@ void InterviewAfter(void)
     case TVSHOW_DUMMY:
         InterviewAfter_Dummy();
         break;
-    case TVSHOW_BRAVO_TRAINER_POKEMON_PROFILE:
-        InterviewAfter_BravoTrainerPokemonProfile();
-        break;
     case TVSHOW_BRAVO_TRAINER_BATTLE_TOWER_PROFILE:
         InterviewAfter_BravoTrainerBattleTowerProfile();
         break;
@@ -1168,54 +1132,6 @@ void PutFanClubSpecialOnTheAir(void)
         show->fanClubSpecial.idolNameLanguage = LANGUAGE_JAPANESE;
     else
         show->fanClubSpecial.idolNameLanguage = gSaveBlock1Ptr->linkBattleRecords.languages[0];
-}
-
-static void InterviewAfter_BravoTrainerPokemonProfile(void)
-{
-    TVShow *show;
-    TVShow *show2;
-
-    show = &gSaveBlock1Ptr->tvShows[LAST_TVSHOW_IDX];
-    if (show->bravoTrainer.kind == TVSHOW_BRAVO_TRAINER_POKEMON_PROFILE)
-    {
-        show2 = &gSaveBlock1Ptr->tvShows[sCurTVShowSlot];
-        show2->bravoTrainer.kind = TVSHOW_BRAVO_TRAINER_POKEMON_PROFILE;
-        show2->bravoTrainer.active = TRUE;
-        show2->bravoTrainer.species = show->bravoTrainer.species;
-        StringCopy(show2->bravoTrainer.playerName, gSaveBlock2Ptr->playerName);
-        StringCopy(show2->bravoTrainer.pokemonNickname, show->bravoTrainer.pokemonNickname);
-        show2->bravoTrainer.move = show->bravoTrainer.move;
-        StorePlayerIdInNormalShow(show2);
-        show2->bravoTrainer.language = gGameLanguage;
-        if (show2->bravoTrainer.language == LANGUAGE_JAPANESE || show->bravoTrainer.pokemonNameLanguage == LANGUAGE_JAPANESE)
-            show2->bravoTrainer.pokemonNameLanguage = LANGUAGE_JAPANESE;
-        else
-            show2->bravoTrainer.pokemonNameLanguage = show->bravoTrainer.pokemonNameLanguage;
-        DeleteTVShowInArrayByIdx(gSaveBlock1Ptr->tvShows, LAST_TVSHOW_IDX);
-    }
-}
-
-void BravoTrainerPokemonProfile_BeforeInterview1(u16 a0)
-{
-    TVShow *show = &gSaveBlock1Ptr->tvShows[LAST_TVSHOW_IDX];
-    InterviewBefore_BravoTrainerPkmnProfile();
-    sCurTVShowSlot = FindFirstEmptyNormalTVShowSlot(gSaveBlock1Ptr->tvShows);
-    if (sCurTVShowSlot != -1)
-    {
-        DeleteTVShowInArrayByIdx(gSaveBlock1Ptr->tvShows, LAST_TVSHOW_IDX);
-        show->bravoTrainer.move = a0;
-        show->bravoTrainer.kind = TVSHOW_BRAVO_TRAINER_POKEMON_PROFILE;
-    }
-}
-
-void BravoTrainerPokemonProfile_BeforeInterview2(u8 contestStandingPlace)
-{
-    TVShow *show = &gSaveBlock1Ptr->tvShows[LAST_TVSHOW_IDX];
-    sCurTVShowSlot = FindFirstEmptyNormalTVShowSlot(gSaveBlock1Ptr->tvShows);
-    if (sCurTVShowSlot != -1)
-    {
-        StripExtCtrlCodes(show->bravoTrainer.pokemonNickname);
-    }
 }
 
 static void InterviewAfter_BravoTrainerBattleTowerProfile(void)
@@ -1835,30 +1751,6 @@ void TryPutSafariFanClubOnAir(u8 nMonsCaught, u8 nPkblkUsed)
     }
 }
 
-void TryPutSpotTheCutiesOnAir(struct Pokemon *pokemon, u8 ribbonMonDataIdx)
-{
-    TVShow *show;
-
-    sCurTVShowSlot = FindFirstEmptyRecordMixTVShowSlot(gSaveBlock1Ptr->tvShows);
-    if (sCurTVShowSlot != -1 && IsRecordMixShowAlreadySpawned(TVSHOW_CUTIES, FALSE) != TRUE)
-    {
-        show = &gSaveBlock1Ptr->tvShows[sCurTVShowSlot];
-        show->cuties.kind = TVSHOW_CUTIES;
-        show->cuties.active = FALSE; // NOTE: Show is not active until passed via Record Mix.
-        StringCopy(show->cuties.playerName, gSaveBlock2Ptr->playerName);
-        GetMonData(pokemon, MON_DATA_NICKNAME, show->cuties.nickname);
-        StripExtCtrlCodes(show->cuties.nickname);
-        show->cuties.nRibbons = GetRibbonCount(pokemon);
-        show->cuties.selectedRibbon = MonDataIdxToRibbon(ribbonMonDataIdx);
-        StorePlayerIdInRecordMixShow(show);
-        show->cuties.language = gGameLanguage;
-        if (show->cuties.language == LANGUAGE_JAPANESE || GetMonData(pokemon, MON_DATA_LANGUAGE) == LANGUAGE_JAPANESE)
-            show->cuties.pokemonNameLanguage = LANGUAGE_JAPANESE;
-        else
-            show->cuties.pokemonNameLanguage = GetMonData(pokemon, MON_DATA_LANGUAGE);
-    }
-}
-
 u8 GetRibbonCount(struct Pokemon *pokemon)
 {
     u8 nRibbons;
@@ -2411,9 +2303,6 @@ void InterviewBefore(void)
     case TVSHOW_NAME_RATER_SHOW:
         InterviewBefore_NameRater();
         break;
-    case TVSHOW_BRAVO_TRAINER_POKEMON_PROFILE:
-        InterviewBefore_BravoTrainerPkmnProfile();
-        break;
     case TVSHOW_BRAVO_TRAINER_BATTLE_TOWER_PROFILE:
         InterviewBefore_BravoTrainerBTProfile();
         break;
@@ -2465,13 +2354,6 @@ static void InterviewBefore_Dummy(void)
 static void InterviewBefore_NameRater(void)
 {
     TryReplaceOldTVShowOfKind(TVSHOW_NAME_RATER_SHOW);
-}
-
-static void InterviewBefore_BravoTrainerPkmnProfile(void)
-{
-    TryReplaceOldTVShowOfKind(TVSHOW_BRAVO_TRAINER_POKEMON_PROFILE);
-    if (!gSpecialVar_Result)
-        InitializeEasyChatWordArray(gSaveBlock1Ptr->tvShows[sCurTVShowSlot].bravoTrainer.words, 2);
 }
 
 static void InterviewBefore_3CheersForPokeblocks(void)
@@ -3153,10 +3035,6 @@ static void DeactivateShowsWithUnseenSpecies(void)
             species = (&gSaveBlock1Ptr->tvShows[i])->nameRaterShow.randomSpecies;
             DeactivateShowIfNotSeenSpecies(species, i);
             break;
-        case TVSHOW_BRAVO_TRAINER_POKEMON_PROFILE:
-            species = (&gSaveBlock1Ptr->tvShows[i])->bravoTrainer.species;
-            DeactivateShowIfNotSeenSpecies(species, i);
-            break;
         case TVSHOW_BRAVO_TRAINER_BATTLE_TOWER_PROFILE:
             species = (&gSaveBlock1Ptr->tvShows[i])->bravoTrainerTower.species;
             DeactivateShowIfNotSeenSpecies(species, i);
@@ -3227,7 +3105,6 @@ static void DeactivateShowsWithUnseenSpecies(void)
                 DeactivateShowIfNotSeenSpecies(species, i);
                 break;
             }
-            break;
         // Shows with no species
         case TVSHOW_OFF_AIR:
         case TVSHOW_RECENT_HAPPENINGS:
@@ -3237,7 +3114,6 @@ static void DeactivateShowsWithUnseenSpecies(void)
         case TVSHOW_TREASURE_INVESTIGATORS:
         case TVSHOW_FIND_THAT_GAMER:
         case TVSHOW_TRAINER_FAN_CLUB:
-        case TVSHOW_CUTIES:
         case TVSHOW_SMART_SHOPPER:
         case TVSHOW_FAN_CLUB_SPECIAL:
         case TVSHOW_LOTTO_WINNER:
@@ -3487,10 +3363,6 @@ static void TranslateJapaneseEmeraldShows(TVShow *shows)
             curShow->nameRaterShow.language = GetStringLanguage(curShow->nameRaterShow.trainerName);
             curShow->nameRaterShow.pokemonNameLanguage = GetStringLanguage(curShow->nameRaterShow.pokemonName);
             break;
-        case TVSHOW_BRAVO_TRAINER_POKEMON_PROFILE:
-            curShow->bravoTrainer.language = GetStringLanguage(curShow->bravoTrainer.playerName);
-            curShow->bravoTrainer.pokemonNameLanguage = GetStringLanguage(curShow->bravoTrainer.pokemonNickname);
-            break;
         case TVSHOW_BRAVO_TRAINER_BATTLE_TOWER_PROFILE:
             curShow->bravoTrainerTower.language = GetStringLanguage(curShow->bravoTrainerTower.trainerName);
             curShow->bravoTrainerTower.pokemonNameLanguage = GetStringLanguage(curShow->bravoTrainerTower.pokemonName);
@@ -3535,10 +3407,6 @@ static void TranslateJapaneseEmeraldShows(TVShow *shows)
         case TVSHOW_FIND_THAT_GAMER:
         case TVSHOW_TRAINER_FAN_CLUB:
             curShow->trainerFanClub.language = GetStringLanguage(curShow->trainerFanClub.playerName);
-            break;
-        case TVSHOW_CUTIES:
-            curShow->cuties.language = GetStringLanguage(curShow->cuties.playerName);
-            curShow->cuties.pokemonNameLanguage = GetStringLanguage(curShow->cuties.nickname);
             break;
         case TVSHOW_TODAYS_RIVAL_TRAINER:
         case TVSHOW_FRONTIER:
@@ -3600,9 +3468,6 @@ void DoTVShow(void)
         case TVSHOW_MASS_OUTBREAK:
             DoTVShowPokemonNewsMassOutbreak();
             break;
-        case TVSHOW_BRAVO_TRAINER_POKEMON_PROFILE:
-            DoTVShowBravoTrainerPokemonProfile();
-            break;
         case TVSHOW_BRAVO_TRAINER_BATTLE_TOWER_PROFILE:
             DoTVShowBravoTrainerBattleTower();
             break;
@@ -3657,9 +3522,6 @@ void DoTVShow(void)
         case TVSHOW_TRAINER_FAN_CLUB:
             DoTVShowTrainerFanClub();
             break;
-        case TVSHOW_CUTIES:
-            DoTVShowSpotTheCuties();
-            break;
         case TVSHOW_FRONTIER:
             DoTVShowPokemonNewsBattleFrontier();
             break;
@@ -3671,69 +3533,6 @@ void DoTVShow(void)
             break;
         }
     }
-}
-
-static void DoTVShowBravoTrainerPokemonProfile(void)
-{
-    TVShow *show;
-    u8 state;
-
-    show = &gSaveBlock1Ptr->tvShows[gSpecialVar_0x8004];
-    gSpecialVar_Result = FALSE;
-    state = sTVShowState;
-    switch (state)
-    {
-    case 0:
-        TVShowConvertInternationalString(gStringVar1, show->bravoTrainer.playerName, show->bravoTrainer.language);
-        if (!StringCompare(gSpeciesNames[show->bravoTrainer.species], show->bravoTrainer.pokemonNickname))
-            sTVShowState = 8;
-        else
-            sTVShowState = 1;
-        break;
-    case 1:
-        StringCopy(gStringVar1, gSpeciesNames[show->bravoTrainer.species]);
-        TVShowConvertInternationalString(gStringVar2, show->bravoTrainer.pokemonNickname, show->bravoTrainer.pokemonNameLanguage);
-        sTVShowState = 2;
-        break;
-    case 2:
-        TVShowConvertInternationalString(gStringVar1, show->bravoTrainer.playerName, show->bravoTrainer.language);
-        sTVShowState = 4;
-        break;
-    case 3:
-        TVShowConvertInternationalString(gStringVar1, show->bravoTrainer.playerName, show->bravoTrainer.language);
-        CopyEasyChatWord(gStringVar2, show->bravoTrainer.words[0]);
-        sTVShowState = 5;
-        break;
-    case 4:
-        TVShowConvertInternationalString(gStringVar1, show->bravoTrainer.playerName, show->bravoTrainer.language);
-        CopyEasyChatWord(gStringVar2, show->bravoTrainer.words[0]);
-        sTVShowState = 5;
-        break;
-    case 5:
-        TVShowConvertInternationalString(gStringVar1, show->bravoTrainer.playerName, show->bravoTrainer.language);
-        CopyEasyChatWord(gStringVar3, show->bravoTrainer.words[1]);
-        if (show->bravoTrainer.move)
-            sTVShowState = 6;
-        else
-            sTVShowState = 7;
-        break;
-    case 6:
-        StringCopy(gStringVar1, gSpeciesNames[show->bravoTrainer.species]);
-        StringCopy(gStringVar2, gMoveNames[show->bravoTrainer.move]);
-        CopyEasyChatWord(gStringVar3, show->bravoTrainer.words[1]);
-        sTVShowState = 7;
-        break;
-    case 7:
-        TVShowConvertInternationalString(gStringVar1, show->bravoTrainer.playerName, show->bravoTrainer.language);
-        StringCopy(gStringVar2, gSpeciesNames[show->bravoTrainer.species]);
-        TVShowDone();
-        break;
-    case 8:
-        StringCopy(gStringVar1, gSpeciesNames[show->bravoTrainer.species]);
-        sTVShowState = 2;
-        break;
-    }
-    ShowFieldMessage(sTVBravoTrainerTextGroup[state]);
 }
 
 static void DoTVShowBravoTrainerBattleTower(void)
@@ -5166,112 +4965,6 @@ static void DoTVShowTrainerFanClub(void)
         break;
     }
     ShowFieldMessage(sTVTrainerFanClubTextGroup[state]);
-}
-
-static void DoTVShowSpotTheCuties(void)
-{
-    TVShow *show;
-    u8 state;
-
-    show = &gSaveBlock1Ptr->tvShows[gSpecialVar_0x8004];
-    gSpecialVar_Result = FALSE;
-
-    // For each state, in addition to the switch a message
-    // is printed from the table at the bottom
-    state = sTVShowState;
-    switch (state)
-    {
-    case SPOTCUTIES_STATE_INTRO:
-        TVShowConvertInternationalString(gStringVar1, show->cuties.playerName, show->cuties.language);
-        TVShowConvertInternationalString(gStringVar2, show->cuties.nickname, show->cuties.pokemonNameLanguage);
-
-        // Comments following the intro depend on how many ribbons the pokemon has
-        if (show->cuties.nRibbons < 10)
-            sTVShowState = SPOTCUTIES_STATE_RIBBONS_LOW;
-        else if (show->cuties.nRibbons < 20)
-            sTVShowState = SPOTCUTIES_STATE_RIBBONS_MID;
-        else
-            sTVShowState = SPOTCUTIES_STATE_RIBBONS_HIGH;
-        break;
-    case SPOTCUTIES_STATE_RIBBONS_LOW:
-    case SPOTCUTIES_STATE_RIBBONS_MID:
-    case SPOTCUTIES_STATE_RIBBONS_HIGH:
-        TVShowConvertInternationalString(gStringVar1, show->cuties.playerName, show->cuties.language);
-        TVShowConvertInternationalString(gStringVar2, show->cuties.nickname, show->cuties.pokemonNameLanguage);
-        ConvertIntToDecimalString(2, show->cuties.nRibbons);
-        sTVShowState = SPOTCUTIES_STATE_RIBBON_INTRO;
-        break;
-    case SPOTCUTIES_STATE_RIBBON_INTRO:
-        TVShowConvertInternationalString(gStringVar2, show->cuties.nickname, show->cuties.pokemonNameLanguage);
-        switch (show->cuties.selectedRibbon)
-        {
-        case CHAMPION_RIBBON:
-            sTVShowState = SPOTCUTIES_STATE_RIBBON_CHAMPION;
-            break;
-        case COOL_RIBBON_NORMAL:
-        case COOL_RIBBON_SUPER:
-        case COOL_RIBBON_HYPER:
-        case COOL_RIBBON_MASTER:
-            sTVShowState = SPOTCUTIES_STATE_RIBBON_COOL;
-            break;
-        case BEAUTY_RIBBON_NORMAL:
-        case BEAUTY_RIBBON_SUPER:
-        case BEAUTY_RIBBON_HYPER:
-        case BEAUTY_RIBBON_MASTER:
-            sTVShowState = SPOTCUTIES_STATE_RIBBON_BEAUTY;
-            break;
-        case CUTE_RIBBON_NORMAL:
-        case CUTE_RIBBON_SUPER:
-        case CUTE_RIBBON_HYPER:
-        case CUTE_RIBBON_MASTER:
-            sTVShowState = SPOTCUTIES_STATE_RIBBON_CUTE;
-            break;
-        case SMART_RIBBON_NORMAL:
-        case SMART_RIBBON_SUPER:
-        case SMART_RIBBON_HYPER:
-        case SMART_RIBBON_MASTER:
-            sTVShowState = SPOTCUTIES_STATE_RIBBON_SMART;
-            break;
-        case TOUGH_RIBBON_NORMAL:
-        case TOUGH_RIBBON_SUPER:
-        case TOUGH_RIBBON_HYPER:
-        case TOUGH_RIBBON_MASTER:
-            sTVShowState = SPOTCUTIES_STATE_RIBBON_TOUGH;
-            break;
-        case WINNING_RIBBON:
-            sTVShowState = SPOTCUTIES_STATE_RIBBON_WINNING;
-            break;
-        case VICTORY_RIBBON:
-            sTVShowState = SPOTCUTIES_STATE_RIBBON_VICTORY;
-            break;
-        case ARTIST_RIBBON:
-            sTVShowState = SPOTCUTIES_STATE_RIBBON_ARTIST;
-            break;
-        case EFFORT_RIBBON:
-            sTVShowState = SPOTCUTIES_STATE_RIBBON_EFFORT;
-            break;
-        // No comment is made for any of the gift ribbons.
-        // If the show is created for a gift ribbon
-        // then this state will repeat indefinitely
-        }
-        break;
-    case SPOTCUTIES_STATE_RIBBON_CHAMPION:
-    case SPOTCUTIES_STATE_RIBBON_COOL:
-    case SPOTCUTIES_STATE_RIBBON_BEAUTY:
-    case SPOTCUTIES_STATE_RIBBON_CUTE:
-    case SPOTCUTIES_STATE_RIBBON_SMART:
-    case SPOTCUTIES_STATE_RIBBON_TOUGH:
-    case SPOTCUTIES_STATE_RIBBON_WINNING:
-    case SPOTCUTIES_STATE_RIBBON_VICTORY:
-    case SPOTCUTIES_STATE_RIBBON_ARTIST:
-    case SPOTCUTIES_STATE_RIBBON_EFFORT:
-        TVShowConvertInternationalString(gStringVar2, show->cuties.nickname, show->cuties.pokemonNameLanguage);
-        sTVShowState = SPOTCUTIES_STATE_OUTRO;
-        break;
-    case SPOTCUTIES_STATE_OUTRO:
-        TVShowDone();
-    }
-    ShowFieldMessage(sTVCutiesTextGroup[state]);
 }
 
 static void DoTVShowPokemonNewsBattleFrontier(void)

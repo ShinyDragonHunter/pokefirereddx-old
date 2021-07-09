@@ -36,11 +36,8 @@
  *   - Creates moveDisplayArrowTask to listen to right/left buttons.
  *   - Creates moveListScrollArrowTask to listen to up/down buttons.
  *   - Whenever the selected move changes (and once on init), the MoveRelearnerCursorCallback
- *     is called (see sMoveRelearnerMovesListTemplate). That callback will reload the contest
- *     display and battle display windows for the new move. Both are always loaded in
- *     memory, but only the currently active one is copied to VRAM. The exception to this
- *     is the appeal and jam hearts, which are sprites. MoveRelearnerShowHideHearts is called
- *     while reloading the contest display to control them.
+ *     is called (see sMoveRelearnerMovesListTemplate). That callback will reload the battle display windows for the new move. 
+ * 
  * DoMoveRelearnerMain: MENU_STATE_FADE_TO_BLACK
  * DoMoveRelearnerMain: MENU_STATE_WAIT_FOR_FADE
  *   - Go to MENU_STATE_IDLE_BATTLE_MODE
@@ -49,20 +46,11 @@
  * DoMoveRelearnerMain: MENU_STATE_IDLE_BATTLE_MODE
  *   - If the player selected a move (pressed A), go to MENU_STATE_PRINT_TEACH_MOVE_PROMPT.
  *   - If the player cancelled (pressed B), go to MENU_STATE_PRINT_GIVE_UP_PROMPT.
- *   - If the player pressed left or right, swap the move display window to contest mode,
- *     and go to MENU_STATE_SETUP_CONTEST_MODE.
- * 
- * DoMoveRelearnerMain: MENU_STATE_SETUP_CONTEST_MODE
- * DoMoveRelearnerMain: MENU_STATE_IDLE_CONTEST_MODE
- *   - If the player selected a move, go to MENU_STATE_PRINT_TEACH_MOVE_PROMPT.
- *   - If the player cancelled, go to MENU_STATE_PRINT_GIVE_UP_PROMPT
- *   - If the player pressed left or right, swap the move display window to battle mode,
- *     and go to MENU_STATE_SETUP_BATTLE_MODE.
  * 
  * DoMoveRelearnerMain: MENU_STATE_PRINT_TEACH_MOVE_PROMPT
  * DoMoveRelearnerMain: MENU_STATE_TEACH_MOVE_CONFIRM
  *   - Wait for the player to confirm.
- *   - If cancelled, go to either MENU_STATE_SETUP_BATTLE_MODE or MENU_STATE_SETUP_CONTEST_MODE.
+ *   - If cancelled, go to MENU_STATE_SETUP_BATTLE_MODE.
  *   - If confirmed and the pokemon had an empty move slot, set VAR_0x8004 to TRUE and go to
  *     MENU_STATE_PRINT_TEXT_THEN_FANFARE.
  *   - If confirmed and the pokemon doesn't have an empty move slot, go to
@@ -96,8 +84,7 @@
  * DoMoveRelearnerMain: MENU_STATE_PRINT_GIVE_UP_PROMPT
  * DoMoveRelearnerMain: MENU_STATE_GIVE_UP_CONFIRM
  *   - If the player confirms, go to MENU_STATE_FADE_AND_RETURN, and set VAR_0x8004 to FALSE.
- *   - If the player cancels, go to either MENU_STATE_SETUP_BATTLE_MODE or
- *     MENU_STATE_SETUP_CONTEST_MODE.
+ *   - If the player cancels, go to MENU_STATE_SETUP_BATTLE_MODE.
  * 
  * CB2_InitLearnMoveReturnFromSelectMove:
  *   - Do most of the same stuff as CB2_InitLearnMove.

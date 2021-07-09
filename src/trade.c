@@ -44,7 +44,6 @@
 #include "union_room.h"
 #include "util.h"
 #include "window.h"
-#include "constants/contest.h"
 #include "constants/easy_chat.h"
 #include "constants/items.h"
 #include "constants/moves.h"

@@ -477,11 +477,6 @@ ALIGNED(4) const u8 sText_ChooseLeaderBerryCrush[] = _("BERRY CRUSH!\nPlease cho
 ALIGNED(4) const u8 sText_ChooseLeaderBerryPicking[] = _("DODRIO BERRY-PICKING!\nPlease choose the LEADER.");
 ALIGNED(4) const u8 sText_ChooseLeaderBerryBlender[] = _("BERRY BLENDER!\nPlease choose the LEADER.");
 ALIGNED(4) const u8 sText_ChooseLeaderRecordCorner[] = _("RECORD CORNER!\nPlease choose the LEADER.");
-ALIGNED(4) const u8 sText_ChooseLeaderCoolContest[] = _("COOLNESS CONTEST!\nPlease choose the LEADER.");
-ALIGNED(4) const u8 sText_ChooseLeaderBeautyContest[] = _("BEAUTY CONTEST!\nPlease choose the LEADER.");
-ALIGNED(4) const u8 sText_ChooseLeaderCuteContest[] = _("CUTENESS CONTEST!\nPlease choose the LEADER.");
-ALIGNED(4) const u8 sText_ChooseLeaderSmartContest[] = _("SMARTNESS CONTEST!\nPlease choose the LEADER.");
-ALIGNED(4) const u8 sText_ChooseLeaderToughContest[] = _("TOUGHNESS CONTEST!\nPlease choose the LEADER.");
 ALIGNED(4) const u8 sText_ChooseLeaderBattleTowerLv50[] = _("BATTLE TOWER LEVEL 50!\nPlease choose the LEADER.");
 ALIGNED(4) const u8 sText_ChooseLeaderBattleTowerOpenLv[] = _("BATTLE TOWER OPEN LEVEL!\nPlease choose the LEADER.");
 
@@ -502,11 +497,6 @@ static const u8 *const sChooseTrainerTexts[NUM_LINK_GROUP_TYPES] =
     [LINK_GROUP_RECORD_CORNER]     = sText_ChooseLeaderRecordCorner,
     [LINK_GROUP_BERRY_BLENDER]     = sText_ChooseLeaderBerryBlender,
     [LINK_GROUP_UNK_14]            = NULL,
-    [LINK_GROUP_COOL_CONTEST]      = sText_ChooseLeaderCoolContest,
-    [LINK_GROUP_BEAUTY_CONTEST]    = sText_ChooseLeaderBeautyContest,
-    [LINK_GROUP_CUTE_CONTEST]      = sText_ChooseLeaderCuteContest,
-    [LINK_GROUP_SMART_CONTEST]     = sText_ChooseLeaderSmartContest,
-    [LINK_GROUP_TOUGH_CONTEST]     = sText_ChooseLeaderToughContest,
     [LINK_GROUP_BATTLE_TOWER]      = sText_ChooseLeaderBattleTowerLv50,
     [LINK_GROUP_BATTLE_TOWER_OPEN] = sText_ChooseLeaderBattleTowerOpenLv
 };
@@ -546,11 +536,6 @@ ALIGNED(4) const u8 sText_BerryPicking[] = _("BERRY-PICKING");
 ALIGNED(4) const u8 sText_Search[] = _("SEARCH");
 ALIGNED(4) const u8 sText_BerryBlender[] = _("BERRY BLENDER");
 ALIGNED(4) const u8 sText_RecordCorner[] = _("RECORD CORNER");
-ALIGNED(4) const u8 sText_CoolContest[] = _("COOL CONTEST");
-ALIGNED(4) const u8 sText_BeautyContest[] = _("BEAUTY CONTEST");
-ALIGNED(4) const u8 sText_CuteContest[] = _("CUTE CONTEST");
-ALIGNED(4) const u8 sText_SmartContest[] = _("SMART CONTEST");
-ALIGNED(4) const u8 sText_ToughContest[] = _("TOUGH CONTEST");
 ALIGNED(4) const u8 sText_BattleTowerLv50[] = _("BATTLE TOWER LV. 50");
 ALIGNED(4) const u8 sText_BattleTowerOpenLv[] = _("BATTLE TOWER OPEN LEVEL");
 ALIGNED(4) const u8 sText_ItsNormalCard[] = _("It's a NORMAL CARD.");
@@ -603,11 +588,6 @@ static const u8 *const sLinkGroupActivityNameTexts[] = {
     [ACTIVITY_PLYRTALK]          = sText_EmptyString,
     [ACTIVITY_WONDER_CARD2]      = sText_WonderCards,
     [ACTIVITY_WONDER_NEWS2]      = sText_WonderNews,
-    [ACTIVITY_CONTEST_COOL]      = sText_CoolContest,
-    [ACTIVITY_CONTEST_BEAUTY]    = sText_BeautyContest,
-    [ACTIVITY_CONTEST_CUTE]      = sText_CuteContest,
-    [ACTIVITY_CONTEST_SMART]     = sText_SmartContest,
-    [ACTIVITY_CONTEST_TOUGH]     = sText_ToughContest,
     [ACTIVITY_BATTLE_TOWER]      = sText_BattleTowerLv50
 };
 
@@ -644,11 +624,6 @@ static const u32 sLinkGroupToActivityAndCapacity[NUM_LINK_GROUP_TYPES] = {
     [LINK_GROUP_RECORD_CORNER]     = ACTIVITY_RECORD_CORNER     | LINK_GROUP_CAPACITY(2, 4),
     [LINK_GROUP_BERRY_BLENDER]     = ACTIVITY_BERRY_BLENDER     | LINK_GROUP_CAPACITY(2, 4),
     [LINK_GROUP_UNK_14]            = ACTIVITY_NONE              | LINK_GROUP_CAPACITY(0, 0),
-    [LINK_GROUP_COOL_CONTEST]      = ACTIVITY_CONTEST_COOL      | LINK_GROUP_CAPACITY(2, 4),
-    [LINK_GROUP_BEAUTY_CONTEST]    = ACTIVITY_CONTEST_BEAUTY    | LINK_GROUP_CAPACITY(2, 4),
-    [LINK_GROUP_CUTE_CONTEST]      = ACTIVITY_CONTEST_CUTE      | LINK_GROUP_CAPACITY(2, 4),
-    [LINK_GROUP_SMART_CONTEST]     = ACTIVITY_CONTEST_SMART     | LINK_GROUP_CAPACITY(2, 4),
-    [LINK_GROUP_TOUGH_CONTEST]     = ACTIVITY_CONTEST_TOUGH     | LINK_GROUP_CAPACITY(2, 4),
     [LINK_GROUP_BATTLE_TOWER]      = ACTIVITY_BATTLE_TOWER      | LINK_GROUP_CAPACITY(0, 2),
     [LINK_GROUP_BATTLE_TOWER_OPEN] = ACTIVITY_BATTLE_TOWER_OPEN | LINK_GROUP_CAPACITY(0, 2)
 };
@@ -1043,11 +1018,6 @@ ALIGNED(4) const u8 sAcceptedActivityIds_Unk11[]           = {
 };
 ALIGNED(4) const u8 sAcceptedActivityIds_RecordCorner[]    = {ACTIVITY_RECORD_CORNER, 0xff};
 ALIGNED(4) const u8 sAcceptedActivityIds_BerryBlender[]    = {ACTIVITY_BERRY_BLENDER, 0xff};
-ALIGNED(4) const u8 sAcceptedActivityIds_CoolContest[]     = {ACTIVITY_CONTEST_COOL, 0xff};
-ALIGNED(4) const u8 sAcceptedActivityIds_BeautyContest[]   = {ACTIVITY_CONTEST_BEAUTY, 0xff};
-ALIGNED(4) const u8 sAcceptedActivityIds_CuteContest[]     = {ACTIVITY_CONTEST_CUTE, 0xff};
-ALIGNED(4) const u8 sAcceptedActivityIds_SmartContest[]    = {ACTIVITY_CONTEST_SMART, 0xff};
-ALIGNED(4) const u8 sAcceptedActivityIds_ToughContest[]    = {ACTIVITY_CONTEST_TOUGH, 0xff};
 ALIGNED(4) const u8 sAcceptedActivityIds_BattleTower[]     = {ACTIVITY_BATTLE_TOWER, 0xff};
 ALIGNED(4) const u8 sAcceptedActivityIds_BattleTowerOpen[] = {ACTIVITY_BATTLE_TOWER_OPEN, 0xff};
 
@@ -1067,11 +1037,6 @@ const u8 *const sAcceptedActivityIds[NUM_LINK_GROUP_TYPES] = {
     [LINK_GROUP_RECORD_CORNER]     = sAcceptedActivityIds_RecordCorner,
     [LINK_GROUP_BERRY_BLENDER]     = sAcceptedActivityIds_BerryBlender,
     [LINK_GROUP_UNK_14]            = NULL,
-    [LINK_GROUP_COOL_CONTEST]      = sAcceptedActivityIds_CoolContest,
-    [LINK_GROUP_BEAUTY_CONTEST]    = sAcceptedActivityIds_BeautyContest,
-    [LINK_GROUP_CUTE_CONTEST]      = sAcceptedActivityIds_CuteContest,
-    [LINK_GROUP_SMART_CONTEST]     = sAcceptedActivityIds_SmartContest,
-    [LINK_GROUP_TOUGH_CONTEST]     = sAcceptedActivityIds_ToughContest,
     [LINK_GROUP_BATTLE_TOWER]      = sAcceptedActivityIds_BattleTower,
     [LINK_GROUP_BATTLE_TOWER_OPEN] = sAcceptedActivityIds_BattleTowerOpen
 };
@@ -1093,11 +1058,6 @@ static const u8 sLinkGroupToURoomActivity[NUM_LINK_GROUP_TYPES + 2] =
     [LINK_GROUP_RECORD_CORNER]     = ACTIVITY_RECORD_CORNER, 
     [LINK_GROUP_BERRY_BLENDER]     = ACTIVITY_BERRY_BLENDER, 
     [LINK_GROUP_UNK_14]            = ACTIVITY_NONE, 
-    [LINK_GROUP_COOL_CONTEST]      = ACTIVITY_CONTEST_COOL,
-    [LINK_GROUP_BEAUTY_CONTEST]    = ACTIVITY_CONTEST_BEAUTY, 
-    [LINK_GROUP_CUTE_CONTEST]      = ACTIVITY_CONTEST_CUTE, 
-    [LINK_GROUP_SMART_CONTEST]     = ACTIVITY_CONTEST_SMART, 
-    [LINK_GROUP_TOUGH_CONTEST]     = ACTIVITY_CONTEST_TOUGH, 
     [LINK_GROUP_BATTLE_TOWER]      = ACTIVITY_BATTLE_TOWER, 
     [LINK_GROUP_BATTLE_TOWER_OPEN] = ACTIVITY_BATTLE_TOWER_OPEN
 };

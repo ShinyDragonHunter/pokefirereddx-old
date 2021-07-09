@@ -20,23 +20,6 @@ extern const u8 gText_WasEnhanced[];
 extern const u8 gText_NothingChanged[];
 extern const u8 gText_NatureSlash[];
 
-extern const u8 gText_Cool[];
-extern const u8 gText_Beauty[];
-extern const u8 gText_Cute[];
-extern const u8 gText_Smart[];
-extern const u8 gText_Tough[];
-
-extern const u8 gText_Normal[];
-extern const u8 gText_Super[];
-extern const u8 gText_Hyper[];
-extern const u8 gText_Master[];
-
-extern const u8 gText_Cool2[];
-extern const u8 gText_Beauty2[];
-extern const u8 gText_Cute2[];
-extern const u8 gText_Smart2[];
-extern const u8 gText_Tough2[];
-
 extern const u8 gText_Single2[];
 extern const u8 gText_Double2[];
 extern const u8 gText_Multi[];
@@ -833,9 +816,6 @@ extern const u8 gText_MoveRelearnerBattleMoves[];
 extern const u8 gText_MoveRelearnerPP[];
 extern const u8 gText_MoveRelearnerPower[];
 extern const u8 gText_MoveRelearnerAccuracy[];
-extern const u8 gText_MoveRelearnerContestMovesTitle[];
-extern const u8 gText_MoveRelearnerAppeal[];
-extern const u8 gText_MoveRelearnerJam[];
 
 extern const u8 gText_Kira[];
 extern const u8 gText_Amy[];
@@ -867,7 +847,6 @@ extern const u8 gText_LevelSymbol[];
 extern const u8 gText_PkmnInfo[];
 extern const u8 gText_PkmnSkills[];
 extern const u8 gText_BattleMoves[];
-extern const u8 gText_ContestMoves[];
 extern const u8 gText_HMMovesCantBeForgotten2[];
 extern const u8 gText_Info[];
 extern const u8 gText_Switch[];
@@ -985,8 +964,6 @@ extern const u8 gText_Petalburg[];
 extern const u8 gText_Slateport[];
 extern const u8 gText_Enter2[];
 extern const u8 gText_Info2[];
-extern const u8 gText_WhatsAContest[];
-extern const u8 gText_TypesOfContests[];
 extern const u8 gText_Ranks[];
 extern const u8 gText_Registry[];
 extern const u8 gText_Information[];
@@ -1157,11 +1134,6 @@ extern const u8 gText_HyperRank[];
 extern const u8 gText_MasterRank[];
 extern const u8 gText_BattleBag[];
 extern const u8 gText_HeldItem[];
-extern const u8 gText_LinkContest[];
-extern const u8 gText_AboutE_Mode[];
-extern const u8 gText_AboutG_Mode[];
-extern const u8 gText_E_Mode[];
-extern const u8 gText_G_Mode[];
 extern const u8 gText_5BP[];
 extern const u8 gText_10BP[];
 extern const u8 gText_15BP[];
@@ -1262,7 +1234,6 @@ extern const u8 gText_BattleSwapSingleResults[];
 extern const u8 gText_BattleSwapDoubleResults[];
 extern const u8 gText_FloorsCleared[];
 extern const u8 gText_BattleQuestResults[];
-extern const u8 gText_LinkContestResults[];
 extern const u8 gText_4th[];
 extern const u8 gText_3rd[];
 extern const u8 gText_2nd[];
@@ -2437,14 +2408,6 @@ extern const u8 gText_MatchCallMay_Pokemon[];
 extern const u8 gText_MatchCallMay_Intro1[];
 extern const u8 gText_MatchCallMay_Intro2[];
 
-// Contest Link
-extern const u8 gText_ColorDarkGray[];
-extern const u8 gText_CommunicationStandby[];
-extern const u8 gText_AnnouncingResults[];
-extern const u8 gText_PreliminaryResults[];
-extern const u8 gText_Round2Results[];
-extern const u8 gText_ContestantsMonWon[];
-
 // Trainer Card
 extern const u8 gText_LinkBattles[];
 extern const u8 gText_LinkCableBattles[];
@@ -2845,31 +2808,6 @@ extern const u8 gText_Var1Berry[];
 extern const u8 gText_NeatnessRankings[];
 extern const u8 gText_CoopRankings[];
 extern const u8 gText_PressingPowerRankings[];
-
-// Lilycove Lady
-extern const u8 gText_ContestLady_Handsome[];
-extern const u8 gText_ContestLady_Vinny[];
-extern const u8 gText_ContestLady_Moreme[];
-extern const u8 gText_ContestLady_Ironhard[];
-extern const u8 gText_ContestLady_Muscle[];
-extern const u8 gText_ContestLady_Coolness[];
-extern const u8 gText_ContestLady_Beauty[];
-extern const u8 gText_ContestLady_Cuteness[];
-extern const u8 gText_ContestLady_Smartness[];
-extern const u8 gText_ContestLady_Toughness[];
-extern const u8 gText_QuizLady_Lady[];
-extern const u8 gText_FavorLady_Slippery[];
-extern const u8 gText_FavorLady_Roundish[];
-extern const u8 gText_FavorLady_Whamish[];
-extern const u8 gText_FavorLady_Shiny[];
-extern const u8 gText_FavorLady_Sticky[];
-extern const u8 gText_FavorLady_Pointy[];
-
-extern const u8 gText_CoolnessContest[];
-extern const u8 gText_BeautyContest[];
-extern const u8 gText_CutenessContest[];
-extern const u8 gText_SmartnessContest[];
-extern const u8 gText_ToughnessContest[];
 
 // Pokenav Match Call
 extern const u8 gText_CallCantBeMadeHere[];

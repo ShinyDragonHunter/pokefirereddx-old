@@ -13,24 +13,6 @@ static const struct MenuAction MultichoiceList_EnterInfo[] =
     {gText_Exit},
 };
 
-static const struct MenuAction MultichoiceList_ContestInfo[] =
-{
-    {gText_WhatsAContest},
-    {gText_TypesOfContests},
-    {gText_Ranks},
-    {gText_Cancel2},
-};
-
-static const struct MenuAction MultichoiceList_ContestType[] =
-{
-    {gText_CoolnessContest},
-    {gText_BeautyContest},
-    {gText_CutenessContest},
-    {gText_SmartnessContest},
-    {gText_ToughnessContest},
-    {gText_Exit},
-};
-
 static const struct MenuAction MultichoiceList_RegisterMenu[] =
 {
     {gMenuText_Register},
@@ -483,34 +465,10 @@ static const struct MenuAction MultichoiceList_LinkLeader[] =
     {gText_Exit},
 };
 
-static const struct MenuAction MultichoiceList_ContestRank[] =
-{
-    {gText_NormalRank},
-    {gText_SuperRank},
-    {gText_HyperRank},
-    {gText_MasterRank},
-    {gText_Exit},
-};
-
 static const struct MenuAction MultichoiceList_FrontierItemChoose[] =
 {
     {gText_BattleBag},
     {gText_HeldItem},
-    {gText_Exit},
-};
-
-static const struct MenuAction MultichoiceList_LinkContestInfo[] =
-{
-    {gText_LinkContest},
-    {gText_AboutE_Mode},
-    {gText_AboutG_Mode},
-    {gText_Cancel2},
-};
-
-static const struct MenuAction MultichoiceList_LinkContestMode[] =
-{
-    {gText_E_Mode},
-    {gText_G_Mode},
     {gText_Exit},
 };
 
@@ -752,8 +710,6 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_BRINEY_ON_DEWFORD]          = MULTICHOICE(MultichoiceList_BrineyOnDewford),
     [MULTI_PC]                         = MULTICHOICE(MultichoiceList_Exit),
     [MULTI_ENTERINFO]                  = MULTICHOICE(MultichoiceList_EnterInfo),
-    [MULTI_CONTEST_INFO]               = MULTICHOICE(MultichoiceList_ContestInfo),
-    [MULTI_CONTEST_TYPE]               = MULTICHOICE(MultichoiceList_ContestType),
     [MULTI_BASE_PC_NO_REGISTRY]        = MULTICHOICE(MultichoiceList_Exit),
     [MULTI_BASE_PC_WITH_REGISTRY]      = MULTICHOICE(MultichoiceList_Exit),
     [MULTI_REGISTER_MENU]              = MULTICHOICE(MultichoiceList_RegisterMenu),
@@ -831,10 +787,7 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_WIRELESS_ALL_SERVICES]      = MULTICHOICE(MultichoiceList_LinkServicesAll),
     [MULTI_WIRELESS_MINIGAME]          = MULTICHOICE(MultichoiceList_WirelessMinigame),
     [MULTI_LINK_LEADER]                = MULTICHOICE(MultichoiceList_LinkLeader),
-    [MULTI_CONTEST_RANK]               = MULTICHOICE(MultichoiceList_ContestRank),
     [MULTI_FRONTIER_ITEM_CHOOSE]       = MULTICHOICE(MultichoiceList_FrontierItemChoose),
-    [MULTI_LINK_CONTEST_INFO]          = MULTICHOICE(MultichoiceList_LinkContestInfo),
-    [MULTI_LINK_CONTEST_MODE]          = MULTICHOICE(MultichoiceList_LinkContestMode),
     [MULTI_FORCED_START_MENU]          = MULTICHOICE(MultichoiceList_ForcedStartMenu),
     [MULTI_FRONTIER_GAMBLER_BET]       = MULTICHOICE(MultichoiceList_FrontierGamblerBet),
     [MULTI_TENT]                       = MULTICHOICE(MultichoiceList_Tent),
@@ -867,20 +820,6 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
 
 const u8 *const gStdStrings[] =
 {
-    [STDSTRING_COOL] = gText_Cool,
-    [STDSTRING_BEAUTY] = gText_Beauty,
-    [STDSTRING_CUTE] = gText_Cute,
-    [STDSTRING_SMART] = gText_Smart,
-    [STDSTRING_TOUGH] = gText_Tough,
-    [STDSTRING_NORMAL] = gText_Normal,
-    [STDSTRING_SUPER] = gText_Super,
-    [STDSTRING_HYPER] = gText_Hyper,
-    [STDSTRING_MASTER] = gText_Master,
-    [STDSTRING_COOL2] = gText_Cool2,
-    [STDSTRING_BEAUTY2] = gText_Beauty2,
-    [STDSTRING_CUTE2] = gText_Cute2,
-    [STDSTRING_SMART2] = gText_Smart2,
-    [STDSTRING_TOUGH2] = gText_Tough2,
     [STDSTRING_ITEMS] = gText_ItemsPocket,
     [STDSTRING_KEYITEMS] = gText_KeyItemsPocket,
     [STDSTRING_POKEBALLS] = gText_PokeBallsPocket,

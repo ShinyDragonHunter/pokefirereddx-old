@@ -134,11 +134,6 @@ static const u8 sActivityGroupInfo[][3] = {
     {ACTIVITY_DECLINE | IN_UNION_ROOM,       GROUPTYPE_UNION,  1},
     {ACTIVITY_WONDER_CARD2,                  GROUPTYPE_TOTAL,  2},
     {ACTIVITY_WONDER_NEWS2,                  GROUPTYPE_TOTAL,  2},
-    {ACTIVITY_CONTEST_COOL,                  GROUPTYPE_TOTAL,  0},
-    {ACTIVITY_CONTEST_BEAUTY,                GROUPTYPE_TOTAL,  0},
-    {ACTIVITY_CONTEST_CUTE,                  GROUPTYPE_TOTAL,  0},
-    {ACTIVITY_CONTEST_SMART,                 GROUPTYPE_TOTAL,  0},
-    {ACTIVITY_CONTEST_TOUGH,                 GROUPTYPE_TOTAL,  0},
     {ACTIVITY_BATTLE_TOWER,                  GROUPTYPE_BATTLE, 2},
     {ACTIVITY_BATTLE_TOWER_OPEN,             GROUPTYPE_BATTLE, 2}
 };

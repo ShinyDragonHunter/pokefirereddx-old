@@ -74,11 +74,6 @@ int GameClear(void)
                 ribbonCounts[i] = prevBest;
             }
         }
-
-        if (ribbonCounts[0].count > NUM_CUTIES_RIBBONS)
-        {
-            TryPutSpotTheCutiesOnAir(&gPlayerParty[ribbonCounts[0].partyIndex], MON_DATA_CHAMPION_RIBBON);
-        }
     }
 
     SetMainCallback2(CB2_DoHallOfFameScreen);

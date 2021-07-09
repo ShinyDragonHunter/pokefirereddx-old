@@ -141,8 +141,6 @@ static u32 ExchangeDataAndGetLinkupStatus(u8 minPlayers, u8 maxPlayers)
     case EXCHANGE_WRONG_NUM_PLAYERS:
         ConvertIntToDecimalStringN(gStringVar1, GetLinkPlayerCount_2(), STR_CONV_MODE_LEFT_ALIGN, 1);
         return LINKUP_WRONG_NUM_PLAYERS;
-    case EXCHANGE_STAT_7:
-        return LINKUP_FAILED_CONTEST_GMODE;
     default:
         return LINKUP_ONGOING;
     }
@@ -692,20 +690,6 @@ static void Task_ValidateMixingGameLanguage(u8 taskId)
 void TryBerryBlenderLinkup(void)
 {
     gLinkType = LINKTYPE_BERRY_BLENDER_SETUP;
-    gBattleTypeFlags = 0;
-    CreateLinkupTask(2, 4);
-}
-
-void TryContestGModeLinkup(void)
-{
-    gLinkType = LINKTYPE_CONTEST_GMODE;
-    gBattleTypeFlags = 0;
-    CreateLinkupTask(4, 4);
-}
-
-void TryContestEModeLinkup(void)
-{
-    gLinkType = LINKTYPE_CONTEST_EMODE;
     gBattleTypeFlags = 0;
     CreateLinkupTask(2, 4);
 }
