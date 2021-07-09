@@ -259,46 +259,6 @@ BattleFrontier_BattleTowerMultiPartnerRoom_Text_ThankYouForChoosingPartner:: @ 8
 	.string "I will now show you to your\n"
 	.string "MULTI BATTLE ROOM.$"
 
-BattleFrontier_BattleTowerMultiPartnerRoom_Text_UnusedApprentice1Intro:: @ 824419A
-	.string "I'm {STR_VAR_1}'s no. {STR_VAR_2} apprentice.\n"
-	.string "You can call me {STR_VAR_3}!$"
-
-BattleFrontier_BattleTowerMultiPartnerRoom_Text_UnusedApprentice1Mon1:: @ 82441CA
-	.string "On {STR_VAR_1}'s advice, I brought\n"
-	.string "one {STR_VAR_3} with {STR_VAR_2} and$"
-
-BattleFrontier_BattleTowerMultiPartnerRoom_Text_UnusedApprentice1Mon2Ask:: @ 82441F7
-	.string "one {STR_VAR_2} with {STR_VAR_1}.\p"
-	.string "Please, let me join you as a tag team.$"
-
-BattleFrontier_BattleTowerMultiPartnerRoom_Text_UnusedApprentice1Accept:: @ 824422E
-	.string "Thank you!\n"
-	.string "I'll go register right now.$"
-
-BattleFrontier_BattleTowerMultiPartnerRoom_Text_UnusedApprentice1Reject:: @ 8244255
-	.string "I really wanted to form a tag team\n"
-	.string "with you, {PLAYER}…$"
-
-BattleFrontier_BattleTowerMultiPartnerRoom_Text_UnusedApprentice2Intro:: @ 8244286
-	.string "I am {STR_VAR_1}'s no. {STR_VAR_2} apprentice.\n"
-	.string "My name is {STR_VAR_3}.$"
-
-BattleFrontier_BattleTowerMultiPartnerRoom_Text_UnusedApprentice2Mon1:: @ 82442B2
-	.string "I got advice from {STR_VAR_1} and chose\n"
-	.string "one {STR_VAR_3} with {STR_VAR_2} and$"
-
-BattleFrontier_BattleTowerMultiPartnerRoom_Text_UnusedApprentice2Mon2Ask:: @ 82442E4
-	.string "one {STR_VAR_2} with {STR_VAR_1}.\p"
-	.string "Please, let's form a tag team!$"
-
-BattleFrontier_BattleTowerMultiPartnerRoom_Text_UnusedApprentice2Accept:: @ 8244313
-	.string "Thank you very much!\n"
-	.string "I'll be done with registration quickly!$"
-
-BattleFrontier_BattleTowerMultiPartnerRoom_Text_UnusedApprentice2Reject:: @ 8244350
-	.string "{PLAYER}, I was hoping that I could\n"
-	.string "partner up with you…$"
-
 BattleFrontier_BattleTowerMultiPartnerRoom_Text_Apprentice1Intro:: @ 8244383
 	.string "Um, my name's {STR_VAR_3}, and I'm\n"
 	.string "{STR_VAR_1}'s no. {STR_VAR_2} apprentice.\p"

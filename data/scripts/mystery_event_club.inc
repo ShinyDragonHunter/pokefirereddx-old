@@ -157,10 +157,3 @@ MysteryEventClub_Text_FantasticProfile: @ 8291B22
 	.string "Why, anyone hearing this profile would\n"
 	.string "be captivated by you!\p"
 	.string "Thank you!$"
-
-@ Unused
-MysteryEventClub_Text_YouKnowSecretSaying: @ 8291BB7
-	.string "Oh?\n"
-	.string "You know the secret saying!\p"
-	.string "That means you're now a fellow member\n"
-	.string "of the MYSTERY EVENT CLUB!$"

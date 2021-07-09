@@ -11,5 +11,6 @@ Text_ThisIsATestObjectEventMsg::
 	.string "This is an object event.$"
 
 EventScript_TestObjectEventMsg::
+	textcolor DARK_GRAY
 	msgbox Text_ThisIsATestObjectEventMsg, MSGBOX_NPC
 	end

@@ -88,10 +88,10 @@ static bool32 sub_81AFCEC(void)
 
 static void TrySetPokeCenterWarpStatus(void)
 {
-    if (IsCurMapPokeCenter() == FALSE)
-        gSaveBlock2Ptr->specialSaveWarpFlags &= ~(POKECENTER_SAVEWARP);
-    else
+    if (IsCurMapPokeCenter())
         gSaveBlock2Ptr->specialSaveWarpFlags |= POKECENTER_SAVEWARP;
+    else
+        gSaveBlock2Ptr->specialSaveWarpFlags &= ~(POKECENTER_SAVEWARP);
 }
 
 static void TrySetReloadWarpStatus(void)

@@ -36,12 +36,6 @@ FallarborTown_BattleTentLobby_Text_SaveBeforeChallenge: @ 82C4B35
 	.string "Before showing you to the BATTLE\n"
 	.string "TENT, I must save. Is that okay?$"
 
-@ Unused
-FallarborTown_BattleTentLobby_Text_WhichLevelMode: @ 82C4B77
-	.string "We offer two levels of challenge,\n"
-	.string "Level 50 and Open Level.\l"
-	.string "Which is your choice?$"
-
 FallarborTown_BattleTentLobby_Text_SelectThreeMons: @ 82C4BC8
 	.string "Very well, now select your\n"
 	.string "three POKéMON, please.$"
@@ -151,12 +145,6 @@ VerdanturfTown_BattleTentLobby_Text_ReturnFortified: @ 82C539A
 	.string "When you have fortified your heart\n"
 	.string "and POKéMON, you must return.$"
 
-@ Unused
-VerdanturfTown_BattleTentLobby_Text_WhichLevelMode: @ 82C53DB
-	.string "There are two levels of difficulty,\n"
-	.string "Level 50 and Open Level.\l"
-	.string "Which is your choice of a challenge?$"
-
 VerdanturfTown_BattleTentLobby_Text_NotEnoughValidMonsLv50: @ 82C543D
 	.string "Sigh…\p"
 	.string "You do not have the three POKéMON\n"
@@ -243,19 +231,9 @@ SlateportCity_BattleTentLobby_Text_ExplainSlateportTent: @ 82C589C
 SlateportCity_BattleTentLobby_Text_LookForwardToNextVisit: @ 82C5AA5
 	.string "We look forward to your next visit.$"
 
-@ Unused
-SlateportCity_BattleTentLobby_Text_WhichLevelMode: @ 82C5AC9
-	.string "Which level do you wish to challenge?\n"
-	.string "Level 50 or Level 100?$"
-
 SlateportCity_BattleTentLobby_Text_SaveBeforeChallenge: @ 82C5B06
 	.string "Before you begin your challenge,\n"
 	.string "I need to save data. Is that okay?$"
-
-@ Unused
-SlateportCity_BattleTentLobby_Text_HoldMonsForSafekeeping: @ 82C5B4A
-	.string "Okay, I will hold your POKéMON for\n"
-	.string "safekeeping while you compete.$"
 
 SlateportCity_BattleTentLobby_Text_StepThisWay: @ 82C5B8C
 	.string "Please step this way.$"
@@ -266,11 +244,6 @@ SlateportCity_BattleTentLobby_Text_ReturnRentalMonsSaveResults: @ 82C5BA2
 	.string "for our rental POKéMON.\p"
 	.string "I must also save your event results.\n"
 	.string "Please wait.$"
-
-@ Unused
-SlateportCity_BattleTentLobby_Text_ReturnMonsExchangeRentals: @ 82C5C30
-	.string "I will return your POKéMON in exchange\n"
-	.string "for our rental POKéMON.$"
 
 SlateportCity_BattleTentLobby_Text_WonThreeMatchesReturnMons: @ 82C5C6F
 	.string "Congratulations!\n"
@@ -300,23 +273,6 @@ SlateportCity_BattleTentLobby_Text_DidntSaveBeforeQuitting: @ 82C5DFA
 	.string "save before you quit playing last time.\p"
 	.string "As a result, you have been disqualified\n"
 	.string "from your challenge.$"
-
-@ Unused
-SlateportCity_BattleTentLobby_Text_ReturnPersonalMons: @ 82C5E85
-	.string "We'll return your personal POKéMON.$"
-
-@ Unused
-SlateportCity_BattleTentLobby_Text_ReceivedPrize: @ 82C5EA9
-	.string "{PLAYER} received the prize\n"
-	.string "{STR_VAR_1}.$"
-
-@ Unused
-SlateportCity_BattleTentLobby_Text_RulesAreListed: @ 82C5EC3
-	.string "The Battle Swap rules are listed.$"
-
-@ Unused
-SlateportCity_BattleTentLobby_Text_ReadWhichHeading: @ 82C5EE5
-	.string "Which heading do you want to read?$"
 
 SlateportCity_BattleTentLobby_Text_ExplainBasicRules: @ 82C5F08
 	.string "In a Battle Swap event, you may use\n"
@@ -355,71 +311,6 @@ SlateportCity_BattleTentLobby_Text_ExplainMonRules: @ 82C61FE
 	.string "BATTLE TENT are all rentals.\p"
 	.string "All rental POKéMON are kept at\n"
 	.string "Level 30.$"
-
-@ Unused
-VerdanturfTown_BattleTentLobby_Text_RulesAreListed2: @ 82C6261
-	.string "The VERDANTURF BATTLE TENT\n"
-	.string "rules are listed.$"
-
-@ Unused
-VerdanturfTown_BattleTentLobby_Text_ReadWhichHeading: @ 82C628E
-	.string "Which heading do you want to read?$"
-
-@ Unused
-VerdanturfTown_BattleTentLobby_Text_ExplainBasicRules: @ 82C62B1
-	.string "Here at the VERDANTURF BATTLE TENT,\n"
-	.string "POKéMON are required to think and\l"
-	.string "battle by themselves.\p"
-	.string "Unlike in the wild, POKéMON that live\n"
-	.string "with people behave differently\l"
-	.string "depending on their nature.$"
-
-@ Unused
-VerdanturfTown_BattleTentLobby_Text_ExplainNatureRules: @ 82C636D
-	.string "Depending on its nature, a POKéMON\n"
-	.string "may prefer to attack no matter what.\p"
-	.string "Another POKéMON may prefer to protect\n"
-	.string "itself from any harm.\p"
-	.string "Yet another may enjoy vexing or\n"
-	.string "confounding its foes.\p"
-	.string "Depending on its nature, a POKéMON\n"
-	.string "will have favorite moves that it is good\l"
-	.string "at using.\p"
-	.string "It may also dislike certain moves that\n"
-	.string "it has trouble using.$"
-
-@ Unused
-VerdanturfTown_BattleTentLobby_Text_ExplainMoveRules: @ 82C64BA
-	.string "There are offensive moves that inflict\n"
-	.string "direct damage on the foe.\p"
-	.string "There are defensive moves that are\n"
-	.string "used to prepare for enemy attacks or\l"
-	.string "used to heal HP and so on.\p"
-	.string "There are also other somewhat-odd\n"
-	.string "moves that may enfeeble the foes with\l"
-	.string "stat problems including poison and \l"
-	.string "paralysis.\p"
-	.string "POKéMON will consider using moves in\n"
-	.string "these three categories.$"
-
-@ Unused
-VerdanturfTown_BattleTentLobby_Text_ExplainUnderpoweredRules: @ 82C6612
-	.string "When not under command by its TRAINER,\n"
-	.string "a POKéMON may be unable to effectively\l"
-	.string "use certain moves.\p"
-	.string "A POKéMON is not good at using any\n"
-	.string "move that it dislikes.\p"
-	.string "If a POKéMON only knows moves that\n"
-	.string "do not match its nature, it will often\l"
-	.string "be unable to live up to its potential.$"
-
-@ Unused
-VerdanturfTown_BattleTentLobby_Text_ExplainWhenInDangerRules: @ 82C671E
-	.string "Depending on its nature, a POKéMON may\n"
-	.string "start using moves that don't match its\l"
-	.string "nature when it is in trouble.\p"
-	.string "If a POKéMON begins behaving oddly\n"
-	.string "in a pinch, watch it carefully.$"
 
 BattleTentLobby_Text_ExplainLevelRules: @ 82C67CD
 	.string "At this BATTLE TENT, the levels of\n"

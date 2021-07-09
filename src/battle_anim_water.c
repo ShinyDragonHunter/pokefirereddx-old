@@ -54,10 +54,6 @@ static void AnimTask_WaterSport_Step(u8);
 static void CreateWaterSportDroplet(struct Task*);
 static void CreateWaterPulseRingBubbles(struct Sprite*, int, int);
 
-// Both unused
-const u8 gUnknown_8593C80[] = INCBIN_U8("graphics/unknown/unknown_593C80.4bpp");
-const u8 gUnknown_8593FFC[] = INCBIN_U8("graphics/unknown/unknown_593FFC.bin");
-
 static const union AnimCmd sAnim_RainDrop[] =
 {
     ANIMCMD_FRAME(0, 2),

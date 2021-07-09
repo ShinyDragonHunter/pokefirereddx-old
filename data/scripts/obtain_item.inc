@@ -101,7 +101,8 @@ Std_FindItem:: @ 8271BFD
 	call EventScript_BufferPocketNameAndTryFanfare
 	compare VAR_0x8007, 1
 	call_if_eq EventScript_PickUpItem
-	call_if_ne EventScript_NoRoomToPickUpItem
+	compare VAR_0x8007, 0
+	call_if_eq EventScript_NoRoomToPickUpItem
 	release
 	return
 
@@ -112,7 +113,8 @@ EventScript_PickUpItem:: @ 8271C3A
 	copyvar VAR_0x8008, VAR_RESULT
 	compare VAR_0x8008, 1
 	call_if_eq EventScript_FoundTMHM
-	call_if_ne EventScript_FoundItem
+	compare VAR_0x8008, 0
+	call_if_eq EventScript_FoundItem
 	waitfanfare
 	waitmessage
 	bufferitemnameplural 1, VAR_0x8004, VAR_0x8005

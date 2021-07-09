@@ -8,6 +8,7 @@ Common_Movement_ExclamationMark: @ 8272598
 
 Common_Movement_Delay48: @ 827259A
 	delay_16
+Common_Movement_Delay32: @ 82725C6
 	delay_16
 	delay_16
 	step_end
@@ -71,30 +72,10 @@ Common_Movement_WalkInPlaceRight: @ 82725B8
 Common_Movement_WalkUp6: @ 82725BA
 	walk_up
 	walk_up
-	walk_up
-	walk_up
-	walk_up
-	walk_up
-	step_end
-
 Common_Movement_WalkUp4: @ 82725C1
 	walk_up
 	walk_up
 	walk_up
-	walk_up
-	step_end
-
-Common_Movement_Delay32: @ 82725C6
-	delay_16
-	delay_16
-	step_end
-
 Common_Movement_WalkUp: @ 82725C9
-	walk_up
-	step_end
-
-@ Unused
-Common_Movement_WalkUp2:: @ 82725CB
-	walk_up
 	walk_up
 	step_end

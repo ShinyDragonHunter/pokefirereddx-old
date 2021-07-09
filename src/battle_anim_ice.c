@@ -20,8 +20,6 @@ struct HailStruct {
     s32 unk3:4;
 };
 
-static void AnimUnusedIceCrystalThrow(struct Sprite *);
-static void AnimUnusedIceCrystalThrow_Step(struct Sprite *);
 static void AnimIcePunchSwirlingParticle(struct Sprite *);
 static void AnimIceBeamParticle(struct Sprite *);
 static void AnimIceEffectParticle(struct Sprite *);
@@ -48,30 +46,6 @@ static void AnimTask_HazeScrollingFog_Step(u8);
 static void AnimTask_LoadMistTiles_Step(u8);
 static void AnimTask_Hail2(u8);
 static bool8 GenerateHailParticle(u8 hailStructId, u8 affineAnimNum, u8 taskId, u8 c);
-
-static const union AnimCmd sAnim_Unused[] =
-{
-    ANIMCMD_FRAME(0, 5, .hFlip = TRUE),
-    ANIMCMD_FRAME(1, 5, .hFlip = TRUE),
-    ANIMCMD_JUMP(0),
-};
-
-static const union AnimCmd *const sAnims_Unused[] =
-{
-    sAnim_Unused,
-};
-
-// Unused
-static const struct SpriteTemplate sUnusedIceCrystalThrowSpriteTemplate =
-{
-    .tileTag = ANIM_TAG_ICE_CRYSTALS,
-    .paletteTag = ANIM_TAG_ICE_CRYSTALS,
-    .oam = &gOamData_AffineOff_ObjNormal_8x8,
-    .anims = gDummySpriteAnimTable,
-    .images = NULL,
-    .affineAnims = gDummySpriteAffineAnimTable,
-    .callback = AnimUnusedIceCrystalThrow,
-};
 
 static const union AnimCmd sAnim_IceCrystalLargeChunk[] =
 {
@@ -108,12 +82,6 @@ static const union AnimCmd sAnim_SmallBubblePair[] =
     ANIMCMD_FRAME(12, 6),
     ANIMCMD_FRAME(13, 6),
     ANIMCMD_JUMP(0),
-};
-
-// Unused, contains just the top left corner of the large ice crystal
-static const union AnimCmd *const sAnims_IceCrystalLargeChunk[] =
-{
-    sAnim_IceCrystalLargeChunk,
 };
 
 static const union AnimCmd *const sAnims_IceCrystalLarge[] =
@@ -522,65 +490,6 @@ const struct SpriteTemplate gIceBallImpactShardSpriteTemplate =
     .affineAnims = gDummySpriteAffineAnimTable,
     .callback = InitIceBallParticle,
 };
-
-// Unused
-static void AnimUnusedIceCrystalThrow(struct Sprite *sprite)
-{
-    s16 targetX, targetY, attackerX, attackerY;
-
-    sprite->oam.tileNum += 7;
-    targetX = GetBattlerSpriteCoord(gBattleAnimTarget, BATTLER_COORD_X_2);
-    targetY = GetBattlerSpriteCoord(gBattleAnimTarget, BATTLER_COORD_Y_PIC_OFFSET);
-    attackerX = GetBattlerSpriteCoord(gBattleAnimAttacker, BATTLER_COORD_X_2);
-    attackerY = GetBattlerSpriteCoord(gBattleAnimAttacker, BATTLER_COORD_Y_PIC_OFFSET);
-    sprite->data[0] = gBattleAnimArgs[4];
-    sprite->data[1] = gBattleAnimArgs[0] + attackerX;
-    sprite->data[2] = gBattleAnimArgs[2] + targetX;
-    sprite->data[3] = gBattleAnimArgs[1] + attackerY;
-    sprite->data[4] = gBattleAnimArgs[3] + targetY;
-    sub_80A64EC(sprite);
-
-    for (;(targetX >= -32 && targetX <= DISPLAY_WIDTH + 32) && (targetY >= -32 && targetY <= DISPLAY_HEIGHT + 32);
-           targetX += sprite->data[1], targetY += sprite->data[2])
-        ;
-
-    sprite->data[1] = -sprite->data[1];
-    sprite->data[2] = -sprite->data[2];
-    for (;(attackerX >= -32 && attackerX <= DISPLAY_WIDTH + 32) && (attackerY >= -32 && attackerY <= DISPLAY_HEIGHT + 32);
-           attackerX += sprite->data[1], attackerY += sprite->data[2])
-        ;
-
-    sprite->pos1.x = attackerX;
-    sprite->pos1.y = attackerY;
-    sprite->data[0] = gBattleAnimArgs[4];
-    sprite->data[1] = attackerX;
-    sprite->data[2] = targetX;
-    sprite->data[3] = attackerY;
-    sprite->data[4] = targetY;
-    sub_80A64EC(sprite);
-    sprite->data[3] = gBattleAnimArgs[5];
-    sprite->data[4] = gBattleAnimArgs[6];
-    sprite->callback = AnimUnusedIceCrystalThrow_Step;
-}
-
-static void AnimUnusedIceCrystalThrow_Step(struct Sprite *sprite)
-{
-    if (sprite->data[0] != 0)
-    {
-        sprite->data[5] += sprite->data[1];
-        sprite->data[6] += sprite->data[2];
-        sprite->pos2.x = sprite->data[5];
-        sprite->pos2.y = sprite->data[6];
-        sprite->pos2.x += Sin(sprite->data[7], sprite->data[3]);
-        sprite->pos2.y += Sin(sprite->data[7], sprite->data[3]);
-        sprite->data[7] = (sprite->data[7] + sprite->data[4]) & 0xFF;
-        sprite->data[0]--;
-    }
-    else
-    {
-        DestroyAnimSprite(sprite);
-    }
-}
 
 // Animates the swirling ice crystals in Ice Punch.
 // arg 0: initial position angle around circle (0-256)

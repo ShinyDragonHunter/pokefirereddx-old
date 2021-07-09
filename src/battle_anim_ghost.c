@@ -124,18 +124,6 @@ const struct SpriteTemplate gLickSpriteTemplate =
     .callback = AnimLick,
 };
 
-static const union AffineAnimCmd sAffineAnim_Unused[] =
-{
-    AFFINEANIMCMD_FRAME(0x200, 0x200, 0, 0),
-    AFFINEANIMCMD_END,
-};
-
-// Unused
-static const union AffineAnimCmd *const sAffineAnims_Unused[] =
-{
-    sAffineAnim_Unused,
-};
-
 const struct SpriteTemplate gDestinyBondWhiteShadowSpriteTemplate =
 {
     .tileTag = ANIM_TAG_WHITE_SHADOW,
@@ -203,18 +191,6 @@ const struct SpriteTemplate gGrudgeFlameSpriteTemplate =
     .images = NULL,
     .affineAnims = gDummySpriteAffineAnimTable,
     .callback = AnimGrudgeFlame,
-};
-
-// Unused
-static const struct SpriteTemplate sMonMoveCircularSpriteTemplate =
-{
-    .tileTag = 0,
-    .paletteTag = 0,
-    .oam = &gDummyOamData,
-    .anims = gDummySpriteAnimTable,
-    .images = NULL,
-    .affineAnims = gDummySpriteAffineAnimTable,
-    .callback = AnimMonMoveCircular,
 };
 
 static void AnimConfuseRayBallBounce(struct Sprite *sprite)

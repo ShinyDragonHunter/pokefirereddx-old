@@ -97,9 +97,9 @@ static void Task_HofPC_HandlePaletteOnExit(u8 taskId);
 static void Task_HofPC_HandleExit(u8 taskId);
 static void Task_HofPC_ExitOnButtonPress(u8 taskId);
 static void SpriteCB_GetOnScreenAndAnimate(struct Sprite *sprite);
-static void HallOfFame_PrintMonInfo(struct HallofFameMon* currMon, u8 unused1, u8 unused2);
-static void HallOfFame_PrintWelcomeText(u8 unusedPossiblyWindowId, u8 unused2);
-static void HallOfFame_PrintPlayerInfo(u8 unused1, u8 unused2);
+static void HallOfFame_PrintMonInfo(struct HallofFameMon* currMon);
+static void HallOfFame_PrintWelcomeText(void);
+static void HallOfFame_PrintPlayerInfo(void);
 static void Task_DoDomeConfetti(u8 taskId);
 static void SpriteCB_HofConfetti(struct Sprite* sprite);
 
@@ -146,7 +146,6 @@ static const struct WindowTemplate sHof_WindowTemplate = {
 
 static const u8 sMonInfoTextColors[4] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GRAY};
 static const u8 sPlayerInfoTextColors[4] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_LIGHT_GRAY};
-static const u8 sUnusedTextColors[4] = {TEXT_COLOR_RED, TEXT_COLOR_LIGHT_RED, TEXT_COLOR_TRANSPARENT};
 
 static const struct CompressedSpriteSheet sSpriteSheet_Confetti[] =
 {
@@ -339,13 +338,6 @@ static const struct HallofFameMon sDummyFameMon =
     .species = SPECIES_NONE,
     .lvl = 0, 
     .nick = {0}
-};
-
-// Unused, order of party slots on Hall of Fame screen
-static const u8 sHallOfFame_SlotOrder[] = {
-    2, 1, 3, 
-    6, 4, 5, 
-    0, 0
 };
 
 // code
@@ -608,7 +600,7 @@ static void Task_Hof_PrintMonInfoAfterAnimating(u8 taskId)
     if (monSprite->callback == SpriteCallbackDummy)
     {
         monSprite->oam.affineMode = ST_OAM_AFFINE_OFF;
-        HallOfFame_PrintMonInfo(currMon, 0, 14);
+        HallOfFame_PrintMonInfo(currMon);
         gTasks[taskId].tFrameCount = 120;
         gTasks[taskId].func = Task_Hof_TryDisplayAnotherMon;
     }
@@ -651,7 +643,7 @@ static void Task_Hof_PaletteFadeAndPrintWelcomeText(u8 taskId)
             gSprites[gTasks[taskId].tMonSpriteId(i)].oam.priority = 0;
     }
 
-    HallOfFame_PrintWelcomeText(0, 15);
+    HallOfFame_PrintWelcomeText();
     PlaySE(SE_APPLAUSE);
     gTasks[taskId].tFrameCount = 400;
     gTasks[taskId].func = Task_Hof_DoConfetti;
@@ -724,7 +716,7 @@ static void Task_Hof_WaitAndPrintPlayerInfo(u8 taskId)
     else
     {
         FillBgTilemapBufferRect_Palette0(0, 0, 0, 0, 0x20, 0x20);
-        HallOfFame_PrintPlayerInfo(1, 2);
+        HallOfFame_PrintPlayerInfo();
         DrawDialogueFrame(0, 0);
         AddTextPrinterParameterized2(0, 2, gText_LeagueChamp, 0, NULL, 2, 1, 3);
         CopyWindowToVram(0, 3);
@@ -986,7 +978,7 @@ static void Task_HofPC_PrintMonInfo(u8 taskId)
         StopCryAndClearCrySongs();
         PlayCry1(currMon->species, 0);
     }
-    HallOfFame_PrintMonInfo(currMon, 0, 14);
+    HallOfFame_PrintMonInfo(currMon);
 
     gTasks[taskId].func = Task_HofPC_HandleInput;
 }
@@ -1111,7 +1103,7 @@ static void Task_HofPC_ExitOnButtonPress(u8 taskId)
 #undef tMonNo
 #undef tMonSpriteId
 
-static void HallOfFame_PrintWelcomeText(u8 unusedPossiblyWindowId, u8 unused2)
+static void HallOfFame_PrintWelcomeText(void)
 {
     FillWindowPixelBuffer(0, PIXEL_FILL(0));
     PutWindowTilemap(0);
@@ -1119,7 +1111,7 @@ static void HallOfFame_PrintWelcomeText(u8 unusedPossiblyWindowId, u8 unused2)
     CopyWindowToVram(0, 3);
 }
 
-static void HallOfFame_PrintMonInfo(struct HallofFameMon* currMon, u8 unused1, u8 unused2)
+static void HallOfFame_PrintMonInfo(struct HallofFameMon* currMon)
 {
     u8 text[30];
     u8 *stringPtr;
@@ -1201,7 +1193,7 @@ static void HallOfFame_PrintMonInfo(struct HallofFameMon* currMon, u8 unused1, u
     }
 }
 
-static void HallOfFame_PrintPlayerInfo(u8 unused1, u8 unused2)
+static void HallOfFame_PrintPlayerInfo(void)
 {
     u8 text[20];
     u32 width;
