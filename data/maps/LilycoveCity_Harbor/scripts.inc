@@ -386,35 +386,6 @@ LilycoveCity_Harbor_EventScript_NoEventTickets:: @ 821E557
 	goto LilycoveCity_Harbor_EventScript_FerryRegularLocationSelect
 	end
 
-@ Unused
-LilycoveCity_Harbor_EventScript_NoTicket:: @ 821E56B
-	msgbox LilycoveCity_Harbor_Text_NoTicket, MSGBOX_DEFAULT
-	release
-	end
-
-@ Unused
-LilycoveCity_Harbor_EventScript_GoToSlateportUnused:: @ 821E575
-	msgbox LilycoveCity_Harbor_Text_SlateportItIs, MSGBOX_YESNO
-	compare VAR_RESULT, NO
-	goto_if_eq LilycoveCity_Harbor_EventScript_FerryDestinationChangeMind
-	setvar VAR_SS_TIDAL_STATE, SS_TIDAL_BOARD_LILYCOVE
-	call LilycoveCity_Harbor_EventScript_BoardFerry
-	warp MAP_SS_TIDAL_CORRIDOR, 255, 1, 10
-	waitstate
-	release
-	end
-
-@ Unused
-LilycoveCity_Harbor_EventScript_GoToBattleFrontierUnused:: @ 821E59D
-	msgbox LilycoveCity_Harbor_Text_BattleFrontierItIs, MSGBOX_YESNO
-	compare VAR_RESULT, NO
-	goto_if_eq LilycoveCity_Harbor_EventScript_FerryDestinationChangeMind
-	call LilycoveCity_Harbor_EventScript_BoardFerry
-	warp MAP_BATTLE_FRONTIER_OUTSIDE_WEST, 255, 19, 67
-	waitstate
-	release
-	end
-
 LilycoveCity_Harbor_EventScript_FerryDestinationChangeMind:: @ 821E5C0
 	message LilycoveCity_Harbor_Text_WhereWouldYouLikeToGo
 	waitmessage
@@ -459,10 +430,6 @@ LilycoveCity_Harbor_Movement_PlayerBoardFerryEast: @ 821E630
 	step_end
 
 LilycoveCity_Harbor_Movement_PlayerBoardFerryNorth: @ 821E633
-	walk_up
-	step_end
-
-LilycoveCity_Harbor_Movement_UnusedBoardFerry: @ 821E635
 	walk_up
 	step_end
 

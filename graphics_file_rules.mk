@@ -3,7 +3,6 @@ TILESETGFXDIR := data/tilesets
 FONTGFXDIR := graphics/fonts
 INTERFACEGFXDIR := graphics/interface
 BTLANMSPRGFXDIR := graphics/battle_anims/sprites
-UNUSEDGFXDIR := graphics/unused
 UNKNOWNGFXDIR := graphics/unknown
 BATINTGFXDIR := graphics/battle_interface
 MASKSGFXDIR := graphics/battle_anims/masks
@@ -138,9 +137,6 @@ $(TILESETGFXDIR)/secondary/pokemon_school/tiles.4bpp: %.4bpp: %.png
 $(TILESETGFXDIR)/secondary/pokemon_fan_club/tiles.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -num_tiles 319
 
-$(TILESETGFXDIR)/secondary/unused_1/tiles.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -num_tiles 17
-
 $(TILESETGFXDIR)/secondary/meteor_falls/tiles.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -num_tiles 460
 
@@ -179,9 +175,6 @@ $(TILESETGFXDIR)/secondary/generic_building/tiles.4bpp: %.4bpp: %.png
 
 $(TILESETGFXDIR)/secondary/mauville_game_corner/tiles.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -num_tiles 469
-
-$(TILESETGFXDIR)/secondary/unused_2/tiles.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -num_tiles 150
 
 $(TILESETGFXDIR)/secondary/rustboro_gym/tiles.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -num_tiles 60
@@ -319,31 +312,6 @@ $(INTERFACEGFXDIR)/hp_numbers.4bpp: $(INTERFACEGFXDIR)/hpbar_anim.4bpp \
 									$(INTERFACEGFXDIR)/numbers2.4bpp
 	@cat $^ >$@
 
-$(UNUSEDGFXDIR)/redyellowgreen_frame.bin: $(UNUSEDGFXDIR)/red_frame.bin \
-                                          $(UNUSEDGFXDIR)/yellow_frame.bin \
-                                          $(UNUSEDGFXDIR)/green_frame.bin \
-                                          $(UNUSEDGFXDIR)/blank_frame.bin
-	@cat $^ >$@
-
-$(UNUSEDGFXDIR)/color_frames.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -num_tiles 353
-
-$(BATINTGFXDIR)/unused_window2bar.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -num_tiles 5
-
-$(UNUSEDGFXDIR)/old_contest.4bpp: $(UNUSEDGFXDIR)/old_contest_frame_1.4bpp \
-								  $(UNUSEDGFXDIR)/old_contest_floor.4bpp \
-								  $(UNUSEDGFXDIR)/old_contest_frame_2.4bpp \
-								  $(UNUSEDGFXDIR)/old_contest_symbols.4bpp \
-								  $(UNUSEDGFXDIR)/old_contest_meter.4bpp \
-								  $(UNUSEDGFXDIR)/old_contest_classes.4bpp \
-								  $(UNUSEDGFXDIR)/old_contest_numbers.4bpp
-	@cat $^ >$@
-
-$(UNUSEDGFXDIR)/old_contest_2.4bpp: $(UNUSEDGFXDIR)/old_contest_2_1.4bpp \
-									$(UNUSEDGFXDIR)/old_contest_2_2.4bpp
-	@cat $^ >$@
-
 $(UNKNOWNGFXDIR)/unknown_C19470.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -num_tiles 36
 
@@ -443,9 +411,6 @@ $(BATTRANSGFXDIR)/frontier_square_4.4bpp: $(BATTRANSGFXDIR)/frontier_squares_bla
 $(SLOTMACHINEGFXDIR)/reel_time_gfx.4bpp: $(SLOTMACHINEGFXDIR)/reel_time_pikachu.4bpp \
 										 $(SLOTMACHINEGFXDIR)/reel_time_machine.4bpp
 	@cat $^ >$@
-
-$(UNUSEDGFXDIR)/intro_birch_beauty.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -num_tiles 822
 
 
 

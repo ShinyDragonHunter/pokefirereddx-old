@@ -62,10 +62,6 @@ Roulette_Text_KeepPlaying:: @ 82A5C13
 Roulette_Text_BoardWillBeCleared:: @ 82A5C21
 	.string "The ROULETTE board will be cleared.$"
 
-@ Unused
-Roulette_Text_YouDontHaveACoinCase:: @ 82A5C45
-	.string "You don't have a COIN CASE.$"
-
 Roulette_Text_CoinCaseIsFull:: @ 82A5C61
 	.string "Your COIN CASE is full!\n"
 	.string "Coins can be exchanged for prizes.$"

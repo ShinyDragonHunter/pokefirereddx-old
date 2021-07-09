@@ -4167,8 +4167,6 @@ extern const u32 gContestAudienceGfx[];
 extern const u8 gContestApplauseMeterGfx[];
 extern const u8 gContestNextTurnNumbersGfx[];
 extern const u8 gContestNextTurnRandomGfx[];
-extern const u32 gOldContestGfx[];
-extern const u32 gOldContestPalette[];
 extern const u32 gUnknown_08C17170[];
 extern const u32 gUnknown_08C17980[];
 extern const u32 gContestSliderHeart_Gfx[];
