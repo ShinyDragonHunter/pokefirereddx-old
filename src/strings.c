@@ -254,8 +254,8 @@ const u8 *const gPocketNamesStringsTable[] =
     gText_KeyItemsPocket
 };
 
-const u8 gText_NumberVar1Clear7Var2[] = _("{NO}{STR_VAR_1}{CLEAR 0x07}{STR_VAR_2}");
-const u8 gText_ClearTo11Var1Clear5Var2[] = _("{CLEAR_TO 0x11}{STR_VAR_1}{CLEAR 0x05}{STR_VAR_2}");
+const u8 gText_NumberVar1Clear7Var2[] = _("{NO}{SIZE 0}{STR_VAR_1} {RESET_SIZE}{STR_VAR_2}");
+const u8 gText_ClearTo11Var1Clear5Var2[] = _("{CLEAR_TO 0x11}{NO}{SIZE 0}{STR_VAR_1} {RESET_SIZE}{STR_VAR_2}");
 const u8 gText_SizeSlash[] = _("SIZE /");
 const u8 gText_FirmSlash[] = _("FIRM /");
 const u8 gText_Var1DotVar2[] = _("{STR_VAR_1}.{STR_VAR_2}”");

@@ -27,7 +27,6 @@ BerryTree_EventScript_CheckSoil:: @ 8274359
 	message BerryTree_Text_ItsSoftLoamySoil
 	waitmessage
 	waitbuttonpress
-BerryTree_EventScript_CancelPlanting:: @ 82743AF
 	release
 	end
 
@@ -47,6 +46,10 @@ BerryTree_EventScript_ChooseBerryToPlant:: @ 8274393
 	goto_if_eq BerryTree_EventScript_CancelPlanting
 	removeitem VAR_ITEM_ID
 	call BerryTree_EventScript_PlantBerry
+
+BerryTree_EventScript_CancelPlanting:: @ 82743AF
+	release
+	end
 
 BerryTree_EventScript_CheckBerryStage1:: @ 82743B1
 	lockall

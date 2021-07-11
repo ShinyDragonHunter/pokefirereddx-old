@@ -2795,11 +2795,15 @@ extern const u32 gBattleTerrainTiles_TallGrass[];
 extern const u32 gBattleTerrainTilemap_TallGrass[];
 extern const u32 gBattleTerrainAnimTiles_TallGrass[];
 extern const u32 gBattleTerrainAnimTilemap_TallGrass[];
-extern const u32 gBattleTerrainPalette_TallGrass[];
+extern const u32 gBattleTerrainPalette_TallGrassMorning[];
+extern const u32 gBattleTerrainPalette_TallGrassDay[];
+extern const u32 gBattleTerrainPalette_TallGrassNight[];
 
 extern const u32 gBattleTerrainAnimTiles_LongGrass[];
 extern const u32 gBattleTerrainAnimTilemap_LongGrass[];
-extern const u32 gBattleTerrainPalette_LongGrass[];
+extern const u32 gBattleTerrainPalette_LongGrassMorning[];
+extern const u32 gBattleTerrainPalette_LongGrassDay[];
+extern const u32 gBattleTerrainPalette_LongGrassNight[];
 
 extern const u32 gBattleTerrainTiles_Sand[];
 extern const u32 gBattleTerrainTilemap_Sand[];

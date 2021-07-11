@@ -362,7 +362,7 @@ struct TempWallyStruct
 EWRAM_DATA struct BagStruct gBagPositionStruct = {};
 EWRAM_DATA struct BagMenuStruct *gBagMenu = NULL;
 static EWRAM_DATA struct ListMenuItem * sListMenuItems = NULL;
-static EWRAM_DATA u8 (*sListMenuItemStrings)[19] = NULL;
+static EWRAM_DATA u8 (*sListMenuItemStrings)[24] = NULL;
 EWRAM_DATA u16 gSpecialVar_ItemId = ITEM_NONE;
 static EWRAM_DATA struct TempWallyStruct *sTempWallyBag = 0;
 

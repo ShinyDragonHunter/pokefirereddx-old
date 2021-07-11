@@ -267,19 +267,19 @@ static void PrintNumPlayersWaitingForMsg(u8 windowId, u8 capacityCode, u8 string
     switch (capacityCode << 8)
     {
     case LINK_GROUP_CAPACITY(0, 2):
-        UR_AddTextPrinterParameterized(windowId, 1, sPlayersNeededOrModeTexts[0][stringId - 1], 0, 1, UR_COLOR_DKE_WHT_LTE);
+        UR_AddTextPrinterParameterized(windowId, 2, sPlayersNeededOrModeTexts[0][stringId - 1], 0, 2, UR_COLOR_DKE_WHT_LTE);
         break;
     case LINK_GROUP_CAPACITY(0, 4):
-        UR_AddTextPrinterParameterized(windowId, 1, sPlayersNeededOrModeTexts[1][stringId - 1], 0, 1, UR_COLOR_DKE_WHT_LTE);
+        UR_AddTextPrinterParameterized(windowId, 2, sPlayersNeededOrModeTexts[1][stringId - 1], 0, 2, UR_COLOR_DKE_WHT_LTE);
         break;
     case LINK_GROUP_CAPACITY(2, 5):
-        UR_AddTextPrinterParameterized(windowId, 1, sPlayersNeededOrModeTexts[2][stringId - 1], 0, 1, UR_COLOR_DKE_WHT_LTE);
+        UR_AddTextPrinterParameterized(windowId, 2, sPlayersNeededOrModeTexts[2][stringId - 1], 0, 2, UR_COLOR_DKE_WHT_LTE);
         break;
     case LINK_GROUP_CAPACITY(3, 5):
-        UR_AddTextPrinterParameterized(windowId, 1, sPlayersNeededOrModeTexts[3][stringId - 1], 0, 1, UR_COLOR_DKE_WHT_LTE);
+        UR_AddTextPrinterParameterized(windowId, 2, sPlayersNeededOrModeTexts[3][stringId - 1], 0, 2, UR_COLOR_DKE_WHT_LTE);
         break;
     case LINK_GROUP_CAPACITY(2, 4):
-        UR_AddTextPrinterParameterized(windowId, 1, sPlayersNeededOrModeTexts[4][stringId - 1], 0, 1, UR_COLOR_DKE_WHT_LTE);
+        UR_AddTextPrinterParameterized(windowId, 2, sPlayersNeededOrModeTexts[4][stringId - 1], 0, 2, UR_COLOR_DKE_WHT_LTE);
         break;
     }
 
@@ -291,10 +291,10 @@ static void PrintPlayerNameAndIdOnWindow(u8 windowId)
     u8 text[30];
     u8 *txtPtr;
 
-    UR_AddTextPrinterParameterized(windowId, 1, gSaveBlock2Ptr->playerName, 0, 1, UR_COLOR_DKE_WHT_LTE);
+    UR_AddTextPrinterParameterized(windowId, 2, gSaveBlock2Ptr->playerName, 0, 2, UR_COLOR_DKE_WHT_LTE);
     txtPtr = StringCopy(text, sText_ID);
     ConvertIntToDecimalStringN(txtPtr, ReadAsU16(gSaveBlock2Ptr->playerTrainerId), STR_CONV_MODE_LEADING_ZEROS, 5);
-    UR_AddTextPrinterParameterized(windowId, 1, text, 0, 0x11, UR_COLOR_DKE_WHT_LTE);
+    UR_AddTextPrinterParameterized(windowId, 0, text, 0, 0x10, UR_COLOR_DKE_WHT_LTE);
 }
 
 static void StringExpandPlaceholders_AwaitingCommFromAnother(u8 *dst, u8 caseId)
@@ -1083,14 +1083,13 @@ static void Task_TryJoinLinkGroup(u8 taskId)
             {
                 switch (gPlayerCurrActivity)
                 {
+                default:
+                    data->delayBeforePrint++;
                 case ACTIVITY_BATTLE_SINGLE:
                 case ACTIVITY_BATTLE_DOUBLE:
                 case ACTIVITY_TRADE:
                 case ACTIVITY_BATTLE_TOWER:
                 case ACTIVITY_BATTLE_TOWER_OPEN:
-                    break;
-                default:
-                    data->delayBeforePrint++;
                     break;
                 }
             }
@@ -2328,9 +2327,6 @@ void RunUnionRoom(void)
     ClearAndInitHostRFUtgtGname();
     CreateTask(Task_RunUnionRoom, 10);
 
-    // dumb line needed to match
-    sWirelessLinkMain.uRoom = sWirelessLinkMain.uRoom;
-
     uroom = AllocZeroed(sizeof(*sWirelessLinkMain.uRoom));
     sWirelessLinkMain.uRoom = uroom;
     sURoom = uroom;
@@ -2599,6 +2595,7 @@ static void Task_RunUnionRoom(u8 taskId)
         }
         break;
     case UR_STATE_DO_SOMETHING_PROMPT:
+    case UR_STATE_DO_SOMETHING_PROMPT_2:
         id = ConvPartnerUnameAndGetWhetherMetAlready(&uroom->field_0->arr[taskData[1]]);
         playerGender = GetUnionRoomPlayerGender(taskData[1], uroom->field_0);
         ScheduleFieldMessageWithFollowupState(UR_STATE_HANDLE_DO_SOMETHING_PROMPT_INPUT, sHiDoSomethingTexts[id][playerGender]);
@@ -2699,11 +2696,6 @@ static void Task_RunUnionRoom(u8 taskId)
         }
         break;
 
-    case UR_STATE_DO_SOMETHING_PROMPT_2: // Identical to UR_STATE_DO_SOMETHING_PROMPT
-        id = ConvPartnerUnameAndGetWhetherMetAlready(&uroom->field_0->arr[taskData[1]]);
-        playerGender = GetUnionRoomPlayerGender(taskData[1], uroom->field_0);
-        ScheduleFieldMessageWithFollowupState(UR_STATE_HANDLE_DO_SOMETHING_PROMPT_INPUT, sHiDoSomethingTexts[id][playerGender]);
-        break;
     case UR_STATE_PRINT_CARD_INFO:
         if (PrintOnTextbox(&uroom->textState, gStringVar4))
         {
@@ -3190,7 +3182,6 @@ void InitUnionRoom(void)
 
     sUnionRoomPlayerName[0] = EOS;
     CreateTask(Task_InitUnionRoom, 0);
-    sWirelessLinkMain.uRoom = sWirelessLinkMain.uRoom; // Needed to match.
     sWirelessLinkMain.uRoom = data = AllocZeroed(sizeof(struct WirelessLink_URoom));
     sURoom = sWirelessLinkMain.uRoom;
     data->state = 0;

@@ -609,9 +609,7 @@ void SortBerriesOrTMHMs(struct BagPocket *bagPocket)
         {
             if (GetBagItemQuantity(&bagPocket->itemSlots[i].quantity))
             {
-                if (!GetBagItemQuantity(&bagPocket->itemSlots[j].quantity))
-                    continue;
-                if (bagPocket->itemSlots[i].itemId <= bagPocket->itemSlots[j].itemId)
+                if (!GetBagItemQuantity(&bagPocket->itemSlots[j].quantity) || bagPocket->itemSlots[i].itemId <= bagPocket->itemSlots[j].itemId)
                     continue;
             }
             SwapItemSlots(&bagPocket->itemSlots[i], &bagPocket->itemSlots[j]);

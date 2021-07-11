@@ -54,7 +54,7 @@ LilycoveCity_DepartmentStore_1F_EventScript_LotteryClerk:: @ 821F69C
 	compare VAR_RESULT, FALSE
 	goto_if_eq LilycoveCity_DepartmentStore_1F_EventScript_RecordPrizeNoRoom
 	special TryPutLotteryWinnerReportOnAir
-	goto LilycoveCity_DepartmentStore_1F_EventScript_PleaseVisitAgain2
+	goto LilycoveCity_DepartmentStore_1F_EventScript_PleaseVisitAgain
 	end
 
 LilycoveCity_DepartmentStore_1F_EventScript_TicketMatchPartyMon:: @ 821F77B
@@ -77,12 +77,7 @@ LilycoveCity_DepartmentStore_1F_EventScript_PleaseVisitAgain:: @ 821F797
 
 LilycoveCity_DepartmentStore_1F_EventScript_NoMatch:: @ 821F7A1
 	msgbox LilycoveCity_DepartmentStore_1F_Text_NoNumbersMatched, MSGBOX_DEFAULT
-	goto LilycoveCity_DepartmentStore_1F_EventScript_PleaseVisitAgain2
-	end
-
-LilycoveCity_DepartmentStore_1F_EventScript_PleaseVisitAgain2:: @ 821F7AF
-	msgbox LilycoveCity_DepartmentStore_1F_Text_PleaseVisitAgain2, MSGBOX_DEFAULT
-	release
+	goto LilycoveCity_DepartmentStore_1F_EventScript_PleaseVisitAgain
 	end
 
 LilycoveCity_DepartmentStore_1F_EventScript_TwoDigitMatch:: @ 821F7B9
@@ -178,19 +173,3 @@ LilycoveCity_DepartmentStore_1F_Text_FloorNamesSign: @ 821F98A
 	.string "4F: TM CORNER\p"
 	.string "5F: POKé DOLL FLOOR\p"
 	.string "ROOFTOP: ROOFTOP PLAZA$"
-
-@ Unused
-LilycoveCity_DepartmentStore_1F_Text_WirelessCommIsFun: @ 821FA13
-	.string "Wireless Communication is a\n"
-	.string "lot of fun, isn't it?\p"
-	.string "I think it lets you do things that\n"
-	.string "weren't possible before.\p"
-	.string "For instance, you can now trade\n"
-	.string "with people you couldn't before.\p"
-	.string "I think it's going to be exciting!$"
-
-@ Unused
-LilycoveCity_DepartmentStore_1F_Text_SpreadWordAboutWirelessComm: @ 821FAE5
-	.string "I want to spread the word about how\n"
-	.string "fun Wireless Communication can be.$"
-

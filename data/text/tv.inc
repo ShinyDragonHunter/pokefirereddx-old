@@ -147,15 +147,6 @@ gTVBravoTrainerBattleTowerText06:: @ 0827FF89
 gTVBravoTrainerBattleTowerText07:: @ 0828009C
 	.string "None$"
 
-gTVBravoTrainerBattleTowerText08:: @ 082800A1
-	.string "None$"
-
-gTVBravoTrainerBattleTowerText09:: @ 082800A6
-	.string "None$"
-
-gTVBravoTrainerBattleTowerText10:: @ 082800AB
-	.string "None$"
-
 gTVBravoTrainerBattleTowerText11:: @ 082800B0
 	.string "“{STR_VAR_1}.”$"
 

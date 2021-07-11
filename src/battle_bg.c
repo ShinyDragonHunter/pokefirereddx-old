@@ -6,6 +6,7 @@
 #include "battle_setup.h"
 #include "bg.h"
 #include "data.h"
+#include "day_night.h"
 #include "decompress.h"
 #include "gpu_regs.h"
 #include "graphics.h"
@@ -30,7 +31,7 @@ struct BattleBackground
     const void *tilemap;
     const void *entryTileset;
     const void *entryTilemap;
-    const void *palette;
+    const void *palette[3];
 };
 
 // .rodata
@@ -378,7 +379,7 @@ static const struct BattleBackground gBattleTerrainTable[] =
         .tilemap = gBattleTerrainTilemap_TallGrass,
         .entryTileset = gBattleTerrainAnimTiles_TallGrass,
         .entryTilemap = gBattleTerrainAnimTilemap_TallGrass,
-        .palette = gBattleTerrainPalette_TallGrass,
+        .palette = {gBattleTerrainPalette_TallGrassMorning, gBattleTerrainPalette_TallGrassDay, gBattleTerrainPalette_TallGrassNight},
     },
 
     [BATTLE_TERRAIN_LONG_GRASS] =
@@ -387,7 +388,7 @@ static const struct BattleBackground gBattleTerrainTable[] =
         .tilemap = gBattleTerrainTilemap_TallGrass,
         .entryTileset = gBattleTerrainAnimTiles_LongGrass,
         .entryTilemap = gBattleTerrainAnimTilemap_LongGrass,
-        .palette = gBattleTerrainPalette_LongGrass,
+        .palette = {gBattleTerrainPalette_LongGrassMorning, gBattleTerrainPalette_LongGrassDay, gBattleTerrainPalette_LongGrassNight},
     },
 
     [BATTLE_TERRAIN_SAND] =
@@ -396,7 +397,7 @@ static const struct BattleBackground gBattleTerrainTable[] =
         .tilemap = gBattleTerrainTilemap_Sand,
         .entryTileset = gBattleTerrainAnimTiles_Sand,
         .entryTilemap = gBattleTerrainAnimTilemap_Sand,
-        .palette = gBattleTerrainPalette_Sand,
+        .palette = {gBattleTerrainPalette_Sand, gBattleTerrainPalette_Sand,gBattleTerrainPalette_Sand},
     },
 
     [BATTLE_TERRAIN_UNDERWATER] =
@@ -405,7 +406,7 @@ static const struct BattleBackground gBattleTerrainTable[] =
         .tilemap = gBattleTerrainTilemap_Underwater,
         .entryTileset = gBattleTerrainAnimTiles_Underwater,
         .entryTilemap = gBattleTerrainAnimTilemap_Underwater,
-        .palette = gBattleTerrainPalette_Underwater,
+        .palette = {gBattleTerrainPalette_Underwater, gBattleTerrainPalette_Underwater, gBattleTerrainPalette_Underwater},
     },
 
     [BATTLE_TERRAIN_WATER] =
@@ -414,7 +415,7 @@ static const struct BattleBackground gBattleTerrainTable[] =
         .tilemap = gBattleTerrainTilemap_Water,
         .entryTileset = gBattleTerrainAnimTiles_Water,
         .entryTilemap = gBattleTerrainAnimTilemap_Water,
-        .palette = gBattleTerrainPalette_Water,
+        .palette = {gBattleTerrainPalette_Water, gBattleTerrainPalette_Water, gBattleTerrainPalette_Water},
     },
 
     [BATTLE_TERRAIN_POND] =
@@ -423,7 +424,7 @@ static const struct BattleBackground gBattleTerrainTable[] =
         .tilemap = gBattleTerrainTilemap_Pond,
         .entryTileset = gBattleTerrainAnimTiles_Pond,
         .entryTilemap = gBattleTerrainAnimTilemap_Pond,
-        .palette = gBattleTerrainPalette_Pond,
+        .palette = {gBattleTerrainPalette_Pond, gBattleTerrainPalette_Pond, gBattleTerrainPalette_Pond},
     },
 
     [BATTLE_TERRAIN_MOUNTAIN] =
@@ -432,7 +433,7 @@ static const struct BattleBackground gBattleTerrainTable[] =
         .tilemap = gBattleTerrainTilemap_Mountain,
         .entryTileset = gBattleTerrainAnimTiles_Mountain,
         .entryTilemap = gBattleTerrainAnimTilemap_Mountain,
-        .palette = gBattleTerrainPalette_Mountain,
+        .palette = {gBattleTerrainPalette_Mountain, gBattleTerrainPalette_Mountain, gBattleTerrainPalette_Mountain},
     },
 
     [BATTLE_TERRAIN_CAVE] =
@@ -441,7 +442,7 @@ static const struct BattleBackground gBattleTerrainTable[] =
         .tilemap = gBattleTerrainTilemap_Cave,
         .entryTileset = gBattleTerrainAnimTiles_Cave,
         .entryTilemap = gBattleTerrainAnimTilemap_Cave,
-        .palette = gBattleTerrainPalette_Cave,
+        .palette = {gBattleTerrainPalette_Cave, gBattleTerrainPalette_Cave, gBattleTerrainPalette_Cave},
     },
 
     [BATTLE_TERRAIN_BUILDING] =
@@ -450,7 +451,7 @@ static const struct BattleBackground gBattleTerrainTable[] =
         .tilemap = gBattleTerrainTilemap_Building,
         .entryTileset = gBattleTerrainAnimTiles_Building,
         .entryTilemap = gBattleTerrainAnimTilemap_Building,
-        .palette = gBattleTerrainPalette_Building,
+        .palette = {gBattleTerrainPalette_Building, gBattleTerrainPalette_Building, gBattleTerrainPalette_Building},
     },
 
     [BATTLE_TERRAIN_PLAIN] =
@@ -459,7 +460,7 @@ static const struct BattleBackground gBattleTerrainTable[] =
         .tilemap = gBattleTerrainTilemap_Building,
         .entryTileset = gBattleTerrainAnimTiles_Building,
         .entryTilemap = gBattleTerrainAnimTilemap_Building,
-        .palette = gBattleTerrainPalette_Plain,
+        .palette = {gBattleTerrainPalette_Plain, gBattleTerrainPalette_Plain, gBattleTerrainPalette_Plain},
     },
     // The order of these up to BATTLE_TERRAIN_CHAMPION are in sync with MAP_BATTLE_SCENE_* defines 
     [BATTLE_TERRAIN_GYM] =
@@ -468,7 +469,7 @@ static const struct BattleBackground gBattleTerrainTable[] =
         .tilemap = gBattleTerrainTilemap_Building,
         .entryTileset = gBattleTerrainAnimTiles_Building,
         .entryTilemap = gBattleTerrainAnimTilemap_Building,
-        .palette = gBattleTerrainPalette_Gym,
+        .palette = {gBattleTerrainPalette_Gym, gBattleTerrainPalette_Gym, gBattleTerrainPalette_Gym},
     },
     [BATTLE_TERRAIN_INDOOR_1] =
     {
@@ -476,7 +477,7 @@ static const struct BattleBackground gBattleTerrainTable[] =
         .tilemap = gBattleTerrainTilemap_Building,
         .entryTileset = gBattleTerrainAnimTiles_Building,
         .entryTilemap = gBattleTerrainAnimTilemap_Building,
-        .palette = gBattleTerrainPalette_Indoor1,
+        .palette = {gBattleTerrainPalette_Indoor1, gBattleTerrainPalette_Indoor1, gBattleTerrainPalette_Indoor1},
     },
     [BATTLE_TERRAIN_INDOOR_2] =
     {
@@ -484,7 +485,7 @@ static const struct BattleBackground gBattleTerrainTable[] =
         .tilemap = gBattleTerrainTilemap_Building,
         .entryTileset = gBattleTerrainAnimTiles_Building,
         .entryTilemap = gBattleTerrainAnimTilemap_Building,
-        .palette = gBattleTerrainPalette_Indoor2,
+        .palette = {gBattleTerrainPalette_Indoor2, gBattleTerrainPalette_Indoor2, gBattleTerrainPalette_Indoor2},
     },
     [BATTLE_TERRAIN_LORELEI] =
     {
@@ -492,7 +493,7 @@ static const struct BattleBackground gBattleTerrainTable[] =
         .tilemap = gBattleTerrainTilemap_Building,
         .entryTileset = gBattleTerrainAnimTiles_Building,
         .entryTilemap = gBattleTerrainAnimTilemap_Building,
-        .palette = gBattleTerrainPalette_Lorelei,
+        .palette = {gBattleTerrainPalette_Lorelei, gBattleTerrainPalette_Lorelei, gBattleTerrainPalette_Lorelei},
     },
     [BATTLE_TERRAIN_BRUNO] =
     {
@@ -500,7 +501,7 @@ static const struct BattleBackground gBattleTerrainTable[] =
         .tilemap = gBattleTerrainTilemap_Building,
         .entryTileset = gBattleTerrainAnimTiles_Building,
         .entryTilemap = gBattleTerrainAnimTilemap_Building,
-        .palette = gBattleTerrainPalette_Bruno,
+        .palette = {gBattleTerrainPalette_Bruno, gBattleTerrainPalette_Bruno, gBattleTerrainPalette_Bruno},
     },
     [BATTLE_TERRAIN_AGATHA] =
     {
@@ -508,7 +509,7 @@ static const struct BattleBackground gBattleTerrainTable[] =
         .tilemap = gBattleTerrainTilemap_Building,
         .entryTileset = gBattleTerrainAnimTiles_Building,
         .entryTilemap = gBattleTerrainAnimTilemap_Building,
-        .palette = gBattleTerrainPalette_Agatha,
+        .palette = {gBattleTerrainPalette_Agatha, gBattleTerrainPalette_Agatha, gBattleTerrainPalette_Agatha},
     },
     [BATTLE_TERRAIN_LANCE] =
     {
@@ -516,7 +517,7 @@ static const struct BattleBackground gBattleTerrainTable[] =
         .tilemap = gBattleTerrainTilemap_Building,
         .entryTileset = gBattleTerrainAnimTiles_Building,
         .entryTilemap = gBattleTerrainAnimTilemap_Building,
-        .palette = gBattleTerrainPalette_Lance,
+        .palette = {gBattleTerrainPalette_Lance, gBattleTerrainPalette_Lance, gBattleTerrainPalette_Lance},
     },
     [BATTLE_TERRAIN_LINK] =
     {
@@ -524,7 +525,7 @@ static const struct BattleBackground gBattleTerrainTable[] =
         .tilemap = gBattleTerrainTilemap_Building,
         .entryTileset = gBattleTerrainAnimTiles_Building,
         .entryTilemap = gBattleTerrainAnimTilemap_Building,
-        .palette = gBattleTerrainPalette_Link,
+        .palette = {gBattleTerrainPalette_Link, gBattleTerrainPalette_Link, gBattleTerrainPalette_Link},
     },
     [BATTLE_TERRAIN_CHAMPION] =
     {
@@ -532,7 +533,7 @@ static const struct BattleBackground gBattleTerrainTable[] =
         .tilemap = gBattleTerrainTilemap_Building,
         .entryTileset = gBattleTerrainAnimTiles_Building,
         .entryTilemap = gBattleTerrainAnimTilemap_Building,
-        .palette = gBattleTerrainPalette_Champion,
+        .palette = {gBattleTerrainPalette_Champion, gBattleTerrainPalette_Champion, gBattleTerrainPalette_Champion},
     }
 };
 
@@ -541,7 +542,7 @@ void LoadBattleTerrainGfx(u16 terrain)
     // Copy to bg3
     LZDecompressVram(gBattleTerrainTable[terrain].tileset, (void *)BG_CHAR_ADDR(2));
     LZDecompressVram(gBattleTerrainTable[terrain].tilemap, (void *)BG_SCREEN_ADDR(26));
-    LoadCompressedPalette(gBattleTerrainTable[terrain].palette, 0x20, 0x60);
+    LoadCompressedPalette(gBattleTerrainTable[terrain].palette[GetCurrentTimeOfDay()], 0x20, 0x60);
 }
 
 static void LoadBattleTerrainEntryGfx(u16 terrain)
@@ -568,7 +569,6 @@ void BattleInitBgsAndWindows(void)
 
 void InitBattleBgsVideo(void)
 {
-//    DisableInterrupts(INTR_FLAG_HBLANK);
     EnableInterrupts(INTR_FLAG_VBLANK | INTR_FLAG_VCOUNT | INTR_FLAG_TIMER3 | INTR_FLAG_SERIAL);
     BattleInitBgsAndWindows();
     SetGpuReg(REG_OFFSET_BLDCNT, 0);
@@ -925,7 +925,7 @@ bool8 LoadChosenBattleElement(u8 caseId)
         LZDecompressVram(gBattleTerrainTable[GetBattleTerrainOverride()].tilemap, (void *)BG_SCREEN_ADDR(26));
         break;
     case 5:
-        LoadCompressedPalette(gBattleTerrainTable[GetBattleTerrainOverride()].palette, 0x20, 0x60);
+        LoadCompressedPalette(gBattleTerrainTable[GetBattleTerrainOverride()].palette[GetCurrentTimeOfDay()], 0x20, 0x60);
         break;
     case 6:
         LoadBattleMenuWindowGfx();
