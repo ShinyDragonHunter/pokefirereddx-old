@@ -600,15 +600,23 @@ void CompactItemsInBagPocket(struct BagPocket *bagPocket)
 
 void SortBerriesOrTMHMs(struct BagPocket *bagPocket)
 {
-    u32 i, j;
+    u32 i, j, firstId, secondId;
 
     for (i = 0; i < bagPocket->capacity - 1; i++)
     {
+        if (bagPocket->itemSlots[i].itemId >= ITEM_HM01 && bagPocket->itemSlots[i].itemId <= ITEM_HM08)
+            firstId = bagPocket->itemSlots[i].itemId - 58;
+        else
+            firstId = bagPocket->itemSlots[i].itemId;
         for (j = i + 1; j < bagPocket->capacity; j++)
         {
+            if (bagPocket->itemSlots[j].itemId >= ITEM_HM01 && bagPocket->itemSlots[j].itemId <= ITEM_HM08)
+                secondId = bagPocket->itemSlots[j].itemId - 58;
+            else
+                secondId = bagPocket->itemSlots[j].itemId;
             if (GetBagItemQuantity(&bagPocket->itemSlots[i].quantity))
             {
-                if (!GetBagItemQuantity(&bagPocket->itemSlots[j].quantity) || bagPocket->itemSlots[i].itemId <= bagPocket->itemSlots[j].itemId)
+                if (!GetBagItemQuantity(&bagPocket->itemSlots[j].quantity) || firstId <= secondId)
                     continue;
             }
             SwapItemSlots(&bagPocket->itemSlots[i], &bagPocket->itemSlots[j]);
@@ -624,7 +632,7 @@ void MoveItemSlotInList(struct ItemSlot* itemSlots_, u32 from, u32 to_)
 
     if (from != to)
     {
-        s16 i, count;
+        s32 i, count;
         struct ItemSlot firstSlot = itemSlots[from];
 
         if (to > from)

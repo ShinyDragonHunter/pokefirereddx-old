@@ -643,6 +643,7 @@ bool8 LoadBagMenu_Graphics(void)
         gBagMenu->graphicsLoadState++;
         break;
     default:
+        LoadListMenuArrowsGfx();
         gBagMenu->graphicsLoadState = 0;
         return TRUE;
     }
@@ -2008,6 +2009,7 @@ static void Task_SellHowManyDialogueHandleInput(u8 taskId)
         PlaySE(SE_SELECT);
         BagMenu_RemoveWindow(0);
         BagMenu_RemoveWindow(2);
+        RemoveMoneyLabelObject();
         BagMenu_RemoveBagItemMessageWindow(5);
         PutWindowTilemap(2);
         PutWindowTilemap(0);
