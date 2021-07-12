@@ -415,7 +415,7 @@ static const struct SpriteTemplate gBerryCheckCircleSpriteTemplate =
 // code
 void ResetItemMenuIconState(void)
 {
-    u16 i;
+    u32 i;
 
     for (i = 0; i < ARRAY_COUNT(sItemMenuIconSpriteIds); i++)
         sItemMenuIconSpriteIds[i] = 0xFF;
@@ -464,7 +464,7 @@ static void SpriteCB_ShakeBagSprite(struct Sprite *sprite)
 
 void CreateSwapLineSprites(u8 *spriteIds, u8 count)
 {
-    u8 i;
+    u32 i;
     spriteIds = &sItemMenuIconSpriteIds[1];
 
     for (i = 0; i < count; i++)
@@ -486,7 +486,7 @@ void CreateSwapLineSprites(u8 *spriteIds, u8 count)
 
 void SetSwapLineSpritesInvisibility(u8 *spriteIds, u8 count, bool8 invisible)
 {
-    u8 i;
+    u32 i;
     spriteIds = &sItemMenuIconSpriteIds[1];
 
     for (i = 0; i < count; i++)
@@ -495,7 +495,7 @@ void SetSwapLineSpritesInvisibility(u8 *spriteIds, u8 count, bool8 invisible)
 
 void UpdateSwapLineSpritesPos(u8 *spriteIds, u8 count, s16 x, u16 y)
 {
-    u8 i;
+    u32 i;
     spriteIds = &sItemMenuIconSpriteIds[1];
 
     for (i = 0; i < count; i++)
@@ -507,7 +507,7 @@ void UpdateSwapLineSpritesPos(u8 *spriteIds, u8 count, s16 x, u16 y)
 
 void DestroySwapLineSprites(u8 *spriteIds, u8 count)
 {
-    u8 i;
+    u32 i;
 
     for (i = 0; i < count; i++)
     {
@@ -551,7 +551,7 @@ bool8 AllocItemIconTemporaryBuffers(void)
 
 void CopyItemIconPicTo4x4Buffer(const void *src, void *dest)
 {
-    u8 i;
+    u32 i;
 
     for (i = 0; i < 3; i++)
         CpuCopy16(src + 0x60 * i, dest + 0x80 * i, 0x60);

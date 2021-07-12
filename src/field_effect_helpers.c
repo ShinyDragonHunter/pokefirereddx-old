@@ -94,7 +94,7 @@ static void LoadObjectHighBridgeReflectionPalette(struct ObjectEvent *objectEven
 {
     u16 blueData[16] = {0};
     struct SpritePalette bluePalette = {.tag = OBJ_EVENT_PAL_TAG_BRIDGE_REFLECTION, .data = blueData};
-    u8 i;
+    u32 i;
 
     for (i = 1; i < 16; i++)
     {
@@ -392,7 +392,7 @@ u32 FldEff_JumpTallGrass(void)
 u8 FindTallGrassFieldEffectSpriteId(u8 localId, u8 mapNum, u8 mapGroup, s16 x, s16 y)
 {
     struct Sprite *sprite;
-    u8 i;
+    u32 i;
 
     for (i = 0; i < MAX_SPRITES; i ++)
     {
@@ -1046,7 +1046,7 @@ void SynchroniseSurfAnim(struct ObjectEvent *playerObj, struct Sprite *sprite)
 
 void SynchroniseSurfPosition(struct ObjectEvent *playerObj, struct Sprite *sprite)
 {
-    u8 i;
+    u32 i;
     s16 x = playerObj->currentCoords.x;
     s16 y = playerObj->currentCoords.y;
     s32 spriteY = sprite->pos2.y;
@@ -1632,7 +1632,7 @@ void WaitFieldEffectSpriteAnim(struct Sprite *sprite)
 
 static void UpdateGrassFieldEffectSubpriority(struct Sprite *sprite, u8 z, u8 offset)
 {
-    u8 i;
+    u32 i;
     s16 var, xhi, lyhi, yhi, ylo;
     struct Sprite *linkedSprite;
 

@@ -797,7 +797,7 @@ static void SetBgRegs(bool8 active)
 static void CreateCableCarSprites(void)
 {
     u8 spriteId;
-    u8 i;
+    u32 i;
 
     u8 playerGraphicsIds[2] = {
         [MALE]   = OBJ_EVENT_GFX_RED_NORMAL,

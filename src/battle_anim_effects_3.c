@@ -1728,7 +1728,7 @@ void AnimTask_RapinSpinMonElevation(u8 taskId)
     s16 var2;
     int var3;
     int var4;
-    s16 i;
+    s32 i;
     struct ScanlineEffectParams scanlineParams;
     struct Task *task = &gTasks[taskId];
 
@@ -1807,7 +1807,7 @@ void AnimTask_RapinSpinMonElevation(u8 taskId)
 
 static void RapinSpinMonElevation_Step(u8 taskId)
 {
-    s16 i;
+    s32 i;
     struct Task *task = &gTasks[taskId];
 
     task->data[0] -= task->data[5];

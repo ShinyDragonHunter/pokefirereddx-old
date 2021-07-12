@@ -177,7 +177,7 @@ static u8 CreateShopMenu(u8 martType)
 
 static u8 GetMartTypeFromItemList(u32 martType)
 {    
-    u16 i;
+    u32 i;
 
     if (martType)
         return martType;
@@ -775,9 +775,9 @@ static void BuyMenuPrintItemQuantityAndPrice(u8 taskId)
 
 static void BuyMenuCopyMenuBgToBg1TilemapBuffer(void)
 {
-    s16 i;
     u16 *dest = sShopData->tilemapBuffers[1];
     const u16 *src = sShopData->tilemapBuffers[0];
+    s32 i;
 
     for (i = 0; i < 1024; i++)
     {
@@ -980,8 +980,7 @@ static void ClearItemPurchases(void)
 static void RecordItemPurchase(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
-
-    u16 i;
+    u32 i;
 
     for (i = 0; i < ARRAY_COUNT(gMartPurchaseHistory); i++)
     {

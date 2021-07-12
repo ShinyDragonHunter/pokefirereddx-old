@@ -2087,7 +2087,7 @@ static s8 NewGameBirchSpeech_ProcessGenderMenuInput(void)
 static void NewGameBirchSpeech_SetDefaultPlayerName(u8 nameId)
 {
     const u8* name;
-    u8 i;
+    u32 i;
 
     if (gSaveBlock2Ptr->playerGender == MALE)
         name = gMalePresetNames[nameId];

@@ -68,8 +68,7 @@ static void SetEscalatorMetatile(u8 taskId, const s16 *metatileIds, u16 metatile
     s16 x = gTasks[taskId].tPlayerX - 1;
     s16 y = gTasks[taskId].tPlayerY - 1;
     s16 transitionStage = gTasks[taskId].tTransitionStage;
-    s16 i;
-    s16 j;
+    s32 i, j;
 
     // Check all the escalator sections and only progress the selected one to the next stage    
     if (!gTasks[taskId].tGoingUp)

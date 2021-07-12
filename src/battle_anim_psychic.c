@@ -748,7 +748,7 @@ void AnimTask_ImprisonOrbs(u8 taskId)
 
 static void AnimTask_ImprisonOrbs_Step(u8 taskId)
 {
-    u16 i;
+    u32 i;
     u8 spriteId;
     struct Task *task = &gTasks[taskId];
 
@@ -911,7 +911,7 @@ static void AnimSkillSwapOrb(struct Sprite *sprite)
 // arg0: Stage. Stage 0 is a slight right distortion, 1 is a medium left distortion, and 2 is a severe right distortion
 void AnimTask_ExtrasensoryDistortion(u8 taskId)
 {
-    s16 i;
+    s32 i;
     u8 yOffset;
     struct ScanlineEffectParams scanlineParams;
     struct Task *task = &gTasks[taskId];
@@ -972,7 +972,8 @@ void AnimTask_ExtrasensoryDistortion(u8 taskId)
 
 static void AnimTask_ExtrasensoryDistortion_Step(u8 taskId)
 {
-    s16 sineIndex, i;
+    s16 sineIndex;
+    s32 i;
     struct Task *task = &gTasks[taskId];
 
     switch (task->data[0])

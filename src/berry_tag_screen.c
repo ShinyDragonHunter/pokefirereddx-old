@@ -310,7 +310,7 @@ static void HandleInitBackgrounds(void)
 
 static bool8 LoadBerryTagGfx(void)
 {
-    u16 i;
+    u32 i;
 
     switch (sBerryTag->gfxState)
     {
@@ -356,7 +356,7 @@ static bool8 LoadBerryTagGfx(void)
 
 static void HandleInitWindows(void)
 {
-    u16 i;
+    u32 i;
 
     InitWindows(sWindowTemplates);
     DeactivateAllTextPrinters();
@@ -498,7 +498,7 @@ static void SetFlavorCirclesVisiblity(void)
 
 static void DestroyFlavorCircleSprites(void)
 {
-    u16 i;
+    u32 i;
 
     for (i = 0; i < FLAVOR_COUNT; i++)
         DestroySprite(&gSprites[sBerryTag->flavorCircleIds[i]]);
@@ -581,7 +581,7 @@ static void HandleBagCursorPositionChange(s8 toMove)
 
 static void Task_DisplayAnotherBerry(u8 taskId)
 {
-    u16 i;
+    u32 i;
     s16 posY;
     s16 *data = gTasks[taskId].data;
     data[0] += 0x10;

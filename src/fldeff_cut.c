@@ -398,7 +398,7 @@ static u8 GetLongGrassCaseAt(s16 x, s16 y)
 
 static void SetCutGrassMetatiles(s16 x, s16 y)
 {
-    s16 i;
+    s32 i;
     s16 lowerY = y + sCutSquareSide;
 
     for (i = 0; i < sCutSquareSide; i++)
@@ -510,7 +510,7 @@ static void CutGrassSpriteCallback2(struct Sprite *sprite)
 
 static void CutGrassSpriteCallbackEnd(struct Sprite *sprite)
 {
-    u8 i;
+    u32 i;
 
     for (i = 1; i < CUT_SPRITE_ARRAY_COUNT; i++)
         DestroySprite(&gSprites[sCutGrassSpriteArrayPtr[i]]);

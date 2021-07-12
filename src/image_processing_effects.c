@@ -411,7 +411,7 @@ struct PointillismPoint
 
 static void AddPointillismPoints(u16 point)
 {
-    u8 i;
+    u32 i;
     bool8 offsetDownLeft;
     u8 colorType;
     struct PointillismPoint points[6];
@@ -620,7 +620,7 @@ static u16 QuantizePixel_MotionBlur(u16 *prevPixel, u16 *curPixel)
 {
     u16 pixelChannels[2][3];
     u16 diffs[3];
-    u8 i;
+    u32 i;
     u16 largestDiff;
     u16 red, green, blue;
 
@@ -879,7 +879,7 @@ static void SetPresetPalette_BlackAndWhite(void)
 
 static void SetPresetPalette_GrayscaleSmall(void)
 {
-    u8 i;
+    u32 i;
 
     gCanvasPalette[0] = RGB_BLACK;
     gCanvasPalette[1] = RGB_BLACK;
@@ -889,7 +889,7 @@ static void SetPresetPalette_GrayscaleSmall(void)
 
 static void SetPresetPalette_Grayscale(void)
 {
-    u8 i;
+    u32 i;
 
     gCanvasPalette[0] = RGB_BLACK;
     for (i = 0; i < 32; i++)

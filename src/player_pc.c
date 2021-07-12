@@ -569,7 +569,7 @@ static void sub_816B4DC(u8 taskId)
 
 static u8 GetMailboxMailCount(void)
 {
-    u8 i, j;
+    u32 i, j;
 
     for(i = 0, j = PARTY_SIZE; j < MAIL_COUNT; j++)
         if (gSaveBlock1Ptr->mail[j].itemId != ITEM_NONE)
@@ -887,7 +887,7 @@ static void sub_816BCC4(u8 a)
 
 void ItemStorage_RefreshListMenu(void)
 {
-    u16 i;
+    u32 i;
 
     for(i = 0; i < playerPCItemPageInfo.count - 1; i++)
     {

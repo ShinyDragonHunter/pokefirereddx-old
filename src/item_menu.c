@@ -673,7 +673,7 @@ bool8 AllocateBagItemListBuffers(void)
 
 void LoadBagItemListBuffers(u8 pocketId)
 {
-    u16 i;
+    u32 i;
     struct BagPocket *pocket = &gBagPockets[pocketId];
     for (i = 0; i < gBagMenu->numItemStacks[pocketId]; i++)
     {
@@ -906,7 +906,7 @@ void SetInitialScrollAndCursorPositions(u8 pocketId)
 
 static void SetPocketListPositions(void)
 {
-    u8 i;
+    u32 i;
 
     for (i = 0; i < POCKETS_COUNT; i++)
         SetInitialScrollAndCursorPositions(i);
@@ -1008,7 +1008,7 @@ static void Task_AnimateWin0v(u8 taskId)
 
 void UpdatePocketItemList(u8 pocketId)
 {
-    u16 i;
+    u32 i;
     struct BagPocket *pocket = &gBagPockets[pocketId];
     switch (pocketId)
     {
@@ -1034,7 +1034,7 @@ void UpdatePocketItemList(u8 pocketId)
 
 void All_CalculateNItemsAndMaxShowed(void)
 {
-    u8 i;
+    u32 i;
 
     for (i = 0; i < POCKETS_COUNT; i++)
         UpdatePocketItemList(i);
@@ -2486,7 +2486,7 @@ const struct WindowTemplate sContextMenuWindowTemplates[] =
 
 void SetupBagMenu_Textboxes(void)
 {
-    u8 i;
+    u32 i;
     u8 *ptr = &gBagMenu->windowPointers[i];
 
     InitWindows(sDefaultBagWindowsStd);

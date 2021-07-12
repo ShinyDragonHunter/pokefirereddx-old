@@ -327,7 +327,7 @@ void ResetSpriteData(void)
 
 void AnimateSprites(void)
 {
-    u8 i;
+    u32 i;
     for (i = 0; i < MAX_SPRITES; i++)
     {
         struct Sprite *sprite = &gSprites[i];
@@ -358,7 +358,7 @@ void BuildOamBuffer(void)
 
 void UpdateOamCoords(void)
 {
-    u8 i;
+    u32 i;
     for (i = 0; i < MAX_SPRITES; i++)
     {
         struct Sprite *sprite = &gSprites[i];
@@ -380,7 +380,7 @@ void UpdateOamCoords(void)
 
 void BuildSpritePriorities(void)
 {
-    u16 i;
+    u32 i;
     for (i = 0; i < MAX_SPRITES; i++)
     {
         struct Sprite *sprite = &gSprites[i];
@@ -391,7 +391,7 @@ void BuildSpritePriorities(void)
 
 void SortSprites(void)
 {
-    u8 i;
+    u32 i;
     for (i = 1; i < MAX_SPRITES; i++)
     {
         u8 j = i;
@@ -481,7 +481,7 @@ void SortSprites(void)
 
 void CopyMatricesToOamBuffer(void)
 {
-    u8 i;
+    u32 i;
     for (i = 0; i < OAM_MATRIX_COUNT; i++)
     {
         u32 base = 4 * i;
@@ -514,7 +514,7 @@ void AddSpritesToOamBuffer(void)
 
 u8 CreateSprite(const struct SpriteTemplate *template, s16 x, s16 y, u8 subpriority)
 {
-    u8 i;
+    u32 i;
 
     for (i = 0; i < MAX_SPRITES; i++)
         if (!gSprites[i].inUse)
@@ -525,7 +525,7 @@ u8 CreateSprite(const struct SpriteTemplate *template, s16 x, s16 y, u8 subprior
 
 u8 CreateSpriteAtEnd(const struct SpriteTemplate *template, s16 x, s16 y, u8 subpriority)
 {
-    s16 i;
+    s32 i;
 
     for (i = MAX_SPRITES - 1; i > -1; i--)
         if (!gSprites[i].inUse)
@@ -605,7 +605,7 @@ u8 CreateSpriteAt(u8 index, const struct SpriteTemplate *template, s16 x, s16 y,
 
 u8 CreateSpriteAndAnimate(const struct SpriteTemplate *template, s16 x, s16 y, u8 subpriority)
 {
-    u8 i;
+    u32 i;
 
     for (i = 0; i < MAX_SPRITES; i++)
     {
@@ -636,7 +636,7 @@ void DestroySprite(struct Sprite *sprite)
     {
         if (!sprite->usingSheet)
         {
-            u16 i;
+            u32 i;
             u16 tileEnd = (sprite->images->size / TILE_SIZE_4BPP) + sprite->oam.tileNum;
             for (i = sprite->oam.tileNum; i < tileEnd; i++)
                 FREE_SPRITE_TILE(i);
@@ -647,7 +647,7 @@ void DestroySprite(struct Sprite *sprite)
 
 void ResetOamRange(u8 a, u8 b)
 {
-    u8 i;
+    u32 i;
 
     for (i = a; i < b; i++)
     {
@@ -663,7 +663,7 @@ void LoadOam(void)
 
 void ClearSpriteCopyRequests(void)
 {
-    u8 i;
+    u32 i;
 
     sShouldProcessSpriteCopyRequests = FALSE;
     sSpriteCopyRequestCount = 0;
@@ -678,7 +678,8 @@ void ClearSpriteCopyRequests(void)
 
 void ResetOamMatrices(void)
 {
-    u8 i;
+    u32 i;
+
     for (i = 0; i < OAM_MATRIX_COUNT; i++)
     {
         // set to identity matrix
@@ -719,7 +720,7 @@ void CalcCenterToCornerVec(struct Sprite *sprite, u8 shape, u8 size, u8 affineMo
 
 s16 AllocSpriteTiles(u16 tileCount)
 {
-    u16 i;
+    u32 i;
     s16 start;
     u16 numTilesFound;
 

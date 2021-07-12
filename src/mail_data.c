@@ -9,7 +9,7 @@
 
 void ClearMailData(void)
 {
-    u8 i;
+    u32 i;
 
     for (i = 0; i < MAIL_COUNT; i++)
         ClearMailStruct(&gSaveBlock1Ptr->mail[i]);
@@ -45,7 +45,8 @@ bool8 MonHasMail(struct Pokemon *mon)
 u8 GiveMailToMon(struct Pokemon *mon, u16 itemId)
 {
     u8 heldItem[2];
-    u8 id, i;
+    u8 id;
+    u32 i;
     u16 species;
     u32 personality;
     u8 form;
@@ -160,7 +161,7 @@ void ClearMailItemId(u8 mailId)
 
 u8 TakeMailFromMon2(struct Pokemon *mon)
 {
-    u8 i;
+    u32 i;
     u8 newHeldItem[2];
     u8 newMailId;
 

@@ -208,7 +208,7 @@ static const struct ListMenuTemplate sMoveRelearnerMovesListTemplate =
 
 bool8 sub_81D1C44(u8 count)
 {
-    u8 i;
+    u32 i;
 
     sUnknown_0203CF4C = Alloc(count * sizeof(*sUnknown_0203CF4C) + sizeof(*sUnknown_0203CF4C));
     if (sUnknown_0203CF4C == NULL)
@@ -270,7 +270,7 @@ static void sub_81D1D44(u8 windowId, u32 itemId, u8 y)
 
 u8 sub_81D1DC0(struct PlayerPCItemPageStruct *page)
 {
-    u16 i;
+    u32 i;
     for (i = 0; i < page->count; i++)
     {
         sUnknown_0203CF4C[i].name = sEmptyItemName;
@@ -411,7 +411,7 @@ bool8 SetupConditionGraphScanlineParams(struct ConditionGraph *graph)
 
 void sub_81D2108(struct ConditionGraph *graph)
 {
-    u16 i;
+    u32 i;
 
     if (graph->unk354 == 0)
         return;
@@ -448,7 +448,8 @@ void SetConditionGraphIOWindows(u8 bg)
 
 void sub_81D2230(struct ConditionGraph *graph)
 {
-    u16 i;
+    u32 i;
+
     for (i = 0; i < FLAVOR_COUNT; i++)
         graph->unk12C[i] = graph->unk64[graph->unk352][i];
 
@@ -457,7 +458,8 @@ void sub_81D2230(struct ConditionGraph *graph)
 
 static void sub_81D2278(struct ConditionGraph *graph, u16 *arg1, struct UnknownSubStruct_81D1ED4 *arg2, struct UnknownSubStruct_81D1ED4 *arg3, u8 arg4, u16 *arg5)
 {
-    u16 i, r8, r10, r0, var_30;
+    u32 i;
+    u16 r8, r10, r0, var_30;
     u16 *ptr;
     s32 r4, var_2C;
 
@@ -646,7 +648,7 @@ void sub_81D2754(u8 *arg0, struct UnknownSubStruct_81D1ED4 *arg1)
 {
     u8 r2, r7;
     s8 r12;
-    u16 i;
+    u32 i;
 
     r2 = sUnknown_08625410[*(arg0++)];
     arg1->unk0 = 155;
@@ -674,7 +676,7 @@ void sub_81D2754(u8 *arg0, struct UnknownSubStruct_81D1ED4 *arg1)
 
 void InitMoveRelearnerWindows(bool8 useContextWindow)
 {
-    u8 i;
+    u32 i;
 
     InitWindows(sMoveRelearnerWindowTemplates);
     DeactivateAllTextPrinters();
@@ -935,7 +937,7 @@ static u8 *BufferConditionMenuSpacedStringN(u8 *dst, const u8 *src, s16 n)
 
 void GetConditionMenuMonNameAndLocString(u8 *locationDst, u8 *nameDst, u16 boxId, u16 monId, u16 partyId, u16 numMons, bool8 excludesCancel)
 {
-    u16 i;
+    u32 i;
     u16 box = boxId;
     u16 mon = monId;
 
@@ -971,7 +973,7 @@ void GetConditionMenuMonNameAndLocString(u8 *locationDst, u8 *nameDst, u16 boxId
 
 void GetConditionMenuMonConditions(struct ConditionGraph *graph, u8 *sheen, u16 boxId, u16 monId, u16 partyId, u16 id, u16 numMons, bool8 excludesCancel)
 {
-    u16 i;
+    u32 i;
 
     if (!excludesCancel)
         numMons--;
@@ -1132,7 +1134,7 @@ void LoadConditionMonPicTemplate(struct SpriteSheet *sheet, struct SpriteTemplat
 
 void LoadConditionSelectionIcons(struct SpriteSheet *sheets, struct SpriteTemplate * template, struct SpritePalette *pals)
 {
-    u8 i;
+    u32 i;
 
     struct SpriteSheet dataSheets[] =
     {
@@ -1282,7 +1284,7 @@ static void SetConditionSparklePosition(struct Sprite *sprite)
 
 static void InitConditionSparkles(u8 count, bool8 allowFirstShowAll, struct Sprite **sprites)
 {
-    u16 i;
+    u32 i;
 
     for (i = 0; i < MAX_CONDITION_SPARKLES; i++)
     {
@@ -1309,7 +1311,7 @@ static void InitConditionSparkles(u8 count, bool8 allowFirstShowAll, struct Spri
 
 static void SetNextConditionSparkle(struct Sprite *sprite)
 {
-    u16 i;
+    u32 i;
     u8 id = sprite->sNextSparkleSpriteId;
     for (i = 0; i < sprite->sNumExtraSparkles + 1; i++)
     {
@@ -1321,7 +1323,7 @@ static void SetNextConditionSparkle(struct Sprite *sprite)
 
 void ResetConditionSparkleSprites(struct Sprite **sprites)
 {
-    u8 i;
+    u32 i;
 
     for (i = 0; i < MAX_CONDITION_SPARKLES; i++)
         sprites[i] = NULL;
@@ -1357,7 +1359,7 @@ void CreateConditionSparkleSprites(struct Sprite **sprites, u8 monSpriteId, u8 _
 
 void DestroyConditionSparkleSprites(struct Sprite **sprites)
 {
-    u16 i;
+    u32 i;
 
     for (i = 0; i < MAX_CONDITION_SPARKLES; i++)
     {

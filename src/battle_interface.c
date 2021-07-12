@@ -718,7 +718,7 @@ static const struct WindowTemplate sHealthboxWindowTemplate = {0, 0, 0, 8, 2, 0,
 
 void sub_8072308(s16 number, u16 *dest, bool8 unk)
 {
-    s8 i, j;
+    s32 i, j;
     u8 buff[4];
 
     for (i = 0; i < 4; i++)
@@ -1158,7 +1158,7 @@ void UpdateHpTextInHealthbox(u8 healthboxSpriteId, s16 value, u8 maxOrCurrent)
         else
         {
             u32 var;
-            u8 i;
+            u32 i;
 
             if (GetBattlerSide(gSprites[healthboxSpriteId].data[6]) == B_SIDE_PLAYER)
             {
@@ -1236,7 +1236,7 @@ static void UpdateHpTextInHealthboxInDoubles(u8 healthboxSpriteId, s16 value, u8
             u8 var = 4;
             u8 r7;
             u8 *txtPtr;
-            u8 i;
+            u32 i;
 
             if (maxOrCurrent == HP_CURRENT)
                 var = 0;

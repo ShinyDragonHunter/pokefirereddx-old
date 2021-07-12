@@ -799,7 +799,7 @@ bool8 GetHillTrainerFlag(u8 objectEventId)
 
 void SetHillTrainerFlag(void)
 {
-    u8 i;
+    u32 i;
     u8 floorId = GetFloorId() * 2;
 
     for (i = 0; i < 2; i++)
@@ -989,7 +989,7 @@ static u8 GetPrizeListId(bool8 maxTrainers)
 
 static u16 GetPrizeItemId(void)
 {
-    u8 i;
+    u32 i;
     const u16 *prizeList;
     s32 var = 0, prizeListSetId, minutes, id;
 

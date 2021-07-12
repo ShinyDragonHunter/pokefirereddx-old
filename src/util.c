@@ -258,7 +258,7 @@ void DoBgAffineSet(struct BgAffineDstData *dest, u32 texX, u32 texY, s16 scrX, s
 void CopySpriteTiles(u8 shape, u8 size, u8 *tiles, u16 *tilemap, u8 *output)
 {
     u8 x, y;
-    s8 i, j;
+    s32 i, j;
     u8 xflip[32];
     u8 h = sSpriteDimensions[shape][size][1];
     u8 w = sSpriteDimensions[shape][size][0];
@@ -308,7 +308,7 @@ void CopySpriteTiles(u8 shape, u8 size, u8 *tiles, u16 *tilemap, u8 *output)
 
 int CountTrailingZeroBits(u32 value)
 {
-    u8 i;
+    u32 i;
 
     for (i = 0; i < 32; i++)
     {
@@ -322,7 +322,7 @@ int CountTrailingZeroBits(u32 value)
 
 u16 CalcCRC16(const u8 *data, s32 length)
 {
-    u16 i, j;
+    u32 i, j;
     u16 crc = 0x1121;
 
     for (i = 0; i < length; i++)
@@ -341,7 +341,7 @@ u16 CalcCRC16(const u8 *data, s32 length)
 
 u16 CalcCRC16WithTable(const u8 *data, u32 length)
 {
-    u16 i;
+    u32 i;
     u16 crc = 0x1121;
     u8 byte;
 
@@ -364,7 +364,7 @@ u32 CalcByteArraySum(const u8* data, u32 length)
 
 void BlendPalette(u16 palOffset, u16 numEntries, u8 coeff, u16 blendColor)
 {
-    u16 i;
+    u32 i;
     for (i = 0; i < numEntries; i++)
     {
         u16 index = i + palOffset;
@@ -381,7 +381,8 @@ void BlendPalette(u16 palOffset, u16 numEntries, u8 coeff, u16 blendColor)
 
 void UniquePalette(u16 palOffset, u16 species, u32 personality, bool8 isShiny)
 {
-    u16 i, range;
+    u32 i;
+    u16 range;
     u32 value;
     s32 shift;
     s8 limitMode = sHueShiftSpeciesLimit[species];

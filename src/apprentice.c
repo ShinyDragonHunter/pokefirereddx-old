@@ -136,7 +136,7 @@ void Apprentice_EnableBothScriptContexts(void)
 
 void ResetApprenticeStruct(struct Apprentice *apprentice)
 {
-    u8 i;
+    u32 i;
 
     for (i = 0; i < ARRAY_COUNT(apprentice->speechWon); i++)
         apprentice->speechWon[i] = EC_EMPTY_WORD;
@@ -147,7 +147,7 @@ void ResetApprenticeStruct(struct Apprentice *apprentice)
 
 void ResetAllApprenticeData(void)
 {
-    u8 i, j;
+    u32 i, j;
 
     PLAYER_APPRENTICE.saveId = 0;
     for (i = 0; i < APPRENTICE_COUNT; i++)
@@ -199,7 +199,7 @@ static void SetPlayersApprenticeLvlMode(u8 mode)
 static void ShuffleApprenticeSpecies(void)
 {
     u8 species[APPRENTICE_SPECIES_COUNT];
-    u8 i;
+    u32 i;
 
     for (i = 0; i < ARRAY_COUNT(species); i++)
         species[i] = i;
@@ -442,7 +442,7 @@ static u16 GetRandomAlternateMove(u8 monId)
 
 static bool8 TrySetMove(u8 monId, u16 moveId)
 {
-    u8 i;
+    u32 i;
 
     for (i = 0; i < NUM_WHICH_MOVE_QUESTIONS; i++)
     {
@@ -561,7 +561,7 @@ static void SaveApprenticeParty(u8 numQuestions)
 
 static void CreateApprenticeMenu(u8 menu)
 {
-    u8 i;
+    u32 i;
     u8 windowId;
     const u8 *strings[3];
     u8 count = 2;
@@ -719,7 +719,7 @@ void CallApprenticeFunction(void)
 
 static void Script_ResetPlayerApprentice(void)
 {
-    u8 i;
+    u32 i;
 
     SetApprenticeId();
     PLAYER_APPRENTICE.lvlMode = 0;
@@ -941,7 +941,7 @@ static void SetApprenticeMonMove(void)
 
 static void InitQuestionData(void)
 {
-    u8 i;
+    u32 i;
     u8 count = 0;
     u8 id1, id2;
 
@@ -1141,7 +1141,7 @@ static void ShiftSavedApprentices(void)
 // Apprentice is always saved in the first slot. Pre-existing Apprentices are moved by ShiftSavedApprentices
 static void SaveApprentice(void)
 {
-    u8 i;
+    u32 i;
 
     gSaveBlock2Ptr->apprentices[0].id = PLAYER_APPRENTICE.id;
     gSaveBlock2Ptr->apprentices[0].lvlMode = PLAYER_APPRENTICE.lvlMode;
@@ -1165,7 +1165,7 @@ static void SaveApprentice(void)
 
 static void SetPlayerApprenticeTrainerGfxId(void)
 {
-    u8 i;
+    u32 i;
     u8 objectEventGfxId;
     u8 class = gApprentices[PLAYER_APPRENTICE.id].facilityClass;
 

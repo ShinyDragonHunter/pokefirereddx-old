@@ -151,7 +151,7 @@ void CB2_DoChangeMap(void)
 
 static bool8 TryDoMapTransition(void)
 {
-    u8 i;
+    u32 i;
     u8 fromType = GetLastUsedWarpMapType();
     u8 toType = GetCurrentMapType();
 
@@ -169,7 +169,7 @@ static bool8 TryDoMapTransition(void)
 
 bool8 GetMapPairFadeToType(u8 _fromType, u8 _toType)
 {
-    u8 i;
+    u32 i;
     u8 fromType = _fromType;
     u8 toType = _toType;
 
@@ -186,7 +186,7 @@ bool8 GetMapPairFadeToType(u8 _fromType, u8 _toType)
 
 bool8 GetMapPairFadeFromType(u8 _fromType, u8 _toType)
 {
-    u8 i;
+    u32 i;
     u8 fromType = _fromType;
     u8 toType = _toType;
 

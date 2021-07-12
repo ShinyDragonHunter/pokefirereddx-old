@@ -540,7 +540,7 @@ static void Task_LoadShowMons(u8 taskId)
     default:
     case 0:
     {
-        u16 i;
+        u32 i;
         u16 *temp;
 
         ResetSpriteData();
@@ -1288,7 +1288,7 @@ static void ResetCreditsTasks(u8 taskId)
 static void LoadTheEndScreen(u16 arg0, u16 arg1, u16 palOffset)
 {
     u16 baseTile;
-    u16 i;
+    u32 i;
 
     LZ77UnCompVram(sCreditsCopyrightEnd_Gfx, (void *)(VRAM + arg0));
     LoadPalette(gIntroCopyright_Pal, palOffset, sizeof(gIntroCopyright_Pal));

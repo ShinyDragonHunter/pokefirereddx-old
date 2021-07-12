@@ -47,8 +47,7 @@ void RetrieveLotteryNumber(void)
 
 void PickLotteryCornerTicket(void)
 {
-    u16 i;
-    u16 j;
+    u32 i, j;
     u32 box;
     u32 slot;
 
@@ -119,7 +118,7 @@ void PickLotteryCornerTicket(void)
 
 static u8 GetMatchingDigits(u16 winNumber, u16 otId)
 {
-    u8 i;
+    u32 i;
     u8 matchingDigits = 0;
 
     for (i = 0; i < 5; i++)

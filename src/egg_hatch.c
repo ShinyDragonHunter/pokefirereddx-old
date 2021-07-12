@@ -790,7 +790,7 @@ static void SpriteCB_Egg_3(struct Sprite* sprite)
 
 static void SpriteCB_Egg_4(struct Sprite* sprite)
 {
-    s16 i;
+    s32 i;
     if (sprite->data[0] == 0)
         BeginNormalPaletteFade(PALETTES_ALL, -1, 0, 0x10, RGB_WHITEALPHA);
     if (sprite->data[0] < 4u)
@@ -869,7 +869,7 @@ static void EggHatchPrintMessage(u8 windowId, u8* string, u8 x, u8 y, u8 speed)
 
 u8 GetEggCyclesToSubtract(void)
 {
-    u8 count, i;
+    u32 count, i;
     for (count = CalculatePlayerPartyCount(), i = 0; i < count; i++)
     {
         if (!GetMonData(&gPlayerParty[i], MON_DATA_SANITY_IS_EGG))

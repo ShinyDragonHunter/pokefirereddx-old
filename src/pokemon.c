@@ -5136,7 +5136,7 @@ u8 GetItemEffectParamOffset(u16 itemId, u8 effectByte, u8 effectBit)
     const u8 *itemEffect;
     u8 offset;
     int i;
-    u8 j;
+    u32 j;
     u8 effectFlags;
 
     offset = ITEM_EFFECT_ARG_START;
@@ -6751,7 +6751,8 @@ static bool8 ShouldSkipFriendshipChange(void)
 
 static void sub_806F160(struct Unknown_806F160_Struct* structPtr)
 {
-    u16 i, j;
+    u32 i, j;
+
     for (i = 0; i < structPtr->field_0_0; i++)
     {
         structPtr->templates[i] = gBattlerSpriteTemplates[i];
@@ -6765,7 +6766,8 @@ static void sub_806F160(struct Unknown_806F160_Struct* structPtr)
 
 static void sub_806F1FC(struct Unknown_806F160_Struct* structPtr)
 {
-    u16 i, j;
+    u32 i, j;
+
     for (i = 0; i < structPtr->field_0_0; i++)
     {
         structPtr->templates[i] = gUnknown_08329F28;

@@ -448,7 +448,7 @@ void SaveMapView(void)
 
 static bool32 SavedMapViewIsEmpty(void)
 {
-    u16 i;
+    u32 i;
     u32 marker = 0;
 
     for (i = 0; i < ARRAY_COUNT(gSaveBlock1Ptr->mapView); i++)

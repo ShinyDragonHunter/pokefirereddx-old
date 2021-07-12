@@ -406,7 +406,7 @@ static bool8 SetUpFieldMove_Dive(void);
 // code
 static void InitPartyMenu(u8 menuType, u8 layout, u8 partyAction, bool8 keepCursorPos, u8 messageId, TaskFunc task, MainCallback callback)
 {
-    u16 i;
+    u32 i;
 
     ResetPartyMenu();
     sPartyMenuInternal = Alloc(sizeof(struct PartyMenuInternal));
@@ -716,7 +716,7 @@ static void FreePartyPointers(void)
 
 static void InitPartyMenuBoxes(u8 layout)
 {
-    u8 i;
+    u32 i;
 
     sPartyMenuBoxes = Alloc(sizeof(struct PartyMenuBox[PARTY_SIZE]));
 
@@ -820,7 +820,7 @@ static void DisplayPartyPokemonDescriptionData(u8 slot, u8 stringID)
 
 static void DisplayPartyPokemonDataForChooseHalf(u8 slot)
 {
-    u8 i;
+    u32 i;
     struct Pokemon *mon = &gPlayerParty[slot];
     u8 *order = gSelectedOrderFromParty;
 
@@ -1815,7 +1815,7 @@ static void SetPartyMonsAllowedInMinigame(void)
 
     if (gPartyMenu.menuType == PARTY_MENU_TYPE_MINIGAME)
     {
-        u8 i;
+        u32 i;
 
         ptr = &gPartyMenu.data1;
         gPartyMenu.data1 = 0;
@@ -1947,7 +1947,7 @@ static bool8 CanLearnTutorMove(u16 species, u8 tutor)
 
 static void InitPartyMenuWindows(u8 layout)
 {
-    u8 i;
+    u32 i;
 
     switch (layout)
     {
@@ -2368,7 +2368,7 @@ void DisplayPartyMenuStdMessage(u32 stringId)
 static bool8 ShouldUseChooseMonText(void)
 {
     struct Pokemon *party = gPlayerParty;
-    u8 i;
+    u32 i;
     u8 numAliveMons = 0;
 
     if (gPartyMenu.action == PARTY_ACTION_SEND_OUT)
@@ -2389,7 +2389,7 @@ static u8 DisplaySelectionWindow(u8 windowType)
     struct WindowTemplate window;
     u8 cursorDimension;
     u8 fontAttribute;
-    u8 i;
+    u32 i;
 
     switch (windowType)
     {
@@ -2453,7 +2453,7 @@ static void RemoveLevelUpStatsWindow(void)
 
 static void SetPartyMonSelectionActions(struct Pokemon *mons, u8 slotId, u8 action)
 {
-    u8 i;
+    u32 i;
 
     if (action == ACTIONS_NONE)
     {
@@ -3381,7 +3381,7 @@ static void CursorCb_SendMon(u8 taskId)
 static void CursorCb_Enter(u8 taskId)
 {
     u8 maxBattlers;
-    u8 i;
+    u32 i;
 
     PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
     PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
@@ -3417,7 +3417,7 @@ static void MoveCursorToConfirm(void)
 static void CursorCb_NoEntry(u8 taskId)
 {
     u8 maxBattlers;
-    u8 i, j;
+    u32 i, j;
 
     PlaySE(SE_SELECT);
     PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
@@ -3863,7 +3863,7 @@ void LoadHeldItemIcons(void)
 
 void DrawHeldItemIconsForTrade(u8 *partyCounts, u8 *partySpriteIds, u8 whichParty)
 {
-    u16 i;
+    u32 i;
     u16 item;
 
     switch (whichParty)
@@ -4008,7 +4008,7 @@ void CB2_ShowPartyMenuForItemUse(void)
     MainCallback callback = CB2_ReturnToBagMenu;
     u8 partyLayout;
     u8 menuType;
-    u8 i;
+    u32 i;
     u8 msgId;
     TaskFunc task;
 
@@ -4347,7 +4347,7 @@ static void ItemEffectToStatString(u8 effectType, u8 *dest)
 
 static void ShowMoveSelectWindow(u8 slot)
 {
-    u8 i;
+    u32 i;
     u8 moveCount = 0;
     u8 fontId = 2;
     u8 windowId = DisplaySelectionWindow(SELECTWINDOW_MOVES);
@@ -4469,7 +4469,7 @@ u16 ItemIdToBattleMoveId(u16 item)
 
 bool8 IsMoveHm(u16 move)
 {
-    u8 i;
+    u32 i;
 
     for (i = 0; i < NUM_HIDDEN_MACHINES; i++)
     {
@@ -4481,7 +4481,7 @@ bool8 IsMoveHm(u16 move)
 
 bool8 MonKnowsMove(struct Pokemon *mon, u16 move)
 {
-    u8 i;
+    u32 i;
 
     for (i = 0; i < MAX_MON_MOVES; i++)
     {
@@ -5429,7 +5429,7 @@ static u8 CheckBattleEntriesAndGetMessage(void)
 
 static bool8 HasPartySlotAlreadyBeenSelected(u8 slot)
 {
-    u8 i;
+    u32 i;
 
     for (i = 0; i < ARRAY_COUNT(gSelectedOrderFromParty); i++)
     {
@@ -5573,7 +5573,7 @@ static bool8 TrySwitchInPokemon(void)
 {
     u8 slot = GetCursorSelectionMonId();
     u8 newSlot;
-    u8 i;
+    u32 i;
 
     // In a multi battle, slots 1, 4, and 5 are the partner's pokemon
     if (IsMultiBattle() && (slot == 1 || slot == 4 || slot == 5))
@@ -5850,7 +5850,7 @@ u8 GetPartyIdFromBattlePartyId(u8 battlePartyId)
 static void UpdatePartyToBattleOrder(void)
 {
     struct Pokemon *partyBuffer = Alloc(sizeof(gPlayerParty));
-    u8 i;
+    u32 i;
 
     memcpy(partyBuffer, gPlayerParty, sizeof(gPlayerParty));
     for (i = 0; i < PARTY_SIZE; i++)
@@ -5861,7 +5861,7 @@ static void UpdatePartyToBattleOrder(void)
 static void UpdatePartyToFieldOrder(void)
 {
     struct Pokemon *partyBuffer = Alloc(sizeof(gPlayerParty));
-    u8 i;
+    u32 i;
 
     memcpy(partyBuffer, gPlayerParty, sizeof(gPlayerParty));
     for (i = 0; i < PARTY_SIZE; i++)
@@ -5893,7 +5893,7 @@ static void Task_InitMultiPartnerPartySlideIn(u8 taskId)
 static void Task_MultiPartnerPartySlideIn(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
-    u8 i;
+    u32 i;
 
     if (!gPaletteFade.active)
     {
@@ -5930,7 +5930,7 @@ static void MoveMultiPartyMenuBoxSprite(u8 spriteId, s16 x)
 static void SlideMultiPartyMenuBoxSpritesOneStep(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
-    u8 i;
+    u32 i;
 
     for (i = 3; i < PARTY_SIZE; i++)
     {
@@ -6026,7 +6026,7 @@ static void CB2_ChooseMonForMoveRelearner(void)
 
 void DoBattlePyramidMonsHaveHeldItem(void)
 {
-    u8 i;
+    u32 i;
 
     gSpecialVar_Result = FALSE;
     for (i = 0; i < FRONTIER_PARTY_SIZE; i++)
@@ -6066,7 +6066,7 @@ void MoveDeleterChooseMoveToForget(void)
 
 void GetNumMovesSelectedMonHas(void)
 {
-    u8 i;
+    u32 i;
 
     gSpecialVar_Result = 0;
     for (i = 0; i < MAX_MON_MOVES; i++)
@@ -6087,7 +6087,7 @@ void BufferMoveDeleterNicknameAndMove(void)
 
 void MoveDeleterForgetMove(void)
 {
-    u16 i;
+    u32 i;
 
     SetMonMoveSlot(&gPlayerParty[gSpecialVar_0x8004], MOVE_NONE, gSpecialVar_0x8005);
     RemoveMonPPBonus(&gPlayerParty[gSpecialVar_0x8004], gSpecialVar_0x8005);

@@ -3704,7 +3704,7 @@ static void Cmd_jumpifarrayequal(void)
     u32 size = gBattlescriptCurrInstr[9];
     const u8* jumpPtr = T2_READ_PTR(gBattlescriptCurrInstr + 10);
 
-    u8 i;
+    u32 i;
     for (i = 0; i < size; i++)
     {
         if (*mem1 != *mem2)
@@ -3727,7 +3727,7 @@ static void Cmd_jumpifarraynotequal(void)
     u32 size = gBattlescriptCurrInstr[9];
     const u8* jumpPtr = T2_READ_PTR(gBattlescriptCurrInstr + 10);
 
-    u8 i;
+    u32 i;
     for (i = 0; i < size; i++)
     {
         if (*mem1 == *mem2)

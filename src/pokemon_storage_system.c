@@ -1339,7 +1339,7 @@ u8 CountMonsInBox(u8 boxId)
 
 s16 GetFirstFreeBoxSpot(u8 boxId)
 {
-    u16 i;
+    u32 i;
 
     for (i = 0; i < IN_BOX_COUNT; i++)
     {
@@ -1698,7 +1698,7 @@ static u8 HandleChooseBoxMenuInput(void)
 
 static void ChooseBoxMenu_CreateSprites(u8 curBox)
 {
-    u16 i;
+    u32 i;
     u8 spriteId;
     struct SpriteTemplate template;
     struct OamData oamData = {};
@@ -1752,7 +1752,7 @@ static void ChooseBoxMenu_CreateSprites(u8 curBox)
 
 static void ChooseBoxMenu_DestroySprites(void)
 {
-    u16 i;
+    u32 i;
     if (sChooseBoxMenu->menuSprite)
     {
         DestroySprite(sChooseBoxMenu->menuSprite);
@@ -3732,7 +3732,7 @@ static void CreateMarkingComboSprite(void)
 
 static void CreateWaveformSprites(void)
 {
-    u16 i;
+    u32 i;
     struct SpriteSheet sheet = sSpriteSheet_Waveform;
 
     LoadSpriteSheet(&sheet);
@@ -3784,7 +3784,7 @@ static void SpriteCB_DisplayMonMosaic(struct Sprite *sprite)
 
 static void CreateDisplayMonSprite(void)
 {
-    u16 i;
+    u32 i;
     u16 tileStart;
     u8 palSlot;
     u8 spriteId;
@@ -3878,7 +3878,7 @@ static void PrintDisplayMonInfo(void)
 // Turn the wave animation on the sides of "Pkmn Data" on/off
 static void UpdateWaveformAnimation(void)
 {
-    u16 i;
+    u32 i;
 
     if (sStorage->displayMonSpecies)
     {
@@ -4034,7 +4034,7 @@ static void UpdateCloseBoxButtonFlash(void)
 
 static void SetPartySlotTilemaps(void)
 {
-    u8 i;
+    u32 i;
 
     // Skips first party slot, it should always be drawn
     // as if it has a Pokémon in it
@@ -4254,7 +4254,7 @@ static void InitCursorItemIcon(void)
 
 static void InitMonIconFields(void)
 {
-    u16 i;
+    u32 i;
 
     LoadMonIconPalettes();
     for (i = 0; i < MAX_MON_ICONS; i++)
@@ -4352,7 +4352,7 @@ static void CreateBoxMonIconAtPos(u8 boxPosition)
 
 static void StartBoxMonIconsScrollOut(s16 speed)
 {
-    u16 i;
+    u32 i;
 
     for (i = 0; i < IN_BOX_COUNT; i++)
     {
@@ -4762,7 +4762,7 @@ static void DestroyPartyMonIcon(u8 partyId)
 
 static void DestroyAllPartyMonIcons(void)
 {
-    u16 i;
+    u32 i;
 
     for (i = 0; i < PARTY_SIZE; i++)
     {
@@ -4984,7 +4984,7 @@ static u16 TryLoadMonIconTiles(u16 species)
 
 static void RemoveSpeciesFromIconList(u16 species)
 {
-    u16 i;
+    u32 i;
 
     for (i = 0; i < MAX_MON_ICONS; i++)
     {
@@ -5145,7 +5145,7 @@ static bool8 ScrollToBox(void)
 
 static s8 DetermineBoxScrollDirection(u8 boxId)
 {
-    u8 i;
+    u32 i;
     u8 currentBox = StorageGetCurrentBox();
 
     for (i = 0; currentBox != boxId; i++)
@@ -5292,7 +5292,7 @@ static void DrawWallpaper(const void *tilemap, s8 direction, u8 offset)
 
 static void TrimOldWallpaper(void *tilemap)
 {
-    u16 i;
+    u32 i;
     u16 *dest = tilemap;
     s16 r3 = ((sStorage->bg2_X / 8) + 30) & 0x3F;
 
@@ -5322,7 +5322,7 @@ static void InitBoxTitle(u8 boxId)
 {
     u8 tagIndex;
     s16 x;
-    u16 i;
+    u32 i;
 
     struct SpriteSheet spriteSheet = {sStorage->boxTitleTiles, 0x200, GFXTAG_BOX_TITLE};
     struct SpritePalette palettes[] = {
@@ -5368,7 +5368,7 @@ static void CreateIncomingBoxTitle(u8 boxId, s8 direction)
 {
     u16 palOffset;
     s16 x, adjustedX;
-    u16 i;
+    u32 i;
     struct SpriteSheet spriteSheet = {sStorage->boxTitleTiles, 0x200, GFXTAG_BOX_TITLE};
     struct SpriteTemplate template = sSpriteTemplate_BoxTitle;
 
@@ -5480,7 +5480,7 @@ static s16 GetBoxTitleBaseX(const u8 *string)
 
 static void CreateBoxScrollArrows(void)
 {
-    u16 i;
+    u32 i;
 
     LoadSpriteSheet(&sSpriteSheet_Arrow);
     for (i = 0; i < 2; i++)
@@ -5501,7 +5501,7 @@ static void CreateBoxScrollArrows(void)
 // Slide box scroll arrows horizontally for box change
 static void StartBoxScrollArrowsSlide(s8 direction)
 {
-    u16 i;
+    u32 i;
 
     for (i = 0; i < 2; i++)
     {
@@ -5529,7 +5529,7 @@ static void StartBoxScrollArrowsSlide(s8 direction)
 // New box's scroll arrows have entered, stop sliding and set their position
 static void StopBoxScrollArrowsSlide(void)
 {
-    u16 i;
+    u32 i;
 
     for (i = 0; i < 2; i++)
     {
@@ -5543,7 +5543,7 @@ static void StopBoxScrollArrowsSlide(void)
 // Bounce scroll arrows while title is selected
 static void AnimateBoxScrollArrows(bool8 animate)
 {
-    u16 i;
+    u32 i;
 
     if (animate)
     {
@@ -6442,7 +6442,7 @@ static bool32 AtLeastThreeUsableMons(void)
 
 static s8 RunCanReleaseMon(void)
 {
-    u16 i;
+    u32 i;
     u16 knownMoves;
 
     if (sStorage->releaseStatusResolved)
@@ -8821,7 +8821,7 @@ static u16 GetMovingItemId(void)
 
 static u8 GetNewItemIconIdx(void)
 {
-    u8 i;
+    u32 i;
 
     for (i = 0; i < MAX_ITEM_ICONS; i++)
     {
@@ -8850,7 +8850,7 @@ static bool32 IsItemIconAtPosition(u8 cursorArea, u8 cursorPos)
 
 static u8 GetItemIconIdxByPosition(u8 cursorArea, u8 cursorPos)
 {
-    u8 i;
+    u32 i;
 
     for (i = 0; i < MAX_ITEM_ICONS; i++)
     {
@@ -8864,7 +8864,7 @@ static u8 GetItemIconIdxByPosition(u8 cursorArea, u8 cursorPos)
 
 static u8 GetItemIconIdxBySprite(struct Sprite *sprite)
 {
-    u8 i;
+    u32 i;
 
     for (i = 0; i < MAX_ITEM_ICONS; i++)
     {
@@ -9354,7 +9354,7 @@ static void SetBoxWallpaper(u8 boxId, u8 wallpaperId)
 // For moving to the next Pokémon while viewing the summary screen
 s16 AdvanceStorageMonIndex(struct BoxPokemon *boxMons, u8 currIndex, u8 maxIndex, u8 mode)
 {
-    s16 i;
+    s32 i;
     s16 direction = -1;
 
     if (!mode || mode == 1)
@@ -9582,7 +9582,7 @@ EWRAM_DATA static u16 sNumTilemapUtilIds = 0;
 
 static void TilemapUtil_Init(u8 count)
 {
-    u16 i;
+    u32 i;
 
     sTilemapUtil = Alloc(sizeof(*sTilemapUtil) * count);
     sNumTilemapUtilIds = (sTilemapUtil == NULL) ? 0 : count;

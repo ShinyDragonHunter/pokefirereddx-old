@@ -10,7 +10,7 @@
 #include "strings.h"
 #include "string_util.h"
 #include "constants/day_night.h"
-#include "constants/region_map_sections.h"
+#include "constants/layouts.h"
 #include "constants/rgb.h"
 
 #define TINT_MORNING Q_8_8(0.7), Q_8_8(0.7), Q_8_8(0.9)
@@ -74,7 +74,9 @@ u8 GetCurrentTimeOfDay(void)
 
 u8 GetTimeOfDay(s8 hours)
 {
-    if (hours < HOUR_MORNING)
+    if (hours < HOUR_MORNING
+     || gMapHeader.mapLayoutId == LAYOUT_PETALBURG_WOODS
+     || gMapHeader.mapLayoutId == LAYOUT_FARAWAY_ISLAND_INTERIOR)
         return TIME_NIGHT;
     else if (hours < HOUR_DAY)
         return TIME_MORNING;
@@ -108,12 +110,13 @@ void CopyCurrentDayOfWeekStringToVar1(void)
 
 static void LoadPaletteOverrides(void)
 {
-    u8 i, j;
+    u32 i, j;
     const u16* src;
     u16* dest;
     s8 hour;
 
-    hour = (gMapHeader.regionMapSectionId == MAPSEC_PETALBURG_WOODS) ? 0 : gLocalTime.hours;
+    hour = (gMapHeader.mapLayoutId == LAYOUT_PETALBURG_WOODS
+         || gMapHeader.mapLayoutId == LAYOUT_FARAWAY_ISLAND_INTERIOR) ? 0 : gLocalTime.hours;
 
     for (i = 0; i < ARRAY_COUNT(gPaletteOverrides); i++)
     {
@@ -157,7 +160,8 @@ void TintPaletteForDayNight(u16 offset, u16 size)
     {
         RtcCalcLocalTimeFast();
 
-        if (gMapHeader.regionMapSectionId == MAPSEC_PETALBURG_WOODS)
+        if (gMapHeader.mapLayoutId == LAYOUT_PETALBURG_WOODS
+         || gMapHeader.mapLayoutId == LAYOUT_FARAWAY_ISLAND_INTERIOR)
         {
             hour = 0;
             hourPhase = 0;
@@ -214,7 +218,8 @@ void ProcessImmediateTimeEvents(void)
         }
         else
         {
-            if (gMapHeader.regionMapSectionId == MAPSEC_PETALBURG_WOODS)
+            if (gMapHeader.mapLayoutId == LAYOUT_PETALBURG_WOODS
+             || gMapHeader.mapLayoutId == LAYOUT_FARAWAY_ISLAND_INTERIOR)
             {
                 hour = 0;
                 hourPhase = 0;

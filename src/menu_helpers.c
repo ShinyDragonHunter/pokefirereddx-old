@@ -261,7 +261,7 @@ bool8 MenuHelpers_CallLinkSomething(void)
 
 void sub_812220C(struct ItemSlot *slots, u8 count, u8 *arg2, u8 *usedSlotsCount, u8 maxUsedSlotsCount)
 {
-    u16 i;
+    u32 i;
     struct ItemSlot *slots_ = slots;
 
     (*usedSlotsCount) = 0;

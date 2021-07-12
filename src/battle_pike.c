@@ -768,7 +768,7 @@ static void StatusInflictionScreenFlash(void)
 
 static void HealMon(struct Pokemon *mon)
 {
-    u8 i;
+    u32 i;
     u16 hp;
     u8 ppBonuses;
     u8 data[4];
@@ -859,7 +859,7 @@ static bool8 DoesTypePreventStatus(u16 species, u32 status)
 
 static bool8 TryInflictRandomStatus(void)
 {
-    u8 j, i;
+    u32 i, j;
     u8 count;
     u8 indices[FRONTIER_PARTY_SIZE];
     u32 status;
@@ -970,7 +970,7 @@ static bool8 TryInflictRandomStatus(void)
 
 static bool8 AtLeastOneHealthyMon(void)
 {
-    u8 i;
+    u32 i;
     u8 healthyMonsCount;
     u8 count;
 
@@ -1003,7 +1003,7 @@ static bool8 AtLeastOneHealthyMon(void)
 static u8 GetNextRoomType(void)
 {
     bool8 roomTypesDisabled[NUM_PIKE_ROOM_TYPES - 1]; // excludes Brain room, which cant be disabled
-    u8 i;
+    u32 i;
     u8 nextRoomType;
     u8 roomHint;
     u8 numRoomCandidates;
@@ -1436,7 +1436,7 @@ static void PrepareTwoTrainers(void)
 
 static void ClearPikeTrainerIds(void)
 {
-    u8 i;
+    u32 i;
 
     for (i = 0; i < 14; i++)
         gSaveBlock2Ptr->frontier.trainerIds[i] = 0xFFFF;
@@ -1566,7 +1566,7 @@ static void IsPartyFullHealed(void)
 
 static void SaveMonHeldItems(void)
 {
-    u8 i;
+    u32 i;
 
     for (i = 0; i < FRONTIER_PARTY_SIZE; i++)
     {
@@ -1578,7 +1578,7 @@ static void SaveMonHeldItems(void)
 
 static void RestoreMonHeldItems(void)
 {
-    u8 i;
+    u32 i;
 
     for (i = 0; i < FRONTIER_PARTY_SIZE; i++)
     {

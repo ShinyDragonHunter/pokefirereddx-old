@@ -197,7 +197,7 @@ void CallBattleFactoryFunction(void)
 
 static void InitFactoryChallenge(void)
 {
-    u8 i;
+    u32 i;
     u32 lvlMode = gSaveBlock2Ptr->frontier.lvlMode;
     u32 battleMode = VarGet(VAR_FRONTIER_BATTLE_MODE);
 
@@ -375,7 +375,7 @@ static void SetOpponentGfxVar(void)
 
 static void SetRentalsToOpponentParty(void)
 {
-    u8 i;
+    u32 i;
 
     if (gSaveBlock2Ptr->frontier.lvlMode != FRONTIER_LVL_TENT)
         gFacilityTrainerMons = gBattleFrontierMons;
@@ -600,7 +600,7 @@ static void GenerateInitialRentalMons(void)
 // and NUMBER_OF_MON_TYPES is the result.
 static void GetOpponentMostCommonMonType(void)
 {
-    u8 i;
+    u32 i;
     u8 typeCounts[NUMBER_OF_MON_TYPES];
     u8 mostCommonTypes[2];
 
@@ -686,7 +686,7 @@ static void GetOpponentBattleStyle(void)
 static u8 GetMoveBattleStyle(u16 move)
 {
     const u16 *moves;
-    u8 i, j;
+    u32 i, j;
 
     for (i = 0; i < ARRAY_COUNT(sMoveStyles); i++)
     {
@@ -707,7 +707,7 @@ bool8 InBattleFactory(void)
 
 static void RestorePlayerPartyHeldItems(void)
 {
-    u8 i;
+    u32 i;
 
     if (gSaveBlock2Ptr->frontier.lvlMode != FRONTIER_LVL_TENT)
         gFacilityTrainerMons = gBattleFrontierMons;

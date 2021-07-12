@@ -65,6 +65,7 @@ u32 GetTrainerId(u8 *trainerId)
 void CopyTrainerId(u8 *dst, u8 *src)
 {
     s32 i;
+
     for (i = 0; i < TRAINER_ID_LENGTH; i++)
         dst[i] = src[i];
 }

@@ -932,7 +932,7 @@ static bool8 Phase2_Shuffle_Func1(struct Task *task)
 
 static bool8 Phase2_Shuffle_Func2(struct Task *task)
 {
-    u8 i;
+    u32 i;
     u16 r3, r4;
 
     sTransitionStructPtr->VBlank_DMA = FALSE;
@@ -1232,7 +1232,7 @@ static bool8 Phase2_PokeballsTrail_Func1(struct Task *task)
 
 static bool8 Phase2_PokeballsTrail_Func2(struct Task *task)
 {
-    s16 i;
+    s32 i;
     s16 rand;
     s16 arr0[ARRAY_COUNT(sUnknown_085C8B88)];
     s16 arr1[ARRAY_COUNT(sUnknown_085C8B8C)];
@@ -1320,7 +1320,7 @@ static void Phase2Task_Clockwise_BlackFade(u8 taskId)
 
 static bool8 Phase2_Clockwise_BlackFade_Func1(struct Task *task)
 {
-    u16 i;
+    u32 i;
 
     InitTransitionStructVars();
     ScanlineEffect_Clear();
@@ -1513,7 +1513,7 @@ static void Phase2Task_Ripple(u8 taskId)
 
 static bool8 Phase2_Ripple_Func1(struct Task *task)
 {
-    u8 i;
+    u32 i;
 
     InitTransitionStructVars();
     ScanlineEffect_Clear();
@@ -1534,7 +1534,7 @@ static bool8 Phase2_Ripple_Func1(struct Task *task)
 
 static bool8 Phase2_Ripple_Func2(struct Task *task)
 {
-    u8 i;
+    u32 i;
     s16 r3;
     u16 r4, r8;
 
@@ -1590,7 +1590,7 @@ static void Phase2Task_Wave(u8 taskId)
 
 static bool8 Phase2_Wave_Func1(struct Task *task)
 {
-    u8 i;
+    u32 i;
 
     InitTransitionStructVars();
     ScanlineEffect_Clear();
@@ -1956,7 +1956,7 @@ static void Phase2Task_MugShotTransition(u8 taskId)
 
 static bool8 Phase2_Mugshot_Func1(struct Task *task)
 {
-    u8 i;
+    u32 i;
 
     InitTransitionStructVars();
     ScanlineEffect_Clear();
@@ -2057,7 +2057,7 @@ static bool8 Phase2_Mugshot_Func3(struct Task *task)
 
 static bool8 Phase2_Mugshot_Func4(struct Task *task)
 {
-    u8 i;
+    u32 i;
     u16* toStore;
 
     sTransitionStructPtr->VBlank_DMA = FALSE;
@@ -2134,7 +2134,7 @@ static bool8 Phase2_Mugshot_Func7(struct Task *task)
 
     if (++task->tData3 & 1)
     {
-        s16 i;
+        s32 i;
         for (i = 0, r6 = FALSE; i <= task->tData4; i++)
         {
             s16 index1 = 0x50 - i;
@@ -2352,7 +2352,7 @@ static void Phase2Task_Slice(u8 taskId)
 
 static bool8 Phase2_Slice_Func1(struct Task *task)
 {
-    u16 i;
+    u32 i;
 
     InitTransitionStructVars();
     ScanlineEffect_Clear();
@@ -2382,7 +2382,7 @@ static bool8 Phase2_Slice_Func1(struct Task *task)
 
 static bool8 Phase2_Slice_Func2(struct Task *task)
 {
-    u16 i;
+    u32 i;
 
     sTransitionStructPtr->VBlank_DMA = FALSE;
 
@@ -2582,8 +2582,7 @@ static bool8 Phase2_RectangularSpiral_Func1(struct Task *task)
 static bool8 Phase2_RectangularSpiral_Func2(struct Task *task)
 {
     u16 *tilemap, *tileset;
-    u8 i;
-    u16 j;
+    u32 i, j;
     bool32 done = TRUE;
 
     GetBg0TilesDst(&tilemap, &tileset);
@@ -2687,7 +2686,7 @@ static void Phase2Task_WhiteFade(u8 taskId)
 
 static bool8 Phase2_WhiteFade_Func1(struct Task *task)
 {
-    u16 i;
+    u32 i;
 
     InitTransitionStructVars();
     ScanlineEffect_Clear();
@@ -2814,7 +2813,7 @@ static void sub_8149864(struct Sprite *sprite)
     }
     else
     {
-        u16 i;
+        u32 i;
         u16* ptr1 = &gScanlineEffectRegBuffers[0][sprite->pos1.y];
         u16* ptr2 = &gScanlineEffectRegBuffers[0][sprite->pos1.y + 160];
         u32 stripeWidth = sprite->data[6] ? 0x19 : 0x1B;
@@ -2905,7 +2904,7 @@ static void Phase2Task_Shards(u8 taskId)
 
 static bool8 Phase2_Shards_Func1(struct Task *task)
 {
-    u16 i;
+    u32 i;
 
     InitTransitionStructVars();
     ScanlineEffect_Clear();
@@ -2941,7 +2940,7 @@ static bool8 Phase2_Shards_Func2(struct Task *task)
 
 static bool8 Phase2_Shards_Func3(struct Task *task)
 {
-    s16 i;
+    s32 i;
     bool8 nextFunc;
 
     sTransitionStructPtr->VBlank_DMA = 0;
@@ -3153,7 +3152,7 @@ static void FadeScreenBlack(void)
 
 static void sub_8149F98(s16 *array, s16 sinAdd, s16 index, s16 indexIncrementer, s16 amplitude, s16 arrSize)
 {
-    u8 i;
+    u32 i;
     for (i = 0; arrSize > 0; arrSize--, i++, index += indexIncrementer)
     {
         array[i] = sinAdd + Sin(0xFF & index, amplitude);
@@ -3162,7 +3161,7 @@ static void sub_8149F98(s16 *array, s16 sinAdd, s16 index, s16 indexIncrementer,
 
 static void sub_814A014(u16 *array, s16 a1, s16 a2, s16 a3)
 {
-    s16 i;
+    s32 i;
 
     memset(array, 0xA, 160 * sizeof(s16));
     for (i = 0; i < 64; i++)
@@ -3364,7 +3363,7 @@ static bool8 Phase2_FrontierLogoWave_Func2(struct Task *task)
 
 static bool8 Phase2_FrontierLogoWave_Func3(struct Task *task)
 {
-    u8 i;
+    u32 i;
 
     for (i = 0; i < 160; i++)
     {
@@ -3381,7 +3380,7 @@ static bool8 Phase2_FrontierLogoWave_Func3(struct Task *task)
 
 static bool8 Phase2_FrontierLogoWave_Func4(struct Task *task)
 {
-    u8 i;
+    u32 i;
     u16 var6, amplitude, var8;
 
     sTransitionStructPtr->VBlank_DMA = FALSE;
@@ -3503,7 +3502,7 @@ static bool8 Phase2_FrontierSquares_Func2(struct Task *task)
 
 static bool8 Phase2_FrontierSquares_Func3(struct Task *task)
 {
-    u8 i;
+    u32 i;
     u16 *tilemap, *tileset;
 
     GetBg0TilesDst(&tilemap, &tileset);
