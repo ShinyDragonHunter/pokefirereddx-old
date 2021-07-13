@@ -1143,7 +1143,6 @@ static void StartSendOutAnim(u8 battlerId, bool8 dontClearSubstituteBit)
         else if ((gLinkPlayers[gRecordedBattleMultiplayerId].version & 0xFF) == VERSION_LEAF_GREEN)
             form = DEFENSE;
     }
-
     ClearTemporarySpeciesSpriteData(battlerId, dontClearSubstituteBit);
     gBattlerPartyIndexes[battlerId] = gBattleBufferA[battlerId][1];
     gBattleControllerData[battlerId] = CreateInvisibleSpriteWithCallback(SpriteCB_WaitForBattlerBallReleaseAnim);

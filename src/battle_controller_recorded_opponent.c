@@ -1102,7 +1102,6 @@ static void RecordedOpponentHandleLoadMonSprite(void)
 {
     u16 species = GetMonData(&gEnemyParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPECIES);
     u8 form = GetMonData(&gEnemyParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_FORM);
-    u16 formSpecies = GetFormSpecies(species, form);
 
     if (gLinkPlayers[gRecordedBattleMultiplayerId].versionModifier != MODIFIER_DX
      && species == SPECIES_DEOXYS)
@@ -1117,7 +1116,6 @@ static void RecordedOpponentHandleLoadMonSprite(void)
         else if ((gLinkPlayers[gRecordedBattleMultiplayerId].version & 0xFF) == VERSION_LEAF_GREEN)
             form = DEFENSE;
     }
-
     BattleLoadOpponentMonSpriteGfx(&gEnemyParty[gBattlerPartyIndexes[gActiveBattler]], gActiveBattler);
     SetMultiuseSpriteTemplateToPokemon(species, GetBattlerPosition(gActiveBattler), form);
 
@@ -1131,7 +1129,7 @@ static void RecordedOpponentHandleLoadMonSprite(void)
     gSprites[gBattlerSpriteIds[gActiveBattler]].oam.paletteNum = gActiveBattler;
     StartSpriteAnim(&gSprites[gBattlerSpriteIds[gActiveBattler]], gBattleMonForms[gActiveBattler]);
 
-    SetBattlerShadowSpriteCallback(gActiveBattler, formSpecies);
+    SetBattlerShadowSpriteCallback(gActiveBattler, GetFormSpecies(species, form));
 
     gBattlerControllerFuncs[gActiveBattler] = TryShinyAnimAfterMonAnim;
 }
@@ -1161,7 +1159,6 @@ static void StartSendOutAnim(u8 battlerId, bool8 dontClearSubstituteBit)
         else if ((gLinkPlayers[gRecordedBattleMultiplayerId].version & 0xFF) == VERSION_LEAF_GREEN)
             form = DEFENSE;
     }
-
     ClearTemporarySpeciesSpriteData(battlerId, dontClearSubstituteBit);
     gBattlerPartyIndexes[battlerId] = gBattleBufferA[battlerId][1];
     gBattleControllerData[battlerId] = CreateInvisibleSpriteWithCallback(SpriteCB_WaitForBattlerBallReleaseAnim);

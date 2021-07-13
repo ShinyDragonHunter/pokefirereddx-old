@@ -1529,7 +1529,7 @@ static const u8 sMonFrontAnimIdsTable[] =
     [SPECIES_PINSIR]      = ANIM_GROW_VIBRATE,
     [SPECIES_TAUROS]      = ANIM_V_SHAKE_TWICE,
     [SPECIES_MAGIKARP]    = ANIM_BOUNCE_ROTATE_TO_SIDES,
-    [SPECIES_GYARADOS]    = ANIM_BOUNCE_ROTATE_TO_SIDES_SMALL,
+    [SPECIES_GYARADOS]    = ANIM_GROW_VIBRATE,
     [SPECIES_LAPRAS]      = ANIM_V_STRETCH,
     [SPECIES_DITTO]       = ANIM_CIRCULAR_STRETCH_TWICE,
     [SPECIES_EEVEE]       = ANIM_V_STRETCH,
@@ -1786,7 +1786,7 @@ static const u8 sMonFrontAnimIdsTable[] =
     [SPECIES_JIRACHI]     = ANIM_SWING_CONVEX,
     [SPECIES_DEOXYS]      = ANIM_H_PIVOT,
     [SPECIES_CHIMECHO]    = ANIM_H_SLIDE_WOBBLE,
-    [SPECIES_DEOXYS_SPEED]   = ANIM_FLICKER_INCREASING,
+    [SPECIES_DEOXYS_SPEED]   = ANIM_FIGURE_8,
     [SPECIES_DEOXYS_ATTACK]  = ANIM_GROW_VIBRATE,
     [SPECIES_DEOXYS_DEFENSE] = ANIM_V_SQUISH_AND_BOUNCE_SLOW,
 };
@@ -2316,12 +2316,6 @@ void CreateMonWithNature(struct Pokemon *mon, u16 species, u8 level, u8 fixedIV,
 void CreateMonWithGenderNatureLetter(struct Pokemon *mon, u16 species, u8 level, u8 fixedIV, u8 gender, u8 nature, u8 unownLetter, u8 form)
 {
     u32 personality;
-    u8 genderRatio;
-
-    if ((genderRatio == MON_MALE)
-     || (genderRatio == MON_FEMALE)
-     || (genderRatio == MON_GENDERLESS))
-        gender = genderRatio;
 
     if ((u8)(unownLetter - 1) < NUM_UNOWN_FORMS)
     {

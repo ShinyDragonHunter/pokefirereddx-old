@@ -2472,13 +2472,11 @@ static void ScriptCmd_fadetobg(void)
 
 static void ScriptCmd_fadetobgfromset(void)
 {
-    u8 bg1, bg2, bg3;
-    u8 taskId;
+    u8 bg1, bg2, taskId;
 
     sBattleAnimScriptPtr++;
     bg1 = sBattleAnimScriptPtr[0];
     bg2 = sBattleAnimScriptPtr[1];
-    bg3 = sBattleAnimScriptPtr[2];
     sBattleAnimScriptPtr += 3;
     taskId = CreateTask(Task_FadeToBg, 5);
 

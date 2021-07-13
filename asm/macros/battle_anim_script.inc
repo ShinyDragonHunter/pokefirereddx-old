@@ -203,11 +203,10 @@
 	.byte \battler
 	.endm
 
-	.macro fadetobgfromset param0:req, param1:req, param2:req
+	.macro fadetobgfromset param0:req, param1:req
 	.byte 0x24
 	.byte \param0
 	.byte \param1
-	.byte \param2
 	.endm
 
 	.macro panse_26 se:req, param1:req, param2:req, param3:req, param4:req

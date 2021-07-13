@@ -2857,7 +2857,7 @@ static void BufferMonTrainerMemo(void)
         u8 *metLevelString = Alloc(32);
         u8 *metLocationString = Alloc(32);
         GetMetLevelString(metLevelString);
-        if ((sum->metGame == VERSION_FIRE_RED && sMonSummaryScreen->versionModifier == MODIFIER_CRYSTALDUST)
+        if (sMonSummaryScreen->versionModifier == MODIFIER_CRYSTALDUST
          || sum->metGame == VERSION_CRYSTAL_DUST)
         {
             if (sum->metLocation < KANTO_MAPSEC_START)
