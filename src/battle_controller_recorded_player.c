@@ -515,7 +515,7 @@ static u32 CopyRecordedPlayerMonData(u8 monId, u8 *dst)
              || (gLinkPlayers[gRecordedBattleMultiplayerId].version & 0xFF) > VERSION_LEAF_GREEN)
                 battleMon.form = SPEED;
             else if ((gLinkPlayers[gRecordedBattleMultiplayerId].version & 0xFF) == VERSION_FIRE_RED)
-                battleMon.form = (gRecordedBattleMultiplayerId].versionModifier == MODIFIER_CRYSTALDUST) ? SPEED : ATTACK;
+                battleMon.form = (gLinkPlayers[gRecordedBattleMultiplayerId].versionModifier == MODIFIER_CRYSTALDUST) ? SPEED : ATTACK;
             else if ((gLinkPlayers[gRecordedBattleMultiplayerId].version & 0xFF) == VERSION_LEAF_GREEN)
                 battleMon.form = DEFENSE;
         }
@@ -571,7 +571,7 @@ static u32 CopyRecordedPlayerMonData(u8 monId, u8 *dst)
             else if ((gLinkPlayers[gRecordedBattleMultiplayerId].version & 0xFF) == VERSION_LEAF_GREEN)
                 form = DEFENSE;
         }
-        data16 = GetFormSpecies(GetMonData(&gPlayerParty[monId], MON_DATA_SPECIES, form);
+        data16 = GetFormSpecies(GetMonData(&gPlayerParty[monId], MON_DATA_SPECIES), form);
         dst[0] = data16;
         dst[1] = data16 >> 8;
         size = 2;
