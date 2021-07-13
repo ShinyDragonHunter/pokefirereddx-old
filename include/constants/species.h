@@ -458,6 +458,12 @@
 // Total number of form species
 #define NUM_FORM_SPECIES 3
 
+// Deoxys form IDs
+#define NORMAL  0
+#define SPEED   1
+#define ATTACK  2
+#define DEFENSE 3
+
 #define SPECIES_COUNT FORMS_START + NUM_FORM_SPECIES
 
 // National Dex Index Defines
