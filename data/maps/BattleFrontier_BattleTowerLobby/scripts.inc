@@ -3,6 +3,8 @@
 .set LOCALID_ATTENDANT_MULTIS, 8
 .set LOCALID_ATTENDANT_LINK_MULTIS, 9
 
+@ Note: LOCALID_BATTLE_TOWER_LOBBY_REPORTER is a local id for this map used elsewhere. It's defined in event_objects.h
+
 BattleFrontier_BattleTowerLobby_MapScripts:: @ 823E67B
 	map_script MAP_SCRIPT_ON_TRANSITION, BattleFrontier_BattleTowerLobby_OnTransition
 	map_script MAP_SCRIPT_ON_FRAME_TABLE, BattleFrontier_BattleTowerLobby_OnFrame
