@@ -26,7 +26,7 @@ static const s32 sPowersOfTen[] =
 
 u8 *StringCopy10(u8 *dest, const u8 *src)
 {
-    u8 i;
+    u32 i;
     u32 limit = 10;
 
     for (i = 0; i < limit; i++)
@@ -43,7 +43,7 @@ u8 *StringCopy10(u8 *dest, const u8 *src)
 
 u8 *StringGetEnd10(u8 *str)
 {
-    u8 i;
+    u32 i;
     u32 limit = 10;
 
     for (i = 0; i < limit; i++)
@@ -94,7 +94,7 @@ u8 *StringAppend(u8 *dest, const u8 *src)
 
 u8 *StringCopyN(u8 *dest, const u8 *src, u8 n)
 {
-    u16 i;
+    u32 i;
 
     for (i = 0; i < n; i++)
         dest[i] = src[i];
@@ -150,7 +150,7 @@ s32 StringCompareN(const u8 *str1, const u8 *str2, u32 n)
 
 bool8 IsStringLengthAtLeast(const u8 *str, s32 n)
 {
-    u8 i;
+    u32 i;
 
     for (i = 0; i < n; i++)
         if (str[i] && str[i] != EOS)
@@ -274,7 +274,7 @@ u8 *ConvertUIntToDecimalStringN(u8 *dest, u32 value, enum StringConvertMode mode
 u8 *ConvertIntToHexStringN(u8 *dest, s32 value, enum StringConvertMode mode, u8 n)
 {
     enum { WAITING_FOR_NONZERO_DIGIT, WRITING_DIGITS, WRITING_SPACES } state;
-    u8 i;
+    u32 i;
     s32 powerOfSixteen;
     s32 largestPowerOfSixteen = 1;
 
@@ -463,7 +463,7 @@ const u8 *GetExpandedPlaceholder(u32 id)
 
 u8 *StringFill(u8 *dest, u8 c, u16 n)
 {
-    u16 i;
+    u32 i;
 
     for (i = 0; i < n; i++)
         *dest++ = c;

@@ -16,7 +16,7 @@
   "shared_scripts_map": "BattlePyramidSquare01",
   "object_events": [
     {
-      "graphics_id": "OBJ_EVENT_GFX_GIRL_2",
+      "graphics_id": "OBJ_EVENT_GFX_HOENN_GIRL_2",
       "x": 5,
       "y": 2,
       "elevation": 4,
@@ -29,7 +29,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_GIRL_2",
+      "graphics_id": "OBJ_EVENT_GFX_HOENN_GIRL_2",
       "x": 2,
       "y": 5,
       "elevation": 4,
@@ -42,7 +42,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_GIRL_2",
+      "graphics_id": "OBJ_EVENT_GFX_HOENN_GIRL_2",
       "x": 5,
       "y": 5,
       "elevation": 4,
@@ -55,7 +55,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_GIRL_2",
+      "graphics_id": "OBJ_EVENT_GFX_HOENN_GIRL_2",
       "x": 2,
       "y": 2,
       "elevation": 4,

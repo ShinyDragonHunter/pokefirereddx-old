@@ -680,13 +680,14 @@ static void WallClockInit(void)
 
 void CB2_StartWallClock(void)
 {
-    u8 taskId = CreateTask(Task_SetClock_WaitFadeIn, 0);
-    u8 spriteId = CreateSprite(&sSpriteTemplate_MinuteHand, 120, 80, 1);
+    u8 taskId;
+    u8 spriteId;
 
     RtcCalcLocalTime();
     LoadWallClockGraphics();
     LZ77UnCompVram(gWallClockStart_Tilemap, (u16 *)BG_SCREEN_ADDR(7));
 
+    taskId = CreateTask(Task_SetClock_WaitFadeIn, 0);
     gTasks[taskId].tHours = gLocalTime.hours;
     gTasks[taskId].tMinutes = gLocalTime.minutes;
     gTasks[taskId].tMoveDir = 0;
@@ -695,6 +696,7 @@ void CB2_StartWallClock(void)
     gTasks[taskId].tMinuteHandAngle = 0;
     gTasks[taskId].tHourHandAngle = 300;
 
+    spriteId = CreateSprite(&sSpriteTemplate_MinuteHand, 120, 80, 1);
     gSprites[spriteId].data[0] = taskId;
     gSprites[spriteId].oam.affineMode = ST_OAM_AFFINE_NORMAL;
     gSprites[spriteId].oam.matrixNum = 0;

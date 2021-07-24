@@ -1289,7 +1289,8 @@ static void PrintSafariMonInfo(u8 healthboxSpriteId, struct Pokemon *mon)
     u8 text[20];
     s32 j, spriteTileNum;
     u8 *barFontGfx;
-    u8 i, var, nature, healthBarSpriteId;
+    u32 i;
+    u8 var, nature, healthBarSpriteId;
 
     memcpy(text, sUnknown_0832C3C4, sizeof(sUnknown_0832C3C4));
     barFontGfx = &gMonSpritesGfxPtr->barFontGfx[0x520 + (GetBattlerPosition(gSprites[healthboxSpriteId].hMain_Battler) * 384)];
@@ -2232,7 +2233,7 @@ static void MoveBattleBarGraphically(u8 battlerId, u8 whichBar)
     u8 array[8];
     u8 filledPixelsCount, level;
     u8 barElementId;
-    u8 i;
+    u32 i;
 
     switch (whichBar)
     {
@@ -2368,7 +2369,7 @@ static s32 CalcNewBarValue(s32 maxValue, s32 oldValue, s32 receivedValue, s32 *c
 static u8 CalcBarFilledPixels(s32 maxValue, s32 oldValue, s32 receivedValue, s32 *currValue, u8 *arg4, u8 scale)
 {
     u8 pixels, filledPixels, totalPixels;
-    u8 i;
+    u32 i;
 
     s32 newValue = oldValue - receivedValue;
     if (newValue < 0)

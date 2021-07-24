@@ -1084,8 +1084,7 @@ void HideBattlerShadowSprite(u8 battlerId)
 void sub_805EF14(void)
 {
     u16 *vramPtr = (u16*)(VRAM + 0x240);
-    s32 i;
-    s32 j;
+    s32 i, j;
 
     for (i = 0; i < 9; i++)
     {
@@ -1114,7 +1113,7 @@ void ClearTemporarySpeciesSpriteData(u8 battlerId, bool8 dontClearSubstitute)
 
 void AllocateMonSpritesGfx(void)
 {
-    u8 i = 0, j;
+    u32 i = 0, j;
 
     gMonSpritesGfxPtr = NULL;
     gMonSpritesGfxPtr = AllocZeroed(sizeof(*gMonSpritesGfxPtr));

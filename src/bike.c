@@ -55,7 +55,7 @@ static u8 (*const sAcroBikeInputHandlers[])(u8 *, u16, u16) =
 static const u16 sBikeMusicTable[NUM_REGION] =
 {
     [REGION_HOENN] = MUS_CYCLING,
-    [REGION_KANTO] = MUS_RG_CYCLING, 
+    [REGION_KANTO] = MUS_RG_CYCLING,
     [REGION_SEVII] = MUS_RG_CYCLING,
 };
 

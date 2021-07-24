@@ -5687,7 +5687,7 @@ u16 ModifyStatByNature(u8 nature, u16 n, u8 statIndex)
 
 #define IS_LEAGUE_BATTLE                                                                \
     ((gBattleTypeFlags & BATTLE_TYPE_TRAINER)                                           \
-    && (gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_ELITE_FOUR    \
+     && (gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_ELITE_FOUR   \
      || gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_LEADER        \
      || gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_CHAMPION))    \
 
@@ -6462,7 +6462,7 @@ u16 GetFormSpecies(u16 species, u8 form)
 
 u8 GetFormFromFormSpecies(u16 formSpecies)
 {
-    u8 targetForm = 0;
+    u32 targetForm = 0;
 
     if (gFormSpeciesTables[formSpecies])
     {

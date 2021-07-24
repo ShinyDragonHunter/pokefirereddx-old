@@ -288,7 +288,7 @@ void ApplyNewEncryptionKeyToWord(u32 *word, u32 newKey)
 static void ApplyNewEncryptionKeyToAllEncryptedData(u32 encryptionKey)
 {
     ApplyNewEncryptionKeyToGameStats(encryptionKey);
-    ApplyNewEncryptionKeyToBagItems_(encryptionKey);
+    ApplyNewEncryptionKeyToBagItems(encryptionKey);
     ApplyNewEncryptionKeyToBerryPowder(encryptionKey);
     ApplyNewEncryptionKeyToWord(&gSaveBlock1Ptr->money, encryptionKey);
     ApplyNewEncryptionKeyToHword(&gSaveBlock1Ptr->coins, encryptionKey);

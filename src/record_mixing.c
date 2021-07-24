@@ -11,7 +11,6 @@
 #include "cable_club.h"
 #include "link.h"
 #include "link_rfu.h"
-#include "tv.h"
 #include "battle_tower.h"
 #include "window.h"
 #include "mystery_event_script.h"
@@ -27,10 +26,8 @@
 #include "string_util.h"
 #include "record_mixing.h"
 #include "new_game.h"
-#include "daycare.h"
 #include "international_string_util.h"
 #include "constants/battle_frontier.h"
-#include "dewford_trend.h"
 
 
 // Static type declarations
@@ -43,12 +40,7 @@ struct RecordMixingHallRecords
 
 struct PlayerRecordsRS
 {
-    u8 filler_0000[0xC80];
-    TVShow tvShows[TV_SHOWS_COUNT];
-    PokeNews pokeNews[POKE_NEWS_COUNT];
-    u8 filler_1044[0x40];
-    struct DewfordTrend dewfordTrends[SAVED_TRENDS_COUNT];
-    struct RecordMixingDaycareMail daycareMail;
+    u8 filler0000[0x1124];
     struct RSBattleTowerRecord battleTowerRecord;
     u16 giftItem;
     u16 filler11C8[0x32];
@@ -56,18 +48,13 @@ struct PlayerRecordsRS
 
 struct PlayerRecordsEmerald
 {
-    /* 0x0000 */ u8 filler_0000[0xC80];
-    /* 0x0c80 */ TVShow tvShows[TV_SHOWS_COUNT];
-    /* 0x1004 */ PokeNews pokeNews[POKE_NEWS_COUNT];
-    /* 0x1044 */ u8 filler_1044[0x40];
-    /* 0x1084 */ struct DewfordTrend dewfordTrends[SAVED_TRENDS_COUNT];
-    /* 0x10ac */ struct RecordMixingDaycareMail daycareMail;
+    /* 0x0000 */ u8 filler0000[0x1124];
     /* 0x1124 */ struct EmeraldBattleTowerRecord battleTowerRecord;
     /* 0x1210 */ u16 giftItem;
-    /* 0x1214 */ u8 filler_1214[0x40];
+    /* 0x1214 */ u8 filler1214[0x40];
     /* 0x1254 */ struct Apprentice apprentices[2];
     /* 0x12dc */ struct PlayerHallRecords hallRecords;
-    /* 0x1434 */ u8 field_1434[0x10];
+    /* 0x1434 */ u8 field1434[0x10];
 }; // 0x1444
 
 union PlayerRecords
@@ -79,14 +66,12 @@ union PlayerRecords
 // Static RAM declarations
 
 static bool8 gUnknown_03001130;
-static struct RecordMixingDaycareMail *sDaycareMailSave;
 static void *sBattleTowerSave;
 static void *sApprenticesSave;
 static u32 sRecordStructSize;
 static u8 gUnknown_03001160;
 static struct PlayerHallRecords *gUnknown_03001168[3];
 
-static EWRAM_DATA struct RecordMixingDaycareMail sDaycareMail = {0};
 static EWRAM_DATA union PlayerRecords *sReceivedRecords = NULL;
 static EWRAM_DATA union PlayerRecords *sSentRecord = NULL;
 
@@ -102,15 +87,11 @@ static void StorePtrInTaskData(void *records, u16 *a1);
 static u8 GetMultiplayerId_(void);
 static void *GetPlayerRecvBuffer(u8);
 static void ReceiveBattleTowerData(void *battleTowerRecord, size_t, u8);
-static void sub_80E7B2C(const u8 *);
-static void ReceiveDaycareMailData(struct RecordMixingDaycareMail *, size_t, u8, TVShow *);
 static void ReceiveGiftItem(u16 *item, u8 which);
 static void Task_DoRecordMixing(u8 taskId);
 static void GetSavedApprentices(struct Apprentice *dst, struct Apprentice *src);
 static void ReceiveApprenticeData(struct Apprentice *mixApprentice, size_t recordSize, u32 multiplayerId);
 static void ReceiveRankingHallRecords(struct PlayerHallRecords *hallRecords, size_t arg1, u32 arg2);
-static void GetRecordMixingDaycareMail(struct RecordMixingDaycareMail *dst);
-static void SanitizeDaycareMailForRuby(struct RecordMixingDaycareMail *src);
 static void SanitizeEmeraldBattleTowerRecord(struct EmeraldBattleTowerRecord *arg0);
 static void SanitizeRubyBattleTowerRecord(struct RSBattleTowerRecord *src);
 
@@ -163,14 +144,12 @@ void RecordMixingPlayerSpotTriggered(void)
 // these variables were const in R/S, but had to become changeable because of saveblocks changing RAM position
 static void SetSrcLookupPointers(void)
 {
-    sDaycareMailSave = &sDaycareMail;
     sBattleTowerSave = &gSaveBlock2Ptr->frontier.towerPlayer;
     sApprenticesSave = gSaveBlock2Ptr->apprentices;
 }
 
 static void PrepareUnknownExchangePacket(struct PlayerRecordsRS *dest)
 {
-    GetRecordMixingDaycareMail(&dest->daycareMail);
     EmeraldBattleTowerRecordToRuby(sBattleTowerSave, &dest->battleTowerRecord);
 
     if (!GetMultiplayerId())
@@ -179,8 +158,6 @@ static void PrepareUnknownExchangePacket(struct PlayerRecordsRS *dest)
 
 static void PrepareExchangePacketForRubySapphire(struct PlayerRecordsRS *dest)
 {
-    GetRecordMixingDaycareMail(&dest->daycareMail);
-    SanitizeDaycareMailForRuby(&dest->daycareMail);
     EmeraldBattleTowerRecordToRuby(sBattleTowerSave, &dest->battleTowerRecord);
     SanitizeRubyBattleTowerRecord(&dest->battleTowerRecord);
 
@@ -201,7 +178,6 @@ static void PrepareExchangePacket(void)
     }
     else
     {
-        GetRecordMixingDaycareMail(&sSentRecord->emerald.daycareMail);
         memcpy(&sSentRecord->emerald.battleTowerRecord, sBattleTowerSave, sizeof(sSentRecord->emerald.battleTowerRecord));
         SanitizeEmeraldBattleTowerRecord(&sSentRecord->emerald.battleTowerRecord);
 
@@ -218,14 +194,12 @@ static void ReceiveExchangePacket(u32 which)
     if (Link_AnyPartnersPlayingRubyOrSapphire())
     {
         // Ruby/Sapphire
-        ReceiveDaycareMailData(&sReceivedRecords->ruby.daycareMail, sizeof(struct PlayerRecordsRS), which, sReceivedRecords->ruby.tvShows);
         ReceiveBattleTowerData(&sReceivedRecords->ruby.battleTowerRecord, sizeof(struct PlayerRecordsRS), which);
         ReceiveGiftItem(&sReceivedRecords->ruby.giftItem, which);
     }
     else
     {
         // Emerald
-        ReceiveDaycareMailData(&sReceivedRecords->emerald.daycareMail, sizeof(struct PlayerRecordsEmerald), which, sReceivedRecords->emerald.tvShows);
         ReceiveBattleTowerData(&sReceivedRecords->emerald.battleTowerRecord, sizeof(struct PlayerRecordsEmerald), which);
         ReceiveGiftItem(&sReceivedRecords->emerald.giftItem, which);
         ReceiveApprenticeData(sReceivedRecords->emerald.apprentices, sizeof(struct PlayerRecordsEmerald), (u8) which);
@@ -601,218 +575,10 @@ static void ReceiveBattleTowerData(void *battleTowerRecord, size_t recordSize, u
     PutNewBattleTowerRecord((void *)battleTowerRecord + recordSize * which);
 }
 
-static u8 sub_80E7A9C(struct DaycareMail *rmMail)
-{
-    return rmMail->message.itemId;
-}
-
-static void sub_80E7AA4(struct RecordMixingDaycareMail *src, size_t recordSize, u8 (*idxs)[2], u8 which0, u8 which1)
-{
-    struct DaycareMail buffer;
-    struct RecordMixingDaycareMail *mail1;
-    struct RecordMixingDaycareMail *mail2;
-
-    mail1 = (void *)src + recordSize * idxs[which0][0];
-    memcpy(&buffer, &mail1->mail[idxs[which0][1]], sizeof(struct DaycareMail));
-    mail2 = (void *)src + recordSize * idxs[which1][0];
-    memcpy(&mail1->mail[idxs[which0][1]], &mail2->mail[idxs[which1][1]], sizeof(struct DaycareMail));
-    memcpy(&mail2->mail[idxs[which1][1]], &buffer, sizeof(struct DaycareMail));
-}
-
-static void sub_80E7B2C(const u8 *src)
-{
-    u8 sum;
-    s32 i;
-
-    sum = 0;
-    for (i = 0; i < 256; i++)
-        sum += src[i];
-
-    gUnknown_03001160 = sum;
-}
-
 static u8 sub_80E7B54(void)
 {
     return gUnknown_03001160;
 }
-
-static void ReceiveDaycareMailData(struct RecordMixingDaycareMail *src, size_t recordSize, u8 which, TVShow *shows)
-{
-    u16 i, j;
-    u8 linkPlayerCount;
-    u8 tableId;
-    struct RecordMixingDaycareMail *_src;
-    u8 which0, which1;
-    void *ptr;
-    u8 sp04[4];
-    u8 sp08[4];
-    struct RecordMixingDaycareMail *sp0c[4];
-    u8 sp1c[4][2];
-    u8 sp24[4][2];
-    u8 sp34;
-    u16 oldSeed;
-    bool32 anyRS;
-
-    oldSeed = Random2();
-    SeedRng2(gLinkPlayers[0].trainerId);
-    linkPlayerCount = GetLinkPlayerCount();
-    for (i = 0; i < 4; i++)
-    {
-        sp04[i] = 0xFF;
-        sp08[i] = 0;
-        sp1c[i][0] = 0;
-        sp1c[i][1] = 0;
-    }
-
-    anyRS = Link_AnyPartnersPlayingRubyOrSapphire();
-    for (i = 0; i < GetLinkPlayerCount(); i++)
-    {
-        u32 language, version;
-
-        _src = (void *)src + i * recordSize;
-        language = gLinkPlayers[i].language;
-        version = gLinkPlayers[i].version & 0xFF;
-        for (j = 0; j < _src->numDaycareMons; j++)
-        {
-            u16 otNameLanguage, nicknameLanguage;
-            struct DaycareMail *recordMixingMail = &_src->mail[j];
-
-            if (!recordMixingMail->message.itemId)
-                continue;
-
-            if (anyRS)
-            {
-                if (StringLength(recordMixingMail->OT_name) <= 5)
-                {
-                    otNameLanguage = LANGUAGE_JAPANESE;
-                }
-                else
-                {
-                    StripExtCtrlCodes(recordMixingMail->OT_name);
-                    otNameLanguage = language;
-                }
-
-                if (recordMixingMail->monName[0] == EXT_CTRL_CODE_BEGIN && recordMixingMail->monName[1] == EXT_CTRL_CODE_JPN)
-                {
-                    StripExtCtrlCodes(recordMixingMail->monName);
-                    nicknameLanguage = LANGUAGE_JAPANESE;
-                }
-                else
-                {
-                    nicknameLanguage = language;
-                }
-
-                if (version < VERSION_EMERALD)
-                {
-                    recordMixingMail->gameLanguage = otNameLanguage;
-                    recordMixingMail->monLanguage = nicknameLanguage;
-                }
-            }
-            else if (language == LANGUAGE_JAPANESE)
-            {
-                if (IsStringJapanese(recordMixingMail->OT_name))
-                    recordMixingMail->gameLanguage = LANGUAGE_JAPANESE;
-                else
-                    recordMixingMail->gameLanguage = GAME_LANGUAGE;
-
-                if (IsStringJapanese(recordMixingMail->monName))
-                    recordMixingMail->monLanguage = LANGUAGE_JAPANESE;
-                else
-                    recordMixingMail->monLanguage = GAME_LANGUAGE;
-            }
-        }
-    }
-
-    sp34 = 0;
-    for (i = 0; i < linkPlayerCount; i++)
-    {
-        _src = (void *)src + i * recordSize;
-        if (_src->numDaycareMons == 0)
-            continue;
-
-        for (j = 0; j < _src->numDaycareMons; j++)
-        {
-            if (!_src->holdsItem[j])
-                sp1c[i][j] = 1;
-        }
-    }
-
-    j = 0;
-    for (i = 0; i < linkPlayerCount; i++)
-    {
-        _src = (void *)src + i * recordSize;
-        if (sp1c[i][0] || sp1c[i][1])
-            sp34++;
-
-        if (sp1c[i][0] && !sp1c[i][1])
-        {
-            sp24[j][0] = i;
-            sp24[j][1] = 0;
-            j++;
-        }
-        else if (!sp1c[i][0] && sp1c[i][1])
-        {
-            sp24[j][0] = i;
-            sp24[j][1] = 1;
-            j++;
-        }
-        else if (sp1c[i][0] && sp1c[i][1])
-        {
-            u32 var1, var2;
-
-            sp24[j][0] = i;
-            var1 = sub_80E7A9C(&_src->mail[0]);
-            var2 = sub_80E7A9C(&_src->mail[1]);
-            if (!(var1 || var2) || (var1 && var2))
-            {
-                sp24[j][1] = Random2() % 2;
-            }
-            else if (var1 && !var2)
-            {
-                sp24[j][1] = 0;
-            }
-            else if (!var1 && var2)
-            {
-                 sp24[j][1] = 1;
-            }
-            j++;
-        }
-    }
-
-    for (i = 0; i < 4; i++)
-    {
-        _src = &src[which * recordSize];
-        sp0c[i] = _src;
-    }
-
-    tableId = sub_80E7B54() % 3;
-    switch (sp34)
-    {
-    case 2:
-        sub_80E7AA4(src, recordSize, sp24, 0, 1);
-        break;
-    case 3:
-        which0 = gUnknown_0858CFB8[tableId][0];
-        which1 = gUnknown_0858CFB8[tableId][1];
-        sub_80E7AA4(src, recordSize, sp24, which0, which1);
-        break;
-    case 4:
-        ptr = sp24;
-        which0 = gUnknown_0858CFBE[tableId][0];
-        which1 = gUnknown_0858CFBE[tableId][1];
-        sub_80E7AA4(src, recordSize, ptr, which0, which1);
-        which0 = gUnknown_0858CFBE[tableId][2];
-        which1 = gUnknown_0858CFBE[tableId][3];
-        sub_80E7AA4(src, recordSize, ptr, which0, which1);
-        break;
-    }
-
-    _src = (void *)src + which * recordSize;
-    memcpy(&gSaveBlock1Ptr->daycare.mons[0].mail, &_src->mail[0], sizeof(struct DaycareMail));
-    memcpy(&gSaveBlock1Ptr->daycare.mons[1].mail, &_src->mail[1], sizeof(struct DaycareMail));
-    SeedRng(oldSeed);
-}
-
 
 static void ReceiveGiftItem(u16 *item, u8 which)
 {
@@ -1197,31 +963,6 @@ static void ReceiveRankingHallRecords(struct PlayerHallRecords *hallRecords, siz
     sub_80E8924(largeStructPtr);
 
     Free(largeStructPtr);
-}
-
-static void GetRecordMixingDaycareMail(struct RecordMixingDaycareMail *dst)
-{
-    sDaycareMail.mail[0] = gSaveBlock1Ptr->daycare.mons[0].mail;
-    sDaycareMail.mail[1] = gSaveBlock1Ptr->daycare.mons[1].mail;
-    InitDaycareMailRecordMixing(&gSaveBlock1Ptr->daycare, &sDaycareMail);
-    *dst = *sDaycareMailSave;
-}
-
-static void SanitizeDaycareMailForRuby(struct RecordMixingDaycareMail *src)
-{
-    s32 i;
-
-    for (i = 0; i < src->numDaycareMons; i++)
-    {
-        struct DaycareMail *mail = &src->mail[i];
-        if (mail->message.itemId)
-        {
-            if (mail->gameLanguage != LANGUAGE_JAPANESE)
-                PadNameString(mail->OT_name, EXT_CTRL_CODE_BEGIN);
-
-            ConvertInternationalString(mail->monName, mail->monLanguage);
-        }
-    }
 }
 
 static void SanitizeRubyBattleTowerRecord(struct RSBattleTowerRecord *src)

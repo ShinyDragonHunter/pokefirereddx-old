@@ -430,7 +430,8 @@ static void BuyMenuDrawGraphics(void)
 
 static bool8 BuyMenuBuildListMenuTemplate(void)
 {
-    u16 i, max;
+    u32 i;
+    u16 max;
 
     sListMenuItems = Alloc((sMartInfo.itemCount + 1) * sizeof(*sListMenuItems));
     if (!sListMenuItems
@@ -630,7 +631,8 @@ static void BuyMenuDrawMapGraphics(void)
 
 static void BuyMenuDrawMapBg(void)
 {
-    s16 i, j, x, y;
+    s32 i, j;
+    s16 x, y;
     const struct MapLayout *mapLayout;
     u16 metatile;
     u8 metatileLayerType;
@@ -713,7 +715,7 @@ static void BuyMenuDrawMapMetatileLayer(u16 *dest, s16 offset1, s16 offset2, con
 static void BuyMenuCollectObjectEventData(void)
 {
     s16 facingX, facingY;
-    u8 x, y;
+    u32 x, y;
     u8 num = 0;
 
     GetXYCoordsOneStepInFrontOfPlayer(&facingX, &facingY);
@@ -741,7 +743,8 @@ static void BuyMenuCollectObjectEventData(void)
 
 static void BuyMenuDrawObjectEvents(void)
 {
-    u8 i, spriteId;
+    u32 i;
+    u8 spriteId;
     const struct ObjectEventGraphicsInfo *graphicsInfo;
 
     for (i = 0; i < OBJECT_EVENTS_COUNT; i++)

@@ -472,9 +472,9 @@ static void DoTrainerBattle(void)
 static void sub_80B0828(void)
 {
     if (InBattlePyramid())
-        CreateBattleStartTask(GetSpecialBattleTransition(10), 0);
+        CreateBattleStartTask(GetSpecialBattleTransition(SPECIAL_BATTLE_PYRAMID), 0);
     else
-        CreateBattleStartTask(GetSpecialBattleTransition(11), 0);
+        CreateBattleStartTask(GetSpecialBattleTransition(SPECIAL_BATTLE_TRAINER_HILL), 0);
 
     IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
     IncrementGameStat(GAME_STAT_TRAINER_BATTLES);
@@ -743,7 +743,8 @@ static u8 GetTrainerBattleTransition(void)
     u8 enemyLevel;
     u8 playerLevel;
 
-    if (gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_ELITE_FOUR)
+    if (gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_ELITE_FOUR
+     || gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_CHAMPION)
     {
         if (gTrainerBattleOpponent_A == TRAINER_SIDNEY)
             return B_TRANSITION_LORELEI;
@@ -755,9 +756,6 @@ static u8 GetTrainerBattleTransition(void)
             return B_TRANSITION_LANCE;
         return B_TRANSITION_CHAMPION;
     }
-
-    if (gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_CHAMPION)
-        return B_TRANSITION_CHAMPION;
 
     if (gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_BOSS
      || gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_TEAM_ROCKET)
@@ -778,7 +776,6 @@ static u8 GetTrainerBattleTransition(void)
         return sBattleTransitionTable_Trainer[transitionType][1];
 }
 
-// 11: Trainer Hill
 u8 GetSpecialBattleTransition(s32 id)
 {
     u16 var;
@@ -792,7 +789,7 @@ u8 GetSpecialBattleTransition(s32 id)
     case SPECIAL_BATTLE_PYRAMID:
         return sBattleTransitionTable_BattlePyramid[Random() % ARRAY_COUNT(sBattleTransitionTable_BattlePyramid)];
     case SPECIAL_BATTLE_EREADER:
-    case 11:
+    case SPECIAL_BATTLE_TRAINER_HILL:
         if (enemyLevel < playerLevel)
             return B_TRANSITION_POKEBALLS_TRAIL;
         else

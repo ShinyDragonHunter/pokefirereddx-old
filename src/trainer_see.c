@@ -21,7 +21,7 @@
 #include "constants/trainer_types.h"
 
 extern const struct SpritePalette sObjectEventSpritePalettes[];
-extern const struct SpritePalette gObjectEventPal_Npc1;
+extern const struct SpritePalette gObjectEventPal_HoennNpc1;
 
 // this file's functions
 static u8 CheckTrainer(u8 objectEventId);
@@ -700,8 +700,7 @@ u8 FldEff_ExclamationMarkIcon(void)
 {
     u8 spriteId = CreateSpriteAtEnd(&sSpriteTemplate_ExclamationQuestionMark, 0, 0, 0x52);
 
-    LoadObjectEventPalette(OBJ_EVENT_PAL_TAG_RED_LEAF);
-
+    LoadObjectEventPalette(OBJ_EVENT_PAL_TAG_PLAYER);
     if (spriteId != MAX_SPRITES)
         SetIconSpriteData(&gSprites[spriteId], FLDEFF_EXCLAMATION_MARK_ICON, 0);
 
@@ -712,8 +711,7 @@ u8 FldEff_QuestionMarkIcon(void)
 {
     u8 spriteId = CreateSpriteAtEnd(&sSpriteTemplate_ExclamationQuestionMark, 0, 0, 0x52);
 
-    LoadObjectEventPalette(OBJ_EVENT_PAL_TAG_RED_LEAF);
-
+    LoadObjectEventPalette(OBJ_EVENT_PAL_TAG_PLAYER);
     if (spriteId != MAX_SPRITES)
         SetIconSpriteData(&gSprites[spriteId], FLDEFF_QUESTION_MARK_ICON, 1);
 
@@ -724,8 +722,7 @@ u8 FldEff_HeartIcon(void)
 {
     u8 spriteId = CreateSpriteAtEnd(&sSpriteTemplate_HeartIcon, 0, 0, 0x52);
 
-    LoadSpritePalette(&gObjectEventPal_Npc1);
-
+    LoadSpritePalette(&gObjectEventPal_HoennNpc1);
     if (spriteId != MAX_SPRITES)
     {
         struct Sprite *sprite = &gSprites[spriteId];

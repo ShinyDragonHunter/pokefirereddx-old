@@ -654,13 +654,13 @@ static const struct WindowTemplate sRankingHallRecordsWindowTemplate =
 // Second field - whether the character is female.
 static const u8 sFrontierBrainObjEventGfx[NUM_FRONTIER_FACILITIES][2] =
 {
-    [FRONTIER_FACILITY_TOWER]   = {OBJ_EVENT_GFX_ANABEL,  TRUE},
-    [FRONTIER_FACILITY_DOME]    = {OBJ_EVENT_GFX_TUCKER,  FALSE},
-    [FRONTIER_FACILITY_PALACE]  = {OBJ_EVENT_GFX_SPENSER, FALSE},
-    [FRONTIER_FACILITY_ARENA]   = {OBJ_EVENT_GFX_GRETA,   TRUE},
-    [FRONTIER_FACILITY_FACTORY] = {OBJ_EVENT_GFX_NOLAND,  FALSE},
-    [FRONTIER_FACILITY_PIKE]    = {OBJ_EVENT_GFX_LUCY,    TRUE},
-    [FRONTIER_FACILITY_PYRAMID] = {OBJ_EVENT_GFX_BRANDON, FALSE},
+    [FRONTIER_FACILITY_TOWER]   = {OBJ_EVENT_GFX_HOENN_ANABEL,  TRUE},
+    [FRONTIER_FACILITY_DOME]    = {OBJ_EVENT_GFX_HOENN_TUCKER,  FALSE},
+    [FRONTIER_FACILITY_PALACE]  = {OBJ_EVENT_GFX_HOENN_SPENSER, FALSE},
+    [FRONTIER_FACILITY_ARENA]   = {OBJ_EVENT_GFX_HOENN_GRETA,   TRUE},
+    [FRONTIER_FACILITY_FACTORY] = {OBJ_EVENT_GFX_HOENN_NOLAND,  FALSE},
+    [FRONTIER_FACILITY_PIKE]    = {OBJ_EVENT_GFX_HOENN_LUCY,    TRUE},
+    [FRONTIER_FACILITY_PYRAMID] = {OBJ_EVENT_GFX_HOENN_BRANDON, FALSE},
 };
 
 const u16 gFrontierBannedSpecies[] =
@@ -1572,7 +1572,6 @@ static void CheckPutFrontierTVShowOnAir(void)
 
 static void Script_GetFrontierBrainStatus(void)
 {
-    VarGet(VAR_FRONTIER_FACILITY); // Unused return value.
     gSpecialVar_Result = GetFrontierBrainStatus();
 }
 
@@ -2001,17 +2000,17 @@ static void CheckPartyIneligibility(void)
         for (i = 0; gFrontierBannedSpecies[i] != 0xFFFF; i++)
             count = AppendCaughtBannedMonSpeciesName(gFrontierBannedSpecies[i], count, caughtBannedMons);
 
-        if (count == 0)
-        {
-            StringAppend(gStringVar1, gText_Space2);
-            StringAppend(gStringVar1, gText_Are);
-        }
-        else
+        if (count)
         {
             if (count & 1)
                 StringAppend(gStringVar1, gText_LineBreak);
             else
                 StringAppend(gStringVar1, gText_Space2);
+            StringAppend(gStringVar1, gText_Are);
+        }
+        else
+        {
+            StringAppend(gStringVar1, gText_Space2);
             StringAppend(gStringVar1, gText_Are);
         }
     }
@@ -2111,7 +2110,7 @@ static void BufferFrontierTrainerName(void)
 
 static void ResetSketchedMoves(void)
 {
-    u8 i, j, k;
+    u32 i, j, k;
 
     for (i = 0; i < MAX_FRONTIER_PARTY_SIZE; i++)
     {

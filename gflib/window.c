@@ -65,7 +65,7 @@ bool16 InitWindows(const struct WindowTemplate *templates)
                     return FALSE;
                 }
 
-                for (j = 0; j < attrib; ++j)
+                for (j = 0; j < attrib; j++)
                     allocatedTilemapBuffer[j] = 0;
 
                 gWindowBgTilemapBuffers[bgLayer] = allocatedTilemapBuffer;
@@ -96,14 +96,14 @@ bool16 InitWindows(const struct WindowTemplate *templates)
 
 u16 AddWindow(const struct WindowTemplate *template)
 {
-    u16 win;
+    u32 win;
     u8 bgLayer;
     int allocatedBaseBlock;
     u16 attrib;
     u8 *allocatedTilemapBuffer;
     int i;
 
-    for (win = 0; win < WINDOWS_MAX; ++win)
+    for (win = 0; win < WINDOWS_MAX; win++)
     {
         if ((bgLayer = gWindows[win].window.bg) == 0xFF)
             break;
@@ -154,11 +154,11 @@ u16 AddWindow(const struct WindowTemplate *template)
 
 int AddWindowWithoutTileMap(const struct WindowTemplate *template)
 {
-    u16 win;
+    u32 win;
     u8 bgLayer;
     int allocatedBaseBlock;
 
-    for (win = 0; win < WINDOWS_MAX; ++win)
+    for (win = 0; win < WINDOWS_MAX; win++)
     {
         if (gWindows[win].window.bg == 0xFF)
             break;
@@ -201,7 +201,7 @@ void FreeAllWindowBuffers(void)
 {
     int i;
 
-    for (i = 0; i < NUM_BACKGROUNDS; ++i)
+    for (i = 0; i < NUM_BACKGROUNDS; i++)
     {
         if (gWindowBgTilemapBuffers[i] != NULL && gWindowBgTilemapBuffers[i] != DummyWindowBgTilemap)
         {
@@ -210,7 +210,7 @@ void FreeAllWindowBuffers(void)
         }
     }
 
-    for (i = 0; i < WINDOWS_MAX; ++i)
+    for (i = 0; i < WINDOWS_MAX; i++)
     {
         if (gWindows[i].tileData != NULL)
         {
@@ -290,7 +290,7 @@ void PutWindowRectTilemapOverridePalette(u8 windowId, u8 x, u8 y, u8 width, u8 h
     u16 currentRow = windowLocal.window.baseBlock + (y * windowLocal.window.width) + x + GetBgAttribute(windowLocal.window.bg, BG_ATTR_BASETILE);
     int i;
 
-    for (i = 0; i < height; ++i)
+    for (i = 0; i < height; i++)
     {
         WriteSequenceToBgTilemapBuffer(
             windowLocal.window.bg,
@@ -327,7 +327,7 @@ void PutWindowRectTilemap(u8 windowId, u8 x, u8 y, u8 width, u8 height)
     u16 currentRow = windowLocal.window.baseBlock + (y * windowLocal.window.width) + x + GetBgAttribute(windowLocal.window.bg, BG_ATTR_BASETILE);
     int i;
 
-    for (i = 0; i < height; ++i)
+    for (i = 0; i < height; i++)
     {
         WriteSequenceToBgTilemapBuffer(
             windowLocal.window.bg,
@@ -550,7 +550,7 @@ static void DummyWindowBgTilemap8Bit(void)
 
 u16 AddWindow8Bit(const struct WindowTemplate *template)
 {
-    u16 windowId;
+    u32 windowId;
     u8* memAddress;
     u8 bgLayer;
 

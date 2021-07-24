@@ -458,7 +458,7 @@ void SetGameStat(u8 index, u32 value)
 
 void ApplyNewEncryptionKeyToGameStats(u32 newKey)
 {
-    u8 i;
+    u32 i;
 
     for (i = 0; i < NUM_GAME_STATS; i++)
         ApplyNewEncryptionKeyToWord(&gSaveBlock1Ptr->gameStats[i], newKey);
@@ -474,7 +474,7 @@ void LoadObjEventTemplatesFromHeader(void)
               gSaveBlock1Ptr->objectEventTemplates,
               gMapHeader.events->objectEventCount * sizeof(struct ObjectEventTemplate));*/
 
-    u8 i;
+    u32 i;
 
     for (i = 0; i < gMapHeader.events->objectEventCount; i++)
     {
@@ -1252,7 +1252,8 @@ static void PlayAmbientCry(void)
 
 void UpdateAmbientCry(s16 *state, u16 *delayCounter)
 {
-    u8 i, monsCount, divBy;
+    u32 i;
+    u8 monsCount, divBy;
 
     switch (*state)
     {
@@ -2178,7 +2179,7 @@ static void OffsetCameraFocusByLinkPlayerId(void)
 
 static void SpawnLinkPlayers(void)
 {
-    u16 i;
+    u32 i;
     u16 x, y;
 
     GetCameraFocusCoords(&x, &y);
@@ -2195,7 +2196,7 @@ static void SpawnLinkPlayers(void)
 
 static void CreateLinkPlayerSprites(void)
 {
-    u16 i;
+    u32 i;
     for (i = 0; i < gFieldLinkPlayerCount; i++)
         CreateLinkPlayerSprite(i, gLinkPlayers[i].version, gLinkPlayers[i].versionModifier);
 }
@@ -2971,7 +2972,7 @@ static s32 GetLinkPlayerObjectStepTimer(u8 linkPlayerId)
 
 static u8 GetLinkPlayerIdAt(s16 x, s16 y)
 {
-    u8 i;
+    u32 i;
     for (i = 0; i < MAX_LINK_PLAYERS; i++)
     {
         if (gLinkPlayerObjectEvents[i].active
@@ -3096,7 +3097,7 @@ static u8 FlipVerticalAndClearForced(u8 newFacing, u8 oldFacing)
 
 static u8 LinkPlayerDetectCollision(u8 selfObjEventId, u8 a2, s16 x, s16 y)
 {
-    u8 i;
+    u32 i;
     for (i = 0; i < 16; i++)
     {
         if (i != selfObjEventId)

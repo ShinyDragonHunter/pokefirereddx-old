@@ -209,67 +209,71 @@ const u8 gTowerFemaleFacilityClasses[20] =
 
 const u8 gTowerMaleTrainerGfxIds[30] =
 {
-    OBJ_EVENT_GFX_HIKER,
-    OBJ_EVENT_GFX_TUBER_M,
-    OBJ_EVENT_GFX_MAN_3,
-    OBJ_EVENT_GFX_RICH_BOY,
-    OBJ_EVENT_GFX_MANIAC,
-    OBJ_EVENT_GFX_RUNNING_TRIATHLETE_M,
-    OBJ_EVENT_GFX_BLACK_BELT,
-    OBJ_EVENT_GFX_MAN_5,
-    OBJ_EVENT_GFX_MAN_5,
-    OBJ_EVENT_GFX_CAMPER,
-    OBJ_EVENT_GFX_MANIAC,
-    OBJ_EVENT_GFX_PSYCHIC_M,
-    OBJ_EVENT_GFX_GENTLEMAN,
-    OBJ_EVENT_GFX_SCHOOL_KID_M,
-    OBJ_EVENT_GFX_POKEFAN_M,
-    OBJ_EVENT_GFX_EXPERT_M,
-    OBJ_EVENT_GFX_YOUNGSTER,
-    OBJ_EVENT_GFX_FISHERMAN,
-    OBJ_EVENT_GFX_CYCLING_TRIATHLETE_M,
-    OBJ_EVENT_GFX_RUNNING_TRIATHLETE_M,
-    OBJ_EVENT_GFX_RUNNING_TRIATHLETE_M,
-    OBJ_EVENT_GFX_MAN_3,
-    OBJ_EVENT_GFX_MAN_5,
-    OBJ_EVENT_GFX_NINJA_BOY,
-    OBJ_EVENT_GFX_SAILOR,
-    OBJ_EVENT_GFX_MANIAC,
-    OBJ_EVENT_GFX_MAN_4,
-    OBJ_EVENT_GFX_CAMPER,
-    OBJ_EVENT_GFX_BUG_CATCHER,
-    OBJ_EVENT_GFX_HIKER
+    OBJ_EVENT_GFX_HOENN_HIKER,
+    OBJ_EVENT_GFX_HOENN_TUBER_M,
+    OBJ_EVENT_GFX_HOENN_MAN_3,
+    OBJ_EVENT_GFX_HOENN_RICH_BOY,
+    OBJ_EVENT_GFX_HOENN_MANIAC,
+    OBJ_EVENT_GFX_HOENN_RUNNING_TRIATHLETE_M,
+    OBJ_EVENT_GFX_HOENN_BLACK_BELT,
+    OBJ_EVENT_GFX_HOENN_MAN_5,
+    OBJ_EVENT_GFX_HOENN_MAN_5,
+    OBJ_EVENT_GFX_HOENN_CAMPER,
+    OBJ_EVENT_GFX_HOENN_MANIAC,
+    OBJ_EVENT_GFX_HOENN_PSYCHIC_M,
+    OBJ_EVENT_GFX_HOENN_GENTLEMAN,
+    OBJ_EVENT_GFX_HOENN_SCHOOL_KID_M,
+    OBJ_EVENT_GFX_HOENN_POKEFAN_M,
+    OBJ_EVENT_GFX_HOENN_EXPERT_M,
+    OBJ_EVENT_GFX_HOENN_YOUNGSTER,
+    OBJ_EVENT_GFX_HOENN_FISHERMAN,
+    OBJ_EVENT_GFX_HOENN_CYCLING_TRIATHLETE_M,
+    OBJ_EVENT_GFX_HOENN_RUNNING_TRIATHLETE_M,
+    OBJ_EVENT_GFX_HOENN_RUNNING_TRIATHLETE_M,
+    OBJ_EVENT_GFX_HOENN_MAN_3,
+    OBJ_EVENT_GFX_HOENN_MAN_5,
+    OBJ_EVENT_GFX_HOENN_NINJA_BOY,
+    OBJ_EVENT_GFX_HOENN_SAILOR,
+    OBJ_EVENT_GFX_HOENN_MANIAC,
+    OBJ_EVENT_GFX_HOENN_MAN_4,
+    OBJ_EVENT_GFX_HOENN_CAMPER,
+    OBJ_EVENT_GFX_HOENN_BUG_CATCHER,
+    OBJ_EVENT_GFX_HOENN_HIKER
 };
 
 const u8 gTowerFemaleTrainerGfxIds[20] =
 {
-    OBJ_EVENT_GFX_WOMAN_2,
-    OBJ_EVENT_GFX_TUBER_F,
-    OBJ_EVENT_GFX_WOMAN_5,
-    OBJ_EVENT_GFX_HEX_MANIAC,
-    OBJ_EVENT_GFX_WOMAN_2,
-    OBJ_EVENT_GFX_BEAUTY,
-    OBJ_EVENT_GFX_LASS,
-    OBJ_EVENT_GFX_GIRL_3,
-    OBJ_EVENT_GFX_POKEFAN_F,
-    OBJ_EVENT_GFX_EXPERT_F,
-    OBJ_EVENT_GFX_CYCLING_TRIATHLETE_F,
-    OBJ_EVENT_GFX_RUNNING_TRIATHLETE_F,
-    OBJ_EVENT_GFX_RUNNING_TRIATHLETE_F,
-    OBJ_EVENT_GFX_GIRL_3,
-    OBJ_EVENT_GFX_WOMAN_5,
-    OBJ_EVENT_GFX_RUNNING_TRIATHLETE_F,
-    OBJ_EVENT_GFX_PICNICKER,
-    OBJ_EVENT_GFX_WOMAN_2,
-    OBJ_EVENT_GFX_PICNICKER,
-    OBJ_EVENT_GFX_LASS
+    OBJ_EVENT_GFX_HOENN_WOMAN_2,
+    OBJ_EVENT_GFX_HOENN_TUBER_F,
+    OBJ_EVENT_GFX_HOENN_WOMAN_5,
+    OBJ_EVENT_GFX_HOENN_HEX_MANIAC,
+    OBJ_EVENT_GFX_HOENN_WOMAN_2,
+    OBJ_EVENT_GFX_HOENN_BEAUTY,
+    OBJ_EVENT_GFX_HOENN_LASS,
+    OBJ_EVENT_GFX_HOENN_GIRL_3,
+    OBJ_EVENT_GFX_HOENN_POKEFAN_F,
+    OBJ_EVENT_GFX_HOENN_EXPERT_F,
+    OBJ_EVENT_GFX_HOENN_CYCLING_TRIATHLETE_F,
+    OBJ_EVENT_GFX_HOENN_RUNNING_TRIATHLETE_F,
+    OBJ_EVENT_GFX_HOENN_RUNNING_TRIATHLETE_F,
+    OBJ_EVENT_GFX_HOENN_GIRL_3,
+    OBJ_EVENT_GFX_HOENN_WOMAN_5,
+    OBJ_EVENT_GFX_HOENN_RUNNING_TRIATHLETE_F,
+    OBJ_EVENT_GFX_HOENN_PICNICKER,
+    OBJ_EVENT_GFX_HOENN_WOMAN_2,
+    OBJ_EVENT_GFX_HOENN_PICNICKER,
+    OBJ_EVENT_GFX_HOENN_LASS
 };
 
 // Excludes the unused RS_FACILITY_CLASS_BOARDER_1 and _2
 static const u8 sRubyFacilityClassToEmerald[RS_FACILITY_CLASSES_COUNT - 2][2] =
 {
+    {RS_FACILITY_CLASS_AQUA_LEADER_ARCHIE, FACILITY_CLASS_YOUNGSTER},
+    {RS_FACILITY_CLASS_AQUA_GRUNT_M, FACILITY_CLASS_YOUNGSTER},
+    {RS_FACILITY_CLASS_AQUA_GRUNT_F, FACILITY_CLASS_YOUNGSTER},
     {RS_FACILITY_CLASS_AROMA_LADY, HOENN_FACILITY_CLASS_AROMA_LADY},
     {RS_FACILITY_CLASS_RUIN_MANIAC, HOENN_FACILITY_CLASS_RUIN_MANIAC},
+    {RS_FACILITY_CLASS_INTERVIEWER, FACILITY_CLASS_YOUNGSTER},
     {RS_FACILITY_CLASS_TUBER_F, HOENN_FACILITY_CLASS_TUBER_F},
     {RS_FACILITY_CLASS_TUBER_M, HOENN_FACILITY_CLASS_TUBER_M},
     {RS_FACILITY_CLASS_COOLTRAINER_M, HOENN_FACILITY_CLASS_COOLTRAINER_M},
@@ -288,8 +292,14 @@ static const u8 sRubyFacilityClassToEmerald[RS_FACILITY_CLASSES_COUNT - 2][2] =
     {RS_FACILITY_CLASS_PSYCHIC_M, HOENN_FACILITY_CLASS_PSYCHIC_M},
     {RS_FACILITY_CLASS_PSYCHIC_F, HOENN_FACILITY_CLASS_PSYCHIC_F},
     {RS_FACILITY_CLASS_GENTLEMAN, HOENN_FACILITY_CLASS_GENTLEMAN},
+    {RS_FACILITY_CLASS_ELITE_FOUR_M, FACILITY_CLASS_YOUNGSTER},
+    {RS_FACILITY_CLASS_ELITE_FOUR_F, FACILITY_CLASS_YOUNGSTER},
+    {RS_FACILITY_CLASS_LEADER_F, FACILITY_CLASS_YOUNGSTER},
+    {RS_FACILITY_CLASS_LEADER_M, FACILITY_CLASS_YOUNGSTER},
+    {RS_FACILITY_CLASS_LEADER_MF, FACILITY_CLASS_YOUNGSTER},
     {RS_FACILITY_CLASS_SCHOOL_KID_M, HOENN_FACILITY_CLASS_SCHOOL_KID_M},
     {RS_FACILITY_CLASS_SCHOOL_KID_F, HOENN_FACILITY_CLASS_SCHOOL_KID_F},
+    {RS_FACILITY_CLASS_SR_AND_JR, FACILITY_CLASS_YOUNGSTER},
     {RS_FACILITY_CLASS_POKEFAN_M, HOENN_FACILITY_CLASS_POKEFAN_M},
     {RS_FACILITY_CLASS_POKEFAN_F, HOENN_FACILITY_CLASS_POKEFAN_F},
     {RS_FACILITY_CLASS_EXPERT_M, HOENN_FACILITY_CLASS_EXPERT_M},
@@ -311,13 +321,26 @@ static const u8 sRubyFacilityClassToEmerald[RS_FACILITY_CLASSES_COUNT - 2][2] =
     {RS_FACILITY_CLASS_PICNICKER, HOENN_FACILITY_CLASS_PICNICKER},
     {RS_FACILITY_CLASS_SAILOR, HOENN_FACILITY_CLASS_SAILOR},
     {RS_FACILITY_CLASS_COLLECTOR, HOENN_FACILITY_CLASS_COLLECTOR},
+    {RS_FACILITY_CLASS_WALLY, FACILITY_CLASS_YOUNGSTER},
+    {RS_FACILITY_CLASS_BRENDAN_1, FACILITY_CLASS_YOUNGSTER},
+    {RS_FACILITY_CLASS_BRENDAN_2, FACILITY_CLASS_YOUNGSTER},
+    {RS_FACILITY_CLASS_BRENDAN_3, FACILITY_CLASS_YOUNGSTER},
+    {RS_FACILITY_CLASS_MAY_1, FACILITY_CLASS_YOUNGSTER},
+    {RS_FACILITY_CLASS_MAY_2, FACILITY_CLASS_YOUNGSTER},
+    {RS_FACILITY_CLASS_MAY_3, FACILITY_CLASS_YOUNGSTER},
     {RS_FACILITY_CLASS_PKMN_BREEDER_M, HOENN_FACILITY_CLASS_PKMN_BREEDER_M},
     {RS_FACILITY_CLASS_PKMN_BREEDER_F, HOENN_FACILITY_CLASS_PKMN_BREEDER_F},
     {RS_FACILITY_CLASS_PKMN_RANGER_M, HOENN_FACILITY_CLASS_PKMN_RANGER_M},
     {RS_FACILITY_CLASS_PKMN_RANGER_F, HOENN_FACILITY_CLASS_PKMN_RANGER_F},
+    {RS_FACILITY_CLASS_MAGMA_LEADER, FACILITY_CLASS_YOUNGSTER},
+    {RS_FACILITY_CLASS_MAGMA_GRUNT_M, FACILITY_CLASS_YOUNGSTER},
+    {RS_FACILITY_CLASS_MAGMA_GRUNT_F, FACILITY_CLASS_YOUNGSTER},
     {RS_FACILITY_CLASS_LASS, HOENN_FACILITY_CLASS_LASS},
     {RS_FACILITY_CLASS_BUG_CATCHER, HOENN_FACILITY_CLASS_BUG_CATCHER},
     {RS_FACILITY_CLASS_HIKER, HOENN_FACILITY_CLASS_HIKER},
+    {RS_FACILITY_CLASS_YOUNG_COUPLE, FACILITY_CLASS_YOUNGSTER},
+    {RS_FACILITY_CLASS_OLD_COUPLE, FACILITY_CLASS_YOUNGSTER},
+    {RS_FACILITY_CLASS_SIS_AND_BRO, FACILITY_CLASS_YOUNGSTER},
 };
 
 #define PARTNER_TEXTS(name)                                             \
@@ -1170,13 +1193,15 @@ void SetBattleFacilityTrainerGfxId(u16 trainerId, u8 tempVarId)
     switch (tempVarId)
     {
     case 1:
-        VarSet(VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_BOY_1);
+        gSpecialVar_0x8001 = MALE;
+        VarSet(VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_YOUNGSTER);
         return;
     case 15:
-        VarSet(VAR_OBJ_GFX_ID_E, OBJ_EVENT_GFX_BOY_1);
+        VarSet(VAR_OBJ_GFX_ID_E, OBJ_EVENT_GFX_YOUNGSTER);
         return;
     default:
-        VarSet(VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_BOY_1);
+        gSpecialVar_0x8000 = MALE;
+        VarSet(VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_YOUNGSTER);
         return;
     }
 }
@@ -1234,7 +1259,7 @@ u8 GetBattleFacilityTrainerGfxId(u16 trainerId)
     }
     else
     {
-        return OBJ_EVENT_GFX_BOY_1;
+        return OBJ_EVENT_GFX_YOUNGSTER;
     }
 }
 
@@ -1407,8 +1432,8 @@ u8 GetFrontierOpponentClass(u16 trainerId)
 static u8 GetFrontierTrainerFacilityClass(u16 trainerId)
 {
     u8 facilityClass;
-    SetFacilityPtrsGetLevel();
 
+    SetFacilityPtrsGetLevel();
     if (trainerId == TRAINER_EREADER)
     {
         facilityClass = gSaveBlock2Ptr->frontier.ereaderTrainer.facilityClass;
@@ -1438,8 +1463,8 @@ static u8 GetFrontierTrainerFacilityClass(u16 trainerId)
 void GetFrontierTrainerName(u8 *dst, u16 trainerId)
 {
     s32 i = 0;
-    SetFacilityPtrsGetLevel();
 
+    SetFacilityPtrsGetLevel();
     if (trainerId == TRAINER_EREADER)
     {
         for (i = 0; i < PLAYER_NAME_LENGTH; i++)
@@ -1710,7 +1735,7 @@ static void FillFactoryTrainerParty(void)
 
 static void FillFactoryFrontierTrainerParty(u16 trainerId, u8 firstMonId)
 {
-    u8 i, j;
+    u32 i, j;
     u8 friendship;
     u8 level;
     u8 fixedIV;
@@ -1766,7 +1791,7 @@ static void FillFactoryFrontierTrainerParty(u16 trainerId, u8 firstMonId)
 
 static void FillFactoryTentTrainerParty(u16 trainerId, u8 firstMonId)
 {
-    u8 i, j;
+    u32 i, j;
     u8 friendship;
     u8 level = 30;
     u8 fixedIV = 0;
@@ -1817,8 +1842,8 @@ void FrontierSpeechToString(const u16 *words)
 static void GetOpponentIntroSpeech(void)
 {
     u16 trainerId;
-    SetFacilityPtrsGetLevel();
 
+    SetFacilityPtrsGetLevel();
     if (gSpecialVar_0x8005)
         trainerId = gTrainerBattleOpponent_B;
     else
@@ -2455,8 +2480,7 @@ static void LoadLinkMultiOpponentsData(void)
                             break;
                     }
                 } while (i != j);
-                if (i == j) // This condition is always true, because of the loop above.
-                    gSaveBlock2Ptr->frontier.trainerIds[i] = trainerId;
+                gSaveBlock2Ptr->frontier.trainerIds[i] = trainerId;
             }
             gSpecialVar_Result = 2;
         }
@@ -2656,44 +2680,6 @@ static void AwardBattleTowerRibbons(void)
     }
 }
 
-// This is a leftover debugging function that is used to populate the E-Reader
-// trainer with the player's current data.
-static void FillEReaderTrainerWithPlayerData(void)
-{
-    struct BattleTowerEReaderTrainer *ereaderTrainer = &gSaveBlock2Ptr->frontier.ereaderTrainer;
-    s32 i, j;
-
-    if (gSaveBlock2Ptr->playerGender != MALE)
-    {
-        ereaderTrainer->facilityClass = gTowerFemaleFacilityClasses[(gSaveBlock2Ptr->playerTrainerId[0] + gSaveBlock2Ptr->playerTrainerId[1]
-                                                        + gSaveBlock2Ptr->playerTrainerId[2] + gSaveBlock2Ptr->playerTrainerId[3]) % ARRAY_COUNT(gTowerFemaleFacilityClasses)];
-    }
-    else
-    {
-        ereaderTrainer->facilityClass = gTowerMaleFacilityClasses[(gSaveBlock2Ptr->playerTrainerId[0] + gSaveBlock2Ptr->playerTrainerId[1]
-                                                        + gSaveBlock2Ptr->playerTrainerId[2] + gSaveBlock2Ptr->playerTrainerId[3]) % ARRAY_COUNT(gTowerMaleFacilityClasses)];
-    }
-
-    CopyTrainerId(ereaderTrainer->trainerId, gSaveBlock2Ptr->playerTrainerId);
-    StringCopy7(ereaderTrainer->name, gSaveBlock2Ptr->playerName);
-
-    ereaderTrainer->winStreak = 1;
-
-    j = 7;
-    for (i = 0; i < 6; i++)
-    {
-        ereaderTrainer->greeting[i] = gSaveBlock1Ptr->easyChatBattleStart[i];
-        ereaderTrainer->farewellPlayerLost[i] = j;
-        ereaderTrainer->farewellPlayerWon[i] = j + 6;
-        j++;
-    }
-
-    for (i = 0; i < 3; i++)
-        ConvertPokemonToBattleTowerPokemon(&gPlayerParty[i], &ereaderTrainer->party[i]);
-
-    SetEReaderTrainerChecksum(ereaderTrainer);
-}
-
 u8 GetEreaderTrainerFrontSpriteId(void)
 {
     return gFacilityClassToPicIndex[gSaveBlock2Ptr->frontier.ereaderTrainer.facilityClass];
@@ -2775,17 +2761,6 @@ static void CopyEReaderTrainerFarewellMessage(void)
         FrontierSpeechToString(gSaveBlock2Ptr->frontier.ereaderTrainer.farewellPlayerWon);
     else
         FrontierSpeechToString(gSaveBlock2Ptr->frontier.ereaderTrainer.farewellPlayerLost);
-}
-
-void TryHideBattleTowerReporter(void)
-{
-    if (gSaveBlock2Ptr->frontier.challengeStatus == CHALLENGE_STATUS_SAVING)
-        HideBattleTowerReporter();
-    if (FlagGet(FLAG_CANCEL_BATTLE_ROOM_CHALLENGE))
-    {
-        HideBattleTowerReporter();
-        FlagClear(FLAG_CANCEL_BATTLE_ROOM_CHALLENGE);
-    }
 }
 
 #define STEVEN_OTID 61226
@@ -3092,7 +3067,7 @@ s32 GetHighestLevelInPlayerParty(void)
     for (i = 0; i < PARTY_SIZE; i++)
     {
         if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES, NULL)
-            && GetMonData(&gPlayerParty[i], MON_DATA_SPECIES2, NULL) != SPECIES_EGG)
+         && GetMonData(&gPlayerParty[i], MON_DATA_SPECIES2, NULL) != SPECIES_EGG)
         {
             s32 level = GetMonData(&gPlayerParty[i], MON_DATA_LEVEL, NULL);
             if (level > highestLevel)
@@ -3288,7 +3263,7 @@ static void FillTentTrainerParty_(u16 trainerId, u8 firstMonId, u8 monCount)
 u8 FacilityClassToGraphicsId(u8 facilityClass)
 {
     u8 trainerObjectGfxId;
-    u8 i;
+    u32 i;
 
     // Search male classes.
     for (i = 0; i < ARRAY_COUNT(gTowerMaleFacilityClasses); i++)
@@ -3315,7 +3290,7 @@ u8 FacilityClassToGraphicsId(u8 facilityClass)
     }
     else
     {
-        return OBJ_EVENT_GFX_BOY_1;
+        return OBJ_EVENT_GFX_YOUNGSTER;
     }
 }
 

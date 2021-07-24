@@ -269,7 +269,6 @@ gSpecials:: @ 81DBA64
 	def_special HasAllHoennMons
 	def_special MonOTNameNotPlayer
 	def_special BufferLottoTicketNumber
-	def_special TryHideBattleTowerReporter
 	def_special DoesPartyHaveEnigmaBerry
 	def_special SetChampionSaveWarp
 	def_special TryPutTreasureInvestigatorsOnAir

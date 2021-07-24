@@ -111,7 +111,8 @@ BerryTree_EventScript_CheckBerryFullyGrown:: @ 8274421
 	msgbox BerryTree_Text_WantToPick, MSGBOX_YESNO
 	compare VAR_RESULT, YES
 	goto_if_eq BerryTree_EventScript_PickBerry
-	goto_if_ne BerryTree_EventScript_CancelPickingBerry
+	compare VAR_RESULT, NO
+	goto_if_eq BerryTree_EventScript_CancelPickingBerry
 
 BerryTree_EventScript_PickBerry:: @ 8274448
 	special ObjectEventInteractionPickBerryTree

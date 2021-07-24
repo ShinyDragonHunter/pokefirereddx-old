@@ -561,7 +561,8 @@ static void sub_81D2278(struct ConditionGraph *graph, u16 *arg1, struct UnknownS
 
 static void sub_81D24A4(struct ConditionGraph *graph)
 {
-    u16 i, r6, varMax;
+    u32 i;
+    u16 r6, varMax;
 
     if (graph->unk12C[0].unk2 < graph->unk12C[1].unk2)
     {
@@ -1331,7 +1332,8 @@ void ResetConditionSparkleSprites(struct Sprite **sprites)
 
 void CreateConditionSparkleSprites(struct Sprite **sprites, u8 monSpriteId, u8 _count)
 {
-    u16 i, spriteId, firstSpriteId = 0;
+    u32 i;
+    u16 spriteId, firstSpriteId = 0;
     u8 count = _count;
 
     for (i = 0; i < count + 1; i++)
@@ -1421,7 +1423,8 @@ static void SpriteCB_ConditionSparkle(struct Sprite *sprite)
 
 static void ShowAllConditionSparkles(struct Sprite *sprite)
 {
-    u8 i, id = sprite->sNextSparkleSpriteId;
+    u8 i;
+    u8 id = sprite->sNextSparkleSpriteId;
 
     for (i = 0; i < sprite->sNumExtraSparkles + 1; i++)
     {
@@ -1450,7 +1453,8 @@ static const u8 *const sLvlUpStatStrings[NUM_STATS] =
 
 void DrawLevelUpWindowPg1(u16 windowId, u16 *statsBefore, u16 *statsAfter, u8 bgClr, u8 fgClr, u8 shadowClr)
 {
-    u16 i, x;
+    u32 i;
+    u16 x;
     s16 statsDiff[NUM_STATS];
     u8 text[12];
     u8 color[3];
@@ -1505,7 +1509,8 @@ void DrawLevelUpWindowPg1(u16 windowId, u16 *statsBefore, u16 *statsAfter, u8 bg
 
 void DrawLevelUpWindowPg2(u16 windowId, u16 *currStats, u8 bgClr, u8 fgClr, u8 shadowClr)
 {
-    u16 i, numDigits, x;
+    u32 i;
+    u16 numDigits, x;
     s16 stats[NUM_STATS];
     u8 text[12];
     u8 color[3];

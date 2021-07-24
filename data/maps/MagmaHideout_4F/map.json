@@ -15,7 +15,7 @@
   "connections": null,
   "object_events": [
     {
-      "graphics_id": "OBJ_EVENT_GFX_GROUDON_FRONT",
+      "graphics_id": "OBJ_EVENT_GFX_ZAPDOS",
       "x": 16,
       "y": 17,
       "elevation": 0,
@@ -28,7 +28,7 @@
       "flag": "FLAG_HIDE_MAGMA_HIDEOUT_4F_GROUDON"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_MAGMA_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
       "x": 31,
       "y": 22,
       "elevation": 0,
@@ -41,7 +41,7 @@
       "flag": "FLAG_HIDE_MAGMA_HIDEOUT_GRUNTS"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_MAGMA_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
       "x": 30,
       "y": 13,
       "elevation": 0,
@@ -54,7 +54,7 @@
       "flag": "FLAG_HIDE_MAGMA_HIDEOUT_GRUNTS"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_MAGMA_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
       "x": 26,
       "y": 13,
       "elevation": 0,
@@ -67,7 +67,7 @@
       "flag": "FLAG_HIDE_MAGMA_HIDEOUT_GRUNTS"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_MAGMA_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
       "x": 22,
       "y": 4,
       "elevation": 0,
@@ -80,7 +80,7 @@
       "flag": "FLAG_HIDE_MAGMA_HIDEOUT_GRUNTS"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_MAXIE",
+      "graphics_id": "OBJ_EVENT_GFX_GIOVANNI",
       "x": 16,
       "y": 21,
       "elevation": 0,
@@ -93,7 +93,7 @@
       "flag": "FLAG_HIDE_MAGMA_HIDEOUT_GRUNTS"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_GROUDON_ASLEEP",
+      "graphics_id": "OBJ_EVENT_GFX_ZAPDOS",
       "x": 16,
       "y": 17,
       "elevation": 3,

@@ -1050,23 +1050,6 @@ u8 GetPlayerAvatarGraphicsIdByStateId(u8 state)
     return GetPlayerAvatarGraphicsIdByStateIdAndGender(state, gPlayerAvatar.gender);
 }
 
-u8 GetPlayerAvatarGenderByGraphicsId(u8 gfxId)
-{
-    switch (gfxId)
-    {
-    case OBJ_EVENT_GFX_LEAF_NORMAL:
-    case OBJ_EVENT_GFX_LEAF_BIKE:
-    case OBJ_EVENT_GFX_LEAF_SURFING:
-    case OBJ_EVENT_GFX_LEAF_FIELD_MOVE:
-    case OBJ_EVENT_GFX_LEAF_UNDERWATER:
-    case OBJ_EVENT_GFX_LEAF_FISHING:
-    case OBJ_EVENT_GFX_LEAF_WATERING:
-        return FEMALE;
-    default:
-        return MALE;
-    }
-}
-
 bool8 PartyHasMonWithSurf(void)
 {
     u32 i;
@@ -1212,7 +1195,7 @@ static void HideShowWarpArrow(struct ObjectEvent *objectEvent)
 {
     s16 x;
     s16 y;
-    u8 direction;
+    u32 direction;
     u8 metatileBehavior = objectEvent->currentMetatileBehavior;
 
     for (x = 0, direction = DIR_SOUTH; x < 4; x++, direction++)

@@ -427,7 +427,7 @@ static void Task_ProcessSoundCheckMenuInputAndRedraw(u8 taskId) // sub_080E8878
 
 static void Task_ExitToTitleScreen(u8 taskId) // sub_080E88A8
 {
-    u8 windowId;
+    u32 windowId;
 
     if (!gPaletteFade.active)
     {
@@ -485,7 +485,7 @@ static void PrintPaddedString(const u8 *const string, u8 windowId) // sub_080E89
 
 static void Task_DrawSubmenu(u8 taskId) // sub_080E89EC
 {
-    u8 windowId;
+    u32 windowId;
 
     switch (gTasks[taskId].tState)
     {

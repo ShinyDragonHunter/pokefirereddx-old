@@ -1326,7 +1326,7 @@ void DrawTextWindowAndBufferTiles(const u8 *string, void *dst, u8 zero1, u8 zero
 
 u8 CountMonsInBox(u8 boxId)
 {
-    u16 i, count;
+    u32 i, count;
 
     for (i = 0, count = 0; i < IN_BOX_COUNT; i++)
     {
@@ -1352,7 +1352,7 @@ s16 GetFirstFreeBoxSpot(u8 boxId)
 
 u8 CountPartyNonEggMons(void)
 {
-    u16 i, count;
+    u32 i, count;
 
     for (i = 0, count = 0; i < PARTY_SIZE; i++)
     {
@@ -1368,7 +1368,7 @@ u8 CountPartyNonEggMons(void)
 
 u8 CountPartyAliveNonEggMonsExcept(u8 slotToIgnore)
 {
-    u16 i, count;
+    u32 i, count;
 
     for (i = 0, count = 0; i < PARTY_SIZE; i++)
     {
@@ -1391,7 +1391,7 @@ u16 CountPartyAliveNonEggMons_IgnoreVar0x8004Slot(void)
 
 u8 CountPartyMons(void)
 {
-    u16 i, count;
+    u32 i, count;
 
     for (i = 0, count = 0; i < PARTY_SIZE; i++)
     {
@@ -1598,7 +1598,7 @@ static void CB2_ExitPokeStorage(void)
 
 void ResetPokemonStorageSystem(void)
 {
-    u16 boxId, boxPosition;
+    u32 boxId, boxPosition;
 
     SetCurrentBox(0);
     for (boxId = 0; boxId < TOTAL_BOXES_COUNT; boxId++)
@@ -4287,9 +4287,8 @@ static void CreateMovingMonIcon(void)
 
 static void InitBoxMonSprites(u8 boxId)
 {
-    u8 boxPosition;
-    u16 i, j, count;
-    u16 species;
+    u32 boxPosition, i, j;
+    u16 count, species;
     u32 personality;
     u8 form;
 
@@ -4404,7 +4403,7 @@ static void SpriteCB_BoxMonIconScrollOut(struct Sprite *sprite)
 // the box scroll once they've gone offscreen
 static void DestroyBoxMonIconsInColumn(u8 column)
 {
-    u16 row;
+    u32 row;
     u8 boxPosition = column;
 
     for (row = 0; row < IN_BOX_ROWS; row++)
@@ -4596,7 +4595,8 @@ static void SetBoxMonIconObjMode(u8 boxPosition, u8 objMode)
 
 static void CreatePartyMonsSprites(bool8 visible)
 {
-    u16 i, count;
+    u32 i;
+    u16 count;
     u16 species = GetMonData(&gPlayerParty[0], MON_DATA_SPECIES2);
     u32 personality = GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY);
     u8 form = GetMonData(&gPlayerParty[0], MON_DATA_FORM);
@@ -4640,7 +4640,7 @@ static void CreatePartyMonsSprites(bool8 visible)
 
 static void CompactPartySprites(void)
 {
-    u16 i, targetSlot;
+    u32 i, targetSlot;
 
     sStorage->numPartyToCompact = 0;
     for (i = 0, targetSlot = 0; i < PARTY_SIZE; i++)
@@ -4734,7 +4734,8 @@ static void DestroyMovingMonIcon(void)
 
 static void MovePartySprites(s16 yDelta)
 {
-    u16 i, posY;
+    u32 i;
+    u16 posY;
 
     for (i = 0; i < PARTY_SIZE; i++)
     {
@@ -4949,7 +4950,8 @@ static void SpriteCB_HeldMon(struct Sprite *sprite)
 
 static u16 TryLoadMonIconTiles(u16 species)
 {
-    u16 i, offset;
+    u32 i;
+    u16 offset;
 
     // Search icon list for this species
     for (i = 0; i < MAX_MON_ICONS; i++)
@@ -5146,7 +5148,7 @@ static bool8 ScrollToBox(void)
 static s8 DetermineBoxScrollDirection(u8 boxId)
 {
     u32 i;
-    u8 currentBox = StorageGetCurrentBox();
+    u32 currentBox = StorageGetCurrentBox();
 
     for (i = 0; currentBox != boxId; i++)
     {
@@ -6573,7 +6575,7 @@ static void SetSelectionAfterSummaryScreen(void)
 s16 CompactPartySlots(void)
 {
     s16 retVal = -1;
-    u16 i, last;
+    u32 i, last;
 
     for (i = 0, last = 0; i < PARTY_SIZE; i++)
     {

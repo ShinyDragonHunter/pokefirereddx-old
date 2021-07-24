@@ -15,7 +15,7 @@
   "connections": null,
   "object_events": [
     {
-      "graphics_id": "OBJ_EVENT_GFX_JUAN",
+      "graphics_id": "OBJ_EVENT_GFX_GIOVANNI",
       "x": 8,
       "y": 2,
       "elevation": 0,
@@ -28,7 +28,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_MAN_2",
+      "graphics_id": "OBJ_EVENT_GFX_HOENN_MAN_2",
       "x": 7,
       "y": 24,
       "elevation": 3,

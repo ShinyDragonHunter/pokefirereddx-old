@@ -104,9 +104,10 @@ BattleFrontier_BattleTowerBattleRoom_EventScript_AskRecordBattle:: @ 8241D40
 	message BattleFrontier_BattleTowerBattleRoom_Text_RecordYourBattle
 	waitmessage
 	multichoicedefault 20, 8, MULTI_YESNO, 1, FALSE
-	compare VAR_RESULT, 0
-	goto_if_eq BattleFrontier_BattleTowerBattleRoom_EventScript_RecordBattle
-	goto_if_ne BattleFrontier_BattleTowerBattleRoom_EventScript_AskReadyForOpponent
+	switch VAR_RESULT
+	case 1, BattleFrontier_BattleTowerBattleRoom_EventScript_AskReadyForOpponent
+	case 0, BattleFrontier_BattleTowerBattleRoom_EventScript_RecordBattle
+	case MULTI_B_PRESSED, BattleFrontier_BattleTowerBattleRoom_EventScript_AskReadyForOpponent
 
 BattleFrontier_BattleTowerBattleRoom_EventScript_RecordBattle:: @ 8241D72
 	call BattleFrontier_EventScript_SaveBattle
@@ -114,17 +115,19 @@ BattleFrontier_BattleTowerBattleRoom_EventScript_RecordBattle:: @ 8241D72
 
 BattleFrontier_BattleTowerBattleRoom_EventScript_AskPauseChallenge:: @ 8241D7C
 	msgbox BattleFrontier_BattleTowerBattleRoom_Text_SaveAndQuitGame, MSGBOX_YESNO
-	compare VAR_RESULT, YES
-	goto_if_eq BattleFrontier_BattleTowerBattleRoom_EventScript_PauseChallenge
-	goto_if_ne BattleFrontier_BattleTowerBattleRoom_EventScript_AskReadyForOpponent
+	switch VAR_RESULT
+	case NO, BattleFrontier_BattleTowerBattleRoom_EventScript_AskReadyForOpponent
+	case YES, BattleFrontier_BattleTowerBattleRoom_EventScript_PauseChallenge
+	case MULTI_B_PRESSED, BattleFrontier_BattleTowerBattleRoom_EventScript_AskReadyForOpponent
 
 BattleFrontier_BattleTowerBattleRoom_EventScript_AskRetireChallenge:: @ 8241DAA
 	message BattleFrontier_BattleTowerBattleRoom_Text_CancelYourChallenge
 	waitmessage
 	multichoicedefault 20, 8, MULTI_YESNO, 1, FALSE
-	compare VAR_RESULT, 0
-	goto_if_eq BattleFrontier_BattleTowerBattleRoom_EventScript_RetireChallenge
-	goto_if_ne BattleFrontier_BattleTowerBattleRoom_EventScript_AskReadyForOpponent
+	switch VAR_RESULT
+	case 1, BattleFrontier_BattleTowerBattleRoom_EventScript_AskReadyForOpponent
+	case 0, BattleFrontier_BattleTowerBattleRoom_EventScript_RetireChallenge
+	case MULTI_B_PRESSED, BattleFrontier_BattleTowerBattleRoom_EventScript_AskReadyForOpponent
 
 BattleFrontier_BattleTowerBattleRoom_EventScript_ContinueChallenge:: @ 8241DDC
 	closemessage
@@ -327,7 +330,6 @@ BattleFrontier_BattleTowerBattleRoom_EventScript_DoTowerBattle:: @ 824210E
 	special HealPlayerParty
 	frontier_resetsketch
 BattleFrontier_BattleTowerBattleRoom_EventScript_EndTowerBattle:: @ 824215A
-	tower_setinterviewdata
 	frontier_get FRONTIER_DATA_BATTLE_OUTCOME
 	return
 

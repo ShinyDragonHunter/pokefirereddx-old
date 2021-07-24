@@ -218,8 +218,6 @@ static const struct MenuAction sItemMenuActions[] =
     [ITEMMENUACTION_CHECK_TAG] =    {gMenuText_CheckTag, ItemMenu_CheckTag},
     [ITEMMENUACTION_CONFIRM] =      {gMenuText_Confirm, Task_FadeAndCloseBagMenu},
     [ITEMMENUACTION_SHOW] =         {gText_ExpandedPlaceholder_Empty, NULL},
-    [ITEMMENUACTION_GIVE_2] =       {gMenuText_Give, ItemMenu_Give},
-    [ITEMMENUACTION_CONFIRM_2] =    {gMenuText_Confirm, Task_FadeAndCloseBagMenu},
     [ITEMMENUACTION_DUMMY] =        {gText_ExpandedPlaceholder_Empty, NULL}
 };
 
@@ -307,18 +305,6 @@ static const u8 sContextMenuItems_Apprentice[] =
     ITEMMENUACTION_CANCEL
 };
 
-static const u8 sContextMenuItems_FavorLady[] =
-{
-    ITEMMENUACTION_GIVE_2,
-    ITEMMENUACTION_CANCEL
-};
-
-static const u8 sContextMenuItems_QuizLady[] =
-{
-    ITEMMENUACTION_CONFIRM_2,
-    ITEMMENUACTION_CANCEL
-};
-
 static const TaskFunc sItemContextTaskFuncs[] =
 {
     [ITEMMENULOCATION_FIELD] =                  Task_ItemContext_FieldOrBattle,
@@ -328,9 +314,6 @@ static const TaskFunc sItemContextTaskFuncs[] =
     [ITEMMENULOCATION_BERRY_TREE] =             Task_FadeAndCloseBagMenu,
     [ITEMMENULOCATION_BERRY_BLENDER_CRUSH] =    Task_ItemContext_FieldOrBattle,
     [ITEMMENULOCATION_ITEMPC] =                 Task_ItemContext_Deposit,
-    [ITEMMENULOCATION_FAVOR_LADY] =             Task_ItemContext_FieldOrBattle,
-    [ITEMMENULOCATION_QUIZ_LADY] =              Task_ItemContext_FieldOrBattle,
-    [ITEMMENULOCATION_APPRENTICE] =             Task_ItemContext_FieldOrBattle,
     [ITEMMENULOCATION_WALLY] =                  NULL,
     [ITEMMENULOCATION_PCBOX] =                  Task_ItemContext_ItemPC_2
 };
@@ -915,7 +898,7 @@ static void SetPocketListPositions(void)
 
 void UpdatePocketScrollPositions(void)
 {
-    u8 i, j;
+    u32 i, j;
 
     for (i = 0; i < POCKETS_COUNT; i++)
     {
@@ -1439,30 +1422,6 @@ static void OpenContextMenu(u8 taskId)
             {
                 gBagMenu->contextMenuItemsPtr = sContextMenuItems_Apprentice;
                 gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_Apprentice);
-            }
-            else
-            {
-                gBagMenu->contextMenuItemsPtr = sContextMenuItems_Cancel;
-                gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_Cancel);
-            }
-            break;
-        case ITEMMENULOCATION_FAVOR_LADY:
-            if (!ItemId_GetImportance(gSpecialVar_ItemId) && gSpecialVar_ItemId != ITEM_ENIGMA_BERRY)
-            {
-                gBagMenu->contextMenuItemsPtr = sContextMenuItems_FavorLady;
-                gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_FavorLady);
-            }
-            else
-            {
-                gBagMenu->contextMenuItemsPtr = sContextMenuItems_Cancel;
-                gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_Cancel);
-            }
-            break;
-        case ITEMMENULOCATION_QUIZ_LADY:
-            if (!ItemId_GetImportance(gSpecialVar_ItemId) && gSpecialVar_ItemId != ITEM_ENIGMA_BERRY)
-            {
-                gBagMenu->contextMenuItemsPtr = sContextMenuItems_QuizLady;
-                gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_QuizLady);
             }
             else
             {

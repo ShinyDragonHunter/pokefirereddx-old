@@ -212,6 +212,21 @@ static const union AnimCmd sAnim_FieldMove[] =
     ANIMCMD_END,
 };
 
+const union AnimCmd sAnim_VsSeeker[] = {
+    ANIMCMD_FRAME(0, 4),
+    ANIMCMD_FRAME(1, 4),
+    ANIMCMD_FRAME(5, 4),
+    ANIMCMD_FRAME(6, 4),
+    ANIMCMD_LOOP(0),
+    ANIMCMD_FRAME(7, 4),
+    ANIMCMD_FRAME(8, 4),
+    ANIMCMD_LOOP(6),
+    ANIMCMD_FRAME(6, 4),
+    ANIMCMD_FRAME(1, 4),
+    ANIMCMD_FRAME(0, 4),
+    ANIMCMD_END,
+};
+
 static const union AnimCmd sAnim_GetOnOffSurfBlobSouth[] =
 {
     ANIMCMD_FRAME(3, 1),
@@ -402,47 +417,6 @@ static const union AnimCmd sAnim_HookedPokemonEast[] =
     ANIMCMD_JUMP(0),
 };
 
-static const union AffineAnimCmd sAffineAnim_KyogreGroudon_GoSouthStart[] =
-{
-    AFFINEANIMCMD_FRAME(0x0, 0x0, 1, 1),
-    AFFINEANIMCMD_FRAME(0x0, 0x0, 0, 1),
-    AFFINEANIMCMD_FRAME(0x0, 0x0, 0, 1),
-    AFFINEANIMCMD_FRAME(0x0, 0x0, 0, 1),
-    AFFINEANIMCMD_LOOP(7),
-    AFFINEANIMCMD_JUMP(0),
-};
-
-static const union AffineAnimCmd sAffineAnim_KyogreGroudon_GoSouth[] =
-{
-    AFFINEANIMCMD_FRAME(0x0, 0x0, -1, 1),
-    AFFINEANIMCMD_FRAME(0x0, 0x0, 0, 1),
-    AFFINEANIMCMD_LOOP(15),
-    AFFINEANIMCMD_FRAME(0x0, 0x0, 1, 1),
-    AFFINEANIMCMD_FRAME(0x0, 0x0, 0, 1),
-    AFFINEANIMCMD_LOOP(15),
-    AFFINEANIMCMD_JUMP(0),
-};
-
-static const union AffineAnimCmd sAffineAnim_KyogreGroudon_AttackEast[] =
-{
-    AFFINEANIMCMD_FRAME(0x100, 0x100, 10, 0),
-    AFFINEANIMCMD_END,
-};
-
-static const union AffineAnimCmd sAffineAnim_KyogreGroudon_DipEast[] =
-{
-    AFFINEANIMCMD_FRAME(0x0, 0x0, -1, 1),
-    AFFINEANIMCMD_LOOP(8),
-    AFFINEANIMCMD_END,
-};
-
-static const union AffineAnimCmd sAffineAnim_KyogreGroudon_DipWest[] =
-{
-    AFFINEANIMCMD_FRAME(0x0, 0x0, 1, 1),
-    AFFINEANIMCMD_LOOP(8),
-    AFFINEANIMCMD_END,
-};
-
 static const union AnimCmd sAnim_HoOhFlapWings[] =
 {
     ANIMCMD_FRAME(0, 8),
@@ -506,56 +480,6 @@ static const union AnimCmd *const sAnimTable_HoOh[] = {
     sAnim_GoFastestEast,
 };
 
-static const union AnimCmd *const sAnimTable_GroudonSide[] = {
-    sAnim_FaceSouth,
-    sAnim_FaceNorth,
-    sAnim_FaceWest,
-    sAnim_FaceEast,
-    sAnim_GoSouth,
-    sAnim_GoEast,
-    sAnim_GoWest,
-    sAnim_GoEast,
-    sAnim_GoFastSouth,
-    sAnim_GoFastEast,
-    sAnim_GoFastWest,
-    sAnim_GoFastEast,
-    sAnim_GoFasterSouth,
-    sAnim_GoFasterEast,
-    sAnim_GoFasterWest,
-    sAnim_GoFasterEast,
-    sAnim_GoFastestSouth,
-    sAnim_GoFastestEast,
-    sAnim_GoFastestWest,
-    sAnim_GoFastestEast,
-};
-
-// Though they correspond to facing/walking movements, Rayquaza doesn't have
-// equivalent images aside from flying up. Its other frames aside from the 'normal' 
-// frame are for the sequence where it awakens on Sky Pillar.
-// The corresponding facing/walking movements are commented alongside
-static const union AnimCmd *const sAnimTable_Rayquaza[] = {
-    sAnim_FaceSouth,                // Face South
-    sAnim_FaceSouth,                // Face North
-    sAnim_FaceSouth,                // Face West
-    sAnim_GetOnOffSurfBlobSouth,    // Face East
-    sAnim_FaceSouth,                // Go South
-    sAnim_GetOnOffSurfBlobNorth,    // Go North
-    sAnim_FaceWest,                 // Go West
-    sAnim_GetOnOffSurfBlobSouth,    // Go East
-    sAnim_FaceSouth,                // Go fast South
-    sAnim_GetOnOffSurfBlobNorth,    // Go fast North
-    sAnim_FaceNorth,                // Go fast West
-    sAnim_GetOnOffSurfBlobSouth,    // Go fast East
-    sAnim_FaceSouth,                // Go faster South
-    sAnim_GetOnOffSurfBlobNorth,    // Go faster North
-    sAnim_FaceWest,                 // Go faster West
-    sAnim_GetOnOffSurfBlobSouth,    // Go faster East
-    sAnim_FaceSouth,                // Go fastest South
-    sAnim_GetOnOffSurfBlobNorth,    // Go fastest North
-    sAnim_FaceWest,                 // Go fastest West
-    sAnim_GetOnOffSurfBlobSouth,    // Go fastest East
-};
-
 static const union AnimCmd *const sAnimTable_Surfing[] = {
     sAnim_FaceSouth,
     sAnim_FaceNorth,
@@ -609,6 +533,7 @@ static const union AnimCmd *const sAnimTable_Nurse[] = {
 
 static const union AnimCmd *const sAnimTable_FieldMove[] = {
     sAnim_FieldMove,
+    sAnim_VsSeeker,
 };
 
 static const union AnimCmd *const sAnimTable_BerryTree[] = {
@@ -642,15 +567,6 @@ static const union AnimCmd *const sAnimTable_Fishing[] = {
     sAnim_HookedPokemonNorth,
     sAnim_HookedPokemonWest,
     sAnim_HookedPokemonEast,
-};
-
-static const union AffineAnimCmd *const sAffineAnimTable_KyogreGroudon[] = {
-    sAffineAnim_KyogreGroudon_GoSouthStart, // Used by Kyogre/Groudon when awakened
-    sAffineAnim_KyogreGroudon_GoSouth,      // Used by Kyogre/Groudon when awakened
-    sAffineAnim_KyogreGroudon_AttackEast,   // Used by Kyogre during Sootopolis fight
-    sAffineAnim_KyogreGroudon_AttackEast,   // Unused
-    sAffineAnim_KyogreGroudon_DipWest,      // Unused
-    sAffineAnim_KyogreGroudon_DipEast,      // Unused
 };
 
 // For animations with alternating steps

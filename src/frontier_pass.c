@@ -1221,7 +1221,7 @@ static void sub_80C629C(void)
 static void LoadCursorAndSymbolSprites(void)
 {
     u8 spriteId;
-    u8 i = 0;
+    u32 i = 0;
 
     FreeAllSpritePalettes();
     ResetAffineAnimData();
@@ -1249,7 +1249,7 @@ static void LoadCursorAndSymbolSprites(void)
 
 static void FreeCursorAndSymbolSprites(void)
 {
-    u8 i = 0;
+    u32 i = 0;
 
     DestroySprite(sPassGfx->cursorSprite);
     sPassGfx->cursorSprite = NULL;

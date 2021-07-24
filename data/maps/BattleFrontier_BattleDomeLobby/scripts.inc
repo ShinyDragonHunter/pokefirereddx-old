@@ -96,9 +96,10 @@ BattleFrontier_BattleDomeLobby_EventScript_AskRecordBattle:: @ 8249991
 	message BattleFrontier_BattleDomeLobby_Text_RecordLastMatch
 	waitmessage
 	multichoicedefault 20, 8, MULTI_YESNO, 1, FALSE
-	compare VAR_RESULT, 0
-	goto_if_eq BattleFrontier_BattleDomeLobby_EventScript_RecordBattle
-	goto_if_ne BattleFrontier_BattleDomeLobby_EventScript_EndChallenge
+	switch VAR_RESULT
+	case 1, BattleFrontier_BattleDomeLobby_EventScript_EndChallenge
+	case 0, BattleFrontier_BattleDomeLobby_EventScript_RecordBattle
+	case MULTI_B_PRESSED, BattleFrontier_BattleDomeLobby_EventScript_EndChallenge
 
 BattleFrontier_BattleDomeLobby_EventScript_RecordBattle:: @ 82499E4
 	call BattleFrontier_EventScript_SaveBattle
@@ -142,11 +143,13 @@ BattleFrontier_BattleDomeLobby_EventScript_AttendantWelcome:: @ 8249A59
 	special SavePlayerParty
 	compare VAR_FRONTIER_BATTLE_MODE, FRONTIER_MODE_SINGLES
 	call_if_eq BattleFrontier_BattleDomeLobby_EventScript_WelcomeSingles
-	call_if_ne BattleFrontier_BattleDomeLobby_EventScript_WelcomeDoubles
+	compare VAR_FRONTIER_BATTLE_MODE, FRONTIER_MODE_DOUBLES
+	call_if_eq BattleFrontier_BattleDomeLobby_EventScript_WelcomeDoubles
 BattleFrontier_BattleDomeLobby_EventScript_AskTakeChallenge:: @ 8249A72
 	compare VAR_FRONTIER_BATTLE_MODE, FRONTIER_MODE_SINGLES
 	call_if_eq BattleFrontier_BattleDomeLobby_EventScript_TakeSinglesChallenge
-	call_if_ne BattleFrontier_BattleDomeLobby_EventScript_TakeDoublesChallenge
+	compare VAR_FRONTIER_BATTLE_MODE, FRONTIER_MODE_DOUBLES
+	call_if_eq BattleFrontier_BattleDomeLobby_EventScript_TakeDoublesChallenge
 	waitmessage
 	multichoice 17, 6, MULTI_CHALLENGEINFO, FALSE
 	switch VAR_RESULT
@@ -176,9 +179,10 @@ BattleFrontier_BattleDomeLobby_EventScript_TryEnterChallenge:: @ 8249ABF
 	compare VAR_RESULT, 0
 	goto_if_eq BattleFrontier_BattleDomeLobby_EventScript_LoadPartyCancelChallenge
 	msgbox BattleFrontier_BattleDomeLobby_Text_OkayToSaveBeforeChallenge, MSGBOX_YESNO
-	compare VAR_RESULT, YES
-	goto_if_eq BattleFrontier_BattleDomeLobby_EventScript_SaveBeforeChallenge
-	goto_if_ne BattleFrontier_BattleDomeLobby_EventScript_LoadPartyCancelChallenge
+	switch VAR_RESULT
+	case NO, BattleFrontier_BattleDomeLobby_EventScript_LoadPartyCancelChallenge
+	case YES, BattleFrontier_BattleDomeLobby_EventScript_SaveBeforeChallenge
+	case MULTI_B_PRESSED, BattleFrontier_BattleDomeLobby_EventScript_LoadPartyCancelChallenge
 
 BattleFrontier_BattleDomeLobby_EventScript_SaveBeforeChallenge:: @ 8249B60
 	setvar VAR_TEMP_0, 0
@@ -210,7 +214,8 @@ BattleFrontier_BattleDomeLobby_EventScript_EnterChallenge:: @ 8249BC2
 BattleFrontier_BattleDomeLobby_EventScript_ExplainChallenge:: @ 8249BFA
 	compare VAR_FRONTIER_BATTLE_MODE, FRONTIER_MODE_SINGLES
 	call_if_eq BattleFrontier_BattleDomeLobby_EventScript_ExplainSinglesChallenge
-	call_if_ne BattleFrontier_BattleDomeLobby_EventScript_ExplainDoublesChallenge
+	compare VAR_FRONTIER_BATTLE_MODE, FRONTIER_MODE_DOUBLES
+	call_if_eq BattleFrontier_BattleDomeLobby_EventScript_ExplainDoublesChallenge
 	goto BattleFrontier_BattleDomeLobby_EventScript_AskTakeChallenge
 
 BattleFrontier_BattleDomeLobby_EventScript_NotEnoughValidMons:: @ 8249C15
@@ -241,21 +246,25 @@ BattleFrontier_BattleDomeLobby_EventScript_EndCancelChallenge:: @ 8249C6C
 BattleFrontier_BattleDomeLobby_EventScript_WalkToDoor:: @ 8249C6E
 	compare VAR_FRONTIER_BATTLE_MODE, FRONTIER_MODE_SINGLES
 	call_if_eq BattleFrontier_BattleDomeLobby_EventScript_SinglesAttendantWalkToDoor
-	call_if_ne BattleFrontier_BattleDomeLobby_EventScript_DoublesAttendantWalkToDoor
+	compare VAR_FRONTIER_BATTLE_MODE, FRONTIER_MODE_DOUBLES
+	call_if_eq BattleFrontier_BattleDomeLobby_EventScript_DoublesAttendantWalkToDoor
 	applymovement OBJ_EVENT_ID_PLAYER, BattleFrontier_BattleDomeLobby_Movement_WalkToDoor
 	waitmovement 0
 	compare VAR_FRONTIER_BATTLE_MODE, FRONTIER_MODE_SINGLES
 	call_if_eq BattleFrontier_BattleDomeLobby_EventScript_OpenSinglesDoor
-	call_if_ne BattleFrontier_BattleDomeLobby_EventScript_OpenDoublesDoor
+	compare VAR_FRONTIER_BATTLE_MODE, FRONTIER_MODE_DOUBLES
+	call_if_eq BattleFrontier_BattleDomeLobby_EventScript_DoublesAttendantEnterDoor
 	waitdooranim
 	compare VAR_FRONTIER_BATTLE_MODE, FRONTIER_MODE_SINGLES
 	call_if_eq BattleFrontier_BattleDomeLobby_EventScript_SinglesAttendantEnterDoor
-	call_if_ne BattleFrontier_BattleDomeLobby_EventScript_DoublesAttendantEnterDoor
+	compare VAR_FRONTIER_BATTLE_MODE, FRONTIER_MODE_DOUBLES
+	call_if_eq BattleFrontier_BattleDomeLobby_EventScript_CloseDoublesDoor
 	applymovement OBJ_EVENT_ID_PLAYER, BattleFrontier_BattleDomeLobby_Movement_PlayerEnterDoor
 	waitmovement 0
 	compare VAR_FRONTIER_BATTLE_MODE, FRONTIER_MODE_SINGLES
 	call_if_eq BattleFrontier_BattleDomeLobby_EventScript_CloseSinglesDoor
-	call_if_ne BattleFrontier_BattleDomeLobby_EventScript_CloseDoublesDoor
+	compare VAR_FRONTIER_BATTLE_MODE, FRONTIER_MODE_DOUBLES
+	call_if_eq BattleFrontier_BattleDomeLobby_EventScript_CloseDoublesDoor
 	waitdooranim
 	return
 
@@ -323,13 +332,9 @@ BattleFrontier_BattleDomeLobby_Movement_WalkToDoor: @ 8249D45
 	walk_up
 	step_end
 
-BattleFrontier_BattleDomeLobby_Movement_AttendantEnterDoor: @ 8249D4B
-	walk_up
-	set_invisible
-	step_end
-
 BattleFrontier_BattleDomeLobby_Movement_PlayerEnterDoor: @ 8249D4E
 	walk_up
+BattleFrontier_BattleDomeLobby_Movement_AttendantEnterDoor: @ 8249D4B
 	walk_up
 	set_invisible
 	step_end

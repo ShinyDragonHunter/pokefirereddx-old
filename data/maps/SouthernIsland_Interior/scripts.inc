@@ -25,12 +25,12 @@ SouthernIsland_Interior_OnTransition: @ 8242A6E
 	end
 
 SouthernIsland_Interior_EventScript_SetUpLatios:: @ 8242A8A
-	setvar VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_LATIOS
+	setvar VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_HOENN_LATIOS
 	setvar VAR_TEMP_4, SPECIES_LATIOS
 	return
 
 SouthernIsland_Interior_EventScript_SetUpLatias:: @ 8242A95
-	setvar VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_LATIAS
+	setvar VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_HOENN_LATIAS
 	setvar VAR_TEMP_4, SPECIES_LATIAS
 	return
 

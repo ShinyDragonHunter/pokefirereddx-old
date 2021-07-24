@@ -681,7 +681,7 @@ const void *GetItemIconPicOrPalette(u16 itemId, u8 which)
 
 static void sub_80D5018(void *mem0, void *mem1)
 {
-    u8 i, j;
+    u32 i, j;
 
     memset(mem1, 0, 0x800);
     mem1 += 0x100;

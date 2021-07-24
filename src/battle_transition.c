@@ -932,8 +932,8 @@ static bool8 Phase2_Shuffle_Func1(struct Task *task)
 
 static bool8 Phase2_Shuffle_Func2(struct Task *task)
 {
-    u32 i;
-    u16 r3, r4;
+    u32 i, r4;
+    u16 r3;
 
     sTransitionStructPtr->VBlank_DMA = FALSE;
     r4 = task->tData1;
@@ -1041,7 +1041,7 @@ static bool8 Phase2_BigPokeball_Func1(struct Task *task)
 
 static bool8 Phase2_BigPokeball_Func2(struct Task *task)
 {
-    s16 i, j;
+    s32 i, j;
     u16 *tilemap, *tileset;
     const u16 *BigPokeballMap;
 
@@ -1233,7 +1233,7 @@ static bool8 Phase2_PokeballsTrail_Func1(struct Task *task)
 static bool8 Phase2_PokeballsTrail_Func2(struct Task *task)
 {
     s32 i;
-    s16 rand;
+    s32 rand;
     s16 arr0[ARRAY_COUNT(sUnknown_085C8B88)];
     s16 arr1[ARRAY_COUNT(sUnknown_085C8B8C)];
 
@@ -1534,9 +1534,8 @@ static bool8 Phase2_Ripple_Func1(struct Task *task)
 
 static bool8 Phase2_Ripple_Func2(struct Task *task)
 {
-    u32 i;
+    u32 i, r4, r8;
     s16 r3;
-    u16 r4, r8;
 
     sTransitionStructPtr->VBlank_DMA = FALSE;
 
@@ -1613,9 +1612,9 @@ static bool8 Phase2_Wave_Func1(struct Task *task)
 
 static bool8 Phase2_Wave_Func2(struct Task *task)
 {
-    u8 i, r5;
+    u32 i, r5;
     u16* toStore;
-    bool8 nextFunc;
+    bool32 nextFunc;
 
     sTransitionStructPtr->VBlank_DMA = FALSE;
     toStore = gScanlineEffectRegBuffers[0];
@@ -1669,13 +1668,14 @@ static void Phase2Task_AntiClockwiseSpiral(u8 taskId)
 static void BT_AntiClockwiseSpiral_DoUpdateFrame(s16 initRadius, s16 deltaAngleMax, u8 offsetMaybe)
 {
     u8 theta = 0;
-    s16 i, amplitude1, amplitude2;
-    s16 y1, x1, y2, x2;
+    s32 i;
+    s16 amplitude1, amplitude2, x1, x2;
+    u32 y1, y2;
 
-    for (i = 320; i < 960; ++i)
+    for (i = 320; i < 960; i++)
         gScanlineEffectRegBuffers[1][i] = 120;
 
-    for (i = 0; i < (deltaAngleMax * 16); ++i, ++theta)
+    for (i = 0; i < (deltaAngleMax * 16); i++, ++theta)
     {
         amplitude1 = initRadius + (theta >> 3);
         if ((theta >> 3) != ((theta + 1) >> 3))
@@ -1692,9 +1692,8 @@ static void BT_AntiClockwiseSpiral_DoUpdateFrame(s16 initRadius, s16 deltaAngleM
         y2 = 80 - Sin(theta + 1, amplitude2);
         x2 = Cos(theta + 1, amplitude2) + 120;
 
-        if (y1 < 0 && y2 < 0)
-            continue;
-        if (y1 > 159 && y2 > 159)
+        if (y1 < 0 && y2 < 0
+         || (y1 > 159 && y2 > 159))
             continue;
 
         if (y1 < 0)
@@ -1982,7 +1981,7 @@ static bool8 Phase2_Mugshot_Func1(struct Task *task)
 
 static bool8 Phase2_Mugshot_Func2(struct Task *task)
 {
-    s16 i, j;
+    s32 i, j;
     u16 *tilemap, *tileset;
     const u16 *mugshotsMap;
 
@@ -2009,7 +2008,7 @@ static bool8 Phase2_Mugshot_Func2(struct Task *task)
 
 static bool8 Phase2_Mugshot_Func3(struct Task *task)
 {
-    u8 i, r5;
+    u32 i, r5;
     u16* toStore;
     s16 value;
     s32 mergedValue;
@@ -2713,7 +2712,7 @@ static bool8 Phase2_WhiteFade_Func1(struct Task *task)
 
 static bool8 Phase2_WhiteFade_Func2(struct Task *task)
 {
-    s16 i, posY;
+    s32 i, posY;
     s16 arr1[ARRAY_COUNT(sUnknown_085C8DA0)];
     struct Sprite *sprite;
 
@@ -2949,19 +2948,19 @@ static bool8 Phase2_Shards_Func3(struct Task *task)
     {
         s16 r3 = gScanlineEffectRegBuffers[0][sTransitionStructPtr->data[3]] >> 8;
         s16 r4 = gScanlineEffectRegBuffers[0][sTransitionStructPtr->data[3]] & 0xFF;
-        if (task->tData2 == 0)
-        {
-            if (r3 < sTransitionStructPtr->data[2])
-                r3 = sTransitionStructPtr->data[2];
-            if (r3 > r4)
-                r3 = r4;
-        }
-        else
+        if (task->tData2)
         {
             if (r4 > sTransitionStructPtr->data[2])
                 r4 = sTransitionStructPtr->data[2];
             if (r4 <= r3)
                 r4 = r3;
+        }
+        else
+        {
+            if (r3 < sTransitionStructPtr->data[2])
+                r3 = sTransitionStructPtr->data[2];
+            if (r3 > r4)
+                r3 = r4;
         }
         gScanlineEffectRegBuffers[0][sTransitionStructPtr->data[3]] = (r4) | (r3 << 8);
         if (nextFunc)

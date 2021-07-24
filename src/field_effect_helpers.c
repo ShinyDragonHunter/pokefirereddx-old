@@ -1483,7 +1483,7 @@ static bool8 AnimateRayquazaInFigure8(struct Sprite *sprite)
 
 void UpdateRayquazaSpotlightEffect(struct Sprite *sprite)
 {
-    u8 i, j;
+    u32 i, j;
 
     switch (sprite->sState)
     {

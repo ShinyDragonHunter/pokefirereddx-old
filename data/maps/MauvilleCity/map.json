@@ -36,7 +36,7 @@
   ],
   "object_events": [
     {
-      "graphics_id": "OBJ_EVENT_GFX_BOY_3",
+      "graphics_id": "OBJ_EVENT_GFX_HOENN_BOY_3",
       "x": 29,
       "y": 16,
       "elevation": 3,
@@ -49,7 +49,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_RICH_BOY",
+      "graphics_id": "OBJ_EVENT_GFX_HOENN_RICH_BOY",
       "x": 24,
       "y": 10,
       "elevation": 3,
@@ -62,7 +62,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_MANIAC",
+      "graphics_id": "OBJ_EVENT_GFX_HOENN_MANIAC",
       "x": 14,
       "y": 11,
       "elevation": 3,
@@ -75,7 +75,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_WOMAN_4",
+      "graphics_id": "OBJ_EVENT_GFX_HOENN_WOMAN_4",
       "x": 18,
       "y": 6,
       "elevation": 3,
@@ -88,7 +88,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_SCHOOL_KID_M",
+      "graphics_id": "OBJ_EVENT_GFX_HOENN_SCHOOL_KID_M",
       "x": 17,
       "y": 14,
       "elevation": 3,
@@ -101,7 +101,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_WALLY",
+      "graphics_id": "OBJ_EVENT_GFX_BLUE",
       "x": 8,
       "y": 6,
       "elevation": 3,
@@ -114,7 +114,7 @@
       "flag": "FLAG_HIDE_MAUVILLE_CITY_WALLY"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_POKEFAN_M",
+      "graphics_id": "OBJ_EVENT_GFX_HOENN_POKEFAN_M",
       "x": 9,
       "y": 6,
       "elevation": 3,
@@ -127,7 +127,7 @@
       "flag": "FLAG_HIDE_MAUVILLE_CITY_WALLYS_UNCLE"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_WATTSON",
+      "graphics_id": "OBJ_EVENT_GFX_LT_SURGE",
       "x": 29,
       "y": 9,
       "elevation": 3,
@@ -153,7 +153,7 @@
       "flag": "FLAG_ITEM_MAUVILLE_CITY_X_SPEED"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_FAT_MAN",
+      "graphics_id": "OBJ_EVENT_GFX_HOENN_FAT_MAN",
       "x": 13,
       "y": 7,
       "elevation": 3,
@@ -166,7 +166,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_SCOTT",
+      "graphics_id": "OBJ_EVENT_GFX_HOENN_SCOTT",
       "x": 12,
       "y": 14,
       "elevation": 3,

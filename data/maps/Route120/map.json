@@ -156,7 +156,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_MAN_5",
+      "graphics_id": "OBJ_EVENT_GFX_HOENN_MAN_5",
       "x": 5,
       "y": 22,
       "elevation": 3,
@@ -169,7 +169,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_MAN_5",
+      "graphics_id": "OBJ_EVENT_GFX_HOENN_MAN_5",
       "x": 32,
       "y": 14,
       "elevation": 3,
@@ -182,7 +182,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_CAMPER",
+      "graphics_id": "OBJ_EVENT_GFX_HOENN_CAMPER",
       "x": 27,
       "y": 51,
       "elevation": 3,
@@ -195,7 +195,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_PICNICKER",
+      "graphics_id": "OBJ_EVENT_GFX_HOENN_PICNICKER",
       "x": 36,
       "y": 45,
       "elevation": 3,
@@ -208,7 +208,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_MANIAC",
+      "graphics_id": "OBJ_EVENT_GFX_HOENN_MANIAC",
       "x": 19,
       "y": 80,
       "elevation": 5,
@@ -234,7 +234,7 @@
       "flag": "FLAG_ITEM_ROUTE_120_NUGGET"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_CAMERAMAN",
+      "graphics_id": "OBJ_EVENT_GFX_YOUNGSTER",
       "x": 37,
       "y": 5,
       "elevation": 3,
@@ -247,7 +247,7 @@
       "flag": "FLAG_HIDE_ROUTE_120_GABBY_AND_TY_1"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_REPORTER_F",
+      "graphics_id": "OBJ_EVENT_GFX_YOUNGSTER",
       "x": 36,
       "y": 5,
       "elevation": 3,
@@ -260,7 +260,7 @@
       "flag": "FLAG_HIDE_ROUTE_120_GABBY_AND_TY_1"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_REPORTER_F",
+      "graphics_id": "OBJ_EVENT_GFX_YOUNGSTER",
       "x": 36,
       "y": 5,
       "elevation": 3,
@@ -273,7 +273,7 @@
       "flag": "FLAG_HIDE_ROUTE_120_GABBY_AND_TY_2"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_CAMERAMAN",
+      "graphics_id": "OBJ_EVENT_GFX_YOUNGSTER",
       "x": 37,
       "y": 5,
       "elevation": 3,
@@ -312,7 +312,7 @@
       "flag": "FLAG_ITEM_ROUTE_120_FULL_HEAL"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_BEAUTY",
+      "graphics_id": "OBJ_EVENT_GFX_HOENN_BEAUTY",
       "x": 14,
       "y": 92,
       "elevation": 5,
@@ -325,7 +325,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_WOMAN_5",
+      "graphics_id": "OBJ_EVENT_GFX_HOENN_WOMAN_5",
       "x": 31,
       "y": 37,
       "elevation": 3,
@@ -338,7 +338,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_HIKER",
+      "graphics_id": "OBJ_EVENT_GFX_HOENN_HIKER",
       "x": 9,
       "y": 60,
       "elevation": 3,
@@ -351,7 +351,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_WOMAN_5",
+      "graphics_id": "OBJ_EVENT_GFX_HOENN_WOMAN_5",
       "x": 16,
       "y": 6,
       "elevation": 3,
@@ -364,7 +364,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_WOMAN_5",
+      "graphics_id": "OBJ_EVENT_GFX_HOENN_WOMAN_5",
       "x": 18,
       "y": 34,
       "elevation": 3,
@@ -403,7 +403,7 @@
       "flag": "FLAG_ITEM_ROUTE_120_HYPER_POTION"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_KECLEON",
+      "graphics_id": "OBJ_EVENT_GFX_YOUNGSTER",
       "x": 12,
       "y": 16,
       "elevation": 4,
@@ -416,7 +416,7 @@
       "flag": "FLAG_HIDE_ROUTE_120_KECLEON_BRIDGE"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_STEVEN",
+      "graphics_id": "OBJ_EVENT_GFX_YOUNGSTER",
       "x": 13,
       "y": 15,
       "elevation": 4,
@@ -455,7 +455,7 @@
       "flag": "FLAG_TEMP_12"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_NINJA_BOY",
+      "graphics_id": "OBJ_EVENT_GFX_HOENN_NINJA_BOY",
       "x": 10,
       "y": 72,
       "elevation": 3,
@@ -468,7 +468,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_NINJA_BOY",
+      "graphics_id": "OBJ_EVENT_GFX_HOENN_NINJA_BOY",
       "x": 19,
       "y": 28,
       "elevation": 3,
@@ -481,7 +481,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_KECLEON_BRIDGE_SHADOW",
+      "graphics_id": "OBJ_EVENT_GFX_YOUNGSTER",
       "x": 12,
       "y": 16,
       "elevation": 3,
@@ -494,7 +494,7 @@
       "flag": "FLAG_HIDE_ROUTE_120_KECLEON_BRIDGE_SHADOW"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_KECLEON",
+      "graphics_id": "OBJ_EVENT_GFX_YOUNGSTER",
       "x": 20,
       "y": 11,
       "elevation": 3,
@@ -507,7 +507,7 @@
       "flag": "FLAG_HIDE_ROUTE_120_KECLEON_1"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_KECLEON",
+      "graphics_id": "OBJ_EVENT_GFX_YOUNGSTER",
       "x": 27,
       "y": 2,
       "elevation": 3,
@@ -520,7 +520,7 @@
       "flag": "FLAG_HIDE_ROUTE_120_KECLEON_2"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_KECLEON",
+      "graphics_id": "OBJ_EVENT_GFX_YOUNGSTER",
       "x": 4,
       "y": 77,
       "elevation": 3,
@@ -533,7 +533,7 @@
       "flag": "FLAG_HIDE_ROUTE_120_KECLEON_3"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_KECLEON",
+      "graphics_id": "OBJ_EVENT_GFX_YOUNGSTER",
       "x": 7,
       "y": 51,
       "elevation": 3,
@@ -546,7 +546,7 @@
       "flag": "FLAG_HIDE_ROUTE_120_KECLEON_5"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_KECLEON",
+      "graphics_id": "OBJ_EVENT_GFX_YOUNGSTER",
       "x": 19,
       "y": 48,
       "elevation": 3,
@@ -559,7 +559,7 @@
       "flag": "FLAG_HIDE_ROUTE_120_KECLEON_4"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_GIRL_3",
+      "graphics_id": "OBJ_EVENT_GFX_HOENN_GIRL_3",
       "x": 19,
       "y": 32,
       "elevation": 3,
@@ -572,7 +572,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_MAN_3",
+      "graphics_id": "OBJ_EVENT_GFX_HOENN_MAN_3",
       "x": 14,
       "y": 34,
       "elevation": 3,

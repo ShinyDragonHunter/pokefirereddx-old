@@ -62,7 +62,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_STEVEN",
+      "graphics_id": "OBJ_EVENT_GFX_YOUNGSTER",
       "x": 40,
       "y": 22,
       "elevation": 3,
@@ -75,7 +75,7 @@
       "flag": "FLAG_HIDE_ROUTE_128_STEVEN"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ARCHIE",
+      "graphics_id": "OBJ_EVENT_GFX_GIOVANNI",
       "x": 37,
       "y": 22,
       "elevation": 3,
@@ -88,7 +88,7 @@
       "flag": "FLAG_HIDE_ROUTE_128_ARCHIE"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_MAXIE",
+      "graphics_id": "OBJ_EVENT_GFX_GIOVANNI",
       "x": 38,
       "y": 21,
       "elevation": 3,
@@ -101,7 +101,7 @@
       "flag": "FLAG_HIDE_ROUTE_128_MAXIE"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_FISHERMAN",
+      "graphics_id": "OBJ_EVENT_GFX_HOENN_FISHERMAN",
       "x": 63,
       "y": 28,
       "elevation": 3,
@@ -114,7 +114,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_MAN_3",
+      "graphics_id": "OBJ_EVENT_GFX_HOENN_MAN_3",
       "x": 47,
       "y": 9,
       "elevation": 3,
@@ -127,7 +127,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_WOMAN_5",
+      "graphics_id": "OBJ_EVENT_GFX_HOENN_WOMAN_5",
       "x": 24,
       "y": 8,
       "elevation": 3,

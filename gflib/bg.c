@@ -788,7 +788,7 @@ void CopyBgTilemapBufferToVram(u8 bg)
 void CopyToBgTilemapBufferRect(u8 bg, const void* src, u8 destX, u8 destY, u8 width, u8 height)
 {
     u16 destX16;
-    u16 destY16;
+    u32 destY16;
     u16 mode;
 
     if (!IsInvalidBg32(bg) && !IsTileMapOutsideWram(bg))
@@ -834,7 +834,7 @@ void CopyRectToBgTilemapBufferRect(u8 bg, const void *src, u8 srcX, u8 srcY, u8 
     u16 screenWidth, screenHeight, screenSize;
     u16 var;
     const void *srcPtr;
-    u16 i, j;
+    u32 i, j;
 
     if (!IsInvalidBg32(bg) && !IsTileMapOutsideWram(bg))
     {
@@ -876,7 +876,7 @@ void CopyRectToBgTilemapBufferRect(u8 bg, const void *src, u8 srcX, u8 srcY, u8 
 void FillBgTilemapBufferRect_Palette0(u8 bg, u16 tileNum, u8 x, u8 y, u8 width, u8 height)
 {
     u16 x16;
-    u16 y16;
+    u32 y16;
     u16 mode;
 
     if (!IsInvalidBg32(bg) && !IsTileMapOutsideWram(bg))
@@ -917,7 +917,7 @@ void WriteSequenceToBgTilemapBuffer(u8 bg, u16 firstTileNum, u8 x, u8 y, u8 widt
     u16 mode2;
     u16 attribute;
     u16 mode3;
-    u16 x16, y16;
+    u32 x16, y16;
 
     if (!IsInvalidBg32(bg) && !IsTileMapOutsideWram(bg))
     {

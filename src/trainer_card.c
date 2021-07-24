@@ -118,7 +118,6 @@ static void InitBgsAndWindows(void);
 static void SetTrainerCardCb2(void);
 static void SetUpTrainerCardTask(void);
 static void InitTrainerCardData(void);
-static u8 GetSetCardType(void);
 static void PrintNameOnCardFront(void);
 static void PrintIdOnCard(void);
 static void PrintMoneyOnCard(void);
@@ -1438,7 +1437,7 @@ static void PrintStickersOnCard(void)
     u32 i;
     u8 paletteSlots[4] = {11, 12, 13, 14};
 
-    if (!sData->cardType && sData->trainerCard.shouldDrawStickers)
+    if (sData->trainerCard.shouldDrawStickers)
     {
         for (i = 0; i < TRAINER_CARD_STICKER_TYPES; i++)
         {
@@ -1507,7 +1506,7 @@ static u8 SetCardBgsAndPals(void)
 
 static void DrawCardScreenBackground(u16 *ptr)
 {
-    s16 i, j;
+    s32 i, j;
     u16 *dst = sData->bgTilemapBuffer;
 
     for (i = 0; i < 20; i++)
@@ -1525,7 +1524,7 @@ static void DrawCardScreenBackground(u16 *ptr)
 
 static void DrawCardFrontOrBack(u16* ptr)
 {
-    s16 i, j;
+    s32 i, j;
     u16 *dst = sData->cardTilemapBuffer;
 
     for (i = 0; i < 20; i++)
@@ -1545,8 +1544,8 @@ static void DrawStarsAndBadgesOnCard(void)
 {
     static const u8 yOffsets[] = {7, 7};
 
-    s16 i, x;
-    u16 tileNum = 192;
+    s32 i, x;
+    u32 tileNum = 192;
     u8 palNum = 3;
 
     FillBgTilemapBufferRect(3, 143, 15, yOffsets[sData->isHoenn], sData->trainerCard.stars, 1, 4);
@@ -1868,23 +1867,10 @@ static void InitTrainerCardData(void)
     sData->timeColonInvisible = FALSE;
     sData->onBack = FALSE;
     sData->flipBlendY = 0;
-    sData->cardType = GetSetCardType();
+    sData->cardType = VersionToCardType(sData->trainerCard.version, sData->trainerCard.versionModifier);
+    sData->isHoenn = (sData->trainerCard.version < VERSION_FIRE_RED) ? TRUE : FALSE;
     for (i = 0; i < TRAINER_CARD_PROFILE_LENGTH; i++)
         CopyEasyChatWord(sData->easyChatProfile[i], sData->trainerCard.easyChatProfile[i]);
-}
-
-static u8 GetSetCardType(void)
-{
-    sData->isHoenn = (sData->trainerCard.version < VERSION_FIRE_RED) ? TRUE : FALSE;
-
-    if (sData->trainerCard.version < VERSION_EMERALD)
-        return CARD_TYPE_RS;
-    else if (sData->trainerCard.version == VERSION_EMERALD)
-        return (sData->trainerCard.versionModifier == MODIFIER_HELIODOR) ? CARD_TYPE_HELIODOR : CARD_TYPE_EMERALD;
-    else if (sData->trainerCard.version == VERSION_CRYSTAL_DUST)
-        return CARD_TYPE_CRYSTALDUST;
-    else
-        return (sData->trainerCard.versionModifier == MODIFIER_CRYSTALDUST) ? CARD_TYPE_CRYSTALDUST : CARD_TYPE_FRLG;
 }
 
 static u8 VersionToCardType(u8 version, u8 versionModifier)
@@ -1892,11 +1878,8 @@ static u8 VersionToCardType(u8 version, u8 versionModifier)
     if (version < VERSION_EMERALD)
         return CARD_TYPE_RS;
     else if (version == VERSION_EMERALD)
-        return (versionModifier == MODIFIER_HELIODOR) ? CARD_TYPE_HELIODOR : CARD_TYPE_EMERALD;
-    else if (version == VERSION_CRYSTAL_DUST)
-        return CARD_TYPE_CRYSTALDUST;
-    else
-        return (versionModifier == MODIFIER_CRYSTALDUST) ? CARD_TYPE_CRYSTALDUST : CARD_TYPE_FRLG;
+        return CARD_TYPE_EMERALD + versionModifier;
+    return (sData->trainerCard.version <= VERSION_LEAF_GREEN && sData->trainerCard.versionModifier < MODIFIER_CRYSTALDUST) ? CARD_TYPE_FRLG : CARD_TYPE_CRYSTALDUST;
 }
 
 static void CreateTrainerCardTrainerPic(void)

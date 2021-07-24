@@ -452,13 +452,15 @@ gStdScripts_End:: @ 81DC2CC
 Common_EventScript_SetFrontierTrainer1TextColor::
 	compare VAR_0x8000, MALE
 	call_if_eq Common_EventScript_SetFrontierTrainerTextColorBlue
-	call_if_ne Common_EventScript_SetFrontierTrainerTextColorRed
+	compare VAR_0x8000, FEMALE
+	call_if_eq Common_EventScript_SetFrontierTrainerTextColorRed
 	return
 
 Common_EventScript_SetFrontierTrainer2TextColor::
 	compare VAR_0x8001, MALE
 	call_if_eq Common_EventScript_SetFrontierTrainerTextColorBlue
-	call_if_ne Common_EventScript_SetFrontierTrainerTextColorRed
+	compare VAR_0x8001, FEMALE
+	call_if_eq Common_EventScript_SetFrontierTrainerTextColorRed
 	return
 
 Common_EventScript_SetFrontierTrainerTextColorBlue::
@@ -906,8 +908,8 @@ gText_ThankYouForAccessingMysteryGift:: @ 8273178
 	.string "MYSTERY GIFT System.$"
 
 gText_PlayerFoundOneTMHM:: @ 82731A9
-	.string "{PLAYER} found one {STR_VAR_1}\n"
-	.string "{STR_VAR_2}!$"
+	.string "{PLAYER} found one {COLOR GREEN}{STR_VAR_1}\n"
+	.string "{STR_VAR_2}{COLOR DARK_GRAY}!$"
 
 gText_Sudowoodo_Attacked:: @ 82731BD
 	.string "The weird tree doesn't like the\n"

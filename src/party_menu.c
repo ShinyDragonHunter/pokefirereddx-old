@@ -2015,7 +2015,7 @@ static u16* GetPartyMenuPalBufferPtr(u8 paletteId)
 static void BlitBitmapToPartyWindow(u8 windowId, const u8 *b, u8 c, u8 x, u8 y, u8 width, u8 height)
 {
     u8 *pixels = AllocZeroed(height * width * 32);
-    u8 i, j;
+    u32 i, j;
 
     if (pixels != NULL)
     {
@@ -2469,7 +2469,7 @@ static void SetPartyMonSelectionActions(struct Pokemon *mons, u8 slotId, u8 acti
 
 static void SetPartyMonFieldSelectionActions(struct Pokemon *mons, u8 slotId)
 {
-    u8 i, j;
+    u32 i, j;
 
     sPartyMenuInternal->numActions = 0;
     AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_SUMMARY);
@@ -5358,7 +5358,7 @@ static u8 GetPartySlotEntryStatus(s8 slot)
 
 static bool8 GetBattleEntryEligibility(struct Pokemon *mon)
 {
-    u16 i = 0;
+    u32 i = 0;
     u16 species;
 
     if (GetMonData(mon, MON_DATA_IS_EGG)
@@ -5392,7 +5392,7 @@ static bool8 GetBattleEntryEligibility(struct Pokemon *mon)
 static u8 CheckBattleEntriesAndGetMessage(void)
 {
     u8 maxBattlers;
-    u8 i, j;
+    u32 i, j;
     u8 facility;
     struct Pokemon *party = gPlayerParty;
     u8 minBattlers = GetMinBattleEntries();
@@ -5829,7 +5829,7 @@ void SwitchPartyMonSlots(u8 slot, u8 slot2)
 
 u8 GetPartyIdFromBattlePartyId(u8 battlePartyId)
 {
-    u8 i, j;
+    u32 i, j;
 
     for (j = i = 0; i < (int)ARRAY_COUNT(gBattlePartyCurrentOrder); j++, i++)
     {

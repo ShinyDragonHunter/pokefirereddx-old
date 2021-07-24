@@ -496,7 +496,7 @@ bool32 ShouldDoRivalRayquazaCall(void)
 
 u8 GetLinkPartnerNames(void)
 {
-    u8 i;
+    u32 i;
     u8 j = 0;
     u8 myLinkPlayerNumber = GetMultiplayerId();
     u8 nLinkPlayers = GetLinkPlayerCount();
@@ -531,7 +531,7 @@ void SpawnLinkPartnerObjectEvent(void)
     u8 myLinkPlayerNumber;
     u8 playerFacingDirection;
     u8 linkSpriteId;
-    u8 i;
+    u32 i;
 
     myLinkPlayerNumber = GetMultiplayerId();
     playerFacingDirection = GetPlayerFacingDirection();
@@ -568,9 +568,9 @@ void SpawnLinkPartnerObjectEvent(void)
                     break;
                 default:
                     if ((u8)gLinkPlayers[i].versionModifier == MODIFIER_HELIODOR)
-                        linkSpriteId = gLinkPlayers[i].gender + OBJ_EVENT_GFX_H_BRENDAN;
+                        linkSpriteId = (gLinkPlayers[i].gender) ? OBJ_EVENT_GFX_H_MAY : OBJ_EVENT_GFX_H_BRENDAN;
                     else
-                        linkSpriteId = gLinkPlayers[i].gender + OBJ_EVENT_GFX_E_BRENDAN;
+                        linkSpriteId = (gLinkPlayers[i].gender) ? OBJ_EVENT_GFX_E_MAY : OBJ_EVENT_GFX_E_BRENDAN;
                     break;
             }
             SpawnSpecialObjectEventParameterized(linkSpriteId, movementTypes[j], 240 - i, coordOffsets[j][0] + x + 7, coordOffsets[j][1] + y + 7, 0);
@@ -1242,7 +1242,7 @@ void IsGrassTypeInParty(void)
 
 void SpawnCameraObject(void)
 {
-    u8 obj = SpawnSpecialObjectEventParameterized(OBJ_EVENT_GFX_BOY_1, MOVEMENT_TYPE_FACE_DOWN, OBJ_EVENT_ID_CAMERA, gSaveBlock1Ptr->pos.x + 7, gSaveBlock1Ptr->pos.y + 7, 3);
+    u8 obj = SpawnSpecialObjectEventParameterized(OBJ_EVENT_GFX_YOUNGSTER, MOVEMENT_TYPE_FACE_DOWN, OBJ_EVENT_ID_CAMERA, gSaveBlock1Ptr->pos.x + 7, gSaveBlock1Ptr->pos.y + 7, 3);
     gObjectEvents[obj].invisible = TRUE;
     CameraObjectSetFollowedSpriteId(gObjectEvents[obj].spriteId);
 }
@@ -1870,7 +1870,7 @@ static void MoveElevatorWindowLights(u16 floorDelta, bool8 descending)
 
 static void Task_MoveElevatorWindowLights(u8 taskId)
 {
-    u8 x, y;
+    u32 x, y;
     s16 *data = gTasks[taskId].data;
 
     if (data[1] == 6)
@@ -1881,12 +1881,12 @@ static void Task_MoveElevatorWindowLights(u8 taskId)
         {
             for (x = 0; x < 3; x++)
             {
-                // ascending
-                if (data[2] == FALSE)
-                    MapGridSetMetatileIdAt(x + 8, y + 7, sElevatorWindowTiles_Ascending[y][data[0] % 3] | METATILE_COLLISION_MASK);
                 // descending
-                else
+                if (data[2])
                     MapGridSetMetatileIdAt(x + 8, y + 7, sElevatorWindowTiles_Descending[y][data[0] % 3] | METATILE_COLLISION_MASK);
+                // ascending
+                else
+                    MapGridSetMetatileIdAt(x + 8, y + 7, sElevatorWindowTiles_Ascending[y][data[0] % 3] | METATILE_COLLISION_MASK);
             }
         }
         DrawWholeMapView();
@@ -2466,8 +2466,8 @@ static const u8 *const sScrollableMultichoiceOptions[][MAX_SCROLL_MULTI_LENGTH] 
 
 static void Task_ShowScrollableMultichoice(u8 taskId)
 {
-    u32 width;
-    u8 i, windowId;
+    u32 width, i;
+    u8 windowId;
     struct WindowTemplate template;
     struct Task *task = &gTasks[taskId];
 
@@ -2692,24 +2692,23 @@ u8 ContextNpcGetTextColor(void)
 
 void SetBattleTowerLinkPlayerGfx(void)
 {
-    u8 i;
+    u32 i;
 
     for (i = 0; i < 2; i++)
     {
         if ((u8)gLinkPlayers[i].version == VERSION_EMERALD)
         {
             if ((u8)gLinkPlayers[i].versionModifier == MODIFIER_HELIODOR)
-                VarSet(VAR_OBJ_GFX_ID_F - i, gLinkPlayers[i].gender + OBJ_EVENT_GFX_H_BRENDAN);
+                VarSet(VAR_OBJ_GFX_ID_F - i, (gLinkPlayers[i].gender) ? OBJ_EVENT_GFX_H_MAY : OBJ_EVENT_GFX_H_BRENDAN);
             else
-                VarSet(VAR_OBJ_GFX_ID_F - i, gLinkPlayers[i].gender + OBJ_EVENT_GFX_E_BRENDAN);
+                VarSet(VAR_OBJ_GFX_ID_F - i, (gLinkPlayers[i].gender) ? OBJ_EVENT_GFX_E_MAY : OBJ_EVENT_GFX_E_BRENDAN);
         }
         else
         {
-            if (gLinkPlayers[i].gender)
-                VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_LEAF_NORMAL);
+            if ((u8)gLinkPlayers[i].versionModifier == MODIFIER_CRYSTALDUST)
+                VarSet(VAR_OBJ_GFX_ID_F - i, gLinkPlayers[i].gender + OBJ_EVENT_GFX_GOLD);
             else
-                VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_RED_NORMAL);
-            break;
+                VarSet(VAR_OBJ_GFX_ID_F - i, (gLinkPlayers[i].gender) ? OBJ_EVENT_GFX_LEAF_NORMAL : OBJ_EVENT_GFX_RED_NORMAL);
         }
     }
 }

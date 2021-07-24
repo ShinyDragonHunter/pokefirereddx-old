@@ -238,17 +238,3 @@ BattleFrontier_BattleTowerLobby_EventScript_AlreadyInterviewed:: @ 828CC7A
 	msgbox BattleFrontier_BattleTowerLobby_Text_LookingForwardToNextBattle, MSGBOX_DEFAULT
 	release
 	end
-
-BattleFrontier_BattleTowerLobby_EventScript_ShowOrHideReporter:: @ 828CC84
-	compare VAR_BRAVO_TRAINER_BATTLE_TOWER_ON, 0
-	goto_if_eq BattleFrontier_BattleTowerLobby_EventScript_HideReporter
-	setvar VAR_0x8005, TVSHOW_BRAVO_TRAINER_BATTLE_TOWER_PROFILE
-	special InterviewBefore
-	compare VAR_RESULT, TRUE
-	goto_if_eq BattleFrontier_BattleTowerLobby_EventScript_HideReporter
-	clearflag FLAG_HIDE_BATTLE_TOWER_REPORTER
-	return
-
-BattleFrontier_BattleTowerLobby_EventScript_HideReporter:: @ 828CCA6
-	setflag FLAG_HIDE_BATTLE_TOWER_REPORTER
-	return

@@ -339,7 +339,9 @@ static void Task_CloseItemfinderMessage(u8 taskId)
 static bool8 ItemfinderCheckForHiddenItems(const struct MapEvents *events, u8 taskId)
 {
     int itemX, itemY;
-    s16 playerX, playerY, i, distanceX, distanceY;
+    s16 playerX, playerY;
+    s32 i;
+    s16 distanceX, distanceY;
     PlayerGetDestCoords(&playerX, &playerY);
     gTasks[taskId].tItemFound = FALSE;
 
@@ -429,7 +431,7 @@ static bool8 IsHiddenItemPresentInConnection(struct MapConnection *connection, i
 static void CheckForHiddenItemsInMapConnection(u8 taskId)
 {
     s16 playerX, playerY;
-    s16 x, y;
+    s32 x, y;
     s16 width = gMapHeader.mapLayout->width + 7;
     s16 height = gMapHeader.mapLayout->height + 7;
 
@@ -721,7 +723,7 @@ static bool8 TryToWaterSudowoodo(void)
     GetXYCoordsOneStepInFrontOfPlayer(&x, &y);
     z = PlayerGetZCoord();
     objId = GetObjectEventIdByXYZ(x, y, z);
-    if (objId == OBJECT_EVENTS_COUNT || gObjectEvents[objId].graphicsId != OBJ_EVENT_GFX_SUDOWOODO)
+    if (objId == OBJECT_EVENTS_COUNT || gObjectEvents[objId].graphicsId != OBJ_EVENT_GFX_HOENN_SUDOWOODO)
         return FALSE;
     else
         return TRUE;

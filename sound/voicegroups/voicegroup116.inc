@@ -36,7 +36,7 @@ voicegroup116:: @ 8699E54
 	voice_directsound 60, 0, DirectSoundWaveData_sc88pro_fingered_bass, 255, 253, 0, 149  @ 8699FE0
 	voice_square_1 60, 0, 0, 2, 0, 0, 15, 0  @ 8699FEC
 	voice_square_1 60, 0, 0, 2, 0, 0, 15, 0  @ 8699FF8
-	voice_directsound 60, 0, DirectSoundWaveData_unused_sc88pro_unison_slap, 255, 165, 180, 216  @ 869A004
+	voice_square_1 60, 0, 0, 2, 0, 0, 15, 0  @ 869A004
 	voice_square_1 60, 0, 0, 2, 0, 0, 15, 0  @ 869A010
 	voice_directsound 60, 0, DirectSoundWaveData_sc88pro_synth_bass, 255, 252, 0, 115  @ 869A01C
 	voice_square_1 60, 0, 0, 2, 0, 0, 15, 0  @ 869A028

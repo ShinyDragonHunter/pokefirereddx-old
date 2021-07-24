@@ -64,8 +64,7 @@ void DisableWildEncounters(bool8 disabled)
 
 static u16 GetRoute119WaterTileNum(s16 x, s16 y, u8 section)
 {
-    u16 xCur;
-    u16 yCur;
+    u32 xCur, yCur;
     u16 yMin = gRoute119WaterTileData[section * 3 + 0];
     u16 yMax = gRoute119WaterTileData[section * 3 + 1];
     u16 tileNum = gRoute119WaterTileData[section * 3 + 2];
@@ -892,7 +891,7 @@ static bool8 IsAbilityAllowingEncounter(u8 level)
 static bool8 TryGetRandomWildMonIndexByType(const struct WildPokemon *wildMon, u8 type, u8 numMon, u8 *monIndex)
 {
     u8 validIndexes[numMon]; // variable length array, an interesting feature
-    u8 i, validMonCount;
+    u32 i, validMonCount;
 
     for (i = 0; i < numMon; i++)
         validIndexes[i] = 0;

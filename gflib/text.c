@@ -133,7 +133,7 @@ u16 AddTextPrinterParameterized(u8 windowId, u8 fontId, const u8 *str, u8 x, u8 
 bool16 AddTextPrinter(struct TextPrinterTemplate *printerTemplate, u8 speed, void (*callback)(struct TextPrinterTemplate *, u16))
 {
     int i;
-    u16 j;
+    u32 j;
 
     if (!gFonts)
         return FALSE;
@@ -163,7 +163,7 @@ bool16 AddTextPrinter(struct TextPrinterTemplate *printerTemplate, u8 speed, voi
     else
     {
         gTempTextPrinter.textSpeed = 0;
-        for (j = 0; j < 0x400; ++j)
+        for (j = 0; j < 0x400; j++)
         {
             if (RenderFont(&gTempTextPrinter) == 1)
                 break;
@@ -1087,7 +1087,7 @@ u16 RenderText(struct TextPrinter *textPrinter)
 u32 GetStringWidthFixedWidthFont(const u8 *str, u8 fontId, u8 letterSpacing)
 {
     int i;
-    u8 width;
+    u32 width;
     int temp;
     int temp2;
     u8 line;

@@ -4,18 +4,12 @@
 .set LOCALID_ATTENDANT_LINK_MULTIS, 9
 
 BattleFrontier_BattleTowerLobby_MapScripts:: @ 823E67B
-	map_script MAP_SCRIPT_ON_RESUME, BattleFrontier_BattleTowerLobby_OnResume
 	map_script MAP_SCRIPT_ON_TRANSITION, BattleFrontier_BattleTowerLobby_OnTransition
 	map_script MAP_SCRIPT_ON_FRAME_TABLE, BattleFrontier_BattleTowerLobby_OnFrame
 	map_script MAP_SCRIPT_ON_WARP_INTO_MAP_TABLE, BattleFrontier_BattleTowerLobby_OnWarp
 	.byte 0
 
-BattleFrontier_BattleTowerLobby_OnResume: @ 823E690
-	special TryHideBattleTowerReporter
-	end
-
 BattleFrontier_BattleTowerLobby_OnTransition: @ 823E694
-	call BattleFrontier_BattleTowerLobby_EventScript_ShowOrHideReporter
 	goto BattleFrontier_BattleTowerLobby_EventScript_ShowApprentice
 	goto_if_set FLAG_DAILY_APPRENTICE_LEAVES, BattleFrontier_BattleTowerLobby_EventScript_HideApprentice
 BattleFrontier_BattleTowerLobby_EventScript_ShowApprentice:: @ 823E6B5
@@ -89,11 +83,13 @@ BattleFrontier_BattleTowerLobby_EventScript_GiveBattlePoints:: @ 823E7A5
 	textcolor RED
 	msgbox BattleFrontier_BattleTowerLobby_Text_AwardYouTheseBattlePoints, MSGBOX_DEFAULT
 	frontier_givepoints
+	textcolor RESET
 	msgbox BattleFrontier_Text_ObtainedXBattlePoints, MSGBOX_GETPOINTS
 	call BattleFrontier_BattleTowerLobby_EventScript_AskSaveBattle
 	tower_get TOWER_DATA_WIN_STREAK
 	compare VAR_RESULT, 49
 	goto_if_ne BattleFrontier_BattleTowerLobby_EventScript_LookForwardToChallenge
+	textcolor RED
 	msgbox BattleFrontier_BattleTowerLobby_Text_AboutToFace50thTrainer, MSGBOX_DEFAULT
 BattleFrontier_BattleTowerLobby_EventScript_LookForwardToChallenge:: @ 823E7E2
 	msgbox BattleFrontier_BattleTowerLobby_Text_LookForwardToAnotherChallenge, MSGBOX_DEFAULT
@@ -138,15 +134,17 @@ BattleFrontier_BattleTowerLobby_EventScript_AskSaveBattle:: @ 823E84D
 	message BattleFrontier_BattleTowerLobby_Text_RecordLastMatch
 	waitmessage
 	multichoicedefault 20, 8, MULTI_YESNO, 1, FALSE
-	compare VAR_RESULT, 0
-	goto_if_eq BattleFrontier_EventScript_SaveBattle
-	goto_if_ne BattleFrontier_BattleTowerLobby_EventScript_EndSaveBattle
+	switch VAR_RESULT
+	case 1, BattleFrontier_BattleTowerLobby_EventScript_EndSaveBattle
+	case 0, BattleFrontier_EventScript_SaveBattle
+	case MULTI_B_PRESSED, BattleFrontier_BattleTowerLobby_EventScript_EndSaveBattle
 
 BattleFrontier_EventScript_SaveBattle:: @ 823E8B4
 	frontier_savebattle
 	compare VAR_RESULT, FALSE
 	goto_if_eq BattleFrontier_EventScript_BattleSaveFailed
 	playse SE_SAVE
+	textcolor RESET
 	msgbox BattleFrontier_BattleTowerLobby_Text_BattleRecordedOnPass, MSGBOX_DEFAULT
 	goto BattleFrontier_BattleTowerLobby_EventScript_EndSaveBattle
 
@@ -217,9 +215,10 @@ BattleFrontier_BattleTowerLobby_EventScript_TryEnterSinglesChallenge:: @ 823E984
 	compare VAR_RESULT, 0
 	goto_if_eq BattleFrontier_BattleTowerLobby_EventScript_LoadPartyCancelChallenge
 	msgbox BattleFrontier_BattleTowerLobby_Text_OkayToSaveBeforeEntering, MSGBOX_YESNO
-	compare VAR_RESULT, YES
-	goto_if_eq BattleFrontier_BattleTowerLobby_EventScript_SaveBeforeSinglesChallenge
-	goto_if_ne BattleFrontier_BattleTowerLobby_EventScript_LoadPartyCancelChallenge
+	switch VAR_RESULT
+	case NO, BattleFrontier_BattleTowerLobby_EventScript_LoadPartyCancelChallenge
+	case YES, BattleFrontier_BattleTowerLobby_EventScript_SaveBeforeSinglesChallenge
+	case MULTI_B_PRESSED, BattleFrontier_BattleTowerLobby_EventScript_LoadPartyCancelChallenge
 
 BattleFrontier_BattleTowerLobby_EventScript_SaveBeforeSinglesChallenge:: @ 823EA2A
 	frontier_set FRONTIER_DATA_SELECTED_MON_ORDER
@@ -282,9 +281,10 @@ BattleFrontier_BattleTowerLobby_EventScript_TryEnterDoublesChallenge:: @ 823EAED
 	compare VAR_RESULT, 0
 	goto_if_eq BattleFrontier_BattleTowerLobby_EventScript_LoadPartyCancelChallenge
 	msgbox BattleFrontier_BattleTowerLobby_Text_OkayToSaveBeforeEntering, MSGBOX_YESNO
-	compare VAR_RESULT, YES
-	goto_if_eq BattleFrontier_BattleTowerLobby_EventScript_SaveBeforeDoublesChallenge
-	goto_if_ne BattleFrontier_BattleTowerLobby_EventScript_LoadPartyCancelChallenge
+	switch VAR_RESULT
+	case NO, BattleFrontier_BattleTowerLobby_EventScript_LoadPartyCancelChallenge
+	case YES, BattleFrontier_BattleTowerLobby_EventScript_SaveBeforeDoublesChallenge
+	case MULTI_B_PRESSED, BattleFrontier_BattleTowerLobby_EventScript_LoadPartyCancelChallenge
 
 BattleFrontier_BattleTowerLobby_EventScript_SaveBeforeDoublesChallenge:: @ 823EB93
 	frontier_set FRONTIER_DATA_SELECTED_MON_ORDER
@@ -348,9 +348,10 @@ BattleFrontier_BattleTowerLobby_EventScript_TryEnterMultisChallenge:: @ 823EC59
 	compare VAR_RESULT, 0
 	goto_if_eq BattleFrontier_BattleTowerLobby_EventScript_LoadPartyCancelChallenge
 	msgbox BattleFrontier_BattleTowerLobby_Text_OkayToSaveBeforeEntering, MSGBOX_YESNO
-	compare VAR_RESULT, YES
-	goto_if_eq BattleFrontier_BattleTowerLobby_EventScript_SaveBeforeMultisChallenge
-	goto_if_ne BattleFrontier_BattleTowerLobby_EventScript_LoadPartyCancelChallenge
+	switch VAR_RESULT
+	case NO, BattleFrontier_BattleTowerLobby_EventScript_LoadPartyCancelChallenge
+	case YES, BattleFrontier_BattleTowerLobby_EventScript_SaveBeforeMultisChallenge
+	case MULTI_B_PRESSED, BattleFrontier_BattleTowerLobby_EventScript_LoadPartyCancelChallenge
 
 BattleFrontier_BattleTowerLobby_EventScript_SaveBeforeMultisChallenge:: @ 823ECFF
 	frontier_set FRONTIER_DATA_SELECTED_MON_ORDER
@@ -413,9 +414,10 @@ BattleFrontier_BattleTowerLobby_EventScript_TryEnterLinkMultisChallenge:: @ 823E
 	compare VAR_RESULT, 0
 	goto_if_eq BattleFrontier_BattleTowerLobby_EventScript_LoadPartyCancelChallenge
 	msgbox BattleFrontier_BattleTowerLobby_Text_OkayToSaveBeforeEntering, MSGBOX_YESNO
-	compare VAR_RESULT, YES
-	goto_if_eq BattleFrontier_BattleTowerLobby_EventScript_SaveBeforeLinkMultisChallenge
-	goto_if_ne BattleFrontier_BattleTowerLobby_EventScript_LoadPartyCancelChallenge
+	switch VAR_RESULT
+	case NO, BattleFrontier_BattleTowerLobby_EventScript_LoadPartyCancelChallenge
+	case YES, BattleFrontier_BattleTowerLobby_EventScript_SaveBeforeLinkMultisChallenge
+	case MULTI_B_PRESSED, BattleFrontier_BattleTowerLobby_EventScript_LoadPartyCancelChallenge
 
 BattleFrontier_BattleTowerLobby_EventScript_SaveBeforeLinkMultisChallenge:: @ 823EE68
 	frontier_set FRONTIER_DATA_SELECTED_MON_ORDER
@@ -1291,7 +1293,7 @@ BattleFrontier_BattleTowerLobby_Text_AwardYouTheseBattlePoints: @ 82414D4
 	.string "we award you these Battle Point(s).$"
 
 BattleFrontier_Text_ObtainedXBattlePoints: @ 8241520
-	.string "{COLOR DARK_GRAY}{PLAYER} obtained {STR_VAR_1} Battle Point(s).$"
+	.string "{PLAYER} obtained {STR_VAR_1} Battle Point(s).$"
 
 BattleFrontier_BattleTowerLobby_Text_RulesAreListed: @ 8241540
 	.string "The BATTLE TOWER rules are listed.$"

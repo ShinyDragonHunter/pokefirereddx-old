@@ -148,7 +148,7 @@ static void CreateLevitateMovementTask(struct ObjectEvent *);
 static void DestroyLevitateMovementTask(u8);
 static bool8 NpcTakeStep(struct Sprite *sprite);
 
-static const struct SpriteFrameImage sPicTable_PechaBerryTree[];
+static const struct SpriteFrameImage sPicTable_CheriBerryTree[];
 
 static const struct SpriteTemplate sCameraSpriteTemplate = {
     .tileTag = 0,
@@ -431,33 +431,28 @@ const u8 gInitialMovementTypeFacingDirections[] = {
 #include "data/object_events/object_event_graphics_info_pointers.h"
 
 static const struct SpritePalette sObjectEventSpritePalettes[] = {
-    {gObjectEventPal_RedLeaf,               OBJ_EVENT_PAL_TAG_RED_LEAF},
+    {gObjectEventPal_Player,                OBJ_EVENT_PAL_TAG_PLAYER},
+    {gObjectEventPal_PlayerUnderwater,      OBJ_EVENT_PAL_TAG_PLAYER_UNDERWATER},
+    {gObjectEventPal_NpcBlue,               OBJ_EVENT_PAL_TAG_NPC_BLUE},
+    {gObjectEventPal_NpcPink,               OBJ_EVENT_PAL_TAG_NPC_PINK},
+    {gObjectEventPal_NpcGreen,              OBJ_EVENT_PAL_TAG_NPC_GREEN},
+    {gObjectEventPal_NpcWhite,              OBJ_EVENT_PAL_TAG_NPC_WHITE},
     {gObjectEventPal_Gold,                  OBJ_EVENT_PAL_TAG_GOLD},
-    {gObjectEventPal_Npc1,                  OBJ_EVENT_PAL_TAG_NPC_1},
-    {gObjectEventPal_Npc2,                  OBJ_EVENT_PAL_TAG_NPC_2},
-    {gObjectEventPal_Npc3,                  OBJ_EVENT_PAL_TAG_NPC_3},
-    {gObjectEventPal_Npc4,                  OBJ_EVENT_PAL_TAG_NPC_4},
     {gObjectEventPal_Kris,                  OBJ_EVENT_PAL_TAG_KRIS},
     {gObjectEventPal_HeliodorBrendan,       OBJ_EVENT_PAL_TAG_H_BRENDAN},
     {gObjectEventPal_HeliodorMay,           OBJ_EVENT_PAL_TAG_H_MAY},
     {gObjectEventPal_EmeraldBrendan,        OBJ_EVENT_PAL_TAG_E_BRENDAN},
-    {gObjectEventPal_Truck,                 OBJ_EVENT_PAL_TAG_TRUCK},
-    {gObjectEventPal_Vigoroth,              OBJ_EVENT_PAL_TAG_VIGOROTH},
-    {gObjectEventPal_EnemyZigzagoon,        OBJ_EVENT_PAL_TAG_ZIGZAGOON},
     {gObjectEventPal_EmeraldMay,            OBJ_EVENT_PAL_TAG_E_MAY},
-    {gObjectEventPal_MovingBox,             OBJ_EVENT_PAL_TAG_MOVING_BOX},
-    {gObjectEventPal_CableCar,              OBJ_EVENT_PAL_TAG_CABLE_CAR},
-    {gObjectEventPal_SSTidal,               OBJ_EVENT_PAL_TAG_SSTIDAL},
-    {gObjectEventPal_PlayerUnderwater,      OBJ_EVENT_PAL_TAG_PLAYER_UNDERWATER},
-    {gObjectEventPal_Kyogre,                OBJ_EVENT_PAL_TAG_KYOGRE},
-    {gObjectEventPal_Groudon,               OBJ_EVENT_PAL_TAG_GROUDON},
-    {gObjectEventPal_SubmarineShadow,       OBJ_EVENT_PAL_TAG_SUBMARINE_SHADOW},
-    {gObjectEventPal_Poochyena,             OBJ_EVENT_PAL_TAG_POOCHYENA},
-    {gObjectEventPal_Deoxys,                OBJ_EVENT_PAL_TAG_DEOXYS},
-    {gObjectEventPal_BirthIslandStone,      OBJ_EVENT_PAL_TAG_BIRTH_ISLAND_STONE},
-    {gObjectEventPal_HoOh,                  OBJ_EVENT_PAL_TAG_HO_OH},
-    {gObjectEventPal_Lugia,                 OBJ_EVENT_PAL_TAG_LUGIA},
     {gObjectEventPal_RubySapphireBrendan,   OBJ_EVENT_PAL_TAG_RS_BRENDAN},
+    {gObjectEventPal_RubySapphireMay,       OBJ_EVENT_PAL_TAG_RS_MAY},
+    {gObjectEventPal_HoennNpc1,             OBJ_EVENT_PAL_TAG_HOENN_NPC_1},
+    {gObjectEventPal_HoennNpc2,             OBJ_EVENT_PAL_TAG_HOENN_NPC_2},
+    {gObjectEventPal_HoennNpc3,             OBJ_EVENT_PAL_TAG_HOENN_NPC_3},
+    {gObjectEventPal_HoennNpc4,             OBJ_EVENT_PAL_TAG_HOENN_NPC_4},
+    {gObjectEventPal_HoennZigzagoon,        OBJ_EVENT_PAL_TAG_HOENN_ZIGZAGOON},
+    {gObjectEventPal_BirthIslandStone,      OBJ_EVENT_PAL_TAG_BIRTH_ISLAND_STONE},
+    {gObjectEventPal_Seagallop,             OBJ_EVENT_PAL_TAG_SEAGALLOP},
+    {gObjectEventPal_SSAnne,                OBJ_EVENT_PAL_TAG_SS_ANNE},
     {NULL,                                  OBJ_EVENT_PAL_TAG_NONE},
 };
 
@@ -1063,7 +1058,7 @@ static bool8 GetAvailableObjectEventId(u16 localId, u8 mapNum, u8 mapGroup, u8 *
 // If no slots are available, or if the object is already
 // loaded, returns TRUE.
 {
-    u8 i = 0;
+    u32 i = 0;
 
     for (i = 0; i < OBJECT_EVENTS_COUNT && gObjectEvents[i].active; i++)
     {
@@ -1481,7 +1476,7 @@ static void SetPlayerAvatarObjectEventIdAndObjectId(u8 objectEventId, u8 spriteI
 {
     gPlayerAvatar.objectEventId = objectEventId;
     gPlayerAvatar.spriteId = spriteId;
-    gPlayerAvatar.gender = GetPlayerAvatarGenderByGraphicsId(gObjectEvents[objectEventId].graphicsId);
+    gPlayerAvatar.gender = gSaveBlock2Ptr->playerGender;
     SetPlayerAvatarExtraStateTransition(gObjectEvents[objectEventId].graphicsId, PLAYER_AVATAR_FLAG_4);
 }
 
@@ -1583,14 +1578,10 @@ static void SetBerryTreeGraphics(struct ObjectEvent *objectEvent, struct Sprite 
 const struct ObjectEventGraphicsInfo *GetObjectEventGraphicsInfo(u8 graphicsId)
 {
     if (graphicsId >= OBJ_EVENT_GFX_VARS)
-    {
         graphicsId = VarGetObjectEventGraphicsId(graphicsId - OBJ_EVENT_GFX_VARS);
-    }
 
     if (graphicsId >= NUM_OBJ_EVENT_GFX)
-    {
-        graphicsId = OBJ_EVENT_GFX_NINJA_BOY;
-    }
+        graphicsId = OBJ_EVENT_GFX_LITTLE_BOY;
     
     return gObjectEventGraphicsInfoPointers[graphicsId];
 }

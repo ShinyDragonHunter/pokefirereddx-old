@@ -11,12 +11,10 @@
 #define ITEMMENULOCATION_BERRY_TREE 4
 #define ITEMMENULOCATION_BERRY_BLENDER_CRUSH 5
 #define ITEMMENULOCATION_ITEMPC 6
-#define ITEMMENULOCATION_FAVOR_LADY 7
-#define ITEMMENULOCATION_QUIZ_LADY 8
-#define ITEMMENULOCATION_APPRENTICE 9
-#define ITEMMENULOCATION_WALLY 10
-#define ITEMMENULOCATION_PCBOX 11
-#define ITEMMENULOCATION_LAST 12
+#define ITEMMENULOCATION_APPRENTICE 7
+#define ITEMMENULOCATION_WALLY 8
+#define ITEMMENULOCATION_PCBOX 9
+#define ITEMMENULOCATION_LAST 10
 
 #define ITEMMENUACTION_USE           0
 #define ITEMMENUACTION_TOSS          1
@@ -30,9 +28,7 @@
 #define ITEMMENUACTION_CHECK_TAG     9
 #define ITEMMENUACTION_CONFIRM      10
 #define ITEMMENUACTION_SHOW         11
-#define ITEMMENUACTION_GIVE_2       12
-#define ITEMMENUACTION_CONFIRM_2    13
-#define ITEMMENUACTION_DUMMY        14
+#define ITEMMENUACTION_DUMMY        12
 
 // Exported type declarations
 struct BagStruct
@@ -78,8 +74,6 @@ extern u16 gSpecialVar_ItemId;
 
 // Exported ROM declarations
 void CB2_GoToItemDepositMenu(void);
-void FavorLadyOpenBagMenu(void);
-void QuizLadyOpenBagMenu(void);
 void ApprenticeOpenBagMenu(void);
 void CB2_BagMenuFromBattle(void);
 void SetInitialScrollAndCursorPositions(u8 pocketId);
