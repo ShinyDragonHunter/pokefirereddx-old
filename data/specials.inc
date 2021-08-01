@@ -6,7 +6,7 @@
 	.endm
 
 .set __special__, 0
-		.align 2
+	.align 2
 gSpecials:: @ 81DBA64
 	def_special HealPlayerParty
 	def_special SetCableClubWarp
@@ -14,6 +14,9 @@ gSpecials:: @ 81DBA64
 	def_special ReturnFromLinkRoom
 	def_special CleanupLinkRoomState
 	def_special ExitLinkRoom
+	def_special CopyDayOfWeekStringToVar1
+	def_special CopyCurrentDayOfWeekStringToVar1
+	def_special ChangeForm
 	def_special RecordMixingPlayerSpotTriggered
 	def_special TryBattleLinkup
 	def_special TryTradeLinkup
@@ -22,11 +25,8 @@ gSpecials:: @ 81DBA64
 	def_special CloseLink
 	def_special ColosseumPlayerSpotTriggered
 	def_special PlayerEnteredTradeSeat
-	def_special CopyDayOfWeekStringToVar1
 	def_special CableClubSaveGame
 	def_special TryBerryBlenderLinkup
-	def_special GetLinkPartnerNames
-	def_special SpawnLinkPartnerObjectEvent
 	def_special SavePlayerParty
 	def_special LoadPlayerParty
 	def_special ChooseHalfPartyForBattle
@@ -261,7 +261,6 @@ gSpecials:: @ 81DBA64
 	def_special SetRoute123Weather
 	def_special ScriptGetPartyMonSpecies
 	def_special IsSelectedMonEgg
-	def_special TryInitBattleTowerAwardManObjectEvent
 	def_special LoadPlayerBag
 	def_special Script_FadeOutMapMusic
 	def_special SetPacifidlogTMReceivedDay
@@ -387,5 +386,3 @@ gSpecials:: @ 81DBA64
 	def_special RemoveRecordsWindow
 	def_special CloseDeptStoreElevatorWindow
 	def_special TrySetBattleTowerLinkType
-	def_special ChangeForm
-	def_special CopyCurrentDayOfWeekStringToVar1

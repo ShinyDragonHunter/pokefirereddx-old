@@ -1095,6 +1095,8 @@ static void SpriteCB_ReleasedMonFlyOut(struct Sprite *sprite)
     bool8 r12 = FALSE;
     bool8 r6 = FALSE;
     u8 monSpriteId = sprite->data[0];
+    u16 var1;
+    u16 var2;
 
     if (sprite->animEnded)
         sprite->invisible = TRUE;
@@ -1103,8 +1105,10 @@ static void SpriteCB_ReleasedMonFlyOut(struct Sprite *sprite)
         StartSpriteAffineAnim(&gSprites[monSpriteId], BATTLER_AFFINE_NORMAL);
         r12 = TRUE;
     }
-    gSprites[monSpriteId].pos1.x = (sprite->data[5] - sprite->pos1.x) * sprite->data[7] / 128 + sprite->pos1.x;
-    gSprites[monSpriteId].pos1.y = (sprite->data[6] - sprite->pos1.y) * sprite->data[7] / 128 + sprite->pos1.y;
+    var1 = (sprite->data[5] - sprite->pos1.x) * sprite->data[7] / 128 + sprite->pos1.x;
+    var2 = (sprite->data[6] - sprite->pos1.y) * sprite->data[7] / 128 + sprite->pos1.y;
+    gSprites[monSpriteId].pos1.x = var1;
+    gSprites[monSpriteId].pos1.y = var2;
     if (sprite->data[7] < 128)
     {
         s16 sine = -(gSineTable[(u8)sprite->data[7]] / 8);

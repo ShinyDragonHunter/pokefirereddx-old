@@ -234,7 +234,7 @@
 #define OBJ_EVENT_GFX_HOENN_SUDOWOODO            230
 #define OBJ_EVENT_GFX_HOENN_BRANDON              231
 
-#define NUM_OBJ_EVENT_GFX                        232
+#define NUM_OBJ_EVENT_GFX                        OBJ_EVENT_GFX_HOENN_BRANDON + 1
 
 
 // These are dynamic object gfx ids.

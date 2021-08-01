@@ -1135,8 +1135,11 @@ static const union AnimCmd sAnim_GYARADOS_1[] =
 
 static const union AnimCmd sAnim_LAPRAS_1[] =
 {
-    ANIMCMD_FRAME(1, 30),
-    ANIMCMD_FRAME(0, 10),
+    ANIMCMD_FRAME(0, 6),
+    ANIMCMD_FRAME(1, 15),
+    ANIMCMD_FRAME(0, 6),
+    ANIMCMD_FRAME(1, 15),
+    ANIMCMD_FRAME(0, 3),
     ANIMCMD_END,
 };
 
@@ -1764,16 +1767,6 @@ static const union AnimCmd sAnim_CELEBI_1[] =
     ANIMCMD_FRAME(0, 30),
     ANIMCMD_FRAME(1, 30),
     ANIMCMD_FRAME(0, 30),
-    ANIMCMD_END,
-};
-
-static const union AnimCmd sAnim_TREECKO_1[] =
-{
-    ANIMCMD_FRAME(0, 6),
-    ANIMCMD_FRAME(1, 15),
-    ANIMCMD_FRAME(0, 6),
-    ANIMCMD_FRAME(1, 15),
-    ANIMCMD_FRAME(0, 3),
     ANIMCMD_END,
 };
 
@@ -3432,11 +3425,6 @@ static const union AnimCmd *const sAnims_CELEBI[] ={
     sAnim_CELEBI_1,
 };
 
-static const union AnimCmd *const sAnims_TREECKO[] ={
-    sAnim_GeneralFrame0,
-    sAnim_TREECKO_1,
-};
-
 static const union AnimCmd *const sAnims_GROVYLE[] ={
     sAnim_GeneralFrame0,
     sAnim_GROVYLE_1,
@@ -4094,7 +4082,7 @@ const union AnimCmd *const *const gMonFrontAnimsPtrTable[] =
     ANIM_CMD_FULL(OLD_UNOWN_X, gAnims_NONE),
     ANIM_CMD_FULL(OLD_UNOWN_Y, gAnims_NONE),
     ANIM_CMD_FULL(OLD_UNOWN_Z, gAnims_NONE),
-    ANIM_CMD(TREECKO),
+    ANIM_CMD_FULL(TREECKO, sAnims_LAPRAS),
     ANIM_CMD(GROVYLE),
     ANIM_CMD(SCEPTILE),
     ANIM_CMD(TORCHIC),

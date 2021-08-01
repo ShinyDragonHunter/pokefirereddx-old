@@ -109,6 +109,10 @@ static void ApplyLevitateMovement(u8);
 static bool8 MovementType_Disguise_Callback(struct ObjectEvent *, struct Sprite *);
 static bool8 MovementType_Buried_Callback(struct ObjectEvent *, struct Sprite *);
 static void CreateReflectionEffectSprites(void);
+static void SetObjectTemplateFlagIfTemporary(struct ObjectEventTemplate *template);
+static bool8 IsTreeOrRockOffScreenPostWalkTransition(struct ObjectEventTemplate *template, s16 x, s16 y);
+static bool8 IsConnectionTreeOrRockOnScreen(struct ObjectEventTemplate *template, s16 x, s16 y);
+static bool8 ShouldTreeOrRockObjectBeCreated(struct ObjectEventTemplate *template, bool8 inConnection, s16 x, s16 y);
 static u8 GetObjectEventIdByLocalId(u8);
 static u8 GetObjectEventIdByLocalIdAndMapInternal(u8, u8, u8);
 static bool8 GetAvailableObjectEventId(u16, u8, u8, u8 *);
@@ -872,11 +876,6 @@ static u8 GetObjectEventIdByLocalId(u8 localId)
     return OBJECT_EVENTS_COUNT;
 }
 
-static void SetObjectTemplateFlagIfTemporary(struct ObjectEventTemplate *template);
-static bool8 IsTreeOrRockOffScreenPostWalkTransition(struct ObjectEventTemplate *template, s16 x, s16 y);
-static bool8 IsConnectionTreeOrRockOnScreen(struct ObjectEventTemplate *template, s16 x, s16 y);
-static bool8 ShouldTreeOrRockObjectBeCreated(struct ObjectEventTemplate *template, bool8 inConnection, s16 x, s16 y);
-
 static u8 InitObjectEventStateFromTemplate(struct ObjectEventTemplate *template, u8 mapNum, u8 mapGroup)
 {
     struct ObjectEvent *objectEvent;
@@ -993,7 +992,6 @@ static bool8 IsConnectionTreeOrRockOnScreen(struct ObjectEventTemplate *template
 
 // If object is tree or rock, and is on screen when player is on edge of map,
 // then set its template flag so it isn't shown.
-// These would have a clone anyway so this should be okay.
 static bool8 IsTreeOrRockOffScreenPostWalkTransition(struct ObjectEventTemplate *template, s16 x, s16 y)
 {
     s32 width, height;
@@ -1356,7 +1354,7 @@ void TrySpawnObjectEvents(s16 cameraX, s16 cameraY)
 void RemoveObjectEventsOutsideView(void)
 {
     u32 i, j;
-    bool8 isActiveLinkPlayer;
+    bool32 isActiveLinkPlayer;
 
     for (i = 0; i < OBJECT_EVENTS_COUNT; i++)
     {

@@ -74,9 +74,7 @@ u8 GetCurrentTimeOfDay(void)
 
 u8 GetTimeOfDay(s8 hours)
 {
-    if (hours < HOUR_MORNING
-     || gMapHeader.mapLayoutId == LAYOUT_PETALBURG_WOODS
-     || gMapHeader.mapLayoutId == LAYOUT_FARAWAY_ISLAND_INTERIOR)
+    if (hours < HOUR_MORNING)
         return TIME_NIGHT;
     else if (hours < HOUR_DAY)
         return TIME_MORNING;

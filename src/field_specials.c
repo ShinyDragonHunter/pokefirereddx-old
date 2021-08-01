@@ -494,95 +494,6 @@ bool32 ShouldDoRivalRayquazaCall(void)
     return TRUE;
 }
 
-u8 GetLinkPartnerNames(void)
-{
-    u32 i;
-    u8 j = 0;
-    u8 myLinkPlayerNumber = GetMultiplayerId();
-    u8 nLinkPlayers = GetLinkPlayerCount();
-    for (i = 0; i < nLinkPlayers; i++)
-    {
-        if (myLinkPlayerNumber != i)
-        {
-            StringCopy(gTVStringVarPtrs[j], gLinkPlayers[i].name);
-            j++;
-        }
-    }
-    return nLinkPlayers;
-}
-
-void SpawnLinkPartnerObjectEvent(void)
-{
-    u8 j = 0;
-    s16 x = 0;
-    s16 y = 0;
-    u8 movementTypes[] = {
-        MOVEMENT_TYPE_FACE_UP, 
-        MOVEMENT_TYPE_FACE_LEFT, 
-        MOVEMENT_TYPE_FACE_DOWN, 
-        MOVEMENT_TYPE_FACE_RIGHT
-    };
-    s8 coordOffsets[][2] = {
-        { 0,  1},
-        { 1,  0},
-        { 0, -1},
-        {-1,  0}
-    };
-    u8 myLinkPlayerNumber;
-    u8 playerFacingDirection;
-    u8 linkSpriteId;
-    u32 i;
-
-    myLinkPlayerNumber = GetMultiplayerId();
-    playerFacingDirection = GetPlayerFacingDirection();
-    switch (playerFacingDirection)
-    {
-        case DIR_WEST:
-            j = 2;
-            x = gSaveBlock1Ptr->pos.x - 1;
-            y = gSaveBlock1Ptr->pos.y;
-            break;
-        case DIR_NORTH:
-            j = 1;
-            x = gSaveBlock1Ptr->pos.x;
-            y = gSaveBlock1Ptr->pos.y - 1;
-            break;
-        case DIR_EAST:
-            x = gSaveBlock1Ptr->pos.x + 1;
-            y = gSaveBlock1Ptr->pos.y;
-            break;
-        case DIR_SOUTH:
-            j = 3;
-            x = gSaveBlock1Ptr->pos.x;
-            y = gSaveBlock1Ptr->pos.y + 1;
-    }
-    for (i = 0; i < gSpecialVar_0x8004; i++)
-    {
-        if (myLinkPlayerNumber != i)
-        {
-            switch ((u8)gLinkPlayers[i].version)
-            {
-                case VERSION_SAPPHIRE:
-                case VERSION_RUBY:
-                    linkSpriteId = gLinkPlayers[i].gender + OBJ_EVENT_GFX_RS_BRENDAN;
-                    break;
-                default:
-                    if ((u8)gLinkPlayers[i].versionModifier == MODIFIER_HELIODOR)
-                        linkSpriteId = (gLinkPlayers[i].gender) ? OBJ_EVENT_GFX_H_MAY : OBJ_EVENT_GFX_H_BRENDAN;
-                    else
-                        linkSpriteId = (gLinkPlayers[i].gender) ? OBJ_EVENT_GFX_E_MAY : OBJ_EVENT_GFX_E_BRENDAN;
-                    break;
-            }
-            SpawnSpecialObjectEventParameterized(linkSpriteId, movementTypes[j], 240 - i, coordOffsets[j][0] + x + 7, coordOffsets[j][1] + y + 7, 0);
-            j++;
-            if (j == MAX_LINK_PLAYERS)
-            {
-                j = 0;
-            }
-        }
-    }
-}
-
 // NOTE: Coordinates are +7, +7 from actual in-map coordinates
 static const struct UCoords8 sMauvilleGymSwitchCoords[] =
 {
@@ -1510,12 +1421,6 @@ u8 GetLeadMonIndex(void)
 u16 ScriptGetPartyMonSpecies(void)
 {
     return GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_SPECIES2, NULL);
-}
-
-// Removed for Emerald
-void TryInitBattleTowerAwardManObjectEvent(void)
-{
-    //TryInitLocalObjectEvent(6);
 }
 
 u16 GetDaysUntilPacifidlogTMAvailable(void)
@@ -2703,13 +2608,10 @@ void SetBattleTowerLinkPlayerGfx(void)
             else
                 VarSet(VAR_OBJ_GFX_ID_F - i, (gLinkPlayers[i].gender) ? OBJ_EVENT_GFX_E_MAY : OBJ_EVENT_GFX_E_BRENDAN);
         }
+        else if ((u8)gLinkPlayers[i].version <= VERSION_LEAF_GREEN && (u8)gLinkPlayers[i].versionModifier < MODIFIER_CRYSTALDUST)
+            VarSet(VAR_OBJ_GFX_ID_F - i, (gLinkPlayers[i].gender) ? OBJ_EVENT_GFX_LEAF_NORMAL : OBJ_EVENT_GFX_RED_NORMAL);
         else
-        {
-            if ((u8)gLinkPlayers[i].versionModifier == MODIFIER_CRYSTALDUST)
-                VarSet(VAR_OBJ_GFX_ID_F - i, gLinkPlayers[i].gender + OBJ_EVENT_GFX_GOLD);
-            else
-                VarSet(VAR_OBJ_GFX_ID_F - i, (gLinkPlayers[i].gender) ? OBJ_EVENT_GFX_LEAF_NORMAL : OBJ_EVENT_GFX_RED_NORMAL);
-        }
+            VarSet(VAR_OBJ_GFX_ID_F - i, gLinkPlayers[i].gender + OBJ_EVENT_GFX_GOLD);
     }
 }
 

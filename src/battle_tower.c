@@ -1193,14 +1193,12 @@ void SetBattleFacilityTrainerGfxId(u16 trainerId, u8 tempVarId)
     switch (tempVarId)
     {
     case 1:
-        gSpecialVar_0x8001 = MALE;
         VarSet(VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_YOUNGSTER);
         return;
     case 15:
         VarSet(VAR_OBJ_GFX_ID_E, OBJ_EVENT_GFX_YOUNGSTER);
         return;
     default:
-        gSpecialVar_0x8000 = MALE;
         VarSet(VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_YOUNGSTER);
         return;
     }

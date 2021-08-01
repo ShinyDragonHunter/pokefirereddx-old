@@ -415,10 +415,7 @@ static const struct SpriteTemplate gBerryCheckCircleSpriteTemplate =
 // code
 void ResetItemMenuIconState(void)
 {
-    u32 i;
-
-    for (i = 0; i < ARRAY_COUNT(sItemMenuIconSpriteIds); i++)
-        sItemMenuIconSpriteIds[i] = 0xFF;
+    memset(sItemMenuIconSpriteIds, 0xFF, sizeof(sItemMenuIconSpriteIds));
 }
 
 void AddBagVisualSprite(u8 bagPocketId)

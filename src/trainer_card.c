@@ -1867,8 +1867,8 @@ static void InitTrainerCardData(void)
     sData->timeColonInvisible = FALSE;
     sData->onBack = FALSE;
     sData->flipBlendY = 0;
-    sData->cardType = VersionToCardType(sData->trainerCard.version, sData->trainerCard.versionModifier);
     sData->isHoenn = (sData->trainerCard.version < VERSION_FIRE_RED) ? TRUE : FALSE;
+    sData->cardType = VersionToCardType(sData->trainerCard.version, sData->trainerCard.versionModifier);
     for (i = 0; i < TRAINER_CARD_PROFILE_LENGTH; i++)
         CopyEasyChatWord(sData->easyChatProfile[i], sData->trainerCard.easyChatProfile[i]);
 }

@@ -21,6 +21,8 @@
 #include "text_window.h"
 #include "trig.h"
 #include "window.h"
+#include "constants/day_night.h"
+#include "constants/layouts.h"
 #include "constants/map_types.h"
 #include "constants/songs.h"
 #include "constants/trainers.h"
@@ -31,7 +33,7 @@ struct BattleBackground
     const void *tilemap;
     const void *entryTileset;
     const void *entryTilemap;
-    const void *palette[3];
+    const void *palette[TIMES_OF_DAY_COUNT];
 };
 
 // .rodata
@@ -539,10 +541,15 @@ static const struct BattleBackground gBattleTerrainTable[] =
 
 void LoadBattleTerrainGfx(u16 terrain)
 {
+    u8 timeOfDay = GetCurrentTimeOfDay();
+
+    if (gMapHeader.mapLayoutId == LAYOUT_PETALBURG_WOODS
+     || gMapHeader.mapLayoutId == LAYOUT_FARAWAY_ISLAND_INTERIOR)
+        timeOfDay = TIME_NIGHT;
     // Copy to bg3
     LZDecompressVram(gBattleTerrainTable[terrain].tileset, (void *)BG_CHAR_ADDR(2));
     LZDecompressVram(gBattleTerrainTable[terrain].tilemap, (void *)BG_SCREEN_ADDR(26));
-    LoadCompressedPalette(gBattleTerrainTable[terrain].palette[GetCurrentTimeOfDay()], 0x20, 0x60);
+    LoadCompressedPalette(gBattleTerrainTable[terrain].palette[timeOfDay], 0x20, 0x60);
 }
 
 static void LoadBattleTerrainEntryGfx(u16 terrain)
@@ -904,6 +911,7 @@ u8 GetBattleTerrainOverride(void)
 
 bool8 LoadChosenBattleElement(u8 caseId)
 {
+    u8 timeOfDay = GetCurrentTimeOfDay();
     bool8 ret = FALSE;
 
     switch (caseId)
@@ -925,7 +933,10 @@ bool8 LoadChosenBattleElement(u8 caseId)
         LZDecompressVram(gBattleTerrainTable[GetBattleTerrainOverride()].tilemap, (void *)BG_SCREEN_ADDR(26));
         break;
     case 5:
-        LoadCompressedPalette(gBattleTerrainTable[GetBattleTerrainOverride()].palette[GetCurrentTimeOfDay()], 0x20, 0x60);
+        if (gMapHeader.mapLayoutId == LAYOUT_PETALBURG_WOODS
+         || gMapHeader.mapLayoutId == LAYOUT_FARAWAY_ISLAND_INTERIOR)
+            timeOfDay = TIME_NIGHT;
+        LoadCompressedPalette(gBattleTerrainTable[GetBattleTerrainOverride()].palette[timeOfDay], 0x20, 0x60);
         break;
     case 6:
         LoadBattleMenuWindowGfx();
