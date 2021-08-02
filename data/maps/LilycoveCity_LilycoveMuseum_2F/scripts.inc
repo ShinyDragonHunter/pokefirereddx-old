@@ -7,18 +7,18 @@ LilycoveCity_LilycoveMuseum_2F_EventScript_Girl:: @ 821998A
 	msgbox LilycoveCity_LilycoveMuseum_2F_Text_NewPaintingsSurprisedMe, MSGBOX_NPC
 	end
 
-LilycoveCity_LilycoveMuseum_2F_EventScript_ExpertM:: @ 8219993
+LilycoveCity_LilycoveMuseum_2F_EventScript_ExpertM::
 	msgbox LilycoveCity_LilycoveMuseum_2F_Text_NewPaintingsRatherAmusing, MSGBOX_NPC
 	end
 
-LilycoveCity_LilycoveMuseum_2F_EventScript_RichBoy:: @ 821999C
+LilycoveCity_LilycoveMuseum_2F_EventScript_RichBoy::
 	msgbox LilycoveCity_LilycoveMuseum_2F_Text_ThesePaintingsOfYourPokemon, MSGBOX_NPC
 	end
 
-LilycoveCity_LilycoveMuseum_2F_Text_ThisIsExhibitHall: @ 82199EB
+LilycoveCity_LilycoveMuseum_2F_Text_ThisIsExhibitHall:
 	.string "This is our special exhibit hall.$"
 
-LilycoveCity_LilycoveMuseum_2F_Text_ExplainExhibitHall: @ 8219A0D
+LilycoveCity_LilycoveMuseum_2F_Text_ExplainExhibitHall:
 	.string "As you can plainly see, there is not\n"
 	.string "a single painting on exhibit.\p"
 	.string "Here, I don't wish to exhibit works of\n"
@@ -34,7 +34,7 @@ LilycoveCity_LilycoveMuseum_2F_Text_ExplainExhibitHall: @ 8219A0D
 	.string "POKéMON seemingly ready to spring\l"
 	.string "forth into glorious life!$"
 
-LilycoveCity_LilycoveMuseum_2F_Text_PleaseObtainPaintingsForExhibit: @ 8219BC4
+LilycoveCity_LilycoveMuseum_2F_Text_PleaseObtainPaintingsForExhibit:
 	.string "I beg your pardon. I didn't intend\n"
 	.string "to monopolize the conversation.\p"
 	.string "Now, as you are young, and yet\n"
@@ -46,23 +46,23 @@ LilycoveCity_LilycoveMuseum_2F_Text_PleaseObtainPaintingsForExhibit: @ 8219BC4
 	.string "the artist's permission to exhibit\l"
 	.string "it here?$"
 
-LilycoveCity_LilycoveMuseum_2F_Text_WishToFillExhibit: @ 8219CF3
+LilycoveCity_LilycoveMuseum_2F_Text_WishToFillExhibit:
 	.string "I wish to fill this exhibit hall with\n"
 	.string "modern and vibrant paintings of\l"
 	.string "POKéMON.$"
 
-LilycoveCity_LilycoveMuseum_2F_Text_ThanksAddedNewPainting: @ 8219D42
+LilycoveCity_LilycoveMuseum_2F_Text_ThanksAddedNewPainting:
 	.string "Thanks to you, we've added a new\n"
 	.string "painting to our collection!\p"
 	.string "I've heard it depicts your POKéMON.\n"
 	.string "Truly magnificent!\p"
 	.string "Thank you so very, very much!$"
 
-LilycoveCity_LilycoveMuseum_2F_Text_ItsYouPlayer: @ 8219DD4
+LilycoveCity_LilycoveMuseum_2F_Text_ItsYouPlayer:
 	.string "Ah! It's you!\n"
 	.string "{PLAYER}!$"
 
-LilycoveCity_LilycoveMuseum_2F_Text_PaintingsAttractedMoreGuests: @ 8219DE6
+LilycoveCity_LilycoveMuseum_2F_Text_PaintingsAttractedMoreGuests:
 	.string "Isn't this marvelous?\n"
 	.string "This collection of paintings!\p"
 	.string "Each one of them flawless!\n"
@@ -72,58 +72,57 @@ LilycoveCity_LilycoveMuseum_2F_Text_PaintingsAttractedMoreGuests: @ 8219DE6
 	.string "Sincerely, I thank you, {PLAYER}.\n"
 	.string "This is my dream come true!$"
 
-LilycoveCity_LilycoveMuseum_2F_Text_TokenOfGratitude: @ 8219EC5
+LilycoveCity_LilycoveMuseum_2F_Text_TokenOfGratitude:
 	.string "This is merely a token of my gratitude.$"
 
-LilycoveCity_LilycoveMuseum_2F_Text_KeepThisForYou: @ 8219EED
+LilycoveCity_LilycoveMuseum_2F_Text_KeepThisForYou:
 	.string "I will keep this for you until we\n"
 	.string "meet again.$"
 
-LilycoveCity_LilycoveMuseum_2F_Text_HonorToHaveYouVisit: @ 8219F1B
+LilycoveCity_LilycoveMuseum_2F_Text_HonorToHaveYouVisit:
 	.string "Ah, so good to see you, {PLAYER}!\p"
 	.string "It's an honor to have you visit us\n"
 	.string "on your busy journeys.\p"
 	.string "Please, relax and do enjoy your\n"
 	.string "visit with us.$"
 
-LilycoveCity_LilycoveMuseum_2F_Text_ItsPinkPictureFrame: @ 8219FA0
+LilycoveCity_LilycoveMuseum_2F_Text_ItsPinkPictureFrame:
 	.string "It's a picture frame with pink-colored\n"
 	.string "adornments.$"
 
-LilycoveCity_LilycoveMuseum_2F_Text_ItsYellowPictureFrame: @ 8219FD3
+LilycoveCity_LilycoveMuseum_2F_Text_ItsYellowPictureFrame:
 	.string "It's a picture frame with\n"
 	.string "yellow-colored adornments.$"
 
-LilycoveCity_LilycoveMuseum_2F_Text_ItsBluePictureFrame: @ 821A008
+LilycoveCity_LilycoveMuseum_2F_Text_ItsBluePictureFrame:
 	.string "It's a picture frame with\n"
 	.string "blue-colored adornments.$"
 
-LilycoveCity_LilycoveMuseum_2F_Text_ItsRedPictureFrame: @ 821A03B
+LilycoveCity_LilycoveMuseum_2F_Text_ItsRedPictureFrame:
 	.string "It's a picture frame with\n"
 	.string "red-colored adornments.$"
 
-LilycoveCity_LilycoveMuseum_2F_Text_ItsGreenPictureFrame: @ 821A06D
+LilycoveCity_LilycoveMuseum_2F_Text_ItsGreenPictureFrame:
 	.string "It's a picture frame with\n"
 	.string "green-colored adornments.$"
 
-LilycoveCity_LilycoveMuseum_2F_Text_ItsPaintingOfPokemon: @ 821A0A1
+LilycoveCity_LilycoveMuseum_2F_Text_ItsPaintingOfPokemon:
 	.string "It's a painting of POKéMON.$"
 
-LilycoveCity_LilycoveMuseum_2F_Text_NewPaintingsSurprisedMe: @ 821A0BD
+LilycoveCity_LilycoveMuseum_2F_Text_NewPaintingsSurprisedMe:
 	.string "I've been away awhile, so the new\n"
 	.string "paintings up here surprised me.\p"
 	.string "I wish someone would paint my POKéMON\n"
 	.string "this pretty.$"
 
-LilycoveCity_LilycoveMuseum_2F_Text_NewPaintingsRatherAmusing: @ 821A132
+LilycoveCity_LilycoveMuseum_2F_Text_NewPaintingsRatherAmusing:
 	.string "Well… So this is where they show\n"
 	.string "the topical POKéMON paintings.\p"
 	.string "I see, these new paintings are indeed\n"
 	.string "rather amusing.$"
 
-LilycoveCity_LilycoveMuseum_2F_Text_ThesePaintingsOfYourPokemon: @ 821A1A8
+LilycoveCity_LilycoveMuseum_2F_Text_ThesePaintingsOfYourPokemon:
 	.string "Wow, is that right?\n"
 	.string "These paintings are of your POKéMON.\p"
 	.string "Isn't that just the ultimate joy for\n"
 	.string "a TRAINER?$"
-

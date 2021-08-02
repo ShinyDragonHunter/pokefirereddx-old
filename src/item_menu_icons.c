@@ -427,15 +427,15 @@ void AddBagVisualSprite(u8 bagPocketId)
 void SetBagVisualPocketId(u8 bagPocketId)
 {
     struct Sprite *sprite = &gSprites[sItemMenuIconSpriteIds[0]];
-    sprite->pos2.y = -5;
+    sprite->y2 = -5;
     sprite->callback = SpriteCB_BagVisualSwitchingPockets;
     StartSpriteAnim(sprite, bagPocketId + 1);
 }
 
 static void SpriteCB_BagVisualSwitchingPockets(struct Sprite *sprite)
 {
-    if (sprite->pos2.y)
-        sprite->pos2.y++;
+    if (sprite->y2)
+        sprite->y2++;
     else
         sprite->callback = SpriteCallbackDummy;
 }
@@ -497,8 +497,8 @@ void UpdateSwapLineSpritesPos(u8 *spriteIds, u8 count, s16 x, u16 y)
 
     for (i = 0; i < count; i++)
     {
-        gSprites[spriteIds[i]].pos2.x = x;
-        gSprites[spriteIds[i]].pos1.y = y + 7;
+        gSprites[spriteIds[i]].x = x;
+        gSprites[spriteIds[i]].y = y + 7;
     }
 }
 
@@ -650,8 +650,8 @@ void AddBagItemIconSprite(u16 itemId, u8 id)
         if (iconSpriteId != MAX_SPRITES)
         {
             spriteId[id] = iconSpriteId;
-            gSprites[iconSpriteId].pos2.x = 24;
-            gSprites[iconSpriteId].pos2.y = 140;
+            gSprites[iconSpriteId].x = 24;
+            gSprites[iconSpriteId].y = 140;
         }
     }
 }

@@ -714,7 +714,7 @@ static void SpriteCB_Egg_0(struct Sprite* sprite)
     else
     {
         sprite->data[1] = (sprite->data[1] + 20) & 0xFF;
-        sprite->pos2.x = Sin(sprite->data[1], 1);
+        sprite->x2 = Sin(sprite->data[1], 1);
         if (sprite->data[0] == 15)
         {
             PlaySE(SE_BALL);
@@ -737,7 +737,7 @@ static void SpriteCB_Egg_1(struct Sprite* sprite)
         else
         {
             sprite->data[1] = (sprite->data[1] + 20) & 0xFF;
-            sprite->pos2.x = Sin(sprite->data[1], 2);
+            sprite->x2 = Sin(sprite->data[1], 2);
             if (sprite->data[0] == 15)
             {
                 PlaySE(SE_BALL);
@@ -759,13 +759,14 @@ static void SpriteCB_Egg_2(struct Sprite* sprite)
             sprite->data[0] = 0;
             species = GetFormSpecies(GetMonData(&gPlayerParty[sEggHatchData->eggPartyID], MON_DATA_SPECIES),
                                     GetMonData(&gPlayerParty[sEggHatchData->eggPartyID], MON_DATA_FORM));
-            gSprites[sEggHatchData->pokeSpriteID].pos2.x = 0;
-            gSprites[sEggHatchData->pokeSpriteID].pos2.y = gMonFrontPicCoords[species].y_offset;
+            gSprites[sEggHatchData->pokeSpriteID].x2 = 0;
+            gSprites[sEggHatchData->pokeSpriteID].y2 = 0;
+//            gSprites[sEggHatchData->pokeSpriteID].y2 = gMonFrontPicCoords[species].y_offset;
         }
         else
         {
             sprite->data[1] = (sprite->data[1] + 20) & 0xFF;
-            sprite->pos2.x = Sin(sprite->data[1], 2);
+            sprite->x2 = Sin(sprite->data[1], 2);
             if (sprite->data[0] == 15)
             {
                 PlaySE(SE_BALL);
@@ -818,7 +819,7 @@ static void SpriteCB_Egg_5(struct Sprite* sprite)
     if (sprite->data[0] == 8)
         BeginNormalPaletteFade(PALETTES_ALL, -1, 0x10, 0, RGB_WHITEALPHA);
     if (sprite->data[0] <= 9)
-        gSprites[sEggHatchData->pokeSpriteID].pos1.y -= 1;
+        gSprites[sEggHatchData->pokeSpriteID].y -= 1;
     if (sprite->data[0] > 40)
         sprite->callback = SpriteCallbackDummy;
     sprite->data[0]++;
@@ -829,12 +830,12 @@ static void SpriteCB_EggShard(struct Sprite* sprite)
     sprite->data[4] += sprite->data[1];
     sprite->data[5] += sprite->data[2];
 
-    sprite->pos2.x = sprite->data[4] / 256;
-    sprite->pos2.y = sprite->data[5] / 256;
+    sprite->x2 = sprite->data[4] / 256;
+    sprite->y2 = sprite->data[5] / 256;
 
     sprite->data[2] += sprite->data[3];
 
-    if (sprite->pos1.y + sprite->pos2.y > sprite->pos1.y + 20 && sprite->data[2] > 0)
+    if (sprite->y + sprite->y2 > sprite->y + 20 && sprite->data[2] > 0)
         DestroySprite(sprite);
 }
 

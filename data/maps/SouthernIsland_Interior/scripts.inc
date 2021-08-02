@@ -1,22 +1,22 @@
 .set LOCALID_LATI, 2
 
-SouthernIsland_Interior_MapScripts:: @ 8242A45
+SouthernIsland_Interior_MapScripts::
 	map_script MAP_SCRIPT_ON_RESUME, SouthernIsland_Interior_OnResume
 	map_script MAP_SCRIPT_ON_TRANSITION, SouthernIsland_Interior_OnTransition
 	.byte 0
 
-SouthernIsland_Interior_OnResume: @ 8242A50
+SouthernIsland_Interior_OnResume:
 	call_if_set FLAG_SYS_CTRL_OBJ_DELETE, SouthernIsland_Interior_EventScript_TryRemoveLati
 	end
 
-SouthernIsland_Interior_EventScript_TryRemoveLati:: @ 8242A5A
+SouthernIsland_Interior_EventScript_TryRemoveLati::
 	specialvar VAR_RESULT, GetBattleOutcome
 	compare VAR_RESULT, B_OUTCOME_CAUGHT
 	goto_if_ne Common_EventScript_NopReturn
 	removeobject LOCALID_LATI
 	return
 
-SouthernIsland_Interior_OnTransition: @ 8242A6E
+SouthernIsland_Interior_OnTransition:
 	compare VAR_ROAMER_POKEMON, 0
 	call_if_eq SouthernIsland_Interior_EventScript_SetUpLatios
 	compare VAR_ROAMER_POKEMON, 0
@@ -24,23 +24,23 @@ SouthernIsland_Interior_OnTransition: @ 8242A6E
 	call Route111_EventScript_SetFallingPlayerGfx
 	end
 
-SouthernIsland_Interior_EventScript_SetUpLatios:: @ 8242A8A
+SouthernIsland_Interior_EventScript_SetUpLatios::
 	setvar VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_HOENN_LATIOS
 	setvar VAR_TEMP_4, SPECIES_LATIOS
 	return
 
-SouthernIsland_Interior_EventScript_SetUpLatias:: @ 8242A95
+SouthernIsland_Interior_EventScript_SetUpLatias::
 	setvar VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_HOENN_LATIAS
 	setvar VAR_TEMP_4, SPECIES_LATIAS
 	return
 
-SouthernIsland_Interior_EventScript_TryLatiEncounter:: @ 8242AC4
+SouthernIsland_Interior_EventScript_TryLatiEncounter::
 	lockall
 	setvar VAR_0x8008, 12
 	goto SouthernIsland_Interior_EventScript_Lati
 	end
 
-SouthernIsland_Interior_EventScript_Lati:: @ 8242AD0
+SouthernIsland_Interior_EventScript_Lati::
 	goto_if_set FLAG_TEMP_2, SouthernIsland_Interior_EventScript_Sign
 	goto_if_set FLAG_DEFEATED_LATIAS_OR_LATIOS, SouthernIsland_Interior_EventScript_Sign
 	goto_if_set FLAG_CAUGHT_LATIAS_OR_LATIOS, SouthernIsland_Interior_EventScript_Sign
@@ -85,33 +85,33 @@ SouthernIsland_Interior_EventScript_Lati:: @ 8242AD0
 	releaseall
 	end
 
-SouthernIsland_Interior_EventScript_LatiDefeated:: @ 8242B81
+SouthernIsland_Interior_EventScript_LatiDefeated::
 	setflag FLAG_DEFEATED_LATIAS_OR_LATIOS
-SouthernIsland_Interior_EventScript_RanFromLati:: @ 8242B8F
+SouthernIsland_Interior_EventScript_RanFromLati::
 	copyvar VAR_0x8004, VAR_TEMP_4
 	goto Common_EventScript_LegendaryFlewAway
 	end
 
-SouthernIsland_Interior_EventScript_Sign:: @ 8242B9A
+SouthernIsland_Interior_EventScript_Sign::
 	msgbox SouthernIsland_Interior_Text_Sign, MSGBOX_DEFAULT
 	releaseall
 	end
 
-SouthernIsland_Interior_EventScript_SetLatiosBattleVars:: @ 8242BA4
+SouthernIsland_Interior_EventScript_SetLatiosBattleVars::
 	setvar VAR_0x8004, SPECIES_LATIOS
 	return
 
-SouthernIsland_Interior_EventScript_SetLatiasBattleVars:: @ 8242BB7
+SouthernIsland_Interior_EventScript_SetLatiasBattleVars::
 	setvar VAR_0x8004, SPECIES_LATIAS
 	return
 
-SouthernIsland_Interior_Movement_CameraPanUp: @ 8242BCA
+SouthernIsland_Interior_Movement_CameraPanUp:
 	walk_up
 	walk_up
 	walk_up
 	step_end
 
-SouthernIsland_Interior_Movement_CameraPanDown: @ 8242BCE
+SouthernIsland_Interior_Movement_CameraPanDown:
 	delay_16
 	delay_16
 	delay_16
@@ -125,7 +125,7 @@ SouthernIsland_Interior_Movement_CameraPanDown: @ 8242BCE
 	walk_in_place_fastest_up
 	step_end
 
-SouthernIsland_Interior_Movement_LatiApproach: @ 8242BDA
+SouthernIsland_Interior_Movement_LatiApproach:
 	walk_down
 	walk_down
 	walk_down

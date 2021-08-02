@@ -1,4 +1,4 @@
-gText_NurseIntro_Morning:: @ 82726EB
+gText_NurseIntro_Morning::
     .string "Good morning, and welcome to the\n"
 .if UK
     .string "POKéMON CENTRE.\p$"
@@ -14,7 +14,7 @@ gText_NurseIntro_Day:: @ 82726EB
     .string "CENTER.\p$"
 .endif
 
-gText_NurseIntro_Night:: @ 82726EB
+gText_NurseIntro_Night::
     .string "Good evening, and welcome to the\n"
 .if UK
     .string "POKéMON CENTRE.\p$"
@@ -22,30 +22,30 @@ gText_NurseIntro_Night:: @ 82726EB
     .string "POKéMON CENTER.\p$"
 .endif
 
-gText_WouldYouLikeToRestYourPkmn:: @ 82726EB
+gText_WouldYouLikeToRestYourPkmn::
     .string "We restore your tired POKéMON to\n"
     .string "full health.\p"
     .string "Would you like to rest your POKéMON?$"
 
 
-gText_IllTakeYourPkmn:: @ 8272768
+gText_IllTakeYourPkmn::
     .string "Okay, I'll take your POKéMON for a\n"
     .string "few seconds.$"
 
-gText_RestoredPkmnToFullHealth:: @ 8272798
+gText_RestoredPkmnToFullHealth::
     .string "Thank you for waiting.\p"
     .string "We've restored your POKéMON to\n"
     .string "full health.$"
 
-gText_WeHopeToSeeYouAgain:: @ 82727DB
+gText_WeHopeToSeeYouAgain::
     .string "We hope to see you again!$"
 
-gText_WelcomeCutShort:: @ 82727F5
+gText_WelcomeCutShort::
     .string "We restore your tired POKéMON to\n"
     .string "full health.\p"
     .string "Would you like to…$"
 
-gText_NoticesGoldCard:: @ 8272860
+gText_NoticesGoldCard::
     .string "Th-that card…\n"
     .string "Could it be… The GOLD CARD?!\p"
 .if UK
@@ -65,9 +65,9 @@ gText_NoticesGoldCard:: @ 8272860
     .string "the honor of resting your POKéMON!$"
 .endif
 
-gText_YouWantTheUsual:: @ 8272982
+gText_YouWantTheUsual::
     .string "I'm delighted to see you, {PLAYER}!\n"
     .string "You want the usual, am I right?$"
 
-gText_ThankYouForWaiting:: @ 82729F0
+gText_ThankYouForWaiting::
     .string "Thank you for waiting.$"

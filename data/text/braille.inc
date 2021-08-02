@@ -1,90 +1,90 @@
-Underwater_SealedChamber_Braille_GoUpHere: @ 82A6B15
+Underwater_SealedChamber_Braille_GoUpHere:
 	.braille "GO UP HERE.$"
 
-SealedChamber_OuterRoom_Braille_ABC: @ 82A6B27
+SealedChamber_OuterRoom_Braille_ABC:
 	.braille "ABC$"
 
-SealedChamber_OuterRoom_Braille_GHI: @ 82A6B31
+SealedChamber_OuterRoom_Braille_GHI:
 	.braille "GHI$"
 
-SealedChamber_OuterRoom_Braille_MNO: @ 82A6B3B
+SealedChamber_OuterRoom_Braille_MNO:
 	.braille "MNO$"
 
-SealedChamber_OuterRoom_Braille_TUV: @ 82A6B45
+SealedChamber_OuterRoom_Braille_TUV:
 	.braille "TUV$"
 
-SealedChamber_OuterRoom_Braille_DEF: @ 82A6B4F
+SealedChamber_OuterRoom_Braille_DEF:
 	.braille "DEF$"
 
-SealedChamber_OuterRoom_Braille_JKL: @ 82A6B59
+SealedChamber_OuterRoom_Braille_JKL:
 	.braille "JKL$"
 
-SealedChamber_OuterRoom_Braille_PQRS: @ 82A6B63
+SealedChamber_OuterRoom_Braille_PQRS:
 	.braille "PQRS$"
 
-SealedChamber_OuterRoom_Braille_Period: @ 82A6B6E
+SealedChamber_OuterRoom_Braille_Period:
 	.braille ".$"
 
-SealedChamber_OuterRoom_Braille_WXYZ: @ 82A6B76
+SealedChamber_OuterRoom_Braille_WXYZ:
 	.braille "WXYZ$"
 
-SealedChamber_OuterRoom_Braille_Comma: @ 82A6B81
+SealedChamber_OuterRoom_Braille_Comma:
 	.braille ",$"
 
-SealedChamber_OuterRoom_Braille_DigHere: @ 82A6B89
+SealedChamber_OuterRoom_Braille_DigHere:
 	.braille "DIG HERE.$"
 
-SealedChamber_InnerRoom_Braille_FirstWailordLastRelicanth: @ 82A6B99
+SealedChamber_InnerRoom_Braille_FirstWailordLastRelicanth:
 	.braille "FIRST COMES\n"
 	.braille "WAILORD.\n"
 	.braille "LAST COMES\n"
 	.braille "RELICANTH.$"
 
-SealedChamber_InnerRoom_Braille_InThisCaveWeHaveLived: @ 82A6BCA
+SealedChamber_InnerRoom_Braille_InThisCaveWeHaveLived:
 	.braille "IN THIS\n"
 	.braille "CAVE WE\n"
 	.braille "HAVE\n"
 	.braille "LIVED.$"
 
-SealedChamber_InnerRoom_Braille_WeOweAllToThePokemon: @ 82A6BEC
+SealedChamber_InnerRoom_Braille_WeOweAllToThePokemon:
 	.braille "WE OWE ALL\n"
 	.braille "TO THE\n"
 	.braille "POKEMON.$"
 
-SealedChamber_InnerRoom_Braille_ButWeSealedThePokemonAway: @ 82A6C0D
+SealedChamber_InnerRoom_Braille_ButWeSealedThePokemonAway:
 	.braille "BUT, WE\n"
 	.braille "SEALED THE\n"
 	.braille "POKEMON\n"
 	.braille "AWAY.$"
 
-SealedChamber_InnerRoom_Braille_WeFearedIt: @ 82A6C34
+SealedChamber_InnerRoom_Braille_WeFearedIt:
 	.braille "WE FEARED IT.$"
 
-SealedChamber_InnerRoom_Braille_ThoseWithCourageHope: @ 82A6C48
+SealedChamber_InnerRoom_Braille_ThoseWithCourageHope:
 	.braille "THOSE WITH\n"
 	.braille "COURAGE,\n"
 	.braille "THOSE WITH\n"
 	.braille "HOPE.$"
 
-SealedChamber_InnerRoom_Braille_OpenDoorEternalPokemonWaits: @ 82A6C73
+SealedChamber_InnerRoom_Braille_OpenDoorEternalPokemonWaits:
 	.braille "OPEN A DOOR.\n"
 	.braille "AN ETERNAL\n"
 	.braille "POKEMON\n"
 	.braille "WAITS.$"
 
-DesertRuins_Braille_UseRockSmash: @ 82A6CA0
+DesertRuins_Braille_UseRockSmash:
 	.braille "LEFT, LEFT,\n"
 	.braille "DOWN, DOWN.\n"
 	.braille "THEN, USE\n"
 	.braille "ROCK SMASH.$"
 
-IslandCave_Braille_RunLapAroundWall: @ 82A6CD4
+IslandCave_Braille_RunLapAroundWall:
 	.braille "STAY CLOSE\n"
 	.braille "TO THE WALL.\n"
 	.braille "RUN AROUND\n"
 	.braille "ONE LAP.$"
 
-AncientTomb_Braille_ShineInTheMiddle: @ 82A6D06
+AncientTomb_Braille_ShineInTheMiddle:
 	.braille "THOSE WHO\n"
 	.braille "INHERIT OUR\n"
 	.braille "WILL, SHINE\n"

@@ -1,14 +1,14 @@
 .set LOCALID_ATTENDANT, 1
 
-VerdanturfTown_BattleTentCorridor_MapScripts:: @ 820208A
+VerdanturfTown_BattleTentCorridor_MapScripts::
 	map_script MAP_SCRIPT_ON_FRAME_TABLE, VerdanturfTown_BattleTentCorridor_OnFrame
 	.byte 0
 
-VerdanturfTown_BattleTentCorridor_OnFrame: @ 8202090
+VerdanturfTown_BattleTentCorridor_OnFrame:
 	map_script_2 VAR_TEMP_0, 0, VerdanturfTown_BattleTentCorridor_EventScript_EnterCorridor
 	.2byte 0
 
-VerdanturfTown_BattleTentCorridor_EventScript_EnterCorridor:: @ 820209A
+VerdanturfTown_BattleTentCorridor_EventScript_EnterCorridor::
 	lockall
 	setvar VAR_TEMP_0, 1
 	applymovement LOCALID_ATTENDANT, VerdanturfTown_BattleTentCorridor_Movement_WalkToDoor
@@ -27,16 +27,16 @@ VerdanturfTown_BattleTentCorridor_EventScript_EnterCorridor:: @ 820209A
 	releaseall
 	end
 
-VerdanturfTown_BattleTentCorridor_Movement_WalkToDoor: @ 82020DE
+VerdanturfTown_BattleTentCorridor_Movement_WalkToDoor:
 	walk_up
 	walk_up
 	walk_up
 	walk_up
 	step_end
 
-VerdanturfTown_BattleTentCorridor_Movement_PlayerEnterDoor: @ 82020E3
+VerdanturfTown_BattleTentCorridor_Movement_PlayerEnterDoor:
 	walk_up
-VerdanturfTown_BattleTentCorridor_Movement_AttendantEnterDoor: @ 82020E4
+VerdanturfTown_BattleTentCorridor_Movement_AttendantEnterDoor:
 	walk_up
 	set_invisible
 	step_end

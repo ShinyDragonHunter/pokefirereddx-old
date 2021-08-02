@@ -3675,11 +3675,11 @@ static u32 DoDodrioMissedAnim(struct Sprite *sprite)
             break;
         }
 
-        sprite->pos1.x += x;
+        sprite->x += x;
         if (++sprite->sTimer >= 40)
         {
             sprite->sState = 0;
-            sprite->pos1.x = GetDodrioXPos(0, GetNumPlayers());
+            sprite->x = GetDodrioXPos(0, GetNumPlayers());
         }
     }
 
@@ -3752,8 +3752,8 @@ static void InitStatusBarPos(void)
     for (i = 0; i < NUM_STATUS_SQUARES; i++)
     {
         struct Sprite *sprite = &gSprites[sStatusBar->spriteIds[i]];
-        sprite->pos1.x = (i * 16) + 48;
-        sprite->pos1.y = -8 - (i * 8);
+        sprite->x = (i * 16) + 48;
+        sprite->y = -8 - (i * 8);
         sStatusBar->entered[i] = FALSE;
     }
 }
@@ -3814,11 +3814,11 @@ static bool32 DoStatusBarIntro(void)
     {
         struct Sprite *sprite = &gSprites[sStatusBar->spriteIds[i]];
         sStatusBar->yChange[i] = 2;
-        if (sStatusBar->entered[i] && sprite->pos1.y == 8)
+        if (sStatusBar->entered[i] && sprite->y == 8)
             continue;
 
         animActive = TRUE;
-        if (sprite->pos1.y == 8)
+        if (sprite->y == 8)
         {
             if (sStatusBar->entered[i])
                 continue;
@@ -3829,7 +3829,7 @@ static bool32 DoStatusBarIntro(void)
             sStatusBar->yChange[i] = -16;
             PlaySE(SE_CLICK);
         }
-        sprite->pos1.y += sStatusBar->yChange[i];
+        sprite->y += sStatusBar->yChange[i];
     }
 
     if (animActive)
@@ -3989,7 +3989,7 @@ static void SetBerryIconsInvisibility(bool8 invisible)
 
 static void SetBerryYPos(u8 id, u8 y)
 {
-    gSprites[*sBerrySpriteIds[id]].pos1.y = y * 8;
+    gSprites[*sBerrySpriteIds[id]].y = y * 8;
 }
 
 static void SetBerryAnim(u16 id, u8 animNum)
@@ -4010,7 +4010,7 @@ static void SpriteCB_Cloud(struct Sprite *sprite)
         {
             if (++sCloudSpriteIds[i][1] > moveDelays[i])
             {
-                sprite->pos1.x--;
+                sprite->x--;
                 sCloudSpriteIds[i][1] = 0;
             }
         }
@@ -4063,8 +4063,8 @@ static void ResetCloudPos(void)
     {
         struct Sprite *sprite = &gSprites[*sCloudSpriteIds[i]];
         sprite->sFrozen = TRUE;
-        sprite->pos1.x = sCloudStartCoords[i][0];
-        sprite->pos1.y = sCloudStartCoords[i][1];
+        sprite->x = sCloudStartCoords[i][0];
+        sprite->y = sCloudStartCoords[i][1];
     }
 }
 

@@ -1,5 +1,5 @@
 	.align 2
-gCryTable:: @ 869DCF4
+gCryTable::
 	cry Cry_Bulbasaur
 	cry Cry_Bulbasaur
 	cry Cry_Ivysaur
@@ -389,7 +389,7 @@ gCryTable:: @ 869DCF4
 	cry Cry_Chimecho
 
 	.align 2
-gCryTable2:: @ 869EF24
+gCryTable2::
 	cry2 Cry_Bulbasaur
 	cry2 Cry_Bulbasaur
 	cry2 Cry_Ivysaur

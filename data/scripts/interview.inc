@@ -1,11 +1,11 @@
-Interview_EventScript_EndInterview:: @ 828C7E9
+Interview_EventScript_EndInterview::
 	special InterviewAfter
 	incrementgamestat GAME_STAT_GOT_INTERVIEWED
 	release
 	end
 
 @ Shares reporter object with TVSHOW_PKMN_FAN_CLUB_OPINIONS
-SlateportCity_PokemonFanClub_EventScript_ReporterNoNickname:: @ 828C7F0
+SlateportCity_PokemonFanClub_EventScript_ReporterNoNickname::
 	setvar VAR_0x8005, TVSHOW_FAN_CLUB_LETTER
 	special InterviewBefore
 	compare VAR_RESULT, TRUE
@@ -17,7 +17,7 @@ SlateportCity_PokemonFanClub_EventScript_ReporterNoNickname:: @ 828C7F0
 	goto_if_ne SlateportCity_PokemonFanClub_EventScript_DeclineInterview2
 	end
 
-SlateportCity_PokemonFanClub_EventScript_AcceptInterview2:: @ 828C827
+SlateportCity_PokemonFanClub_EventScript_AcceptInterview2::
 	msgbox SlateportCity_PokemonFanClub_Text_TellMeAnythingAboutYourMon, MSGBOX_DEFAULT
 	setvar VAR_0x8004, EASY_CHAT_TYPE_INTERVIEW
 	copyvar VAR_0x8005, VAR_0x8009
@@ -30,23 +30,23 @@ SlateportCity_PokemonFanClub_EventScript_AcceptInterview2:: @ 828C827
 	goto_if_ne SlateportCity_PokemonFanClub_EventScript_DeclineInterview2
 	end
 
-SlateportCity_PokemonFanClub_EventScript_DeclineInterview2:: @ 828C85C
+SlateportCity_PokemonFanClub_EventScript_DeclineInterview2::
 	msgbox SlateportCity_PokemonFanClub_Text_HereIfYouGetUrgeToTellMe, MSGBOX_DEFAULT
 	release
 	end
 
-SlateportCity_PokemonFanClub_EventScript_SubmitResponse2:: @ 828C866
+SlateportCity_PokemonFanClub_EventScript_SubmitResponse2::
 	msgbox SlateportCity_PokemonFanClub_Text_ThatsAllForInterview2, MSGBOX_DEFAULT
 	setvar VAR_0x8005, TVSHOW_FAN_CLUB_LETTER
 	goto Interview_EventScript_EndInterview
 	end
 
-SlateportCity_PokemonFanClub_EventScript_AlreadyInterviewed2:: @ 828C879
+SlateportCity_PokemonFanClub_EventScript_AlreadyInterviewed2::
 	msgbox SlateportCity_PokemonFanClub_Text_EnjoyDoingInterviews, MSGBOX_DEFAULT
 	release
 	end
 
-SlateportCity_OceanicMuseum_1F_EventScript_Reporter:: @ 828C883
+SlateportCity_OceanicMuseum_1F_EventScript_Reporter::
 	lock
 	faceplayer
 	setvar VAR_0x8005, TVSHOW_RECENT_HAPPENINGS
@@ -62,14 +62,14 @@ SlateportCity_OceanicMuseum_1F_EventScript_Reporter:: @ 828C883
 	goto_if_ne SlateportCity_OceanicMuseum_1F_EventScript_DeclineInterview
 	end
 
-SlateportCity_OceanicMuseum_1F_EventScript_RequestInterviewShort:: @ 828C8C8
+SlateportCity_OceanicMuseum_1F_EventScript_RequestInterviewShort::
 	msgbox SlateportCity_OceanicMuseum_1F_Text_InterviewRequestShort, MSGBOX_YESNO
 	compare VAR_RESULT, YES
 	goto_if_eq SlateportCity_OceanicMuseum_1F_EventScript_AcceptInterview
 	goto_if_ne SlateportCity_OceanicMuseum_1F_EventScript_DeclineInterview
 	end
 
-SlateportCity_OceanicMuseum_1F_EventScript_AcceptInterview:: @ 828C8E7
+SlateportCity_OceanicMuseum_1F_EventScript_AcceptInterview::
 	msgbox SlateportCity_OceanicMuseum_1F_Text_TellMeExperienceInvolvingPokemon, MSGBOX_DEFAULT
 	setvar VAR_0x8004, EASY_CHAT_TYPE_INTERVIEW
 	copyvar VAR_0x8005, VAR_0x8009
@@ -82,23 +82,23 @@ SlateportCity_OceanicMuseum_1F_EventScript_AcceptInterview:: @ 828C8E7
 	goto_if_ne SlateportCity_OceanicMuseum_1F_EventScript_DeclineInterview
 	end
 
-SlateportCity_OceanicMuseum_1F_EventScript_DeclineInterview:: @ 828C91C
+SlateportCity_OceanicMuseum_1F_EventScript_DeclineInterview::
 	msgbox SlateportCity_OceanicMuseum_1F_Text_LetMeKnowIfYouHaveStory, MSGBOX_DEFAULT
 	release
 	end
 
-SlateportCity_OceanicMuseum_1F_EventScript_SubmitResponse:: @ 828C926
+SlateportCity_OceanicMuseum_1F_EventScript_SubmitResponse::
 	msgbox SlateportCity_OceanicMuseum_1F_Text_ThatsAllForInterview, MSGBOX_DEFAULT
 	setvar VAR_0x8005, TVSHOW_RECENT_HAPPENINGS
 	goto Interview_EventScript_EndInterview
 	end
 
-SlateportCity_OceanicMuseum_1F_EventScript_AlreadyInterviewed:: @ 828C939
+SlateportCity_OceanicMuseum_1F_EventScript_AlreadyInterviewed::
 	msgbox SlateportCity_OceanicMuseum_1F_Text_BetterWriteUpStory, MSGBOX_DEFAULT
 	release
 	end
 
-SlateportCity_PokemonFanClub_EventScript_Reporter:: @ 828C943
+SlateportCity_PokemonFanClub_EventScript_Reporter::
 	lock
 	faceplayer
 	specialvar VAR_RESULT, IsLeadMonNicknamedOrNotEnglish
@@ -115,7 +115,7 @@ SlateportCity_PokemonFanClub_EventScript_Reporter:: @ 828C943
 	goto_if_ne SlateportCity_PokemonFanClub_EventScript_DeclineInterview
 	end
 
-SlateportCity_PokemonFanClub_EventScript_AcceptInterview:: @ 828C98C
+SlateportCity_PokemonFanClub_EventScript_AcceptInterview::
 	msgbox SlateportCity_PokemonFanClub_Text_HereGoesQuickAnswers, MSGBOX_DEFAULT
 	random 3
 	copyvar VAR_0x800A, VAR_RESULT
@@ -125,22 +125,22 @@ SlateportCity_PokemonFanClub_EventScript_AcceptInterview:: @ 828C98C
 	case 2, SlateportCity_PokemonFanClub_EventScript_RandomQuestion3
 	end
 
-SlateportCity_PokemonFanClub_EventScript_RandomQuestion1:: @ 828C9C3
+SlateportCity_PokemonFanClub_EventScript_RandomQuestion1::
 	msgbox SlateportCity_PokemonFanClub_Text_DescribeFeelingsFirstMetMon, MSGBOX_DEFAULT
 	goto SlateportCity_PokemonFanClub_EventScript_ContinueInterview
 	end
 
-SlateportCity_PokemonFanClub_EventScript_RandomQuestion2:: @ 828C9D1
+SlateportCity_PokemonFanClub_EventScript_RandomQuestion2::
 	msgbox SlateportCity_PokemonFanClub_Text_LikenMonToSomethingYouLike, MSGBOX_DEFAULT
 	goto SlateportCity_PokemonFanClub_EventScript_ContinueInterview
 	end
 
-SlateportCity_PokemonFanClub_EventScript_RandomQuestion3:: @ 828C9DF
+SlateportCity_PokemonFanClub_EventScript_RandomQuestion3::
 	msgbox SlateportCity_PokemonFanClub_Text_WhatAttractedYouAboutMon, MSGBOX_DEFAULT
 	goto SlateportCity_PokemonFanClub_EventScript_ContinueInterview
 	end
 
-SlateportCity_PokemonFanClub_EventScript_ContinueInterview:: @ 828C9ED
+SlateportCity_PokemonFanClub_EventScript_ContinueInterview::
 	setvar VAR_0x8004, EASY_CHAT_TYPE_FAN_CLUB
 	copyvar VAR_0x8005, VAR_0x8009
 	setvar VAR_0x8006, 0
@@ -162,12 +162,12 @@ SlateportCity_PokemonFanClub_EventScript_ContinueInterview:: @ 828C9ED
 	goto Interview_EventScript_EndInterview
 	end
 
-SlateportCity_PokemonFanClub_EventScript_DeclineInterview:: @ 828CA45
+SlateportCity_PokemonFanClub_EventScript_DeclineInterview::
 	msgbox SlateportCity_PokemonFanClub_Text_HereIfYouGetUrgeToTellMe, MSGBOX_DEFAULT
 	release
 	end
 
-SlateportCity_PokemonFanClub_EventScript_AlreadyInterviewed:: @ 828CA4F
+SlateportCity_PokemonFanClub_EventScript_AlreadyInterviewed::
 	msgbox SlateportCity_PokemonFanClub_Text_EnjoyDoingInterviews, MSGBOX_DEFAULT
 	release
 	end
@@ -187,7 +187,7 @@ BattleFrontier_BattleTowerLobby_EventScript_Reporter:: @ 828CB96
 	goto_if_ne BattleFrontier_BattleTowerLobby_EventScript_DeclineInterview
 	end
 
-BattleFrontier_BattleTowerLobby_EventScript_AcceptInterview:: @ 828CBD8
+BattleFrontier_BattleTowerLobby_EventScript_AcceptInterview::
 	message BattleFrontier_BattleTowerLobby_Text_HowDidBattleTowerTurnOut
 	waitmessage
 	multichoice 20, 8, MULTI_SATISFACTION, TRUE
@@ -206,20 +206,20 @@ BattleFrontier_BattleTowerLobby_EventScript_AcceptInterview:: @ 828CBD8
 	goto_if_ne BattleFrontier_BattleTowerLobby_EventScript_CancelInterview
 	end
 
-BattleFrontier_BattleTowerLobby_EventScript_DeclineInterview:: @ 828CC2E
+BattleFrontier_BattleTowerLobby_EventScript_DeclineInterview::
 	msgbox BattleFrontier_BattleTowerLobby_Text_SorryWeDisturbedYou, MSGBOX_DEFAULT
 	release
 	end
 
-BattleFrontier_BattleTowerLobby_EventScript_Satisfied:: @ 828CC38
+BattleFrontier_BattleTowerLobby_EventScript_Satisfied::
 	msgbox BattleFrontier_BattleTowerLobby_Text_ObviousYouHadGreatBattle, MSGBOX_DEFAULT
 	return
 
-BattleFrontier_BattleTowerLobby_EventScript_Dissatisfied:: @ 828CC41
+BattleFrontier_BattleTowerLobby_EventScript_Dissatisfied::
 	msgbox BattleFrontier_BattleTowerLobby_Text_DifficultToMakeBattleTurnOutAsPlanned, MSGBOX_DEFAULT
 	return
 
-BattleFrontier_BattleTowerLobby_EventScript_SubmitResponse:: @ 828CC4A
+BattleFrontier_BattleTowerLobby_EventScript_SubmitResponse::
 	compare VAR_RESULT, 0
 	goto_if_eq BattleFrontier_BattleTowerLobby_EventScript_CancelInterview
 	msgbox BattleFrontier_BattleTowerLobby_Text_ThatsGreatLine, MSGBOX_DEFAULT
@@ -229,12 +229,12 @@ BattleFrontier_BattleTowerLobby_EventScript_SubmitResponse:: @ 828CC4A
 	goto Interview_EventScript_EndInterview
 	end
 
-BattleFrontier_BattleTowerLobby_EventScript_CancelInterview:: @ 828CC70
+BattleFrontier_BattleTowerLobby_EventScript_CancelInterview::
 	msgbox BattleFrontier_BattleTowerLobby_Text_SilentType, MSGBOX_DEFAULT
 	release
 	end
 
-BattleFrontier_BattleTowerLobby_EventScript_AlreadyInterviewed:: @ 828CC7A
+BattleFrontier_BattleTowerLobby_EventScript_AlreadyInterviewed::
 	msgbox BattleFrontier_BattleTowerLobby_Text_LookingForwardToNextBattle, MSGBOX_DEFAULT
 	release
 	end

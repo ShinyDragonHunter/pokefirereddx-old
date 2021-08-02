@@ -8,5 +8,5 @@
 
 .set NUM_OPPONENTS, VAR_0x8009
 
-BerryBlender_EventScript_BerryBlender1:: @ 8293C3E
+BerryBlender_EventScript_BerryBlender1::
 	end
