@@ -650,7 +650,8 @@ static void GetOpponentMostCommonMonType(void)
 
 static void GetOpponentBattleStyle(void)
 {
-    u8 i, j, count;
+    u32 i, j;
+    u8 count;
     u8 stylePoints[FACTORY_NUM_STYLES];
 
     count = 0;

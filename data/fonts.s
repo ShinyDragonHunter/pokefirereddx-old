@@ -12,10 +12,6 @@ gFont0LatinGlyphWidths::
 	.include "graphics/fonts/font0_latin_widths.inc"
 
 	.align 2
-gFont0JapaneseGlyphs::
-	.incbin "graphics/fonts/font0.hwjpnfont"
-
-	.align 2
 gFont1LatinGlyphs::
 	.incbin "graphics/fonts/font1.latfont"
 
@@ -44,33 +40,29 @@ gFont2JapaneseGlyphWidths::
 	.include "graphics/fonts/font2_japanese_widths.inc"
 
 	.align 2
-gFont7LatinGlyphs::
-	.incbin "graphics/fonts/font7.latfont"
+gFont3LatinGlyphs::
+	.incbin "graphics/fonts/font3.latfont"
 
 	.align 2
-gFont7LatinGlyphWidths::
-	.include "graphics/fonts/font7_latin_widths.inc"
+gFont3LatinGlyphWidths::
+	.include "graphics/fonts/font3_latin_widths.inc"
 
 	.align 2
-gFont8LatinGlyphs::
-	.incbin "graphics/fonts/font8.latfont"
+gFont4LatinGlyphs::
+	.incbin "graphics/fonts/font4.latfont"
 
 	.align 2
-gFont8LatinGlyphWidths::
-	.include "graphics/fonts/font8_latin_widths.inc"
+gFont4LatinGlyphWidths::
+	.include "graphics/fonts/font4_latin_widths.inc"
 
 	.align 2
-gUnusedJapaneseFireRedLeafGreenMaleFontGlyphs::
-	.incbin "graphics/fonts/unused_frlg_male.fwjpnfont"
+gFont4JapaneseGlyphs::
+	.incbin "graphics/fonts/font4.hwjpnfont"
 
 	.align 2
-gUnusedJapaneseFireRedLeafGreenMaleFontGlyphWidths::
-	.include "graphics/fonts/unused_japanese_frlg_male_font_widths.inc"
+gFont5LatinGlyphs::
+	.incbin "graphics/fonts/font5.latfont"
 
 	.align 2
-gUnusedJapaneseFireRedLeafGreenFemaleFontGlyphs::
-	.incbin "graphics/fonts/unused_frlg_female.fwjpnfont"
-
-	.align 2
-gUnusedJapaneseFireRedLeafGreenFemaleFontGlyphWidths::
-	.include "graphics/fonts/unused_japanese_frlg_female_font_widths.inc"
+gFont5LatinGlyphWidths::
+	.include "graphics/fonts/font5_latin_widths.inc"

@@ -688,15 +688,15 @@ static void HandleInitWindows(void)
 
 static void PrintOnPokeblockWindow(u8 windowId, const u8 *string, s32 x)
 {
-    AddTextPrinterParameterized4(windowId, 1, x, 1, 0, 0, sTextColor, 0, string);
+    AddTextPrinterParameterized4(windowId, 2, x, 1, 0, 0, sTextColor, 0, string);
 }
 
 static void DrawPokeblockMenuTitleText(void)
 {
-    u8 i;
+    u32 i;
 
     const u8 *itemName = ItemId_GetName(ITEM_POKEBLOCK_CASE);
-    PrintOnPokeblockWindow(WIN_TITLE, itemName, GetStringCenterAlignXOffset(1, itemName, 0x48));
+    PrintOnPokeblockWindow(WIN_TITLE, itemName, GetStringCenterAlignXOffset(2, itemName, 0x48));
 
     PrintOnPokeblockWindow(WIN_SPICY,  gText_Spicy, 0);
     PrintOnPokeblockWindow(WIN_DRY,    gText_Dry, 0);
@@ -710,7 +710,7 @@ static void DrawPokeblockMenuTitleText(void)
 
 static void UpdatePokeblockList(void)
 {
-    u16 i;
+    u32 i;
 
     for (i = 0; i < sPokeblockMenu->itemsNo - 1; i++)
     {
@@ -724,7 +724,7 @@ static void UpdatePokeblockList(void)
     sPokeblockMenu->items[i].id = LIST_CANCEL;
 
     gMultiuseListMenuTemplate = sPokeblockListMenuTemplate;
-    gMultiuseListMenuTemplate.fontId = 7;
+    gMultiuseListMenuTemplate.fontId = 5;
     gMultiuseListMenuTemplate.totalItems = sPokeblockMenu->itemsNo;
     gMultiuseListMenuTemplate.items = sPokeblockMenu->items;
     gMultiuseListMenuTemplate.maxShowed = sPokeblockMenu->maxShowed;
@@ -757,7 +757,7 @@ static void MovePokeblockMenuCursor(s32 pkblId, bool8 onInit, struct ListMenu *l
 
 static void DrawPokeblockInfo(s32 pkblId)
 {
-    u8 i;
+    u32 i;
     struct Pokeblock *pokeblock;
     u16 rectTilemapSrc[2];
 
@@ -813,7 +813,7 @@ static void DrawPokeblockMenuHighlight(u16 cursorPos, u16 tileNum)
 
 static void CompactPokeblockSlots(void)
 {
-    u16 i, j;
+    u32 i, j;
 
     for (i = 0; i < POKEBLOCKS_COUNT - 1; i++)
     {
@@ -831,7 +831,7 @@ static void CompactPokeblockSlots(void)
 
 static void SwapPokeblockMenuItems(u32 id1, u32 id2)
 {
-    s16 i, count;
+    s32 i, count;
     struct Pokeblock *pokeblocks = gSaveBlock1Ptr->pokeblocks;
     struct Pokeblock *copyPokeblock1;
 
@@ -865,7 +865,7 @@ void ResetPokeblockScrollPositions(void)
 
 static void SetMenuItemsCountAndMaxShowed(void)
 {
-    u16 i;
+    u32 i;
 
     CompactPokeblockSlots();
 
@@ -904,7 +904,7 @@ static void SetInitialScroll(void)
 {
     if (sSavedPokeblockData.selectedRow > MENU_MIDPOINT)
     {
-        u8 i;
+        u32 i;
 
         for (i = 0;
              (i < sSavedPokeblockData.selectedRow - MENU_MIDPOINT) && (sSavedPokeblockData.scrollOffset + sPokeblockMenu->maxShowed != sPokeblockMenu->itemsNo);
@@ -1107,7 +1107,7 @@ static void Task_HandlePokeblocksSwapInput(u8 taskId)
 
 static void UpdatePokeblockSwapMenu(u8 taskId, bool8 noSwap)
 {
-    u8 i;
+    u32 i;
     s16 *data = gTasks[taskId].data;
     u16 swappedFromId = sSavedPokeblockData.scrollOffset + sSavedPokeblockData.selectedRow;
 
@@ -1300,7 +1300,7 @@ static void ClearPokeblock(u8 pkblId)
 
 void ClearPokeblocks(void)
 {
-    u8 i;
+    u32 i;
 
     for (i = 0; i < POKEBLOCKS_COUNT; i++)
         ClearPokeblock(i);
@@ -1308,7 +1308,7 @@ void ClearPokeblocks(void)
 
 u8 GetHighestPokeblocksFlavorLevel(const struct Pokeblock *pokeblock)
 {
-    u8 i;
+    u32 i;
     u8 maxFlavor = GetPokeblockData(pokeblock, PBLOCK_SPICY);
 
     for (i = PBLOCK_SPICY; i < FLAVOR_COUNT; i++)
@@ -1332,7 +1332,7 @@ u8 GetPokeblocksFeel(const struct Pokeblock *pokeblock)
 
 s8 GetFirstFreePokeblockSlot(void)
 {
-    u8 i;
+    u32 i;
 
     for (i = 0; i < POKEBLOCKS_COUNT; i++)
     {
@@ -1393,7 +1393,7 @@ s16 GetPokeblockData(const struct Pokeblock *pokeblock, u8 field)
 
 s16 PokeblockGetGain(u8 nature, const struct Pokeblock *pokeblock)
 {
-    u8 flavor;
+    u32 flavor;
     s16 curGain, totalGain = 0;
 
     for (flavor = 0; flavor < FLAVOR_COUNT; flavor++)
@@ -1414,7 +1414,7 @@ void PokeblockCopyName(const struct Pokeblock *pokeblock, u8 *dest)
 
 bool8 CopyMonFavoritePokeblockName(u8 nature, u8 *dest)
 {
-    u8 i;
+    u32 i;
 
     for (i = 0; i < FLAVOR_COUNT; i++)
     {
@@ -1431,7 +1431,7 @@ bool8 CopyMonFavoritePokeblockName(u8 nature, u8 *dest)
 u8 GetPokeblocksFlavor(const struct Pokeblock *pokeblock)
 {
     s16 bestFlavor = 0;
-    s16 i;
+    s32 i;
 
     for (i = 0; i < FLAVOR_COUNT; i++)
     {

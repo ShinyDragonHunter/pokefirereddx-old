@@ -1584,7 +1584,7 @@ static void CreateMainMenu(u8 whichMenu, s16 *windowIdPtr)
     windowId = AddWindow(&sWindowTemplate_MainMenu);
 
     DrawStdWindowFrame(windowId, FALSE);
-    PrintTextArray(windowId, 2, GetMenuCursorDimensionByFont(1, 0), 1, 16, ARRAY_COUNT(sMainMenuTexts), (void *)sMainMenuTexts);
+    PrintTextArray(windowId, 2, GetMenuCursorDimensionByFont(2, 0), 1, 16, ARRAY_COUNT(sMainMenuTexts), (void *)sMainMenuTexts);
     InitMenuInUpperLeftCornerPlaySoundWhenAPressed(windowId, ARRAY_COUNT(sMainMenuTexts), whichMenu);
     *windowIdPtr = windowId;
 }
@@ -1804,13 +1804,13 @@ static void ChooseBoxMenu_PrintInfo(void)
     FillWindowPixelBuffer(windowId, PIXEL_FILL(4));
 
     // Print box name
-    center = GetStringCenterAlignXOffset(1, boxName, 64);
+    center = GetStringCenterAlignXOffset(2, boxName, 64);
     AddTextPrinterParameterized3(windowId, 2, center, 1, sChooseBoxMenu_TextColors, TEXT_SPEED_FF, boxName);
 
     // Print #/30 for number of Pokémon in the box
     ConvertIntToDecimalStringN(numBoxMonsText, numInBox, STR_CONV_MODE_RIGHT_ALIGN, 2);
     StringAppend(numBoxMonsText, sText_OutOf30);
-    center = GetStringCenterAlignXOffset(1, numBoxMonsText, 64);
+    center = GetStringCenterAlignXOffset(2, numBoxMonsText, 64);
     AddTextPrinterParameterized3(windowId, 2, center, 17, sChooseBoxMenu_TextColors, TEXT_SPEED_FF, numBoxMonsText);
 
     winTileData = GetWindowAttribute(windowId, WINDOW_TILE_DATA);
@@ -3853,14 +3853,14 @@ static void PrintDisplayMonInfo(void)
         AddTextPrinterParameterized(0, 2, sStorage->displayMonNameText, 6, 0, TEXT_SPEED_FF, NULL);
         AddTextPrinterParameterized(0, 2, sStorage->displayMonSpeciesName, 6, 15, TEXT_SPEED_FF, NULL);
         AddTextPrinterParameterized(0, 2, sStorage->displayMonGenderLvlText, 10, 29, TEXT_SPEED_FF, NULL);
-        AddTextPrinterParameterized(0, 0, sStorage->displayMonItemName, 6, 43, TEXT_SPEED_FF, NULL);
+        AddTextPrinterParameterized(0, 4, sStorage->displayMonItemName, 6, 43, TEXT_SPEED_FF, NULL);
     }
     else
     {
         AddTextPrinterParameterized(0, 2, sStorage->displayMonNameText, 6, 13, TEXT_SPEED_FF, NULL);
         AddTextPrinterParameterized(0, 2, sStorage->displayMonSpeciesName, 6, 28, TEXT_SPEED_FF, NULL);
         AddTextPrinterParameterized(0, 2, sStorage->displayMonGenderLvlText, 10, 42, TEXT_SPEED_FF, NULL);
-        AddTextPrinterParameterized(0, 0, sStorage->displayMonItemName, 6, 0, TEXT_SPEED_FF, NULL);
+        AddTextPrinterParameterized(0, 4, sStorage->displayMonItemName, 6, 0, TEXT_SPEED_FF, NULL);
     }
 
     CopyWindowToVram(0, 2);
@@ -5466,7 +5466,7 @@ static void CycleBoxTitleColor(void)
 
 static s16 GetBoxTitleBaseX(const u8 *string)
 {
-    return DISPLAY_WIDTH - 64 - GetStringWidth(1, string, 0) / 2;
+    return DISPLAY_WIDTH - 64 - GetStringWidth(2, string, 0) / 2;
 }
 
 

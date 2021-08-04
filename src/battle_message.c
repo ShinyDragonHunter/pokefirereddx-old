@@ -1483,7 +1483,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     { // 3 Top left move
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = 7,
+        .fontId = 5,
         .x = 0,
         .y = 1,
         .letterSpacing = 0,
@@ -1495,7 +1495,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     { // 4 Top right move
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = 7,
+        .fontId = 5,
         .x = 0,
         .y = 1,
         .letterSpacing = 0,
@@ -1507,7 +1507,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     { // 5 Bottom left move
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = 7,
+        .fontId = 5,
         .x = 0,
         .y = 1,
         .letterSpacing = 0,
@@ -1519,7 +1519,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     { // 6 Bottom right move
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = 7,
+        .fontId = 5,
         .x = 0,
         .y = 1,
         .letterSpacing = 0,
@@ -1531,7 +1531,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     { // 7 "PP"
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = 7,
+        .fontId = 5,
         .x = 0,
         .y = 2,
         .letterSpacing = 0,
@@ -1567,7 +1567,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     { // 10 "type"
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = 7,
+        .fontId = 5,
         .x = 0,
         .y = 2,
         .letterSpacing = 0,

@@ -1855,7 +1855,7 @@ static void Select_PrintMonSpecies(void)
     FillWindowPixelBuffer(SELECT_WIN_SPECIES, PIXEL_FILL(0));
     species = GetMonData(&sFactorySelectScreen->mons[monId].monData, MON_DATA_SPECIES, NULL);
     StringCopy(gStringVar4, gSpeciesNames[species]);
-    x = GetStringRightAlignXOffset(1, gStringVar4, 86);
+    x = GetStringRightAlignXOffset(2, gStringVar4, 86);
     AddTextPrinterParameterized3(SELECT_WIN_SPECIES, 2, x, 1, sSpeciesNameTextColors, 0, gStringVar4);
     CopyWindowToVram(SELECT_WIN_SPECIES, 2);
 }
@@ -1975,7 +1975,7 @@ static void Select_PrintMonCategory(void)
         FillWindowPixelBuffer(SELECT_WIN_MON_CATEGORY, PIXEL_FILL(0));
         species = GetMonData(&sFactorySelectScreen->mons[monId].monData, MON_DATA_SPECIES, NULL);
         CopyMonCategoryText(SpeciesToNationalPokedexNum(species), text);
-        x = GetStringRightAlignXOffset(1, text, 0x76);
+        x = GetStringRightAlignXOffset(2, text, 0x76);
         AddTextPrinterParameterized(SELECT_WIN_MON_CATEGORY, 2, text, x, 1, 0, NULL);
         CopyWindowToVram(SELECT_WIN_MON_CATEGORY, 2);
     }
@@ -3748,7 +3748,7 @@ static void Swap_PrintMonSpecies(void)
         else
             species = GetMonData(&gEnemyParty[monId], MON_DATA_SPECIES, NULL);
         StringCopy(gStringVar4, gSpeciesNames[species]);
-        x = GetStringRightAlignXOffset(1, gStringVar4, 86);
+        x = GetStringRightAlignXOffset(2, gStringVar4, 86);
         AddTextPrinterParameterized3(SWAP_WIN_SPECIES, 2, x, 1, sSwapSpeciesNameTextColors, 0, gStringVar4);
         CopyWindowToVram(SWAP_WIN_SPECIES, 3);
     }
@@ -3782,8 +3782,8 @@ static void Swap_PrintYesNoOptions(void)
 
 static void Swap_PrintActionString(const u8 *str, u32 y, u32 windowId)
 {
-    s32 x = GetStringRightAlignXOffset(0, str, 0x46);
-    AddTextPrinterParameterized3(windowId, 0, x, y, sSwapMenuOptionsTextColors, 0, str);
+    s32 x = GetStringRightAlignXOffset(4, str, 0x46);
+    AddTextPrinterParameterized3(windowId, 4, x, y, sSwapMenuOptionsTextColors, 0, str);
 }
 
 static void Swap_PrintActionStrings(void)
@@ -3857,7 +3857,7 @@ static void Swap_PrintMonSpeciesAtFade(void)
         else
             species = GetMonData(&gEnemyParty[monId], MON_DATA_SPECIES, NULL);
         StringCopy(gStringVar4, gSpeciesNames[species]);
-        x = GetStringRightAlignXOffset(1, gStringVar4, 86);
+        x = GetStringRightAlignXOffset(2, gStringVar4, 86);
         AddTextPrinterParameterized3(SWAP_WIN_SPECIES_AT_FADE, 2, x, 1, sSwapSpeciesNameTextColors, 0, gStringVar4);
         CopyWindowToVram(SWAP_WIN_SPECIES_AT_FADE, 3);
     }
@@ -3884,7 +3884,7 @@ static void Swap_PrintMonSpeciesForTransition(void)
         else
             species = GetMonData(&gEnemyParty[monId], MON_DATA_SPECIES, NULL);
         StringCopy(gStringVar4, gSpeciesNames[species]);
-        x = GetStringRightAlignXOffset(1, gStringVar4, 86);
+        x = GetStringRightAlignXOffset(2, gStringVar4, 86);
         AddTextPrinterParameterized3(SWAP_WIN_SPECIES, 2, x, 1, sSwapSpeciesNameTextColors, 0, gStringVar4);
         CopyWindowToVram(SWAP_WIN_SPECIES, 3);
     }
@@ -3910,7 +3910,7 @@ static void Swap_PrintMonCategory(void)
         else
             species = GetMonData(&gEnemyParty[monId], MON_DATA_SPECIES, NULL);
         CopyMonCategoryText(SpeciesToNationalPokedexNum(species), text);
-        x = GetStringRightAlignXOffset(1, text, 0x76);
+        x = GetStringRightAlignXOffset(2, text, 0x76);
         AddTextPrinterParameterized(SWAP_WIN_MON_CATEGORY, 2, text, x, 1, 0, NULL);
         CopyWindowToVram(SWAP_WIN_MON_CATEGORY, 2);
     }

@@ -523,7 +523,7 @@ static void BuyMenuPrintPriceInList(u8 windowId, u32 itemId, u8 y)
         while (x--)
             *loc++ = 0;
         StringExpandPlaceholders(loc, gText_PokedollarVar1);
-        BuyMenuPrint(windowId, 0, gStringVar4, 0x69, y, 0, 0, TEXT_SPEED_FF, 1);
+        BuyMenuPrint(windowId, 4, gStringVar4, 0x69, y, 0, 0, TEXT_SPEED_FF, 1);
     }
 }
 
@@ -534,13 +534,13 @@ static void LoadTmHmNameInMart(s32 item)
         ConvertIntToDecimalStringN(gStringVar1, item - ITEM_DEVON_SCOPE, 2, 2);
         StringCopy(gStringVar4, gText_NumberClear01);
         StringAppend(gStringVar4, gStringVar1);
-        BuyMenuPrint(6, 0, gStringVar4, 0, 0, 0, 0, TEXT_SPEED_FF, 1);
+        BuyMenuPrint(6, 4, gStringVar4, 0, 0, 0, 0, TEXT_SPEED_FF, 1);
         StringCopy(gStringVar4, gMoveNames[ItemIdToBattleMoveId(item)]);
         BuyMenuPrint(6, 2, gStringVar4, 0, 0x10, 0, 0, 0, 1);
     }
     else
     {
-        BuyMenuPrint(6, 0, gText_ThreeDashes, 0, 0, 0, 0, TEXT_SPEED_FF, 1);
+        BuyMenuPrint(6, 4, gText_ThreeDashes, 0, 0, 0, 0, TEXT_SPEED_FF, 1);
         BuyMenuPrint(6, 2, gText_SevenDashes, 0, 0x10, 0, 0, 0, 1);
     }
 }
@@ -752,7 +752,7 @@ static void BuyMenuPrintItemQuantityAndPrice(u8 taskId)
     PrintMoneyAmount(3, 54, 10, sShopData->totalCost, TEXT_SPEED_FF);
     ConvertIntToDecimalStringN(gStringVar1, tItemCount, STR_CONV_MODE_LEADING_ZEROS, BAG_ITEM_CAPACITY_DIGITS);
     StringExpandPlaceholders(gStringVar4, gText_xVar1);
-    BuyMenuPrint(3, 0, gStringVar4, 2, 10, 0, 0, 0, 1);
+    BuyMenuPrint(3, 4, gStringVar4, 2, 10, 0, 0, 0, 1);
 }
 
 static void Task_BuyMenu(u8 taskId)

@@ -2121,7 +2121,7 @@ static void MainMenu_FormatSavegamePlayer(void)
 {
     StringExpandPlaceholders(gStringVar4, gText_ContinueMenuPlayer);
     AddTextPrinterParameterized3(2, 2, 0, 17, sTextColor_MenuInfo, -1, gStringVar4);
-    AddTextPrinterParameterized3(2, 2, GetStringRightAlignXOffset(1, gSaveBlock2Ptr->playerName, 100), 17, sTextColor_MenuInfo, -1, gSaveBlock2Ptr->playerName);
+    AddTextPrinterParameterized3(2, 2, GetStringRightAlignXOffset(2, gSaveBlock2Ptr->playerName, 100), 17, sTextColor_MenuInfo, -1, gSaveBlock2Ptr->playerName);
 }
 
 static void MainMenu_FormatSavegameTime(void)
@@ -2134,7 +2134,7 @@ static void MainMenu_FormatSavegameTime(void)
     ptr = ConvertIntToDecimalStringN(str, gSaveBlock2Ptr->playTimeHours, STR_CONV_MODE_LEFT_ALIGN, 3);
     *ptr = 0xF0;
     ConvertIntToDecimalStringN(ptr + 1, gSaveBlock2Ptr->playTimeMinutes, STR_CONV_MODE_LEADING_ZEROS, 2);
-    AddTextPrinterParameterized3(2, 2, GetStringRightAlignXOffset(1, str, 0xD0), 17, sTextColor_MenuInfo, -1, str);
+    AddTextPrinterParameterized3(2, 2, GetStringRightAlignXOffset(2, str, 0xD0), 17, sTextColor_MenuInfo, -1, str);
 }
 
 static void MainMenu_FormatSavegamePokedex(void)
@@ -2151,7 +2151,7 @@ static void MainMenu_FormatSavegamePokedex(void)
         StringExpandPlaceholders(gStringVar4, gText_ContinueMenuPokedex);
         AddTextPrinterParameterized3(2, 2, 0, 33, sTextColor_MenuInfo, -1, gStringVar4);
         ConvertIntToDecimalStringN(str, dexCount, STR_CONV_MODE_LEFT_ALIGN, 3);
-        AddTextPrinterParameterized3(2, 2, GetStringRightAlignXOffset(1, str, 100), 33, sTextColor_MenuInfo, -1, str);
+        AddTextPrinterParameterized3(2, 2, GetStringRightAlignXOffset(2, str, 100), 33, sTextColor_MenuInfo, -1, str);
     }
 }
 
@@ -2169,7 +2169,7 @@ static void MainMenu_FormatSavegameBadges(void)
     StringExpandPlaceholders(gStringVar4, gText_ContinueMenuBadges);
     AddTextPrinterParameterized3(2, 2, 0x6C, 33, sTextColor_MenuInfo, -1, gStringVar4);
     ConvertIntToDecimalStringN(str, badgeCount, STR_CONV_MODE_LEADING_ZEROS, 1);
-    AddTextPrinterParameterized3(2, 2, GetStringRightAlignXOffset(1, str, 0xD0), 33, sTextColor_MenuInfo, -1, str);
+    AddTextPrinterParameterized3(2, 2, GetStringRightAlignXOffset(2, str, 0xD0), 33, sTextColor_MenuInfo, -1, str);
 }
 
 static void LoadMainMenuWindowFrameTiles(u8 bgId, u16 tileOffset)
@@ -2221,9 +2221,9 @@ static void NewGameBirchSpeech_ClearGenderWindow(u8 windowId, bool8 copyToVram)
 
 static void NewGameBirchSpeech_ClearWindow(u8 windowId)
 {
-    u8 bgColor = GetFontAttribute(1, FONTATTR_COLOR_BACKGROUND);
-    u8 maxCharWidth = GetFontAttribute(1, FONTATTR_MAX_LETTER_WIDTH);
-    u8 maxCharHeight = GetFontAttribute(1, FONTATTR_MAX_LETTER_HEIGHT);
+    u8 bgColor = GetFontAttribute(2, FONTATTR_COLOR_BACKGROUND);
+    u8 maxCharWidth = GetFontAttribute(2, FONTATTR_MAX_LETTER_WIDTH);
+    u8 maxCharHeight = GetFontAttribute(2, FONTATTR_MAX_LETTER_HEIGHT);
     u8 winWidth = GetWindowAttribute(windowId, WINDOW_WIDTH);
     u8 winHeight = GetWindowAttribute(windowId, WINDOW_HEIGHT);
 

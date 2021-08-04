@@ -245,31 +245,25 @@ $(FONTGFXDIR)/font1.latfont: $(FONTGFXDIR)/font1_latin.png
 $(FONTGFXDIR)/font2.latfont: $(FONTGFXDIR)/font2_latin.png
 	$(GFX) $< $@
 
-$(FONTGFXDIR)/font7.latfont: $(FONTGFXDIR)/font7_latin.png
+$(FONTGFXDIR)/font3.latfont: $(FONTGFXDIR)/font3_latin.png
 	$(GFX) $< $@
 
-$(FONTGFXDIR)/font8.latfont: $(FONTGFXDIR)/font8_latin.png
+$(FONTGFXDIR)/font4.latfont: $(FONTGFXDIR)/font4_latin.png
 	$(GFX) $< $@
 
-$(FONTGFXDIR)/font0.hwjpnfont: $(FONTGFXDIR)/font0_japanese.png
+$(FONTGFXDIR)/font5.latfont: $(FONTGFXDIR)/font5_latin.png
 	$(GFX) $< $@
 
 $(FONTGFXDIR)/font1.hwjpnfont: $(FONTGFXDIR)/font1_japanese.png
 	$(GFX) $< $@
 
-$(FONTGFXDIR)/font9.hwjpnfont: $(FONTGFXDIR)/font9_japanese.png
-	$(GFX) $< $@
-
 $(FONTGFXDIR)/font2.fwjpnfont: $(FONTGFXDIR)/font2_japanese.png
 	$(GFX) $< $@
 
+$(FONTGFXDIR)/font4.hwjpnfont: $(FONTGFXDIR)/font4_japanese.png
+	$(GFX) $< $@
+
 $(FONTGFXDIR)/font6.fwjpnfont: $(FONTGFXDIR)/font6_braille.png
-	$(GFX) $< $@
-
-$(FONTGFXDIR)/unused_frlg_male.fwjpnfont: $(FONTGFXDIR)/unused_japanese_frlg_male_font.png
-	$(GFX) $< $@
-
-$(FONTGFXDIR)/unused_frlg_female.fwjpnfont: $(FONTGFXDIR)/unused_japanese_frlg_female_font.png
 	$(GFX) $< $@
 
 $(FONTGFXDIR)/down_arrow.4bpp: %.4bpp: %.png

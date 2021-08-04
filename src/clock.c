@@ -42,15 +42,9 @@ static void UpdatePerDay(struct Time *localTime)
     {
         daysSince = localTime->days - *days;
         ClearDailyFlags();
-        UpdateDewfordTrendPerDay(daysSince);
-        UpdateTVShowsPerDay(daysSince);
-        UpdateWeatherPerDay(daysSince);
         UpdatePartyPokerusTime(daysSince);
-        UpdateMirageRnd(daysSince);
-        UpdateBirchState(daysSince);
         UpdateFrontierManiac(daysSince);
         UpdateFrontierGambler(daysSince);
-        SetShoalItemFlag(daysSince);
         SetRandomLotteryNumber(daysSince);
         *days = localTime->days;
     }

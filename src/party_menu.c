@@ -1986,8 +1986,8 @@ static void CreateCancelConfirmWindows(bool8 chooseHalf)
         {
             confirmWindowId = AddWindow(&sConfirmButtonWindowTemplate);
             FillWindowPixelBuffer(confirmWindowId, PIXEL_FILL(0));
-            mainOffset = GetStringCenterAlignXOffset(0, gMenuText_Confirm, 48);
-            AddTextPrinterParameterized4(confirmWindowId, 0, mainOffset, 1, 0, 0, sFontColorTable[0], -1, gMenuText_Confirm);
+            mainOffset = GetStringCenterAlignXOffset(4, gMenuText_Confirm, 48);
+            AddTextPrinterParameterized4(confirmWindowId, 4, mainOffset, 1, 0, 0, sFontColorTable[0], -1, gMenuText_Confirm);
             PutWindowTilemap(confirmWindowId);
             CopyWindowToVram(confirmWindowId, 2);
             cancelWindowId = AddWindow(&sMultiCancelButtonWindowTemplate);
@@ -1999,8 +1999,8 @@ static void CreateCancelConfirmWindows(bool8 chooseHalf)
             offset = 3;
         }
         FillWindowPixelBuffer(cancelWindowId, PIXEL_FILL(0));
-        mainOffset = GetStringCenterAlignXOffset(0, gText_Cancel, 48);
-        AddTextPrinterParameterized3(cancelWindowId, 0, mainOffset + offset, 1, sFontColorTable[0], -1, gText_Cancel);
+        mainOffset = GetStringCenterAlignXOffset(4, gText_Cancel, 48);
+        AddTextPrinterParameterized3(cancelWindowId, 4, mainOffset + offset, 1, sFontColorTable[0], -1, gText_Cancel);
         PutWindowTilemap(cancelWindowId);
         CopyWindowToVram(cancelWindowId, 2);
         ScheduleBgCopyTilemapToVram(0);
@@ -2144,7 +2144,7 @@ static void LoadPartyBoxPalette(struct PartyMenuBox *menuBox, u8 palFlags)
 
 static void DisplayPartyPokemonBarDetail(u8 windowId, const u8 *str, u8 color, const u8 *align)
 {
-    AddTextPrinterParameterized3(windowId, 0, align[0], align[1], sFontColorTable[color], 0, str);
+    AddTextPrinterParameterized3(windowId, 4, align[0], align[1], sFontColorTable[color], 0, str);
 }
 
 static void DisplayPartyPokemonNickname(struct Pokemon *mon, struct PartyMenuBox *menuBox, u8 c)
@@ -2305,7 +2305,7 @@ static void DisplayPartyPokemonDescriptionText(u8 stringID, struct PartyMenuBox 
         menuBox->infoRects->blitFunc(menuBox->windowId, menuBox->infoRects->descTextLeft >> 3, menuBox->infoRects->descTextTop >> 3, width, height, TRUE);
     }
     if (c != 2)
-        AddTextPrinterParameterized3(menuBox->windowId, 1, menuBox->infoRects->descTextLeft, menuBox->infoRects->descTextTop, sFontColorTable[0], 0, sDescriptionStringTable[stringID]);
+        AddTextPrinterParameterized3(menuBox->windowId, 2, menuBox->infoRects->descTextLeft, menuBox->infoRects->descTextTop, sFontColorTable[0], 0, sDescriptionStringTable[stringID]);
 }
 
 static void PartyMenuRemoveWindow(u8 *ptr)
@@ -2411,8 +2411,8 @@ static u8 DisplaySelectionWindow(u8 windowType)
     DrawStdFrameWithCustomTileAndPalette(sPartyMenuInternal->windowId[0], FALSE, 0x4F, 13);
     if (windowType == SELECTWINDOW_MOVES)
         return sPartyMenuInternal->windowId[0];
-    cursorDimension = GetMenuCursorDimensionByFont(1, 0);
-    fontAttribute = GetFontAttribute(1, 2);
+    cursorDimension = GetMenuCursorDimensionByFont(2, 0);
+    fontAttribute = GetFontAttribute(2, 2);
 
     for (i = 0; i < sPartyMenuInternal->numActions; i++)
     {

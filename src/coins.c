@@ -18,8 +18,8 @@ void PrintCoinsString(u32 coinAmount)
     ConvertIntToDecimalStringN(gStringVar1, coinAmount, STR_CONV_MODE_RIGHT_ALIGN, MAX_COIN_DIGITS);
     StringExpandPlaceholders(gStringVar4, gText_Coins);
 
-    xAlign = GetStringRightAlignXOffset(1, gStringVar4, 64);
-    AddTextPrinterParameterized(sCoinsWindowId, 0, gStringVar4, xAlign, 12, 0, NULL);
+    xAlign = GetStringRightAlignXOffset(2, gStringVar4, 64);
+    AddTextPrinterParameterized(sCoinsWindowId, 4, gStringVar4, xAlign, 12, 0, NULL);
 }
 
 void ShowCoinsWindow(u32 coinAmount, u8 x, u8 y)

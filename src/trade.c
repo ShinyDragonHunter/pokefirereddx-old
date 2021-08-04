@@ -544,7 +544,7 @@ static void CB2_CreateTradeMenu(void)
         break;
     case 12:
         // Create player's name text sprites
-        xPos = GetStringCenterAlignXOffset(1, gSaveBlock2Ptr->playerName, 120);
+        xPos = GetStringCenterAlignXOffset(2, gSaveBlock2Ptr->playerName, 120);
         for (i = 0; i < GFXTAG_PLAYER_NAME; i++)
         {
             temp = sSpriteTemplate_MenuText;
@@ -553,7 +553,7 @@ static void CB2_CreateTradeMenu(void)
         }
 
         // Create partner's name text sprites
-        xPos = GetStringCenterAlignXOffset(1, gLinkPlayers[GetMultiplayerId() ^ 1].name, 120);
+        xPos = GetStringCenterAlignXOffset(2, gLinkPlayers[GetMultiplayerId() ^ 1].name, 120);
         for (i = 0; i < GFXTAG_PARTNER_NAME; i++)
         {
             temp = sSpriteTemplate_MenuText;
@@ -731,7 +731,7 @@ static void CB2_ReturnToTradeMenu(void)
         break;
     case 12:
         // Create player's name text sprites
-        xPos = GetStringCenterAlignXOffset(1, gSaveBlock2Ptr->playerName, 120);
+        xPos = GetStringCenterAlignXOffset(2, gSaveBlock2Ptr->playerName, 120);
         for (i = 0; i < GFXTAG_PLAYER_NAME; i++)
         {
             temp = sSpriteTemplate_MenuText;
@@ -740,7 +740,7 @@ static void CB2_ReturnToTradeMenu(void)
         }
 
         // Create partner's name text sprites
-        xPos = GetStringCenterAlignXOffset(1, gLinkPlayers[GetMultiplayerId() ^ 1].name, 120);
+        xPos = GetStringCenterAlignXOffset(2, gLinkPlayers[GetMultiplayerId() ^ 1].name, 120);
         for (i = 0; i < GFXTAG_PARTNER_NAME; i++)
         {
             temp = sSpriteTemplate_MenuText;
@@ -1388,7 +1388,7 @@ static void TradeMenuProcessInput(void)
         {
             DrawTextBorderOuter(1, 1, 14);
             FillWindowPixelBuffer(1, PIXEL_FILL(1));
-            PrintTextArray(1, 3, GetMenuCursorDimensionByFont(3, 0), 0, 16, ARRAY_COUNT(sSelectTradeMonActions), sSelectTradeMonActions);
+            PrintTextArray(1, 2, GetMenuCursorDimensionByFont(2, 0), 0, 16, ARRAY_COUNT(sSelectTradeMonActions), sSelectTradeMonActions);
             InitMenuInUpperLeftCornerPlaySoundWhenAPressed(1, 2, 0);
             PutWindowTilemap(1);
             CopyWindowToVram(1, 3);
@@ -1874,7 +1874,7 @@ static u8 GetMonNicknameWidth(u8 *str, u8 whichParty, u8 monIdx)
         GetMonData(&gPlayerParty[monIdx], MON_DATA_NICKNAME, nickname);
 
     StringCopy10(str, nickname);
-    return GetStringWidth(0, str, GetFontAttribute(0, FONTATTR_LETTER_SPACING));
+    return GetStringWidth(4, str, GetFontAttribute(4, FONTATTR_LETTER_SPACING));
 }
 
 static void BufferTradeMonMoves(u8 *str, u8 whichParty, u8 partyIdx)
@@ -1919,8 +1919,8 @@ static void PrintMonNicknameForTradeMenu(u8 whichParty, u8 windowId, u8 *nicknam
 {
     u8 xPos;
     windowId += (whichParty * PARTY_SIZE) + 2;
-    xPos = GetStringCenterAlignXOffset(0, nickname, 64);
-    AddTextPrinterParameterized3(windowId, 0, xPos, 4, sTradeTextColors, 0, nickname);
+    xPos = GetStringCenterAlignXOffset(4, nickname, 64);
+    AddTextPrinterParameterized3(windowId, 4, xPos, 4, sTradeTextColors, 0, nickname);
     PutWindowTilemap(windowId);
     CopyWindowToVram(windowId, 3);
 }

@@ -1433,7 +1433,7 @@ const struct MonCoords gMonBackPicCoords[] =
     [SPECIES_POOCHYENA] =
     {
         .size = 0x76,
-        .y_offset = 11,
+        .y_offset = 9,
     },
     [SPECIES_MIGHTYENA] =
     {

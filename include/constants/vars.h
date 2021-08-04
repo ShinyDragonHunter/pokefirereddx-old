@@ -133,19 +133,19 @@
 #define VAR_ROUTE119_STATE                   0x4072
 #define VAR_ROUTE120_STATE                   0x4073 // Unused Var
 #define VAR_ROUTE121_STATE                   0x4074
-#define VAR_ROUTE122_STATE                   0x4075 // Unused Var
-#define VAR_ROUTE123_STATE                   0x4076 // Unused Var
-#define VAR_ROUTE124_STATE                   0x4077 // Unused Var
-#define VAR_ROUTE125_STATE                   0x4078 // Unused Var
-#define VAR_ROUTE126_STATE                   0x4079 // Unused Var
-#define VAR_ROUTE127_STATE                   0x407A // Unused Var
+#define VAR_TRAINER_CARD_MON_ICON_0          0x4075
+#define VAR_TRAINER_CARD_MON_ICON_1          0x4076
+#define VAR_TRAINER_CARD_MON_ICON_2          0x4077
+#define VAR_TRAINER_CARD_MON_ICON_3          0x4078
+#define VAR_TRAINER_CARD_MON_ICON_4          0x4079
+#define VAR_TRAINER_CARD_MON_ICON_5          0x407A
 #define VAR_ROUTE128_STATE                   0x407B
 #define VAR_ROUTE129_STATE                   0x407C // Unused Var
 #define VAR_ROUTE130_STATE                   0x407D // Unused Var
 #define VAR_ROUTE131_STATE                   0x407E // Unused Var
-#define VAR_ROUTE132_STATE                   0x407F // Unused Var
-#define VAR_ROUTE133_STATE                   0x4080 // Unused Var
-#define VAR_ROUTE134_STATE                   0x4081 // Unused Var
+#define VAR_HOF_BRAG_STATE                   0x407F
+#define VAR_EGG_BRAG_STATE                   0x4080
+#define VAR_LINK_WIN_BRAG_STATE              0x4081
 #define VAR_LITTLEROOT_HOUSES_STATE_MAY      0x4082
 #define VAR_UNUSED_0x4083                    0x4083 // Unused Var
 #define VAR_BIRCH_LAB_STATE                  0x4084
@@ -263,13 +263,13 @@
 #define VAR_ROXANNE_CALL_STEP_COUNTER        0x40F4
 #define VAR_SCOTT_BF_CALL_STEP_COUNTER       0x40F5
 #define VAR_RIVAL_RAYQUAZA_CALL_STEP_COUNTER 0x40F6
-#define VAR_UNUSED_0x40F7                    0x40F7 // Unused Var
-#define VAR_UNUSED_0x40F8                    0x40F8 // Unused Var
-#define VAR_UNUSED_0x40F9                    0x40F9 // Unused Var
-#define VAR_UNUSED_0x40FA                    0x40FA // Unused Var
-#define VAR_UNUSED_0x40FB                    0x40FB // Unused Var
-#define VAR_UNUSED_0x40FC                    0x40FC // Unused Var
-#define VAR_UNUSED_0x40FD                    0x40FD // Unused Var
+#define VAR_TRAINER_CARD_MON_FORM_ICON_0     0x40F7
+#define VAR_TRAINER_CARD_MON_FORM_ICON_1     0x40F8
+#define VAR_TRAINER_CARD_MON_FORM_ICON_2     0x40F9
+#define VAR_TRAINER_CARD_MON_FORM_ICON_3     0x40FA
+#define VAR_TRAINER_CARD_MON_FORM_ICON_4     0x40FB
+#define VAR_TRAINER_CARD_MON_FORM_ICON_5     0x40FC
+#define VAR_TRAINER_CARD_MON_ICON_TINT       0x40FD
 #define VAR_UNUSED_0x40FE                    0x40FE // Unused Var
 #define VAR_UNUSED_0x40FF                    0x40FF // Unused Var
 

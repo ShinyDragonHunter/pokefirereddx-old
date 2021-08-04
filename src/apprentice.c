@@ -633,7 +633,7 @@ static void CreateApprenticeMenu(u8 menu)
     pixelWidth = 0;
     for (i = 0; i < count; i++)
     {
-        s32 width = GetStringWidth(1, strings[i], 0);
+        s32 width = GetStringWidth(2, strings[i], 0);
         if (width > pixelWidth)
             pixelWidth = width;
     }
@@ -644,7 +644,7 @@ static void CreateApprenticeMenu(u8 menu)
     SetStandardWindowBorderStyle(windowId, 0);
 
     for (i = 0; i < count; i++)
-        AddTextPrinterParameterized(windowId, 1, strings[i], 8, (i * 16) + 1, TEXT_SPEED_FF, NULL);
+        AddTextPrinterParameterized(windowId, 2, strings[i], 8, (i * 16) + 1, TEXT_SPEED_FF, NULL);
 
     InitMenuInUpperLeftCornerPlaySoundWhenAPressed(windowId, count, 0);
     CreateChooseAnswerTask(TRUE, count, windowId);
@@ -1081,21 +1081,29 @@ static void Script_ApprenticeOpenBagMenu(void)
 
 static void TrySetApprenticeHeldItem(void)
 {
-    u32 i, j, count;
+    u32 i, j;
+    u8 count;
 
     if (PLAYER_APPRENTICE.questionsAnswered < NUM_WHICH_MON_QUESTIONS)
         return;
 
-    for (count = 0, j = 0; j < APPRENTICE_MAX_QUESTIONS && PLAYER_APPRENTICE.questions[j].questionId != QUESTION_ID_WIN_SPEECH; count++, j++)
-        ;
-
-    // Make sure the item hasnt already been suggested in previous questions
-    for (i = 0; i < count && i < CURRENT_QUESTION_NUM; i++)
+    count = 0;
+    for (j = 0; j < APPRENTICE_MAX_QUESTIONS; j++)
     {
-        do {} while(0);
-        if (PLAYER_APPRENTICE.questions[i].questionId == QUESTION_ID_WHAT_ITEM
-            && PLAYER_APPRENTICE.questions[i].suggestedChange
-            && PLAYER_APPRENTICE.questions[i].data == gSpecialVar_0x8005)
+        if (PLAYER_APPRENTICE.questions[j].questionId == QUESTION_ID_WIN_SPEECH)
+            break;
+        count++;
+    }
+
+    // Make sure the item hasn't already been suggested in previous questions
+    for (i = 0; i < count; i++)
+    {
+        if (i >= CURRENT_QUESTION_NUM)
+            break;
+        if (PLAYER_APPRENTICE.questions[i].questionId != QUESTION_ID_WHAT_ITEM
+         || !PLAYER_APPRENTICE.questions[i].suggestedChange)
+            continue;
+        if (PLAYER_APPRENTICE.questions[i].data == gSpecialVar_0x8005)
         {
             PLAYER_APPRENTICE.questions[CURRENT_QUESTION_NUM].suggestedChange = FALSE;
             PLAYER_APPRENTICE.questions[CURRENT_QUESTION_NUM].data = gSpecialVar_0x8005;

@@ -24,7 +24,6 @@ void ShowScrollableMultichoice(void);
 void FrontierGamblerSetWonOrLost(bool8 won);
 u8 TryGainNewFanFromCounter(u8 incrementId);
 bool8 InPokemonCenter(void);
-void SetShoalItemFlag(u16 unused);
 void UpdateFrontierManiac(u16 daysSince);
 void UpdateFrontierGambler(u16 daysSince);
 void ResetCyclingRoadChallengeData(void);

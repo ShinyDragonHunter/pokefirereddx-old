@@ -384,7 +384,7 @@ static void CreateLilycoveSSTidalMultichoice(void)
         sLilycoveSSTidalSelections[i] = 0xFF;
     }
 
-    GetFontAttribute(1, FONTATTR_MAX_LETTER_WIDTH);
+    GetFontAttribute(2, FONTATTR_MAX_LETTER_WIDTH);
 
     if (!gSpecialVar_0x8004)
     {
@@ -497,7 +497,7 @@ static void CreateLilycoveSSTidalMultichoice(void)
         {
             if (sLilycoveSSTidalSelections[i] != 0xFF)
             {
-                AddTextPrinterParameterized(windowId, 2, sLilycoveSSTidalDestinations[sLilycoveSSTidalSelections[i]], GetMenuCursorDimensionByFont(1, 0), selectionCount * 16 + 1, TEXT_SPEED_FF, NULL);
+                AddTextPrinterParameterized(windowId, 2, sLilycoveSSTidalDestinations[sLilycoveSSTidalSelections[i]], GetMenuCursorDimensionByFont(2, 0), selectionCount * 16 + 1, TEXT_SPEED_FF, NULL);
                 selectionCount++;
             }
         }
@@ -685,7 +685,7 @@ static int DisplayTextAndGetWidthInternal(const u8 *str)
 {
     u8 temp[64];
     StringExpandPlaceholders(temp, str);
-    return GetStringWidth(1, temp, 0);
+    return GetStringWidth(2, temp, 0);
 }
 
 int DisplayTextAndGetWidth(const u8 *str, int prevWidth)

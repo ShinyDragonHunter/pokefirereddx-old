@@ -1800,10 +1800,10 @@ static void Task_ShowRankings(u8 taskId)
         break;
     case 1:
         // Print header text
-        xPos = 96 - GetStringWidth(1, gText_BerryCrush2, -1) / 2u;
-        AddTextPrinterParameterized3(tWindowId, 1, xPos, 1, sTextColorTable[COLORID_BLUE], 0, gText_BerryCrush2);
-        xPos = 96 - GetStringWidth(1, gText_PressingSpeedRankings, -1) / 2u;
-        AddTextPrinterParameterized3(tWindowId, 1, xPos, 17, sTextColorTable[COLORID_BLUE], 0, gText_PressingSpeedRankings);
+        xPos = 96 - GetStringWidth(2, gText_BerryCrush2, -1) / 2u;
+        AddTextPrinterParameterized3(tWindowId, 2, xPos, 1, sTextColorTable[COLORID_BLUE], 0, gText_BerryCrush2);
+        xPos = 96 - GetStringWidth(2, gText_PressingSpeedRankings, -1) / 2u;
+        AddTextPrinterParameterized3(tWindowId, 2, xPos, 17, sTextColorTable[COLORID_BLUE], 0, gText_PressingSpeedRankings);
         
         // Print pressing speed record for each group size, ranked
         yPos = 41;
@@ -1811,9 +1811,9 @@ static void Task_ShowRankings(u8 taskId)
         {
             ConvertIntToDecimalStringN(gStringVar1, i + 2, STR_CONV_MODE_LEFT_ALIGN, 1);
             StringExpandPlaceholders(gStringVar4, gText_Var1Players);
-            AddTextPrinterParameterized3(tWindowId, 1, 0, yPos, sTextColorTable[COLORID_GRAY], 0, gStringVar4);
-            xPos = 192 - (u8)GetStringWidth(1, gText_TimesPerSec, -1);
-            AddTextPrinterParameterized3(tWindowId, 1, xPos, yPos, sTextColorTable[COLORID_GRAY], 0, gText_TimesPerSec);
+            AddTextPrinterParameterized3(tWindowId, 2, 0, yPos, sTextColorTable[COLORID_GRAY], 0, gStringVar4);
+            xPos = 192 - (u8)GetStringWidth(2, gText_TimesPerSec, -1);
+            AddTextPrinterParameterized3(tWindowId, 2, xPos, yPos, sTextColorTable[COLORID_GRAY], 0, gText_TimesPerSec);
             for (j = 0; j < 8; j++)
             {
                 if (((tPressingSpeeds(i) & 0xFF) >> (7 - j)) & 1)
@@ -1822,8 +1822,8 @@ static void Task_ShowRankings(u8 taskId)
             ConvertIntToDecimalStringN(gStringVar1, (u16)tPressingSpeeds(i) >> 8, STR_CONV_MODE_RIGHT_ALIGN, 3);
             ConvertIntToDecimalStringN(gStringVar2, score / 1000000, STR_CONV_MODE_LEADING_ZEROS, 2);
             StringExpandPlaceholders(gStringVar4, gText_XDotY3);
-            xPos -= GetStringWidth(1, gStringVar4, -1);
-            AddTextPrinterParameterized3(tWindowId, 1, xPos, yPos, sTextColorTable[COLORID_GRAY], 0, gStringVar4);
+            xPos -= GetStringWidth(2, gStringVar4, -1);
+            AddTextPrinterParameterized3(tWindowId, 2, xPos, yPos, sTextColorTable[COLORID_GRAY], 0, gStringVar4);
             yPos += 16;
             score = 0;
         }

@@ -3850,7 +3850,7 @@ static void PrintPokeJumpPlayerName(int multiplayerId, u8 bgColor, u8 fgColor, u
     u8 colors[3] = {bgColor, fgColor, shadow};
 
     FillWindowPixelBuffer(sPokemonJumpGfx->nameWindowIds[multiplayerId], 0);
-    x = 64 - GetStringWidth(1, GetPokeJumpPlayerName(multiplayerId), -1);
+    x = 64 - GetStringWidth(2, GetPokeJumpPlayerName(multiplayerId), -1);
     x /= 2;
     AddTextPrinterParameterized3(sPokemonJumpGfx->nameWindowIds[multiplayerId], 2, x, 1, colors, -1, GetPokeJumpPlayerName(multiplayerId));
     CopyWindowToVram(sPokemonJumpGfx->nameWindowIds[multiplayerId], 2);
@@ -4140,10 +4140,10 @@ static void Task_ShowPokemonJumpRecords(u8 taskId)
     {
     case 0:
         window = sWindowTemplate_Records;
-        width = GetStringWidth(1, gText_PkmnJumpRecords, 0);
+        width = GetStringWidth(2, gText_PkmnJumpRecords, 0);
         for (i = 0; i < ARRAY_COUNT(sRecordsTexts); i++)
         {
-            widthCurr = GetStringWidth(1, sRecordsTexts[i], 0) + 38;
+            widthCurr = GetStringWidth(2, sRecordsTexts[i], 0) + 38;
             if (widthCurr > width)
                 width = widthCurr;
         }
@@ -4195,13 +4195,13 @@ static void PrintRecordsText(u16 windowId, int width)
     LoadThinWindowBorderGfx(windowId, 0x21D, 0xD0);
     DrawTextBorderOuter(windowId, 0x21D, 0xD);
     FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
-    AddTextPrinterParameterized(windowId, 2, gText_PkmnJumpRecords, GetStringCenterAlignXOffset(1, gText_PkmnJumpRecords, width * 8), 1, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(windowId, 2, gText_PkmnJumpRecords, GetStringCenterAlignXOffset(2, gText_PkmnJumpRecords, width * 8), 1, TEXT_SPEED_FF, NULL);
     for (i = 0; i < ARRAY_COUNT(sRecordsTexts); i++)
     {
         AddTextPrinterParameterized(windowId, 2, sRecordsTexts[i], 0, 25 + (i * 16), TEXT_SPEED_FF, NULL);
         ConvertIntToDecimalStringN(gStringVar1, recordNums[i], STR_CONV_MODE_LEFT_ALIGN, 5);
         TruncateToFirstWordOnly(gStringVar1);
-        x = (width * 8) - GetStringWidth(1, gStringVar1, 0);
+        x = (width * 8) - GetStringWidth(2, gStringVar1, 0);
         AddTextPrinterParameterized(windowId, 2, gStringVar1, x, 25 + (i * 16), TEXT_SPEED_FF, NULL);
     }
     PutWindowTilemap(windowId);

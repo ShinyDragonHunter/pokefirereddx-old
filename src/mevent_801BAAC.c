@@ -370,11 +370,11 @@ void sub_801C178(u8 whichWindow)
         case 0:
         {
             s32 x;
-            AddTextPrinterParameterized3(windowId, 3, 0, 1, sTextColorTable[sWonderCardData->unk_0170->textPal1], 0, sWonderCardData->unk_018B);
-            x = 160 - GetStringWidth(3, sWonderCardData->unk_01B4, GetFontAttribute(3, 2));
+            AddTextPrinterParameterized3(windowId, 2, 0, 1, sTextColorTable[sWonderCardData->unk_0170->textPal1], 0, sWonderCardData->unk_018B);
+            x = 160 - GetStringWidth(2, sWonderCardData->unk_01B4, GetFontAttribute(2, 2));
             if (x < 0)
                 x = 0;
-            AddTextPrinterParameterized3(windowId, 3, x, 17, sTextColorTable[sWonderCardData->unk_0170->textPal1], 0, sWonderCardData->unk_01B4);
+            AddTextPrinterParameterized3(windowId, 2, x, 17, sTextColorTable[sWonderCardData->unk_0170->textPal1], 0, sWonderCardData->unk_01B4);
             if (sWonderCardData->unk_0000.unk_04 != 0)
             {
                 AddTextPrinterParameterized3(windowId, 2, 166, 17, sTextColorTable[sWonderCardData->unk_0170->textPal1], 0, sWonderCardData->unk_01DD);
@@ -384,28 +384,28 @@ void sub_801C178(u8 whichWindow)
         case 1:
             for (; sp0C < 4; sp0C++)
             {
-                AddTextPrinterParameterized3(windowId, 3, 0, 16 * sp0C + 2, sTextColorTable[sWonderCardData->unk_0170->textPal2], 0, sWonderCardData->unk_01E4[sp0C]);
+                AddTextPrinterParameterized3(windowId, 2, 0, 16 * sp0C + 2, sTextColorTable[sWonderCardData->unk_0170->textPal2], 0, sWonderCardData->unk_01E4[sp0C]);
             }
             break;
         case 2:
-            AddTextPrinterParameterized3(windowId, 3, 0, gUnknown_082F0E18[sWonderCardData->unk_0000.unk_08_0], sTextColorTable[sWonderCardData->unk_0170->textPal3], 0, sWonderCardData->unk_0288);
+            AddTextPrinterParameterized3(windowId, 2, 0, gUnknown_082F0E18[sWonderCardData->unk_0000.unk_08_0], sTextColorTable[sWonderCardData->unk_0170->textPal3], 0, sWonderCardData->unk_0288);
             if (sWonderCardData->unk_0000.unk_08_0 != 2)
             {
-                AddTextPrinterParameterized3(windowId, 3, 0, 16 + gUnknown_082F0E18[sWonderCardData->unk_0000.unk_08_0], sTextColorTable[sWonderCardData->unk_0170->textPal3], 0, sWonderCardData->unk_02B1);
+                AddTextPrinterParameterized3(windowId, 2, 0, 16 + gUnknown_082F0E18[sWonderCardData->unk_0000.unk_08_0], sTextColorTable[sWonderCardData->unk_0170->textPal3], 0, sWonderCardData->unk_02B1);
             }
             else
             {
                 s32 x = 0;
                 s32 y = gUnknown_082F0E18[sWonderCardData->unk_0000.unk_08_0] + 16;
-                s32 spacing = GetFontAttribute(3, 2);
+                s32 spacing = GetFontAttribute(2, 2);
                 for (; sp0C < sWonderCardData->unk_0175; sp0C++)
                 {
-                    AddTextPrinterParameterized3(windowId, 3, x, y, sTextColorTable[sWonderCardData->unk_0170->textPal3], 0, sWonderCardData->unk_02DC[sp0C].unk_01);
+                    AddTextPrinterParameterized3(windowId, 2, x, y, sTextColorTable[sWonderCardData->unk_0170->textPal3], 0, sWonderCardData->unk_02DC[sp0C].unk_01);
                     if (sWonderCardData->unk_02DC[sp0C].unk_42[0] != EOS)
                     {
-                        x += GetStringWidth(3, sWonderCardData->unk_02DC[sp0C].unk_01, spacing);
-                        AddTextPrinterParameterized3(windowId, 3, x, y, sTextColorTable[sWonderCardData->unk_0170->textPal3], 0, sWonderCardData->unk_02DC[sp0C].unk_42);
-                        x += GetStringWidth(3, sWonderCardData->unk_02DC[sp0C].unk_42, spacing) + sWonderCardData->unk_02DC[sp0C].unk_00;
+                        x += GetStringWidth(2, sWonderCardData->unk_02DC[sp0C].unk_01, spacing);
+                        AddTextPrinterParameterized3(windowId, 2, x, y, sTextColorTable[sWonderCardData->unk_0170->textPal3], 0, sWonderCardData->unk_02DC[sp0C].unk_42);
+                        x += GetStringWidth(2, sWonderCardData->unk_02DC[sp0C].unk_42, spacing) + sWonderCardData->unk_02DC[sp0C].unk_00;
                     }
                 }
             }
@@ -787,13 +787,13 @@ void sub_801CE7C(void)
     PutWindowTilemap(sWonderNewsData->unk_01C8[1]);
     FillWindowPixelBuffer(sWonderNewsData->unk_01C8[0], 0);
     FillWindowPixelBuffer(sWonderNewsData->unk_01C8[1], 0);
-    x = (0xe0 - GetStringWidth(3, sWonderNewsData->unk_01CE, GetFontAttribute(3, 2))) / 2;
+    x = (0xe0 - GetStringWidth(2, sWonderNewsData->unk_01CE, GetFontAttribute(2, 2))) / 2;
     if (x < 0)
         x = 0;
-    AddTextPrinterParameterized3(sWonderNewsData->unk_01C8[0], 3, x, 6, gUnknown_082F1DE0[sWonderNewsData->unk_01BC->textPal1], 0, sWonderNewsData->unk_01CE);
+    AddTextPrinterParameterized3(sWonderNewsData->unk_01C8[0], 2, x, 6, gUnknown_082F1DE0[sWonderNewsData->unk_01BC->textPal1], 0, sWonderNewsData->unk_01CE);
     for (; i < 10; ++i)
     {
-        AddTextPrinterParameterized3(sWonderNewsData->unk_01C8[1], 3, 0, 16 * i + 2, gUnknown_082F1DE0[sWonderNewsData->unk_01BC->textPal2], 0, sWonderNewsData->unk_01F7[i]);
+        AddTextPrinterParameterized3(sWonderNewsData->unk_01C8[1], 2, 0, 16 * i + 2, gUnknown_082F1DE0[sWonderNewsData->unk_01BC->textPal2], 0, sWonderNewsData->unk_01F7[i]);
     }
     CopyWindowToVram(sWonderNewsData->unk_01C8[0], 3);
     CopyWindowToVram(sWonderNewsData->unk_01C8[1], 3);

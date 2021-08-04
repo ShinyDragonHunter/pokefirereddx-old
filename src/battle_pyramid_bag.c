@@ -159,7 +159,7 @@ static const struct ListMenuTemplate sListMenuTemplate =
     .lettersSpacing = 0,
     .itemVerticalPadding = 0,
     .scrollMultiple = LIST_NO_MULTIPLE_SCROLL,
-    .fontId = 7,
+    .fontId = 5,
     .cursorKind = 0
 };
 
@@ -672,7 +672,7 @@ static void PrintItemQuantity(u8 windowId, u32 itemIndex, u8 y)
                                STR_CONV_MODE_RIGHT_ALIGN,
                                2);
     StringExpandPlaceholders(gStringVar4, gText_xVar1);
-    xAlign = GetStringRightAlignXOffset(7, gStringVar4, 119);
+    xAlign = GetStringRightAlignXOffset(5, gStringVar4, 119);
     PrintOnWindow_Font7(windowId, gStringVar4, xAlign, y, 0, 0, TEXT_SPEED_FF, COLORID_DARK_GRAY);
 }
 
@@ -849,7 +849,7 @@ static void PrintSelectorArrow(u8 listMenuTaskId, u8 colorId)
 static void PrintSelectorArrowAtPos(u8 y, u8 colorId)
 {
     if (colorId == COLORID_NONE) // If 'no color', erase arrow
-        FillWindowPixelRect(WIN_LIST, PIXEL_FILL(0), 0, y, GetMenuCursorDimensionByFont(1, 0), GetMenuCursorDimensionByFont(1, 1));
+        FillWindowPixelRect(WIN_LIST, PIXEL_FILL(0), 0, y, GetMenuCursorDimensionByFont(2, 0), GetMenuCursorDimensionByFont(2, 1));
     else
         PrintOnWindow_Font1(WIN_LIST, gText_SelectorArrow2, 0, y, 0, 0, 0, colorId);
 }
@@ -1167,8 +1167,8 @@ static void ShowNumToToss(void)
     ConvertIntToDecimalStringN(gStringVar1, 1, STR_CONV_MODE_LEADING_ZEROS, 2);
     StringExpandPlaceholders(gStringVar4, gText_xVar1);
     DrawTossNumberWindow(WIN_TOSS_NUM);
-    x = GetStringCenterAlignXOffset(1, gStringVar4, 0x28);
-    AddTextPrinterParameterized(WIN_TOSS_NUM, 1, gStringVar4, x, 2, 0, NULL);
+    x = GetStringCenterAlignXOffset(2, gStringVar4, 0x28);
+    AddTextPrinterParameterized(WIN_TOSS_NUM, 2, gStringVar4, x, 2, 0, NULL);
 }
 
 static void UpdateNumToToss(s16 num)
@@ -1176,8 +1176,8 @@ static void UpdateNumToToss(s16 num)
     s32 x;
     ConvertIntToDecimalStringN(gStringVar1, num, STR_CONV_MODE_LEADING_ZEROS, 2);
     StringExpandPlaceholders(gStringVar4, gText_xVar1);
-    x = GetStringCenterAlignXOffset(1, gStringVar4, 0x28);
-    AddTextPrinterParameterized(WIN_TOSS_NUM, 1, gStringVar4, x, 2, 0, NULL);
+    x = GetStringCenterAlignXOffset(2, gStringVar4, 0x28);
+    AddTextPrinterParameterized(WIN_TOSS_NUM, 2, gStringVar4, x, 2, 0, NULL);
 }
 
 static void Task_ChooseHowManyToToss(u8 taskId)
@@ -1453,12 +1453,12 @@ static void InitPyramidBagWindows(void)
 
 static void PrintOnWindow_Font1(u8 windowId, const u8 *src, u8 x, u8 y, u8 letterSpacing, u8 lineSpacing, u8 speed, u8 colorTableId)
 {
-    AddTextPrinterParameterized4(windowId, 1, x, y, letterSpacing, lineSpacing, sTextColors[colorTableId], speed, src);
+    AddTextPrinterParameterized4(windowId, 2, x, y, letterSpacing, lineSpacing, sTextColors[colorTableId], speed, src);
 }
 
 static void PrintOnWindow_Font7(u8 windowId, const u8 *src, u8 x, u8 y, u8 letterSpacing, u8 lineSpacing, u8 speed, u8 colorTableId)
 {
-    AddTextPrinterParameterized4(windowId, 7, x, y, letterSpacing, lineSpacing, sTextColors[colorTableId], speed, src);
+    AddTextPrinterParameterized4(windowId, 5, x, y, letterSpacing, lineSpacing, sTextColors[colorTableId], speed, src);
 }
 
 static void DrawTossNumberWindow(u8 windowId)

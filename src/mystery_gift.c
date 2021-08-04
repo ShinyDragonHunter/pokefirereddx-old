@@ -489,7 +489,7 @@ void PrintMysteryGiftOrEReaderTopMenu(bool8 mg_or_ereader, bool32 usePickOkCance
     }
 
     AddTextPrinterParameterized4(0, 2, 4, 1, 0, 0, sMG_Ereader_TextColor_1, -1, header);
-    AddTextPrinterParameterized4(0, 0, GetStringRightAlignXOffset(0, options, 0xDE), 1, 0, 0, sMG_Ereader_TextColor_1, -1, options);
+    AddTextPrinterParameterized4(0, 4, GetStringRightAlignXOffset(4, options, 0xDE), 1, 0, 0, sMG_Ereader_TextColor_1, -1, options);
     CopyWindowToVram(0, 2);
     PutWindowTilemap(0);
 }

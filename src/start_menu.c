@@ -1290,30 +1290,30 @@ static void ShowSaveInfoWindow(void)
 
     // Print player name
     yOffset = 14;
-    AddTextPrinterParameterized(sSaveInfoWindowId, 0, gText_SavingPlayer, 2, yOffset, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(sSaveInfoWindowId, 4, gText_SavingPlayer, 2, yOffset, TEXT_SPEED_FF, NULL);
     BufferSaveMenuText(SAVE_MENU_NAME, gStringVar4, TEXT_COLOR_DARK_GRAY);
     PrintPlayerNameOnWindow(sSaveInfoWindowId, gStringVar4, 0x3C, yOffset);
 
     // Print badge count
     yOffset = 28;
-    AddTextPrinterParameterized(sSaveInfoWindowId, 0, gText_SavingBadges, 2, yOffset, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(sSaveInfoWindowId, 4, gText_SavingBadges, 2, yOffset, TEXT_SPEED_FF, NULL);
     BufferSaveMenuText(SAVE_MENU_BADGES, gStringVar4, TEXT_COLOR_DARK_GRAY);
-    AddTextPrinterParameterized(sSaveInfoWindowId, 0, gStringVar4, 0x3C, yOffset, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(sSaveInfoWindowId, 4, gStringVar4, 0x3C, yOffset, TEXT_SPEED_FF, NULL);
 
     yOffset = 42;
     if (FlagGet(FLAG_SYS_POKEDEX_GET))
     {
         // Print pokedex count
-        AddTextPrinterParameterized(sSaveInfoWindowId, 0, gText_SavingPokedex, 2, yOffset, TEXT_SPEED_FF, NULL);
+        AddTextPrinterParameterized(sSaveInfoWindowId, 4, gText_SavingPokedex, 2, yOffset, TEXT_SPEED_FF, NULL);
         BufferSaveMenuText(SAVE_MENU_CAUGHT, gStringVar4, TEXT_COLOR_DARK_GRAY);
-        AddTextPrinterParameterized(sSaveInfoWindowId, 0, gStringVar4, 0x3C, yOffset, TEXT_SPEED_FF, NULL);
+        AddTextPrinterParameterized(sSaveInfoWindowId, 4, gStringVar4, 0x3C, yOffset, TEXT_SPEED_FF, NULL);
         yOffset = 56;
     }
 
     // Print play time
-    AddTextPrinterParameterized(sSaveInfoWindowId, 0, gText_SavingTime, 2, yOffset, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(sSaveInfoWindowId, 4, gText_SavingTime, 2, yOffset, TEXT_SPEED_FF, NULL);
     BufferSaveMenuText(SAVE_MENU_PLAY_TIME, gStringVar4, TEXT_COLOR_DARK_GRAY);
-    AddTextPrinterParameterized(sSaveInfoWindowId, 0, gStringVar4, 0x3C, yOffset, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(sSaveInfoWindowId, 4, gStringVar4, 0x3C, yOffset, TEXT_SPEED_FF, NULL);
 
     CopyWindowToVram(sSaveInfoWindowId, 2);
 }

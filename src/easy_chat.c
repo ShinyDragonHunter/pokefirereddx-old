@@ -2686,7 +2686,7 @@ static bool8 UpdateMainCursor(void)
         else
         {
             CopyEasyChatWord(str, *ecWord);
-            stringWidth = GetStringWidth(1, str, 0);
+            stringWidth = GetStringWidth(2, str, 0);
         }
 
         trueStringWidth = stringWidth + 17;
@@ -3341,9 +3341,9 @@ static void PrintTitle(void)
     if (!titleText)
         return;
 
-    xOffset = GetStringCenterAlignXOffset(1, titleText, 144);
+    xOffset = GetStringCenterAlignXOffset(2, titleText, 144);
     FillWindowPixelBuffer(0, PIXEL_FILL(0));
-    PrintEasyChatTextWithColors(0, 1, titleText, xOffset, 1, TEXT_SPEED_FF, TEXT_COLOR_TRANSPARENT, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_LIGHT_GRAY);
+    PrintEasyChatTextWithColors(0, 2, titleText, xOffset, 1, TEXT_SPEED_FF, TEXT_COLOR_TRANSPARENT, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_LIGHT_GRAY);
     PutWindowTilemap(0);
     CopyWindowToVram(0, 3);
 }

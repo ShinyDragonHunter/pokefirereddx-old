@@ -738,18 +738,18 @@ static void MoveRelearnerLoadBattleMoveDescription(u32 chosenMove)
 
     FillWindowPixelBuffer(0, PIXEL_FILL(1));
     str = gText_MoveRelearnerBattleMoves;
-    x = GetStringCenterAlignXOffset(1, str, 0x80);
+    x = GetStringCenterAlignXOffset(2, str, 0x80);
     AddTextPrinterParameterized(0, 2, str, x, 1, TEXT_SPEED_FF, NULL);
 
     str = gText_MoveRelearnerPP;
     AddTextPrinterParameterized(0, 2, str, 4, 0x29, TEXT_SPEED_FF, NULL);
 
     str = gText_MoveRelearnerPower;
-    x = GetStringRightAlignXOffset(1, str, 0x6A);
+    x = GetStringRightAlignXOffset(2, str, 0x6A);
     AddTextPrinterParameterized(0, 2, str, x, 0x19, TEXT_SPEED_FF, NULL);
 
     str = gText_MoveRelearnerAccuracy;
-    x = GetStringRightAlignXOffset(1, str, 0x6A);
+    x = GetStringRightAlignXOffset(2, str, 0x6A);
     AddTextPrinterParameterized(0, 2, str, x, 0x29, TEXT_SPEED_FF, NULL);
     if (chosenMove == LIST_CANCEL)
     {
@@ -760,7 +760,7 @@ static void MoveRelearnerLoadBattleMoveDescription(u32 chosenMove)
     str = gTypeNames[move->type];
     AddTextPrinterParameterized(0, 2, str, 4, 0x19, TEXT_SPEED_FF, NULL);
 
-    x = 4 + GetStringWidth(1, gText_MoveRelearnerPP, 0);
+    x = 4 + GetStringWidth(2, gText_MoveRelearnerPP, 0);
     ConvertIntToDecimalStringN(buffer, move->pp, STR_CONV_MODE_LEFT_ALIGN, 2);
     AddTextPrinterParameterized(0, 2, buffer, x, 0x29, TEXT_SPEED_FF, NULL);
 

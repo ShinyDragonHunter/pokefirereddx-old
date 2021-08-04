@@ -1048,7 +1048,7 @@ LittlerootTown_Text_GoodLuckCatchingPokemon:
 
 LittlerootTown_Text_TownSign:
 	.string "LITTLEROOT TOWN\n"
-	.string "{SIZE 0}“A town that can't be shaded any hue.”$"
+	.string "{FONT 4}“A town that can't be shaded any hue.”$"
 
 LittlerootTown_Text_ProfBirchsLab:
 	.string "PROF. BIRCH'S POKéMON LAB$"

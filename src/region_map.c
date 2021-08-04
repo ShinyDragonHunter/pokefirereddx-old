@@ -1713,7 +1713,7 @@ static void DrawFlyDestTextWindow(void)
                     DrawStdFrameWithCustomTileAndPalette(1, FALSE, 101, 13);
                     AddTextPrinterParameterized(1, 2, sFlyMap->regionMap.mapSecName, 0, 1, 0, NULL);
                     name = sMultiNameFlyDestinations[i].name[sFlyMap->regionMap.posWithinMapSec];
-                    AddTextPrinterParameterized(1, 2, name, GetStringRightAlignXOffset(1, name, 96), 17, 0, NULL);
+                    AddTextPrinterParameterized(1, 2, name, GetStringRightAlignXOffset(2, name, 96), 17, 0, NULL);
                     ScheduleBgCopyTilemapToVram(0);
                     sDrawFlyDestTextWindow = TRUE;
                 }

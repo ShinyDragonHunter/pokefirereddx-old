@@ -603,7 +603,7 @@ static void Mailbox_DrawMailboxMenu(u8 taskId)
 
     windowId = sub_81D1C84(0);
     sub_81D1C84(1);
-    AddTextPrinterParameterized(windowId, 2, gText_Mailbox, GetStringCenterAlignXOffset(1, gText_Mailbox, 0x40), 1, 0, NULL);
+    AddTextPrinterParameterized(windowId, 2, gText_Mailbox, GetStringCenterAlignXOffset(2, gText_Mailbox, 0x40), 1, 0, NULL);
     ScheduleBgCopyTilemapToVram(0);
     gTasks[taskId].data[5] = sub_81D1DC0(&playerPCItemPageInfo);
     sub_81D1E90(&playerPCItemPageInfo);
@@ -938,7 +938,7 @@ static void fish4_goto_x5_or_x6(u8 windowId, u32 id, u8 yOffset)
         }
         ConvertIntToDecimalStringN(gStringVar1, gSaveBlock1Ptr->pcItems[id].quantity, STR_CONV_MODE_RIGHT_ALIGN, 3);
         StringExpandPlaceholders(gStringVar4, gText_xVar1);
-        AddTextPrinterParameterized(windowId, 7, gStringVar4, GetStringRightAlignXOffset(7, gStringVar4, 104), yOffset, 0xFF, NULL);
+        AddTextPrinterParameterized(windowId, 5, gStringVar4, GetStringRightAlignXOffset(5, gStringVar4, 104), yOffset, 0xFF, NULL);
     }
 }
 
@@ -979,7 +979,7 @@ static void sub_816BFE0(u8 y, u8 b, u8 speed)
 {
     u8 windowId = gUnknown_0203BCC4->windowIds[0];
     if (b == 0xFF)
-        FillWindowPixelRect(windowId, PIXEL_FILL(1), 0, y, GetMenuCursorDimensionByFont(1, 0), GetMenuCursorDimensionByFont(1, 1));
+        FillWindowPixelRect(windowId, PIXEL_FILL(1), 0, y, GetMenuCursorDimensionByFont(2, 0), GetMenuCursorDimensionByFont(2, 1));
     else
         AddTextPrinterParameterized4(windowId, 2, 0, y, 0, 0, gUnknown_085DFF8C, speed, gText_SelectorArrow2);
 }
@@ -1041,7 +1041,7 @@ static void ItemStorage_ProcessWithdrawTossInput(u8 taskId)
     text = gText_WithdrawItem;
     if (toss)
         text = gText_TossItem;
-    x = GetStringCenterAlignXOffset(1, text, 104);
+    x = GetStringCenterAlignXOffset(2, text, 104);
     AddTextPrinterParameterized(gUnknown_0203BCC4->windowIds[3], 2, text, x, 1, 0, NULL);
     CopyWindowToVram(gUnknown_0203BCC4->windowIds[2], 2);
     sub_816C110();
@@ -1251,7 +1251,7 @@ static void sub_816C6BC(u8 windowId, u16 value, u32 mode, u8 x, u8 y, u8 n)
 {
     ConvertIntToDecimalStringN(gStringVar1, value, mode, n);
     StringExpandPlaceholders(gStringVar4, gText_xVar1);
-    AddTextPrinterParameterized(windowId, 2, gStringVar4, GetStringCenterAlignXOffset(1, gStringVar4, 48), y, 0, NULL);
+    AddTextPrinterParameterized(windowId, 2, gStringVar4, GetStringCenterAlignXOffset(2, gStringVar4, 48), y, 0, NULL);
 }
 
 static void ItemStorage_DoItemAction(u8 taskId)

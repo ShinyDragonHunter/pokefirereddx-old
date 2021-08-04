@@ -937,7 +937,7 @@ static bool8 IsWinStreakActive(u32 challenge)
 
 static void PrintAligned(const u8 *str, s32 y)
 {
-    s32 x = GetStringCenterAlignXOffset(1, str, 224);
+    s32 x = GetStringCenterAlignXOffset(2, str, 224);
     y = (y * 8) + 1;
     AddTextPrinterParameterized(gRecordsWindowId, 2, str, x, y, TEXT_SPEED_FF, NULL);
 }
@@ -2155,7 +2155,7 @@ static void Print1PRecord(s32 position, s32 x, s32 y, struct RankingHall1P *hall
             winStreak = MAX_STREAK;
         ConvertIntToDecimalStringN(gStringVar2, winStreak, STR_CONV_MODE_RIGHT_ALIGN, 4);
         StringExpandPlaceholders(gStringVar4, sHallFacilityToRecordsText[hallFacilityId]);
-        AddTextPrinterParameterized(gRecordsWindowId, 2, gStringVar4, GetStringRightAlignXOffset(1, sHallFacilityToRecordsText[hallFacilityId], 0xC8), (8 * (y + 5 * position)) + 1, TEXT_SPEED_FF, NULL);
+        AddTextPrinterParameterized(gRecordsWindowId, 2, gStringVar4, GetStringRightAlignXOffset(2, sHallFacilityToRecordsText[hallFacilityId], 0xC8), (8 * (y + 5 * position)) + 1, TEXT_SPEED_FF, NULL);
     }
 }
 
@@ -2182,7 +2182,7 @@ static void Print2PRecord(s32 position, s32 x, s32 y, struct RankingHall2P *hall
             winStreak = MAX_STREAK;
         ConvertIntToDecimalStringN(gStringVar2, winStreak, STR_CONV_MODE_RIGHT_ALIGN, 4);
         StringExpandPlaceholders(gStringVar4, sHallFacilityToRecordsText[RANKING_HALL_BATTLE_TOWER_LINK]);
-        AddTextPrinterParameterized(gRecordsWindowId, 2, gStringVar4, GetStringRightAlignXOffset(1, sHallFacilityToRecordsText[RANKING_HALL_BATTLE_TOWER_LINK], 0xC8), (8 * (y + 5 * position)) + 1, TEXT_SPEED_FF, NULL);
+        AddTextPrinterParameterized(gRecordsWindowId, 2, gStringVar4, GetStringRightAlignXOffset(2, sHallFacilityToRecordsText[RANKING_HALL_BATTLE_TOWER_LINK], 0xC8), (8 * (y + 5 * position)) + 1, TEXT_SPEED_FF, NULL);
     }
 }
 
@@ -2264,7 +2264,7 @@ static void PrintHallRecords(s32 hallFacilityId, s32 lvlMode)
     StringCopy(gStringVar1, sRecordsWindowChallengeTexts[hallFacilityId][0]);
     StringExpandPlaceholders(gStringVar4, sRecordsWindowChallengeTexts[hallFacilityId][1]);
     AddTextPrinterParameterized(gRecordsWindowId, 2, gStringVar4, 0, 1, TEXT_SPEED_FF, NULL);
-    x = GetStringRightAlignXOffset(1, sLevelModeText[lvlMode], 0xD0);
+    x = GetStringRightAlignXOffset(2, sLevelModeText[lvlMode], 0xD0);
     AddTextPrinterParameterized(gRecordsWindowId, 2, sLevelModeText[lvlMode], x, 1, TEXT_SPEED_FF, NULL);
     if (hallFacilityId == RANKING_HALL_BATTLE_TOWER_LINK)
     {

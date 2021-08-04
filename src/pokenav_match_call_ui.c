@@ -713,7 +713,7 @@ void sub_81C8CB4(struct MatchCallWindowState *state, struct PokenavSub17Substruc
     list->unk34(state->unk10 + state->unkC * state->windowTopIndex, list->unkTextBuffer);
     list->unk38(list->listWindow.windowId, state->windowTopIndex, list->listWindow.unkA);
     FillWindowPixelRect(list->listWindow.windowId, PIXEL_FILL(4), 0, list->listWindow.unkA * 16, list->listWindow.unk4 * 8, 16);
-    AddTextPrinterParameterized3(list->listWindow.windowId, list->listWindow.fontId, 8, (list->listWindow.unkA * 16) + 1, colors, TEXT_SPEED_FF, list->unkTextBuffer);
+    AddTextPrinterParameterized3(list->listWindow.windowId, list->listWindow.fontId, 2, (list->listWindow.unkA * 16) + 1, colors, TEXT_SPEED_FF, list->unkTextBuffer);
     sub_81C8C64(&list->listWindow, 1);
     CopyWindowRectToVram(list->listWindow.windowId, 3, 0, list->listWindow.unkA * 2, list->listWindow.unk4, 2);
 }
@@ -722,7 +722,7 @@ void sub_81C8D4C(struct MatchCallWindowState *state, struct PokenavSub17Substruc
 {
     list->unk34(state->unk10 + state->unkC * state->windowTopIndex, list->unkTextBuffer);
     FillWindowPixelRect(list->listWindow.windowId, PIXEL_FILL(1), 0, list->listWindow.unkA * 16, list->listWindow.unk4 * 8, 16);
-    AddTextPrinterParameterized(list->listWindow.windowId, list->listWindow.fontId, list->unkTextBuffer, 8, list->listWindow.unkA * 16 + 1, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(list->listWindow.windowId, list->listWindow.fontId, list->unkTextBuffer, 2, list->listWindow.unkA * 16 + 1, TEXT_SPEED_FF, NULL);
     sub_81C8C64(&list->listWindow, 0);
     CopyWindowToVram(list->listWindow.windowId, 3);
 }
@@ -734,7 +734,7 @@ void PrintMatchCallFieldNames(struct PokenavSub17Substruct *list, u32 fieldId)
     u32 top = (list->listWindow.unkA + 1 + (fieldId * 2)) & 0xF;
 
     FillWindowPixelRect(list->listWindow.windowId, PIXEL_FILL(1), 0, top << 4, list->listWindow.unk4, 16);
-    AddTextPrinterParameterized3(list->listWindow.windowId, 7, 2, (top << 4) + 1, colors, -1, fieldNames[fieldId]);
+    AddTextPrinterParameterized3(list->listWindow.windowId, 5, 2, (top << 4) + 1, colors, -1, fieldNames[fieldId]);
     CopyWindowRectToVram(list->listWindow.windowId, 2, 0, top << 1, list->listWindow.unk4, 2);
 }
 
@@ -755,7 +755,7 @@ static void PrintMatchCallFlavorText(struct MatchCallWindowState *a0, struct Pok
     if (str != NULL)
     {
         sub_81DB620(list->listWindow.windowId, 1, r6 * 2, list->listWindow.unk4 - 1, 2);
-        AddTextPrinterParameterized(list->listWindow.windowId, 7, str, 2, (r6 << 4) + 1, TEXT_SPEED_FF, NULL);
+        AddTextPrinterParameterized(list->listWindow.windowId, 5, str, 2, (r6 << 4) + 1, TEXT_SPEED_FF, NULL);
         CopyWindowRectToVram(list->listWindow.windowId, 2, 0, r6 * 2, list->listWindow.unk4, 2);
     }
 }

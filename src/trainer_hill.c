@@ -567,7 +567,7 @@ void PrintOnTrainerHillRecordsWindow(void)
 
     SetUpDataStruct();
     FillWindowPixelBuffer(0, PIXEL_FILL(0));
-    x = GetStringCenterAlignXOffset(1, gText_TimeBoard, 0xD0);
+    x = GetStringCenterAlignXOffset(2, gText_TimeBoard, 0xD0);
     AddTextPrinterParameterized3(0, 2, x, 2, sRecordWinColors, TEXT_SPEED_FF, gText_TimeBoard);
 
     y = 18;
@@ -585,7 +585,7 @@ void PrintOnTrainerHillRecordsWindow(void)
         secondsFraction = (total * 168) / 100;
         ConvertIntToDecimalStringN(gStringVar3, secondsFraction, STR_CONV_MODE_LEADING_ZEROS, 2);
         StringExpandPlaceholders(StringCopy(gStringVar4, gText_TimeCleared), gText_XMinYDotZSec);
-        x = GetStringRightAlignXOffset(1, gStringVar4, 0xD0);
+        x = GetStringRightAlignXOffset(2, gStringVar4, 0xD0);
         AddTextPrinterParameterized3(0, 2, x, y, sRecordWinColors, TEXT_SPEED_FF, gStringVar4);
         y += 17;
     }

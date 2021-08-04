@@ -2905,10 +2905,10 @@ static void Task_ShowDodrioBerryPickingRecords(u8 taskId)
     {
     case 0:
         window = sWindowTemplates_Records;
-        width = GetStringWidth(1, gText_BerryPickingRecords, 0);
+        width = GetStringWidth(2, gText_BerryPickingRecords, 0);
         for (i = 0; i < ARRAY_COUNT(sRecordsTexts); i++)
         {
-            widthCurr = GetStringWidth(1, sRecordsTexts[i], 0) + 50;
+            widthCurr = GetStringWidth(2, sRecordsTexts[i], 0) + 50;
             if (widthCurr > width)
                 width = widthCurr;
         }
@@ -2959,11 +2959,11 @@ static void PrintRecordsText(u8 windowId, s32 width)
     LoadThinWindowBorderGfx(windowId, 0x21D, 0xD0);
     DrawTextBorderOuter(windowId, 0x21D, 0xD);
     FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
-    AddTextPrinterParameterized(windowId, 2, gText_BerryPickingRecords, GetStringCenterAlignXOffset(1, gText_BerryPickingRecords, width * 8), 1, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(windowId, 2, gText_BerryPickingRecords, GetStringCenterAlignXOffset(2, gText_BerryPickingRecords, width * 8), 1, TEXT_SPEED_FF, NULL);
     for (i = 0; i < NUM_RECORD_TYPES; i++)
     {
         ConvertIntToDecimalStringN(gStringVar1, recordNums[i], STR_CONV_MODE_LEFT_ALIGN, sRecordNumMaxDigits[i]);
-        numWidth = GetStringWidth(1, gStringVar1, -1);
+        numWidth = GetStringWidth(2, gStringVar1, -1);
         AddTextPrinterParameterized(windowId, 2, sRecordsTexts[i], 0, sRecordTextYCoords[i][0], TEXT_SPEED_FF, NULL);
         x = (width * 8) - numWidth;
         AddTextPrinterParameterized(windowId, 2, gStringVar1, x, sRecordNumYCoords[i][0], TEXT_SPEED_FF, NULL);
@@ -4363,7 +4363,7 @@ static void ShowNames(void)
         {
             colorsId = COLORID_GRAY;
             playerId = GetPlayerIdByPos(i);
-            left = (56 - GetStringWidth(1, GetPlayerName(playerId), -1)) / 2u;
+            left = (56 - GetStringWidth(2, GetPlayerName(playerId), -1)) / 2u;
             window.tilemapLeft = coords->left;
             window.tilemapTop = coords->top;
             sGfx->windowIds[i] = AddWindow(&window);
@@ -4449,7 +4449,7 @@ static void PrintRankedScores(u8 numPlayers_)
     }
 
     // Print text
-    x = 216 - GetStringWidth(1, gText_SpacePoints, 0);
+    x = 216 - GetStringWidth(2, gText_SpacePoints, 0);
     for (i = 0; i < numPlayers; i++)
     {
         u8 colorsId = COLORID_GRAY;
@@ -4462,7 +4462,7 @@ static void PrintRankedScores(u8 numPlayers_)
         name = GetPlayerName(playerId);
         AddTextPrinterParameterized3(sGfx->windowIds[1], 2, 28, sRankingYCoords[i], sTextColorTable[colorsId], -1, name);
         ConvertIntToDecimalStringN(numString, points, STR_CONV_MODE_LEFT_ALIGN, 7);
-        numWidth = GetStringWidth(1, numString, -1);
+        numWidth = GetStringWidth(2, numString, -1);
         AddTextPrinterParameterized(sGfx->windowIds[1], 2, numString, x - numWidth, sRankingYCoords[i], -1, NULL);
         AddTextPrinterParameterized(sGfx->windowIds[1], 2, gText_SpacePoints, x, sRankingYCoords[i], -1, NULL);
     }
@@ -4493,7 +4493,7 @@ static void ShowResults(void)
     case 2:
         FillWindowPixelBuffer(sGfx->windowIds[0], PIXEL_FILL(1));
         FillWindowPixelBuffer(sGfx->windowIds[1], PIXEL_FILL(1));
-        strWidth = GetStringWidth(1, gText_BerryPickingResults, -1);
+        strWidth = GetStringWidth(2, gText_BerryPickingResults, -1);
         x = (224 - strWidth) / 2;
         AddTextPrinterParameterized(sGfx->windowIds[0], 2, gText_BerryPickingResults, x, 1, -1, NULL);
         AddTextPrinterParameterized(sGfx->windowIds[1], 2, gText_10P30P50P50P, 68, 17, -1, NULL);
@@ -4512,7 +4512,7 @@ static void ShowResults(void)
                 u16 maxBerriesPicked = Min(GetHighestBerryResult(j), MAX_BERRIES);
 
                 ConvertIntToDecimalStringN(gStringVar4, berriesPicked, STR_CONV_MODE_LEFT_ALIGN, 4);
-                width = GetStringWidth(1, gStringVar4, -1);
+                width = GetStringWidth(2, gStringVar4, -1);
                 
                 // If player got the most of a berry type, highlight their number in red 
                 if (maxBerriesPicked == berriesPicked && maxBerriesPicked)
@@ -4547,7 +4547,7 @@ static void ShowResults(void)
     case 5:
         FillWindowPixelBuffer(sGfx->windowIds[0], PIXEL_FILL(1));
         FillWindowPixelBuffer(sGfx->windowIds[1], PIXEL_FILL(1));
-        strWidth = GetStringWidth(1, gText_AnnouncingRankings, -1);
+        strWidth = GetStringWidth(2, gText_AnnouncingRankings, -1);
         x = (224 - strWidth) / 2;
         AddTextPrinterParameterized(sGfx->windowIds[0], 1, gText_AnnouncingRankings, x, 1, -1, NULL);
         sGfx->state++;
@@ -4593,7 +4593,7 @@ static void ShowResults(void)
         PlayNewMapMusic(MUS_LEVEL_UP);
         FillWindowPixelBuffer(sGfx->windowIds[0], PIXEL_FILL(1));
         FillWindowPixelBuffer(sGfx->windowIds[1], PIXEL_FILL(1));
-        strWidth = GetStringWidth(1, gText_AnnouncingPrizes, -1);
+        strWidth = GetStringWidth(2, gText_AnnouncingPrizes, -1);
         x = (224 - strWidth) / 2;
         AddTextPrinterParameterized(sGfx->windowIds[0], 1, gText_AnnouncingPrizes, x, 1, -1, NULL);
         DynamicPlaceholderTextUtil_Reset();

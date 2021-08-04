@@ -1623,8 +1623,8 @@ void CB2_OpenPokedex(void)
         }
         else
         {
-            sPokedexView->seenCount = GetKantoPokedexCount(FLAG_GET_SEEN);
-            sPokedexView->ownCount = GetKantoPokedexCount(FLAG_GET_CAUGHT);
+            sPokedexView->seenCount = GetHoennPokedexCount(FLAG_GET_SEEN);
+            sPokedexView->ownCount = GetHoennPokedexCount(FLAG_GET_CAUGHT);
         }
         sPokedexView->initialVOffset = 8;
         gMain.state++;
@@ -2169,7 +2169,7 @@ static void CreatePokedexList(u8 dexMode, u8 order)
 #define temp_dexCount   vars[0]
 #define temp_isHoennDex vars[1]
 #define temp_dexNum     vars[2]
-    s16 i;
+    s32 i;
 
     sPokedexView->pokemonListCount = 0;
 
@@ -2177,7 +2177,7 @@ static void CreatePokedexList(u8 dexMode, u8 order)
     {
     default:
     case DEX_MODE_HOENN:
-        temp_dexCount = KANTO_DEX_COUNT;
+        temp_dexCount = HOENN_DEX_COUNT;
         temp_isHoennDex = TRUE;
         break;
     case DEX_MODE_NATIONAL:
@@ -2188,7 +2188,7 @@ static void CreatePokedexList(u8 dexMode, u8 order)
         }
         else
         {
-            temp_dexCount = KANTO_DEX_COUNT;
+            temp_dexCount = HOENN_DEX_COUNT;
             temp_isHoennDex = TRUE;
         }
         break;
@@ -2230,7 +2230,7 @@ static void CreatePokedexList(u8 dexMode, u8 order)
         }
         break;
     case ORDER_ALPHABETICAL:
-        for (i = 0; i < NUM_SPECIES; i++)
+        for (i = 0; i < NUM_SPECIES - 1; i++)
         {
             temp_dexNum = gPokedexOrder_Alphabetical[i];
 
@@ -3157,7 +3157,7 @@ static void PrintInfoScreenText(const u8* str, u8 left, u8 top)
     color[1] = TEXT_DYNAMIC_COLOR_6;
     color[2] = TEXT_COLOR_LIGHT_GRAY;
 
-    AddTextPrinterParameterized4(0, 1, left, top, 0, 0, color, -1, str);
+    AddTextPrinterParameterized4(0, 2, left, top, 0, 0, color, -1, str);
 }
 
 #define tMonSpriteId data[4]
@@ -3737,7 +3737,7 @@ static void Task_LoadSizeScreen(u8 taskId)
 
             StringCopy(string, gText_SizeComparedTo);
             StringAppend(string, gSaveBlock2Ptr->playerName);
-            PrintInfoScreenText(string, GetStringCenterAlignXOffset(1, string, 0xF0), 0x79);
+            PrintInfoScreenText(string, GetStringCenterAlignXOffset(2, string, 0xF0), 0x79);
             gMain.state++;
         }
         break;
@@ -3850,8 +3850,7 @@ static void LoadScreenSelectBarSubmenu(u16 unused)
 
 static void HighlightScreenSelectBarItem(u8 selectedScreen, u16 unused)
 {
-    u8 i;
-    u8 j;
+    u32 i, j;
     u16* ptr = GetBgTilemapBuffer(1);
 
     for (i = 0; i < SCREEN_COUNT; i++)
@@ -3877,8 +3876,7 @@ static void HighlightScreenSelectBarItem(u8 selectedScreen, u16 unused)
 
 static void HighlightSubmenuScreenSelectBarItem(u8 a, u16 b)
 {
-    u8 i;
-    u8 j;
+    u32 i, j;
     u16* ptr = GetBgTilemapBuffer(1);
 
     for (i = 0; i < 4; i++)
@@ -4078,7 +4076,7 @@ static void PrintMonInfo(u32 num, u32 value, u32 owned, u32 newEntry)
     const u8 *description;
 
     if (newEntry)
-        PrintInfoScreenText(gText_PokedexRegistration, GetStringCenterAlignXOffset(1, gText_PokedexRegistration, 0xF0), 0);
+        PrintInfoScreenText(gText_PokedexRegistration, GetStringCenterAlignXOffset(2, gText_PokedexRegistration, 0xF0), 0);
     if (value == 0)
         value = NationalToHoennOrder(num);
     else
@@ -4117,7 +4115,7 @@ static void PrintMonInfo(u32 num, u32 value, u32 owned, u32 newEntry)
         description = gPokedexEntries[num].description;
     else
         description = gExpandedPlaceholder_PokedexDescription;
-    PrintInfoScreenText(description, GetStringCenterAlignXOffset(1, description, 0xF0), 0x5F);
+    PrintInfoScreenText(description, GetStringCenterAlignXOffset(2, description, 0xF0), 0x5F);
 }
 
 static void PrintMonHeight(u16 height, u8 left, u8 top)
@@ -4285,18 +4283,18 @@ s8 GetSetPokedexFlag(u16 nationalDexNo, u8 caseID)
 u16 GetNationalPokedexCount(u8 caseID)
 {
     u16 count = 0;
-    u16 i;
+    u32 i;
 
-    for (i = 1; i < NATIONAL_DEX_COUNT; i++)
+    for (i = 0; i < NATIONAL_DEX_COUNT; i++)
     {
         switch (caseID)
         {
         case FLAG_GET_SEEN:
-            if (GetSetPokedexFlag(i, FLAG_GET_SEEN))
+            if (GetSetPokedexFlag(i + 1, FLAG_GET_SEEN))
                 count++;
             break;
         case FLAG_GET_CAUGHT:
-            if (GetSetPokedexFlag(i, FLAG_GET_CAUGHT))
+            if (GetSetPokedexFlag(i + 1, FLAG_GET_CAUGHT))
                 count++;
             break;
         }
@@ -4307,18 +4305,18 @@ u16 GetNationalPokedexCount(u8 caseID)
 u16 GetHoennPokedexCount(u8 caseID)
 {
     u16 count = 0;
-    u16 i;
+    u32 i;
 
-    for (i = 1; i < HOENN_DEX_COUNT; i++)
+    for (i = 0; i < HOENN_DEX_COUNT; i++)
     {
         switch (caseID)
         {
         case FLAG_GET_SEEN:
-            if (GetSetPokedexFlag(HoennToNationalOrder(i), FLAG_GET_SEEN))
+            if (GetSetPokedexFlag(HoennToNationalOrder(i + 1), FLAG_GET_SEEN))
                 count++;
             break;
         case FLAG_GET_CAUGHT:
-            if (GetSetPokedexFlag(HoennToNationalOrder(i), FLAG_GET_CAUGHT))
+            if (GetSetPokedexFlag(HoennToNationalOrder(i + 1), FLAG_GET_CAUGHT))
                 count++;
             break;
         }
@@ -4329,18 +4327,18 @@ u16 GetHoennPokedexCount(u8 caseID)
 u16 GetKantoPokedexCount(u8 caseID)
 {
     u16 count = 0;
-    u16 i;
+    u32 i;
 
-    for (i = 1; i < KANTO_DEX_COUNT; i++)
+    for (i = 0; i < KANTO_DEX_COUNT - 1; i++)
     {
         switch (caseID)
         {
         case FLAG_GET_SEEN:
-            if (GetSetPokedexFlag(i, FLAG_GET_SEEN))
+            if (GetSetPokedexFlag(i + 1, FLAG_GET_SEEN))
                 count++;
             break;
         case FLAG_GET_CAUGHT:
-            if (GetSetPokedexFlag(i, FLAG_GET_CAUGHT))
+            if (GetSetPokedexFlag(i + 1, FLAG_GET_CAUGHT))
                 count++;
             break;
         }
@@ -4351,18 +4349,18 @@ u16 GetKantoPokedexCount(u8 caseID)
 u16 GetJohtoPokedexCount(u8 caseID)
 {
     u16 count = 0;
-    u16 i;
+    u32 i;
 
-    for (i = 1; i < JOHTO_DEX_COUNT; i++)
+    for (i = 0; i < JOHTO_DEX_COUNT - 1; i++)
     {
         switch (caseID)
         {
         case FLAG_GET_SEEN:
-            if (GetSetPokedexFlag(i, FLAG_GET_SEEN))
+            if (GetSetPokedexFlag(i + 1, FLAG_GET_SEEN))
                 count++;
             break;
         case FLAG_GET_CAUGHT:
-            if (GetSetPokedexFlag(i, FLAG_GET_CAUGHT))
+            if (GetSetPokedexFlag(i + 1, FLAG_GET_CAUGHT))
                 count++;
             break;
         }
@@ -4372,12 +4370,12 @@ u16 GetJohtoPokedexCount(u8 caseID)
 
 bool16 HasAllHoennMons(void)
 {
-    u16 i;
+    u32 i;
 
     // Excludes Jirachi and Deoxys
-    for (i = 1; i < HOENN_DEX_JIRACHI; i++)
+    for (i = 0; i < HOENN_DEX_JIRACHI - 1; i++)
     {
-        if (!GetSetPokedexFlag(HoennToNationalOrder(i), FLAG_GET_CAUGHT))
+        if (!GetSetPokedexFlag(HoennToNationalOrder(i + 1), FLAG_GET_CAUGHT))
             return FALSE;
     }
     return TRUE;
@@ -4385,12 +4383,12 @@ bool16 HasAllHoennMons(void)
 
 bool8 HasAllKantoMons(void)
 {
-    u16 i;
+    u32 i;
 
     // Excludes Mew
-    for (i = 1; i < KANTO_DEX_COUNT; i++)
+    for (i = 0; i < KANTO_DEX_COUNT - 1; i++)
     {
-        if (!GetSetPokedexFlag(i, FLAG_GET_CAUGHT))
+        if (!GetSetPokedexFlag(i + 1, FLAG_GET_CAUGHT))
             return FALSE;
     }
     return TRUE;
@@ -4398,12 +4396,12 @@ bool8 HasAllKantoMons(void)
 
 bool8 HasAllJohtoMons(void)
 {
-    u16 i;
+    u32 i;
 
     // Excludes Celebi
-    for (i = 1; i < JOHTO_DEX_COUNT; i++)
+    for (i = KANTO_DEX_COUNT; i < JOHTO_DEX_COUNT - 1; i++)
     {
-        if (!GetSetPokedexFlag(i, FLAG_GET_CAUGHT))
+        if (!GetSetPokedexFlag(i + 1, FLAG_GET_CAUGHT))
             return FALSE;
     }
     return TRUE;
@@ -4411,26 +4409,26 @@ bool8 HasAllJohtoMons(void)
 
 bool16 HasAllMons(void)
 {
-    u16 i;
+    u32 i;
 
     // Excludes Mew
-    for (i = 1; i < KANTO_DEX_COUNT; i++)
+    for (i = 0; i < KANTO_DEX_COUNT - 1; i++)
     {
-        if (!GetSetPokedexFlag(i, FLAG_GET_CAUGHT))
+        if (!GetSetPokedexFlag(i + 1, FLAG_GET_CAUGHT))
             return FALSE;
     }
 
     // Excludes Lugia, Ho-Oh, and Celebi
-    for (i = KANTO_DEX_COUNT; i < NATIONAL_DEX_LUGIA; i++)
+    for (i = KANTO_DEX_COUNT; i < NATIONAL_DEX_LUGIA - 1; i++)
     {
-        if (!GetSetPokedexFlag(i, FLAG_GET_CAUGHT))
+        if (!GetSetPokedexFlag(i + 1, FLAG_GET_CAUGHT))
             return FALSE;
     }
 
     // Excludes Jirachi and Deoxys
-    for (i = JOHTO_DEX_COUNT; i < NATIONAL_DEX_JIRACHI; i++)
+    for (i = JOHTO_DEX_COUNT; i < NATIONAL_DEX_JIRACHI - 1; i++)
     {
-        if (!GetSetPokedexFlag(i, FLAG_GET_CAUGHT))
+        if (!GetSetPokedexFlag(i + 1, FLAG_GET_CAUGHT))
             return FALSE;
     }
     return TRUE;
@@ -4482,7 +4480,7 @@ static void PrintInfoSubMenuText(u8 windowId, const u8 *str, u8 left, u8 top)
     color[1] = TEXT_DYNAMIC_COLOR_6;
     color[2] = TEXT_COLOR_LIGHT_GRAY;
 
-    AddTextPrinterParameterized4(windowId, 1, left, top, 0, 0, color, -1, str);
+    AddTextPrinterParameterized4(windowId, 2, left, top, 0, 0, color, -1, str);
 }
 
 static u8 PrintCryScreenSpeciesName(u8 windowId, u16 num, u8 left, u8 top)
@@ -4696,7 +4694,7 @@ static void PrintSearchText(const u8 *str, u32 x, u32 y)
     color[0] = TEXT_COLOR_TRANSPARENT;
     color[1] = TEXT_DYNAMIC_COLOR_6;
     color[2] = TEXT_COLOR_DARK_GRAY;
-    AddTextPrinterParameterized4(0, 1, x, y, 0, 0, color, -1, str);
+    AddTextPrinterParameterized4(0, 2, x, y, 0, 0, color, -1, str);
 }
 
 static void ClearSearchMenuRect(u32 x, u32 y, u32 width, u32 height)

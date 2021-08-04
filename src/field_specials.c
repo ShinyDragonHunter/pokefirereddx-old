@@ -23,6 +23,7 @@
 #include "list_menu.h"
 #include "main.h"
 #include "mevent.h"
+#include "mail.h"
 #include "match_call.h"
 #include "menu.h"
 #include "overworld.h"
@@ -1285,11 +1286,6 @@ u8 TryUpdateRusturfTunnelState(void)
     return FALSE;
 }
 
-void SetShoalItemFlag(u16 unused)
-{
-    FlagSet(FLAG_SYS_SHOAL_ITEM);
-}
-
 void PutZigzagoonInPlayerParty(void)
 {
     u16 monData;
@@ -1743,10 +1739,10 @@ void ShowDeptStoreElevatorFloorSelect(void)
     sTutorMoveAndElevatorWindowId = AddWindow(&gElevatorFloor_WindowTemplate);
     SetStandardWindowBorderStyle(sTutorMoveAndElevatorWindowId, 0);
 
-    xPos = GetStringCenterAlignXOffset(1, gText_ElevatorNowOn, 64);
+    xPos = GetStringCenterAlignXOffset(2, gText_ElevatorNowOn, 64);
     AddTextPrinterParameterized(sTutorMoveAndElevatorWindowId, 2, gText_ElevatorNowOn, xPos, 1, TEXT_SPEED_FF, NULL);
 
-    xPos = GetStringCenterAlignXOffset(1, gDeptStoreFloorNames[gSpecialVar_0x8005], 64);
+    xPos = GetStringCenterAlignXOffset(2, gDeptStoreFloorNames[gSpecialVar_0x8005], 64);
     AddTextPrinterParameterized(sTutorMoveAndElevatorWindowId, 2, gDeptStoreFloorNames[gSpecialVar_0x8005], xPos, 17, TEXT_SPEED_FF, NULL);
 
     PutWindowTilemap(sTutorMoveAndElevatorWindowId);
@@ -2595,6 +2591,46 @@ u8 ContextNpcGetTextColor(void)
     }
 }
 
+void UpdateTrainerCardPhotoIcons(void)
+{
+    u16 species[PARTY_SIZE];
+    u32 personality[PARTY_SIZE], i;
+    u8 partyCount, form[PARTY_SIZE];
+
+    for (i = 0; i < PARTY_SIZE; i++)
+        species[i] = SPECIES_NONE;
+    partyCount = CalculatePlayerPartyCount();
+    for (i = 0; i < partyCount; i++)
+    {
+        species[i] = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES2, NULL);
+        personality[i] = GetMonData(&gPlayerParty[i], MON_DATA_PERSONALITY, NULL);
+        form[i] = GetMonData(&gPlayerParty[i], MON_DATA_FORM, NULL);
+        VarSet(VAR_TRAINER_CARD_MON_ICON_5 - i, SpeciesToMailSpecies(species[i], personality[i]));
+        VarSet(VAR_TRAINER_CARD_MON_FORM_ICON_5 - i, form[i]);
+    }
+    VarSet(VAR_TRAINER_CARD_MON_ICON_TINT, gSpecialVar_0x8004);
+}
+
+u16 StickerManGetBragFlags(void)
+{
+    u16 result = 0;
+    u32 numEggs;
+    gSpecialVar_0x8004 = GetGameStat(GAME_STAT_ENTERED_HOF);
+    numEggs = GetGameStat(GAME_STAT_HATCHED_EGGS);
+    gSpecialVar_0x8006 = GetGameStat(GAME_STAT_LINK_BATTLE_WINS);
+    if (numEggs > 0xFFFF)
+        gSpecialVar_0x8005 = 0xFFFF;
+    else
+        gSpecialVar_0x8005 = numEggs;
+    if (gSpecialVar_0x8004 != 0)
+        result |= 1 << 0;
+    if (gSpecialVar_0x8005 != 0)
+        result |= 1 << 1;
+    if (gSpecialVar_0x8006 != 0)
+        result |= 1 << 2;
+    return result;
+}
+
 void SetBattleTowerLinkPlayerGfx(void)
 {
     u32 i;
@@ -2750,8 +2786,8 @@ void UpdateBattlePointsWindow(void)
     u8 string[32];
     u32 x;
     StringCopy(ConvertIntToDecimalStringN(string, gSaveBlock2Ptr->frontier.battlePoints, STR_CONV_MODE_RIGHT_ALIGN, 4), gText_BP);
-    x = GetStringRightAlignXOffset(1, string, 48);
-    AddTextPrinterParameterized(sBattlePointsWindowId, 1, string, x, 1, 0, NULL);
+    x = GetStringRightAlignXOffset(2, string, 48);
+    AddTextPrinterParameterized(sBattlePointsWindowId, 2, string, x, 1, 0, NULL);
 }
 
 void ShowBattlePointsWindow(void)

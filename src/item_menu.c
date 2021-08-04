@@ -759,7 +759,7 @@ void BagMenu_ItemPrintCallback(u8 windowId, u32 itemIndex, u8 y)
         {
             ConvertIntToDecimalStringN(gStringVar1, itemQuantity, STR_CONV_MODE_RIGHT_ALIGN, 3);
             StringExpandPlaceholders(gStringVar4, gText_xVar1);
-            BagMenu_Print(windowId, 0, gStringVar4, 110, y, 0, 0, -1, 1);
+            BagMenu_Print(windowId, 4, gStringVar4, 110, y, 0, 0, -1, 1);
         }
         else if (gSaveBlock1Ptr->registeredItem && gSaveBlock1Ptr->registeredItem == itemId)
             BlitBitmapToWindow(windowId, sRegisteredSelect_Gfx, 0x70, y, 0x18, 0x10);
@@ -784,7 +784,7 @@ void BagMenu_PrintPocketNames(void)
     int offset;
 
     FillWindowPixelBuffer(2, PIXEL_FILL(0));
-    offset = GetStringCenterAlignXOffset(1, gPocketNamesStringsTable[gBagPositionStruct.pocket], 0x48);
+    offset = GetStringCenterAlignXOffset(2, gPocketNamesStringsTable[gBagPositionStruct.pocket], 0x48);
     BagMenu_Print(2, 2, gPocketNamesStringsTable[gBagPositionStruct.pocket], offset, 1, GetFontAttribute(2, FONTATTR_LETTER_SPACING), GetFontAttribute(2, FONTATTR_LINE_SPACING), 0, 0);
 }
 
@@ -1055,7 +1055,7 @@ void PrintItemDepositAmount(u8 windowId, s16 numDeposited)
     u8 numDigits = (gBagPositionStruct.pocket == BERRIES_POCKET) ? BERRY_CAPACITY_DIGITS : BAG_ITEM_CAPACITY_DIGITS;
     ConvertIntToDecimalStringN(gStringVar1, numDeposited, STR_CONV_MODE_LEADING_ZEROS, numDigits);
     StringExpandPlaceholders(gStringVar4, gText_xVar1);
-    AddTextPrinterParameterized(windowId, 2, gStringVar4, GetStringCenterAlignXOffset(1, gStringVar4, 0x28), 2, 0, 0);
+    AddTextPrinterParameterized(windowId, 2, gStringVar4, GetStringCenterAlignXOffset(2, gStringVar4, 0x28), 2, 0, 0);
 }
 
 void PrintItemSoldAmount(int windowId, int numSold, int moneyEarned)
@@ -1064,7 +1064,7 @@ void PrintItemSoldAmount(int windowId, int numSold, int moneyEarned)
     FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
     ConvertIntToDecimalStringN(gStringVar1, numSold, STR_CONV_MODE_LEADING_ZEROS, numDigits);
     StringExpandPlaceholders(gStringVar4, gText_xVar1);
-    BagMenu_Print(windowId, 0, gStringVar4, 4, 10, 1, 0, -1, 1);
+    BagMenu_Print(windowId, 4, gStringVar4, 4, 10, 1, 0, -1, 1);
     PrintMoneyAmount(windowId, 56, 10, moneyEarned, 0);
 }
 
@@ -1381,7 +1381,7 @@ static void InitQuantityToTossOrDeposit(u16 cursorPos, const u8 *str)
     itemQtyWindowId = BagMenu_AddWindow(0, 0);
     ConvertIntToDecimalStringN(gStringVar1, 1, STR_CONV_MODE_LEADING_ZEROS, 3);
     StringExpandPlaceholders(gStringVar4, gText_xVar1);
-    BagMenu_Print(itemQtyWindowId, 0, gStringVar4, 4, 10, 1, 0, 0, 1);
+    BagMenu_Print(itemQtyWindowId, 4, gStringVar4, 4, 10, 1, 0, 0, 1);
     CreateArrowPair_QuantitySelect();
 }
 
@@ -1391,7 +1391,7 @@ static void UpdateQuantityToTossOrDeposit(s16 value, u8 ndigits)
     FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
     ConvertIntToDecimalStringN(gStringVar1, value, STR_CONV_MODE_LEADING_ZEROS, ndigits);
     StringExpandPlaceholders(gStringVar4, gText_xVar1);
-    BagMenu_Print(windowId, 0, gStringVar4, 4, 10, 1, 0, 0, 1);
+    BagMenu_Print(windowId, 4, gStringVar4, 4, 10, 1, 0, 0, 1);
 }
 
 static void OpenContextMenu(u8 taskId)
@@ -1940,7 +1940,7 @@ void sub_81AD730(u8 taskId)
     s16* data = gTasks[taskId].data;
     u8 windowId = BagMenu_AddWindow(0, 1);
 
-    PrintItemSoldAmount(windowId, 1, (ItemId_GetPrice(gSpecialVar_ItemId) / 2) * tItemCount);
+    PrintItemSoldAmount(windowId, 2, (ItemId_GetPrice(gSpecialVar_ItemId) / 2) * tItemCount);
     DisplayCurrentMoneyWindow();
 
     gTasks[taskId].func = Task_SellHowManyDialogueHandleInput;
@@ -2472,9 +2472,9 @@ void BagMenu_Print(u8 windowId, u8 fontId, const u8 *str, u8 left, u8 top, u8 le
 
 /*void BagDrawDepositItemTextBox(void)
 {
-    u32 x = GetStringCenterAlignXOffset(0, gText_DepositItem, 0x40);
+    u32 x = GetStringCenterAlignXOffset(4, gText_DepositItem, 0x40);
     DrawStdFrameWithCustomTileAndPalette(2, FALSE, 0x81, 0xC);
-    AddTextPrinterParameterized(2, 0, gText_DepositItem, x / 2, 1, 0, NULL);
+    AddTextPrinterParameterized(2, 4, gText_DepositItem, x / 2, 1, 0, NULL);
 }*/
 
 u8 BagMenu_AddWindow(u8 which, u8 nItems)

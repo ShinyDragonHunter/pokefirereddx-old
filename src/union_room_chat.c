@@ -2900,7 +2900,7 @@ static void PrintCurrentKeyboardPage(void)
                 return;
 
             StringCopy(&str[3], sUnionRoomKeyboardText[page][i]);
-            AddTextPrinterParameterized3(2, 0, left, top, color, TEXT_SPEED_FF, str);
+            AddTextPrinterParameterized3(2, 4, left, top, color, TEXT_SPEED_FF, str);
         }
     }
     else
@@ -2909,9 +2909,9 @@ static void PrintCurrentKeyboardPage(void)
         for (i = 0, top = 0; i < UNION_ROOM_KB_ROW_COUNT; i++, top += 12)
         {
             str2 = GetRegisteredTextByRow(i);
-            if (GetStringWidth(0, str2, 0) <= 40)
+            if (GetStringWidth(4, str2, 0) <= 40)
             {
-                AddTextPrinterParameterized3(2, 0, left, top, color, TEXT_SPEED_FF, str2);
+                AddTextPrinterParameterized3(2, 4, left, top, color, TEXT_SPEED_FF, str2);
             }
             else
             {
@@ -2920,10 +2920,10 @@ static void PrintCurrentKeyboardPage(void)
                 {
                     length--;
                     StringCopyN_Multibyte(str, str2, length);
-                } while (GetStringWidth(0, str, 0) > 35);
+                } while (GetStringWidth(4, str, 0) > 35);
 
-                AddTextPrinterParameterized3(2, 0, left, top, color, TEXT_SPEED_FF, str);
-                AddTextPrinterParameterized3(2, 0, left + 35, top, color, TEXT_SPEED_FF, sText_Ellipsis);
+                AddTextPrinterParameterized3(2, 4, left, top, color, TEXT_SPEED_FF, str);
+                AddTextPrinterParameterized3(2, 4, left + 35, top, color, TEXT_SPEED_FF, sText_Ellipsis);
             }
         }
     }
