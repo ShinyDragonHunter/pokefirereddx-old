@@ -92,7 +92,7 @@ static const u8 sClockwiseDirections[] = {DIR_NORTH, DIR_EAST, DIR_SOUTH, DIR_WE
 static const struct YesNoFuncTable sUseTMHMYesNoFuncTable =
 {
     .yesFunc = UseTMHM,
-    .noFunc = BagMenu_InitListsMenu,
+    .noFunc = Task_ReturnToBagFromContextMenu,
 };
 
 #define tEnigmaBerryType data[4]
@@ -111,7 +111,7 @@ static void SetUpItemUseCallback(u8 taskId)
     else
     {
         gBagMenu->exitCallback = sItemUseCallbacks[type];
-        Task_FadeAndCloseBagMenu(taskId);
+        ItemMenu_StartFadeToExitCallback(taskId);
     }
 }
 
@@ -148,7 +148,7 @@ static void DisplayCannotUseItemMessage(u8 taskId, bool8 isUsingRegisteredKeyIte
         if (InBattlePyramid())
             DisplayItemMessageInBattlePyramid(taskId, gText_DadsAdvice, Task_CloseBattlePyramidBagMessage);
         else
-            DisplayItemMessage(taskId, 2, gStringVar4, BagMenu_InitListsMenu);
+            DisplayItemMessageInBag(taskId, 2, gStringVar4, Task_ReturnToBagFromContextMenu);
     }
 }
 
@@ -191,7 +191,7 @@ static void CB2_CheckMail(void)
 void ItemUseOutOfBattle_Mail(u8 taskId)
 {
     gBagMenu->exitCallback = CB2_CheckMail;
-    Task_FadeAndCloseBagMenu(taskId);
+    ItemMenu_StartFadeToExitCallback(taskId);
 }
 
 void ItemUseOutOfBattle_Bike(u8 taskId)
@@ -218,7 +218,7 @@ void ItemUseOutOfBattle_Bike(u8 taskId)
 
 static void ItemUseOnFieldCB_Bike(u8 taskId)
 {
-    GetOnOffBike(PLAYER_AVATAR_FLAG_MACH_BIKE);
+    GetOnOffBike(PLAYER_AVATAR_FLAG_BIKE);
     ScriptUnfreezeObjectEvents();
     ScriptContext2_Disable();
     DestroyTask(taskId);
@@ -612,7 +612,7 @@ void ItemUseOutOfBattle_PokeblockCase(u8 taskId)
     else if (gTasks[taskId].tUsingRegisteredKeyItem != TRUE)
     {
         gBagMenu->exitCallback = CB2_OpenPokeblockFromBag;
-        Task_FadeAndCloseBagMenu(taskId);
+        ItemMenu_StartFadeToExitCallback(taskId);
     }
     else
     {
@@ -648,7 +648,7 @@ void ItemUseOutOfBattle_CoinCase(u8 taskId)
     }
     else
     {
-        DisplayItemMessage(taskId, 2, gStringVar4, BagMenu_InitListsMenu);
+        DisplayItemMessageInBag(taskId, 2, gStringVar4, Task_ReturnToBagFromContextMenu);
     }
 }
 
@@ -663,7 +663,7 @@ void ItemUseOutOfBattle_PowderJar(u8 taskId)
     }
     else
     {
-        DisplayItemMessage(taskId, 2, gStringVar4, BagMenu_InitListsMenu);
+        DisplayItemMessageInBag(taskId, 2, gStringVar4, Task_ReturnToBagFromContextMenu);
     }
 }
 
@@ -674,7 +674,7 @@ void ItemUseOutOfBattle_Berry(u8 taskId)
         sItemUseOnFieldCB = ItemUseOnFieldCB_Berry;
         gFieldCallback = FieldCB_UseItemOnField;
         gBagMenu->exitCallback = CB2_ReturnToField;
-        Task_FadeAndCloseBagMenu(taskId);
+        ItemMenu_StartFadeToExitCallback(taskId);
     }
     else
     {
@@ -775,9 +775,9 @@ void ItemUseOutOfBattle_RareCandy(u8 taskId)
 void ItemUseOutOfBattle_TMHM(u8 taskId)
 {
     if (gSpecialVar_ItemId >= ITEM_HM01_CUT)
-        DisplayItemMessage(taskId, 2, gText_BootedUpHM, BootUpSoundTMHM); // HM
+        DisplayItemMessageInBag(taskId, 2, gText_BootedUpHM, BootUpSoundTMHM); // HM
     else
-        DisplayItemMessage(taskId, 2, gText_BootedUpTM, BootUpSoundTMHM); // TM
+        DisplayItemMessageInBag(taskId, 2, gText_BootedUpTM, BootUpSoundTMHM); // TM
 }
 
 static void BootUpSoundTMHM(u8 taskId)
@@ -792,7 +792,7 @@ static void Task_ShowTMHMContainedMessage(u8 taskId)
     {
         StringCopy(gStringVar1, gMoveNames[ItemIdToBattleMoveId(gSpecialVar_ItemId)]);
         StringExpandPlaceholders(gStringVar4, gText_TMHMContainedVar1);
-        DisplayItemMessage(taskId, 2, gStringVar4, UseTMHMYesNo);
+        DisplayItemMessageInBag(taskId, 2, gStringVar4, UseTMHMYesNo);
     }
 }
 
@@ -829,7 +829,7 @@ void ItemUseOutOfBattle_Repel(u8 taskId)
     if (!VarGet(VAR_REPEL_STEP_COUNT))
         gTasks[taskId].func = Task_StartUseRepel;
     else if (!InBattlePyramid())
-        DisplayItemMessage(taskId, 2, gText_RepelEffectsLingered, BagMenu_InitListsMenu);
+        DisplayItemMessageInBag(taskId, 2, gText_RepelEffectsLingered, Task_ReturnToBagFromContextMenu);
     else
         DisplayItemMessageInBattlePyramid(taskId, gText_RepelEffectsLingered, Task_CloseBattlePyramidBagMessage);
 }
@@ -855,7 +855,7 @@ static void Task_UseRepel(u8 taskId)
         if (InBattlePyramid())
             DisplayItemMessageInBattlePyramid(taskId, gStringVar4, Task_CloseBattlePyramidBagMessage);
         else
-            DisplayItemMessage(taskId, 2, gStringVar4, BagMenu_InitListsMenu);
+            DisplayItemMessageInBag(taskId, 2, gStringVar4, Task_ReturnToBagFromContextMenu);
     }
 }
 
@@ -867,7 +867,7 @@ static void Task_UsedBlackWhiteFlute(u8 taskId)
         if (InBattlePyramid())
             DisplayItemMessageInBattlePyramid(taskId, gStringVar4, Task_CloseBattlePyramidBagMessage);
         else
-            DisplayItemMessage(taskId, 1, gStringVar4, BagMenu_InitListsMenu);
+            DisplayItemMessageInBag(taskId, 1, gStringVar4, Task_ReturnToBagFromContextMenu);
     }
 }
 
@@ -936,17 +936,17 @@ void ItemUseInBattle_PokeBall(u8 taskId)
 {
     if (IsBattlerAlive(GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT))
      && IsBattlerAlive(GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT))) // There are two present Pokémon.
-        DisplayItemMessage(taskId, 2, gText_ImpossibleToAim, BagMenu_InitListsMenu);
+        DisplayItemMessageInBag(taskId, 2, gText_ImpossibleToAim, Task_ReturnToBagFromContextMenu);
     else if (gBattlerInMenuId == GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT)
      && IsBattlerAlive(GetBattlerAtPosition(B_POSITION_PLAYER_LEFT))) // Attempting to throw a Ball with the second Pokémon while both are alive.
-        DisplayItemMessage(taskId, 2, gText_CantThrowBall, BagMenu_InitListsMenu);
+        DisplayItemMessageInBag(taskId, 2, gText_CantThrowBall, Task_ReturnToBagFromContextMenu);
     else if (!IsPlayerPartyAndPokemonStorageFull()) // have room for Pokémon?
     {
         RemoveBagItem(gSpecialVar_ItemId, 1);
-        Task_FadeAndCloseBagMenu(taskId);
+        ItemMenu_StartFadeToExitCallback(taskId);
     }
     else
-        DisplayItemMessage(taskId, 2, gText_BoxFull, BagMenu_InitListsMenu);
+        DisplayItemMessageInBag(taskId, 2, gText_BoxFull, Task_ReturnToBagFromContextMenu);
 }
 
 static void Task_CloseStatIncreaseMessage(u8 taskId)
@@ -956,7 +956,7 @@ static void Task_CloseStatIncreaseMessage(u8 taskId)
         if (InBattlePyramid())
             CloseBattlePyramidBag(taskId);
         else
-            Task_FadeAndCloseBagMenu(taskId);
+            ItemMenu_StartFadeToExitCallback(taskId);
     }
 }
 
@@ -969,7 +969,7 @@ static void Task_UseStatIncreaseItem(u8 taskId)
         if (InBattlePyramid())
             DisplayItemMessageInBattlePyramid(taskId, UseStatIncreaseItem(gSpecialVar_ItemId), Task_CloseStatIncreaseMessage);
         else
-            DisplayItemMessage(taskId, 2, UseStatIncreaseItem(gSpecialVar_ItemId), Task_CloseStatIncreaseMessage);
+            DisplayItemMessageInBag(taskId, 2, UseStatIncreaseItem(gSpecialVar_ItemId), Task_CloseStatIncreaseMessage);
     }
 }
 
@@ -983,7 +983,7 @@ void ItemUseInBattle_StatIncrease(u8 taskId)
         if (InBattlePyramid())
             DisplayItemMessageInBattlePyramid(taskId, gText_WontHaveEffect, Task_CloseBattlePyramidBagMessage);
         else
-            DisplayItemMessage(taskId, 2, gText_WontHaveEffect, BagMenu_InitListsMenu);
+            DisplayItemMessageInBag(taskId, 2, gText_WontHaveEffect, Task_ReturnToBagFromContextMenu);
     }
     else
     {
@@ -1002,7 +1002,7 @@ static void ItemUseInBattle_ShowPartyMenu(u8 taskId)
     else
     {
         gBagMenu->exitCallback = ChooseMonForInBattleItem;
-        Task_FadeAndCloseBagMenu(taskId);
+        ItemMenu_StartFadeToExitCallback(taskId);
     }
 }
 
@@ -1030,7 +1030,7 @@ void ItemUseInBattle_Escape(u8 taskId)
         if (InBattlePyramid())
             DisplayItemMessageInBattlePyramid(taskId, gStringVar4, CloseBattlePyramidBag);
         else
-            DisplayItemMessage(taskId, 1, gStringVar4, Task_FadeAndCloseBagMenu);
+            DisplayItemMessageInBag(taskId, 1, gStringVar4, ItemMenu_StartFadeToExitCallback);
     }
 }
 

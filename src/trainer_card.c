@@ -688,7 +688,7 @@ u32 CountPlayerTrainerStars(void)
 
     if (GetGameStat(GAME_STAT_ENTERED_HOF))
         stars++;
-    if (HasAllKantoMons())
+    if (HasAllFrontierSymbols())
         stars++;
     if (HasAllMons())
         stars++;
@@ -1303,8 +1303,8 @@ static void PrintProfilePhraseOnCard(void)
     if (sData->isLink)
     {
         AddTextPrinterParameterized3(1, sData->cardLayout, x, y1, txtColor, TEXT_SPEED_FF, sData->easyChatProfile[0]);
-	    AddTextPrinterParameterized3(1, sData->cardLayout, GetStringWidth(sData->cardLayout, sData->easyChatProfile[0], 0) + space + x, y1, txtColor, TEXT_SPEED_FF, sData->easyChatProfile[1]);
-	    AddTextPrinterParameterized3(1, sData->cardLayout, x, y2, txtColor, TEXT_SPEED_FF, sData->easyChatProfile[2]);
+        AddTextPrinterParameterized3(1, sData->cardLayout, GetStringWidth(sData->cardLayout, sData->easyChatProfile[0], 0) + space + x, y1, txtColor, TEXT_SPEED_FF, sData->easyChatProfile[1]);
+        AddTextPrinterParameterized3(1, sData->cardLayout, x, y2, txtColor, TEXT_SPEED_FF, sData->easyChatProfile[2]);
         AddTextPrinterParameterized3(1, sData->cardLayout, GetStringWidth(sData->cardLayout, sData->easyChatProfile[2], 0) + space + x, y2, txtColor, TEXT_SPEED_FF, sData->easyChatProfile[3]);
     }
 }
@@ -1709,7 +1709,8 @@ static u8 SetCardBgsAndPals(void)
         LoadBgTiles(0, sData->cardTiles, 0x1800, 0);
         break;
     case 2:
-        LoadPalette(sKantoTrainerCardBadges_Pal, 48, 32);
+        if (!sData->isLink)
+            LoadPalette(sKantoTrainerCardBadges_Pal, 48, 32);
         if (sData->cardLayout == CARD_LAYOUT_RS || sData->cardLayout == CARD_LAYOUT_EMERALD)
         {
             LoadPalette(sHoennTrainerCardStarPals[sData->trainerCard.stars], 0, 96);
@@ -1725,7 +1726,11 @@ static u8 SetCardBgsAndPals(void)
                     stars = 5;
             }
             else
+            {
                 stars = sData->trainerCard.stars;
+                if (stars > 4)
+                    stars = 4;
+            }
             LoadPalette(sKantoTrainerCardStarPals[stars], 0, 96);
             if (sData->trainerCard.gender)
                 LoadPalette(sKantoTrainerCardFemaleBg_Pal, 16, 32);
@@ -2139,7 +2144,7 @@ static u8 GetSetCardType(void)
     {
         if (sData->trainerCard.versionModifier == MODIFIER_HELIODOR)
         {
-            sData->cardLayout = CARD_LAYOUT_HELIODOR;
+            sData->cardLayout = sData->trainerCard.cardLayout;
             if (sData->cardLayout == CARD_LAYOUT_RS)
             {
                 sData->stats[0] = CARD_STAT_HOF_DEBUT;

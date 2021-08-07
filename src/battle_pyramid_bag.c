@@ -385,7 +385,7 @@ void CB2_PyramidBagMenuFromStartMenu(void)
 // Unused, CB2_BagMenuFromBattle is used instead
 static void OpenBattlePyramidBagInBattle(void)
 {
-    GoToBattlePyramidBagMenu(PYRAMIDBAG_LOC_BATTLE, CB2_SetUpReshowBattleScreenAfterMenu2);
+    GoToBattlePyramidBagMenu(PYRAMIDBAG_LOC_BATTLE, SetCB2ToReshowScreenAfterMenu);
 }
 
 // If the player finishes a round at the Battle Pyramid with insufficient space in their

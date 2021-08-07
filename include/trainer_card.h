@@ -23,7 +23,7 @@ enum
 
 enum
 {
-	CARD_LAYOUT_RS,
+    CARD_LAYOUT_RS,
     CARD_LAYOUT_EMERALD,
     CARD_LAYOUT_FRLG,
     CARD_LAYOUT_HELIODOR
@@ -31,18 +31,18 @@ enum
 
 enum
 {
-	CARD_STAT_NONE,
-	CARD_STAT_HOF_DEBUT,
-	CARD_STAT_LINK_BATTLES,
-	CARD_STAT_TRADES,
-	CARD_STAT_POKEBLOCKS,
-	CARD_STAT_CONTESTS,
-	CARD_STAT_BATTLE_TOWER,
-	CARD_STAT_UNION_ROOM,
-	CARD_STAT_BERRY_CRUSH,
-	CARD_STAT_BATTLE_POINTS,
-	CARD_STAT_SHINIES,
-	CARD_STAT_POWER_POINTS
+    CARD_STAT_NONE,
+    CARD_STAT_HOF_DEBUT,
+    CARD_STAT_LINK_BATTLES,
+    CARD_STAT_TRADES,
+    CARD_STAT_POKEBLOCKS,
+    CARD_STAT_CONTESTS,
+    CARD_STAT_BATTLE_TOWER,
+    CARD_STAT_UNION_ROOM,
+    CARD_STAT_BERRY_CRUSH,
+    CARD_STAT_BATTLE_POINTS,
+    CARD_STAT_SHINIES,
+    CARD_STAT_POWER_POINTS
 };
 
 struct TrainerCard
@@ -52,7 +52,7 @@ struct TrainerCard
     /*0x02*/ bool8 hasPokedex;
     /*0x03*/ bool8 caughtAllHoenn; // Free for use
     /*0x04*/ bool8 hasAllPaintings; // Free for use
-	/*0x05*/ u8 extraStars;
+    /*0x05*/ u8 extraStars;
     /*0x06*/ u16 hofDebutHours;
     /*0x08*/ u16 hofDebutMinutes;
     /*0x0A*/ u16 hofDebutSeconds;

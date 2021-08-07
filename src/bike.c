@@ -12,12 +12,12 @@
 #include "constants/songs.h"
 
 // this file's functions
-static u8 CheckMovementInputAcroBike(u8 *, u16, u16);
-static u8 AcroBikeHandleInputNormal(u8 *, u16, u16);
-static u8 AcroBikeHandleInputTurning(u8 *, u16, u16);
-static void AcroBikeTransition_FaceDirection(u8);
-static void AcroBikeTransition_TurnDirection(u8);
-static void AcroBikeTransition_Moving(u8);
+static u8 CheckMovementInputBike(u8 *, u16, u16);
+static u8 BikeHandleInputNormal(u8 *, u16, u16);
+static u8 BikeHandleInputTurning(u8 *, u16, u16);
+static void BikeTransition_FaceDirection(u8);
+static void BikeTransition_TurnDirection(u8);
+static void BikeTransition_Moving(u8);
 static u8 Bike_DPadToDirection(u16);
 static u8 GetBikeCollision(u8);
 static u8 GetBikeCollisionAt(struct ObjectEvent *, s16, s16, u8, u8);
@@ -31,25 +31,23 @@ static bool8 WillPlayerCollideWithCollision(u8, u8);
     A bike transition is a type of callback for the bike that actually
     modifies the bicycle's direction or momentum or otherwise movement.
     Alternatively, a bike may also have input handlers which process the
-    bike transition to call: the acro bike has input handlers while the mach
-    bike does not. This is because the Acro needs to know the button inputs
-    for its complex tricks and actions.
+    bike transition to call.
 */
 
-static void (*const sAcroBikeTransitions[])(u8) =
+static void (*const sBikeTransitions[])(u8) =
 {
-    [ACRO_TRANS_FACE_DIRECTION]    = AcroBikeTransition_FaceDirection,
-    [ACRO_TRANS_TURN_DIRECTION]    = AcroBikeTransition_TurnDirection,
-    [ACRO_TRANS_MOVING]            = AcroBikeTransition_Moving,
-    [ACRO_TRANS_NORMAL_TO_WHEELIE] = AcroBikeTransition_FaceDirection,
-    [ACRO_TRANS_WHEELIE_TO_NORMAL] = AcroBikeTransition_FaceDirection,
+    [BIKE_TRANS_FACE_DIRECTION]    = BikeTransition_FaceDirection,
+    [BIKE_TRANS_TURNING]           = BikeTransition_TurnDirection,
+    [BIKE_TRANS_MOVING]            = BikeTransition_Moving,
+    [BIKE_TRANS_DOWNHILL]          = BikeTransition_FaceDirection,
+    [BIKE_TRANS_UPHILL]            = BikeTransition_FaceDirection,
 };
 
-static u8 (*const sAcroBikeInputHandlers[])(u8 *, u16, u16) =
+static u8 (*const sBikeInputHandlers[])(u8 *, u16, u16) =
 {
-    [ACRO_STATE_NORMAL]           = AcroBikeHandleInputNormal,
-    [ACRO_STATE_TURNING]          = AcroBikeHandleInputTurning,
-    [ACRO_STATE_WHEELIE_STANDING] = AcroBikeHandleInputNormal,
+    [BIKE_STATE_NORMAL]           = BikeHandleInputNormal,
+    [BIKE_STATE_TURNING]          = BikeHandleInputTurning,
+    [BIKE_STATE_SLOPE]            = BikeHandleInputNormal,
 };
 
 static const u16 sBikeMusicTable[NUM_REGION] =
@@ -62,15 +60,15 @@ static const u16 sBikeMusicTable[NUM_REGION] =
 // code
 void MovePlayerOnBike(u8 direction, u16 newKeys, u16 heldKeys)
 {
-    sAcroBikeTransitions[CheckMovementInputAcroBike(&direction, newKeys, heldKeys)](direction);
+    sBikeTransitions[CheckMovementInputBike(&direction, newKeys, heldKeys)](direction);
 }
 
-static u8 CheckMovementInputAcroBike(u8 *newDirection, u16 newKeys, u16 heldKeys)
+static u8 CheckMovementInputBike(u8 *newDirection, u16 newKeys, u16 heldKeys)
 {
-    return sAcroBikeInputHandlers[gPlayerAvatar.acroBikeState](newDirection, newKeys, heldKeys);
+    return sBikeInputHandlers[gPlayerAvatar.acroBikeState](newDirection, newKeys, heldKeys);
 }
 
-static u8 AcroBikeHandleInputNormal(u8 *newDirection, u16 newKeys, u16 heldKeys)
+static u8 BikeHandleInputNormal(u8 *newDirection, u16 newKeys, u16 heldKeys)
 {
     u8 direction = GetPlayerMovementDirection();
 
@@ -78,31 +76,31 @@ static u8 AcroBikeHandleInputNormal(u8 *newDirection, u16 newKeys, u16 heldKeys)
     {
         *newDirection = direction;
         gPlayerAvatar.runningState = NOT_MOVING;
-        return ACRO_TRANS_FACE_DIRECTION;
+        return BIKE_TRANS_FACE_DIRECTION;
     }
     if (*newDirection != direction && gPlayerAvatar.runningState != MOVING)
     {
-        gPlayerAvatar.acroBikeState = ACRO_STATE_TURNING;
+        gPlayerAvatar.acroBikeState = BIKE_STATE_TURNING;
         gPlayerAvatar.runningState = NOT_MOVING;
-        return CheckMovementInputAcroBike(newDirection, newKeys, heldKeys);
+        return CheckMovementInputBike(newDirection, newKeys, heldKeys);
     }
     gPlayerAvatar.runningState = MOVING;
-    return ACRO_TRANS_MOVING;
+    return BIKE_TRANS_MOVING;
 }
 
-static u8 AcroBikeHandleInputTurning(u8 *newDirection, u16 newKeys, u16 heldKeys)
+static u8 BikeHandleInputTurning(u8 *newDirection, u16 newKeys, u16 heldKeys)
 {
     gPlayerAvatar.runningState = TURN_DIRECTION;
-    gPlayerAvatar.acroBikeState = ACRO_STATE_NORMAL;
-    return ACRO_TRANS_TURN_DIRECTION;
+    gPlayerAvatar.acroBikeState = BIKE_STATE_NORMAL;
+    return BIKE_TRANS_TURNING;
 }
 
-static void AcroBikeTransition_FaceDirection(u8 direction)
+static void BikeTransition_FaceDirection(u8 direction)
 {
     PlayerFaceDirection(direction);
 }
 
-static void AcroBikeTransition_TurnDirection(u8 direction)
+static void BikeTransition_TurnDirection(u8 direction)
 {
     struct ObjectEvent *playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
 
@@ -111,14 +109,14 @@ static void AcroBikeTransition_TurnDirection(u8 direction)
     PlayerFaceDirection(direction);
 }
 
-static void AcroBikeTransition_Moving(u8 direction)
+static void BikeTransition_Moving(u8 direction)
 {
     u8 collision;
     struct ObjectEvent *playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
 
     if (!CanBikeFaceDirOnMetatile(direction, playerObjEvent->currentMetatileBehavior))
     {
-        AcroBikeTransition_FaceDirection(playerObjEvent->movementDirection);
+        BikeTransition_FaceDirection(playerObjEvent->movementDirection);
         return;
     }
     collision = GetBikeCollision(direction);
@@ -229,7 +227,7 @@ bool8 IsBikingDisallowedByPlayer(void)
 void GetOnOffBike(u8 transitionFlags)
 {
     gUnusedBikeCameraAheadPanback = FALSE;
-    if (gPlayerAvatar.flags & (PLAYER_AVATAR_FLAG_MACH_BIKE))
+    if (gPlayerAvatar.flags & (PLAYER_AVATAR_FLAG_BIKE))
     {
         SetPlayerAvatarTransitionFlags(PLAYER_AVATAR_FLAG_ON_FOOT);
         Overworld_ClearSavedMusic();
@@ -247,12 +245,12 @@ void GetOnOffBike(u8 transitionFlags)
 
 void BikeClearState(void)
 {
-    gPlayerAvatar.acroBikeState = ACRO_STATE_NORMAL;
+    gPlayerAvatar.acroBikeState = BIKE_STATE_NORMAL;
 }
 
 s16 GetPlayerSpeed(void)
 {
-    if (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_MACH_BIKE)
+    if (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_BIKE)
         return SPEED_FASTER;
     else if (gPlayerAvatar.flags & (PLAYER_AVATAR_FLAG_SURFING | PLAYER_AVATAR_FLAG_DASH))
         return SPEED_FAST;

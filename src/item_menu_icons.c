@@ -47,50 +47,43 @@ static const struct OamData sBagOamData =
     .affineParam = 0
 };
 
-static const union AnimCmd sSpriteAnim_Bag_Closed[] =
+static const union AnimCmd sSpriteAnim_Bag_Items[] =
 {
     ANIMCMD_FRAME(0, 4),
     ANIMCMD_END
 };
 
-static const union AnimCmd sSpriteAnim_Bag_Items[] =
+static const union AnimCmd sSpriteAnim_Bag_KeyItems[] =
 {
     ANIMCMD_FRAME(64, 4),
     ANIMCMD_END
 };
 
-static const union AnimCmd sSpriteAnim_Bag_KeyItems[] =
+static const union AnimCmd sSpriteAnim_Bag_Pokeballs[] =
 {
     ANIMCMD_FRAME(128, 4),
     ANIMCMD_END
 };
 
-static const union AnimCmd sSpriteAnim_Bag_Pokeballs[] =
+static const union AnimCmd sSpriteAnim_Bag_TMsHMs[] =
 {
     ANIMCMD_FRAME(192, 4),
     ANIMCMD_END
 };
 
-static const union AnimCmd sSpriteAnim_Bag_TMsHMs[] =
+static const union AnimCmd sSpriteAnim_Bag_Berries[] =
 {
     ANIMCMD_FRAME(256, 4),
     ANIMCMD_END
 };
 
-static const union AnimCmd sSpriteAnim_Bag_Berries[] =
-{
-    ANIMCMD_FRAME(320, 4),
-    ANIMCMD_END
-};
-
 static const union AnimCmd *const sBagSpriteAnimTable[] =
 {
-    sSpriteAnim_Bag_Closed,
     sSpriteAnim_Bag_Items,
+    sSpriteAnim_Bag_KeyItems,
     sSpriteAnim_Bag_Pokeballs,
     sSpriteAnim_Bag_TMsHMs,
-    sSpriteAnim_Bag_Berries,
-    sSpriteAnim_Bag_KeyItems
+    sSpriteAnim_Bag_Berries
 };
 
 static const union AffineAnimCmd sSpriteAffineAnim_BagNormal[] =
@@ -116,12 +109,12 @@ static const union AffineAnimCmd *const sBagAffineAnimCmds[] =
 
 const struct CompressedSpriteSheet gBagMaleSpriteSheet =
 {
-    gBagMaleTiles, 0x3000, TAG_BAG_GFX
+    gBagMaleTiles, 0x2800, TAG_BAG_GFX
 };
 
 const struct CompressedSpriteSheet gBagFemaleSpriteSheet =
 {
-    gBagFemaleTiles, 0x3000, TAG_BAG_GFX
+    gBagFemaleTiles, 0x2800, TAG_BAG_GFX
 };
 
 const struct CompressedSpritePalette gBagPaletteTable =
@@ -429,7 +422,7 @@ void SetBagVisualPocketId(u8 bagPocketId)
     struct Sprite *sprite = &gSprites[sItemMenuIconSpriteIds[0]];
     sprite->y2 = -5;
     sprite->callback = SpriteCB_BagVisualSwitchingPockets;
-    StartSpriteAnim(sprite, bagPocketId + 1);
+    StartSpriteAnim(sprite, bagPocketId);
 }
 
 static void SpriteCB_BagVisualSwitchingPockets(struct Sprite *sprite)
@@ -497,7 +490,7 @@ void UpdateSwapLineSpritesPos(u8 *spriteIds, u8 count, s16 x, u16 y)
 
     for (i = 0; i < count; i++)
     {
-        gSprites[spriteIds[i]].x = x;
+        gSprites[spriteIds[i]].x2 = x;
         gSprites[spriteIds[i]].y = y + 7;
     }
 }
@@ -640,19 +633,31 @@ static void FreeItemIconTemporaryBuffers(void)
 void AddBagItemIconSprite(u16 itemId, u8 id)
 {
     u8 *spriteId = &sItemMenuIconSpriteIds[10];
-    u8 iconSpriteId;
 
     if (spriteId[id] == SPRITE_NONE)
     {
-        FreeSpriteTilesByTag(102 + id);
-        FreeSpritePaletteByTag(102 + id);
-        iconSpriteId = AddItemIconSprite(102 + id, 102 + id, itemId);
+        u8 iconSpriteId;
+
+        FreeSpriteTilesByTag(id + 102);
+        FreeSpritePaletteByTag(id + 102);
+        iconSpriteId = AddItemIconSprite(id + 102, id + 102, itemId);
         if (iconSpriteId != MAX_SPRITES)
         {
             spriteId[id] = iconSpriteId;
-            gSprites[iconSpriteId].x = 24;
-            gSprites[iconSpriteId].y = 140;
+            gSprites[iconSpriteId].x2 = 24;
+            gSprites[iconSpriteId].y2 = 140;
         }
+    }
+}
+
+void RemoveBagItemIconSprite(u8 id)
+{
+    u8 *spriteId = &sItemMenuIconSpriteIds[10];
+
+    if (spriteId[id] != SPRITE_NONE)
+    {
+        DestroySpriteAndFreeResources(&gSprites[spriteId[id]]);
+        spriteId[id] = SPRITE_NONE;
     }
 }
 
@@ -660,11 +665,8 @@ void HideBagItemIconSprite(u8 id)
 {
     u8 *spriteId = &sItemMenuIconSpriteIds[10];
 
-    if (spriteId[id] != 0xFF)
-    {
-        DestroySpriteAndFreeResources(&gSprites[spriteId[id]]);
-        spriteId[id] = 0xFF;
-    }
+    if (spriteId[id] != SPRITE_NONE)
+        gSprites[spriteId[id]].invisible = TRUE;
 }
 
 const void *GetItemIconPicOrPalette(u16 itemId, u8 which)

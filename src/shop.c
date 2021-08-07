@@ -81,6 +81,7 @@ static void RecordItemPurchase(u8 taskId);
 static void Task_ReturnToItemListAfterItemPurchase(u8 taskId);
 static void Task_HandleShopMenuBuy(u8 taskId);
 static void Task_HandleShopMenuSell(u8 taskId);
+static void CB2_GoToSellMenu(void);
 static void BuyMenuPrintItemDescriptionAndShowItemIcon(s32 item, bool8 onInit, struct ListMenu *list);
 static void BuyMenuPrintPriceInList(u8 windowId, u32 itemId, u8 y);
 static void LoadTmHmNameInMart(s32 item);
@@ -236,6 +237,11 @@ static void Task_HandleShopMenuSell(u8 taskId)
     gTasks[taskId].func = Task_GoToBuyOrSellMenu;
 }
 
+static void CB2_GoToSellMenu(void)
+{
+    GoToBagMenu(ITEMMENULOCATION_SHOP, POCKETS_COUNT, CB2_ExitSellMenu);
+}
+
 static void Task_HandleShopMenuQuit(u8 taskId)
 {
     ClearStdWindowAndFrameToTransparent(sMartInfo.windowId, 2);
@@ -310,6 +316,7 @@ static void CB2_InitBuyMenu(void)
         ResetSpriteData();
         ResetTasks();
         ClearScheduledBgCopiesToVram();
+        ResetItemMenuIconState();
 
         if (!InitShopData() || !BuyMenuBuildListMenuTemplate())
             return;
@@ -415,7 +422,6 @@ static void BuyMenuDrawGraphics(void)
     BuyMenuDrawMapGraphics();
     BuyMenuCopyMenuBgToBg1TilemapBuffer();
     BuyMenuDrawMoneyBox();
-    AddMoneyLabelObject(19, 11);
     ScheduleBgCopyTilemapToVram(0);
     ScheduleBgCopyTilemapToVram(1);
     ScheduleBgCopyTilemapToVram(2);
@@ -500,6 +506,7 @@ static void BuyMenuPrintItemDescriptionAndShowItemIcon(s32 item, bool8 onInit, s
     else
     {
         HideBagItemIconSprite(sShopData->iconSlot ^ 1);
+        RemoveBagItemIconSprite(sShopData->iconSlot);
         if (item != LIST_CANCEL)
             AddBagItemIconSprite(item, sShopData->iconSlot);
         else
@@ -886,9 +893,7 @@ static void Task_ReturnToItemListAfterItemPurchase(u8 taskId)
     if (JOY_NEW(A_BUTTON | B_BUTTON))
     {
         PlaySE(SE_SELECT);
-        if (tItemId == ITEM_POKE_BALL
-         && tItemCount > 9
-         && AddBagItem(ITEM_PREMIER_BALL, tItemCount / 10))
+        if (tItemId == ITEM_POKE_BALL && tItemCount > 9 && AddBagItem(ITEM_PREMIER_BALL, tItemCount / 10))
             BuyMenuDisplayMessage(taskId, gText_ThrowInPremierBall, BuyMenuReturnToItemList);
         else
             BuyMenuReturnToItemList(taskId);
@@ -1139,6 +1144,7 @@ static void BuyMenuInitWindows(u8 martType)
 
 static void BuyMenuDrawMoneyBox(void)
 {
+    AddMoneyLabelObject(19, 11);
     PrintMoneyAmountInMoneyBoxWithBorder(0, 0xA, 0xF, GetMoney(&gSaveBlock1Ptr->money));
 }
 

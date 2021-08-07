@@ -5545,7 +5545,7 @@ static u8 GetPartyLayoutFromBattleType(void)
 
 void OpenPartyMenuInBattle(u8 partyAction)
 {
-    InitPartyMenu(PARTY_MENU_TYPE_IN_BATTLE, GetPartyLayoutFromBattleType(), partyAction, FALSE, PARTY_MSG_CHOOSE_MON, Task_HandleChooseMonInput, CB2_SetUpReshowBattleScreenAfterMenu);
+    InitPartyMenu(PARTY_MENU_TYPE_IN_BATTLE, GetPartyLayoutFromBattleType(), partyAction, FALSE, PARTY_MSG_CHOOSE_MON, Task_HandleChooseMonInput, SetCB2ToReshowScreenAfterMenu);
     ReshowBattleScreenDummy();
     UpdatePartyToBattleOrder();
 }
@@ -5871,7 +5871,7 @@ static void UpdatePartyToFieldOrder(void)
 
 static void CB2_SetUpExitToBattleScreen(void)
 {
-    SetMainCallback2(CB2_SetUpReshowBattleScreenAfterMenu);
+    SetMainCallback2(SetCB2ToReshowScreenAfterMenu);
 }
 
 void ShowPartyMenuToShowcaseMultiBattleParty(void)

@@ -1436,12 +1436,7 @@ void ActionSelectionDestroyCursorAt(u8 cursorPosition)
     CopyBgTilemapBufferToVram(0);
 }
 
-void CB2_SetUpReshowBattleScreenAfterMenu(void)
-{
-    SetMainCallback2(ReshowBattleScreenAfterMenu);
-}
-
-void CB2_SetUpReshowBattleScreenAfterMenu2(void)
+void SetCB2ToReshowScreenAfterMenu(void)
 {
     SetMainCallback2(ReshowBattleScreenAfterMenu);
 }

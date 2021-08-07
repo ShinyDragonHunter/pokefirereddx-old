@@ -1263,19 +1263,19 @@ static void LinkOpponentHandleDrawTrainerPic(void)
         else
         {
             if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) < VERSION_EMERALD)
-                trainerPicId = gFacilityClassToPicIndex[gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender + FACILITY_CLASS_RS_BRENDAN];
+                trainerPicId = gFacilityClassToPicIndex[FACILITY_CLASS_RS_BRENDAN + gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender];
             else if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_EMERALD)
             {
                 if (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].versionModifier == MODIFIER_HELIODOR)
-                    trainerPicId = gFacilityClassToPicIndex[gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender + FACILITY_CLASS_H_BRENDAN];
+                    trainerPicId = gFacilityClassToPicIndex[FACILITY_CLASS_H_BRENDAN + gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender];
                 else
-                    trainerPicId = gFacilityClassToPicIndex[gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender + FACILITY_CLASS_E_BRENDAN];
+                    trainerPicId = gFacilityClassToPicIndex[FACILITY_CLASS_E_BRENDAN + gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender];
             }
             else if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) <= VERSION_LEAF_GREEN
              && gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].versionModifier < MODIFIER_CRYSTALDUST)
 	            trainerPicId = PlayerGenderToFrontTrainerPicId(gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender);
             else
-                trainerPicId = gFacilityClassToPicIndex[gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender + FACILITY_CLASS_GOLD];
+                trainerPicId = gFacilityClassToPicIndex[FACILITY_CLASS_GOLD + gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender];
         }
     }
     else
@@ -1285,19 +1285,19 @@ static void LinkOpponentHandleDrawTrainerPic(void)
         if (gTrainerBattleOpponent_A == TRAINER_UNION_ROOM)
             trainerPicId = GetUnionRoomTrainerPic();
         else if ((gLinkPlayers[GetMultiplayerId() ^ BIT_SIDE].version & 0xFF) < VERSION_EMERALD)
-            trainerPicId = gFacilityClassToPicIndex[gLinkPlayers[GetMultiplayerId() ^ BIT_SIDE].gender + FACILITY_CLASS_RS_BRENDAN];
+            trainerPicId = gFacilityClassToPicIndex[FACILITY_CLASS_RS_BRENDAN + gLinkPlayers[GetMultiplayerId() ^ BIT_SIDE].gender];
         else if ((gLinkPlayers[GetMultiplayerId() ^ BIT_SIDE].version & 0xFF) == VERSION_EMERALD)
         {
             if (gLinkPlayers[GetMultiplayerId() ^ BIT_SIDE].versionModifier == MODIFIER_HELIODOR)
-                trainerPicId = gFacilityClassToPicIndex[gLinkPlayers[GetMultiplayerId() ^ BIT_SIDE].gender + FACILITY_CLASS_H_BRENDAN];
+                trainerPicId = gFacilityClassToPicIndex[FACILITY_CLASS_H_BRENDAN + gLinkPlayers[GetMultiplayerId() ^ BIT_SIDE].gender];
             else
-                trainerPicId = gFacilityClassToPicIndex[gLinkPlayers[GetMultiplayerId() ^ BIT_SIDE].gender + FACILITY_CLASS_E_BRENDAN];
+                trainerPicId = gFacilityClassToPicIndex[FACILITY_CLASS_E_BRENDAN + gLinkPlayers[GetMultiplayerId() ^ BIT_SIDE].gender];
         }
         else if ((gLinkPlayers[GetMultiplayerId() ^ BIT_SIDE].version & 0xFF) <= VERSION_LEAF_GREEN
          && gLinkPlayers[GetMultiplayerId() ^ BIT_SIDE].versionModifier < MODIFIER_CRYSTALDUST)
 	        trainerPicId = PlayerGenderToFrontTrainerPicId(gLinkPlayers[GetMultiplayerId() ^ BIT_SIDE].gender);
         else
-            trainerPicId = gFacilityClassToPicIndex[gLinkPlayers[GetMultiplayerId() ^ BIT_SIDE].gender + FACILITY_CLASS_GOLD];
+            trainerPicId = gFacilityClassToPicIndex[FACILITY_CLASS_GOLD + gLinkPlayers[GetMultiplayerId() ^ BIT_SIDE].gender];
     }
 
     DecompressTrainerFrontPic(trainerPicId, gActiveBattler);

@@ -77,7 +77,7 @@ static bool8 TryPushBoulder(s16, s16, u8);
 static void DoPlayerAvatarTransition(void);
 static void PlayerAvatarTransition_Dummy(struct ObjectEvent *a);
 static void PlayerAvatarTransition_Normal(struct ObjectEvent *a);
-static void PlayerAvatarTransition_MachBike(struct ObjectEvent *a);
+static void PlayerAvatarTransition_Bike(struct ObjectEvent *a);
 static void PlayerAvatarTransition_Surfing(struct ObjectEvent *a);
 static void PlayerAvatarTransition_Underwater(struct ObjectEvent *a);
 static void PlayerAvatarTransition_ReturnToField(struct ObjectEvent *a);
@@ -187,13 +187,14 @@ static bool8 (*const sAcroBikeTrickMetatiles[])(u8) =
 
 static void (*const sPlayerAvatarTransitionFuncs[])(struct ObjectEvent *) =
 {
-    [PLAYER_AVATAR_STATE_NORMAL]     = PlayerAvatarTransition_Normal,
-    [PLAYER_AVATAR_STATE_MACH_BIKE]  = PlayerAvatarTransition_MachBike,
-    [PLAYER_AVATAR_STATE_SURFING]    = PlayerAvatarTransition_Surfing,
-    [PLAYER_AVATAR_STATE_UNDERWATER] = PlayerAvatarTransition_Underwater,
-    [PLAYER_AVATAR_STATE_FIELD_MOVE] = PlayerAvatarTransition_ReturnToField,
-    [PLAYER_AVATAR_STATE_FISHING]    = PlayerAvatarTransition_Dummy,
-    [PLAYER_AVATAR_STATE_WATERING]   = PlayerAvatarTransition_Dummy,
+    [PLAYER_AVATAR_STATE_NORMAL]          = PlayerAvatarTransition_Normal,
+    [PLAYER_AVATAR_STATE_BIKE]            = PlayerAvatarTransition_Bike,
+    [PLAYER_AVATAR_STATE_SURFING]         = PlayerAvatarTransition_Surfing,
+    [PLAYER_AVATAR_STATE_UNDERWATER]      = PlayerAvatarTransition_Underwater,
+    [PLAYER_AVATAR_STATE_FIELD_MOVE]      = PlayerAvatarTransition_ReturnToField,
+    [PLAYER_AVATAR_STATE_FIELD_MOVE_BIKE] = PlayerAvatarTransition_ReturnToField,
+    [PLAYER_AVATAR_STATE_FISHING]         = PlayerAvatarTransition_Dummy,
+    [PLAYER_AVATAR_STATE_WATERING]        = PlayerAvatarTransition_Dummy,
 };
 
 static bool8 (*const sArrowWarpMetatileBehaviorChecks[])(u8) =
@@ -204,38 +205,39 @@ static bool8 (*const sArrowWarpMetatileBehaviorChecks[])(u8) =
     MetatileBehavior_IsEastArrowWarp,
 };
 
-static const u8 sPlayerAvatarGfxIds[][2] =
+static const u16 sPlayerAvatarGfxIds[][2] =
 {
-    {OBJ_EVENT_GFX_RED_NORMAL,         OBJ_EVENT_GFX_LEAF_NORMAL},
-    {OBJ_EVENT_GFX_RED_BIKE,           OBJ_EVENT_GFX_LEAF_BIKE},
-    {OBJ_EVENT_GFX_RED_SURFING,        OBJ_EVENT_GFX_LEAF_SURFING},
-    {OBJ_EVENT_GFX_RED_UNDERWATER,     OBJ_EVENT_GFX_LEAF_UNDERWATER},
-    {OBJ_EVENT_GFX_RED_FIELD_MOVE,     OBJ_EVENT_GFX_LEAF_FIELD_MOVE},
-    {OBJ_EVENT_GFX_RED_FISHING,        OBJ_EVENT_GFX_LEAF_FISHING},
-    {OBJ_EVENT_GFX_RED_WATERING,       OBJ_EVENT_GFX_LEAF_WATERING},
+    {OBJ_EVENT_GFX_RED_NORMAL,          OBJ_EVENT_GFX_LEAF_NORMAL},
+    {OBJ_EVENT_GFX_RED_BIKE,            OBJ_EVENT_GFX_LEAF_BIKE},
+    {OBJ_EVENT_GFX_RED_SURFING,         OBJ_EVENT_GFX_LEAF_SURFING},
+    {OBJ_EVENT_GFX_RED_UNDERWATER,      OBJ_EVENT_GFX_LEAF_UNDERWATER},
+    {OBJ_EVENT_GFX_RED_FIELD_MOVE,      OBJ_EVENT_GFX_LEAF_FIELD_MOVE},
+    {OBJ_EVENT_GFX_RED_FIELD_MOVE_BIKE, OBJ_EVENT_GFX_LEAF_FIELD_MOVE_BIKE},
+    {OBJ_EVENT_GFX_RED_FISHING,         OBJ_EVENT_GFX_LEAF_FISHING},
+    {OBJ_EVENT_GFX_RED_WATERING,        OBJ_EVENT_GFX_LEAF_WATERING},
 };
 
-static const u8 sCDAvatarGfxIds[] = {OBJ_EVENT_GFX_GOLD, OBJ_EVENT_GFX_KRIS};
+static const u16 sCDAvatarGfxIds[] = {OBJ_EVENT_GFX_GOLD, OBJ_EVENT_GFX_KRIS};
 
-static const u8 sHeliodorAvatarGfxIds[] = {OBJ_EVENT_GFX_H_BRENDAN, OBJ_EVENT_GFX_H_MAY};
+static const u16 sHeliodorAvatarGfxIds[] = {OBJ_EVENT_GFX_H_BRENDAN, OBJ_EVENT_GFX_H_MAY};
 
-static const u8 sEAvatarGfxIds[] = {OBJ_EVENT_GFX_E_BRENDAN, OBJ_EVENT_GFX_E_MAY};
+static const u16 sEAvatarGfxIds[] = {OBJ_EVENT_GFX_E_BRENDAN, OBJ_EVENT_GFX_E_MAY};
 
-static const u8 sRSAvatarGfxIds[] = {OBJ_EVENT_GFX_RS_BRENDAN, OBJ_EVENT_GFX_RS_MAY};
+static const u16 sRSAvatarGfxIds[] = {OBJ_EVENT_GFX_RS_BRENDAN, OBJ_EVENT_GFX_RS_MAY};
 
-static const u8 sPlayerAvatarGfxToStateFlag[2][4][2] =
+static const u16 sPlayerAvatarGfxToStateFlag[2][4][2] =
 {
     [MALE] =
     {
         {OBJ_EVENT_GFX_RED_NORMAL,         PLAYER_AVATAR_FLAG_ON_FOOT},
-        {OBJ_EVENT_GFX_RED_BIKE,           PLAYER_AVATAR_FLAG_MACH_BIKE},
+        {OBJ_EVENT_GFX_RED_BIKE,           PLAYER_AVATAR_FLAG_BIKE},
         {OBJ_EVENT_GFX_RED_SURFING,        PLAYER_AVATAR_FLAG_SURFING},
         {OBJ_EVENT_GFX_RED_UNDERWATER,     PLAYER_AVATAR_FLAG_UNDERWATER},
     },
     [FEMALE] =
     {
         {OBJ_EVENT_GFX_LEAF_NORMAL,        PLAYER_AVATAR_FLAG_ON_FOOT},
-        {OBJ_EVENT_GFX_LEAF_BIKE,          PLAYER_AVATAR_FLAG_MACH_BIKE},
+        {OBJ_EVENT_GFX_LEAF_BIKE,          PLAYER_AVATAR_FLAG_BIKE},
         {OBJ_EVENT_GFX_LEAF_SURFING,       PLAYER_AVATAR_FLAG_SURFING},
         {OBJ_EVENT_GFX_LEAF_UNDERWATER,    PLAYER_AVATAR_FLAG_UNDERWATER},
     }
@@ -312,7 +314,7 @@ static void npc_clear_strange_bits(struct ObjectEvent *objEvent)
 
 static void MovePlayerAvatarUsingKeypadInput(u8 direction, u16 newKeys, u16 heldKeys)
 {
-    if (gPlayerAvatar.flags & (PLAYER_AVATAR_FLAG_MACH_BIKE))
+    if (gPlayerAvatar.flags & (PLAYER_AVATAR_FLAG_BIKE))
         MovePlayerOnBike(direction, newKeys, heldKeys);
     else
         MovePlayerNotOnBike(direction, heldKeys);
@@ -629,8 +631,7 @@ static bool8 ShouldJumpLedge(s16 x, s16 y, u8 direction)
 {
     if (GetLedgeJumpDirection(x, y, direction) != DIR_NONE)
         return TRUE;
-    else
-        return FALSE;
+    return FALSE;
 }
 
 static bool8 TryPushBoulder(s16 x, s16 y, u8 direction)
@@ -724,11 +725,11 @@ static void PlayerAvatarTransition_Normal(struct ObjectEvent *objEvent)
     SetPlayerAvatarStateMask(PLAYER_AVATAR_FLAG_ON_FOOT);
 }
 
-static void PlayerAvatarTransition_MachBike(struct ObjectEvent *objEvent)
+static void PlayerAvatarTransition_Bike(struct ObjectEvent *objEvent)
 {
-    ObjectEventSetGraphicsId(objEvent, GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_MACH_BIKE));
+    ObjectEventSetGraphicsId(objEvent, GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_BIKE));
     ObjectEventTurn(objEvent, objEvent->movementDirection);
-    SetPlayerAvatarStateMask(PLAYER_AVATAR_FLAG_MACH_BIKE);
+    SetPlayerAvatarStateMask(PLAYER_AVATAR_FLAG_BIKE);
     BikeClearState();
 }
 
@@ -1021,31 +1022,31 @@ void sub_808BCF4(void)
     SetObjectEventDirection(playerObjEvent, playerObjEvent->facingDirection);
 }
 
-u8 GetRSAvatarGraphicsIdByGender(u8 gender)
+u16 GetRSAvatarGraphicsIdByGender(u8 gender)
 {
     return sRSAvatarGfxIds[gender];
 }
 
-u8 GetHAvatarGraphicsIdByGender(u8 gender)
+u16 GetHAvatarGraphicsIdByGender(u8 gender)
 {
     return sHeliodorAvatarGfxIds[gender];
 }
 
-u8 GetEAvatarGraphicsIdByGender(u8 gender)
+u16 GetEAvatarGraphicsIdByGender(u8 gender)
 {
     return sEAvatarGfxIds[gender];
 }
-u8 GetCDAvatarGraphicsIdByGender(u8 gender)
+u16 GetCDAvatarGraphicsIdByGender(u8 gender)
 {
     return sCDAvatarGfxIds[gender];
 }
 
-u8 GetPlayerAvatarGraphicsIdByStateIdAndGender(u8 state, u8 gender)
+u16 GetPlayerAvatarGraphicsIdByStateIdAndGender(u8 state, u8 gender)
 {
     return sPlayerAvatarGfxIds[state][gender];
 }
 
-u8 GetPlayerAvatarGraphicsIdByStateId(u8 state)
+u16 GetPlayerAvatarGraphicsIdByStateId(u8 state)
 {
     return GetPlayerAvatarGraphicsIdByStateIdAndGender(state, gPlayerAvatar.gender);
 }
@@ -1113,7 +1114,7 @@ static u8 GetPlayerAvatarStateTransitionByGraphicsId(u8 graphicsId, u8 gender)
     return PLAYER_AVATAR_FLAG_ON_FOOT;
 }
 
-u8 GetPlayerAvatarGraphicsIdByCurrentState(void)
+u16 GetPlayerAvatarGraphicsIdByCurrentState(void)
 {
     u32 i;
     u8 flags = gPlayerAvatar.flags;
@@ -1126,7 +1127,7 @@ u8 GetPlayerAvatarGraphicsIdByCurrentState(void)
     return 0;
 }
 
-void SetPlayerAvatarExtraStateTransition(u8 graphicsId, u8 transitionFlag)
+void SetPlayerAvatarExtraStateTransition(u16 graphicsId, u8 transitionFlag)
 {
     u8 stateFlag = GetPlayerAvatarStateTransitionByGraphicsId(graphicsId, gPlayerAvatar.gender);
 
@@ -1175,7 +1176,10 @@ void SetPlayerInvisibility(bool8 invisible)
 
 void SetPlayerAvatarFieldMove(void)
 {
-    ObjectEventSetGraphicsId(&gObjectEvents[gPlayerAvatar.objectEventId], GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_FIELD_MOVE));
+    if (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_BIKE)
+        ObjectEventSetGraphicsId(&gObjectEvents[gPlayerAvatar.objectEventId], GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_FIELD_MOVE_BIKE));
+    else
+        ObjectEventSetGraphicsId(&gObjectEvents[gPlayerAvatar.objectEventId], GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_FIELD_MOVE));
     StartSpriteAnim(&gSprites[gPlayerAvatar.spriteId], 0);
 }
 
@@ -1193,8 +1197,7 @@ void SetPlayerAvatarWatering(u8 direction)
 
 static void HideShowWarpArrow(struct ObjectEvent *objectEvent)
 {
-    s16 x;
-    s16 y;
+    s16 x, y;
     u32 direction;
     u8 metatileBehavior = objectEvent->currentMetatileBehavior;
 

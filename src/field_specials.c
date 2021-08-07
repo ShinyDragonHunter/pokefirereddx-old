@@ -158,7 +158,7 @@ void Special_BeginCyclingRoadChallenge(void)
 
 u16 GetPlayerAvatarBike(void)
 {
-    if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE))
+    if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_BIKE))
         return 1;
     return 0;
 }
@@ -1533,8 +1533,8 @@ bool8 IsBadEggInParty(void)
 bool8 InMultiPartnerRoom(void)
 {
     if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(BATTLE_FRONTIER_BATTLE_TOWER_MULTI_PARTNER_ROOM)
-        && gSaveBlock1Ptr->location.mapNum == MAP_NUM(BATTLE_FRONTIER_BATTLE_TOWER_MULTI_PARTNER_ROOM) &&
-        VarGet(VAR_FRONTIER_BATTLE_MODE) == FRONTIER_MODE_MULTIS)
+     && gSaveBlock1Ptr->location.mapNum == MAP_NUM(BATTLE_FRONTIER_BATTLE_TOWER_MULTI_PARTNER_ROOM)
+     && VarGet(VAR_FRONTIER_BATTLE_MODE) == FRONTIER_MODE_MULTIS)
         return TRUE;
     return FALSE;
 }
@@ -2640,14 +2640,14 @@ void SetBattleTowerLinkPlayerGfx(void)
         if ((u8)gLinkPlayers[i].version == VERSION_EMERALD)
         {
             if ((u8)gLinkPlayers[i].versionModifier == MODIFIER_HELIODOR)
-                VarSet(VAR_OBJ_GFX_ID_F - i, (gLinkPlayers[i].gender) ? OBJ_EVENT_GFX_H_MAY : OBJ_EVENT_GFX_H_BRENDAN);
+                VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_H_BRENDAN + gLinkPlayers[i].gender);
             else
-                VarSet(VAR_OBJ_GFX_ID_F - i, (gLinkPlayers[i].gender) ? OBJ_EVENT_GFX_E_MAY : OBJ_EVENT_GFX_E_BRENDAN);
+                VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_E_BRENDAN + gLinkPlayers[i].gender);
         }
         else if ((u8)gLinkPlayers[i].version <= VERSION_LEAF_GREEN && (u8)gLinkPlayers[i].versionModifier < MODIFIER_CRYSTALDUST)
             VarSet(VAR_OBJ_GFX_ID_F - i, (gLinkPlayers[i].gender) ? OBJ_EVENT_GFX_LEAF_NORMAL : OBJ_EVENT_GFX_RED_NORMAL);
         else
-            VarSet(VAR_OBJ_GFX_ID_F - i, gLinkPlayers[i].gender + OBJ_EVENT_GFX_GOLD);
+            VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_GOLD + gLinkPlayers[i].gender);
     }
 }
 
@@ -3679,11 +3679,11 @@ void CloseBattlePikeCurtain(void)
 
 static void Task_CloseBattlePikeCurtain(u8 taskId)
 {
-    u8 x, y;
+    u32 x, y;
     s16 *data = gTasks[taskId].data;
 
     data[data[3]]--;
-    if (data[data[3]] == 0)
+    if (!data[data[3]])
     {
         for (y = 0; y < 4; y++)
         {

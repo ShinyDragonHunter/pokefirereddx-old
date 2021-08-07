@@ -1497,7 +1497,7 @@ static const struct WindowTemplate sSearchMenu_WindowTemplate[] =
 
 void ResetPokedex(void)
 {
-    u16 i;
+    u32 i;
 
     sLastSelectedPokemon = 0;
     sPokeBallRotation = POKEBALL_ROTATION_TOP;
@@ -1533,7 +1533,7 @@ static void VBlankCB_Pokedex(void)
 
 static void ResetPokedexView(struct PokedexView *pokedexView)
 {
-    u16 i;
+    u32 i;
 
     for (i = 0; i < NATIONAL_DEX_COUNT; i++)
     {
@@ -2322,7 +2322,7 @@ static void PrintMonDexNumAndName(u8 windowId, u8 fontId, const u8* str, u8 left
 static void CreateMonListEntry(u8 position, u16 b)
 {
     s16 entryNum;
-    u16 i;
+    u32 i;
     u16 vOffset;
 
     switch (position)
@@ -2418,7 +2418,7 @@ static void CreateMonDexNum(u16 entryNum, u8 left, u8 top)
     text[2] = CHAR_0 + dexNum / 100;
     text[3] = CHAR_0 + (dexNum % 100) / 10;
     text[4] = CHAR_0 + (dexNum % 100) % 10;
-    PrintMonDexNumAndName(0, 7, text, left, top);
+    PrintMonDexNumAndName(0, 5, text, left, top);
 }
 
 static void CreateCaughtBall(bool16 owned, u8 x, u8 y)
@@ -2438,7 +2438,7 @@ static u8 CreateMonName(u16 num, u8 left, u8 top)
         str = gSpeciesNames[num];
     else
         str = sText_TenDashes;
-    PrintMonDexNumAndName(0, 7, str, left, top);
+    PrintMonDexNumAndName(0, 5, str, left, top);
     return StringLength(str);
 }
 
@@ -2449,7 +2449,7 @@ static void ClearMonListEntry(u8 x, u8 y)
 
 static void CreateMonSpritesAtPos(u16 selectedMon)
 {
-    u8 i;
+    u32 i;
     u16 dexNum;
     u8 spriteId;
 
@@ -2497,7 +2497,7 @@ static void CreateMonSpritesAtPos(u16 selectedMon)
 
 static bool8 UpdateDexListScroll(u8 direction, u8 monMoveIncrement, u8 scrollTimerMax)
 {
-    u16 i;
+    u32 i;
     u8 step;
 
     if (sPokedexView->scrollTimer)
@@ -2576,7 +2576,7 @@ static u16 TryDoPokedexScroll(u16 selectedMon)
 {
     u8 scrollTimer;
     u8 scrollMonIncrement;
-    u8 i;
+    u32 i;
     u16 startingPos;
     u8 scrollDir = 0;
 
@@ -2640,7 +2640,7 @@ static u16 TryDoPokedexScroll(u16 selectedMon)
 
 static void UpdateSelectedMonSpriteId(void)
 {
-    u16 i;
+    u32 i;
 
     for (i = 0; i < MAX_MONS_ON_SCREEN; i++)
     {
@@ -2707,7 +2707,7 @@ static bool8 TryDoInfoScreenScroll(void)
 
 static u8 ClearMonSprites(void)
 {
-    u16 i;
+    u32 i;
 
     for (i = 0; i < MAX_MONS_ON_SCREEN; i++)
     {
@@ -2732,7 +2732,7 @@ static u16 GetPokemonSpriteToDisplay(u16 species)
 
 static u32 CreatePokedexMonSprite(u16 num, s16 x, s16 y)
 {
-    u8 i;
+    u32 i;
 
     for (i = 0; i < MAX_MONS_ON_SCREEN; i++)
     {
@@ -4486,7 +4486,7 @@ static void PrintInfoSubMenuText(u8 windowId, const u8 *str, u8 left, u8 top)
 static u8 PrintCryScreenSpeciesName(u8 windowId, u16 num, u8 left, u8 top)
 {
     u8 str[POKEMON_NAME_LENGTH + 1];
-    u8 i;
+    u32 i;
 
     for (i = 0; i < ARRAY_COUNT(str); i++)
         str[i] = EOS;
@@ -4511,8 +4511,7 @@ static void PrintFootprint(u8 windowId, u16 dexNum)
     u8 image[32 * 4];
     const u8 * r12 = gMonFootprintTable[NationalPokedexNumToSpecies(dexNum)];
     u16 r5 = 0;
-    u16 i;
-    u16 j;
+    u32 i, j;
 
     for (i = 0; i < 32; i++)
     {
@@ -4571,7 +4570,7 @@ static u16 CreateSizeScreenTrainerPic(u16 species, s16 x, s16 y, s8 paletteSlot)
 static int DoPokedexSearch(u8 dexMode, u8 order, u8 abcGroup, u8 bodyColor, u8 type1, u8 type2)
 {
     u16 species;
-    u16 i;
+    u32 i;
     u16 resultsCount;
     u8 types[2];
 
@@ -4722,7 +4721,7 @@ static void ClearSearchMenuRect(u32 x, u32 y, u32 width, u32 height)
 
 static void Task_LoadSearchMenu(u8 taskId)
 {
-    u16 i;
+    u32 i;
 
     switch (gMain.state)
     {
@@ -5152,7 +5151,7 @@ static void Task_ExitSearchWaitForFade(u8 taskId)
 
 void SetSearchRectHighlight(u8 flags, u8 x, u8 y, u8 width)
 {
-    u16 i;
+    u32 i;
     u16 temp; //should be a pointer, but does not match as one
     u32 ptr = (u32)GetBgTilemapBuffer(3); //same as above
 
@@ -5330,8 +5329,7 @@ static void PrintSelectedSearchParameters(u8 taskId)
 
 static void DrawOrEraseSearchParameterBox(bool8 erase)
 {
-    u16 i;
-    u16 j;
+    u32 i, j;
     u16* ptr = GetBgTilemapBuffer(3);
 
     if (!erase)
@@ -5368,8 +5366,7 @@ static void PrintSearchParameterText(u8 taskId)
     const struct SearchOptionText *texts = sSearchOptions[gTasks[taskId].tMenuItem].texts;
     const u16 *cursorPos = &gTasks[taskId].data[sSearchOptions[gTasks[taskId].tMenuItem].taskDataCursorPos];
     const u16 *scrollOffset = &gTasks[taskId].data[sSearchOptions[gTasks[taskId].tMenuItem].taskDataScrollOffset];
-    u16 i;
-    u16 j;
+    u32 i, j;
 
     ClearSearchParameterBoxText();
 

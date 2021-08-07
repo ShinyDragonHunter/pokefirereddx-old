@@ -375,7 +375,7 @@ bool8 RemoveBagItem(u16 itemId, u16 count)
         if (totalQuantity < count)
             return FALSE;   // We don't have enough of the item
 
-        var = GetItemListPosition(pocket);
+        var = GetSelectedItemIndex(pocket);
         if (itemPocket->capacity > var
          && itemPocket->itemSlots[var].itemId == itemId)
         {
@@ -616,32 +616,6 @@ void SortBerriesOrTMHMs(struct BagPocket *bagPocket)
             }
             SwapItemSlots(&bagPocket->itemSlots[i], &bagPocket->itemSlots[j]);
         }
-    }
-}
-
-void MoveItemSlotInList(struct ItemSlot* itemSlots_, u32 from, u32 to_)
-{
-    // dumb assignments needed to match
-    struct ItemSlot *itemSlots = itemSlots_;
-    u32 to = to_;
-
-    if (from != to)
-    {
-        s32 i, count;
-        struct ItemSlot firstSlot = itemSlots[from];
-
-        if (to > from)
-        {
-            to--;
-            for (i = from, count = to; i < count; i++)
-                itemSlots[i] = itemSlots[i + 1];
-        }
-        else
-        {
-            for (i = from, count = to; i > count; i--)
-                itemSlots[i] = itemSlots[i - 1];
-        }
-        itemSlots[to] = firstSlot;
     }
 }
 

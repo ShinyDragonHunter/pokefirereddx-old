@@ -874,7 +874,7 @@ static void InitMatchCallPokenavListMenuTemplate(void)
     template.listTop = 1;
     template.maxShowed = 8;
     template.fillValue = 3;
-    template.fontId = 7;
+    template.fontId = 5;
     template.listFunc.unk10_2 = BufferMatchCallNameAndDesc;
     template.unk14 = TryDrawRematchPokeballIcon;
     sub_81C81D4(&sMatchCallBgTemplates[2], &template, 2);

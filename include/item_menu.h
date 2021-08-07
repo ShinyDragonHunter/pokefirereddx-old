@@ -79,21 +79,20 @@ void CB2_BagMenuFromBattle(void);
 void SetInitialScrollAndCursorPositions(u8 pocketId);
 void CB2_ReturnToBagMenuPocket(void);
 void CB2_BagMenuFromStartMenu(void);
-u8 GetItemListPosition(u8 pocketId);
+void MoveItemSlotInList(struct ItemSlot* itemSlots_, u32 from, u32 to_);
+u8 GetSelectedItemIndex(u8 pocketId);
 bool8 UseRegisteredKeyItemOnField(void);
-void CB2_GoToSellMenu(void);
 void GoToBagMenu(u8 bagMenuType, u8 pocketId, void ( *postExitMenuMainCallback2)());
 void DoWallyTutorialBagMenu(void);
-void ResetBagScrollPositions(void);
+void CB2_SetUpReshowBattleScreenAfterMenu(void);
+void ResetBagCursorPositions(void);
 void ChooseBerryForMachine(void (*exitCallback)(void));
 void CB2_ChooseBerry(void);
-void Task_FadeAndCloseBagMenu(u8 taskId);
+void ItemMenu_StartFadeToExitCallback(u8 taskId);
 void BagCreateYesNoMenuBottomRight(u8, const struct YesNoFuncTable*);
-void BagMenu_InitListsMenu(u8 taskId);
+void Task_ReturnToBagFromContextMenu(u8 taskId);
 void UpdatePocketItemList(u8 pocketId);
-void DisplayItemMessage(u8 taskId, u8 fontId, const u8 *str, void ( *callback)(u8 taskId));
+void DisplayItemMessageInBag(u8 taskId, u8 fontId, const u8 *str, void ( *callback)(u8 taskId));
 void DisplayItemMessageOnField(u8 taskId, const u8 *src, TaskFunc callback);
-
-
 
 #endif //GUARD_item_menu_H

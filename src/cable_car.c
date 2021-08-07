@@ -799,12 +799,12 @@ static void CreateCableCarSprites(void)
     u8 spriteId;
     u32 i;
 
-    u8 playerGraphicsIds[2] = {
+    u16 playerGraphicsIds[2] = {
         [MALE]   = OBJ_EVENT_GFX_RED_NORMAL,
         [FEMALE] = OBJ_EVENT_GFX_LEAF_NORMAL
     };
     u16 rval = Random();
-    u8 hikerGraphicsIds[4] = {
+    u16 hikerGraphicsIds[4] = {
         OBJ_EVENT_GFX_HOENN_HIKER,
         OBJ_EVENT_GFX_HOENN_CAMPER,
         OBJ_EVENT_GFX_HOENN_PICNICKER,
@@ -937,7 +937,7 @@ static void CreateCableCarSprites(void)
 
 static void BufferNextGroundSegment(void)
 {
-    u8 i, j, k;
+    u32 i, j, k;
     u8 offset;
 
     for (i = 0, k = 0, offset = 0x24 * (sCableCar->groundTilemapOffset + 2); i < 3; i++)
@@ -982,7 +982,7 @@ static void AnimateGroundGoingDown(void)
 
 static void DrawNextGroundSegmentGoingUp(void)
 {
-    u8 i = 0;
+    u32 i = 0;
 
     sCableCar->groundXOffset = sCableCar->groundYOffset = 0;
     sCableCar->groundXBase = sCableCar->bg0HorizontalOffset;
@@ -1016,7 +1016,7 @@ static void DrawNextGroundSegmentGoingUp(void)
 
 static void DrawNextGroundSegmentGoingDown(void)
 {
-    u8 i = 0;
+    u32 i = 0;
 
     sCableCar->groundXOffset = sCableCar->groundYOffset = 0;
     sCableCar->groundXBase = sCableCar->bg0HorizontalOffset;

@@ -1,6 +1,8 @@
 #ifndef GUARD_BIKE_H
 #define GUARD_BIKE_H
 
+// TODO: Do the constants make sense in FRLG? 
+
 // Player speeds
 enum
 {
@@ -8,25 +10,23 @@ enum
     SPEED_NORMAL,
     SPEED_FAST,
     SPEED_FASTER,
-    SPEED_FASTEST,
+    SPEED_FASTEST
 };
 
-// Acro bike transitions
 enum
 {
-    ACRO_TRANS_FACE_DIRECTION,
-    ACRO_TRANS_TURN_DIRECTION,
-    ACRO_TRANS_MOVING,
-    ACRO_TRANS_NORMAL_TO_WHEELIE,
-    ACRO_TRANS_WHEELIE_TO_NORMAL,
+    BIKE_TRANS_FACE_DIRECTION,
+    BIKE_TRANS_TURNING,
+    BIKE_TRANS_MOVING,
+    BIKE_TRANS_DOWNHILL,
+    BIKE_TRANS_UPHILL
 };
 
-// Acro bike states
 enum
 {
-    ACRO_STATE_NORMAL,
-    ACRO_STATE_TURNING,
-    ACRO_STATE_WHEELIE_STANDING,
+    BIKE_STATE_NORMAL,
+    BIKE_STATE_TURNING,
+    BIKE_STATE_SLOPE
 };
 
 // Exported RAM declarations

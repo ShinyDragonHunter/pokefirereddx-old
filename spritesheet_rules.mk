@@ -61,6 +61,9 @@ $(OBJEVENTGFXDIR)/people/red/watering.4bpp: %.4bpp: %.png
 $(OBJEVENTGFXDIR)/people/camper.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
+$(OBJEVENTGFXDIR)/people/ranger_m.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4
+
 $(OBJEVENTGFXDIR)/people/captain.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
@@ -121,13 +124,16 @@ $(OBJEVENTGFXDIR)/people/leaf/running.4bpp: %.4bpp: %.png
 $(OBJEVENTGFXDIR)/people/leaf/surfing.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
-$(OBJEVENTGFXDIR)/people/leaf/vs_seeker_bike.4bpp: %.4bpp: %.png
+$(OBJEVENTGFXDIR)/people/leaf/field_move_bike.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
 $(OBJEVENTGFXDIR)/people/gym_guy.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
 $(OBJEVENTGFXDIR)/people/hiker.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4
+
+$(OBJEVENTGFXDIR)/people/ruin_maniac.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
 $(OBJEVENTGFXDIR)/people/gym_leaders/koga.4bpp: %.4bpp: %.png
@@ -205,7 +211,7 @@ $(OBJEVENTGFXDIR)/people/red/running.4bpp: %.4bpp: %.png
 $(OBJEVENTGFXDIR)/people/red/surfing.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
-$(OBJEVENTGFXDIR)/people/red/vs_seeker_bike.4bpp: %.4bpp: %.png
+$(OBJEVENTGFXDIR)/people/red/field_move_bike.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
 $(OBJEVENTGFXDIR)/people/red/underwater.4bpp: %.4bpp: %.png
@@ -241,6 +247,9 @@ $(OBJEVENTGFXDIR)/people/sitting_boy.4bpp: %.4bpp: %.png
 $(OBJEVENTGFXDIR)/people/maniac.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
+$(OBJEVENTGFXDIR)/people/pokemaniac.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4
+
 $(OBJEVENTGFXDIR)/people/swimmer_f_land.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
@@ -251,6 +260,9 @@ $(OBJEVENTGFXDIR)/people/swimmer_m_land.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
 $(OBJEVENTGFXDIR)/people/swimmer_m.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4
+
+$(OBJEVENTGFXDIR)/people/painter.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
 $(OBJEVENTGFXDIR)/people/teachy_tv_host.4bpp: %.4bpp: %.png

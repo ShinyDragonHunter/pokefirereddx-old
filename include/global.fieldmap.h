@@ -59,8 +59,8 @@ struct BackupMapLayout
 struct ObjectEventTemplate
 {
     /*0x00*/ u8 localId;
-    /*0x01*/ u8 graphicsId;
-    /*0x02*/ u8 inConnection; // Leftover from FRLG
+    /*0x01*/ u8 inConnection; // Leftover from FRLG
+    /*0x02*/ u16 graphicsId;
     /*0x04*/ s16 x;
     /*0x06*/ s16 y;
     /*0x08*/ u8 elevation;
@@ -185,8 +185,7 @@ struct ObjectEvent
              u32 disableJumpLandingGroundEffect:1;
              u32 fixedPriority:1;
              u32 hideReflection:1;
-    /*0x04*/ u8 spriteId;
-    /*0x05*/ u8 graphicsId;
+    /*0x04*/ u16 graphicsId;
     /*0x06*/ u8 movementType;
     /*0x07*/ u8 trainerType;
     /*0x08*/ u8 localId;
@@ -210,6 +209,7 @@ struct ObjectEvent
     /*0x20*/ u8 previousMovementDirection;
     /*0x21*/ u8 directionSequenceIndex;
     /*0x22*/ u8 playerCopyableMovement;
+    /*0x23*/ u8 spriteId;
     /*size = 0x24*/
 };
 
@@ -235,16 +235,17 @@ struct ObjectEventGraphicsInfo
 
 enum {
     PLAYER_AVATAR_STATE_NORMAL,
-    PLAYER_AVATAR_STATE_MACH_BIKE,
+    PLAYER_AVATAR_STATE_BIKE,
     PLAYER_AVATAR_STATE_SURFING,
     PLAYER_AVATAR_STATE_UNDERWATER,
     PLAYER_AVATAR_STATE_FIELD_MOVE,
+    PLAYER_AVATAR_STATE_FIELD_MOVE_BIKE,
     PLAYER_AVATAR_STATE_FISHING,
-    PLAYER_AVATAR_STATE_WATERING,
+    PLAYER_AVATAR_STATE_WATERING
 };
 
 #define PLAYER_AVATAR_FLAG_ON_FOOT     (1 << 0)
-#define PLAYER_AVATAR_FLAG_MACH_BIKE   (1 << 1)
+#define PLAYER_AVATAR_FLAG_BIKE        (1 << 1)
 #define PLAYER_AVATAR_FLAG_SURFING     (1 << 2)
 #define PLAYER_AVATAR_FLAG_UNDERWATER  (1 << 3)
 #define PLAYER_AVATAR_FLAG_4           (1 << 4)

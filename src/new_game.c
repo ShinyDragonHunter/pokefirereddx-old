@@ -118,7 +118,7 @@ void ResetMenuAndMonGlobals(void)
     ResetPokedexScrollPositions();
     ZeroPlayerPartyMons();
     ZeroEnemyPartyMons();
-    ResetBagScrollPositions();
+    ResetBagCursorPositions();
     ResetPokeblockScrollPositions();
 }
 
