@@ -688,7 +688,7 @@ u32 CountPlayerTrainerStars(void)
 
     if (GetGameStat(GAME_STAT_ENTERED_HOF))
         stars++;
-    if (HasAllFrontierSymbols())
+    if (HasAllKantoMons())
         stars++;
     if (HasAllMons())
         stars++;
