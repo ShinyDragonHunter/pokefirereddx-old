@@ -111,6 +111,8 @@ static void SetUpItemUseCallback(u8 taskId)
     else
     {
         gBagMenu->exitCallback = sItemUseCallbacks[type];
+        if (type == 1)
+            Bag_BeginCloseWin0Animation();
         ItemMenu_StartFadeToExitCallback(taskId);
     }
 }
@@ -819,8 +821,8 @@ static void RemoveUsedItem(void)
     }
     else
     {
-        UpdatePocketItemList(ItemId_GetPocket(gSpecialVar_ItemId));
-        SetInitialScrollAndCursorPositions(ItemId_GetPocket(gSpecialVar_ItemId));
+        Pocket_CalculateNItemsAndMaxShowed(ItemId_GetPocket(gSpecialVar_ItemId));
+        PocketCalculateInitialCursorPosAndItemsAbove(ItemId_GetPocket(gSpecialVar_ItemId));
     }
 }
 
@@ -943,6 +945,7 @@ void ItemUseInBattle_PokeBall(u8 taskId)
     else if (!IsPlayerPartyAndPokemonStorageFull()) // have room for Pokémon?
     {
         RemoveBagItem(gSpecialVar_ItemId, 1);
+        Bag_BeginCloseWin0Animation();
         ItemMenu_StartFadeToExitCallback(taskId);
     }
     else
@@ -956,7 +959,10 @@ static void Task_CloseStatIncreaseMessage(u8 taskId)
         if (InBattlePyramid())
             CloseBattlePyramidBag(taskId);
         else
+        {
+            Bag_BeginCloseWin0Animation();
             ItemMenu_StartFadeToExitCallback(taskId);
+        }
     }
 }
 

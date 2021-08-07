@@ -25,7 +25,7 @@
 #define ITEMMENUACTION_CHECK         6
 #define ITEMMENUACTION_WALK          7
 #define ITEMMENUACTION_DESELECT      8
-#define ITEMMENUACTION_CHECK_TAG     9
+#define ITEMMENUACTION_VIEW_TAG      9
 #define ITEMMENUACTION_CONFIRM      10
 #define ITEMMENUACTION_SHOW         11
 #define ITEMMENUACTION_DUMMY        12
@@ -35,8 +35,8 @@ struct BagStruct
 {
     void (*bagCallback)(void);
     u8 location;
-    u8 pocket;
     bool8 bagOpen;
+    u8 pocket;
     u16 cursorPosition[POCKETS_COUNT];
     u16 scrollPosition[POCKETS_COUNT];
 };
@@ -51,8 +51,7 @@ struct BagMenuStruct
     u8 itemOriginalLocation;
     u8 pocketSwitchDisabled:4;
     u8 itemIconSlot:2;
-    u8 inhibitItemDescriptionPrint:1;
-    u8 hideCloseBagText:1;
+    u8 inhibitItemDescriptionPrint:2;
     u16 contextMenuSelectedItem;
     u8 pocketScrollArrowsTask;
     u8 pocketSwitchArrowsTask;
@@ -62,8 +61,6 @@ struct BagMenuStruct
     u8 numItemStacks[POCKETS_COUNT];
     u8 numShownItems[6];
     s16 graphicsLoadState;
-    u8 filler4[0xE];
-    u8 filler2[4];
 };
 
 extern struct BagMenuStruct *gBagMenu;
@@ -76,10 +73,11 @@ extern u16 gSpecialVar_ItemId;
 void CB2_GoToItemDepositMenu(void);
 void ApprenticeOpenBagMenu(void);
 void CB2_BagMenuFromBattle(void);
-void SetInitialScrollAndCursorPositions(u8 pocketId);
+void PocketCalculateInitialCursorPosAndItemsAbove(u8 pocketId);
 void CB2_ReturnToBagMenuPocket(void);
 void CB2_BagMenuFromStartMenu(void);
 void MoveItemSlotInList(struct ItemSlot* itemSlots_, u32 from, u32 to_);
+void Bag_BeginCloseWin0Animation(void);
 u8 GetSelectedItemIndex(u8 pocketId);
 bool8 UseRegisteredKeyItemOnField(void);
 void GoToBagMenu(u8 bagMenuType, u8 pocketId, void ( *postExitMenuMainCallback2)());
@@ -91,7 +89,7 @@ void CB2_ChooseBerry(void);
 void ItemMenu_StartFadeToExitCallback(u8 taskId);
 void BagCreateYesNoMenuBottomRight(u8, const struct YesNoFuncTable*);
 void Task_ReturnToBagFromContextMenu(u8 taskId);
-void UpdatePocketItemList(u8 pocketId);
+void Pocket_CalculateNItemsAndMaxShowed(u8 pocketId);
 void DisplayItemMessageInBag(u8 taskId, u8 fontId, const u8 *str, void ( *callback)(u8 taskId));
 void DisplayItemMessageOnField(u8 taskId, const u8 *src, TaskFunc callback);
 
