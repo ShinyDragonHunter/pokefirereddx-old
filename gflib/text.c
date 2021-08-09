@@ -1702,7 +1702,7 @@ void DecompressGlyphFont5(u16 glyphId, bool32 isJapanese)
             DecompressGlyphTile(glyphs + 0x18, gCurGlyph.gfxBufferBottom + 8);
         }
 
-        gCurGlyph.height = 15;
+        gCurGlyph.height = 14;
     }
 }
 
