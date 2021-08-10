@@ -4177,18 +4177,6 @@ extern const u32 gUsePokeblockGraph_Tilemap[];
 extern const u16 gUsePokeblockGraph_Pal[];
 extern const u16 gUsePokeblockNatureWin_Pal[];
 
-// Berry blender
-extern const u32 gBerryBlenderPlayerArrow_Gfx[];
-extern const u32 gBerryBlenderStart_Gfx[];
-extern const u32 gBerryBlenderScoreSymbols_Gfx[];
-extern const u32 gBerryBlenderParticles_Gfx[];
-extern const u32 gBerryBlenderCountdownNumbers_Gfx[];
-extern const u16 gBerryBlenderMiscPalette[];
-extern const u16 gBerryBlenderArrowPalette[];
-extern const u32 gBerryBlenderCenter_Gfx[];
-extern const u32 gBerryBlenderOuter_Gfx[];
-extern const u32 gBerryBlenderOuter_Tilemap[];
-
 // Slot Machine
 extern const u32 gSlotMachineDigitalDisplay_Gfx[];
 extern const u8 gSlotMachineReelTimeNumber0[];

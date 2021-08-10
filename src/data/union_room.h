@@ -1,6 +1,5 @@
 // const rom data
 
-ALIGNED(4) static const u8 sText_EmptyString[] = _("");
 ALIGNED(4) const u8 sText_Colon[] = _(":");
 ALIGNED(4) const u8 sText_ID[] = _("{ID}");
 ALIGNED(4) const u8 sText_PleaseStartOver[] = _("Please start over from the beginning.");
@@ -475,7 +474,6 @@ ALIGNED(4) const u8 sText_ChooseTrainerToShareWonderNews[] = _("Please choose th
 ALIGNED(4) const u8 sText_ChooseLeaderPokemonJump[] = _("Jump with mini POKéMON!\nPlease choose the LEADER.");
 ALIGNED(4) const u8 sText_ChooseLeaderBerryCrush[] = _("BERRY CRUSH!\nPlease choose the LEADER.");
 ALIGNED(4) const u8 sText_ChooseLeaderBerryPicking[] = _("DODRIO BERRY-PICKING!\nPlease choose the LEADER.");
-ALIGNED(4) const u8 sText_ChooseLeaderBerryBlender[] = _("BERRY BLENDER!\nPlease choose the LEADER.");
 ALIGNED(4) const u8 sText_ChooseLeaderRecordCorner[] = _("RECORD CORNER!\nPlease choose the LEADER.");
 ALIGNED(4) const u8 sText_ChooseLeaderBattleTowerLv50[] = _("BATTLE TOWER LEVEL 50!\nPlease choose the LEADER.");
 ALIGNED(4) const u8 sText_ChooseLeaderBattleTowerOpenLv[] = _("BATTLE TOWER OPEN LEVEL!\nPlease choose the LEADER.");
@@ -495,7 +493,7 @@ static const u8 *const sChooseTrainerTexts[NUM_LINK_GROUP_TYPES] =
     [LINK_GROUP_UNION_ROOM_INIT]   = NULL,
     [LINK_GROUP_UNK_11]            = NULL,
     [LINK_GROUP_RECORD_CORNER]     = sText_ChooseLeaderRecordCorner,
-    [LINK_GROUP_BERRY_BLENDER]     = sText_ChooseLeaderBerryBlender,
+    [LINK_GROUP_BERRY_BLENDER]     = NULL,
     [LINK_GROUP_UNK_14]            = NULL,
     [LINK_GROUP_BATTLE_TOWER]      = sText_ChooseLeaderBattleTowerLv50,
     [LINK_GROUP_BATTLE_TOWER_OPEN] = sText_ChooseLeaderBattleTowerOpenLv
@@ -534,7 +532,6 @@ ALIGNED(4) const u8 sText_PokemonJump[] = _("POKéMON JUMP");
 ALIGNED(4) const u8 sText_BerryCrush[] = _("BERRY CRUSH");
 ALIGNED(4) const u8 sText_BerryPicking[] = _("BERRY-PICKING");
 ALIGNED(4) const u8 sText_Search[] = _("SEARCH");
-ALIGNED(4) const u8 sText_BerryBlender[] = _("BERRY BLENDER");
 ALIGNED(4) const u8 sText_RecordCorner[] = _("RECORD CORNER");
 ALIGNED(4) const u8 sText_BattleTowerLv50[] = _("BATTLE TOWER LV. 50");
 ALIGNED(4) const u8 sText_BattleTowerOpenLv[] = _("BATTLE TOWER OPEN LEVEL");
@@ -565,7 +562,7 @@ const u8 *const sGladToMeetYouTexts[GENDER_COUNT] = {
 ALIGNED(4) const u8 sText_FinishedCheckingPlayersTrainerCard[] = _("Finished checking {DYNAMIC 1}'s\nTRAINER CARD.{PAUSE 60}");
 
 static const u8 *const sLinkGroupActivityNameTexts[] = {
-    [ACTIVITY_NONE]              = sText_EmptyString,
+    [ACTIVITY_NONE]              = gText_ExpandedPlaceholder_Empty,
     [ACTIVITY_BATTLE_SINGLE]     = sText_SingleBattle,
     [ACTIVITY_BATTLE_DOUBLE]     = sText_DoubleBattle,
     [ACTIVITY_BATTLE_MULTI]      = sText_MultiBattle,
@@ -578,14 +575,14 @@ static const u8 *const sLinkGroupActivityNameTexts[] = {
     [ACTIVITY_BERRY_CRUSH]       = sText_BerryCrush,
     [ACTIVITY_BERRY_PICK]        = sText_BerryPicking,
     [ACTIVITY_SEARCH]            = sText_Search,
-    [ACTIVITY_SPIN_TRADE]        = sText_EmptyString,
+    [ACTIVITY_SPIN_TRADE]        = gText_ExpandedPlaceholder_Empty,
     [ACTIVITY_BATTLE_TOWER_OPEN] = sText_BattleTowerOpenLv,
     [ACTIVITY_RECORD_CORNER]     = sText_RecordCorner,
-    [ACTIVITY_BERRY_BLENDER]     = sText_BerryBlender,
-    [ACTIVITY_ACCEPT]            = sText_EmptyString,
-    [ACTIVITY_DECLINE]           = sText_EmptyString,
-    [ACTIVITY_NPCTALK]           = sText_EmptyString,
-    [ACTIVITY_PLYRTALK]          = sText_EmptyString,
+    [ACTIVITY_BERRY_BLENDER]     = gText_ExpandedPlaceholder_Empty,
+    [ACTIVITY_ACCEPT]            = gText_ExpandedPlaceholder_Empty,
+    [ACTIVITY_DECLINE]           = gText_ExpandedPlaceholder_Empty,
+    [ACTIVITY_NPCTALK]           = gText_ExpandedPlaceholder_Empty,
+    [ACTIVITY_PLYRTALK]          = gText_ExpandedPlaceholder_Empty,
     [ACTIVITY_WONDER_CARD2]      = sText_WonderCards,
     [ACTIVITY_WONDER_NEWS2]      = sText_WonderNews,
     [ACTIVITY_BATTLE_TOWER]      = sText_BattleTowerLv50
@@ -606,7 +603,6 @@ static const struct WindowTemplate sWindowTemplate_BButtonCancel = {
 #define LINK_GROUP_CAPACITY(min, max)(((min) << 12) | ((max) << 8))
 #define GROUP_MAX(capacity)(capacity & 0x0F)
 #define GROUP_MIN(capacity)(capacity >> 4)
-#define GROUP_MIN2(capacity)(capacity & 0xF0) // Unnecessary to have both, but needed to match
 
 static const u32 sLinkGroupToActivityAndCapacity[NUM_LINK_GROUP_TYPES] = {
     [LINK_GROUP_SINGLE_BATTLE]     = ACTIVITY_BATTLE_SINGLE     | LINK_GROUP_CAPACITY(0, 2),
@@ -622,7 +618,7 @@ static const u32 sLinkGroupToActivityAndCapacity[NUM_LINK_GROUP_TYPES] = {
     [LINK_GROUP_UNION_ROOM_INIT]   = ACTIVITY_NONE              | LINK_GROUP_CAPACITY(0, 0),
     [LINK_GROUP_UNK_11]            = ACTIVITY_NONE              | LINK_GROUP_CAPACITY(0, 0),
     [LINK_GROUP_RECORD_CORNER]     = ACTIVITY_RECORD_CORNER     | LINK_GROUP_CAPACITY(2, 4),
-    [LINK_GROUP_BERRY_BLENDER]     = ACTIVITY_BERRY_BLENDER     | LINK_GROUP_CAPACITY(2, 4),
+    [LINK_GROUP_BERRY_BLENDER]     = ACTIVITY_NONE              | LINK_GROUP_CAPACITY(0, 0),
     [LINK_GROUP_UNK_14]            = ACTIVITY_NONE              | LINK_GROUP_CAPACITY(0, 0),
     [LINK_GROUP_BATTLE_TOWER]      = ACTIVITY_BATTLE_TOWER      | LINK_GROUP_CAPACITY(0, 2),
     [LINK_GROUP_BATTLE_TOWER_OPEN] = ACTIVITY_BATTLE_TOWER_OPEN | LINK_GROUP_CAPACITY(0, 2)
@@ -659,11 +655,11 @@ static const struct WindowTemplate sWindowTemplate_NumPlayerMode = {
 };
 
 static const struct ListMenuItem sPossibleGroupMembersListMenuItems[] = {
-    { sText_EmptyString, 0 },
-    { sText_EmptyString, 1 },
-    { sText_EmptyString, 2 },
-    { sText_EmptyString, 3 },
-    { sText_EmptyString, 4 }
+    { gText_ExpandedPlaceholder_Empty, 0 },
+    { gText_ExpandedPlaceholder_Empty, 1 },
+    { gText_ExpandedPlaceholder_Empty, 2 },
+    { gText_ExpandedPlaceholder_Empty, 3 },
+    { gText_ExpandedPlaceholder_Empty, 4 }
 };
 
 static const struct ListMenuTemplate sListMenuTemplate_PossibleGroupMembers = {
@@ -708,22 +704,22 @@ const struct WindowTemplate gUnknown_082F017C = {
 };
 
 const struct ListMenuItem gUnknown_082F0184[] = {
-    { sText_EmptyString,  0 },
-    { sText_EmptyString,  1 },
-    { sText_EmptyString,  2 },
-    { sText_EmptyString,  3 },
-    { sText_EmptyString,  4 },
-    { sText_EmptyString,  5 },
-    { sText_EmptyString,  6 },
-    { sText_EmptyString,  7 },
-    { sText_EmptyString,  8 },
-    { sText_EmptyString,  9 },
-    { sText_EmptyString, 10 },
-    { sText_EmptyString, 11 },
-    { sText_EmptyString, 12 },
-    { sText_EmptyString, 13 },
-    { sText_EmptyString, 14 },
-    { sText_EmptyString, 15 }
+    { gText_ExpandedPlaceholder_Empty,  0 },
+    { gText_ExpandedPlaceholder_Empty,  1 },
+    { gText_ExpandedPlaceholder_Empty,  2 },
+    { gText_ExpandedPlaceholder_Empty,  3 },
+    { gText_ExpandedPlaceholder_Empty,  4 },
+    { gText_ExpandedPlaceholder_Empty,  5 },
+    { gText_ExpandedPlaceholder_Empty,  6 },
+    { gText_ExpandedPlaceholder_Empty,  7 },
+    { gText_ExpandedPlaceholder_Empty,  8 },
+    { gText_ExpandedPlaceholder_Empty,  9 },
+    { gText_ExpandedPlaceholder_Empty, 10 },
+    { gText_ExpandedPlaceholder_Empty, 11 },
+    { gText_ExpandedPlaceholder_Empty, 12 },
+    { gText_ExpandedPlaceholder_Empty, 13 },
+    { gText_ExpandedPlaceholder_Empty, 14 },
+    { gText_ExpandedPlaceholder_Empty, 15 }
 };
 
 static const struct ListMenuTemplate sListMenuTemplate_UnionRoomGroups = {
@@ -895,15 +891,15 @@ const struct WindowTemplate gUnknown_082F034C = {
 };
 
 static const struct ListMenuItem sTradeBoardListMenuItems[] = {
-    { sText_EmptyString, -3 },
-    { sText_EmptyString,  0 },
-    { sText_EmptyString,  1 },
-    { sText_EmptyString,  2 },
-    { sText_EmptyString,  3 },
-    { sText_EmptyString,  4 },
-    { sText_EmptyString,  5 },
-    { sText_EmptyString,  6 },
-    { sText_EmptyString,  7 },
+    { gText_ExpandedPlaceholder_Empty, -3 },
+    { gText_ExpandedPlaceholder_Empty,  0 },
+    { gText_ExpandedPlaceholder_Empty,  1 },
+    { gText_ExpandedPlaceholder_Empty,  2 },
+    { gText_ExpandedPlaceholder_Empty,  3 },
+    { gText_ExpandedPlaceholder_Empty,  4 },
+    { gText_ExpandedPlaceholder_Empty,  5 },
+    { gText_ExpandedPlaceholder_Empty,  6 },
+    { gText_ExpandedPlaceholder_Empty,  7 },
     { sText_Exit2,  8 }
 };
 
@@ -936,47 +932,6 @@ const struct WindowTemplate UnrefWindowTemplate_082F03B4 = {
     .height = 0x0c,
     .paletteNum = 0x0d,
     .baseBlock = 0x0039
-};
-
-static const struct ListMenuItem sEmptyListMenuItems[] = {
-    { sText_EmptyString,  0 },
-    { sText_EmptyString,  1 },
-    { sText_EmptyString,  2 },
-    { sText_EmptyString,  3 },
-    { sText_EmptyString,  4 },
-    { sText_EmptyString,  5 },
-    { sText_EmptyString,  6 },
-    { sText_EmptyString,  7 },
-    { sText_EmptyString,  8 },
-    { sText_EmptyString,  9 },
-    { sText_EmptyString, 10 },
-    { sText_EmptyString, 11 },
-    { sText_EmptyString, 12 },
-    { sText_EmptyString, 13 },
-    { sText_EmptyString, 14 },
-    { sText_EmptyString, 15 }
-};
-
-// Unused
-static const struct ListMenuTemplate sUnknownListMenuTemplate = {
-    .items = sEmptyListMenuItems,
-    .moveCursorFunc = ListMenuDefaultCursorMoveFunc,
-    .itemPrintFunc = nullsub_14,
-    .totalItems = ARRAY_COUNT(sEmptyListMenuItems),
-    .maxShowed = 4,
-    .windowId = 0,
-    .header_X = 0,
-    .item_X = 8,
-    .cursor_X = 0,
-    .upText_Y = 1,
-    .cursorPal = 2,
-    .fillValue = 1,
-    .cursorShadowPal = 3,
-    .lettersSpacing = 0,
-    .itemVerticalPadding = 0,
-    .scrollMultiple = 1,
-    .fontId = 1,
-    .cursorKind = 0
 };
 
 const struct WirelessGnameUnamePair sWirelessGnameUnamePair_Dummy = {0};
@@ -1017,7 +972,6 @@ ALIGNED(4) const u8 sAcceptedActivityIds_Unk11[]           = {
     0xff
 };
 ALIGNED(4) const u8 sAcceptedActivityIds_RecordCorner[]    = {ACTIVITY_RECORD_CORNER, 0xff};
-ALIGNED(4) const u8 sAcceptedActivityIds_BerryBlender[]    = {ACTIVITY_BERRY_BLENDER, 0xff};
 ALIGNED(4) const u8 sAcceptedActivityIds_BattleTower[]     = {ACTIVITY_BATTLE_TOWER, 0xff};
 ALIGNED(4) const u8 sAcceptedActivityIds_BattleTowerOpen[] = {ACTIVITY_BATTLE_TOWER_OPEN, 0xff};
 
@@ -1035,7 +989,7 @@ const u8 *const sAcceptedActivityIds[NUM_LINK_GROUP_TYPES] = {
     [LINK_GROUP_UNION_ROOM_INIT]   = sAcceptedActivityIds_Init,
     [LINK_GROUP_UNK_11]            = sAcceptedActivityIds_Unk11,
     [LINK_GROUP_RECORD_CORNER]     = sAcceptedActivityIds_RecordCorner,
-    [LINK_GROUP_BERRY_BLENDER]     = sAcceptedActivityIds_BerryBlender,
+    [LINK_GROUP_BERRY_BLENDER]     = NULL,
     [LINK_GROUP_UNK_14]            = NULL,
     [LINK_GROUP_BATTLE_TOWER]      = sAcceptedActivityIds_BattleTower,
     [LINK_GROUP_BATTLE_TOWER_OPEN] = sAcceptedActivityIds_BattleTowerOpen
@@ -1056,7 +1010,7 @@ static const u8 sLinkGroupToURoomActivity[NUM_LINK_GROUP_TYPES + 2] =
     [LINK_GROUP_UNION_ROOM_INIT]   = ACTIVITY_NONE, 
     [LINK_GROUP_UNK_11]            = ACTIVITY_NONE, 
     [LINK_GROUP_RECORD_CORNER]     = ACTIVITY_RECORD_CORNER, 
-    [LINK_GROUP_BERRY_BLENDER]     = ACTIVITY_BERRY_BLENDER, 
+    [LINK_GROUP_BERRY_BLENDER]     = ACTIVITY_NONE, 
     [LINK_GROUP_UNK_14]            = ACTIVITY_NONE, 
     [LINK_GROUP_BATTLE_TOWER]      = ACTIVITY_BATTLE_TOWER, 
     [LINK_GROUP_BATTLE_TOWER_OPEN] = ACTIVITY_BATTLE_TOWER_OPEN

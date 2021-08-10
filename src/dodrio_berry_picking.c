@@ -4549,7 +4549,7 @@ static void ShowResults(void)
         FillWindowPixelBuffer(sGfx->windowIds[1], PIXEL_FILL(1));
         strWidth = GetStringWidth(2, gText_AnnouncingRankings, -1);
         x = (224 - strWidth) / 2;
-        AddTextPrinterParameterized(sGfx->windowIds[0], 1, gText_AnnouncingRankings, x, 1, -1, NULL);
+        AddTextPrinterParameterized(sGfx->windowIds[0], 2, gText_AnnouncingRankings, x, 1, -1, NULL);
         sGfx->state++;
         break;
     case 6:
@@ -4595,12 +4595,12 @@ static void ShowResults(void)
         FillWindowPixelBuffer(sGfx->windowIds[1], PIXEL_FILL(1));
         strWidth = GetStringWidth(2, gText_AnnouncingPrizes, -1);
         x = (224 - strWidth) / 2;
-        AddTextPrinterParameterized(sGfx->windowIds[0], 1, gText_AnnouncingPrizes, x, 1, -1, NULL);
+        AddTextPrinterParameterized(sGfx->windowIds[0], 2, gText_AnnouncingPrizes, x, 1, -1, NULL);
         DynamicPlaceholderTextUtil_Reset();
         CopyItemName(GetPrizeItemId(), gStringVar1);
         DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, gStringVar1);
         DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, gText_FirstPlacePrize);
-        AddTextPrinterParameterized(sGfx->windowIds[1], 1, gStringVar4, 0, 1, -1, NULL);
+        AddTextPrinterParameterized(sGfx->windowIds[1], 2, gStringVar4, 0, 1, -1, NULL);
         prizeState = TryGivePrize();
         if (prizeState != PRIZE_RECEIVED && prizeState != NO_PRIZE)
         {
@@ -4611,7 +4611,7 @@ static void ShowResults(void)
                 DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, gText_CantHoldAnyMore);
             else if (prizeState == PRIZE_FILLED_BAG)
                 DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, gText_FilledStorageSpace);
-            AddTextPrinterParameterized(sGfx->windowIds[1], 1, gStringVar4, 0, 41, -1, NULL);
+            AddTextPrinterParameterized(sGfx->windowIds[1], 2, gStringVar4, 0, 41, -1, NULL);
         }
         CopyWindowToVram(sGfx->windowIds[0], 2);
         CopyWindowToVram(sGfx->windowIds[1], 2);

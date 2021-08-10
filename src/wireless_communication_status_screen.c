@@ -121,7 +121,7 @@ static const u8 sActivityGroupInfo[][3] = {
     {ACTIVITY_BERRY_PICK,                    GROUPTYPE_TOTAL,  0},
     {ACTIVITY_SEARCH,                        GROUPTYPE_NONE,   0},
     {ACTIVITY_SPIN_TRADE,                    GROUPTYPE_TRADE,  0},
-    {ACTIVITY_BERRY_BLENDER,                 GROUPTYPE_TOTAL,  0},
+    {ACTIVITY_BERRY_BLENDER,                 GROUPTYPE_NONE,   0},
     {ACTIVITY_RECORD_CORNER,                 GROUPTYPE_TOTAL,  0},
     {ACTIVITY_NONE | IN_UNION_ROOM,          GROUPTYPE_UNION,  1},
     {ACTIVITY_BATTLE_SINGLE | IN_UNION_ROOM, GROUPTYPE_UNION,  2},

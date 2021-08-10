@@ -142,7 +142,6 @@ static void InterviewBefore_RecentHappenings(void);
 static void InterviewBefore_PkmnFanClubOpinions(void);
 static void InterviewBefore_Dummy(void);
 static void InterviewBefore_BravoTrainerBTProfile(void);
-static void InterviewBefore_3CheersForPokeblocks(void);
 static void InterviewBefore_FanClubSpecial(void);
 static void ChangeBoxPokemonNickname_CB(void);
 static void DoTVShowPokemonFanClubLetter(void);
@@ -156,7 +155,6 @@ static void DoTVShowPokemonTodaySuccessfulCapture(void);
 static void DoTVShowTodaysSmartShopper(void);
 static void DoTVShowTheNameRaterShow(void);
 static void DoTVShowPokemonBattleUpdate(void);
-static void DoTVShow3CheersForPokeblocks(void);
 static void DoTVShowPokemonTodayFailedCapture(void);
 static void DoTVShowPokemonAngler(void);
 static void DoTVShowTheWorldOfMasters(void);
@@ -235,7 +233,6 @@ static const u16 sNumberOneVarsAndThresholds[][2] = {
     {VAR_DAILY_SLOTS, 100},
     {VAR_DAILY_ROULETTE,  50},
     {VAR_DAILY_WILDS, 100},
-    {VAR_DAILY_BLENDER,  20},
     {VAR_DAILY_PLANTED_BERRIES,  20},
     {VAR_DAILY_PICKED_BERRIES,  20},
     {VAR_DAILY_BP,  30}
@@ -332,15 +329,6 @@ static const u8 *const sTVTodaysSmartShopperTextGroup[] = {
     [SMARTSHOPPER_STATE_IS_VIP]         = SmartShopper_Text_IsVIP,
     [SMARTSHOPPER_STATE_CLERK_MAX]      = SmartShopper_Text_ClerkMax,
     [SMARTSHOPPER_STATE_OUTRO_MAX]      = SmartShopper_Text_OutroMax
-};
-
-static const u8 *const sTV3CheersForPokeblocksTextGroup[] = {
-    gTV3CheersForPokeblocksText00,
-    gTV3CheersForPokeblocksText01,
-    gTV3CheersForPokeblocksText02,
-    gTV3CheersForPokeblocksText03,
-    gTV3CheersForPokeblocksText04,
-    gTV3CheersForPokeblocksText05
 };
 
 static const u8 *const sTVBravoTrainerBattleTowerTextGroup[] = {
@@ -1076,38 +1064,6 @@ void PutBattleUpdateOnTheAir(u8 opponentLinkPlayerId, u16 move, u16 speciesPlaye
                 show->battleUpdate.linkOpponentLanguage = gLinkPlayers[opponentLinkPlayerId].language;
         }
     }
-}
-
-bool8 Put3CheersForPokeblocksOnTheAir(const u8 *partnersName, u8 flavor, u8 color, u8 sheen, u8 language)
-{
-    TVShow *show;
-    u8 name[32];
-
-    sCurTVShowSlot = FindFirstEmptyNormalTVShowSlot(gSaveBlock1Ptr->tvShows);
-    if (sCurTVShowSlot == -1)
-        return FALSE;
-
-    TryReplaceOldTVShowOfKind(TVSHOW_3_CHEERS_FOR_POKEBLOCKS);
-    if (gSpecialVar_Result == TRUE)
-        return FALSE; // Old show is still active
-
-    show = &gSaveBlock1Ptr->tvShows[sCurTVShowSlot];
-    show->threeCheers.kind = TVSHOW_3_CHEERS_FOR_POKEBLOCKS;
-    show->threeCheers.active = TRUE;
-    StringCopy(show->threeCheers.playerName, gSaveBlock2Ptr->playerName);
-    StringCopy(name, partnersName);
-    StripExtCtrlCodes(name);
-    StringCopy(show->threeCheers.worstBlenderName, name);
-    show->threeCheers.flavor = flavor;
-    show->threeCheers.color = color;
-    show->threeCheers.sheen = sheen;
-    StorePlayerIdInNormalShow(show);
-    show->threeCheers.language = gGameLanguage;
-    if (show->threeCheers.language == LANGUAGE_JAPANESE || language == LANGUAGE_JAPANESE)
-        show->threeCheers.worstBlenderLanguage = LANGUAGE_JAPANESE;
-    else
-        show->threeCheers.worstBlenderLanguage = language;
-    return TRUE;
 }
 
 void PutFanClubSpecialOnTheAir(void)
@@ -1962,11 +1918,6 @@ void IncrementDailyWildBattles(void)
     VarSet(VAR_DAILY_WILDS, VarGet(VAR_DAILY_WILDS) + 1);
 }
 
-void IncrementDailyBerryBlender(void)
-{
-    VarSet(VAR_DAILY_BLENDER, VarGet(VAR_DAILY_BLENDER) + 1);
-}
-
 void IncrementDailyPlantedBerries(void)
 {
     VarSet(VAR_DAILY_PLANTED_BERRIES, VarGet(VAR_DAILY_PLANTED_BERRIES) + 1);
@@ -2307,9 +2258,6 @@ void InterviewBefore(void)
     case TVSHOW_BRAVO_TRAINER_BATTLE_TOWER_PROFILE:
         InterviewBefore_BravoTrainerBTProfile();
         break;
-    case TVSHOW_3_CHEERS_FOR_POKEBLOCKS:
-        InterviewBefore_3CheersForPokeblocks();
-        break;
     case TVSHOW_FAN_CLUB_SPECIAL:
         InterviewBefore_FanClubSpecial();
         break;
@@ -2355,11 +2303,6 @@ static void InterviewBefore_Dummy(void)
 static void InterviewBefore_NameRater(void)
 {
     TryReplaceOldTVShowOfKind(TVSHOW_NAME_RATER_SHOW);
-}
-
-static void InterviewBefore_3CheersForPokeblocks(void)
-{
-    TryReplaceOldTVShowOfKind(TVSHOW_3_CHEERS_FOR_POKEBLOCKS);
 }
 
 static void InterviewBefore_BravoTrainerBTProfile(void)
@@ -3109,7 +3052,6 @@ static void DeactivateShowsWithUnseenSpecies(void)
         // Shows with no species
         case TVSHOW_OFF_AIR:
         case TVSHOW_RECENT_HAPPENINGS:
-        case TVSHOW_3_CHEERS_FOR_POKEBLOCKS:
         case TVSHOW_TODAYS_RIVAL_TRAINER:
         case TVSHOW_TREND_WATCHER:
         case TVSHOW_TREASURE_INVESTIGATORS:
@@ -3368,10 +3310,6 @@ static void TranslateJapaneseEmeraldShows(TVShow *shows)
             curShow->bravoTrainerTower.language = GetStringLanguage(curShow->bravoTrainerTower.trainerName);
             curShow->bravoTrainerTower.pokemonNameLanguage = GetStringLanguage(curShow->bravoTrainerTower.pokemonName);
             break;
-        case TVSHOW_3_CHEERS_FOR_POKEBLOCKS:
-            curShow->threeCheers.language = GetStringLanguage(curShow->threeCheers.playerName);
-            curShow->threeCheers.worstBlenderLanguage = GetStringLanguage(curShow->threeCheers.worstBlenderName);
-            break;
         case TVSHOW_BATTLE_UPDATE:
             curShow->battleUpdate.language = GetStringLanguage(curShow->battleUpdate.playerName);
             curShow->battleUpdate.linkOpponentLanguage = GetStringLanguage(curShow->battleUpdate.linkOpponentName);
@@ -3483,9 +3421,6 @@ void DoTVShow(void)
             break;
         case TVSHOW_BATTLE_UPDATE:
             DoTVShowPokemonBattleUpdate();
-            break;
-        case TVSHOW_3_CHEERS_FOR_POKEBLOCKS:
-            DoTVShow3CheersForPokeblocks();
             break;
         case TVSHOW_POKEMON_TODAY_FAILED:
             DoTVShowPokemonTodayFailedCapture();
@@ -4139,102 +4074,6 @@ static void DoTVShowPokemonBattleUpdate(void)
         break;
     }
     ShowFieldMessage(sTVPokemonBattleUpdateTextGroup[state]);
-}
-
-static void DoTVShow3CheersForPokeblocks(void)
-{
-    TVShow *show;
-    u8 state;
-
-    show = &gSaveBlock1Ptr->tvShows[gSpecialVar_0x8004];
-    gSpecialVar_Result = FALSE;
-    state = sTVShowState;
-    switch (state)
-    {
-    case 0:
-        TVShowConvertInternationalString(gStringVar1, show->threeCheers.playerName, show->threeCheers.language);
-        if (show->threeCheers.sheen > 20)
-            sTVShowState = 1;
-        else
-            sTVShowState = 3;
-        break;
-    case 1:
-        switch (show->threeCheers.flavor)
-        {
-        case 0:
-            StringCopy(gStringVar1, gText_Spicy2);
-            break;
-        case 1:
-            StringCopy(gStringVar1, gText_Dry2);
-            break;
-        case 2:
-            StringCopy(gStringVar1, gText_Sweet2);
-            break;
-        case 3:
-            StringCopy(gStringVar1, gText_Bitter2);
-            break;
-        case 4:
-            StringCopy(gStringVar1, gText_Sour2);
-            break;
-        }
-        if (show->threeCheers.sheen > 24)
-        {
-            StringCopy(gStringVar2, gText_Excellent);
-        } else if (show->threeCheers.sheen > 22)
-        {
-            StringCopy(gStringVar2, gText_VeryGood);
-        }
-        else
-        {
-            StringCopy(gStringVar2, gText_Good);
-        }
-        TVShowConvertInternationalString(gStringVar3, show->threeCheers.playerName, show->threeCheers.language);
-        sTVShowState = 2;
-        break;
-    case 2:
-        TVShowConvertInternationalString(gStringVar1, show->threeCheers.worstBlenderName, show->threeCheers.worstBlenderLanguage);
-        sTVShowState = 5;
-        break;
-    case 3:
-        switch (show->threeCheers.flavor)
-        {
-        case 0:
-            StringCopy(gStringVar1, gText_Spicy2);
-            break;
-        case 1:
-            StringCopy(gStringVar1, gText_Dry2);
-            break;
-        case 2:
-            StringCopy(gStringVar1, gText_Sweet2);
-            break;
-        case 3:
-            StringCopy(gStringVar1, gText_Bitter2);
-            break;
-        case 4:
-            StringCopy(gStringVar1, gText_Sour2);
-            break;
-        }
-
-        if (show->threeCheers.sheen > 16)
-            StringCopy(gStringVar2, gText_SoSo);
-        else if (show->threeCheers.sheen > 13)
-            StringCopy(gStringVar2, gText_Bad);
-        else
-            StringCopy(gStringVar2, gText_TheWorst);
-
-        TVShowConvertInternationalString(gStringVar3, show->threeCheers.playerName, show->threeCheers.language);
-        sTVShowState = 4;
-        break;
-    case 4:
-        TVShowConvertInternationalString(gStringVar1, show->threeCheers.worstBlenderName, show->threeCheers.worstBlenderLanguage);
-        TVShowConvertInternationalString(gStringVar2, show->threeCheers.playerName, show->threeCheers.language);
-        sTVShowState = 5;
-        break;
-    case 5:
-        TVShowDone();
-        break;
-    }
-    ShowFieldMessage(sTV3CheersForPokeblocksTextGroup[state]);
 }
 
 void DoTVShowInSearchOfTrainers(void)

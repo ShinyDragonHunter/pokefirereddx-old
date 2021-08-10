@@ -38,7 +38,6 @@ gReservedSpritePaletteCount:
 	.include "battle_main.o"
 	.include "random.o"
 	.include "load_save.o"
-	.include "berry_blender.o"
 	.include "overworld.o"
 	.include "fieldmap.o"
 	.include "field_camera.o"

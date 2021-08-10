@@ -24,7 +24,6 @@
 #define TVSHOW_DUMMY                                4
 #define TVSHOW_NAME_RATER_SHOW                      5
 #define TVSHOW_BRAVO_TRAINER_BATTLE_TOWER_PROFILE   6
-#define TVSHOW_3_CHEERS_FOR_POKEBLOCKS              7
 #define TVSHOW_BATTLE_UPDATE                        8
 #define TVSHOW_FAN_CLUB_SPECIAL                     9
 //

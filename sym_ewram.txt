@@ -31,7 +31,6 @@
 	.include "src/daycare.o"
 	.include "src/load_save.o"
 	.include "src/trade.o"
-	.include "src/berry_blender.o"
 	.include "src/new_game.o"
 	.include "src/overworld.o"
 	.include "src/fieldmap.o"

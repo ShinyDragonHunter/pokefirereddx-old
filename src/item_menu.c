@@ -213,7 +213,7 @@ static const struct MenuAction sItemMenuActions[] =
     [ITEMMENUACTION_CHECK] =        {gMenuText_Check, Task_ItemMenuAction_Use},
     [ITEMMENUACTION_WALK] =         {gMenuText_Walk, Task_ItemMenuAction_Use},
     [ITEMMENUACTION_DESELECT] =     {gMenuText_Deselect, Task_ItemMenuAction_ToggleSelect},
-    [ITEMMENUACTION_VIEW_TAG] =    {gMenuText_CheckTag, Task_ItemMenuAction_ViewTag},
+    [ITEMMENUACTION_VIEW_TAG] =     {gMenuText_CheckTag, Task_ItemMenuAction_ViewTag},
     [ITEMMENUACTION_CONFIRM] =      {gMenuText_Confirm, ItemMenu_StartFadeToExitCallback},
     [ITEMMENUACTION_SHOW] =         {gText_ExpandedPlaceholder_Empty, NULL},
     [ITEMMENUACTION_DUMMY] =        {gText_ExpandedPlaceholder_Empty, NULL}
@@ -290,7 +290,7 @@ static const u8 sContextMenuItems_Cancel[] =
     ITEMMENUACTION_CANCEL
 };
 
-static const u8 sContextMenuItems_BerryBlenderCrush[] =
+static const u8 sContextMenuItems_BerryCrush[] =
 {
     ITEMMENUACTION_CONFIRM,
     ITEMMENUACTION_VIEW_TAG,
@@ -310,7 +310,7 @@ static const TaskFunc sItemContextTaskFuncs[] =
     [ITEMMENULOCATION_PARTY] =                  Task_ItemContext_FieldGive,
     [ITEMMENULOCATION_SHOP] =                   Task_ItemContext_Sell,
     [ITEMMENULOCATION_BERRY_TREE] =             ItemMenu_StartFadeToExitCallback,
-    [ITEMMENULOCATION_BERRY_BLENDER_CRUSH] =    Task_ItemContext_FieldOrBattle,
+    [ITEMMENULOCATION_BERRY_CRUSH] =            Task_ItemContext_FieldOrBattle,
     [ITEMMENULOCATION_ITEMPC] =                 Task_ItemContext_Deposit,
     [ITEMMENULOCATION_WALLY] =                  NULL,
     [ITEMMENULOCATION_PCBOX] =                  Task_ItemContext_PcBoxGive
@@ -385,7 +385,7 @@ void GoToBagMenu(u8 location, u8 pocket, void ( *postExitMenuMainCallback2)())
         gBagMenu->pocketScrollArrowsTask = 0xFF;
         gBagMenu->pocketSwitchArrowsTask = 0xFF;
         if (gBagPositionStruct.location == ITEMMENULOCATION_BERRY_TREE
-         || gBagPositionStruct.location == ITEMMENULOCATION_BERRY_BLENDER_CRUSH)
+         || gBagPositionStruct.location == ITEMMENULOCATION_BERRY_CRUSH)
             gBagMenu->pocketSwitchDisabled = TRUE;
         else
             gBagMenu->pocketSwitchDisabled = FALSE;
@@ -1129,7 +1129,7 @@ static void Task_BagMenu_HandleInput(u8 taskId)
     switch (listPosition)
     {
     case LIST_CANCEL:
-        if (gBagPositionStruct.location == ITEMMENULOCATION_BERRY_BLENDER_CRUSH)
+        if (gBagPositionStruct.location == ITEMMENULOCATION_BERRY_CRUSH)
         {
             PlaySE(SE_FAILURE);
             break;
@@ -1423,9 +1423,9 @@ static void OpenContextMenu(u8 taskId)
                 gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_Cancel);
             }
             break;
-        case ITEMMENULOCATION_BERRY_BLENDER_CRUSH:
-            gBagMenu->contextMenuItemsPtr = sContextMenuItems_BerryBlenderCrush;
-            gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_BerryBlenderCrush);
+        case ITEMMENULOCATION_BERRY_CRUSH:
+            gBagMenu->contextMenuItemsPtr = sContextMenuItems_BerryCrush;
+            gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_BerryCrush);
             break;
         case ITEMMENULOCATION_APPRENTICE:
             if (!ItemId_GetImportance(gSpecialVar_ItemId) && gSpecialVar_ItemId != ITEM_ENIGMA_BERRY)
@@ -1812,7 +1812,7 @@ void CB2_ChooseBerry(void)
 // Choosing berry for Berry Crush
 void ChooseBerryForMachine(void (*exitCallback)(void))
 {
-    GoToBagMenu(ITEMMENULOCATION_BERRY_BLENDER_CRUSH, BERRIES_POCKET, exitCallback);
+    GoToBagMenu(ITEMMENULOCATION_BERRY_CRUSH, BERRIES_POCKET, exitCallback);
 }
 
 void CB2_GoToSellMenu(void)

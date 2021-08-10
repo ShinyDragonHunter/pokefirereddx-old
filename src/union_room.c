@@ -311,7 +311,6 @@ static void StringExpandPlaceholders_AwaitingCommFromAnother(u8 *dst, u8 caseId)
     case ACTIVITY_BATTLE_TOWER:
     case ACTIVITY_BATTLE_TOWER_OPEN:
     case ACTIVITY_RECORD_CORNER:
-    case ACTIVITY_BERRY_BLENDER:
     case ACTIVITY_WONDER_CARD2:
     case ACTIVITY_WONDER_NEWS2:
         StringExpandPlaceholders(dst, sText_AwaitingCommunication);
@@ -327,7 +326,6 @@ static bool32 IsActivityWithVariableGroupSize(u32 caseId)
     case ACTIVITY_BERRY_CRUSH:
     case ACTIVITY_BERRY_PICK:
     case ACTIVITY_RECORD_CORNER:
-    case ACTIVITY_BERRY_BLENDER:
         return TRUE;
     default:
         return FALSE;
@@ -437,7 +435,7 @@ static void Task_TryBecomeLinkLeader(u8 taskId)
         {
             if (data->playerCount == 1)
                 data->state = LL_STATE_SHUTDOWN_AND_FAIL;
-            else if (GROUP_MIN2(sPlayerActivityGroupSize) != 0)
+            else if (GROUP_MIN(sPlayerActivityGroupSize) != 0)
                 data->state = LL_STATE_CANCEL_WITH_MSG;
             else
                 data->state = LL_STATE_CANCEL_PROMPT;
@@ -517,7 +515,7 @@ static void Task_TryBecomeLinkLeader(u8 taskId)
                 data->playerCount++;
                 if (data->playerCount == GROUP_MAX(sPlayerActivityGroupSize))
                 {
-                    if (GROUP_MIN2(sPlayerActivityGroupSize) != 0 || data->playerCount == 4)
+                    if (GROUP_MIN(sPlayerActivityGroupSize) != 0 || data->playerCount == 4)
                     {
                         data->state = LL_STATE_MEMBERS_OK_PROMPT;
                     }
@@ -573,7 +571,7 @@ static void Task_TryBecomeLinkLeader(u8 taskId)
             break;
         case 1: // NO
         case -1:
-            if (GROUP_MIN2(sPlayerActivityGroupSize) != 0)
+            if (GROUP_MIN(sPlayerActivityGroupSize) != 0)
                 data->state = LL_STATE_CANCEL_WITH_MSG;
             else
                 data->state = LL_STATE_CANCEL_PROMPT;
@@ -592,7 +590,7 @@ static void Task_TryBecomeLinkLeader(u8 taskId)
             break;
         case 1: // NO
         case -1:
-            if (GROUP_MIN2(sPlayerActivityGroupSize) != 0)
+            if (GROUP_MIN(sPlayerActivityGroupSize) != 0)
                 data->state = LL_STATE_MEMBERS_OK_PROMPT;
             else if (data->playerCount == GROUP_MAX(sPlayerActivityGroupSize))
                 data->state = LL_STATE_MEMBERS_OK_PROMPT;
@@ -707,7 +705,6 @@ static void Leader_GetAcceptNewMemberPrompt(u8 *dst, u8 caseId)
     case ACTIVITY_BERRY_CRUSH:
     case ACTIVITY_BERRY_PICK:
     case ACTIVITY_RECORD_CORNER:
-    case ACTIVITY_BERRY_BLENDER:
         StringExpandPlaceholders(dst, sText_PlayerContactedYouAddToMembers);
         break;
     }
@@ -746,7 +743,6 @@ static void GetYouAskedToJoinGroupPleaseWaitMessage(u8 *dst, u8 caseId)
     case ACTIVITY_BERRY_CRUSH:
     case ACTIVITY_BERRY_PICK:
     case ACTIVITY_RECORD_CORNER:
-    case ACTIVITY_BERRY_BLENDER:
         StringExpandPlaceholders(dst, sText_PlayerHasBeenAskedToRegisterYouPleaseWait);
         break;
     }
@@ -770,7 +766,6 @@ static void GetGroupLeaderSentAnOKMessage(u8 *dst, u8 caseId)
     case ACTIVITY_BERRY_CRUSH:
     case ACTIVITY_BERRY_PICK:
     case ACTIVITY_RECORD_CORNER:
-    case ACTIVITY_BERRY_BLENDER:
         StringExpandPlaceholders(dst, sText_PlayerOKdRegistration);
         break;
     }
@@ -1036,7 +1031,6 @@ static void Task_TryJoinLinkGroup(u8 taskId)
             case ACTIVITY_BATTLE_TOWER:
             case ACTIVITY_BATTLE_TOWER_OPEN:
             case ACTIVITY_RECORD_CORNER:
-            case ACTIVITY_BERRY_BLENDER:
             case ACTIVITY_WONDER_CARD2:
             case ACTIVITY_WONDER_NEWS2:
                 data->state = LG_STATE_READY_START_ACTIVITY;
@@ -1689,9 +1683,6 @@ static void Task_RunScriptAndFadeToActivity(u8 taskId)
             RecordMixTrainerNames();
             ResetBlockReceivedFlags();
             break;
-        case ACTIVITY_BERRY_BLENDER:
-            RecordMixTrainerNames();
-            DestroyTask(taskId);
         default:
             EnableBothScriptContexts();
             data[0] = 1;

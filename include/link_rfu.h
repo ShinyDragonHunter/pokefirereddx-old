@@ -6,7 +6,6 @@
 #include "AgbRfu_LinkManager.h"
 
 #define RFUCMD_SEND_PACKET         0x2F00
-#define RFUCMD_BLENDER_SEND_KEYS   0x4400
 #define RFUCMD_READY_CLOSE_LINK    0x5F00
 #define RFUCMD_READY_EXIT_STANDBY  0x6600
 #define RFUCMD_0x7700              0x7700
@@ -199,7 +198,6 @@ void Rfu_SetBlockReceivedFlag(u8 who);
 void Rfu_ResetBlockReceivedFlag(u8 who);
 bool32 IsSendingKeysToRfu(void);
 void StartSendingKeysToRfu(void);
-void Rfu_SetBerryBlenderLinkCallback(void);
 u8 Rfu_GetBlockReceivedStatus(void);
 bool32 Rfu_InitBlockSend(const u8 *src, size_t size);
 void ClearLinkRfuCallback(void);

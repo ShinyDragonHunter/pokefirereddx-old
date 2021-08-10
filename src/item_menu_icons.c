@@ -719,20 +719,6 @@ void FreeBerryTagSpritePalette(void)
     FreeSpritePaletteByTag(TAG_BERRY_PIC_PAL);
 }
 
-// For throwing berries into the Berry Blender
-u8 CreateSpinningBerrySprite(u8 berryId, u8 x, u8 y, bool8 startAffine)
-{
-    u8 spriteId;
-
-    FreeSpritePaletteByTag(TAG_BERRY_PIC_PAL);
-    LoadBerryGfx(berryId);
-    spriteId = CreateSprite(&gBerryPicRotatingSpriteTemplate, x, y, 0);
-    if (startAffine)
-        StartSpriteAffineAnim(&gSprites[spriteId], 1);
-
-    return spriteId;
-}
-
 u8 CreateBerryFlavorCircleSprite(s16 x)
 {
     return CreateSprite(&gBerryCheckCircleSpriteTemplate, x, 116, 0);

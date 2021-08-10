@@ -480,45 +480,6 @@ gTVMassOutbreakText00::
 	.string "{STR_VAR_2} in the wild.\p"
 	.string "That's the news on POKéMON NEWS.$"
 
-gTV3CheersForPokeblocksText00::
-	.string "MC: We hope you're in good cheer,\n"
-	.string "“3 CHEERS FOR {POKEBLOCK}S” is here!\p"
-	.string "Today, we examine the {POKEBLOCK} blended\n"
-	.string "by {STR_VAR_1} and associates.\p"
-	.string "Without any delay, let me feed it\n"
-	.string "to my gourmet POKéMON GULPIN.\p"
-	.string "… … … … … …\n"
-	.string "… … … … … …$"
-
-gTV3CheersForPokeblocksText01::
-	.string "GULPIN: Gubi! Gubii!\p"
-	.string "MC: And the verdict is very {STR_VAR_1}!\n"
-	.string "GULPIN says it tastes “{STR_VAR_2}!”\p"
-	.string "Thank you so much, {STR_VAR_3}!$"
-
-gTV3CheersForPokeblocksText02::
-	.string "{STR_VAR_1}'s blending performance\n"
-	.string "left something to be desired.\p"
-	.string "If this TRAINER could blend better,\n"
-	.string "the {POKEBLOCK} would be much tastier.$"
-
-gTV3CheersForPokeblocksText03::
-	.string "GULPIN: Gubi! Gubii!\p"
-	.string "MC: Hmm… It's too {STR_VAR_1}.\n"
-	.string "GULPIN says it tastes “{STR_VAR_2}!”\p"
-	.string "It looks like {STR_VAR_3}'s errors\n"
-	.string "hurt the blending quality…$"
-
-gTV3CheersForPokeblocksText04::
-	.string "It's too bad that {STR_VAR_1}'s\n"
-	.string "leading effort went to waste.\p"
-	.string "Let's hope {STR_VAR_2} can turn in\n"
-	.string "a better showing next time!$"
-
-gTV3CheersForPokeblocksText05::
-	.string "Tune in next time!\n"
-	.string "Our slogan is “3 CHEERS FOR {POKEBLOCK}S!”$"
-
 LilycoveCity_PokemonTrainerFanClub_Text_WhatsYourOpinionOfTrainer::
 	.string "Hi, there!\p"
 	.string "I'm a big fan of {STR_VAR_1}.\n"

@@ -130,9 +130,7 @@ static void BikeTransition_Moving(u8 direction)
             PlayerOnBikeCollide(direction);
     }
     else
-    {
         PlayerRideWaterCurrent(direction);
-    }
 }
 
 static u8 GetBikeCollision(u8 direction)
@@ -163,8 +161,7 @@ bool32 IsRunningDisallowed(u8 metatile)
 {
     if (IsRunningDisallowedByMetatile(metatile))
         return TRUE;
-    else
-        return FALSE;
+    return FALSE;
 }
 
 static bool8 IsRunningDisallowedByMetatile(u8 tile)
@@ -202,10 +199,7 @@ static bool8 WillPlayerCollideWithCollision(u8 newTileCollision, u8 direction)
             return FALSE;
     }
     else if (newTileCollision == COLLISION_ISOLATED_HORIZONTAL_RAIL || newTileCollision == COLLISION_HORIZONTAL_RAIL)
-    {
         return FALSE;
-    }
-
     return TRUE;
 }
 
@@ -254,6 +248,5 @@ s16 GetPlayerSpeed(void)
         return SPEED_FASTER;
     else if (gPlayerAvatar.flags & (PLAYER_AVATAR_FLAG_SURFING | PLAYER_AVATAR_FLAG_DASH))
         return SPEED_FAST;
-    else
-        return SPEED_NORMAL;
+    return SPEED_NORMAL;
 }

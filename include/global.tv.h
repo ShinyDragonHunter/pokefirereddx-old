@@ -129,10 +129,10 @@ typedef union // size = 0x24
         /*0x02*/ u8 sheen;
         /*0x03*/ u8 flavor:3;
         /*0x03*/ u8 color:2;
-        /*0x04*/ u8 worstBlenderName[PLAYER_NAME_LENGTH + 1];
+        /*0x04*/ u8 filler_4[PLAYER_NAME_LENGTH + 1];
         /*0x0C*/ u8 playerName[PLAYER_NAME_LENGTH + 1];
         /*0x14*/ u8 language;
-        /*0x15*/ u8 worstBlenderLanguage;
+        /*0x15*/ u8 filler_15;
     } threeCheers;
 
     // TVSHOW_BATTLE_UPDATE

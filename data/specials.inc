@@ -26,7 +26,6 @@ gSpecials::
 	def_special ColosseumPlayerSpotTriggered
 	def_special PlayerEnteredTradeSeat
 	def_special CableClubSaveGame
-	def_special TryBerryBlenderLinkup
 	def_special SavePlayerParty
 	def_special LoadPlayerParty
 	def_special ChooseHalfPartyForBattle
@@ -105,7 +104,6 @@ gSpecials::
 	def_special ChangePokemonNickname
 	def_special ChoosePartyMon
 	def_special GetFirstFreePokeblockSlot
-	def_special DoBerryBlending
 	def_special PlayRoulette
 	def_special IsFanClubMemberFanOfPlayer
 	def_special GetNumFansOfPlayerInTrainerFanClub
@@ -203,7 +201,6 @@ gSpecials::
 	def_special GetWeekCount
 	def_special RetrieveLotteryNumber
 	def_special PickLotteryCornerTicket
-	def_special ShowBerryBlenderRecordWindow
 	def_special ResetTrickHouseNuggetFlag
 	def_special SetTrickHouseNuggetFlag
 	def_special ScriptMenu_CreatePCMultichoice
@@ -222,7 +219,6 @@ gSpecials::
 	def_special RemoveCameraObject
 	def_special GetPokeblockNameByMonNature
 	def_special CheckRelicanthWailord
-	def_special ShouldDoBrailleRegirockEffectOld
 	def_special DoOrbEffect
 	def_special FadeOutOrbEffect
 	def_special WaitWeather

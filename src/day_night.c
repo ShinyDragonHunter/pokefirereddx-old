@@ -80,8 +80,7 @@ u8 GetTimeOfDay(s8 hours)
         return TIME_MORNING;
     else if (hours < HOUR_NIGHT)
         return TIME_DAY;
-    else
-        return TIME_NIGHT;
+    return TIME_NIGHT;
 }
 
 const u8 *GetDayOfWeekString(u8 dayOfWeek)
@@ -119,6 +118,7 @@ static void LoadPaletteOverrides(void)
     for (i = 0; i < ARRAY_COUNT(gPaletteOverrides); i++)
     {
         const struct PaletteOverride *curr = gPaletteOverrides[i];
+
         if (curr)
         {
             while (curr->slot != PALOVER_LIST_TERM && curr->palette)
@@ -157,7 +157,6 @@ void TintPaletteForDayNight(u16 offset, u16 size)
     if (ShouldTintOverworld())
     {
         RtcCalcLocalTimeFast();
-
         if (gMapHeader.mapLayoutId == LAYOUT_PETALBURG_WOODS
          || gMapHeader.mapLayoutId == LAYOUT_FARAWAY_ISLAND_INTERIOR)
         {
@@ -171,7 +170,6 @@ void TintPaletteForDayNight(u16 offset, u16 size)
         }
 
         period = (hour * TINT_PERIODS_PER_HOUR) + hourPhase;
-
         if (!sDNSystemControl.initialized || sDNSystemControl.currTintPeriod != period)
         {
             sDNSystemControl.initialized = TRUE;
@@ -179,13 +177,10 @@ void TintPaletteForDayNight(u16 offset, u16 size)
             nextHour = (hour + 1) % 24;
             LerpColors(sDNSystemControl.currRGBTint, sTimeOfDayTints[hour], sTimeOfDayTints[nextHour], hourPhase);
         }
-
         TintPalette_CustomToneWithCopy(gPlttBufferPreDN + offset, gPlttBufferUnfaded + offset, size / 2, sDNSystemControl.currRGBTint[0], sDNSystemControl.currRGBTint[1], sDNSystemControl.currRGBTint[2], FALSE);
     }
     else
-    {
         CpuCopy16(gPlttBufferPreDN + offset, gPlttBufferUnfaded + offset, size);
-    }
     LoadPaletteOverrides();
 }
 
@@ -229,7 +224,6 @@ void ProcessImmediateTimeEvents(void)
             }
 
             period = (hour * TINT_PERIODS_PER_HOUR) + hourPhase;
-
             if (!sDNSystemControl.initialized
              || sDNSystemControl.prevTintPeriod != period)
             {
@@ -237,7 +231,6 @@ void ProcessImmediateTimeEvents(void)
                 sDNSystemControl.prevTintPeriod = sDNSystemControl.currTintPeriod = period;
                 nextHour = (hour + 1) % 24;
                 LerpColors(sDNSystemControl.currRGBTint, sTimeOfDayTints[hour], sTimeOfDayTints[nextHour], hourPhase);
-
                 TintPalette_CustomToneWithCopy(gPlttBufferPreDN, gPlttBufferUnfaded, BG_PLTT_SIZE / 2, sDNSystemControl.currRGBTint[0], sDNSystemControl.currRGBTint[1], sDNSystemControl.currRGBTint[2], TRUE);
                 sDNSystemControl.retintPhase = 1;
             }
