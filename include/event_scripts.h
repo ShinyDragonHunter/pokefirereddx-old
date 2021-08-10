@@ -245,7 +245,9 @@ extern const u8 EventScript_UseRockSmash[];
 
 //player pc
 extern const u8 LittlerootTown_BrendansHouse_2F_EventScript_TurnOffPlayerPC[];
-extern const u8 LittlerootTown_MaysHouse_2F_EventScript_TurnOffPlayerPC[];;
+extern const u8 LittlerootTown_MaysHouse_2F_EventScript_TurnOffPlayerPC[];
+
+extern const u8 EventScript_SelectWithoutRegisteredItem[];
 
 extern const u8 LittlerootTown_BrendansHouse_2F_EventScript_PC[];
 extern const u8 LittlerootTown_MaysHouse_2F_EventScript_PC[];

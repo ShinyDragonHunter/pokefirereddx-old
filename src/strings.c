@@ -186,7 +186,7 @@ const u8 gText_Var1CantBeHeldHere[] = _("The {STR_VAR_1} can't be held\nhere.");
 const u8 gText_DepositHowManyVar1[] = _("Deposit how many\n{STR_VAR_1}(s)?");
 const u8 gText_DepositedVar2Var1s[] = _("Deposited {STR_VAR_2}\n{STR_VAR_1}(s).");
 const u8 gText_NoRoomForItems[] = _("There's no room to\nstore items.");
-const u8 gText_CantStoreImportantItems[] = _("Important items\ncan't be stored in\nthe PC!");
+const u8 gText_CantStoreImportantItems[] = _("Important items can't be stored\nin the PC!");
 const u8 gText_TooImportantToToss[] = _("That's much too\nimportant to toss\nout!");
 const u8 gText_TossHowManyVar1s[] = _("Toss out how many\n{STR_VAR_1}(s)?");
 const u8 gText_ThrewAwayVar2Var1s[] = _("Threw away {STR_VAR_2}\n{STR_VAR_1}(s).");
@@ -244,15 +244,6 @@ const u8 gText_PokeBallsPocket[] = _("POKé BALLS");
 const u8 gText_TMHMPocket[] = _("TMs & HMs");
 const u8 gText_BerriesPocket[] = _("BERRIES");
 const u8 gText_KeyItemsPocket[] = _("KEY ITEMS");
-
-const u8 *const gPocketNamesStringsTable[] =
-{
-    gText_ItemsPocket,
-    gText_PokeBallsPocket,
-    gText_TMHMPocket,
-    gText_BerriesPocket,
-    gText_KeyItemsPocket
-};
 
 const u8 gText_NumberVar1Clear7Var2[] = _("{NO}{FONT 4}{STR_VAR_1} {RESET_FONT}{STR_VAR_2}");
 const u8 gText_ClearTo11Var1Clear5Var2[] = _("{CLEAR_TO 0x11}{NO}{FONT 4}{STR_VAR_1} {RESET_FONT}{STR_VAR_2}");

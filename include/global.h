@@ -572,20 +572,6 @@ struct MailStruct
     /*0x22*/ u8 form;
 };
 
-struct RecordMixing_UnknownStructSub
-{
-    u32 unk0;
-    u8 data[0x34];
-    //u8 data[0x38];
-};
-
-struct RecordMixing_UnknownStruct
-{
-    struct RecordMixing_UnknownStructSub data[2];
-    u32 unk70;
-    u16 unk74[0x2];
-};
-
 #define LINK_B_RECORDS_COUNT 5
 
 struct LinkBattleRecord

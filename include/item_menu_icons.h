@@ -15,7 +15,6 @@ bool8 AllocItemIconTemporaryBuffers(void);
 void CopyItemIconPicTo4x4Buffer(const void *src, void *dest);
 u8 AddItemIconSprite(u16 tilesTag, u16 paletteTag, u16 itemId);
 u8 AddCustomItemIconSprite(const struct SpriteTemplate *customSpriteTemplate, u16 tilesTag, u16 paletteTag, u16 itemId);
-void HideBagItemIconSprite(u8 id);
 const void *GetItemIconPicOrPalette(u16 itemId, u8 which);
 void AddBagVisualSprite(u8 bagPocketId);
 void SetBagVisualPocketId(u8 bagPocketId);

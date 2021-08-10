@@ -505,7 +505,6 @@ static void BuyMenuPrintItemDescriptionAndShowItemIcon(s32 item, bool8 onInit, s
     }
     else
     {
-        HideBagItemIconSprite(sShopData->iconSlot ^ 1);
         RemoveBagItemIconSprite(sShopData->iconSlot);
         if (item != LIST_CANCEL)
             AddBagItemIconSprite(item, sShopData->iconSlot);

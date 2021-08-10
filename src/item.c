@@ -443,6 +443,16 @@ void ClearItemSlots(struct ItemSlot *itemSlots, u8 itemCount)
     }
 }
 
+void ClearBag(void)
+{
+    u32 i;
+
+    for (i = 0; i < POCKETS_COUNT; i++)
+    {
+        ClearItemSlots(gBagPockets[i].itemSlots, gBagPockets[i].capacity);
+    }
+}
+
 static s32 FindFreePCItemSlot(void)
 {
     s32 i;
@@ -565,34 +575,10 @@ void CompactPCItems(void)
     }
 }
 
-u16 BagGetItemIdByPocketPosition(u8 pocketId, u16 pocketPos)
-{
-    return gBagPockets[pocketId - 1].itemSlots[pocketPos].itemId;
-}
-
-u16 BagGetQuantityByPocketPosition(u8 pocketId, u16 pocketPos)
-{
-    return GetBagItemQuantity(&gBagPockets[pocketId - 1].itemSlots[pocketPos].quantity);
-}
-
 static void SwapItemSlots(struct ItemSlot *a, struct ItemSlot *b)
 {
     struct ItemSlot temp;
     SWAP(*a, *b, temp);
-}
-
-void CompactItemsInBagPocket(struct BagPocket *bagPocket)
-{
-    u32 i, j;
-
-    for (i = 0; i < bagPocket->capacity - 1; i++)
-    {
-        for (j = i + 1; j < bagPocket->capacity; j++)
-        {
-            if (!GetBagItemQuantity(&bagPocket->itemSlots[i].quantity))
-                SwapItemSlots(&bagPocket->itemSlots[i], &bagPocket->itemSlots[j]);
-        }
-    }
 }
 
 void SortBerriesOrTMHMs(struct BagPocket *bagPocket)
@@ -621,14 +607,28 @@ void SortBerriesOrTMHMs(struct BagPocket *bagPocket)
     }
 }
 
-void ClearBag(void)
+void CompactItemsInBagPocket(struct BagPocket *bagPocket)
 {
-    u32 i;
+    u32 i, j;
 
-    for (i = 0; i < POCKETS_COUNT; i++)
+    for (i = 0; i < bagPocket->capacity - 1; i++)
     {
-        ClearItemSlots(gBagPockets[i].itemSlots, gBagPockets[i].capacity);
+        for (j = i + 1; j < bagPocket->capacity; j++)
+        {
+            if (!GetBagItemQuantity(&bagPocket->itemSlots[i].quantity))
+                SwapItemSlots(&bagPocket->itemSlots[i], &bagPocket->itemSlots[j]);
+        }
     }
+}
+
+u16 BagGetItemIdByPocketPosition(u8 pocketId, u16 pocketPos)
+{
+    return gBagPockets[pocketId - 1].itemSlots[pocketPos].itemId;
+}
+
+u16 BagGetQuantityByPocketPosition(u8 pocketId, u16 pocketPos)
+{
+    return GetBagItemQuantity(&gBagPockets[pocketId - 1].itemSlots[pocketPos].quantity);
 }
 
 u16 CountTotalItemQuantityInBag(u16 itemId)
@@ -830,8 +830,7 @@ static u16 SanitizeItemId(u16 itemId)
 {
     if (itemId >= ITEMS_COUNT)
         return ITEM_NONE;
-    else
-        return itemId;
+    return itemId;
 }
 
 const u8 *ItemId_GetName(u16 itemId)

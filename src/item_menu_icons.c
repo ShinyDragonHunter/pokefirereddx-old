@@ -94,10 +94,10 @@ static const union AffineAnimCmd sSpriteAffineAnim_BagNormal[] =
 
 static const union AffineAnimCmd sSpriteAffineAnim_BagShake[] =
 {
-    AFFINEANIMCMD_FRAME(0, 0, 254, 2),
-    AFFINEANIMCMD_FRAME(0, 0, 2, 4),
-    AFFINEANIMCMD_FRAME(0, 0, 254, 4),
-    AFFINEANIMCMD_FRAME(0, 0, 2, 2),
+    AFFINEANIMCMD_FRAME(0, 0, -2, 2),
+    AFFINEANIMCMD_FRAME(0, 0,  2, 4),
+    AFFINEANIMCMD_FRAME(0, 0, -2, 4),
+    AFFINEANIMCMD_FRAME(0, 0,  2, 2),
     AFFINEANIMCMD_END
 };
 
@@ -230,180 +230,6 @@ const struct SpriteTemplate gItemIconSpriteTemplate =
 };
 
 #include "data/item_icon_table.h"
-
-static const struct OamData sBerryPicOamData =
-{
-    .y = 0,
-    .affineMode = ST_OAM_AFFINE_OFF,
-    .objMode = ST_OAM_OBJ_NORMAL,
-    .mosaic = 0,
-    .bpp = ST_OAM_4BPP,
-    .shape = SPRITE_SHAPE(64x64),
-    .x = 0,
-    .matrixNum = 0,
-    .size = SPRITE_SIZE(64x64),
-    .tileNum = 0,
-    .priority = 1,
-    .paletteNum = 7,
-    .affineParam = 0
-};
-
-static const struct OamData sBerryPicRotatingOamData =
-{
-    .y = 0,
-    .affineMode = ST_OAM_AFFINE_DOUBLE,
-    .objMode = ST_OAM_OBJ_NORMAL,
-    .mosaic = 0,
-    .bpp = ST_OAM_4BPP,
-    .shape = SPRITE_SHAPE(64x64),
-    .x = 0,
-    .matrixNum = 0,
-    .size = SPRITE_SIZE(64x64),
-    .tileNum = 0,
-    .priority = 0,
-    .paletteNum = 7,
-    .affineParam = 0
-};
-
-static const struct SpriteFrameImage sBerryPicSpriteImageTable[] =
-{
-    {&gDecompressionBuffer[0], 0x800},
-};
-
-static const struct SpriteTemplate gBerryPicSpriteTemplate =
-{
-    .tileTag = TAG_BERRY_PIC_TILE,
-    .paletteTag = TAG_BERRY_PIC_PAL,
-    .oam = &sBerryPicOamData,
-    .anims = sSpriteAnimTable_ItemIcon,
-    .images = sBerryPicSpriteImageTable,
-    .affineAnims = gDummySpriteAffineAnimTable,
-    .callback = SpriteCallbackDummy,
-};
-
-static const union AffineAnimCmd sSpriteAffineAnim_BerryPicRotation1[] =
-{
-    AFFINEANIMCMD_FRAME(-1, -1, 253, 96),
-    AFFINEANIMCMD_FRAME(0, 0, 0, 16),
-    AFFINEANIMCMD_FRAME(-2, -2, 255, 64),
-    AFFINEANIMCMD_FRAME(-8, 0, 0, 16),
-    AFFINEANIMCMD_FRAME(0, -8, 0, 16),
-    AFFINEANIMCMD_FRAME(256, 256, 0, 0),
-    AFFINEANIMCMD_JUMP(0)
-};
-
-static const union AffineAnimCmd sSpriteAffineAnim_BerryPicRotation2[] =
-{
-    AFFINEANIMCMD_FRAME(-1, -1, 3, 96),
-    AFFINEANIMCMD_FRAME(0, 0, 0, 16),
-    AFFINEANIMCMD_FRAME(-2, -2, 1, 64),
-    AFFINEANIMCMD_FRAME(-8, 0, 0, 16),
-    AFFINEANIMCMD_FRAME(0, -8, 0, 16),
-    AFFINEANIMCMD_FRAME(256, 256, 0, 0),
-    AFFINEANIMCMD_JUMP(0)
-};
-
-static const union AffineAnimCmd *const sBerryPicRotatingAnimCmds[] =
-{
-    sSpriteAffineAnim_BerryPicRotation1,
-    sSpriteAffineAnim_BerryPicRotation2
-};
-
-static const struct SpriteTemplate gBerryPicRotatingSpriteTemplate =
-{
-    .tileTag = TAG_BERRY_PIC_TILE,
-    .paletteTag = TAG_BERRY_PIC_PAL,
-    .oam = &sBerryPicRotatingOamData,
-    .anims = sSpriteAnimTable_ItemIcon,
-    .images = sBerryPicSpriteImageTable,
-    .affineAnims = sBerryPicRotatingAnimCmds,
-    .callback = SpriteCallbackDummy,
-};
-
-static const struct CompressedTilesPal sBerryPicTable[] =
-{
-    [ITEM_TO_BERRY(ITEM_CHERI_BERRY)  - 1] = {gBerryPic_Cheri,  gBerryPalette_Cheri},
-    [ITEM_TO_BERRY(ITEM_CHESTO_BERRY) - 1] = {gBerryPic_Chesto, gBerryPalette_Chesto},
-    [ITEM_TO_BERRY(ITEM_PECHA_BERRY)  - 1] = {gBerryPic_Pecha,  gBerryPalette_Pecha},
-    [ITEM_TO_BERRY(ITEM_RAWST_BERRY)  - 1] = {gBerryPic_Rawst,  gBerryPalette_Rawst},
-    [ITEM_TO_BERRY(ITEM_ASPEAR_BERRY) - 1] = {gBerryPic_Aspear, gBerryPalette_Aspear},
-    [ITEM_TO_BERRY(ITEM_LEPPA_BERRY)  - 1] = {gBerryPic_Leppa,  gBerryPalette_Leppa},
-    [ITEM_TO_BERRY(ITEM_ORAN_BERRY)   - 1] = {gBerryPic_Oran,   gBerryPalette_Oran},
-    [ITEM_TO_BERRY(ITEM_PERSIM_BERRY) - 1] = {gBerryPic_Persim, gBerryPalette_Persim},
-    [ITEM_TO_BERRY(ITEM_LUM_BERRY)    - 1] = {gBerryPic_Lum,    gBerryPalette_Lum},
-    [ITEM_TO_BERRY(ITEM_SITRUS_BERRY) - 1] = {gBerryPic_Sitrus, gBerryPalette_Sitrus},
-    [ITEM_TO_BERRY(ITEM_FIGY_BERRY)   - 1] = {gBerryPic_Figy,   gBerryPalette_Figy},
-    [ITEM_TO_BERRY(ITEM_WIKI_BERRY)   - 1] = {gBerryPic_Wiki,   gBerryPalette_Wiki},
-    [ITEM_TO_BERRY(ITEM_MAGO_BERRY)   - 1] = {gBerryPic_Mago,   gBerryPalette_Mago},
-    [ITEM_TO_BERRY(ITEM_AGUAV_BERRY)  - 1] = {gBerryPic_Aguav,  gBerryPalette_Aguav},
-    [ITEM_TO_BERRY(ITEM_IAPAPA_BERRY) - 1] = {gBerryPic_Iapapa, gBerryPalette_Iapapa},
-    [ITEM_TO_BERRY(ITEM_RAZZ_BERRY)   - 1] = {gBerryPic_Razz,   gBerryPalette_Razz},
-    [ITEM_TO_BERRY(ITEM_BLUK_BERRY)   - 1] = {gBerryPic_Bluk,   gBerryPalette_Bluk},
-    [ITEM_TO_BERRY(ITEM_NANAB_BERRY)  - 1] = {gBerryPic_Nanab,  gBerryPalette_Nanab},
-    [ITEM_TO_BERRY(ITEM_WEPEAR_BERRY) - 1] = {gBerryPic_Wepear, gBerryPalette_Wepear},
-    [ITEM_TO_BERRY(ITEM_PINAP_BERRY)  - 1] = {gBerryPic_Pinap,  gBerryPalette_Pinap},
-    [ITEM_TO_BERRY(ITEM_POMEG_BERRY)  - 1] = {gBerryPic_Pomeg,  gBerryPalette_Pomeg},
-    [ITEM_TO_BERRY(ITEM_KELPSY_BERRY) - 1] = {gBerryPic_Kelpsy, gBerryPalette_Kelpsy},
-    [ITEM_TO_BERRY(ITEM_QUALOT_BERRY) - 1] = {gBerryPic_Qualot, gBerryPalette_Qualot},
-    [ITEM_TO_BERRY(ITEM_HONDEW_BERRY) - 1] = {gBerryPic_Hondew, gBerryPalette_Hondew},
-    [ITEM_TO_BERRY(ITEM_GREPA_BERRY)  - 1] = {gBerryPic_Grepa,  gBerryPalette_Grepa},
-    [ITEM_TO_BERRY(ITEM_TAMATO_BERRY) - 1] = {gBerryPic_Tamato, gBerryPalette_Tamato},
-    [ITEM_TO_BERRY(ITEM_CORNN_BERRY)  - 1] = {gBerryPic_Cornn,  gBerryPalette_Cornn},
-    [ITEM_TO_BERRY(ITEM_MAGOST_BERRY) - 1] = {gBerryPic_Magost, gBerryPalette_Magost},
-    [ITEM_TO_BERRY(ITEM_RABUTA_BERRY) - 1] = {gBerryPic_Rabuta, gBerryPalette_Rabuta},
-    [ITEM_TO_BERRY(ITEM_NOMEL_BERRY)  - 1] = {gBerryPic_Nomel,  gBerryPalette_Nomel},
-    [ITEM_TO_BERRY(ITEM_SPELON_BERRY) - 1] = {gBerryPic_Spelon, gBerryPalette_Spelon},
-    [ITEM_TO_BERRY(ITEM_PAMTRE_BERRY) - 1] = {gBerryPic_Pamtre, gBerryPalette_Pamtre},
-    [ITEM_TO_BERRY(ITEM_WATMEL_BERRY) - 1] = {gBerryPic_Watmel, gBerryPalette_Watmel},
-    [ITEM_TO_BERRY(ITEM_DURIN_BERRY)  - 1] = {gBerryPic_Durin,  gBerryPalette_Durin},
-    [ITEM_TO_BERRY(ITEM_BELUE_BERRY)  - 1] = {gBerryPic_Belue,  gBerryPalette_Belue},
-    [ITEM_TO_BERRY(ITEM_LIECHI_BERRY) - 1] = {gBerryPic_Liechi, gBerryPalette_Liechi},
-    [ITEM_TO_BERRY(ITEM_GANLON_BERRY) - 1] = {gBerryPic_Ganlon, gBerryPalette_Ganlon},
-    [ITEM_TO_BERRY(ITEM_SALAC_BERRY)  - 1] = {gBerryPic_Salac,  gBerryPalette_Salac},
-    [ITEM_TO_BERRY(ITEM_PETAYA_BERRY) - 1] = {gBerryPic_Petaya, gBerryPalette_Petaya},
-    [ITEM_TO_BERRY(ITEM_APICOT_BERRY) - 1] = {gBerryPic_Apicot, gBerryPalette_Apicot},
-    [ITEM_TO_BERRY(ITEM_LANSAT_BERRY) - 1] = {gBerryPic_Lansat, gBerryPalette_Lansat},
-    [ITEM_TO_BERRY(ITEM_STARF_BERRY)  - 1] = {gBerryPic_Starf,  gBerryPalette_Starf},
-    [ITEM_TO_BERRY(ITEM_ENIGMA_BERRY) - 1] = {gBerryPic_Enigma, gBerryPalette_Enigma},
-};
-
-const struct CompressedSpriteSheet gBerryCheckCircleSpriteSheet =
-{
-    gBerryCheckCircle_Gfx, 0x800, TAG_BERRY_CHECK_CIRCLE_GFX
-};
-
-const struct CompressedSpritePalette gBerryCheckCirclePaletteTable =
-{
-    gBerryCheck_Pal, TAG_BERRY_CHECK_CIRCLE_GFX
-};
-
-static const struct OamData sBerryCheckCircleOamData =
-{
-    .y = 0,
-    .affineMode = ST_OAM_AFFINE_OFF,
-    .objMode = ST_OAM_OBJ_NORMAL,
-    .mosaic = 0,
-    .bpp = ST_OAM_4BPP,
-    .shape = SPRITE_SHAPE(64x64),
-    .x = 0,
-    .matrixNum = 0,
-    .size = SPRITE_SIZE(64x64),
-    .tileNum = 0,
-    .priority = 1,
-    .paletteNum = 0,
-    .affineParam = 0
-};
-
-static const struct SpriteTemplate gBerryCheckCircleSpriteTemplate =
-{
-    .tileTag = TAG_BERRY_CHECK_CIRCLE_GFX,
-    .paletteTag = TAG_BERRY_CHECK_CIRCLE_GFX,
-    .oam = &sBerryCheckCircleOamData,
-    .anims = sSpriteAnimTable_ItemIcon,
-    .images = NULL,
-    .affineAnims = gDummySpriteAffineAnimTable,
-    .callback = SpriteCallbackDummy,
-};
 
 // code
 void ResetItemMenuIconState(void)
@@ -654,19 +480,13 @@ void RemoveBagItemIconSprite(u8 id)
 {
     u8 *spriteId = &sItemMenuIconSpriteIds[10];
 
+    if (spriteId[id ^ 1] != SPRITE_NONE)
+        gSprites[spriteId[id ^ 1]].invisible = TRUE;
     if (spriteId[id] != SPRITE_NONE)
     {
         DestroySpriteAndFreeResources(&gSprites[spriteId[id]]);
         spriteId[id] = SPRITE_NONE;
     }
-}
-
-void HideBagItemIconSprite(u8 id)
-{
-    u8 *spriteId = &sItemMenuIconSpriteIds[10];
-
-    if (spriteId[id] != SPRITE_NONE)
-        gSprites[spriteId[id]].invisible = TRUE;
 }
 
 const void *GetItemIconPicOrPalette(u16 itemId, u8 which)
@@ -677,6 +497,180 @@ const void *GetItemIconPicOrPalette(u16 itemId, u8 which)
         itemId = ITEM_NONE;
     return gItemIconTable[itemId][which];
 }
+
+static const struct OamData sBerryPicOamData =
+{
+    .y = 0,
+    .affineMode = ST_OAM_AFFINE_OFF,
+    .objMode = ST_OAM_OBJ_NORMAL,
+    .mosaic = 0,
+    .bpp = ST_OAM_4BPP,
+    .shape = SPRITE_SHAPE(64x64),
+    .x = 0,
+    .matrixNum = 0,
+    .size = SPRITE_SIZE(64x64),
+    .tileNum = 0,
+    .priority = 1,
+    .paletteNum = 7,
+    .affineParam = 0
+};
+
+static const struct OamData sBerryPicRotatingOamData =
+{
+    .y = 0,
+    .affineMode = ST_OAM_AFFINE_DOUBLE,
+    .objMode = ST_OAM_OBJ_NORMAL,
+    .mosaic = 0,
+    .bpp = ST_OAM_4BPP,
+    .shape = SPRITE_SHAPE(64x64),
+    .x = 0,
+    .matrixNum = 0,
+    .size = SPRITE_SIZE(64x64),
+    .tileNum = 0,
+    .priority = 0,
+    .paletteNum = 7,
+    .affineParam = 0
+};
+
+static const struct SpriteFrameImage sBerryPicSpriteImageTable[] =
+{
+    {&gDecompressionBuffer[0], 0x800},
+};
+
+static const struct SpriteTemplate gBerryPicSpriteTemplate =
+{
+    .tileTag = TAG_BERRY_PIC_TILE,
+    .paletteTag = TAG_BERRY_PIC_PAL,
+    .oam = &sBerryPicOamData,
+    .anims = sSpriteAnimTable_ItemIcon,
+    .images = sBerryPicSpriteImageTable,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCallbackDummy,
+};
+
+static const union AffineAnimCmd sSpriteAffineAnim_BerryPicRotation1[] =
+{
+    AFFINEANIMCMD_FRAME(-1, -1, 253, 96),
+    AFFINEANIMCMD_FRAME(0, 0, 0, 16),
+    AFFINEANIMCMD_FRAME(-2, -2, 255, 64),
+    AFFINEANIMCMD_FRAME(-8, 0, 0, 16),
+    AFFINEANIMCMD_FRAME(0, -8, 0, 16),
+    AFFINEANIMCMD_FRAME(256, 256, 0, 0),
+    AFFINEANIMCMD_JUMP(0)
+};
+
+static const union AffineAnimCmd sSpriteAffineAnim_BerryPicRotation2[] =
+{
+    AFFINEANIMCMD_FRAME(-1, -1, 3, 96),
+    AFFINEANIMCMD_FRAME(0, 0, 0, 16),
+    AFFINEANIMCMD_FRAME(-2, -2, 1, 64),
+    AFFINEANIMCMD_FRAME(-8, 0, 0, 16),
+    AFFINEANIMCMD_FRAME(0, -8, 0, 16),
+    AFFINEANIMCMD_FRAME(256, 256, 0, 0),
+    AFFINEANIMCMD_JUMP(0)
+};
+
+static const union AffineAnimCmd *const sBerryPicRotatingAnimCmds[] =
+{
+    sSpriteAffineAnim_BerryPicRotation1,
+    sSpriteAffineAnim_BerryPicRotation2
+};
+
+static const struct SpriteTemplate gBerryPicRotatingSpriteTemplate =
+{
+    .tileTag = TAG_BERRY_PIC_TILE,
+    .paletteTag = TAG_BERRY_PIC_PAL,
+    .oam = &sBerryPicRotatingOamData,
+    .anims = sSpriteAnimTable_ItemIcon,
+    .images = sBerryPicSpriteImageTable,
+    .affineAnims = sBerryPicRotatingAnimCmds,
+    .callback = SpriteCallbackDummy,
+};
+
+static const struct CompressedTilesPal sBerryPicTable[] =
+{
+    [ITEM_TO_BERRY(ITEM_CHERI_BERRY)  - 1] = {gBerryPic_Cheri,  gBerryPalette_Cheri},
+    [ITEM_TO_BERRY(ITEM_CHESTO_BERRY) - 1] = {gBerryPic_Chesto, gBerryPalette_Chesto},
+    [ITEM_TO_BERRY(ITEM_PECHA_BERRY)  - 1] = {gBerryPic_Pecha,  gBerryPalette_Pecha},
+    [ITEM_TO_BERRY(ITEM_RAWST_BERRY)  - 1] = {gBerryPic_Rawst,  gBerryPalette_Rawst},
+    [ITEM_TO_BERRY(ITEM_ASPEAR_BERRY) - 1] = {gBerryPic_Aspear, gBerryPalette_Aspear},
+    [ITEM_TO_BERRY(ITEM_LEPPA_BERRY)  - 1] = {gBerryPic_Leppa,  gBerryPalette_Leppa},
+    [ITEM_TO_BERRY(ITEM_ORAN_BERRY)   - 1] = {gBerryPic_Oran,   gBerryPalette_Oran},
+    [ITEM_TO_BERRY(ITEM_PERSIM_BERRY) - 1] = {gBerryPic_Persim, gBerryPalette_Persim},
+    [ITEM_TO_BERRY(ITEM_LUM_BERRY)    - 1] = {gBerryPic_Lum,    gBerryPalette_Lum},
+    [ITEM_TO_BERRY(ITEM_SITRUS_BERRY) - 1] = {gBerryPic_Sitrus, gBerryPalette_Sitrus},
+    [ITEM_TO_BERRY(ITEM_FIGY_BERRY)   - 1] = {gBerryPic_Figy,   gBerryPalette_Figy},
+    [ITEM_TO_BERRY(ITEM_WIKI_BERRY)   - 1] = {gBerryPic_Wiki,   gBerryPalette_Wiki},
+    [ITEM_TO_BERRY(ITEM_MAGO_BERRY)   - 1] = {gBerryPic_Mago,   gBerryPalette_Mago},
+    [ITEM_TO_BERRY(ITEM_AGUAV_BERRY)  - 1] = {gBerryPic_Aguav,  gBerryPalette_Aguav},
+    [ITEM_TO_BERRY(ITEM_IAPAPA_BERRY) - 1] = {gBerryPic_Iapapa, gBerryPalette_Iapapa},
+    [ITEM_TO_BERRY(ITEM_RAZZ_BERRY)   - 1] = {gBerryPic_Razz,   gBerryPalette_Razz},
+    [ITEM_TO_BERRY(ITEM_BLUK_BERRY)   - 1] = {gBerryPic_Bluk,   gBerryPalette_Bluk},
+    [ITEM_TO_BERRY(ITEM_NANAB_BERRY)  - 1] = {gBerryPic_Nanab,  gBerryPalette_Nanab},
+    [ITEM_TO_BERRY(ITEM_WEPEAR_BERRY) - 1] = {gBerryPic_Wepear, gBerryPalette_Wepear},
+    [ITEM_TO_BERRY(ITEM_PINAP_BERRY)  - 1] = {gBerryPic_Pinap,  gBerryPalette_Pinap},
+    [ITEM_TO_BERRY(ITEM_POMEG_BERRY)  - 1] = {gBerryPic_Pomeg,  gBerryPalette_Pomeg},
+    [ITEM_TO_BERRY(ITEM_KELPSY_BERRY) - 1] = {gBerryPic_Kelpsy, gBerryPalette_Kelpsy},
+    [ITEM_TO_BERRY(ITEM_QUALOT_BERRY) - 1] = {gBerryPic_Qualot, gBerryPalette_Qualot},
+    [ITEM_TO_BERRY(ITEM_HONDEW_BERRY) - 1] = {gBerryPic_Hondew, gBerryPalette_Hondew},
+    [ITEM_TO_BERRY(ITEM_GREPA_BERRY)  - 1] = {gBerryPic_Grepa,  gBerryPalette_Grepa},
+    [ITEM_TO_BERRY(ITEM_TAMATO_BERRY) - 1] = {gBerryPic_Tamato, gBerryPalette_Tamato},
+    [ITEM_TO_BERRY(ITEM_CORNN_BERRY)  - 1] = {gBerryPic_Cornn,  gBerryPalette_Cornn},
+    [ITEM_TO_BERRY(ITEM_MAGOST_BERRY) - 1] = {gBerryPic_Magost, gBerryPalette_Magost},
+    [ITEM_TO_BERRY(ITEM_RABUTA_BERRY) - 1] = {gBerryPic_Rabuta, gBerryPalette_Rabuta},
+    [ITEM_TO_BERRY(ITEM_NOMEL_BERRY)  - 1] = {gBerryPic_Nomel,  gBerryPalette_Nomel},
+    [ITEM_TO_BERRY(ITEM_SPELON_BERRY) - 1] = {gBerryPic_Spelon, gBerryPalette_Spelon},
+    [ITEM_TO_BERRY(ITEM_PAMTRE_BERRY) - 1] = {gBerryPic_Pamtre, gBerryPalette_Pamtre},
+    [ITEM_TO_BERRY(ITEM_WATMEL_BERRY) - 1] = {gBerryPic_Watmel, gBerryPalette_Watmel},
+    [ITEM_TO_BERRY(ITEM_DURIN_BERRY)  - 1] = {gBerryPic_Durin,  gBerryPalette_Durin},
+    [ITEM_TO_BERRY(ITEM_BELUE_BERRY)  - 1] = {gBerryPic_Belue,  gBerryPalette_Belue},
+    [ITEM_TO_BERRY(ITEM_LIECHI_BERRY) - 1] = {gBerryPic_Liechi, gBerryPalette_Liechi},
+    [ITEM_TO_BERRY(ITEM_GANLON_BERRY) - 1] = {gBerryPic_Ganlon, gBerryPalette_Ganlon},
+    [ITEM_TO_BERRY(ITEM_SALAC_BERRY)  - 1] = {gBerryPic_Salac,  gBerryPalette_Salac},
+    [ITEM_TO_BERRY(ITEM_PETAYA_BERRY) - 1] = {gBerryPic_Petaya, gBerryPalette_Petaya},
+    [ITEM_TO_BERRY(ITEM_APICOT_BERRY) - 1] = {gBerryPic_Apicot, gBerryPalette_Apicot},
+    [ITEM_TO_BERRY(ITEM_LANSAT_BERRY) - 1] = {gBerryPic_Lansat, gBerryPalette_Lansat},
+    [ITEM_TO_BERRY(ITEM_STARF_BERRY)  - 1] = {gBerryPic_Starf,  gBerryPalette_Starf},
+    [ITEM_TO_BERRY(ITEM_ENIGMA_BERRY) - 1] = {gBerryPic_Enigma, gBerryPalette_Enigma},
+};
+
+const struct CompressedSpriteSheet gBerryCheckCircleSpriteSheet =
+{
+    gBerryCheckCircle_Gfx, 0x800, TAG_BERRY_CHECK_CIRCLE_GFX
+};
+
+const struct CompressedSpritePalette gBerryCheckCirclePaletteTable =
+{
+    gBerryCheck_Pal, TAG_BERRY_CHECK_CIRCLE_GFX
+};
+
+static const struct OamData sBerryCheckCircleOamData =
+{
+    .y = 0,
+    .affineMode = ST_OAM_AFFINE_OFF,
+    .objMode = ST_OAM_OBJ_NORMAL,
+    .mosaic = 0,
+    .bpp = ST_OAM_4BPP,
+    .shape = SPRITE_SHAPE(64x64),
+    .x = 0,
+    .matrixNum = 0,
+    .size = SPRITE_SIZE(64x64),
+    .tileNum = 0,
+    .priority = 1,
+    .paletteNum = 0,
+    .affineParam = 0
+};
+
+static const struct SpriteTemplate gBerryCheckCircleSpriteTemplate =
+{
+    .tileTag = TAG_BERRY_CHECK_CIRCLE_GFX,
+    .paletteTag = TAG_BERRY_CHECK_CIRCLE_GFX,
+    .oam = &sBerryCheckCircleOamData,
+    .anims = sSpriteAnimTable_ItemIcon,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCallbackDummy,
+};
 
 static void sub_80D5018(void *mem0, void *mem1)
 {

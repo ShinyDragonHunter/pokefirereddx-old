@@ -12,6 +12,7 @@
 #include "data.h"
 #include "decompress.h"
 #include "event_data.h"
+#include "event_scripts.h"
 #include "event_object_movement.h"
 #include "field_player_avatar.h"
 #include "field_specials.h"
@@ -65,6 +66,23 @@ enum
     SWITCH_POCKET_LEFT,
     SWITCH_POCKET_RIGHT
 };
+
+struct BagSlots
+{
+    struct ItemSlot bagPocket_Items[BAG_ITEMS_COUNT];
+    struct ItemSlot bagPocket_PokeBalls[BAG_POKEBALLS_COUNT];
+    u16 cursorPosition[POCKETS_COUNT];
+    u16 scrollPosition[POCKETS_COUNT];
+    u8 filler[2];
+    u16 pocket;
+};
+
+EWRAM_DATA struct BagStruct gBagPositionStruct = {};
+EWRAM_DATA struct BagMenuStruct *gBagMenu = NULL;
+static EWRAM_DATA struct ListMenuItem * sListMenuItems = NULL;
+static EWRAM_DATA u8 (*sListMenuItemStrings)[24] = NULL;
+static EWRAM_DATA struct BagSlots *sBackupPlayerBag = 0;
+EWRAM_DATA u16 gSpecialVar_ItemId = ITEM_NONE;
 
 void GoToBagMenu(u8 bagMenuType, u8 pocketId, void (*postExitMenuMainCallback2)());
 static void FadeOutOfBagMenu(void);
@@ -184,6 +202,15 @@ static const struct BgTemplate sBgTemplates[] =
         .priority = 1,
         .baseTile = 0,
     }
+};
+
+static const u8 *const sPocketNames[] =
+{
+    gText_ItemsPocket,
+    gText_PokeBallsPocket,
+    gText_TMHMPocket,
+    gText_BerriesPocket,
+    gText_KeyItemsPocket
 };
 
 static const u16 sBagListBgTiles[][18] =
@@ -328,29 +355,6 @@ static const struct YesNoFuncTable sYesNoSellItemFunctions =
     Task_SellItem_No
 };
 
-// .text
-
-struct TempWallyStruct
-{
-    struct ItemSlot bagPocket_Items[BAG_ITEMS_COUNT];
-    struct ItemSlot bagPocket_PokeBalls[BAG_POKEBALLS_COUNT];
-    u16 cursorPosition[POCKETS_COUNT];
-    u16 scrollPosition[POCKETS_COUNT];
-    u8 filler[2];
-    u16 pocket;
-};
-
-EWRAM_DATA struct BagStruct gBagPositionStruct = {};
-EWRAM_DATA struct BagMenuStruct *gBagMenu = NULL;
-static EWRAM_DATA struct ListMenuItem * sListMenuItems = NULL;
-static EWRAM_DATA u8 (*sListMenuItemStrings)[24] = NULL;
-EWRAM_DATA u16 gSpecialVar_ItemId = ITEM_NONE;
-static EWRAM_DATA struct TempWallyStruct *sTempWallyBag = 0;
-
-extern u8 *const gPocketNamesStringsTable[];
-extern const u8 EventScript_SelectWithoutRegisteredItem[];
-extern const u16 gUnknown_0860F074[];
-
 static const struct ScrollArrowsTemplate sBagScrollArrowsTemplate =
 {
     .firstArrowType = SCROLL_ARROW_LEFT,
@@ -366,7 +370,7 @@ static const struct ScrollArrowsTemplate sBagScrollArrowsTemplate =
     .palNum = 0,
 };
 
-static const u8 sRegisteredSelect_Gfx[] = INCBIN_U8("graphics/item_menu/select_button.4bpp");
+static const u8 sBlit_SelectButton[] = INCBIN_U8("graphics/item_menu/select_button.4bpp");
 
 void GoToBagMenu(u8 location, u8 pocket, void ( *postExitMenuMainCallback2)())
 {
@@ -431,7 +435,11 @@ static void VBlankCB_BagMenuRun(void)
 
 static void CB2_OpenBagMenu(void)
 {
-    while (!MenuHelpers_CallLinkSomething() && !LoadBagMenuGraphics() && !MenuHelpers_LinkSomething()) {};
+    while (1)
+    {
+        if (MenuHelpers_CallLinkSomething() || LoadBagMenuGraphics() || MenuHelpers_LinkSomething())
+            break;
+    }
 }
 
 static bool8 LoadBagMenuGraphics(void)
@@ -716,8 +724,6 @@ static void BagListMenuMoveCursorFunc(s32 itemIndex, bool8 onInit, struct ListMe
     }
     if (gBagMenu->itemOriginalLocation == 0xFF)
     {
-        // Hide current icon, remove icon from two instances ago
-        HideBagItemIconSprite(gBagMenu->itemIconSlot ^ 1);
         RemoveBagItemIconSprite(gBagMenu->itemIconSlot);
         if (gBagMenu->numItemStacks[gBagPositionStruct.pocket] != itemIndex)
            AddBagItemIconSprite(BagGetItemIdByPocketPosition(gBagPositionStruct.pocket + 1, itemIndex), gBagMenu->itemIconSlot);
@@ -755,7 +761,7 @@ static void BagListMenuItemPrintFunc(u8 windowId, u32 itemIndex, u8 y)
             BagPrintTextOnWindow(windowId, 4, gStringVar4, 110, y, 0, 0, -1, 1);
         }
         else if (gSaveBlock1Ptr->registeredItem && gSaveBlock1Ptr->registeredItem == itemId)
-            BlitBitmapToWindow(windowId, sRegisteredSelect_Gfx, 0x70, y, 0x18, 0x10);
+            BlitBitmapToWindow(windowId, sBlit_SelectButton, 0x70, y, 0x18, 0x10);
     }
 }
 
@@ -777,8 +783,8 @@ static void PrintBagPocketName(void)
     u32 x;
 
     FillWindowPixelBuffer(2, PIXEL_FILL(0));
-    x = GetStringCenterAlignXOffset(2, gPocketNamesStringsTable[gBagPositionStruct.pocket], 0x48);
-    BagPrintTextOnWindow(2, 2, gPocketNamesStringsTable[gBagPositionStruct.pocket], x, 1, GetFontAttribute(2, FONTATTR_LETTER_SPACING), GetFontAttribute(2, FONTATTR_LINE_SPACING), 0, 0);
+    x = GetStringCenterAlignXOffset(2, sPocketNames[gBagPositionStruct.pocket], 0x48);
+    BagPrintTextOnWindow(2, 2, sPocketNames[gBagPositionStruct.pocket], x, 1, GetFontAttribute(2, FONTATTR_LETTER_SPACING), GetFontAttribute(2, FONTATTR_LINE_SPACING), 0, 0);
 }
 
 static void PrintItemDescriptionOnMessageWindow(s32 itemIndex)
@@ -1084,7 +1090,7 @@ void PrintItemSoldAmount(int windowId, int numSold, int moneyEarned)
 
 static bool8 CanSwapItems(void)
 {
-    if (gBagPositionStruct.location <= ITEMMENULOCATION_BATTLE)
+    if (gBagPositionStruct.location == ITEMMENULOCATION_FIELD)
     {
         u8 temp = gBagPositionStruct.pocket - 2;
         if (temp > 1)
@@ -1113,7 +1119,7 @@ static void Task_BagMenu_HandleInput(u8 taskId)
         SwitchPockets(taskId, MENU_CURSOR_DELTA_RIGHT, 0);
         return;
     default:
-        if (JOY_NEW(SELECT_BUTTON) && CanSwapItems())
+        if (JOY_NEW(SELECT_BUTTON) && CanSwapItems)
         {
             ListMenuGetScrollAndRow(data[0], &cursorPos, &scrollPos);
             if (cursorPos + scrollPos != gBagMenu->numItemStacks[gBagPositionStruct.pocket])
@@ -1351,11 +1357,11 @@ static void ExecuteMoveItemInPocket(u8 taskId, u32 itemIndex)
     else
     {
         MoveItemSlotInList(gBagPockets[gBagPositionStruct.pocket].itemSlots, data[1], itemIndex);
-        DestroyListMenuTask(data[0], &gBagPositionStruct.cursorPosition[gBagPositionStruct.pocket], &gBagPositionStruct.cursorPosition[gBagPositionStruct.pocket]);
+        DestroyListMenuTask(data[0], &gBagPositionStruct.scrollPosition[gBagPositionStruct.pocket], &gBagPositionStruct.cursorPosition[gBagPositionStruct.pocket]);
         if (data[1] < itemIndex)
             gBagPositionStruct.cursorPosition[gBagPositionStruct.pocket]--;
         Bag_BuildListMenuTemplate(gBagPositionStruct.pocket);
-        data[0] = ListMenuInit(&gMultiuseListMenuTemplate, gBagPositionStruct.cursorPosition[gBagPositionStruct.pocket], gBagPositionStruct.cursorPosition[gBagPositionStruct.pocket]);
+        data[0] = ListMenuInit(&gMultiuseListMenuTemplate, gBagPositionStruct.scrollPosition[gBagPositionStruct.pocket], gBagPositionStruct.cursorPosition[gBagPositionStruct.pocket]);
         SetItemMenuSwapLineInvisibility(TRUE);
         CreatePocketSwitchArrowPair();
         gTasks[taskId].func = Task_BagMenu_HandleInput;
@@ -2111,14 +2117,14 @@ static void BackUpPlayerBag(void)
 {
     u32 i;
 
-    sTempWallyBag = AllocZeroed(sizeof(struct TempWallyStruct));
-    memcpy(sTempWallyBag->bagPocket_Items, gSaveBlock1Ptr->bagPocket_Items, sizeof(gSaveBlock1Ptr->bagPocket_Items));
-    memcpy(sTempWallyBag->bagPocket_PokeBalls, gSaveBlock1Ptr->bagPocket_PokeBalls, sizeof(gSaveBlock1Ptr->bagPocket_PokeBalls));
-    sTempWallyBag->pocket = gBagPositionStruct.pocket;
+    sBackupPlayerBag = AllocZeroed(sizeof(struct BagSlots));
+    memcpy(sBackupPlayerBag->bagPocket_Items, gSaveBlock1Ptr->bagPocket_Items, sizeof(gSaveBlock1Ptr->bagPocket_Items));
+    memcpy(sBackupPlayerBag->bagPocket_PokeBalls, gSaveBlock1Ptr->bagPocket_PokeBalls, sizeof(gSaveBlock1Ptr->bagPocket_PokeBalls));
+    sBackupPlayerBag->pocket = gBagPositionStruct.pocket;
     for (i = 0; i < 3; i++)
     {
-        sTempWallyBag->cursorPosition[i] = gBagPositionStruct.cursorPosition[i];
-        sTempWallyBag->scrollPosition[i] = gBagPositionStruct.scrollPosition[i];
+        sBackupPlayerBag->cursorPosition[i] = gBagPositionStruct.cursorPosition[i];
+        sBackupPlayerBag->scrollPosition[i] = gBagPositionStruct.scrollPosition[i];
     }
     ClearItemSlots(gSaveBlock1Ptr->bagPocket_Items, BAG_ITEMS_COUNT);
     ClearItemSlots(gSaveBlock1Ptr->bagPocket_PokeBalls, BAG_POKEBALLS_COUNT);
@@ -2129,15 +2135,15 @@ static void RestorePlayerBag(void)
 {
     u32 i;
 
-    memcpy(gSaveBlock1Ptr->bagPocket_Items, sTempWallyBag->bagPocket_Items, sizeof(sTempWallyBag->bagPocket_Items));
-    memcpy(gSaveBlock1Ptr->bagPocket_PokeBalls, sTempWallyBag->bagPocket_PokeBalls, sizeof(sTempWallyBag->bagPocket_PokeBalls));
-    gBagPositionStruct.pocket = sTempWallyBag->pocket;
+    memcpy(gSaveBlock1Ptr->bagPocket_Items, sBackupPlayerBag->bagPocket_Items, sizeof(sBackupPlayerBag->bagPocket_Items));
+    memcpy(gSaveBlock1Ptr->bagPocket_PokeBalls, sBackupPlayerBag->bagPocket_PokeBalls, sizeof(sBackupPlayerBag->bagPocket_PokeBalls));
+    gBagPositionStruct.pocket = sBackupPlayerBag->pocket;
     for (i = 0; i <= 4; i++)
     {
-        gBagPositionStruct.cursorPosition[i] = sTempWallyBag->cursorPosition[i];
-        gBagPositionStruct.scrollPosition[i] = sTempWallyBag->scrollPosition[i];
+        gBagPositionStruct.cursorPosition[i] = sBackupPlayerBag->cursorPosition[i];
+        gBagPositionStruct.scrollPosition[i] = sBackupPlayerBag->scrollPosition[i];
     }
-    Free(sTempWallyBag);
+    Free(sBackupPlayerBag);
 }
 
 void DoWallyTutorialBagMenu(void)
