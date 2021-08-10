@@ -6020,20 +6020,19 @@ u32 CanMonLearnTMHM(struct Pokemon *mon, u8 tm)
 
 u32 CanSpeciesLearnTMHM(u16 species, u8 tm)
 {
+    const u8 *learnableMoves;
+
     if (species == SPECIES_EGG)
-    {
         return 0;
-    }
-    else if (tm < 32)
+
+    learnableMoves = gTMHMLearnsets[species];
+    while (*learnableMoves != 0xFF)
     {
-        u32 mask = 1 << tm;
-        return gTMHMLearnsets[species][0] & mask;
+        if (*learnableMoves == tm)
+            return TRUE;
+        learnableMoves++;
     }
-    else
-    {
-        u32 mask = 1 << (tm - 32);
-        return gTMHMLearnsets[species][1] & mask;
-    }
+   return FALSE;
 }
 
 u8 GetMoveRelearnerMoves(struct Pokemon *mon, u16 *moves)
@@ -6402,6 +6401,7 @@ void SetMonPreventsSwitchingString(void)
 static s32 GetWildMonTableIdInAlteringCave(u16 species)
 {
     s32 i;
+
     for (i = 0; i < (s32) ARRAY_COUNT(sAlteringCaveWildMonHeldItems); i++)
         if (sAlteringCaveWildMonHeldItems[i].species == species)
             return i;
@@ -6410,7 +6410,7 @@ static s32 GetWildMonTableIdInAlteringCave(u16 species)
 
 void SetWildMonHeldItem(void)
 {
-    u16 i;
+    u32 i;
 
     if (!(gBattleTypeFlags & (BATTLE_TYPE_TRAINER | BATTLE_TYPE_PYRAMID | BATTLE_TYPE_PIKE)))
     {

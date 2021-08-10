@@ -23,7 +23,6 @@ static bool8 CheckPyramidBagHasSpace(u16 itemId, u16 count);
 
 // EWRAM variables
 EWRAM_DATA struct BagPocket gBagPockets[POCKETS_COUNT] = {0};
-EWRAM_DATA struct ItemSlot gTmHmItemSlots[BAG_TMHM_COUNT] = {0};
 EWRAM_DATA struct ItemSlot gKeyItemSlots[BAG_KEYITEMS_COUNT] = {0};
 
 // rodata
@@ -36,7 +35,7 @@ static u16 GetBagItemQuantity(u16 *quantity)
     return gSaveBlock2Ptr->encryptionKey ^ *quantity;
 }
 
-static void SetBagItemQuantity(u16 *quantity, u16 newValue)
+void SetBagItemQuantity(u16 *quantity, u16 newValue)
 {
     *quantity =  newValue ^ gSaveBlock2Ptr->encryptionKey;
 }
@@ -62,48 +61,12 @@ void ApplyNewEncryptionKeyToBagItems(u32 newKey)
     }
 }
 
-/* To use when porting over FRLG saveblocks
-void DeserializeTmHmItemSlots(void)
-{
-    int i;
-
-    for (i = 0; i < BAG_TMHM_COUNT; i++)
-    {
-        gTmHmItemSlots[i].itemId = 0;
-        SetBagItemQuantity(&(gTmHmItemSlots[i].quantity), 0);
-    }
-    for (i = 0; i < BAG_TMHM_COUNT; i++)
-    {
-        u8 bit = i % 8;
-        if (gSaveBlock1Ptr->bagPocket_TMHM[i / 8] & (1<<bit))
-            AddBagItem(i + ITEM_TM01, 1);
-    }
-}
-
-void DeserializeKeyItemSlots(void)
-{
-    int i;
-
-    for (i = 0; i < BAG_KEYITEMS_COUNT; ++i)
-    {
-        gKeyItemSlots[i].itemId = 0;
-        SetBagItemQuantity(&(gKeyItemSlots[i].quantity), 0);
-    }
-    for (i = 0; i < BAG_KEYITEMS_COUNT; i++)
-    {
-        if (gSaveBlock1Ptr->bagPocket_KeyItems[i] != 0 && gSaveBlock1Ptr->bagPocket_KeyItems[i] <= 30)
-            AddBagItem(gSaveBlock1Ptr->bagPocket_KeyItems[i] + 258, 1);
-        if (gSaveBlock1Ptr->bagPocket_KeyItems[i] != 0 && gSaveBlock1Ptr->bagPocket_KeyItems[i] > 30 && gSaveBlock1Ptr->bagPocket_KeyItems[i] < 59)
-            AddBagItem(gSaveBlock1Ptr->bagPocket_KeyItems[i] + 348 - 30, 1);
-    }
-}*/
-
 void SetBagItemsPointers(void)
 {
     gBagPockets[ITEMS_POCKET].itemSlots = gSaveBlock1Ptr->bagPocket_Items;
     gBagPockets[ITEMS_POCKET].capacity = BAG_ITEMS_COUNT;
 
-    gBagPockets[KEYITEMS_POCKET].itemSlots = gSaveBlock1Ptr->bagPocket_KeyItems;
+    gBagPockets[KEYITEMS_POCKET].itemSlots = &gKeyItemSlots[0];
     gBagPockets[KEYITEMS_POCKET].capacity = BAG_KEYITEMS_COUNT;
 
     gBagPockets[BALLS_POCKET].itemSlots = gSaveBlock1Ptr->bagPocket_PokeBalls;

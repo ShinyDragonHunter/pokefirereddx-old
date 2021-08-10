@@ -198,6 +198,9 @@ Route101_EventScript_Boy::
 	end
 
 Route101_EventScript_RouteSign::
+	giveitem ITEM_BICYCLE
+	giveitem ITEM_SHINY_CHARM
+	giveitem ITEM_OVAL_CHARM
 	msgbox Route101_Text_RouteSign, MSGBOX_SIGN
 	end
 

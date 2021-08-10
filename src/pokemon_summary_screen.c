@@ -177,6 +177,7 @@ static EWRAM_DATA struct PokemonSummaryScreenData
     u8 unk_filler4[5];
     u8 versionModifier;
 } *sMonSummaryScreen = NULL;
+
 EWRAM_DATA u8 gLastViewedMonIndex = 0;
 static EWRAM_DATA u8 sMoveSlotToReplace = 0;
 ALIGNED(4) static EWRAM_DATA u8 sAnimDelayTaskId = 0;

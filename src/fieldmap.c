@@ -454,7 +454,6 @@ static bool32 SavedMapViewIsEmpty(void)
     for (i = 0; i < ARRAY_COUNT(gSaveBlock1Ptr->mapView); i++)
         marker |= gSaveBlock1Ptr->mapView[i];
 
-
     if (marker)
         return FALSE;
     else

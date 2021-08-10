@@ -29,9 +29,9 @@ struct BagPocket
 };
 
 extern struct BagPocket gBagPockets[];
-extern struct ItemSlot gTmHmItemSlots[BAG_TMHM_COUNT];
 extern struct ItemSlot gKeyItemSlots[BAG_KEYITEMS_COUNT];
 
+void SetBagItemQuantity(u16 *quantity, u16 newValue);
 void ApplyNewEncryptionKeyToBagItems(u32 newKey);
 void SetBagItemsPointers(void);
 void CopyItemName(u16 itemId, u8 *dst);
@@ -50,8 +50,6 @@ bool8 CheckPCHasItem(u16 itemId, u16 count);
 bool8 AddPCItem(u16 itemId, u16 count);
 void RemovePCItem(u8 index, u16 count);
 void CompactPCItems(void);
-void DeserializeTmHmItemSlots(void);
-void DeserializeKeyItemSlots(void);
 u16 BagGetItemIdByPocketPosition(u8 pocketId, u16 pocketPos);
 u16 BagGetQuantityByPocketPosition(u8 pocketId, u16 pocketPos);
 void CompactItemsInBagPocket(struct BagPocket *bagPocket);

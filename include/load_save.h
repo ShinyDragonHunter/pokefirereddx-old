@@ -23,7 +23,6 @@ void ClearContinueGameWarpStatus2(void);
 void SavePlayerParty(void);
 void LoadPlayerParty(void);
 void SaveObjectEvents(void);
-void LoadObjectEvents(void);
 void SaveSerializedGame(void);
 void LoadSerializedGame(void);
 void LoadPlayerBag(void);
