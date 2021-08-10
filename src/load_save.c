@@ -12,9 +12,7 @@
 #include "trainer_hill.h"
 #include "gba/flash_internal.h"
 #include "agb_flash.h"
-#include "constants/items.h"
 
-static void SerializeKeyItemSlots(void);
 static void ApplyNewEncryptionKeyToAllEncryptedData(u32 encryptionKey);
 
 
@@ -54,14 +52,12 @@ extern struct ItemSlot gKeyItemSlots[BAG_KEYITEMS_COUNT];
 // code
 void CheckForFlashMemory(void)
 {
-    if (!IdentifyFlash())
+    if (IdentifyFlash())
+        gFlashMemoryPresent = FALSE;
+    else
     {
         gFlashMemoryPresent = TRUE;
         InitFlashTimer();
-    }
-    else
-    {
-        gFlashMemoryPresent = FALSE;
     }
 }
 
@@ -194,9 +190,19 @@ void SaveObjectEvents(void)
 
 void SaveSerializedGame(void)
 {
+    int i;
+
     SavePlayerParty();
     SaveObjectEvents();
-    SerializeKeyItemSlots();
+
+    // SerializeKeyItemSlots() inlined because this function is the only one that calls it.
+    for (i = 0; i < BAG_KEYITEMS_COUNT; i++)
+    {
+        if (gKeyItemSlots[i].itemId > 258 && gKeyItemSlots[i].itemId < 289) // RS Key Items
+            gSaveBlock1Ptr->bagPocket_KeyItems[i] = (u8)(gKeyItemSlots[i].itemId - 258);
+        if (gKeyItemSlots[i].itemId > 348) // FRLGE Key Items
+            gSaveBlock1Ptr->bagPocket_KeyItems[i] = (u8)(gKeyItemSlots[i].itemId - 348 + 30);
+    }
 }
 
 void LoadSerializedGame(void)
@@ -216,9 +222,9 @@ void LoadSerializedGame(void)
         SetBagItemQuantity(&(gKeyItemSlots[i].quantity), 0);
 
         if (gSaveBlock1Ptr->bagPocket_KeyItems[i] != 0 && gSaveBlock1Ptr->bagPocket_KeyItems[i] <= 30)
-            AddBagItem(gSaveBlock1Ptr->bagPocket_KeyItems[i] + ITEM_MACH_BIKE - 1, 1);
+            AddBagItem(gSaveBlock1Ptr->bagPocket_KeyItems[i] + 258, 1);
         if (gSaveBlock1Ptr->bagPocket_KeyItems[i] != 0 && gSaveBlock1Ptr->bagPocket_KeyItems[i] > 30 && gSaveBlock1Ptr->bagPocket_KeyItems[i] < 61)
-            AddBagItem(gSaveBlock1Ptr->bagPocket_KeyItems[i] + ITEM_OAKS_PARCEL - 31, 1);
+            AddBagItem(gSaveBlock1Ptr->bagPocket_KeyItems[i] + 348 - 30, 1);
     }
 }
 
@@ -263,7 +269,13 @@ void SavePlayerBag(void)
         gSaveBlock1Ptr->bagPocket_Items[i] = gLoadedSaveData.items[i];
 
     // save player key items.
-    SerializeKeyItemSlots();
+    for (i = 0; i < BAG_KEYITEMS_COUNT; i++)
+    {
+        if (gLoadedSaveData.keyItems[i].itemId > 258 && gLoadedSaveData.keyItems[i].itemId < 289) // RS Key Items
+            gSaveBlock1Ptr->bagPocket_KeyItems[i] = (u8)(gLoadedSaveData.keyItems[i].itemId - 258);
+        if (gLoadedSaveData.keyItems[i].itemId > 348) // FRLGE Key Items
+            gSaveBlock1Ptr->bagPocket_KeyItems[i] = (u8)(gLoadedSaveData.keyItems[i].itemId - 348 + 30);
+    }
 
     // save player pokeballs.
     for (i = 0; i < BAG_POKEBALLS_COUNT; i++)
@@ -285,19 +297,6 @@ void SavePlayerBag(void)
     gSaveBlock2Ptr->encryptionKey = gLastEncryptionKey;
     ApplyNewEncryptionKeyToBagItems(encryptionKeyBackup);
     gSaveBlock2Ptr->encryptionKey = encryptionKeyBackup; // updated twice?
-}
-
-static void SerializeKeyItemSlots(void)
-{
-    int i;
-
-    for (i = 0; i < BAG_KEYITEMS_COUNT; i++)
-    {
-        if (gKeyItemSlots[i].itemId >= ITEM_MACH_BIKE && gKeyItemSlots[i].itemId <= ITEM_DEVON_SCOPE) // RS Key Items
-            gSaveBlock1Ptr->bagPocket_KeyItems[i] = (u8)(gKeyItemSlots[i].itemId - ITEM_MACH_BIKE - 1);
-        if (gKeyItemSlots[i].itemId >= ITEM_OAKS_PARCEL) // FRLGE Key Items
-            gSaveBlock1Ptr->bagPocket_KeyItems[i] = (u8)(gKeyItemSlots[i].itemId - ITEM_OVAL_CHARM);
-    }
 }
 
 void ApplyNewEncryptionKeyToHword(u16 *hWord, u32 newKey)
