@@ -1119,7 +1119,7 @@ static void Task_BagMenu_HandleInput(u8 taskId)
         SwitchPockets(taskId, MENU_CURSOR_DELTA_RIGHT, 0);
         return;
     default:
-        if (JOY_NEW(SELECT_BUTTON) && CanSwapItems)
+        if (JOY_NEW(SELECT_BUTTON) && CanSwapItems())
         {
             ListMenuGetScrollAndRow(data[0], &cursorPos, &scrollPos);
             if (cursorPos + scrollPos != gBagMenu->numItemStacks[gBagPositionStruct.pocket])
