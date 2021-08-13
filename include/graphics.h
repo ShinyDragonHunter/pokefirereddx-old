@@ -2607,6 +2607,8 @@ extern const u32 gHoennTrainerFrontPicLucy[];
 extern const u32 gHoennTrainerFrontPicBrandon[];
 extern const u32 gHoennTrainerFrontPicScott[];
 extern const u32 gTrainerFrontPicRed[];
+extern const u32 gTrainerFrontPicRedExtraOutfit[];
+extern const u32 gTrainerFrontPicRedClassicOutfit[];
 extern const u32 gTrainerFrontPicLeaf[];
 extern const u32 gTrainerFrontPicGold[];
 extern const u32 gTrainerFrontPicKris[];
@@ -2724,7 +2726,9 @@ extern const u16 gHoennTrainerPaletteNoland[];
 extern const u16 gHoennTrainerPaletteLucy[];
 extern const u16 gHoennTrainerPaletteBrandon[];
 extern const u16 gHoennTrainerPaletteScott[];
-extern const u16 gTrainerPaletteFRLGPlayer[];
+extern const u16 gTrainerPalettePlayer[];
+extern const u16 gTrainerPalettePlayerExtraOutfit[];
+extern const u16 gTrainerPalettePlayerClassicOutfit[];
 extern const u16 gTrainerPaletteGold[];
 extern const u16 gTrainerPaletteKris[];
 extern const u16 gTrainerPaletteHBrendan[];
@@ -2735,6 +2739,8 @@ extern const u16 gTrainerPaletteRSBrendan[];
 extern const u16 gTrainerPaletteRSMay[];
 
 extern const u8 gTrainerBackPicRed[];
+extern const u8 gTrainerBackPicRedExtraOutfit[];
+extern const u8 gTrainerBackPicRedClassicOutfit[];
 extern const u8 gTrainerBackPicLeaf[];
 extern const u8 gTrainerBackPicPokeDude[];
 extern const u8 gTrainerBackPicOldMan[];
@@ -2745,7 +2751,8 @@ extern const u8 gTrainerBackPicEMay[];
 extern const u8 gTrainerBackPicRSBrendan[];
 extern const u8 gTrainerBackPicRSMay[];
 
-extern const u16 gTrainerBackPicPaletteFRLGPlayer[];
+extern const u16 gTrainerBackPicPalettePlayer[];
+extern const u16 gTrainerBackPicPalettePlayerExtraOutfit[];
 extern const u16 gTrainerBackPicPalettePokeDude[];
 extern const u16 gTrainerBackPicPaletteOldMan[];
 

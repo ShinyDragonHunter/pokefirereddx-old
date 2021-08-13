@@ -2651,6 +2651,16 @@ void SetBattleTowerLinkPlayerGfx(void)
     }
 }
 
+void ChangePlayerOutfit(void)
+{
+    struct ObjectEvent *objEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
+
+    gSaveBlock2Ptr->playerOutfit = VarGet(VAR_PLAYER_OUTFIT);
+    ObjectEventSetGraphicsId(objEvent, GetPlayerAvatarGraphicsIdByCurrentState());
+    ObjectEventTurn(objEvent, objEvent->movementDirection);
+    BlendPalettes(PALETTES_ALL, 16, 0);
+}
+
 void ShowNatureGirlMessage(void)
 {
     static const u8 *const sNatureGirlMessages[NUM_NATURES] = {

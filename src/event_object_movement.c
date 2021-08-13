@@ -436,6 +436,7 @@ const u8 gInitialMovementTypeFacingDirections[] = {
 
 static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_Player,                OBJ_EVENT_PAL_TAG_PLAYER},
+    {gObjectEventPal_PlayerExtraOutfit,     OBJ_EVENT_PAL_TAG_PLAYER_EXTRA_OUTFIT},
     {gObjectEventPal_PlayerUnderwater,      OBJ_EVENT_PAL_TAG_PLAYER_UNDERWATER},
     {gObjectEventPal_Gold,                  OBJ_EVENT_PAL_TAG_GOLD},
     {gObjectEventPal_Kris,                  OBJ_EVENT_PAL_TAG_KRIS},

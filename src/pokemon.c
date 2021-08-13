@@ -1963,6 +1963,24 @@ static const struct SpriteTemplate sTrainerBackSpriteTemplates[] =
         .affineAnims = gAffineAnims_BattleSpritePlayerSide,
         .callback = SpriteCB_BattleSpriteStartSlideLeft,
     },
+    [TRAINER_BACK_PIC_RED_EXTRA_OUTFIT] = {
+        .tileTag = 0xFFFF,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_RedExtraOutfit,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_RED_CLASSIC_OUTFIT] = {
+        .tileTag = 0xFFFF,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_RedExtraOutfit,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
     [TRAINER_BACK_PIC_LEAF] = {
         .tileTag = 0xFFFF,
         .paletteTag = 0,
@@ -6702,9 +6720,11 @@ u16 FacilityClassToPicIndex(u16 facilityClass)
     return gFacilityClassToPicIndex[facilityClass];
 }
 
-u16 PlayerGenderToFrontTrainerPicId(u8 playerGender)
+u16 PlayerGenderToFrontTrainerPicId(u8 playerGender, u8 playerOutfit)
 {
-    return FacilityClassToPicIndex(FACILITY_CLASS_RED + playerGender);
+    if (playerGender)
+        return FacilityClassToPicIndex(FACILITY_CLASS_LEAF);
+    return FacilityClassToPicIndex(FACILITY_CLASS_RED + playerOutfit);
 }
 
 void HandleSetPokedexFlag(u16 nationalNum, u8 caseId, u32 personality)

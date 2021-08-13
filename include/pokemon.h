@@ -421,7 +421,7 @@ u8 sub_806EF08(u8 arg0);
 u8 sub_806EF84(u8 arg0, u8 arg1);
 u16 sub_806EFF0(u16 arg0);
 u16 FacilityClassToPicIndex(u16 facilityClass);
-u16 PlayerGenderToFrontTrainerPicId(u8 playerGender);
+u16 PlayerGenderToFrontTrainerPicId(u8 playerGender, u8 playerOutfit);
 void HandleSetPokedexFlag(u16 nationalNum, u8 caseId, u32 personality);
 const u8 *GetTrainerClassNameFromId(u16 trainerId);
 const u8 *GetTrainerNameFromId(u16 trainerId);

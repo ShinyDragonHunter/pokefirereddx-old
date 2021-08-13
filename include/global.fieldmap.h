@@ -297,6 +297,8 @@ struct PlayerAvatar
     /*0x06*/ bool8 preventStep;
     /*0x07*/ u8 gender;
     /*0x08*/ u8 acroBikeState; // 00 is normal, 01 is turning, 02 is standing wheelie, 03 is hopping wheelie
+    /*0x09*/ u16 lastSpinTile;
+//    /*0x0B*/ u16 costume;
 };
 
 struct Camera

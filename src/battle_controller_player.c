@@ -2155,7 +2155,7 @@ static void DoSwitchOutAnimation(void)
 static void PlayerHandleDrawTrainerPic(void)
 {
     s16 xPos, yPos;
-    u32 trainerPicId = gSaveBlock2Ptr->playerGender;
+    u32 trainerPicId = (gSaveBlock2Ptr->playerGender) ? TRAINER_BACK_PIC_LEAF : TRAINER_BACK_PIC_RED + gSaveBlock2Ptr->playerOutfit;
 
     if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
     {
@@ -2184,7 +2184,7 @@ static void PlayerHandleDrawTrainerPic(void)
     // Use front pic table for any tag battles unless your partner is Steven.
     if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER && gPartnerTrainerId != TRAINER_STEVEN_PARTNER)
     {
-        trainerPicId = PlayerGenderToFrontTrainerPicId(gSaveBlock2Ptr->playerGender);
+        trainerPicId = PlayerGenderToFrontTrainerPicId(gSaveBlock2Ptr->playerGender, gSaveBlock2Ptr->playerOutfit);
         DecompressTrainerFrontPic(trainerPicId, gActiveBattler);
         SetMultiuseSpriteTemplateToTrainerFront(trainerPicId, GetBattlerPosition(gActiveBattler));
         gBattlerSpriteIds[gActiveBattler] = CreateSprite(&gMultiuseSpriteTemplate, xPos, yPos, GetBattlerSpriteSubpriority(gActiveBattler));
@@ -2724,6 +2724,13 @@ static void PlayerHandleIntroSlide(void)
 
 #define sBattlerId data[5]
 
+static const u8 sOutfitBackPics[OUTFIT_COUNT][GENDER_COUNT] = 
+{
+    [OUTFIT_DEFAULT]     = {TRAINER_BACK_PIC_RED,                TRAINER_BACK_PIC_LEAF},
+    [OUTFIT_EXTRA]       = {TRAINER_BACK_PIC_RED_EXTRA_OUTFIT,   TRAINER_BACK_PIC_LEAF},
+    [OUTFIT_CLASSIC]     = {TRAINER_BACK_PIC_RED_CLASSIC_OUTFIT, TRAINER_BACK_PIC_LEAF},
+};
+
 static void PlayerHandleIntroTrainerBallThrow(void)
 {
     u8 paletteNum;
@@ -2741,7 +2748,7 @@ static void PlayerHandleIntroTrainerBallThrow(void)
     StartSpriteAnim(&gSprites[gBattlerSpriteIds[gActiveBattler]], 1);
 
     paletteNum = AllocSpritePalette(0xD6F8);
-    LoadPalette(gTrainerBackPicPaletteTable[gSaveBlock2Ptr->playerGender].data, 0x100 + paletteNum * 16, 32);
+    LoadPalette(gTrainerBackPicPaletteTable[sOutfitBackPics[gSaveBlock2Ptr->playerOutfit][gSaveBlock2Ptr->playerGender]].data, 0x100 + paletteNum * 16, 32);
 
     gSprites[gBattlerSpriteIds[gActiveBattler]].oam.paletteNum = paletteNum;
 

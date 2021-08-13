@@ -32,6 +32,8 @@ static const union AnimCmd *const sBackAnims_4Frames[] =
 const union AnimCmd *const *const gTrainerBackAnimsPtrTable[] =
 {
     [TRAINER_BACK_PIC_RED] = sBackAnims_5Frames,
+    [TRAINER_BACK_PIC_RED_EXTRA_OUTFIT] = sBackAnims_5Frames,
+    [TRAINER_BACK_PIC_RED_CLASSIC_OUTFIT] = sBackAnims_5Frames,
     [TRAINER_BACK_PIC_LEAF] = sBackAnims_5Frames,
     [TRAINER_BACK_PIC_POKE_DUDE] = sBackAnims_4Frames,
     [TRAINER_BACK_PIC_OLD_MAN] = sBackAnims_4Frames,

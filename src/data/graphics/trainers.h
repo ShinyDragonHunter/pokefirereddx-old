@@ -366,7 +366,13 @@ const u32 gHoennTrainerFrontPicScott[] = INCBIN_U32("graphics/trainers/front_pic
 const u16 gHoennTrainerPaletteScott[] = INCBIN_U16("graphics/trainers/palettes/hoenn/scott.gbapal");
 
 const u32 gTrainerFrontPicRed[] = INCBIN_U32("graphics/trainers/front_pics/red_front_pic.4bpp.lz");
-const u16 gTrainerPaletteFRLGPlayer[] = INCBIN_U16("graphics/trainers/palettes/red.gbapal");
+const u16 gTrainerPalettePlayer[] = INCBIN_U16("graphics/trainers/palettes/player_front_pic.gbapal");
+
+const u32 gTrainerFrontPicRedExtraOutfit[] = INCBIN_U32("graphics/trainers/front_pics/red_extra_outfit_front_pic.4bpp.lz");
+const u16 gTrainerPalettePlayerExtraOutfit[] = INCBIN_U16("graphics/trainers/palettes/player_extra_outfit_front_pic.gbapal");
+
+const u32 gTrainerFrontPicRedClassicOutfit[] = INCBIN_U32("graphics/trainers/front_pics/red_classic_outfit_front_pic.4bpp.lz");
+const u16 gTrainerPalettePlayerClassicOutfit[] = INCBIN_U16("graphics/trainers/palettes/player_classic_outfit.gbapal");
 
 const u32 gTrainerFrontPicLeaf[] = INCBIN_U32("graphics/trainers/front_pics/leaf_front_pic.4bpp.lz");
 
@@ -399,6 +405,8 @@ const u32 gTrainerFrontPicRSMay[] = INCBIN_U32("graphics/trainers/front_pics/rs_
 const u16 gTrainerPaletteRSMay[] = INCBIN_U16("graphics/trainers/palettes/rs_may.gbapal");
 
 const u8 gTrainerBackPicRed[] = INCBIN_U8("graphics/trainers/back_pics/red_back_pic.4bpp");
+const u8 gTrainerBackPicRedExtraOutfit[] = INCBIN_U8("graphics/trainers/back_pics/red_extra_outfit_back_pic.4bpp");
+const u8 gTrainerBackPicRedClassicOutfit[] = INCBIN_U8("graphics/trainers/back_pics/red_classic_outfit_back_pic.4bpp");
 const u8 gTrainerBackPicLeaf[] = INCBIN_U8("graphics/trainers/back_pics/leaf_back_pic.4bpp");
 const u8 gTrainerBackPicPokeDude[] = INCBIN_U8("graphics/trainers/back_pics/pokedude_back_pic.4bpp");
 const u8 gTrainerBackPicOldMan[] = INCBIN_U8("graphics/trainers/back_pics/old_man_back_pic.4bpp");
@@ -409,6 +417,7 @@ const u8 gTrainerBackPicEMay[] = INCBIN_U8("graphics/trainers/back_pics/e_may_ba
 const u8 gTrainerBackPicRSBrendan[] = INCBIN_U8("graphics/trainers/back_pics/rs_brendan_back_pic.4bpp");
 const u8 gTrainerBackPicRSMay[] = INCBIN_U8("graphics/trainers/back_pics/rs_may_back_pic.4bpp");
 
-const u16 gTrainerBackPicPaletteFRLGPlayer[] = INCBIN_U16("graphics/trainers/palettes/frlg_player_back_pic.gbapal");
+const u16 gTrainerBackPicPalettePlayer[] = INCBIN_U16("graphics/trainers/palettes/player_back_pic.gbapal");
+const u16 gTrainerBackPicPalettePlayerExtraOutfit[] = INCBIN_U16("graphics/trainers/palettes/player_extra_outfit_back_pic.gbapal");
 const u16 gTrainerBackPicPalettePokeDude[] = INCBIN_U16("graphics/trainers/palettes/pokedude.gbapal");
 const u16 gTrainerBackPicPaletteOldMan[] = INCBIN_U16("graphics/trainers/palettes/old_man.gbapal");

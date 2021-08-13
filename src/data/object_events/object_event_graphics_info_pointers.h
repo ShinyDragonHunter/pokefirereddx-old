@@ -1,4 +1,6 @@
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_RedNormal;
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_RedExtraOutfitNormal;
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_RedClassicOutfitNormal;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_RedBike;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_RedSurfing;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_RedUnderwater;
@@ -236,6 +238,8 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HoennBrandon;
 
 const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM_OBJ_EVENT_GFX] = {
     [OBJ_EVENT_GFX_RED_NORMAL]                 = &gObjectEventGraphicsInfo_RedNormal,
+    [OBJ_EVENT_GFX_RED_EXTRA_OUTFIT_NORMAL]    = &gObjectEventGraphicsInfo_RedExtraOutfitNormal,
+    [OBJ_EVENT_GFX_RED_CLASSIC_OUTFIT_NORMAL]  = &gObjectEventGraphicsInfo_RedClassicOutfitNormal,
     [OBJ_EVENT_GFX_RED_BIKE]                   = &gObjectEventGraphicsInfo_RedBike,
     [OBJ_EVENT_GFX_RED_SURFING]                = &gObjectEventGraphicsInfo_RedSurfing,
     [OBJ_EVENT_GFX_RED_UNDERWATER]             = &gObjectEventGraphicsInfo_RedUnderwater,

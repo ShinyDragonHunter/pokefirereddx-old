@@ -199,6 +199,8 @@ Route101_EventScript_Boy::
 
 Route101_EventScript_RouteSign::
 	msgbox Route101_Text_RouteSign, MSGBOX_SIGN
+	setvar VAR_PLAYER_OUTFIT, 1
+	call EventScript_OutfitChange
 	end
 
 Route101_EventScript_BirchsBag::

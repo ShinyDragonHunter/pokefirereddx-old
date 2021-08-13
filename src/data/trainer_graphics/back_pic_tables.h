@@ -1,6 +1,8 @@
 const struct MonCoords gTrainerBackPicCoords[] =
 {
     [TRAINER_BACK_PIC_RED] = {.size = 8, .y_offset = 5},
+    [TRAINER_BACK_PIC_RED_EXTRA_OUTFIT] = {.size = 8, .y_offset = 5},
+    [TRAINER_BACK_PIC_RED_CLASSIC_OUTFIT] = {.size = 8, .y_offset = 5},
     [TRAINER_BACK_PIC_LEAF] = {.size = 8, .y_offset = 5},
     [TRAINER_BACK_PIC_POKE_DUDE] = {.size = 8, .y_offset = 4},
     [TRAINER_BACK_PIC_OLD_MAN] = {.size = 8, .y_offset = 4},
@@ -18,8 +20,10 @@ const struct MonCoords gTrainerBackPicCoords[] =
 
 const struct SpritePalette gTrainerBackPicPaletteTable[] =
 {
-    TRAINER_BACK_PAL(RED, gTrainerBackPicPaletteFRLGPlayer),
-    TRAINER_BACK_PAL(LEAF, gTrainerBackPicPaletteFRLGPlayer),
+    TRAINER_BACK_PAL(RED, gTrainerBackPicPalettePlayer),
+    TRAINER_BACK_PAL(RED_EXTRA_OUTFIT, gTrainerBackPicPalettePlayerExtraOutfit),
+    TRAINER_BACK_PAL(RED_CLASSIC_OUTFIT, gTrainerPalettePlayerClassicOutfit),
+    TRAINER_BACK_PAL(LEAF, gTrainerBackPicPalettePlayer),
     TRAINER_BACK_PAL(POKE_DUDE, gTrainerBackPicPalettePokeDude),
     TRAINER_BACK_PAL(OLD_MAN, gTrainerBackPicPaletteOldMan),
     TRAINER_BACK_PAL(GOLD, gTrainerPaletteGold),

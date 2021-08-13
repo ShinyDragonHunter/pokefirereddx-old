@@ -816,6 +816,7 @@ Common_EventScript_PlayerHandedOverTheItem::
 	.include "data/text/pkmn_center_nurse.inc"
 	.include "data/text/mart_clerk.inc"
 	.include "data/text/obtain_item.inc"
+	.include "data/scripts/outfit_change.inc"
 
 @ The below and surf.inc could be split into some text/notices.inc
 

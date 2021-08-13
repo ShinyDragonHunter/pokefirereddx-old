@@ -1251,7 +1251,7 @@ static void RecordedPlayerHandleDrawTrainerPic(void)
 
     if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)
     {
-        trainerPicId = PlayerGenderToFrontTrainerPicId(trainerPicId);
+        trainerPicId = PlayerGenderToFrontTrainerPicId(trainerPicId, 0);
         DecompressTrainerFrontPic(trainerPicId, gActiveBattler);
         SetMultiuseSpriteTemplateToTrainerFront(trainerPicId, GetBattlerPosition(gActiveBattler));
         gBattlerSpriteIds[gActiveBattler] = CreateSprite(&gMultiuseSpriteTemplate, xPos, yPos, GetBattlerSpriteSubpriority(gActiveBattler));

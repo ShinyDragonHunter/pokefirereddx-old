@@ -1,5 +1,8 @@
 const u16 gObjectEventPal_Player[] = INCBIN_U16("graphics/object_events/palettes/player.gbapal");
+const u16 gObjectEventPal_PlayerExtraOutfit[] = INCBIN_U16("graphics/object_events/palettes/player_extra_outfit.gbapal");
 const u32 gObjectEventPic_RedNormal[] = INCBIN_U32("graphics/object_events/pics/people/red/walking.4bpp");
+const u32 gObjectEventPic_RedExtraOutfitNormal[] = INCBIN_U32("graphics/object_events/pics/people/red_extra_outfit/walking.4bpp");
+const u32 gObjectEventPic_RedClassicOutfitNormal[] = INCBIN_U32("graphics/object_events/pics/people/red_classic_outfit/walking.4bpp");
 const u32 gObjectEventPic_RedRunning[] = INCBIN_U32("graphics/object_events/pics/people/red/running.4bpp");
 const u32 gObjectEventPic_RedBike[] = INCBIN_U32("graphics/object_events/pics/people/red/bike.4bpp");
 const u32 gObjectEventPic_RedSurfing[] = INCBIN_U32("graphics/object_events/pics/people/red/surfing.4bpp");
