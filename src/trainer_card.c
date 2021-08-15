@@ -1190,8 +1190,7 @@ static u16 GetCaughtMonsCount(void)
 {
     if (IsNationalPokedexEnabled())
         return GetNationalPokedexCount(FLAG_GET_CAUGHT);
-    else
-        return GetKantoPokedexCount(FLAG_GET_CAUGHT);
+    return GetHoennPokedexCount(FLAG_GET_CAUGHT);
 }
 
 static void PrintPokedexOnCard(void)
@@ -1975,7 +1974,6 @@ static bool8 Task_DrawFlippedCardSide(struct Task* task)
     sData->allowDMACopy = FALSE;
     if (Overworld_LinkRecvQueueLengthMoreThan2())
         return FALSE;
-
     do
     {
         switch (sData->flipDrawState)

@@ -737,7 +737,6 @@ static bool8 MainState_WaitSentToPCMessage(void)
     RunTextPrinters();
     if (!IsTextPrinterActive(0) && JOY_NEW(A_BUTTON))
         sNamingScreen->state = STATE_FADE_OUT;
-
     return FALSE;
 }
 
@@ -755,8 +754,7 @@ static bool8 MainState_StartPageSwap(void)
 
 static bool8 MainState_WaitPageSwap(void)
 {
-    s16 cursorX;
-    s16 cursorY;
+    s16 cursorX, cursorY;
     bool32 onLastColumn;
 
     if (IsPageSwapAnimNotInProgress())
@@ -770,9 +768,7 @@ static bool8 MainState_WaitPageSwap(void)
         sNamingScreen->currentPage %= KBPAGE_COUNT;
 
         if (onLastColumn)
-        {
             cursorX = GetCurrentPageColumnCount();
-        }
         else
         {
             if (cursorX >= GetCurrentPageColumnCount())
@@ -824,8 +820,7 @@ static bool8 IsPageSwapAnimNotInProgress(void)
 {
     if (FindTaskIdByFunc(Task_HandlePageSwapAnim) == TASK_NONE)
         return TRUE;
-    else
-        return FALSE;
+    return FALSE;
 }
 
 static bool8 PageSwapAnimState_Init(struct Task *task)
@@ -961,9 +956,7 @@ static void Task_UpdateButtonFlash(u8 taskId)
     }
 
     if (task->tColor == 16 && task->tColorDelta == 22)
-    {
         task->tColorIncr = -4;
-    }
     else if (!task->tColor)
     {
         task->tAllowFlash = task->tKeepFlashing;
@@ -981,7 +974,6 @@ static u16 GetButtonPalOffset(u8 button)
         [BUTTON_OK]    = IndexOfSpritePaletteTag(PALTAG_OK_BUTTON) * 16 + 0x10E,
         [BUTTON_COUNT] = IndexOfSpritePaletteTag(PALTAG_OK_BUTTON) * 16 + 0x101,
     };
-
     return palOffsets[button];
 }
 
@@ -1180,14 +1172,12 @@ static const u8 sButtonKeyRoles[] = {KEY_ROLE_PAGE, KEY_ROLE_BACKSPACE, KEY_ROLE
 
 static u8 GetKeyRoleAtCursorPos(void)
 {
-    s16 cursorX;
-    s16 cursorY;
+    s16 cursorX, cursorY;
 
     GetCursorPos(&cursorX, &cursorY);
     if (cursorX < GetCurrentPageColumnCount())
         return KEY_ROLE_CHAR;
-    else
-        return sButtonKeyRoles[cursorY];
+    return sButtonKeyRoles[cursorY];
 }
 
 // If the cursor's x is equal to the column count, cursor is in the button column
@@ -1218,9 +1208,7 @@ static bool8 PageSwapSprite_SlideOn(struct Sprite *);
 
 static void CreatePageSwapButtonSprites(void)
 {
-    u8 frameSpriteId;
-    u8 textSpriteId;
-    u8 buttonSpriteId;
+    u8 frameSpriteId, textSpriteId, buttonSpriteId;
 
     frameSpriteId = CreateSprite(&sSpriteTemplate_PageSwapFrame, 204, 88, 0);
     sNamingScreen->swapBtnFrameSpriteId = frameSpriteId;
@@ -1450,9 +1438,7 @@ static bool8 HandleKeyboardEvent(void)
     u8 keyRole = GetKeyRoleAtCursorPos();
 
     if (input == INPUT_SELECT)
-    {
         return SwapKeyboardPage();
-    }
     else if (input == INPUT_B_BUTTON)
     {
         DeleteTextCharacter();
@@ -1463,10 +1449,7 @@ static bool8 HandleKeyboardEvent(void)
         MoveCursorToOKButton();
         return FALSE;
     }
-    else
-    {
-        return sKeyboardKeyHandlers[keyRole](input);
-    }
+    return sKeyboardKeyHandlers[keyRole](input);
 }
 
 static bool8 KeyboardKeyHandler_Character(u8 input)
@@ -1491,8 +1474,7 @@ static bool8 KeyboardKeyHandler_Page(u8 input)
     TryStartButtonFlash(BUTTON_PAGE, TRUE, FALSE);
     if (input == INPUT_A_BUTTON)
         return SwapKeyboardPage();
-    else
-        return FALSE;
+    return FALSE;
 }
 
 static bool8 KeyboardKeyHandler_Backspace(u8 input)
@@ -1512,8 +1494,7 @@ static bool8 KeyboardKeyHandler_OK(u8 input)
         sNamingScreen->state = STATE_PRESSED_OK;
         return TRUE;
     }
-    else
-        return FALSE;
+    return FALSE;
 }
 
 static bool8 SwapKeyboardPage(void)
@@ -1618,8 +1599,7 @@ static void HandleDpadMovement(struct Task *task)
     const s16 sKeyRowToButtonRow[KBROW_COUNT] = {0, 1, 1, 2};
     const s16 sButtonRowToKeyRow[BUTTON_COUNT] = {0, 0, 3};
 
-    s16 cursorX;
-    s16 cursorY;
+    s16 cursorX, cursorY;
     u16 input;
     s16 prevCursorX;
 
@@ -1776,7 +1756,6 @@ static u8 GetCharAtKeyboardPos(s16 x, s16 y)
     return sKeyboardChars[x + y * KBCOL_COUNT + CurrentPageToKeyboardId() * KBCOL_COUNT * KBROW_COUNT];
 }
 
-
 static u8 GetTextEntryPosition(void)
 {
     u32 i;
@@ -1803,8 +1782,7 @@ static u8 GetPreviousTextCaretPosition(void)
 
 static void DeleteTextCharacter(void)
 {
-    u8 index;
-    u8 keyRole;
+    u8 index, keyRole;
 
     index = GetPreviousTextCaretPosition();
     sNamingScreen->textBuffer[index] = 0;
@@ -1823,8 +1801,7 @@ static void DeleteTextCharacter(void)
 // Returns TRUE if the text entry is now full
 static bool8 AddTextCharacter(void)
 {
-    s16 x;
-    s16 y;
+    s16 x, y;
 
     GetCursorPos(&x, &y);
     BufferCharacter(GetCharAtKeyboardPos(x, y));
@@ -1834,13 +1811,13 @@ static bool8 AddTextCharacter(void)
 
     if (GetPreviousTextCaretPosition() != sNamingScreen->template->maxChars - 1)
         return FALSE;
-    else
-        return TRUE;
+    return TRUE;
 }
 
 static void BufferCharacter(u8 ch)
 {
     u8 index = GetTextEntryPosition();
+
     sNamingScreen->textBuffer[index] = ch;
 }
 
@@ -1906,7 +1883,6 @@ static void DrawTextEntry(void)
         temp[0] = sNamingScreen->textBuffer[i];
         temp[1] = gText_ExpandedPlaceholder_Empty[0];
         extraWidth = (IsWideLetter(temp[0]) == TRUE) ? 2 : 0;
-
         AddTextPrinterParameterized(sNamingScreen->windows[WIN_TEXT_ENTRY], 2, temp, i * 8 + x + extraWidth, 1, 0xFF, NULL);
     }
 
@@ -1966,9 +1942,7 @@ static const u8 *const sNextKeyboardPageTilemaps[] =
 // When the page swap is complete this function invisibly replaces the old page with the new next one
 static void DrawKeyboardPageOnDeck(void)
 {
-    u8 bg;
-    u8 bg_;
-    u8 windowId;
+    u8 bg, bg_, windowId;
     u8 bg1Priority = GetGpuReg(REG_OFFSET_BG1CNT) & 3;
     u8 bg2Priority = GetGpuReg(REG_OFFSET_BG2CNT) & 3;
 
@@ -2535,5 +2509,3 @@ static const struct SpritePalette sSpritePalettes[] =
     {gNamingScreenMenu_Pal + 0x40,  PALTAG_OK_BUTTON},
     {}
 };
-
-

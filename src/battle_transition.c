@@ -421,15 +421,6 @@ static const u8 sMugshotsTrainerPicIDsTable[MUGSHOTS_COUNT] =
     [MUGSHOT_CHAMPION] = TRAINER_PIC_CHAMPION_RIVAL,
 };
 
-static const s16 sMugshotsOpponentRotationScales[MUGSHOTS_COUNT][2] =
-{
-    [MUGSHOT_LORELEI] =  {0x200, 0x200},
-    [MUGSHOT_BRUNO] =    {0x200, 0x200},
-    [MUGSHOT_AGATHA] =   {0x200, 0x200},
-    [MUGSHOT_LANCE] =    {0x200, 0x200},
-    [MUGSHOT_CHAMPION] = {0x200, 0x200},
-};
-
 static const s16 sMugshotsOpponentCoords[MUGSHOTS_COUNT][2] =
 {
     [MUGSHOT_LORELEI] =  {-8,  0},
@@ -715,21 +706,20 @@ void BattleTransition_Start(u8 transitionId)
 bool8 IsBattleTransitionDone(void)
 {
     u8 taskId = FindTaskIdByFunc(Task_BattleTransitionMain);
+
     if (gTasks[taskId].tTransitionDone)
     {
         DestroyTask(taskId);
         FREE_AND_SET_NULL(sTransitionStructPtr);
         return TRUE;
     }
-    else
-    {
-        return FALSE;
-    }
+    return FALSE;
 }
 
 static void LaunchBattleTransitionTask(u8 transitionId)
 {
     u8 taskId = CreateTask(Task_BattleTransitionMain, 2);
+
     gTasks[taskId].tTransitionId = transitionId;
     sTransitionStructPtr = AllocZeroed(sizeof(*sTransitionStructPtr));
 }
@@ -763,10 +753,7 @@ static bool8 Transition_WaitForPhase1(struct Task *task)
         task->tState++;
         return TRUE;
     }
-    else
-    {
-        return FALSE;
-    }
+    return FALSE;
 }
 
 static bool8 Transition_Phase2(struct Task *task)
@@ -789,15 +776,13 @@ static bool8 Transition_WaitForPhase2(struct Task *task)
 
 static void Phase1Task_TransitionAll(u8 taskId)
 {
-    if (gTasks[taskId].tState == 0)
+    if (!gTasks[taskId].tState)
     {
         gTasks[taskId].tState++;
         CreatePhase1Task(0, 0, 2, 2, 2); // creates a sub-task for this sub-task
     }
     else if (IsPhase1Done())
-    {
         DestroyTask(taskId);
-    }
 }
 
 // sub-task for phase2
@@ -831,9 +816,7 @@ static bool8 Phase2_Blur_Func1(struct Task *task)
 static bool8 Phase2_Blur_Func2(struct Task *task)
 {
     if (task->tData1)
-    {
         task->tData1--;
-    }
     else
     {
         task->tData1 = 2;
@@ -995,9 +978,7 @@ static void sub_814669C(struct Task *task)
     sTransitionStructPtr->BLDALPHA = BLDALPHA_BLEND(task->tData2, task->tData1);
 
     for (i = 0; i < 160; i++)
-    {
         gScanlineEffectRegBuffers[1][i] = 240;
-    }
 
     SetVBlankCallback(VBlankCB0_Phase2_BigPokeball);
 }
@@ -1107,9 +1088,7 @@ static bool8 Phase2_BigPokeball_Func4(struct Task *task)
         task->tData5 -= 384;
     }
     else
-    {
         task->tData5 = 0;
-    }
 
     sub_8149F98(gScanlineEffectRegBuffers[0], 0, task->tData4, 132, task->tData5 >> 8, 160);
 
@@ -1126,9 +1105,8 @@ static bool8 Phase2_BigPokeball_Func5(struct Task *task)
         task->tData5 -= 384;
     }
     else
-    {
         task->tData5 = 0;
-    }
+
     sub_8149F98(gScanlineEffectRegBuffers[0], 0, task->tData4, 132, task->tData5 >> 8, 160);
 
     if (task->tData5 <= 0)
@@ -1279,9 +1257,7 @@ static void sub_814713C(struct Sprite *sprite)
 
     memcpy(arr0, sUnknown_085C8B96, sizeof(sUnknown_085C8B96));
     if (sprite->data[1])
-    {
         sprite->data[1]--;
-    }
     else
     {
         if ((u16)sprite->x <= DISPLAY_WIDTH)
@@ -1430,6 +1406,7 @@ static bool8 Phase2_Clockwise_BlackFade_Func5(struct Task *task)
     {
         left = sTransitionStructPtr->data[2];
         right = (gScanlineEffectRegBuffers[0][sTransitionStructPtr->data[3]]) & 0xFF;
+
         if (sTransitionStructPtr->data[5] <= 80)
         {
             left = 120;
@@ -2041,9 +2018,7 @@ static bool8 Phase2_Mugshot_Func4(struct Task *task)
     sTransitionStructPtr->VBlank_DMA = FALSE;
 
     for (i = 0, toStore = gScanlineEffectRegBuffers[0]; i < 160; i++, toStore++)
-    {
         *toStore = 0xF0;
-    }
 
     task->tState++;
     task->tData1 = 0;
@@ -2239,7 +2214,7 @@ static void Mugshots_CreateOpponentPlayerSprites(struct Task *task)
     CalcCenterToCornerVec(opponentSprite, SPRITE_SHAPE(64x32), SPRITE_SIZE(64x32), ST_OAM_AFFINE_DOUBLE);
     CalcCenterToCornerVec(playerSprite, SPRITE_SHAPE(64x32), SPRITE_SIZE(64x32), ST_OAM_AFFINE_DOUBLE);
 
-    SetOamMatrixRotationScaling(opponentSprite->oam.matrixNum, sMugshotsOpponentRotationScales[mugshotId][0], sMugshotsOpponentRotationScales[mugshotId][1], 0);
+    SetOamMatrixRotationScaling(opponentSprite->oam.matrixNum, 0x200, 0x200, 0);
     SetOamMatrixRotationScaling(playerSprite->oam.matrixNum, -512, 512, 0);
 }
 
@@ -2283,7 +2258,7 @@ static bool8 TrainerPicCb_Slide2(struct Sprite *sprite)
 {
     sprite->sOffsetX += sprite->sOffsetX2;
     sprite->x += sprite->sOffsetX;
-    if (sprite->sOffsetX == 0)
+    if (!sprite->sOffsetX)
     {
         sprite->sState++;
         sprite->sOffsetX2 = -sprite->sOffsetX2;
@@ -2493,7 +2468,6 @@ static bool8 Phase2_BlackHole_Func3(struct Task *task)
         else
             sTransitionStructPtr->VBlank_DMA++;
     }
-
     return FALSE;
 }
 
@@ -2538,7 +2512,6 @@ static bool8 Phase2_RectangularSpiral_Func1(struct Task *task)
     sRectangularSpiralTransition[3].field_4 = 1;
     sRectangularSpiralTransition[3].field_6 = 307;
     sRectangularSpiralTransition[3].field_8 = 0;
-
     return FALSE;
 }
 
@@ -2610,7 +2583,7 @@ static bool16 sub_8149048(const s16 * const *arg0, struct StructRectangularSpira
     if (arg1->field_2 > 0x27F || array[arg1->field_4] == -1)
         return FALSE;
 
-    if (arg1->field_8 == 0 && array[arg1->field_4] == -2)
+    if (!arg1->field_8 && array[arg1->field_4] == -2)
     {
         arg1->field_8 = 1;
         arg1->field_4 = 1;
@@ -2786,7 +2759,7 @@ static void sub_8149864(struct Sprite *sprite)
             bldY[i] = sprite->data[0] >> 8;
             win0H[i] = (u8)(sprite->x);
         }
-        if (sprite->x == 0 && sprite->data[0] == 0x1000)
+        if (!sprite->x && sprite->data[0] == 0x1000)
             sprite->data[1] = 1;
         sprite->x -= 24;
         sprite->data[0] += 192;
@@ -3012,8 +2985,7 @@ static bool8 IsPhase1Done(void)
 {
     if (FindTaskIdByFunc(TransitionPhase1_Task_RunFuncs) == TASK_NONE)
         return TRUE;
-    else
-        return FALSE;
+    return FALSE;
 }
 
 void TransitionPhase1_Task_RunFuncs(u8 taskId)
@@ -3110,10 +3082,9 @@ static void FadeScreenBlack(void)
 static void sub_8149F98(s16 *array, s16 sinAdd, s16 index, s16 indexIncrementer, s16 amplitude, s16 arrSize)
 {
     u32 i;
+
     for (i = 0; arrSize > 0; arrSize--, i++, index += indexIncrementer)
-    {
         array[i] = sinAdd + Sin(0xFF & index, amplitude);
-    }
 }
 
 static void sub_814A014(u16 *array, s16 a1, s16 a2, s16 a3)
@@ -3196,6 +3167,7 @@ static void sub_814A1AC(s16 *data, s16 a1, s16 a2, s16 a3, s16 a4, s16 a5, s16 a
 static bool8 sub_814A228(s16 *data, bool8 a1, bool8 a2)
 {
     u8 var;
+
     if (data[8] > data[9])
     {
         data[2] += data[6];
@@ -3232,8 +3204,7 @@ static bool8 sub_814A228(s16 *data, bool8 a1, bool8 a2)
 
     if (var == 2)
         return TRUE;
-    else
-        return FALSE;
+    return FALSE;
 }
 
 // sub-task for phase2 of a couple of new transitions
@@ -3323,9 +3294,7 @@ static bool8 Phase2_FrontierLogoWave_Func3(struct Task *task)
     u32 i;
 
     for (i = 0; i < 160; i++)
-    {
         gScanlineEffectRegBuffers[1][i] = sTransitionStructPtr->field_16;
-    }
 
     SetVBlankCallback(VBlankCB_Phase2_30);
     SetHBlankCallback(HBlankCB_Phase2_30);
@@ -3356,7 +3325,7 @@ static bool8 Phase2_FrontierLogoWave_Func4(struct Task *task)
             task->tData2 = 0;
     }
 
-    if (task->tData3 >= 0 && task->tData3 % 3 == 0)
+    if (task->tData3 >= 0 && !task->tData3 % 3)
     {
         if (task->tData5 < 16)
             task->tData5++;
@@ -3399,6 +3368,7 @@ static void VBlankCB_Phase2_30(void)
 static void HBlankCB_Phase2_30(void)
 {
     u16 var = gScanlineEffectRegBuffers[1][REG_VCOUNT];
+
     REG_BG0VOFS = var;
 }
 
@@ -3453,7 +3423,6 @@ static bool8 Phase2_FrontierSquares_Func2(struct Task *task)
         if (task->tData3 > 19)
             task->tState++;
     }
-
     return FALSE;
 }
 
@@ -3490,11 +3459,9 @@ static bool8 Phase2_FrontierSquares_Func3(struct Task *task)
             task->tState++;
             return FALSE;
         }
-
         task->tData6 = 0;
         task->tData5++;
     }
-
     return FALSE;
 }
 
@@ -3706,7 +3673,6 @@ static bool8 Phase2_FrontierSquaresScroll_Func4(struct Task *task)
         DestroyTask(FindTaskIdByFunc(sub_814ABE4));
         task->tState++;
     }
-
     return FALSE;
 }
 
