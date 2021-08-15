@@ -134,7 +134,7 @@ const u8 gMonFootprint_Pidgeot[] = INCBIN_U8("graphics/pokemon/pidgeot/footprint
 
 const u32 gMonFrontPic_Rattata[] = INCBIN_U32("graphics/pokemon/rattata/normal/male/front.4bpp.lz");
 const u32 gFemaleMonFrontPic_Rattata[] = INCBIN_U32("graphics/pokemon/rattata/normal/female/front.4bpp.lz");
-const u16 gMonPalette_Rattata[] = INCBIN_U16("graphics/pokemon/rattata/normal.gbapal");
+const u16 gMonPalette_Rattata[] = INCBIN_U16("graphics/pokemon/rattata/normal/normal.gbapal");
 const u32 gMonBackPic_Rattata[] = INCBIN_U32("graphics/pokemon/rattata/normal/male/back.4bpp.lz");
 const u32 gFemaleMonBackPic_Rattata[] = INCBIN_U32("graphics/pokemon/rattata/normal/female/back.4bpp.lz");
 const u16 gMonShinyPalette_Rattata[] = INCBIN_U16("graphics/pokemon/rattata/normal/shiny.gbapal");
