@@ -361,7 +361,6 @@ bool8 AllocItemIconTemporaryBuffers(void)
         Free(gItemIconDecompressionBuffer);
         return FALSE;
     }
-
     return TRUE;
 }
 
@@ -404,15 +403,10 @@ u8 AddItemIconSprite(u16 tilesTag, u16 paletteTag, u16 itemId)
         spriteTemplate->tileTag = tilesTag;
         spriteTemplate->paletteTag = paletteTag;
         spriteId = CreateSprite(spriteTemplate, 0, 0, 0);
-
         FreeItemIconTemporaryBuffers();
-
         return spriteId;
     }
-    else
-    {
-        return MAX_SPRITES;
-    }
+    return MAX_SPRITES;
 }
 
 u8 AddCustomItemIconSprite(const struct SpriteTemplate *customSpriteTemplate, u16 tilesTag, u16 paletteTag, u16 itemId)
@@ -439,15 +433,10 @@ u8 AddCustomItemIconSprite(const struct SpriteTemplate *customSpriteTemplate, u1
         spriteTemplate.tileTag = tilesTag;
         spriteTemplate.paletteTag = paletteTag;
         spriteId = CreateSprite(&spriteTemplate, 0, 0, 0);
-
         FreeItemIconTemporaryBuffers();
-
         return spriteId;
     }
-    else
-    {
-        return MAX_SPRITES;
-    }
+    return MAX_SPRITES;
 }
 
 static void FreeItemIconTemporaryBuffers(void)
@@ -482,6 +471,7 @@ void RemoveBagItemIconSprite(u8 id)
 
     if (spriteId[id ^ 1] != SPRITE_NONE)
         gSprites[spriteId[id ^ 1]].invisible = TRUE;
+
     if (spriteId[id] != SPRITE_NONE)
     {
         DestroySpriteAndFreeResources(&gSprites[spriteId[id]]);

@@ -271,6 +271,7 @@ static void sub_81D1D44(u8 windowId, u32 itemId, u8 y)
 u8 sub_81D1DC0(struct PlayerPCItemPageStruct *page)
 {
     u32 i;
+
     for (i = 0; i < page->count; i++)
     {
         sUnknown_0203CF4C[i].name = sEmptyItemName;
@@ -319,7 +320,7 @@ void sub_81D1EC0(void)
 
 void InitConditionGraphData(struct ConditionGraph *graph)
 {
-    u8 i, j;
+    u32 i, j;
 
     for (j = 0; j < FLAVOR_COUNT; j++)
     {
@@ -345,7 +346,7 @@ void InitConditionGraphData(struct ConditionGraph *graph)
 
 void sub_81D1F84(struct ConditionGraph *graph, struct UnknownSubStruct_81D1ED4 *arg1, struct UnknownSubStruct_81D1ED4 *arg2)
 {
-    u16 i, j;
+    u32 i, j;
     s32 r5, r6;
 
     for (i = 0; i < FLAVOR_COUNT; i++)
@@ -380,9 +381,7 @@ bool32 TransitionConditionGraph(struct ConditionGraph *graph)
         return (++graph->unk352 != 10);
     }
     else
-    {
         return FALSE;
-    }
 }
 
 void InitConditionGraphState(struct ConditionGraph *graph)
@@ -413,7 +412,7 @@ void sub_81D2108(struct ConditionGraph *graph)
 {
     u32 i;
 
-    if (graph->unk354 == 0)
+    if (!graph->unk354)
         return;
 
     sub_81D24A4(graph);
@@ -685,9 +684,7 @@ void InitMoveRelearnerWindows(bool8 useContextWindow)
     LoadPalette(gUnknown_0860F074, 0xF0, 0x20);
 
     for (i = 0; i < 5; i++)
-    {
         FillWindowPixelBuffer(i, PIXEL_FILL(1));
-    }
 
     if (!useContextWindow)
     {
@@ -719,13 +716,9 @@ u8 LoadMoveRelearnerMovesList(const struct ListMenuItem *items, u16 numChoices)
     gMultiuseListMenuTemplate.items = items;
 
     if (numChoices < 6)
-    {
         gMultiuseListMenuTemplate.maxShowed = numChoices;
-    }
     else
-    {
         gMultiuseListMenuTemplate.maxShowed = 6;
-    }
     return gMultiuseListMenuTemplate.maxShowed;
 }
 
@@ -775,10 +768,8 @@ static void MoveRelearnerLoadBattleMoveDescription(u32 chosenMove)
     }
     AddTextPrinterParameterized(0, 2, str, 0x6A, 0x19, TEXT_SPEED_FF, NULL);
 
-    if (move->accuracy == 0)
-    {
+    if (!move->accuracy)
         str = gText_ThreeDashes;
-    }
     else
     {
         ConvertIntToDecimalStringN(buffer, move->accuracy, STR_CONV_MODE_LEFT_ALIGN, 3);
@@ -787,7 +778,7 @@ static void MoveRelearnerLoadBattleMoveDescription(u32 chosenMove)
     AddTextPrinterParameterized(0, 2, str, 0x6A, 0x29, TEXT_SPEED_FF, NULL);
 
     str = gMoveDescriptionPointers[chosenMove - 1];
-    AddTextPrinterParameterized(0, 7, str, 0, 0x41, 0, NULL);
+    AddTextPrinterParameterized(0, 5, str, 0, 0x41, 0, NULL);
 }
 
 static void MoveRelearnerCursorCallback(s32 itemIndex, bool8 onInit, struct ListMenu *list)
@@ -799,12 +790,9 @@ static void MoveRelearnerCursorCallback(s32 itemIndex, bool8 onInit, struct List
 
 void MoveRelearnerPrintText(u8 *str)
 {
-    u8 speed;
-
     FillWindowPixelBuffer(3, PIXEL_FILL(1));
     gTextFlags.canABSpeedUpPrint = TRUE;
-    speed = GetPlayerTextSpeedDelay();
-    AddTextPrinterParameterized2(3, 2, str, speed, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, 3);
+    AddTextPrinterParameterized2(3, 2, str, GetPlayerTextSpeedDelay(), NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, 3);
 }
 
 bool16 MoveRelearnerRunTextPrinters(void)
@@ -836,7 +824,6 @@ s32 GetBoxOrPartyMonData(u16 boxId, u16 monId, s32 request, u8 *dst)
         else
             ret = GetBoxMonDataAt(boxId, monId, request);
     }
-
     return ret;
 }
 
@@ -1314,6 +1301,7 @@ static void SetNextConditionSparkle(struct Sprite *sprite)
 {
     u32 i;
     u8 id = sprite->sNextSparkleSpriteId;
+
     for (i = 0; i < sprite->sNumExtraSparkles + 1; i++)
     {
         gSprites[id].sDelayTimer = (gSprites[id].sSparkleId * 16) + 1;
@@ -1350,9 +1338,7 @@ void CreateConditionSparkleSprites(struct Sprite **sprites, u8 monSpriteId, u8 _
                 firstSpriteId = spriteId;
         }
         else
-        {
             break;
-        }
     }
 
     sprites[count]->sNextSparkleSpriteId = firstSpriteId;
@@ -1371,9 +1357,7 @@ void DestroyConditionSparkleSprites(struct Sprite **sprites)
             sprites[i] = NULL;
         }
         else
-        {
             break;
-        }
     }
 }
 
@@ -1415,15 +1399,13 @@ static void SpriteCB_ConditionSparkle(struct Sprite *sprite)
             }
         }
         else
-        {
             sprite->callback = SpriteCallbackDummy;
-        }
     }
 }
 
 static void ShowAllConditionSparkles(struct Sprite *sprite)
 {
-    u8 i;
+    u32 i;
     u8 id = sprite->sNextSparkleSpriteId;
 
     for (i = 0; i < sprite->sNumExtraSparkles + 1; i++)

@@ -360,7 +360,7 @@ static void AddHatchedMonToParty(u8 id)
     SetMonData(mon, MON_DATA_IS_EGG, &isEgg);
 
     pokeNum = GetMonData(mon, MON_DATA_SPECIES);
-    GetSpeciesName(name, pokeNum);
+    GetSpeciesName(name, pokeNum, 0);
     SetMonData(mon, MON_DATA_NICKNAME, name);
 
     pokeNum = SpeciesToNationalPokedexNum(pokeNum);

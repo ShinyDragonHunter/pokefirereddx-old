@@ -435,11 +435,7 @@ static void VBlankCB_BagMenuRun(void)
 
 static void CB2_OpenBagMenu(void)
 {
-    while (1)
-    {
-        if (MenuHelpers_CallLinkSomething() || LoadBagMenuGraphics() || MenuHelpers_LinkSomething())
-            break;
-    }
+    while (!MenuHelpers_CallLinkSomething() && !LoadBagMenuGraphics() && !MenuHelpers_LinkSomething()) {};
 }
 
 static bool8 LoadBagMenuGraphics(void)
@@ -1191,8 +1187,10 @@ static void Bag_FillMessageBoxWithPalette(u32 a0)
 static u8 ProcessPocketSwitchInput(void)
 {
     u8 LRKeys;
+
     if (gBagMenu->pocketSwitchDisabled)
         return SWITCH_POCKET_NONE;
+
     LRKeys = GetLRKeysPressed();
     if (JOY_NEW(DPAD_LEFT) || LRKeys == MENU_L_PRESSED)
     {
@@ -1352,6 +1350,7 @@ static void Task_MoveItemInPocket_HandleInput(u8 taskId)
 static void ExecuteMoveItemInPocket(u8 taskId, u32 itemIndex)
 {
     s16* data = gTasks[taskId].data;
+
     if (data[1] == itemIndex || data[1] == itemIndex - 1)
         AbortMovingItemInPocket(taskId, itemIndex);
     else
@@ -1371,6 +1370,7 @@ static void ExecuteMoveItemInPocket(u8 taskId, u32 itemIndex)
 static void AbortMovingItemInPocket(u8 taskId, u32 itemIndex)
 {
     s16* data = gTasks[taskId].data;
+
     DestroyListMenuTask(data[0], &gBagPositionStruct.scrollPosition[gBagPositionStruct.pocket], &gBagPositionStruct.cursorPosition[gBagPositionStruct.pocket]);
     if (data[1] < itemIndex)
         gBagPositionStruct.cursorPosition[gBagPositionStruct.pocket]--;
@@ -1385,6 +1385,7 @@ static void InitQuantityToTossOrDeposit(u16 cursorPos, const u8 *str)
 {
     u8 itemQtyWindowId;
     u8 itemNameWindowId = ShowBagWindow(6, 2);
+
     CopyItemName(BagGetItemIdByPocketPosition(gBagPositionStruct.pocket + 1, cursorPos), gStringVar1);
     StringExpandPlaceholders(gStringVar4, str);
     BagPrintTextOnWindow(itemNameWindowId, 2, gStringVar4, 0, 2, 1, 0, 0, 1);
@@ -1398,6 +1399,7 @@ static void InitQuantityToTossOrDeposit(u16 cursorPos, const u8 *str)
 static void UpdateQuantityToTossOrDeposit(s16 value, u8 ndigits)
 {
     u8 windowId = GetBagWindow(0);
+
     FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
     ConvertIntToDecimalStringN(gStringVar1, value, STR_CONV_MODE_LEADING_ZEROS, ndigits);
     StringExpandPlaceholders(gStringVar4, gText_xVar1);
@@ -1921,9 +1923,7 @@ static void Task_SelectQuantityToSell(u8 taskId)
     s16* data = gTasks[taskId].data;
 
     if (AdjustQuantityAccordingToDPadInput(&tItemCount, data[2]))
-    {
         PrintItemSoldAmount(GetBagWindow(0), tItemCount, (ItemId_GetPrice(gSpecialVar_ItemId) / 2) * tItemCount);
-    }
     else if (JOY_NEW(A_BUTTON))
     {
         PlaySE(SE_SELECT);

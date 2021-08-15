@@ -829,7 +829,7 @@ static bool8 DoesTypePreventStatus(u16 species, u32 status)
     {
     case STATUS1_TOXIC_POISON:
         if (gBaseStats[species].type1 == TYPE_STEEL || gBaseStats[species].type1 == TYPE_POISON
-            || gBaseStats[species].type2 == TYPE_STEEL || gBaseStats[species].type2 == TYPE_POISON)
+         || gBaseStats[species].type2 == TYPE_STEEL || gBaseStats[species].type2 == TYPE_POISON)
             ret = TRUE;
         break;
     case STATUS1_FREEZE:
@@ -838,7 +838,7 @@ static bool8 DoesTypePreventStatus(u16 species, u32 status)
         break;
     case STATUS1_PARALYSIS:
         if (gBaseStats[species].type1 == TYPE_GROUND || gBaseStats[species].type1 == TYPE_ELECTRIC
-            || gBaseStats[species].type2 == TYPE_GROUND || gBaseStats[species].type2 == TYPE_ELECTRIC)
+         || gBaseStats[species].type2 == TYPE_GROUND || gBaseStats[species].type2 == TYPE_ELECTRIC)
             ret = TRUE;
         break;
     case STATUS1_BURN:
@@ -905,7 +905,7 @@ static bool8 TryInflictRandomStatus(void)
             {
                 mon = &gPlayerParty[indices[i]];
                 if (GetAilmentFromStatus(GetMonData(mon, MON_DATA_STATUS)) == AILMENT_NONE
-                    && GetMonData(mon, MON_DATA_HP) != 0)
+                 && GetMonData(mon, MON_DATA_HP) != 0)
                 {
                     j++;
                     species = GetMonData(mon, MON_DATA_SPECIES);
@@ -918,7 +918,7 @@ static bool8 TryInflictRandomStatus(void)
                 if (j == count)
                     break;
             }
-            if (j == 0)
+            if (!j)
                 return FALSE;
         }
     } while (!statusChosen);
@@ -957,15 +957,13 @@ static bool8 TryInflictRandomStatus(void)
         if (j == count)
             break;
     }
-
     return TRUE;
 }
 
 static bool8 AtLeastOneHealthyMon(void)
 {
     u32 i;
-    u8 healthyMonsCount;
-    u8 count;
+    u8 healthyMonsCount, count;
 
     if (gSaveBlock2Ptr->frontier.curChallengeBattleNum <= 4)
         count = 1;
@@ -989,17 +987,14 @@ static bool8 AtLeastOneHealthyMon(void)
 
     if (healthyMonsCount)
         return TRUE;
-    else
-        return FALSE;
+    return FALSE;
 }
 
 static u8 GetNextRoomType(void)
 {
     bool8 roomTypesDisabled[NUM_PIKE_ROOM_TYPES - 1]; // excludes Brain room, which cant be disabled
     u32 i;
-    u8 nextRoomType;
-    u8 roomHint;
-    u8 numRoomCandidates;
+    u8 nextRoomType, roomHint, numRoomCandidates;
     u8 *roomCandidates;
     u8 id;
 
@@ -1045,12 +1040,12 @@ static u8 GetNextRoomType(void)
     // Remove healing room type candidates if healing rooms are disabled.
     if (gSaveBlock2Ptr->frontier.pikeHealingRoomsDisabled)
     {
-        if (roomTypesDisabled[PIKE_ROOM_HEAL_FULL] != TRUE)
+        if (!roomTypesDisabled[PIKE_ROOM_HEAL_FULL])
         {
             roomTypesDisabled[PIKE_ROOM_HEAL_FULL] = TRUE;
             numRoomCandidates--;
         }
-        if (roomTypesDisabled[PIKE_ROOM_HEAL_PART] != TRUE)
+        if (!roomTypesDisabled[PIKE_ROOM_HEAL_PART])
         {
             roomTypesDisabled[PIKE_ROOM_HEAL_PART] = TRUE;
             numRoomCandidates--;
@@ -1094,9 +1089,7 @@ bool32 TryGenerateBattlePikeWildMon(bool8 checkKeenEyeIntimidate)
     {
         monLevel = GetHighestLevelInPlayerParty();
         if (monLevel < 60)
-        {
             monLevel = 60;
-        }
         else
         {
             monLevel -= wildMons[headerId][pikeMonId].levelDelta;
@@ -1105,11 +1098,9 @@ bool32 TryGenerateBattlePikeWildMon(bool8 checkKeenEyeIntimidate)
         }
     }
     else
-    {
         monLevel = 50 - wildMons[headerId][pikeMonId].levelDelta;
-    }
 
-    if (checkKeenEyeIntimidate == TRUE && !CanEncounterWildMon(monLevel))
+    if (checkKeenEyeIntimidate && !CanEncounterWildMon(monLevel))
         return FALSE;
 
     SetMonData(&gEnemyParty[0],
@@ -1142,7 +1133,6 @@ u8 GetBattlePikeWildMonHeaderId(void)
         headerId = 2;
     else
         headerId = 3;
-
     return headerId;
 }
 
@@ -1153,7 +1143,7 @@ static void DoStatusInflictionScreenFlash(u8 taskId)
 
 static bool8 StatusInflictionFadeOut(struct Task *task)
 {
-    if (task->data[6] == 0 || --task->data[6] == 0)
+    if (!task->data[6] || --task->data[6] == 0)
     {
         task->data[6] = task->data[1];
         task->data[7] += task->data[4];
@@ -1172,7 +1162,7 @@ static bool8 StatusInflictionFadeOut(struct Task *task)
 
 static bool8 StatusInflictionFadeIn(struct Task *task)
 {
-    if (task->data[6] == 0 || --task->data[6] == 0)
+    if (!task->data[6] || --task->data[6] == 0)
     {
         task->data[6] = task->data[2];
         task->data[7] -= task->data[5];
@@ -1181,7 +1171,7 @@ static bool8 StatusInflictionFadeIn(struct Task *task)
         BlendPalettes(PALETTES_ALL, task->data[7], RGB(11, 11, 11));
     }
 
-    if (task->data[7] == 0)
+    if (!task->data[7])
     {
         if (--task->data[3])
         {
@@ -1189,9 +1179,7 @@ static bool8 StatusInflictionFadeIn(struct Task *task)
             task->data[0] = 0;
         }
         else
-        {
             DestroyTask(FindTaskIdByFunc(DoStatusInflictionScreenFlash));
-        }
     }
     return FALSE;
 }
@@ -1212,8 +1200,7 @@ static bool8 IsStatusInflictionScreenFlashTaskFinished(void)
 {
     if (FindTaskIdByFunc(DoStatusInflictionScreenFlash) == TASK_NONE)
         return TRUE;
-    else
-        return FALSE;
+    return FALSE;
 }
 
 static void Task_DoStatusInflictionScreenFlash(u8 taskId)
@@ -1258,14 +1245,11 @@ static void TryHealMons(u8 healCount)
         struct Pokemon *mon = &gPlayerParty[indices[i]];
         u16 curr = GetMonData(mon, MON_DATA_HP);
         u16 max = GetMonData(mon, MON_DATA_MAX_HP);
+
         if (curr < max)
-        {
             canBeHealed = TRUE;
-        }
         else if (GetAilmentFromStatus(GetMonData(mon, MON_DATA_STATUS)) != AILMENT_NONE)
-        {
             canBeHealed = TRUE;
-        }
         else
         {
             u8 ppBonuses = GetMonData(mon, MON_DATA_PP_BONUSES);
@@ -1332,9 +1316,7 @@ static void SetHintedRoom(void)
                     roomCandidates[id++] = i;
             }
             else
-            {
                 roomCandidates[i] = i;
-            }
         }
 
         gSaveBlock2Ptr->frontier.pikeHintedRoomType = roomCandidates[Random() % count];
@@ -1359,15 +1341,13 @@ static void GetRoomTypeHint(void)
 static void PrepareOneTrainer(bool8 difficult)
 {
     int i;
-    u8 lvlMode;
-    u8 battleNum;
-    u16 challengeNum;
-    u16 trainerId;
+    u8 lvlMode, battleNum;
+    u16 challengeNum, trainerId;
 
-    if (!difficult)
-        battleNum = 1;
-    else
+    if (difficult)
         battleNum = 6;
+    else
+        battleNum = 1;
 
     lvlMode = gSaveBlock2Ptr->frontier.lvlMode;
     challengeNum = gSaveBlock2Ptr->frontier.pikeWinStreaks[lvlMode] / 14;
@@ -1437,7 +1417,7 @@ static void ClearPikeTrainerIds(void)
 
 static void BufferTrainerIntro(void)
 {
-    if (gSpecialVar_0x8005 == 0)
+    if (!gSpecialVar_0x8005)
     {
         if (gTrainerBattleOpponent_A < FRONTIER_TRAINERS_COUNT)
             FrontierSpeechToString(gFacilityTrainers[gTrainerBattleOpponent_A].speechBefore);
@@ -1459,20 +1439,18 @@ static bool8 AtLeastTwoAliveMons(void)
     countDead = 0;
     for (i = 0; i < FRONTIER_PARTY_SIZE; i++, mon++)
     {
-        if (GetMonData(mon, MON_DATA_HP) == 0)
+        if (!GetMonData(mon, MON_DATA_HP))
             countDead++;
     }
 
     if (countDead >= 2)
         return FALSE;
-    else
-        return TRUE;
+    return TRUE;
 }
 
 static u8 GetPikeQueenFightType(u8 nextRoom)
 {
     u8 numPikeSymbols;
-
     u8 facility = FRONTIER_FACILITY_PIKE;
     u8 ret = FRONTIER_BRAIN_NOT_READY;
     u8 lvlMode = gSaveBlock2Ptr->frontier.lvlMode;
@@ -1492,12 +1470,11 @@ static u8 GetPikeQueenFightType(u8 nextRoom)
         if (winStreak == gFrontierBrainStreakAppearances[facility][0] - gFrontierBrainStreakAppearances[facility][3])
             ret = FRONTIER_BRAIN_STREAK;
         else if (winStreak == gFrontierBrainStreakAppearances[facility][1] - gFrontierBrainStreakAppearances[facility][3]
-                 || (winStreak > gFrontierBrainStreakAppearances[facility][1]
-                     && (winStreak - gFrontierBrainStreakAppearances[facility][1] + gFrontierBrainStreakAppearances[facility][3]) % gFrontierBrainStreakAppearances[facility][2] == 0))
+         || (winStreak > gFrontierBrainStreakAppearances[facility][1]
+         && (winStreak - gFrontierBrainStreakAppearances[facility][1] + gFrontierBrainStreakAppearances[facility][3]) % gFrontierBrainStreakAppearances[facility][2] == 0))
             ret = FRONTIER_BRAIN_STREAK_LONG;
         break;
     }
-
     return ret;
 }
 
@@ -1533,6 +1510,7 @@ static void IsPartyFullHealed(void)
         if (curr >= max && GetAilmentFromStatus(GetMonData(mon, MON_DATA_STATUS)) == AILMENT_NONE)
         {
             u8 ppBonuses = GetMonData(mon, MON_DATA_PP_BONUSES);
+
             for (j = 0; j < MAX_MON_MOVES; j++)
             {
                 u16 move = GetMonData(mon, MON_DATA_MOVE1 + j);
@@ -1546,9 +1524,7 @@ static void IsPartyFullHealed(void)
             }
         }
         else
-        {
             canBeHealed = TRUE;
-        }
 
         if (canBeHealed)
         {
@@ -1604,11 +1580,10 @@ static bool8 CanEncounterWildMon(u8 enemyMonLevel)
         if (monAbility == ABILITY_KEEN_EYE || monAbility == ABILITY_INTIMIDATE)
         {
             u8 playerMonLevel = GetMonData(&gPlayerParty[0], MON_DATA_LEVEL);
-            if (playerMonLevel > 5 && enemyMonLevel <= playerMonLevel - 5 && Random() % 2 == 0)
+            if (playerMonLevel > 5 && enemyMonLevel <= playerMonLevel - 5 && !Random() % 2)
                 return FALSE;
         }
     }
-
     return TRUE;
 }
 
@@ -1622,6 +1597,5 @@ static u8 SpeciesToPikeMonId(u16 species)
         ret = 1;
     else
         ret = 2;
-
     return ret;
 }

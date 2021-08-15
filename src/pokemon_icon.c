@@ -148,7 +148,7 @@ const u8 *const gMonIconTable[] =
     [SPECIES_SEAKING] = gMonIcon_Seaking,
     [SPECIES_STARYU] = gMonIcon_Staryu,
     [SPECIES_STARMIE] = gMonIcon_Starmie,
-    [SPECIES_MR_MIME] = gMonIcon_Mrmime,
+    [SPECIES_MR_MIME] = gMonIcon_MrMime,
     [SPECIES_SCYTHER] = gMonIcon_Scyther,
     [SPECIES_JYNX] = gMonIcon_Jynx,
     [SPECIES_ELECTABUZZ] = gMonIcon_Electabuzz,
@@ -466,6 +466,40 @@ const u8 *const gMonIconTable[] =
     [SPECIES_UNOWN_Z] = gMonIcon_UnownZ,
     [SPECIES_UNOWN_EMARK] = gMonIcon_UnownExclamationMark,
     [SPECIES_UNOWN_QMARK] = gMonIcon_UnownQuestionMark,
+    [SPECIES_RATTATA_ALOLAN] = gMonIcon_RattataAlolan,
+    [SPECIES_RATICATE_ALOLAN] = gMonIcon_RaticateAlolan,
+    [SPECIES_RAICHU_ALOLAN] = gMonIcon_RaichuAlolan,
+    [SPECIES_SANDSHREW_ALOLAN] = gMonIcon_SandshrewAlolan,
+    [SPECIES_SANDSLASH_ALOLAN] = gMonIcon_SandslashAlolan,
+    [SPECIES_VULPIX_ALOLAN] = gMonIcon_VulpixAlolan,
+    [SPECIES_NINETALES_ALOLAN] = gMonIcon_NinetalesAlolan,
+    [SPECIES_DIGLETT_ALOLAN] = gMonIcon_DiglettAlolan,
+    [SPECIES_DUGTRIO_ALOLAN] = gMonIcon_DugtrioAlolan,
+    [SPECIES_MEOWTH_ALOLAN] = gMonIcon_MeowthAlolan,
+    [SPECIES_PERSIAN_ALOLAN] = gMonIcon_PersianAlolan,
+    [SPECIES_GEODUDE_ALOLAN] = gMonIcon_GeodudeAlolan,
+    [SPECIES_GRAVELER_ALOLAN] = gMonIcon_GravelerAlolan,
+    [SPECIES_GOLEM_ALOLAN] = gMonIcon_GolemAlolan,
+    [SPECIES_PONYTA_GALARIAN] = gMonIcon_PonytaGalarian,
+    [SPECIES_RAPIDASH_GALARIAN] = gMonIcon_RapidashGalarian,
+    [SPECIES_SLOWPOKE_GALARIAN] = gMonIcon_SlowpokeGalarian,
+    [SPECIES_SLOWBRO_GALARIAN] = gMonIcon_SlowbroGalarian,
+    [SPECIES_FARFETCHD_GALARIAN] = gMonIcon_FarfetchdGalarian,
+    [SPECIES_GRIMER_ALOLAN] = gMonIcon_GrimerAlolan,
+    [SPECIES_MUK_ALOLAN] = gMonIcon_MukAlolan,
+    [SPECIES_EXEGGUTOR_ALOLAN] = gMonIcon_ExeggutorAlolan,
+    [SPECIES_MAROWAK_ALOLAN] = gMonIcon_MarowakAlolan,
+    [SPECIES_WEEZING_GALARIAN] = gMonIcon_WeezingGalarian,
+    [SPECIES_MR_MIME_GALARIAN] = gMonIcon_MrMimeGalarian,
+    [SPECIES_ARTICUNO_GALARIAN] = gMonIcon_ArticunoGalarian,
+    [SPECIES_ZAPDOS_GALARIAN] = gMonIcon_ZapdosGalarian,
+    [SPECIES_MOLTRES_GALARIAN] = gMonIcon_MoltresGalarian,
+    [SPECIES_MEWTWO_ARMORED] = gMonIcon_MewtwoArmored,
+    [SPECIES_SLOWKING_GALARIAN] = gMonIcon_SlowkingGalarian,
+    [SPECIES_CORSOLA_GALARIAN] = gMonIcon_CorsolaGalarian,
+    [SPECIES_LUGIA_SHADOW] = gMonIcon_LugiaShadow,
+    [SPECIES_ZIGZAGOON_GALARIAN] = gMonIcon_ZigzagoonGalarian,
+    [SPECIES_LINOONE_GALARIAN] = gMonIcon_LinooneGalarian,
     [SPECIES_DEOXYS_SPEED] = gMonIcon_DeoxysSpeed,
     [SPECIES_DEOXYS_ATTACK] = gMonIcon_DeoxysAttack,
     [SPECIES_DEOXYS_DEFENSE] = gMonIcon_DeoxysDefense,
@@ -913,6 +947,40 @@ const u8 gMonIconPaletteIndices[] =
     [SPECIES_UNOWN_Z] = 0,
     [SPECIES_UNOWN_EMARK] = 0,
     [SPECIES_UNOWN_QMARK] = 0,
+    [SPECIES_RATTATA_ALOLAN] = 2,
+    [SPECIES_RATICATE_ALOLAN] = 2,
+    [SPECIES_RAICHU_ALOLAN] = 2,
+    [SPECIES_SANDSHREW_ALOLAN] = 2,
+    [SPECIES_SANDSLASH_ALOLAN] = 2,
+    [SPECIES_VULPIX_ALOLAN] = 2,
+    [SPECIES_NINETALES_ALOLAN] = 1,
+    [SPECIES_DIGLETT_ALOLAN] = 2,
+    [SPECIES_DUGTRIO_ALOLAN] = 2,
+    [SPECIES_MEOWTH_ALOLAN] = 1,
+    [SPECIES_PERSIAN_ALOLAN] = 1,
+    [SPECIES_GEODUDE_ALOLAN] = 1,
+    [SPECIES_GRAVELER_ALOLAN] = 1,
+    [SPECIES_GOLEM_ALOLAN] = 1,
+    [SPECIES_PONYTA_GALARIAN] = 0,
+    [SPECIES_RAPIDASH_GALARIAN] = 0,
+    [SPECIES_SLOWPOKE_GALARIAN] = 0,
+    [SPECIES_SLOWBRO_GALARIAN] = 0,
+    [SPECIES_FARFETCHD_GALARIAN] = 1,
+    [SPECIES_GRIMER_ALOLAN] = 2,
+    [SPECIES_MUK_ALOLAN] = 2,
+    [SPECIES_EXEGGUTOR_ALOLAN] = 1,
+    [SPECIES_MAROWAK_ALOLAN] = 1,
+    [SPECIES_WEEZING_GALARIAN] = 2,
+    [SPECIES_MR_MIME_GALARIAN] = 0,
+    [SPECIES_ARTICUNO_GALARIAN] = 0,
+    [SPECIES_ZAPDOS_GALARIAN] = 0,
+    [SPECIES_MOLTRES_GALARIAN] = 0,
+    [SPECIES_MEWTWO_ARMORED] = 2,
+    [SPECIES_SLOWKING_GALARIAN] = 0,
+    [SPECIES_CORSOLA_GALARIAN] = 0,
+    [SPECIES_LUGIA_SHADOW] = 0,
+    [SPECIES_ZIGZAGOON_GALARIAN] = 2,
+    [SPECIES_LINOONE_GALARIAN] = 2,
     [SPECIES_DEOXYS_SPEED] = 0,
     [SPECIES_DEOXYS_ATTACK] = 0,
     [SPECIES_DEOXYS_DEFENSE] = 0,
@@ -1030,6 +1098,7 @@ const u16 sSpriteImageSizes[3][4] =
 u8 CreateMonIcon(u16 species, void (*callback)(struct Sprite *), s16 x, s16 y, u8 subpriority, u32 personality, u8 form)
 {
     u8 spriteId;
+
     struct MonIconSpriteTemplate iconTemplate =
     {
         .oam = &sMonIconOamData,
@@ -1054,6 +1123,7 @@ u8 CreateMonIcon(u16 species, void (*callback)(struct Sprite *), s16 x, s16 y, u
 u8 CreateMonIconNoPersonality(u16 species, void (*callback)(struct Sprite *), s16 x, s16 y, u8 subpriority)
 {
     u8 spriteId;
+
     struct MonIconSpriteTemplate iconTemplate =
     {
         .oam = &sMonIconOamData,
@@ -1101,8 +1171,7 @@ u16 GetUnownLetterByPersonality(u32 personality)
 {
     if (personality)
         return GET_UNOWN_LETTER(personality);
-    else
-        return 0;
+    return 0;
 }
 
 u16 GetIconSpeciesNoPersonality(u16 species)
@@ -1118,9 +1187,7 @@ u16 GetIconSpeciesNoPersonality(u16 species)
         return value;
     }
     else
-    {
         return GetIconSpecies(species, 0, 0);
-    }
 }
 
 const u8 *GetMonIconPtr(u16 species, u32 personality, u8 form)
@@ -1136,6 +1203,7 @@ void FreeAndDestroyMonIconSprite(struct Sprite *sprite)
 void LoadMonIconPalettes(void)
 {
     u32 i;
+
     for (i = 0; i < ARRAY_COUNT(gMonIconPaletteTable); i++)
         LoadSpritePalette(&gMonIconPaletteTable[i]);
 }
@@ -1143,6 +1211,7 @@ void LoadMonIconPalettes(void)
 void LoadMonIconPalette(u16 species)
 {
     u8 palIndex = gMonIconPaletteIndices[species];
+
     if (IndexOfSpritePaletteTag(gMonIconPaletteTable[palIndex].tag) == 0xFF)
         LoadSpritePalette(&gMonIconPaletteTable[palIndex]);
 }
@@ -1150,6 +1219,7 @@ void LoadMonIconPalette(u16 species)
 void FreeMonIconPalettes(void)
 {
     u32 i;
+
     for (i = 0; i < ARRAY_COUNT(gMonIconPaletteTable); i++)
         FreeSpritePaletteByTag(gMonIconPaletteTable[i].tag);
 }
@@ -1157,6 +1227,7 @@ void FreeMonIconPalettes(void)
 void FreeMonIconPalette(u16 species)
 {
     u8 palIndex;
+
     palIndex = gMonIconPaletteIndices[species];
     FreeSpritePaletteByTag(gMonIconPaletteTable[palIndex].tag);
 }
@@ -1169,6 +1240,7 @@ void SpriteCB_MonIcon(struct Sprite *sprite)
 const u8* GetMonIconTiles(u16 species)
 {
     const u8* iconSprite = gMonIconTable[species];
+
     return iconSprite;
 }
 

@@ -181,13 +181,9 @@ u8 GetBattlerYDelta(u8 battlerId, u16 species)
         }
         else if ((species > NUM_SPECIES && !form)
          || (species >= SPECIES_COUNT && form))
-        {
             ret = gMonBackPicCoords[SPECIES_NONE].y_offset;
-        }
         else
-        {
             ret = gMonBackPicCoords[formSpecies].y_offset;
-        }
     }
     else
     {
@@ -207,18 +203,12 @@ u8 GetBattlerYDelta(u8 battlerId, u16 species)
             ret = gMonFrontPicCoords[coordSpecies].y_offset;
         }
         else if (species == SPECIES_CASTFORM)
-        {
             ret = gCastformFrontSpriteCoords[gBattleMonForms[battlerId]].y_offset;
-        }
         else if ((species > NUM_SPECIES && !form)
          || (species >= SPECIES_COUNT && form))
-        {
             ret = gMonFrontPicCoords[SPECIES_NONE].y_offset;
-        }
         else
-        {
             ret = gMonFrontPicCoords[formSpecies].y_offset;
-        }
     }
     return ret;
 }

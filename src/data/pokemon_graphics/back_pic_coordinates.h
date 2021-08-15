@@ -2200,6 +2200,176 @@ const struct MonCoords gMonBackPicCoords[] =
         .size = 0x47,
         .y_offset = 6,
     },
+    [SPECIES_RATTATA_ALOLAN] =
+    {
+        .size = 0x65,
+        .y_offset = 13,
+    },
+    [SPECIES_RATICATE_ALOLAN] =
+    {
+        .size = 0x75,
+        .y_offset = 13,
+    },
+    [SPECIES_RAICHU_ALOLAN] =
+    {
+        .size = 0x66,
+        .y_offset = 5,
+    },
+    [SPECIES_SANDSHREW_ALOLAN] =
+    {
+        .size = 0x65,
+        .y_offset = 13,
+    },
+    [SPECIES_SANDSLASH_ALOLAN] =
+    {
+        .size = 0x86,
+        .y_offset = 13,
+    },
+    [SPECIES_VULPIX_ALOLAN] =
+    {
+        .size = 0x76,
+        .y_offset = 9,
+    },
+    [SPECIES_NINETALES_ALOLAN] =
+    {
+        .size = 0x77,
+        .y_offset = 4,
+    },
+    [SPECIES_DIGLETT_ALOLAN] =
+    {
+        .size = 0x54,
+        .y_offset = 16,
+    },
+    [SPECIES_DUGTRIO_ALOLAN] =
+    {
+        .size = 0x66,
+        .y_offset = 10,
+    },
+    [SPECIES_MEOWTH_ALOLAN] =
+    {
+        .size = 0x65,
+        .y_offset = 12,
+    },
+    [SPECIES_PERSIAN_ALOLAN] =
+    {
+        .size = 0x87,
+        .y_offset = 7,
+    },
+    [SPECIES_GEODUDE_ALOLAN] =
+    {
+        .size = 0x66,
+        .y_offset = 11,
+    },
+    [SPECIES_GRAVELER_ALOLAN] =
+    {
+        .size = 0x75,
+        .y_offset = 12,
+    },
+    [SPECIES_GOLEM_ALOLAN] =
+    {
+        .size = 0x84,
+        .y_offset = 16,
+    },
+    [SPECIES_PONYTA_GALARIAN] =
+    {
+        .size = 0x66,
+        .y_offset = 9,
+    },
+    [SPECIES_RAPIDASH_GALARIAN] =
+    {
+        .size = 0x87,
+        .y_offset = 5,
+    },
+    [SPECIES_SLOWPOKE_GALARIAN] =
+    {
+        .size = 0x85,
+        .y_offset = 14,
+    },
+    [SPECIES_SLOWBRO_GALARIAN] =
+    {
+        .size = 0x86,
+        .y_offset = 10,
+    },
+    [SPECIES_FARFETCHD_GALARIAN] =
+    {
+        .size = 0x66,
+        .y_offset = 10,
+    },
+    [SPECIES_GRIMER_ALOLAN] =
+    {
+        .size = 0x75,
+        .y_offset = 13,
+    },
+    [SPECIES_MUK_ALOLAN] =
+    {
+        .size = 0x87,
+        .y_offset = 13,
+    },
+    [SPECIES_EXEGGUTOR_ALOLAN] =
+    {
+        .size = 0x87,
+        .y_offset = 7,
+    },
+    [SPECIES_MAROWAK_ALOLAN] =
+    {
+        .size = 0x66,
+        .y_offset = 8,
+    },
+    [SPECIES_WEEZING_GALARIAN] =
+    {
+        .size = 0x77,
+        .y_offset = 6,
+    },
+    [SPECIES_MR_MIME_GALARIAN] =
+    {
+        .size = 0x85,
+        .y_offset = 13,
+    },
+    [SPECIES_ARTICUNO_GALARIAN] =
+    {
+        .size = 0x65,
+        .y_offset = 12,
+    },
+    [SPECIES_ZAPDOS_GALARIAN] =
+    {
+        .size = 0x76,
+        .y_offset = 11,
+    },
+    [SPECIES_MOLTRES_GALARIAN] =
+    {
+        .size = 0x87,
+        .y_offset = 4,
+    },
+    [SPECIES_MEWTWO_ARMORED] =
+    {
+        .size = 0x78,
+        .y_offset = 1,
+    },
+    [SPECIES_SLOWKING_GALARIAN] =
+    {
+        .size = 0x66,
+        .y_offset = 8,
+    },
+    [SPECIES_CORSOLA_GALARIAN] =
+    {
+        .size = 0x65,
+        .y_offset = 12,
+    },
+    [SPECIES_LUGIA_SHADOW] =
+    {
+        .size = 0x88,
+        .y_offset = 1,
+    },
+    [SPECIES_ZIGZAGOON_GALARIAN] =
+    {
+        .size = 0x76,
+        .y_offset = 11,
+    },
+    [SPECIES_LINOONE_GALARIAN] =
+    {
+        .size = 0x85,
+        .y_offset = 15,
+    },
     [SPECIES_DEOXYS_SPEED] =
     {
         .size = 0x76,

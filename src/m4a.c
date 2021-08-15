@@ -676,9 +676,8 @@ void FadeOutBody(struct MusicPlayerInfo *mplayInfo)
     struct MusicPlayerTrack *track;
     u16 fadeOV;
 
-    if (mplayInfo->fadeOI == 0)
-        return;
-    if (--mplayInfo->fadeOC != 0)
+    if (mplayInfo->fadeOI == 0
+     || --mplayInfo->fadeOC != 0)
         return;
 
     mplayInfo->fadeOC = mplayInfo->fadeOI;
@@ -747,8 +746,7 @@ void TrkVolPitSet(struct MusicPlayerInfo *mplayInfo, struct MusicPlayerTrack *tr
 {
     if (track->flags & MPT_FLG_VOLSET)
     {
-        s32 x;
-        s32 y;
+        s32 x, y;
 
         x = (u32)(track->vol * track->volX) >> 5;
 
@@ -807,8 +805,7 @@ u32 MidiKeyToCgbFreq(u8 chanNum, u8 key, u8 fineAdjust)
     }
     else
     {
-        s32 val1;
-        s32 val2;
+        s32 val1, val2;
 
         if (key <= 35)
         {

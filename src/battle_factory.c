@@ -25,8 +25,7 @@ static void InitFactoryChallenge(void);
 static void GetBattleFactoryData(void);
 static void SetBattleFactoryData(void);
 static void SaveFactoryChallenge(void);
-static void FactoryDummy1(void);
-static void FactoryDummy2(void);
+static void FactoryDummy(void);
 static void SelectInitialRentalMons(void);
 static void SwapRentalMons(void);
 static void SetPerformedRentalSwap(void);
@@ -127,8 +126,8 @@ static void (* const sBattleFactoryFunctions[])(void) =
     [BATTLE_FACTORY_FUNC_GET_DATA]               = GetBattleFactoryData,
     [BATTLE_FACTORY_FUNC_SET_DATA]               = SetBattleFactoryData,
     [BATTLE_FACTORY_FUNC_SAVE]                   = SaveFactoryChallenge,
-    [BATTLE_FACTORY_FUNC_NULL]                   = FactoryDummy1,
-    [BATTLE_FACTORY_FUNC_NULL2]                  = FactoryDummy2,
+    [BATTLE_FACTORY_FUNC_NULL]                   = FactoryDummy,
+    [BATTLE_FACTORY_FUNC_NULL2]                  = FactoryDummy,
     [BATTLE_FACTORY_FUNC_SELECT_RENT_MONS]       = SelectInitialRentalMons,
     [BATTLE_FACTORY_FUNC_SWAP_RENT_MONS]         = SwapRentalMons,
     [BATTLE_FACTORY_FUNC_SET_SWAPPED]            = SetPerformedRentalSwap,
@@ -274,12 +273,7 @@ static void SaveFactoryChallenge(void)
     SaveGameFrontier();
 }
 
-static void FactoryDummy1(void)
-{
-
-}
-
-static void FactoryDummy2(void)
+static void FactoryDummy(void)
 {
 
 }
@@ -863,7 +857,6 @@ u8 GetNumPastRentalsRank(u8 battleMode, u8 lvlMode)
         ret = 4;
     else
         ret = 5;
-
     return ret;
 }
 
@@ -872,9 +865,7 @@ u32 GetAiScriptsInBattleFactory(void)
     int lvlMode = gSaveBlock2Ptr->frontier.lvlMode;
 
     if (lvlMode == FRONTIER_LVL_TENT)
-    {
         return 0;
-    }
     else
     {
         int battleMode = VarGet(VAR_FRONTIER_BATTLE_MODE);
@@ -886,8 +877,7 @@ u32 GetAiScriptsInBattleFactory(void)
             return 0;
         else if (challengeNum < 4)
             return AI_SCRIPT_CHECK_BAD_MOVE;
-        else
-            return AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY;
+        return AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY;
     }
 }
 

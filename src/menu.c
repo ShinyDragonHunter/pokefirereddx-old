@@ -168,9 +168,7 @@ void ResetTempTileDataBuffers(void)
     int i;
 
     for (i = 0; i < (int)ARRAY_COUNT(sTempTileDataBuffer); i++)
-    {
         sTempTileDataBuffer[i] = NULL;
-    }
     sTempTileDataBufferIdx = 0;
 }
 
@@ -190,15 +188,13 @@ bool8 FreeTempTileDataBuffersIfPossible(void)
         }
         return FALSE;
     }
-    else
-    {
-        return TRUE;
-    }
+    return TRUE;
 }
 
 void *DecompressAndCopyTileDataToVram(u8 bgId, const void *src, u32 size, u16 offset, u8 mode)
 {
     u32 sizeOut;
+
     if (sTempTileDataBufferIdx < ARRAY_COUNT(sTempTileDataBuffer))
     {
         void *ptr = malloc_and_decompress(src, &sizeOut);
@@ -218,6 +214,7 @@ void DecompressAndLoadBgGfxUsingHeap(u8 bgId, const void *src, u32 size, u16 off
 {
     u32 sizeOut;
     void *ptr = malloc_and_decompress(src, &sizeOut);
+
     if (!size)
         size = sizeOut;
     if (ptr)
@@ -273,12 +270,8 @@ void SetBgTilemapPalette(u8 bgId, u8 left, u8 top, u8 width, u8 height, u8 palet
     u16 *ptr = GetBgTilemapBuffer(bgId);
 
     for (i = top; i < top + height; i++)
-    {
         for (j = left; j < left + width; j++)
-        {
             ptr[(i * 32) + j] = (ptr[(i * 32) + j] & 0xFFF) | (palette << 12);
-        }
-    }
 }
 
 void CopyToBufferFromBgTilemap(u8 bgId, u16 *dest, u8 left, u8 top, u8 width, u8 height)
@@ -287,33 +280,28 @@ void CopyToBufferFromBgTilemap(u8 bgId, u16 *dest, u8 left, u8 top, u8 width, u8
     const u16 *src = GetBgTilemapBuffer(bgId);
 
     for (i = 0; i < height; i++)
-    {
         for (j = 0; j < width; j++)
-        {
             dest[(i * width) + j] = src[(i + top) * 32 + j + left];
-        }
-    }
 }
 
 void sub_8199D3C(void *ptr, int delta, int width, int height, bool32 is8BPP)
 {
     int i;
     int area = width * height;
+
     if (is8BPP)
     {
         u8 *as8BPP = ptr;
+
         for (i = 0; i < area; i++)
-        {
             as8BPP[i] += delta;
-        }
     }
     else
     {
         u16 *as4BPP = ptr;
+
         for (i = 0; i < area; i++)
-        {
             as4BPP[i] = (as4BPP[i] & 0xFC00) | ((as4BPP[i] + delta) & 0x3FF);
-        }
     }
 }
 
@@ -705,6 +693,7 @@ u32 GetPlayerTextSpeed(void)
 u8 GetPlayerTextSpeedDelay(void)
 {
     u32 speed;
+
     if (gSaveBlock2Ptr->optionsTextSpeed > OPTIONS_TEXT_SPEED_FAST)
         gSaveBlock2Ptr->optionsTextSpeed = OPTIONS_TEXT_SPEED_MID;
     speed = GetPlayerTextSpeed();
@@ -1268,9 +1257,7 @@ s8 Menu_ProcessInput(void)
         return sMenu.cursorPos;
     }
     else if (JOY_NEW(B_BUTTON))
-    {
         return MENU_B_PRESSED;
-    }
     else if (JOY_NEW(DPAD_UP))
     {
         PlaySE(SE_SELECT);
@@ -1283,7 +1270,6 @@ s8 Menu_ProcessInput(void)
         Menu_MoveCursor(1);
         return MENU_NOTHING_CHOSEN;
     }
-
     return MENU_NOTHING_CHOSEN;
 }
 
@@ -1298,9 +1284,7 @@ s8 Menu_ProcessInputNoWrap(void)
         return sMenu.cursorPos;
     }
     else if (JOY_NEW(B_BUTTON))
-    {
         return MENU_B_PRESSED;
-    }
     else if (JOY_NEW(DPAD_UP))
     {
         if (oldPos != Menu_MoveCursorNoWrapAround(-1))
@@ -1313,7 +1297,6 @@ s8 Menu_ProcessInputNoWrap(void)
             PlaySE(SE_SELECT);
         return MENU_NOTHING_CHOSEN;
     }
-
     return MENU_NOTHING_CHOSEN;
 }
 
@@ -1326,9 +1309,7 @@ s8 ProcessMenuInput_other(void)
         return sMenu.cursorPos;
     }
     else if (JOY_NEW(B_BUTTON))
-    {
         return MENU_B_PRESSED;
-    }
     else if (JOY_REPEAT(DPAD_ANY) == DPAD_UP)
     {
         PlaySE(SE_SELECT);
@@ -1341,7 +1322,6 @@ s8 ProcessMenuInput_other(void)
         Menu_MoveCursor(1);
         return MENU_NOTHING_CHOSEN;
     }
-
     return MENU_NOTHING_CHOSEN;
 }
 
@@ -1356,9 +1336,7 @@ s8 Menu_ProcessInputNoWrapAround_other(void)
         return sMenu.cursorPos;
     }
     if (JOY_NEW(B_BUTTON))
-    {
         return MENU_B_PRESSED;
-    }
     if (JOY_REPEAT(DPAD_ANY) == DPAD_UP)
     {
         if (oldPos != Menu_MoveCursorNoWrapAround(-1))
@@ -1371,7 +1349,6 @@ s8 Menu_ProcessInputNoWrapAround_other(void)
             PlaySE(SE_SELECT);
         return MENU_NOTHING_CHOSEN;
     }
-
     return MENU_NOTHING_CHOSEN;
 }
 
@@ -1421,7 +1398,6 @@ void AddItemMenuActionTextPrinters(u8 windowId, u8 fontId, u8 left, u8 top, u8 l
         printer.currentY = printer.y;
         AddTextPrinter(&printer, 0xFF, NULL);
     }
-
     CopyWindowToVram(windowId, 2);
 }
 
@@ -1600,18 +1576,14 @@ u8 ChangeGridMenuCursorPosition(s8 deltaX, s8 deltaY)
     {
         if (((sMenu.cursorPos % sMenu.columns) + deltaX >= 0) &&
         ((sMenu.cursorPos % sMenu.columns) + deltaX < sMenu.columns))
-        {
             sMenu.cursorPos += deltaX;
-        }
     }
 
     if (deltaY)
     {
         if (((sMenu.cursorPos / sMenu.columns) + deltaY >= 0) &&
         ((sMenu.cursorPos / sMenu.columns) + deltaY < sMenu.rows))
-        {
             sMenu.cursorPos += (sMenu.columns * deltaY);
-        }
     }
 
     if (sMenu.cursorPos > sMenu.maxCursorPos)
@@ -1636,9 +1608,7 @@ s8 Menu_ProcessInputGridLayout(void)
         return sMenu.cursorPos;
     }
     else if (JOY_NEW(B_BUTTON))
-    {
         return MENU_B_PRESSED;
-    }
     else if (JOY_NEW(DPAD_UP))
     {
         if (oldPos != ChangeGridMenuCursorPosition(0, -1))
@@ -1663,7 +1633,6 @@ s8 Menu_ProcessInputGridLayout(void)
             PlaySE(SE_SELECT);
         return MENU_NOTHING_CHOSEN;
     }
-
     return MENU_NOTHING_CHOSEN;
 }
 
@@ -1672,10 +1641,7 @@ void PrintMenuTable(u8 windowId, u8 itemCount, const struct MenuAction *strs)
     u32 i;
 
     for (i = 0; i < itemCount; i++)
-    {
         AddTextPrinterParameterized(windowId, 2, strs[i].text, 8, (i * 14) + 1, 0xFF, NULL);
-    }
-
     CopyWindowToVram(windowId, 2);
 }
 
@@ -1702,7 +1668,6 @@ void sub_81995E4(u8 windowId, u8 itemCount, const struct MenuAction *strs, const
         printer.currentY = (i * 16) + 1;
         AddTextPrinter(&printer, 0xFF, NULL);
     }
-
     CopyWindowToVram(windowId, 2);
 }
 
@@ -1711,10 +1676,8 @@ void PrintMenuGridTable(u8 windowId, u8 optionWidth, u8 columns, u8 rows, const 
     u32 i, j;
 
     for (i = 0; i < rows; i++)
-    {
         for (j = 0; j < columns; j++)
             AddTextPrinterParameterized(windowId, 2, strs[(i * columns) + j].text, (optionWidth * j) + 8, (i * 16) + 1, 0xFF, NULL);
-    }
     CopyWindowToVram(windowId, 2);
 }
 
@@ -1768,7 +1731,6 @@ void AddTextPrinterParameterized3(u8 windowId, u8 fontId, u8 left, u8 top, const
     printer.fgColor = color[1];
     printer.bgColor = color[0];
     printer.shadowColor = color[2];
-
     AddTextPrinter(&printer, speed, NULL);
 }
 
@@ -1789,7 +1751,6 @@ void AddTextPrinterParameterized4(u8 windowId, u8 fontId, u8 left, u8 top, u8 le
     printer.fgColor = color[1];
     printer.bgColor = color[0];
     printer.shadowColor = color[2];
-
     AddTextPrinter(&printer, speed, NULL);
 }
 
@@ -1807,11 +1768,9 @@ void AddTextPrinterParameterized5(u8 windowId, u8 fontId, const u8 *str, u8 left
     printer.letterSpacing = letterSpacing;
     printer.lineSpacing = lineSpacing;
     printer.unk = 0;
-
     printer.fgColor = GetFontAttribute(fontId, 5);
     printer.bgColor = GetFontAttribute(fontId, 6);
     printer.shadowColor = GetFontAttribute(fontId, 7);
-
     AddTextPrinter(&printer, speed, callback);
 }
 

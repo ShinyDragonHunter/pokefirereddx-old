@@ -3553,14 +3553,13 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
 static void PlayMonCry(void)
 {
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
-//    u16 formSpecies = GetFormSpecies(summary->species2, sMonSummaryScreen->form);
+    u16 formSpecies = GetFormSpecies(summary->species2, sMonSummaryScreen->form);
     if (!summary->isEgg)
     {
-        // Change these to what's commented out to support cries for forms.
         if (ShouldPlayNormalMonCry(&sMonSummaryScreen->currentMon))
-            PlayCry3(summary->species2, 0, 0); // PlayCry3(formSpecies, 0, 0);
+            PlayCry3(formSpecies, 0, 0);
         else
-            PlayCry3(summary->species2, 0, 11); // PlayCry3(formSpecies, 0, 11);
+            PlayCry3(formSpecies, 0, 11);
     }
 }
 

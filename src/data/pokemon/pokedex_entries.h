@@ -4643,6 +4643,31 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 290,
         .trainerOffset = 2,
     },
+
+    [NATIONAL_DEX_RATTATA_ALOLAN] =
+    {
+        .categoryName = _("MOUSE"),
+        .height = 3,
+        .weight = 38,
+        .description = gRattataAlolanPokedexText,
+        .pokemonScale = 481,
+        .pokemonOffset = 21,
+        .trainerScale = 256,
+        .trainerOffset = 0,
+    },
+
+    [NATIONAL_DEX_RATICATE_ALOLAN] =
+    {
+        .categoryName = _("MOUSE"),
+        .height = 7,
+        .weight = 255,
+        .description = gRaticateAlolanPokedexText,
+        .pokemonScale = 459,
+        .pokemonOffset = 18,
+        .trainerScale = 256,
+        .trainerOffset = 0,
+    },
+
     [NATIONAL_DEX_DEOXYS_SPEED] =
     {
         .categoryName = _("DNA"),
@@ -4654,6 +4679,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 290,
         .trainerOffset = 2,
     },
+
     [NATIONAL_DEX_DEOXYS_ATTACK] =
     {
         .categoryName = _("DNA"),
@@ -4665,6 +4691,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 290,
         .trainerOffset = 2,
     },
+
     [NATIONAL_DEX_DEOXYS_DEFENSE] =
     {
         .categoryName = _("DNA"),

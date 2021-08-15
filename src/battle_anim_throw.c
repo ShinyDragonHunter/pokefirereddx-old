@@ -813,7 +813,6 @@ void AnimTask_IsBallBlockedByTrainer(u8 taskId)
         gBattleAnimArgs[ARG_RET_ID] = -1;
     else
         gBattleAnimArgs[ARG_RET_ID] = 0;
-
     DestroyAnimVisualTask(taskId);
 }
 
@@ -1098,7 +1097,6 @@ static void CB_CriticalCaptureThrownBallMovement(struct Sprite *sprite)
 
         if (++sprite->data[5] >= 3)
             sprite->data[3] += 257;
-
         break;
     case 1:
         if (bounceCount < 3 || sprite->x2)
@@ -1112,7 +1110,6 @@ static void CB_CriticalCaptureThrownBallMovement(struct Sprite *sprite)
 
         if (bounceCount >= maxBounces)
             lastBounce = TRUE;
-
         break;
     }
 
@@ -1394,7 +1391,6 @@ static void SpriteCB_Ball_Wobble_Step(struct Sprite *sprite)
                 StartSpriteAffineAnim(sprite, BALL_ROTATE_LEFT);
             else
                 StartSpriteAffineAnim(sprite, BALL_ROTATE_RIGHT);
-
             PlaySE(SE_BALL);
         }
         break;
@@ -1445,9 +1441,7 @@ static void SpriteCB_Ball_Capture_Step(struct Sprite *sprite)
         MakeCaptureStars(sprite);
     }
     else if (sprite->sTimer == 60)
-    {
         BeginNormalPaletteFade(0x10000 << sprite->oam.paletteNum, 2, 6, 0, RGB(0, 0, 0));
-    }
     else if (sprite->sTimer == 95)
     {
         gDoingBattleAnim = FALSE;
@@ -1698,7 +1692,6 @@ u8 AnimateBallOpenParticles(u8 x, u8 y, u8 priority, u8 subpriority, u8 ballId)
     gTasks[taskId].data[4] = subpriority;
     gTasks[taskId].data[15] = ballId;
     PlaySE(SE_BALL_OPEN);
-
     return taskId;
 }
 
@@ -1710,8 +1703,6 @@ static void IncrBallParticleCount(void)
 
 static void PokeBallOpenParticleAnimation(u8 taskId)
 {
-//    u8 var0;
-
     if (gTasks[taskId].data[0] < 16)
     {
         u8 x = gTasks[taskId].data[1];
@@ -1884,9 +1875,7 @@ static void UltraBallOpenParticleAnimation(u8 taskId)
 static void GreatBallOpenParticleAnimation(u8 taskId)
 {
     if (gTasks[taskId].data[7])
-    {
         gTasks[taskId].data[7]--;
-    }
     else
     {
         u32 i;
@@ -2238,9 +2227,7 @@ static void FastBallParticle_Step(struct Sprite *sprite)
         sprite->data[2] -= 4;
     }
     else
-    {
         sprite->y2 -= 4;
-    }
 };
 
 static void DestroyBallOpenAnimationParticle(struct Sprite *sprite)
@@ -2270,7 +2257,6 @@ static void DestroyBallOpenAnimationParticle(struct Sprite *sprite)
                     FreeSpritePaletteByTag(sBallParticlePalettes[j].tag);
                 }
             }
-
             DestroySprite(sprite);
         }
     }
@@ -2352,9 +2338,7 @@ static void Task_FadeMon_ToNormal_Step(u8 taskId)
         gTasks[taskId].tTimer++;
     }
     else
-    {
         DestroyTask(taskId);
-    }
 }
 
 #undef tCoeff
@@ -2418,7 +2402,6 @@ void AnimTask_SwapMonSpriteToFromSubstitute(u8 taskId)
 
         if (done)
             DestroyAnimVisualTask(taskId);
-
         break;
     }
 }
@@ -2490,6 +2473,7 @@ void TryShinyAnimation(u8 battler, struct Pokemon *mon)
     if (IsBattlerSpriteVisible(battler))
     {
         u32 shinyValue = HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality);
+
         if (shinyValue < SHINY_ODDS)
             isShiny = TRUE;
 
@@ -2502,7 +2486,6 @@ void TryShinyAnimation(u8 battler, struct Pokemon *mon)
 					LoadCompressedSpriteSheetUsingHeap(&gBattleAnimPicTable[ANIM_TAG_SHINY_SQUARES - ANIM_SPRITES_START]);
 					LoadCompressedSpritePaletteUsingHeap(&gBattleAnimPaletteTable[ANIM_TAG_SHINY_SQUARES - ANIM_SPRITES_START]);
 				}
-
 				taskCirc = CreateTask(Task_ShinySquares, 10);
 				taskDgnl = CreateTask(Task_ShinySquares, 10);
 				gTasks[taskCirc].tBattler = battler;
@@ -2518,7 +2501,6 @@ void TryShinyAnimation(u8 battler, struct Pokemon *mon)
 					LoadCompressedSpriteSheetUsingHeap(&gBattleAnimPicTable[ANIM_TAG_GOLD_STARS - ANIM_SPRITES_START]);
 					LoadCompressedSpritePaletteUsingHeap(&gBattleAnimPaletteTable[ANIM_TAG_GOLD_STARS - ANIM_SPRITES_START]);
 				}
-
 				taskCirc = CreateTask(Task_ShinyStars, 10);
 				taskDgnl = CreateTask(Task_ShinyStars, 10);
 				gTasks[taskCirc].tBattler = battler;
@@ -2556,9 +2538,7 @@ static void Task_ShinySquares(u8 taskId)
         return;
 
     if (!squareIdx) // Big square
-    {
         spriteId = CreateSprite(&gBigShinySquareSpriteTemplate, x, y, 5);
-    }
     else if (squareIdx >= 0 && gTasks[taskId].tStarIdx < 4) // Medium square
     {
         spriteId = CreateSprite(&gMiniShinySquareSpriteTemplate, x, y, 5);
@@ -2571,9 +2551,7 @@ static void Task_ShinySquares(u8 taskId)
     }
 
     if (gTasks[taskId].tStarMove == SHINY_STAR_ENCIRCLE)
-    {
         gSprites[spriteId].callback = SpriteCB_ShinyStars_Encircle;
-    }
     else
     {
         gSprites[spriteId].callback = SpriteCB_ShinyStars_Diagonal;
@@ -2619,9 +2597,7 @@ static void Task_ShinyStars(u8 taskId)
         return;
 
     if (!starIdx) // Big star
-    {
         spriteId = CreateSprite(&gWishStarSpriteTemplate, x, y, 5);
-    }
     else if (starIdx >= 0 && gTasks[taskId].tStarIdx < 4) // Medium star
     {
         spriteId = CreateSprite(&gMiniTwinklingStarSpriteTemplate, x, y, 5);
@@ -2634,9 +2610,7 @@ static void Task_ShinyStars(u8 taskId)
     }
 
     if (gTasks[taskId].tStarMove == SHINY_STAR_ENCIRCLE)
-    {
         gSprites[spriteId].callback = SpriteCB_ShinyStars_Encircle;
-    }
     else
     {
         gSprites[spriteId].callback = SpriteCB_ShinyStars_Diagonal;
@@ -2661,14 +2635,13 @@ static void Task_ShinyStars(u8 taskId)
 
 static void Task_ShinyStars_Wait(u8 taskId)
 {
-    if (gTasks[taskId].tNumStars == 0)
+    if (!gTasks[taskId].tNumStars)
     {
         if (gTasks[taskId].tStarMove == SHINY_STAR_DIAGONAL)
         {
             u8 battler = gTasks[taskId].tBattler;
             gBattleSpritesDataPtr->healthBoxesData[battler].finishedShinyMonAnim = TRUE;
         }
-
         DestroyTask(taskId);
     }
 }
@@ -2812,7 +2785,6 @@ void AnimTask_GetTrappedMoveAnimId(u8 taskId)
         gBattleAnimArgs[0] = TRAP_ANIM_SAND_TOMB;
     else
         gBattleAnimArgs[0] = TRAP_ANIM_BIND;
-
     DestroyAnimVisualTask(taskId);
 }
 

@@ -641,10 +641,10 @@ static void LoadWallClockGraphics(void)
     DmaClear16(3, (void *)PLTT, PLTT_SIZE);
     LZ77UnCompVram(gWallClock_Gfx, (void *)VRAM);
 
-    if (gSpecialVar_0x8004 == MALE)
-        LoadPalette(gWallClockMale_Pal, 0, 32);
-    else
+    if (gSpecialVar_0x8004)
         LoadPalette(gWallClockFemale_Pal, 0, 32);
+    else
+        LoadPalette(gWallClockMale_Pal, 0, 32);
 
     LoadPalette(GetOverworldTextboxPalettePtr(), 0xe0, 32);
     LoadPalette(sTextPrompt_Pal, 0xc0, 8);
@@ -680,8 +680,7 @@ static void WallClockInit(void)
 
 void CB2_StartWallClock(void)
 {
-    u8 taskId;
-    u8 spriteId;
+    u8 taskId, spriteId;
 
     RtcCalcLocalTime();
     LoadWallClockGraphics();
@@ -723,10 +722,7 @@ void CB2_StartWallClock(void)
 
 void CB2_ViewWallClock(void)
 {
-    u8 taskId;
-    u8 spriteId;
-    u8 angle1;
-    u8 angle2;
+    u8 taskId, spriteId, angle1, angle2;
 
     LoadWallClockGraphics();
     LZ77UnCompVram(gWallClockView_Tilemap, (u16 *)BG_SCREEN_ADDR(7));
@@ -781,25 +777,19 @@ static void CB2_WallClock(void)
 static void Task_SetClock_WaitFadeIn(u8 taskId)
 {
     if (!gPaletteFade.active)
-    {
         gTasks[taskId].func = Task_SetClock_HandleInput;
-    }
 }
 
 static void Task_SetClock_HandleInput(u8 taskId)
 {
     if (gTasks[taskId].tMinuteHandAngle % 6)
-    {
         gTasks[taskId].tMinuteHandAngle = CalcNewMinHandAngle(gTasks[taskId].tMinuteHandAngle, gTasks[taskId].tMoveDir, gTasks[taskId].tMoveSpeed);
-    }
     else
     {
         gTasks[taskId].tMinuteHandAngle = gTasks[taskId].tMinutes * 6;
         gTasks[taskId].tHourHandAngle = (gTasks[taskId].tHours % 12) * 30 + (gTasks[taskId].tMinutes / 10) * 5;
         if (JOY_NEW(A_BUTTON))
-        {
             gTasks[taskId].func = Task_SetClock_AskConfirm;
-        }
         else
         {
             gTasks[taskId].tMoveDir = MOVE_NONE;
@@ -819,9 +809,7 @@ static void Task_SetClock_HandleInput(u8 taskId)
                 AdvanceClock(taskId, gTasks[taskId].tMoveDir);
             }
             else
-            {
                 gTasks[taskId].tMoveSpeed = 0;
-            }
         }
     }
 }
@@ -903,7 +891,6 @@ static u8 CalcMinHandDelta(u16 speed)
         return 3;
     if (speed > 10)
         return 2;
-
     return 1;
 }
 
@@ -934,9 +921,7 @@ static bool32 AdvanceClock(u8 taskId, u8 direction)
     {
     case MOVE_BACKWARD:
         if (gTasks[taskId].tMinutes > 0)
-        {
             gTasks[taskId].tMinutes--;
-        }
         else
         {
             gTasks[taskId].tMinutes = 59;
@@ -951,9 +936,7 @@ static bool32 AdvanceClock(u8 taskId, u8 direction)
         break;
     case MOVE_FORWARD:
         if (gTasks[taskId].tMinutes < 59)
-        {
             gTasks[taskId].tMinutes++;
-        }
         else
         {
             gTasks[taskId].tMinutes = 0;
@@ -1059,24 +1042,16 @@ static void SpriteCB_PMIndicator(struct Sprite *sprite)
     if (gTasks[sprite->data[0]].tPeriod != PERIOD_AM)
     {
         if (sprite->data[1] >= 60 && sprite->data[1] < 90)
-        {
             sprite->data[1] += 5;
-        }
         if (sprite->data[1] < 60)
-        {
             sprite->data[1]++;
-        }
     }
     else
     {
         if (sprite->data[1] >= 46 && sprite->data[1] < 76)
-        {
             sprite->data[1] -= 5;
-        }
         if (sprite->data[1] > 75)
-        {
             sprite->data[1]--;
-        }
     }
     sprite->x2 = Cos2(sprite->data[1]) * 30 / 0x1000;
     sprite->y2 = Sin2(sprite->data[1]) * 30 / 0x1000;
@@ -1087,24 +1062,16 @@ static void SpriteCB_AMIndicator(struct Sprite *sprite)
     if (gTasks[sprite->data[0]].tPeriod != PERIOD_AM)
     {
         if (sprite->data[1] >= 105 && sprite->data[1] < 135)
-        {
             sprite->data[1] += 5;
-        }
         if (sprite->data[1] < 105)
-        {
             sprite->data[1]++;
-        }
     }
     else
     {
         if (sprite->data[1] >= 91 && sprite->data[1] < 121)
-        {
             sprite->data[1] -= 5;
-        }
         if (sprite->data[1] > 120)
-        {
             sprite->data[1]--;
-        }
     }
     sprite->x2 = Cos2(sprite->data[1]) * 30 / 0x1000;
     sprite->y2 = Sin2(sprite->data[1]) * 30 / 0x1000;

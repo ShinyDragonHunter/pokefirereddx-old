@@ -189,7 +189,7 @@ static void VBlankCB_SoundCheckMenu(void)
     }
 }
 
-void CB2_StartSoundCheckMenu(void) // sub_080E8320
+void CB2_StartSoundCheckMenu(void)
 {
     u8 taskId;
 
@@ -256,7 +256,7 @@ void CB2_StartSoundCheckMenu(void) // sub_080E8320
     }
 }
 
-static void Task_InitSoundCheckMenu_CreateWindows(u8 taskId) // SanitizeDayCareMailForRuby
+static void Task_InitSoundCheckMenu_CreateWindows(u8 taskId)
 {
     const u8 soundcheckStr[] = _("SOUND TEST{CLEAR_TO 120}A: PLAY  B: EXIT");
     const u8 bgmStr[] = _("MUSIC");
@@ -288,7 +288,7 @@ static void Task_InitSoundCheckMenu_CreateWindows(u8 taskId) // SanitizeDayCareM
 static const u8 *const gBGMNames[];
 static const u8 *const gSENames[];
 
-static void Task_HandleDrawingSoundCheckMenuText(u8 taskId) // sub_080E85F4
+static void Task_HandleDrawingSoundCheckMenuText(u8 taskId)
 {
     FillWindowPixelRect(WIN_MUS, PIXEL_FILL(1), 0, 14, 224, 12);
     PrintSoundNumber(gTasks[taskId].tBgmIndex + (MUS_LITTLEROOT_TEST - 1), WIN_MUS); // print by BGM index
@@ -299,7 +299,7 @@ static void Task_HandleDrawingSoundCheckMenuText(u8 taskId) // sub_080E85F4
     gTasks[taskId].func = Task_ProcessSoundCheckMenuInputAndRedraw;
 }
 
-static bool8 Task_ProcessSoundCheckMenuInput(u8 taskId) // sub_080E8688
+static bool8 Task_ProcessSoundCheckMenuInput(u8 taskId)
 {
     if (JOY_NEW(R_BUTTON)) // driver test
     {
@@ -419,13 +419,13 @@ static bool8 Task_ProcessSoundCheckMenuInput(u8 taskId) // sub_080E8688
     return FALSE;
 }
 
-static void Task_ProcessSoundCheckMenuInputAndRedraw(u8 taskId) // sub_080E8878
+static void Task_ProcessSoundCheckMenuInputAndRedraw(u8 taskId)
 {
     if (Task_ProcessSoundCheckMenuInput(taskId))
         gTasks[taskId].func = Task_HandleDrawingSoundCheckMenuText;
 }
 
-static void Task_ExitToTitleScreen(u8 taskId) // sub_080E88A8
+static void Task_ExitToTitleScreen(u8 taskId)
 {
     u32 windowId;
 
@@ -440,7 +440,7 @@ static void Task_ExitToTitleScreen(u8 taskId) // sub_080E88A8
     }
 }
 
-static void HighlightSelectedWindow(u8 windowType) // sub_080E88E8
+static void HighlightSelectedWindow(u8 windowType)
 {
     switch (windowType)
     {
@@ -455,7 +455,7 @@ static void HighlightSelectedWindow(u8 windowType) // sub_080E88E8
     }
 }
 
-static void PrintSoundNumber(u16 soundIndex, u8 windowId) // sub_080E8928
+static void PrintSoundNumber(u16 soundIndex, u8 windowId)
 {
     ConvertIntToDecimalStringN(gStringVar1, soundIndex, STR_CONV_MODE_RIGHT_ALIGN, 3);
     
@@ -466,7 +466,7 @@ static void PrintSoundNumber(u16 soundIndex, u8 windowId) // sub_080E8928
     PutWindowTilemapAndCopyWindowToVram(windowId);
 }
 
-static void PrintPaddedString(const u8 *const string, u8 windowId) // sub_080E8978
+static void PrintPaddedString(const u8 *const string, u8 windowId)
 {
     u32 i;
     u8 str[32];
@@ -483,7 +483,7 @@ static void PrintPaddedString(const u8 *const string, u8 windowId) // sub_080E89
     PutWindowTilemapAndCopyWindowToVram(windowId);
 }
 
-static void Task_DrawSubmenu(u8 taskId) // sub_080E89EC
+static void Task_DrawSubmenu(u8 taskId)
 {
     u32 windowId;
 
@@ -519,7 +519,7 @@ static void Task_DrawSubmenu(u8 taskId) // sub_080E89EC
     }
 }
 
-static void Task_DrawDriverTestMenu(u8 taskId) // sub_080E8AA0
+static void Task_DrawDriverTestMenu(u8 taskId)
 {
     const u8 bbackStr[] = _("B BUTTON: BACK");
     const u8 aplayStr[] = _("A BUTTON: PLAY");
@@ -572,7 +572,7 @@ static void Task_DrawDriverTestMenu(u8 taskId) // sub_080E8AA0
     gTasks[taskId].func = Task_ProcessDriverTestInput;
 }
 
-static void Task_ProcessDriverTestInput(u8 taskId) // sub_080E8D68
+static void Task_ProcessDriverTestInput(u8 taskId)
 {
     if (JOY_NEW(B_BUTTON))
     {
@@ -655,20 +655,20 @@ static void Task_ProcessDriverTestInput(u8 taskId) // sub_080E8D68
     }
 }
 
-static void AdjustSelectedDriverParam(s8 delta) // sub_080E8FA4
+static void AdjustSelectedDriverParam(s8 delta)
 {
     // also ideally should be a MinMax struct, but any attempt to make this into a struct causes it to not match due to the weird multi dim access.
     const int paramRanges[] =
     {
-        1, 386,         // Voice
-        0, 127,         // Volume
-        -127, 127,      // Panpot
-        -128, 32639,    // Pitch
-        0, 65535,       // Length
-        0, 255,         // Release
-        0, 65535,       // Progress
-        -64, 63,        // Chorus
-        0, 65535        // Priority
+        CRY_BULBASAUR, CRY_COUNT, // Voice
+        0, 127,                   // Volume
+        -127, 127,                // Panpot
+        -128, 32639,              // Pitch
+        0, 65535,                 // Length
+        0, 255,                   // Release
+        0, 65535,                 // Progress
+        -64, 63,                  // Chorus
+        0, 65535                  // Priority
     };
 
     u8 cursorPos = Menu_GetCursorPos();
@@ -698,7 +698,7 @@ static void PrintDriverTestMenuText(void) // sub_080E900C
     PrintSignedNumber(sDriverTest_Stereo, 200, 112, 1);
 }
 
-static void PrintSignedNumber(int n, u16 x, u16 y, u8 digits) // sub_080E90C0
+static void PrintSignedNumber(int n, u16 x, u16 y, u8 digits)
 {
     const int powersOfTen[6] =
     {
@@ -748,7 +748,7 @@ static void PrintSignedNumber(int n, u16 x, u16 y, u8 digits) // sub_080E90C0
 
 static const s8 gUnknown_08566E58[5] = { 0x3F, 0x00, 0xC0, 0x7F, 0x80 };
 
-static void Task_DrawPanTestMenu(u8 taskId) // sub_080E91E4
+static void Task_DrawPanTestMenu(u8 taskId)
 {
     const u8 seStr[] = _("SOUND EFFECT");
     const u8 panStr[] = _("PAN");
@@ -767,7 +767,7 @@ static void Task_DrawPanTestMenu(u8 taskId) // sub_080E91E4
     gTasks[taskId].func = Task_ProcessPanTestInput;
 }
 
-static void Task_ProcessPanTestInput(u8 taskId) // sub_080E9284
+static void Task_ProcessPanTestInput(u8 taskId)
 {
     if (sSoundTestParams[CRY_TEST_PROGRESS])
     {
@@ -859,7 +859,7 @@ static void Task_ProcessPanTestInput(u8 taskId) // sub_080E9284
     }
 }
 
-static void Task_InitSoundCheckMenu(u8 taskId) // sub_080E9410
+static void Task_InitSoundCheckMenu(u8 taskId)
 {
     switch (gTasks[taskId].tState)
     {
@@ -891,7 +891,7 @@ static void Task_InitSoundCheckMenu(u8 taskId) // sub_080E9410
     }
 }
 
-static void PrintPanTestMenuText(void) // sub_080E94B8
+static void PrintPanTestMenuText(void)
 {
     u8 lrStr[] = _("   L");
     u8 rlStr[] = _("   R");
@@ -913,7 +913,7 @@ static void PrintPanTestMenuText(void) // sub_080E94B8
     }
 }
 
-static void InitGpuRegs(void) // sub_080E9560
+static void InitGpuRegs(void)
 {
     DmaClear16(3, VRAM, VRAM_SIZE);
     DmaClear32(3, OAM, OAM_SIZE);
@@ -942,7 +942,7 @@ static void InitGpuRegs(void) // sub_080E9560
     SetGpuReg(REG_OFFSET_BLDY, 0);
 }
 
-static void ClearTasksAndGraphicalStructs(void) // sub_080E96A8
+static void ClearTasksAndGraphicalStructs(void)
 {
     ScanlineEffect_Stop();
     ResetTasks();
@@ -952,7 +952,7 @@ static void ClearTasksAndGraphicalStructs(void) // sub_080E96A8
     FreeAllSpritePalettes();
 }
 
-static void SetupDispcnt(void) // sub_080E96C8
+static void SetupDispcnt(void)
 {
     SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_MODE_0 |
                                   DISPCNT_OBJ_1D_MAP |
@@ -962,13 +962,13 @@ static void SetupDispcnt(void) // sub_080E96C8
                                   DISPCNT_WIN1_ON);
 }
 
-static void PutWindowTilemapAndCopyWindowToVram(u8 windowId) // sub_080E9734
+static void PutWindowTilemapAndCopyWindowToVram(u8 windowId)
 {
     PutWindowTilemap(windowId);
     CopyWindowToVram(windowId, 3);
 }
 
-static void DestroyWindow(u8 windowId) // sub_080E9750
+static void DestroyWindow(u8 windowId)
 {
     FillWindowPixelBuffer(windowId, PIXEL_FILL(0));
     ClearWindowTilemap(windowId);

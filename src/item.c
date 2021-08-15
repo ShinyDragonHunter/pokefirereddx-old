@@ -179,16 +179,13 @@ bool8 CheckBagHasSpace(u16 itemId, u16 count)
 {
     u32 i;
     u8 pocket;
-    u16 slotCapacity;
-    u16 ownedCount;
+    u16 slotCapacity, ownedCount;
 
     if (ItemId_GetPocket(itemId) == POCKET_NONE)
         return FALSE;
 
     if (InBattlePyramid() || FlagGet(FLAG_STORING_ITEMS_IN_PYRAMID_BAG))
-    {
         return CheckPyramidBagHasSpace(itemId, count);
-    }
 
     pocket = ItemId_GetPocket(itemId) - 1;
     if (pocket != BERRIES_POCKET)
@@ -207,8 +204,8 @@ bool8 CheckBagHasSpace(u16 itemId, u16 count)
             if (pocket == TMHM_POCKET || pocket == BERRIES_POCKET)
                 return FALSE;
             count -= (slotCapacity - ownedCount);
-            if (count == 0)
-                break; //should be return TRUE, but that doesn't match
+            if (!count)
+                return TRUE;
         }
     }
 
@@ -226,15 +223,12 @@ bool8 CheckBagHasSpace(u16 itemId, u16 count)
                     count -= slotCapacity;
                 }
                 else
-                {
                     return TRUE;
-                }
             }
         }
         if (count > 0)
             return FALSE; // No more item slots. The bag is full
     }
-
     return TRUE;
 }
 
@@ -247,9 +241,7 @@ bool8 AddBagItem(u16 itemId, u16 count)
 
     // check Battle Pyramid Bag
     if (InBattlePyramid() || FlagGet(FLAG_STORING_ITEMS_IN_PYRAMID_BAG))
-    {
         return AddPyramidBagItem(itemId, count);
-    }
     else
     {
         struct BagPocket *itemPocket;
@@ -355,9 +347,7 @@ bool8 RemoveBagItem(u16 itemId, u16 count)
 
     // check Battle Pyramid Bag
     if (InBattlePyramid() || FlagGet(FLAG_STORING_ITEMS_IN_PYRAMID_BAG))
-    {
         return RemovePyramidBagItem(itemId, count);
-    }
     else
     {
         u8 pocket;
@@ -448,9 +438,7 @@ void ClearBag(void)
     u32 i;
 
     for (i = 0; i < POCKETS_COUNT; i++)
-    {
         ClearItemSlots(gBagPockets[i].itemSlots, gBagPockets[i].capacity);
-    }
 }
 
 static s32 FindFreePCItemSlot(void)
@@ -642,7 +630,6 @@ u16 CountTotalItemQuantityInBag(u16 itemId)
         if (bagPocket->itemSlots[i].itemId == itemId)
             ownedCount += GetBagItemQuantity(&bagPocket->itemSlots[i].quantity);
     }
-
     return ownedCount;
 }
 
@@ -664,7 +651,6 @@ static bool8 CheckPyramidBagHasItem(u16 itemId, u16 count)
                 return TRUE;
         }
     }
-
     return FALSE;
 }
 
@@ -686,7 +672,6 @@ static bool8 CheckPyramidBagHasSpace(u16 itemId, u16 count)
                 return TRUE;
         }
     }
-
     return FALSE;
 }
 

@@ -660,7 +660,7 @@ static void ShowJudgmentSprite(u8 x, u8 y, u8 category, u8 battler)
     if (pointsPlayer > pointsOpponent)
     {
         animNum = 2;
-        if (battler != 0)
+        if (battler)
             gBattleTextBuff2[0] += 2;
         else
             gBattleTextBuff1[0] += 2;
@@ -668,15 +668,13 @@ static void ShowJudgmentSprite(u8 x, u8 y, u8 category, u8 battler)
     else if (pointsPlayer == pointsOpponent)
     {
         animNum = 1;
-        if (battler != 0)
+        if (battler)
             gBattleTextBuff2[0] += 1;
         else
             gBattleTextBuff1[0] += 1;
     }
     else
-    {
         animNum = 0;
-    }
 
     pointsPlayer = CreateSprite(&sSpriteTemplate_JudgmentIcon, x, y, 0);
     StartSpriteAnim(&gSprites[pointsPlayer], animNum);
@@ -726,21 +724,13 @@ void BattleArena_AddSkillPoints(u8 battler)
                 skillPoints[battler] -= 2;
         }
         else if ((gMoveResultFlags & MOVE_RESULT_SUPER_EFFECTIVE) && (gMoveResultFlags & MOVE_RESULT_NOT_VERY_EFFECTIVE))
-        {
             skillPoints[battler] += 1;
-        }
         else if (gMoveResultFlags & MOVE_RESULT_SUPER_EFFECTIVE)
-        {
             skillPoints[battler] += 2;
-        }
         else if (gMoveResultFlags & MOVE_RESULT_NOT_VERY_EFFECTIVE)
-        {
             skillPoints[battler] -= 1;
-        }
         else if (!gProtectStructs[battler].protected)
-        {
             skillPoints[battler] += 1;
-        }
     }
 }
 
@@ -867,16 +857,14 @@ static void SetArenaPrize(void)
 
 static void GiveArenaPrize(void)
 {
-    if (AddBagItem(gSaveBlock2Ptr->frontier.arenaPrize, 1) == TRUE)
+    if (AddBagItem(gSaveBlock2Ptr->frontier.arenaPrize, 1))
     {
         CopyItemName(gSaveBlock2Ptr->frontier.arenaPrize, gStringVar1);
         gSaveBlock2Ptr->frontier.arenaPrize = ITEM_NONE;
         gSpecialVar_Result = TRUE;
     }
     else
-    {
         gSpecialVar_Result = FALSE;
-    }
 }
 
 static void BufferArenaOpponentName(void)

@@ -5,8 +5,9 @@
 #include "m4a.h"
 #include "main.h"
 #include "pokemon.h"
-#include "constants/songs.h"
 #include "task.h"
+#include "constants/songs.h"
+#include "constants/species.h"
 
 struct Fanfare
 {
@@ -39,6 +40,8 @@ static void Task_Fanfare(u8 taskId);
 static void CreateFanfareTask(void);
 static void Task_DuckBGMForPokemonCry(u8 taskId);
 static void RestoreBGMVolumeAfterPokemonCry(void);
+
+#include "data/pokemon/cry_ids.h"
 
 static const struct Fanfare sFanfares[] = {
     [FANFARE_LEVEL_UP]            = { MUS_LEVEL_UP,             80 },
@@ -362,11 +365,7 @@ void PlayCry6(u16 species, s8 pan, u8 mode) // not present in R/S
 void PlayCryInternal(u16 species, s8 pan, s8 volume, u8 priority, u8 mode)
 {
     bool32 v0;
-    u32 release;
-    u32 length;
-    u32 pitch;
-    u32 chorus;
-    u32 index;
+    u32 release, length, pitch, chorus, index;
     u8 table;
 
     length = 140;
@@ -451,7 +450,7 @@ void PlayCryInternal(u16 species, s8 pan, s8 volume, u8 priority, u8 mode)
     SetPokemonCryChorus(chorus);
     SetPokemonCryPriority(priority);
 
-    species = SpeciesToCryId(species);
+    species = sSpeciesIdToCryId[species];
     gMPlay_PokemonCry = SetPokemonCryTone(v0 ? &gCryTable2[species] : &gCryTable[species]);
 }
 

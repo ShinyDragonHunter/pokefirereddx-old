@@ -943,8 +943,7 @@ static void SpriteCB_PlayerMonSendOut_1(struct Sprite *sprite)
 
 static void SpriteCB_PlayerMonSendOut_2(struct Sprite *sprite)
 {
-    u32 r6;
-    u32 r7;
+    u32 r6, r7;
 
     if (HIBYTE(sprite->data[7]) >= 35 && HIBYTE(sprite->data[7]) < 80)
     {
@@ -1062,9 +1061,7 @@ void CreatePokeballSpriteToReleaseMon(u8 monSpriteId, u8 battlerId, u8 x, u8 y, 
 static void SpriteCB_PokeballReleaseMon(struct Sprite *sprite)
 {
     if (sprite->data[1])
-    {
         sprite->data[1]--;
-    }
     else
     {
         u8 r5;
@@ -1095,8 +1092,7 @@ static void SpriteCB_ReleasedMonFlyOut(struct Sprite *sprite)
     bool8 r12 = FALSE;
     bool8 r6 = FALSE;
     u8 monSpriteId = sprite->data[0];
-    u16 var1;
-    u16 var2;
+    u16 var1, var2;
 
     if (sprite->animEnded)
         sprite->invisible = TRUE;
@@ -1156,9 +1152,7 @@ u8 CreateTradePokeballSprite(u8 a, u8 b, u8 x, u8 y, u8 oamPriority, u8 subPrior
 static void SpriteCB_TradePokeball(struct Sprite *sprite)
 {
     if (sprite->data[1])
-    {
         sprite->data[1]--;
-    }
     else
     {
         u8 r6;
@@ -1318,6 +1312,5 @@ static u16 GetBattlerPokeballItemId(u8 battlerId)
 {
     if (GetBattlerSide(battlerId))
         return GetMonData(&gEnemyParty[gBattlerPartyIndexes[battlerId]], MON_DATA_POKEBALL);
-    else
-        return GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerId]], MON_DATA_POKEBALL);
+    return GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerId]], MON_DATA_POKEBALL);
 }

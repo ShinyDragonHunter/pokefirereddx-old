@@ -521,9 +521,7 @@ static void CB2_EndWildBattle(void)
     ResetOamRange(0, 128);
 
     if (IsPlayerDefeated(gBattleOutcome) && !InBattlePyramid() && !InBattlePike())
-    {
         SetMainCallback2(CB2_WhiteOut);
-    }
     else
     {
         SetMainCallback2(CB2_ReturnToField);
@@ -544,9 +542,7 @@ static void CB2_EndScriptedWildBattle(void)
             SetMainCallback2(CB2_WhiteOut);
     }
     else
-    {
         SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
-    }
 }
 
 u8 BattleSetup_GetTerrainId(void)
@@ -691,7 +687,6 @@ static u8 GetSumOfEnemyPartyLevel(u16 opponentId, u8 numMons)
         }
         break;
     }
-
     return sum;
 }
 
@@ -723,15 +718,13 @@ static u8 GetWildBattleTransition(void)
         {
             if (InBattlePyramid())
                 return B_TRANSITION_BLUR;
-            else
-                return sBattleTransitionTable_Wild[transitionType][0];
+            return sBattleTransitionTable_Wild[transitionType][0];
         }
         else
         {
             if (InBattlePyramid())
                 return B_TRANSITION_GRID_SQUARES;
-            else
-                return sBattleTransitionTable_Wild[transitionType][1];
+            return sBattleTransitionTable_Wild[transitionType][1];
         }
     }
 }
@@ -772,8 +765,7 @@ static u8 GetTrainerBattleTransition(void)
 
     if (enemyLevel < playerLevel)
         return sBattleTransitionTable_Trainer[transitionType][0];
-    else
-        return sBattleTransitionTable_Trainer[transitionType][1];
+    return sBattleTransitionTable_Trainer[transitionType][1];
 }
 
 u8 GetSpecialBattleTransition(s32 id)
@@ -792,8 +784,7 @@ u8 GetSpecialBattleTransition(s32 id)
     case SPECIAL_BATTLE_TRAINER_HILL:
         if (enemyLevel < playerLevel)
             return B_TRANSITION_POKEBALLS_TRAIL;
-        else
-            return B_TRANSITION_BIG_POKEBALL;
+        return B_TRANSITION_BIG_POKEBALL;
     }
 
     if (VarGet(VAR_FRONTIER_BATTLE_MODE) != FRONTIER_MODE_LINK_MULTIS)
@@ -1069,9 +1060,7 @@ const u8 *BattleSetup_ConfigureTrainerBattle(const u8 *data)
         return EventScript_TryDoNormalTrainerBattle;
     default:
         if (gApproachingTrainerId)
-        {
             TrainerBattleLoadArgs(sTrainerBOrdinaryBattleParams, data);
-        }
         else
         {
             TrainerBattleLoadArgs(sOrdinaryBattleParams, data);
@@ -1129,8 +1118,7 @@ bool8 GetTrainerFlag(void)
         return GetBattlePyramidTrainerFlag(gSelectedObjectEvent);
     else if (InTrainerHill())
         return GetHillTrainerFlag(gSelectedObjectEvent);
-    else
-        return FlagGet(GetTrainerAFlag());
+    return FlagGet(GetTrainerAFlag());
 }
 
 static void SetBattledTrainersFlags(void)
@@ -1275,21 +1263,17 @@ void ShowTrainerIntroSpeech(void)
             CopyTrainerHillTrainerText(TRAINER_HILL_TEXT_INTRO, LocalIdToHillTrainerId(gSpecialVar_LastTalked));
         else
             CopyTrainerHillTrainerText(TRAINER_HILL_TEXT_INTRO, LocalIdToHillTrainerId(gObjectEvents[gApproachingTrainers[gApproachingTrainerId].objectEventId].localId));
-
         ShowFieldMessageFromBuffer();
     }
     else
-    {
         ShowFieldMessage(GetIntroSpeechOfApproachingTrainer());
-    }
 }
 
 const u8 *BattleSetup_GetScriptAddrAfterBattle(void)
 {
     if (sTrainerBattleEndScript)
         return sTrainerBattleEndScript;
-    else
-        return EventScript_TestSignpostMsg;
+    return EventScript_TestSignpostMsg;
 }
 
 const u8 *BattleSetup_GetTrainerPostBattleScript(void)
@@ -1311,7 +1295,6 @@ const u8 *BattleSetup_GetTrainerPostBattleScript(void)
             return sTrainerABattleScriptRetAddr;
         }
     }
-
     return EventScript_TryGetTrainerScript;
 }
 
@@ -1385,16 +1368,14 @@ static const u8 *ReturnEmptyStringIfNull(const u8 *string)
 {
     if (string)
         return string;
-    else
-        return gText_ExpandedPlaceholder_Empty;
+    return gText_ExpandedPlaceholder_Empty;
 }
 
 static const u8 *GetIntroSpeechOfApproachingTrainer(void)
 {
     if (gApproachingTrainerId)
         return ReturnEmptyStringIfNull(sTrainerBIntroSpeech);
-    else
-        return ReturnEmptyStringIfNull(sTrainerAIntroSpeech);
+    return ReturnEmptyStringIfNull(sTrainerAIntroSpeech);
 }
 
 const u8 *GetTrainerALoseText(void)
@@ -1428,7 +1409,6 @@ static s32 FirstBattleTrainerIdToRematchTableId(const struct RematchTrainer *tab
         if (table[i].trainerIds[0] == trainerId)
             return i;
     }
-
     return -1;
 }
 
@@ -1444,7 +1424,6 @@ static s32 TrainerIdToRematchTableId(const struct RematchTrainer *table, u16 tra
                 return i;
         }
     }
-
     return -1;
 }
 
@@ -1454,8 +1433,7 @@ static bool32 sub_80B1D94(s32 rematchTableId)
         return TRUE;
     else if (rematchTableId == REMATCH_WALLY_3)
         return (!FlagGet(FLAG_DEFEATED_WALLY_VICTORY_ROAD));
-    else
-        return FALSE;
+    return FALSE;
 }
 
 static void SetRematchIdForTrainer(const struct RematchTrainer *table, u32 tableId)
@@ -1496,7 +1474,6 @@ static bool32 UpdateRandomTrainerRematches(const struct RematchTrainer *table, u
             }
         }
     }
-
     return ret;
 }
 
@@ -1515,7 +1492,6 @@ static bool32 DoesSomeoneWantRematchIn_(const struct RematchTrainer *table, u16 
         if (table[i].mapGroup == mapGroup && table[i].mapNum == mapNum && gSaveBlock1Ptr->trainerRematches[i])
             return TRUE;
     }
-
     return FALSE;
 }
 
@@ -1528,7 +1504,6 @@ static bool32 IsRematchTrainerIn_(const struct RematchTrainer *table, u16 mapGro
         if (table[i].mapGroup == mapGroup && table[i].mapNum == mapNum)
             return TRUE;
     }
-
     return FALSE;
 }
 
@@ -1540,7 +1515,6 @@ static bool8 IsFirstTrainerIdReadyForRematch(const struct RematchTrainer *table,
      || tableId >= MAX_REMATCH_ENTRIES
      || !gSaveBlock1Ptr->trainerRematches[tableId])
         return FALSE;
-
     return TRUE;
 }
 
@@ -1552,7 +1526,6 @@ static bool8 IsTrainerReadyForRematch_(const struct RematchTrainer *table, u16 t
      || tableId >= MAX_REMATCH_ENTRIES
      || !gSaveBlock1Ptr->trainerRematches[tableId])
         return FALSE;
-
     return TRUE;
 }
 
@@ -1614,7 +1587,6 @@ static u32 GetTrainerMatchCallFlag(u32 trainerId)
         if (gRematchTable[i].trainerIds[0] == trainerId)
             return FLAG_MATCH_CALL_REGISTERED + i;
     }
-
     return 0xFFFF;
 }
 
@@ -1635,7 +1607,6 @@ static bool8 WasSecondRematchWon(const struct RematchTrainer *table, u16 firstBa
     if (tableId == -1
      || !HasTrainerBeenFought(table[tableId].trainerIds[1]))
         return FALSE;
-
     return TRUE;
 }
 
@@ -1651,7 +1622,6 @@ static bool32 HasAtLeastFiveBadges(void)
                 return TRUE;
         }
     }
-
     return FALSE;
 }
 
@@ -1672,8 +1642,7 @@ static bool32 IsRematchStepCounterMaxed(void)
 {
     if (HasAtLeastFiveBadges() && gSaveBlock1Ptr->trainerRematchStepCounter >= STEP_COUNTER_MAX)
         return TRUE;
-    else
-        return FALSE;
+    return FALSE;
 }
 
 void TryUpdateRandomTrainerRematches(u16 mapGroup, u16 mapNum)
@@ -1706,7 +1675,6 @@ bool8 ShouldTryRematchBattle(void)
 {
     if (IsFirstTrainerIdReadyForRematch(gRematchTable, gTrainerBattleOpponent_A))
         return TRUE;
-
     return WasSecondRematchWon(gRematchTable, gTrainerBattleOpponent_A);
 }
 
@@ -1740,7 +1708,7 @@ u16 CountBattledRematchTeams(u16 trainerId)
 {
     s32 i;
 
-    if (HasTrainerBeenFought(gRematchTable[trainerId].trainerIds[0]) != TRUE)
+    if (!HasTrainerBeenFought(gRematchTable[trainerId].trainerIds[0]))
         return 0;
 
     for (i = 1; i < REMATCHES_COUNT; i++)
@@ -1749,6 +1717,5 @@ u16 CountBattledRematchTeams(u16 trainerId)
          || !HasTrainerBeenFought(gRematchTable[trainerId].trainerIds[i]))
             break;
     }
-
     return i;
 }

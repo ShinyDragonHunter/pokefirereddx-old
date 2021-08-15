@@ -153,7 +153,6 @@ static u8 GetBikeCollisionAt(struct ObjectEvent *objectEvent, s16 x, s16 y, u8 d
 
     if (collision == COLLISION_NONE && IsRunningDisallowedByMetatile(metatitleBehavior))
         collision = COLLISION_IMPASSABLE;
-
     return collision;
 }
 

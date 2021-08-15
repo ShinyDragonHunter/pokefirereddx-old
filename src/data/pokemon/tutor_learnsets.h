@@ -5747,6 +5747,151 @@ static const u32 sTutorLearnsets[] =
                                 | TUTOR(MOVE_SLEEP_TALK)
                                 | TUTOR(MOVE_DEFENSE_CURL)),
 
+    [SPECIES_RATTATA_ALOLAN]   = (TUTOR(MOVE_BODY_SLAM)
+                                | TUTOR(MOVE_DOUBLE_EDGE)
+                                | TUTOR(MOVE_COUNTER)
+                                | TUTOR(MOVE_MIMIC)
+                                | TUTOR(MOVE_SUBSTITUTE)
+                                | TUTOR(MOVE_SNORE)
+                                | TUTOR(MOVE_ICY_WIND)
+                                | TUTOR(MOVE_ENDURE)
+                                | TUTOR(MOVE_MUD_SLAP)
+                                | TUTOR(MOVE_SWAGGER)
+                                | TUTOR(MOVE_SLEEP_TALK)
+                                | TUTOR(MOVE_SWIFT)
+                                | TUTOR(MOVE_DEFENSE_CURL)),
+
+    [SPECIES_RATICATE_ALOLAN]  = (TUTOR(MOVE_BODY_SLAM)
+                                | TUTOR(MOVE_DOUBLE_EDGE)
+                                | TUTOR(MOVE_COUNTER)
+                                | TUTOR(MOVE_MIMIC)
+                                | TUTOR(MOVE_SUBSTITUTE)
+                                | TUTOR(MOVE_SNORE)
+                                | TUTOR(MOVE_ICY_WIND)
+                                | TUTOR(MOVE_ENDURE)
+                                | TUTOR(MOVE_MUD_SLAP)
+                                | TUTOR(MOVE_SWAGGER)
+                                | TUTOR(MOVE_SLEEP_TALK)
+                                | TUTOR(MOVE_SWIFT)
+                                | TUTOR(MOVE_DEFENSE_CURL)),
+
+    [SPECIES_RAICHU_ALOLAN]    = (TUTOR(MOVE_MEGA_PUNCH)
+                                | TUTOR(MOVE_MEGA_KICK)
+                                | TUTOR(MOVE_BODY_SLAM)
+                                | TUTOR(MOVE_DOUBLE_EDGE)
+                                | TUTOR(MOVE_COUNTER)
+                                | TUTOR(MOVE_SEISMIC_TOSS)
+                                | TUTOR(MOVE_MIMIC)
+                                | TUTOR(MOVE_THUNDER_WAVE)
+                                | TUTOR(MOVE_SUBSTITUTE)
+                                | TUTOR(MOVE_DYNAMIC_PUNCH)
+                                | TUTOR(MOVE_ROLLOUT)
+                                | TUTOR(MOVE_SNORE)
+                                | TUTOR(MOVE_ENDURE)
+                                | TUTOR(MOVE_MUD_SLAP)
+                                | TUTOR(MOVE_SWAGGER)
+                                | TUTOR(MOVE_SLEEP_TALK)
+                                | TUTOR(MOVE_SWIFT)
+                                | TUTOR(MOVE_DEFENSE_CURL)
+                                | TUTOR(MOVE_THUNDER_PUNCH)),
+
+    [SPECIES_SANDSHREW_ALOLAN] = (0),
+
+    [SPECIES_SANDSLASH_ALOLAN] = (0),
+
+    [SPECIES_VULPIX_ALOLAN] = (0),
+
+    [SPECIES_NINETALES_ALOLAN] = (0),
+
+    [SPECIES_DIGLETT_ALOLAN] = (0),
+
+    [SPECIES_DUGTRIO_ALOLAN] = (0),
+
+    [SPECIES_MEOWTH_ALOLAN] = (0),
+
+    [SPECIES_PERSIAN_ALOLAN] = (0),
+
+    [SPECIES_GEODUDE_ALOLAN] = (0),
+
+    [SPECIES_GRAVELER_ALOLAN] = (0),
+
+    [SPECIES_GOLEM_ALOLAN] = (0),
+
+    [SPECIES_PONYTA_GALARIAN] = (0),
+
+    [SPECIES_RAPIDASH_GALARIAN] = (0),
+
+    [SPECIES_SLOWPOKE_GALARIAN] = (0),
+
+    [SPECIES_SLOWBRO_GALARIAN] = (0),
+
+    [SPECIES_FARFETCHD_GALARIAN] = (0),
+
+    [SPECIES_GRIMER_ALOLAN] = (0),
+
+    [SPECIES_MUK_ALOLAN] = (0),
+
+    [SPECIES_EXEGGUTOR_ALOLAN] = (0),
+
+    [SPECIES_MAROWAK_ALOLAN] = (0),
+
+    [SPECIES_WEEZING_GALARIAN] = (0),
+
+    [SPECIES_MR_MIME_GALARIAN] = (0),
+
+    [SPECIES_ARTICUNO_GALARIAN] = (0),
+
+    [SPECIES_ZAPDOS_GALARIAN] = (0),
+
+    [SPECIES_MOLTRES_GALARIAN] = (0),
+
+    [SPECIES_MEWTWO_ARMORED]   = (TUTOR(MOVE_MEGA_PUNCH)
+                                | TUTOR(MOVE_MEGA_KICK)
+                                | TUTOR(MOVE_BODY_SLAM)
+                                | TUTOR(MOVE_DOUBLE_EDGE)
+                                | TUTOR(MOVE_COUNTER)
+                                | TUTOR(MOVE_SEISMIC_TOSS)
+                                | TUTOR(MOVE_MIMIC)
+                                | TUTOR(MOVE_METRONOME)
+                                | TUTOR(MOVE_DREAM_EATER)
+                                | TUTOR(MOVE_THUNDER_WAVE)
+                                | TUTOR(MOVE_SUBSTITUTE)
+                                | TUTOR(MOVE_DYNAMIC_PUNCH)
+                                | TUTOR(MOVE_PSYCH_UP)
+                                | TUTOR(MOVE_SNORE)
+                                | TUTOR(MOVE_ICY_WIND)
+                                | TUTOR(MOVE_ENDURE)
+                                | TUTOR(MOVE_MUD_SLAP)
+                                | TUTOR(MOVE_ICE_PUNCH)
+                                | TUTOR(MOVE_SWAGGER)
+                                | TUTOR(MOVE_SLEEP_TALK)
+                                | TUTOR(MOVE_SWIFT)
+                                | TUTOR(MOVE_THUNDER_PUNCH)
+                                | TUTOR(MOVE_FIRE_PUNCH)),
+
+    [SPECIES_SLOWKING_GALARIAN] = (0),
+
+    [SPECIES_CORSOLA_GALARIAN] = (0),
+
+    [SPECIES_LUGIA_SHADOW]     = (TUTOR(MOVE_BODY_SLAM)
+                                | TUTOR(MOVE_DOUBLE_EDGE)
+                                | TUTOR(MOVE_MIMIC)
+                                | TUTOR(MOVE_DREAM_EATER)
+                                | TUTOR(MOVE_THUNDER_WAVE)
+                                | TUTOR(MOVE_SUBSTITUTE)
+                                | TUTOR(MOVE_PSYCH_UP)
+                                | TUTOR(MOVE_SNORE)
+                                | TUTOR(MOVE_ICY_WIND)
+                                | TUTOR(MOVE_ENDURE)
+                                | TUTOR(MOVE_MUD_SLAP)
+                                | TUTOR(MOVE_SWAGGER)
+                                | TUTOR(MOVE_SLEEP_TALK)
+                                | TUTOR(MOVE_SWIFT)),
+
+    [SPECIES_ZIGZAGOON_GALARIAN] = (0),
+
+    [SPECIES_LINOONE_GALARIAN] = (0),
+
     [SPECIES_DEOXYS_SPEED]     = (TUTOR(MOVE_MEGA_PUNCH)
                                 | TUTOR(MOVE_MEGA_KICK)
                                 | TUTOR(MOVE_BODY_SLAM)

@@ -744,8 +744,7 @@ static void SetPlayerBerryDataInBattleStruct(void)
 
 static void SetAllPlayersBerryData(void)
 {
-    s32 i;
-    s32 j;
+    s32 i, j;
 
     if (!(gBattleTypeFlags & BATTLE_TYPE_LINK))
     {
@@ -3254,6 +3253,7 @@ static void BattleIntroDrawTrainersOrMonsSprites(void)
 {
     u8 *ptr;
     s32 i;
+    u16 formSpecies = GetFormSpecies(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].form);
 
     if (gBattleControllerExecFlags)
         return;
@@ -3270,13 +3270,11 @@ static void BattleIntroDrawTrainersOrMonsSprites(void)
         else
         {
             u16* hpOnSwitchout;
-            u16 formSpecies;
 
             ptr = (u8 *)&gBattleMons[gActiveBattler];
             for (i = 0; i < sizeof(struct BattlePokemon); i++)
                 ptr[i] = gBattleBufferB[gActiveBattler][4 + i];
 
-            formSpecies = GetFormSpecies(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].form);
             gBattleMons[gActiveBattler].type1 = gBaseStats[formSpecies].type1;
             gBattleMons[gActiveBattler].type2 = gBaseStats[formSpecies].type2;
             gBattleMons[gActiveBattler].ability = GetAbilityBySpecies(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].abilityNum, gBattleMons[gActiveBattler].form);
@@ -3633,8 +3631,7 @@ static void BattleIntroPlayer1SendsOutMonAnimation(void)
 
 static void TryDoEventsBeforeFirstTurn(void)
 {
-    s32 i;
-    s32 j;
+    s32 i, j;
     u8 effect = 0;
 
     if (gBattleControllerExecFlags)
@@ -3886,8 +3883,7 @@ u8 IsRunningFromBattleImpossible(void)
 void SwitchPartyOrder(u8 battler)
 {
     s32 i;
-    u8 partyId1;
-    u8 partyId2;
+    u8 partyId1, partyId2;
 
     // gBattleStruct->field_60[battler][i]
 
@@ -4364,8 +4360,7 @@ static bool8 AllAtActionConfirmed(void)
 
     if (count + 1 == gBattlersCount)
         return TRUE;
-    else
-        return FALSE;
+    return FALSE;
 }
 
 static void sub_803CDF8(void)

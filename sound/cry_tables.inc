@@ -1,7 +1,6 @@
 	.align 2
 gCryTable::
 	cry Cry_Bulbasaur
-	cry Cry_Bulbasaur
 	cry Cry_Ivysaur
 	cry Cry_Venusaur
 	cry Cry_Charmander
@@ -387,10 +386,10 @@ gCryTable::
 	cry Cry_Jirachi
 	cry Cry_Deoxys
 	cry Cry_Chimecho
+	cry Cry_Deoxys
 
 	.align 2
 gCryTable2::
-	cry2 Cry_Bulbasaur
 	cry2 Cry_Bulbasaur
 	cry2 Cry_Ivysaur
 	cry2 Cry_Venusaur
@@ -777,3 +776,4 @@ gCryTable2::
 	cry2 Cry_Jirachi
 	cry2 Cry_Deoxys
 	cry2 Cry_Chimecho
+	cry2 Cry_Deoxys

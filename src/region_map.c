@@ -762,9 +762,7 @@ static u8 ProcessRegionMapInput_Zoomed(void)
 
 static u8 MoveRegionMapCursor_Zoomed(void)
 {
-    u16 x;
-    u16 y;
-    u16 mapSecId;
+    u16 x, y, mapSecId;
 
     gRegionMap->scrollY += gRegionMap->zoomedCursorDeltaY;
     gRegionMap->scrollX += gRegionMap->zoomedCursorDeltaX;
@@ -834,9 +832,7 @@ bool8 UpdateRegionMapZoom(void)
     bool8 retVal;
 
     if (gRegionMap->unk_06e >= 16)
-    {
         return FALSE;
-    }
     gRegionMap->unk_06e++;
     if (gRegionMap->unk_06e == 16)
     {
@@ -892,10 +888,7 @@ bool8 UpdateRegionMapZoom(void)
 
 static void CalcZoomScrollParams(s16 scrollX, s16 scrollY, s16 c, s16 d, u16 e, u16 f, u8 rotation)
 {
-    s32 var1;
-    s32 var2;
-    s32 var3;
-    s32 var4;
+    s32 var1, var2, var3, var4;
 
     gRegionMap->bg2pa = e * gSineTable[rotation + 64] >> 8;
     gRegionMap->bg2pc = e * -gSineTable[rotation] >> 8;
@@ -961,12 +954,7 @@ static u16 GetMapSecIdAt(u16 x, u16 y)
 static void InitMapBasedOnPlayerLocation(void)
 {
     const struct MapHeader *mapHeader;
-    u16 mapWidth;
-    u16 mapHeight;
-    u16 x;
-    u16 y;
-    u16 dimensionScale;
-    u16 xOnMap;
+    u16 mapWidth, mapHeight, x, y, dimensionScale, xOnMap;
     struct WarpData *warp;
 
     if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(SS_TIDAL_CORRIDOR)
@@ -1096,13 +1084,10 @@ static void InitMapBasedOnPlayerLocation(void)
 
 static void RegionMap_InitializeStateBasedOnSSTidalLocation(void)
 {
-    u16 y;
-    u16 x;
-    u8 mapGroup;
-    u8 mapNum;
+    u16 y, x;
+    u8 mapGroup, mapNum;
     u16 dimensionScale;
-    s16 xOnMap;
-    s16 yOnMap;
+    s16 xOnMap, yOnMap;
     const struct MapHeader *mapHeader;
 
     y = 0;
@@ -1205,16 +1190,12 @@ static u16 CorrectSpecialMapSecId_Internal(u16 mapSecId)
     for (i = 0; i < ARRAY_COUNT(sMarineCaveMapSecIds); i++)
     {
         if (sMarineCaveMapSecIds[i] == mapSecId)
-        {
             return GetTerraOrMarineCaveMapSecId();
-        }
     }
     for (i = 0; sRegionMap_SpecialPlaceLocations[i][0] != MAPSEC_NONE; i++)
     {
         if (sRegionMap_SpecialPlaceLocations[i][0] == mapSecId)
-        {
             return sRegionMap_SpecialPlaceLocations[i][1];
-        }
     }
     return mapSecId;
 }
@@ -1237,9 +1218,7 @@ static void GetMarineCaveCoords(u16 *x, u16 *y)
 
     idx = VarGet(VAR_ABNORMAL_WEATHER_LOCATION);
     if (idx < MARINE_CAVE_LOCATIONS_START || idx > ABNORMAL_WEATHER_LOCATIONS)
-    {
         idx = MARINE_CAVE_LOCATIONS_START;
-    }
     idx -= MARINE_CAVE_LOCATIONS_START;
 
     *x = sMarineCaveLocationCoords[idx].x + MAPCURSOR_X_MIN;
@@ -1253,9 +1232,7 @@ u16 CorrectSpecialMapSecId(u16 mapSecId)
 
 static void GetPositionOfCursorWithinMapSec(void)
 {
-    u16 x;
-    u16 y;
-    u16 posWithinMapSec;
+    u16 x, y, posWithinMapSec;
 
     if (gRegionMap->mapSecId == MAPSEC_NONE)
     {
@@ -1283,17 +1260,13 @@ static void GetPositionOfCursorWithinMapSec(void)
                 x = MAPCURSOR_X_MAX + 1;
             }
             else
-            {
                 break;
-            }
         }
         else
         {
             x--;
             if (GetMapSecIdAt(x, y) == gRegionMap->mapSecId)
-            {
                 posWithinMapSec++;
-            }
         }
     }
     gRegionMap->posWithinMapSec = posWithinMapSec;
@@ -1304,15 +1277,11 @@ static bool8 RegionMap_IsMapSecIdInNextRow(u16 y)
     u16 x;
 
     if (y-- == 0)
-    {
         return FALSE;
-    }
     for (x = MAPCURSOR_X_MIN; x <= MAPCURSOR_X_MAX; x++)
     {
         if (GetMapSecIdAt(x, y) == gRegionMap->mapSecId)
-        {
             return TRUE;
-        }
     }
     return FALSE;
 }
@@ -1469,21 +1438,14 @@ static void SpriteCB_PlayerIconMapZoomed(struct Sprite *sprite)
     sprite->data[0] = sprite->y + sprite->y2 + sprite->centerToCornerVecY;
     sprite->data[1] = sprite->x + sprite->x2 + sprite->centerToCornerVecX;
     if (sprite->data[0] < -8 || sprite->data[0] > 0xa8 || sprite->data[1] < -8 || sprite->data[1] > 0xf8)
-    {
         sprite->data[2] = FALSE;
-    }
     else
-    {
         sprite->data[2] = TRUE;
-    }
+
     if (sprite->data[2])
-    {
         SpriteCB_PlayerIcon(sprite);
-    }
     else
-    {
         sprite->invisible = TRUE;
-    }
 }
 
 static void SpriteCB_PlayerIconMapFull(struct Sprite *sprite)
@@ -1502,9 +1464,7 @@ static void SpriteCB_PlayerIcon(struct Sprite *sprite)
         }
     }
     else
-    {
         sprite->invisible = FALSE;
-    }
 }
 
 void TrySetPlayerIconBlink(void)
@@ -1532,17 +1492,13 @@ u8 *GetMapName(u8 *dest, u16 regionMapId, u16 padLength)
     else
     {
         if (!padLength)
-        {
             padLength = 18;
-        }
         return StringFill(dest, CHAR_SPACE, padLength);
     }
     if (padLength)
     {
         for (i = str - dest; i < padLength; i++)
-        {
             *str++ = CHAR_SPACE;
-        }
         *str = EOS;
     }
     return str;
@@ -1773,13 +1729,7 @@ static void LoadFlyDestIcons(void)
 
 static void CreateFlyDestIcons(void)
 {
-    u16 canFlyFlag;
-    u16 mapSecId;
-    u16 x;
-    u16 y;
-    u16 width;
-    u16 height;
-    u16 shape;
+    u16 canFlyFlag, mapSecId, x, y, width, height, shape;
     u8 spriteId;
 
     canFlyFlag = FLAG_VISITED_LITTLEROOT_TOWN;
@@ -1818,11 +1768,7 @@ static void CreateFlyDestIcons(void)
 static void TryCreateRedOutlineFlyDestIcons(void)
 {
     u32 i;
-    u16 x;
-    u16 y;
-    u16 width;
-    u16 height;
-    u16 mapSecId;
+    u16 x, y, width, height, mapSecId;
     u8 spriteId;
 
     for (i = 0; sRedOutlineFlyDestinations[i][1] != MAPSEC_NONE; i++)
@@ -1876,9 +1822,7 @@ static void CB_FadeInFlyMap(void)
         break;
     case 1:
         if (!UpdatePaletteFade())
-        {
             SetFlyMapCallback(CB_HandleFlyMapInput);
-        }
         break;
     }
 }
@@ -1950,9 +1894,7 @@ static void CB_ExitFlyMap(void)
                 ReturnToFieldFromFlyMapSelect();
             }
             else
-            {
                 SetMainCallback2(CB2_ReturnToPartyMenuFromFlyMap);
-            }
             if (sFlyMap)
             {
                 free(sFlyMap);

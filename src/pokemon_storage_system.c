@@ -3830,7 +3830,7 @@ static void LoadDisplayMonGfx(u16 species, u32 pid, u8 form)
     if (!sStorage->displayMonSprite)
         return;
 
-    if (species)
+    if (formSpecies)
     {
         LoadSpecialPokePic(&gMonFrontPicTable[formSpecies], sStorage->tileBuffer, formSpecies, pid, TRUE);
         CpuCopy32(sStorage->tileBuffer, sStorage->displayMonTilePtr, MON_PIC_SIZE);
@@ -3840,9 +3840,7 @@ static void LoadDisplayMonGfx(u16 species, u32 pid, u8 form)
         sStorage->displayMonSprite->invisible = FALSE;
     }
     else
-    {
         sStorage->displayMonSprite->invisible = TRUE;
-    }
 }
 
 static void PrintDisplayMonInfo(void)
@@ -4614,9 +4612,7 @@ static void CreatePartyMonsSprites(bool8 visible)
             count++;
         }
         else
-        {
             sStorage->partySprites[i] = NULL;
-        }
     }
 
     if (!visible)
@@ -6697,6 +6693,7 @@ static void SetDisplayMonData(void *pokemon, u8 mode)
     u8 *txtPtr;
     u16 gender;
     bool8 sanityIsBadEgg;
+    u16 formSpecies = GetFormSpecies(sStorage->displayMonSpecies, sStorage->displayMonForm);
 
     sStorage->displayMonItemId = ITEM_NONE;
     gender = MON_MALE;
@@ -6747,10 +6744,7 @@ static void SetDisplayMonData(void *pokemon, u8 mode)
         }
     }
     else
-    {
         sStorage->displayMonSpecies = SPECIES_NONE;
-        sStorage->displayMonItemId = ITEM_NONE;
-    }
 
     if (!sStorage->displayMonSpecies)
     {

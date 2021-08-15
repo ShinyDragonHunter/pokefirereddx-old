@@ -2320,6 +2320,29 @@ const u8 gDeoxysPokedexText[] = _(
     "mutation to become this POKéMON. It can\n"
     "fool enemies by altering its appearance.");
 
+const u8 gRattataAlolanPokedexText[] = _(
+    "RATTATA native to a far off region.\n"
+    "Its whiskers provide it with a keen"
+    "sense of smell, enabling it to pick up"
+    "the scent of hidden food and locate it.");
+
+const u8 gRaticateAlolanPokedexText[] = _(
+    "RATICATE native to a far off region.\n"
+    "It makes its RATTATA underlings gather"
+    "food for it, dining solely on the most\n"
+    "nutritious and delicious fare.");
+
+const u8 gRaichuAlolanPokedexText[] = _(
+    "RAICHU native to a far off region.\n"
+    "When you rub its cheeks, a sweet fragrance\n"
+    "comes wafting out. However, you'll also get\n"
+    "a light shock!");
+
+const u8 gMewtwoArmoredPokedexText[] = _(
+    "The armor surpresses MEWTWO's latent power.\n"
+    "However, the armor appears to be durable\n"
+    "and acts as a shield against battle damage.");
+
 const u8 gDeoxysSpeedPokedexText[] = _(
     "DEOXYS when it has transformed into one\n"
     "of its alternate forms. Its body is\n"

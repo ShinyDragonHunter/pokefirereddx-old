@@ -945,16 +945,14 @@ static void SetBattlePyramidPrize(void)
 
 static void GiveBattlePyramidPrize(void)
 {
-    if (AddBagItem(gSaveBlock2Ptr->frontier.pyramidPrize, 1) == TRUE)
+    if (AddBagItem(gSaveBlock2Ptr->frontier.pyramidPrize, 1))
     {
         CopyItemName(gSaveBlock2Ptr->frontier.pyramidPrize, gStringVar1);
         gSaveBlock2Ptr->frontier.pyramidPrize = 0;
         gSpecialVar_Result = TRUE;
     }
     else
-    {
         gSpecialVar_Result = FALSE;
-    }
 }
 
 static void SeedPyramidFloor(void)
@@ -963,7 +961,6 @@ static void SeedPyramidFloor(void)
 
     for (i = 0; i < 4; i++)
         gSaveBlock2Ptr->frontier.pyramidRandoms[i] = Random();
-
     gSaveBlock2Ptr->frontier.pyramidTrainerFlags = 0;
 }
 
@@ -1019,7 +1016,7 @@ static void HidePyramidItem(void)
             break;
         }
         i++;
-        if (events[i].localId == 0)
+        if (!events[i].localId)
             break;
     }
 }
@@ -1147,9 +1144,7 @@ static void UpdatePyramidLightRadius(void)
                 WriteBattlePyramidViewScanlineEffectBuffer();
             }
             else
-            {
                 gSpecialVar_Result = 2;
-            }
         default:
             break;
         }
@@ -1287,14 +1282,11 @@ static u8 GetPostBattleDirectionHintTextIndex(int *hintType, u8 minDistanceForEx
                     *hintType = HINT_EXIT_DIRECTION;
                 }
                 else
-                {
                     *hintType = defaultHintType;
-                }
                 return textIndex;
             }
         }
     }
-
     return textIndex;
 }
 
@@ -1353,7 +1345,7 @@ void GenerateBattlePyramidWildMon(void)
 
     id = GetMonData(&gEnemyParty[0], MON_DATA_SPECIES, NULL) - 1;
     SetMonData(&gEnemyParty[0], MON_DATA_SPECIES, &wildMons[id].species);
-    GetSpeciesName(name, wildMons[id].species);
+    GetSpeciesName(name, wildMons[id].species, 0);
     SetMonData(&gEnemyParty[0], MON_DATA_NICKNAME, &name);
     if (lvl != FRONTIER_LVL_50)
     {
@@ -1414,8 +1406,7 @@ u8 InBattlePyramid(void)
         return 1;
     else if (gMapHeader.mapLayoutId == LAYOUT_BATTLE_FRONTIER_BATTLE_PYRAMID_TOP)
         return 2;
-    else
-        return FALSE;
+    return FALSE;
 }
 
 bool8 InBattlePyramid_(void)
@@ -1531,9 +1522,7 @@ void GenerateBattlePyramidFloorLayout(u16 *backupMapData, bool8 setPlayerPositio
             for (x = 0; x < mapLayout->width; x++)
             {
                 if ((layoutMap[x] & METATILE_ID_MASK) != FLOOR_EXIT_METATILE)
-                {
                     map[x] = layoutMap[x];
-                }
                 else if (i != exitSquareId)
                 {
                     if (i == entranceSquareId && setPlayerPosition == FALSE)
@@ -1544,9 +1533,7 @@ void GenerateBattlePyramidFloorLayout(u16 *backupMapData, bool8 setPlayerPositio
                     map[x] = (layoutMap[x] & 0xFC00) | FLOOR_WALKABLE_METATILE;
                 }
                 else
-                {
                     map[x] = layoutMap[x];
-                }
             }
             map += 15 + (mapLayout->width * 4);
             layoutMap += mapLayout->width;
@@ -1710,7 +1697,7 @@ static bool8 SetPyramidObjectPositionsInAndNearSquare(u8 objType, u8 squareId)
 
     for (i = 0; i < numObjects; i++)
     {
-        if (r7 == 0)
+        if (!r7)
         {
             if (TrySetPyramidObjectEventPositionInSquare(objType, floorLayoutOffsets, squareId, objectStartIndex + i))
                 r7 = 1;
@@ -1914,10 +1901,9 @@ u8 GetNumBattlePyramidObjectEvents(void)
 
     for (i = 0; i < 16; i++)
     {
-        if (events[i].localId == 0)
+        if (!events[i].localId)
             break;
     }
-
     return i;
 }
 
@@ -1958,6 +1944,5 @@ u16 GetBattlePyramidPickupItemId(void)
 
     if (lvlMode != FRONTIER_LVL_50)
         return sPickupItemsLvlOpen[round][i];
-    else
-        return sPickupItemsLvl50[round][i];
+    return sPickupItemsLvl50[round][i];
 }

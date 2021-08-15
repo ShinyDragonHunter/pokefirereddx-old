@@ -122,9 +122,7 @@ void RecordedBattle_Init(u8 mode)
         if (mode == B_RECORD_MODE_RECORDING)
         {
             for (j = 0; j < BATTLER_RECORD_SIZE; j++)
-            {
                 sBattleRecords[i][j] = 0xFF;
-            }
             sBattleFlags = gBattleTypeFlags;
             sAI_Scripts = gBattleResources->ai->aiFlags;
         }
@@ -142,9 +140,7 @@ void sub_8184E58(void)
         sFrontierBrainSymbol = GetFronterBrainSymbol();
     }
     else if (sRecordMode == B_RECORD_MODE_PLAYBACK)
-    {
         gRngValue = gRecordedBattleRngSeed;
-    }
 
     if (gBattleTypeFlags & BATTLE_TYPE_LINK)
     {
@@ -193,9 +189,7 @@ void sub_8184E58(void)
 void RecordedBattle_SetBattlerAction(u8 battlerId, u8 action)
 {
     if (sBattlerRecordSizes[battlerId] < BATTLER_RECORD_SIZE && sRecordMode != B_RECORD_MODE_PLAYBACK)
-    {
         sBattleRecords[battlerId][sBattlerRecordSizes[battlerId]++] = action;
-    }
 }
 
 void RecordedBattle_ClearBattlerAction(u8 battlerId, u8 bytesToClear)
@@ -206,7 +200,7 @@ void RecordedBattle_ClearBattlerAction(u8 battlerId, u8 bytesToClear)
     {
         sBattlerRecordSizes[battlerId]--;
         sBattleRecords[battlerId][sBattlerRecordSizes[battlerId]] = 0xFF;
-        if (sBattlerRecordSizes[battlerId] == 0)
+        if (!sBattlerRecordSizes[battlerId])
             break;
     }
 }
@@ -230,7 +224,7 @@ u8 RecordedBattle_GetBattlerAction(u8 battlerId)
 
 u8 RecordedBattle_BufferNewBattlerData(u8 *dst)
 {
-    u8 i, j;
+    u32 i, j;
     u8 idx = 0;
 
     for (i = 0; i < MAX_BATTLERS_COUNT; i++)
@@ -241,10 +235,7 @@ u8 RecordedBattle_BufferNewBattlerData(u8 *dst)
             dst[idx++] = sBattlerRecordSizes[i] - sBattlerPrevRecordSizes[i];
 
             for (j = 0; j < sBattlerRecordSizes[i] - sBattlerPrevRecordSizes[i]; j++)
-            {
                 dst[idx++] = sBattleRecords[i][sBattlerPrevRecordSizes[i] + j];
-            }
-
             sBattlerPrevRecordSizes[i] = sBattlerRecordSizes[i];
         }
     }
@@ -275,9 +266,7 @@ void RecordedBattle_RecordAllBattlerData(u8 *src)
             u8 numActions = GetNextRecordedDataByte(src, &idx, &size);
 
             for (i = 0; i < numActions; i++)
-            {
                 sBattleRecords[battlerId][sBattlerSavedRecordSizes[battlerId]++] = GetNextRecordedDataByte(src, &idx, &size);
-            }
         }
     }
 }
@@ -302,7 +291,6 @@ static bool32 IsRecordedBattleSaveValid(struct RecordedBattleSave *save)
      || save->battleFlags & ILLEGAL_BATTLE_TYPES
      || CalcByteArraySum((void*)(save), sizeof(*save) - 4) != save->checksum)
         return FALSE;
-
     return TRUE;
 }
 
@@ -315,8 +303,7 @@ static bool32 RecordedBattleToSave(struct RecordedBattleSave *battleSave, struct
 
     if (TryWriteSpecialSaveSection(SECTOR_ID_RECORDED_BATTLE, (void*)(saveSection)) != SAVE_STATUS_OK)
         return FALSE;
-    else
-        return TRUE;
+    return TRUE;
 }
 
 bool32 MoveRecordedBattleToSaveData(void)
@@ -379,9 +366,7 @@ bool32 MoveRecordedBattleToSaveData(void)
         }
     }
     else
-    {
         battleSave->battleFlags = sBattleFlags;
-    }
 
     battleSave->opponentA = gTrainerBattleOpponent_A;
     battleSave->opponentB = gTrainerBattleOpponent_B;
@@ -435,7 +420,6 @@ bool32 MoveRecordedBattleToSaveData(void)
         for (i = 0; i < PLAYER_NAME_LENGTH + 1; i++)
             battleSave->recordMixFriendName[i] = gSaveBlock2Ptr->frontier.towerRecords[gPartnerTrainerId - TRAINER_RECORD_MIXING_FRIEND].name[i];
         battleSave->recordMixFriendClass = gSaveBlock2Ptr->frontier.towerRecords[gPartnerTrainerId - TRAINER_RECORD_MIXING_FRIEND].facilityClass;
-
         battleSave->recordMixFriendLanguage = gSaveBlock2Ptr->frontier.towerRecords[gPartnerTrainerId - TRAINER_RECORD_MIXING_FRIEND].language;
     }
 
@@ -456,17 +440,12 @@ bool32 MoveRecordedBattleToSaveData(void)
     else if (gPartnerTrainerId >= TRAINER_RECORD_MIXING_APPRENTICE)
     {
         battleSave->apprenticeId = gSaveBlock2Ptr->apprentices[gPartnerTrainerId - TRAINER_RECORD_MIXING_APPRENTICE].id;
-
         battleSave->apprenticeLanguage = gSaveBlock2Ptr->apprentices[gPartnerTrainerId - TRAINER_RECORD_MIXING_APPRENTICE].language;
     }
 
     for (i = 0; i < MAX_BATTLERS_COUNT; i++)
-    {
         for (j = 0; j < BATTLER_RECORD_SIZE; j++)
-        {
             battleSave->battleRecord[i][j] = sBattleRecords[i][j];
-        }
-    }
 
     while (1)
     {
@@ -501,7 +480,6 @@ static bool32 CopyRecordedBattleFromSave(struct RecordedBattleSave *dst)
     struct SaveSection *savBuffer = AllocZeroed(sizeof(struct SaveSection));
     bool32 ret = TryCopyRecordedBattleSaveData(dst, savBuffer);
     Free(savBuffer);
-
     return ret;
 }
 
@@ -532,7 +510,7 @@ static void Task_StartAfterCountdown(u8 taskId)
 
 static void SetVariablesForRecordedBattle(struct RecordedBattleSave *src)
 {
-    bool8 var;
+    bool32 var;
     s32 i, j;
 
     ZeroPlayerPartyMons();
@@ -575,9 +553,7 @@ static void SetVariablesForRecordedBattle(struct RecordedBattleSave *src)
     sAI_Scripts = src->AI_scripts;
 
     for (i = 0; i < PLAYER_NAME_LENGTH + 1; i++)
-    {
         sRecordMixFriendName[i] = src->recordMixFriendName[i];
-    }
 
     sRecordMixFriendClass = src->recordMixFriendClass;
     sApprenticeId = src->apprenticeId;
@@ -585,19 +561,13 @@ static void SetVariablesForRecordedBattle(struct RecordedBattleSave *src)
     sApprenticeLanguage = src->apprenticeLanguage;
 
     for (i = 0; i < 6; i++)
-    {
         sEasyChatSpeech[i] = src->easyChatSpeech[i];
-    }
 
     gSaveBlock2Ptr->frontier.lvlMode = src->lvlMode;
 
     for (i = 0; i < MAX_BATTLERS_COUNT; i++)
-    {
         for (j = 0; j < BATTLER_RECORD_SIZE; j++)
-        {
             sBattleRecords[i][j] = src->battleRecord[i][j];
-        }
-    }
 }
 
 void PlayRecordedBattle(void (*CB2_After)(void))
@@ -713,9 +683,7 @@ void RecordedBattle_CopyBattlerMoves(void)
         return;
 
     for (i = 0; i < MAX_MON_MOVES; i++)
-    {
         sPlayerMonMoves[gActiveBattler / 2][i] = gBattleMons[gActiveBattler].moves[i];
-    }
 }
 
 #define ACTION_MOVE_CHANGE 6
@@ -810,9 +778,7 @@ void sub_818603C(u8 arg0)
                         }
                         var = 0;
                         for (j = 0; j < MAX_MON_MOVES; j++)
-                        {
                             var |= (array3[j]) << (j << 1);
-                        }
                         SetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerId]], MON_DATA_PP_BONUSES, &var);
                     }
 

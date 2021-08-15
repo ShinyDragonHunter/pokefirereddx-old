@@ -288,10 +288,10 @@ static void PrintLinkBattleWinsLossesDraws(struct LinkBattleRecord *records)
 
 static void PrintLinkBattleRecord(struct LinkBattleRecord *record, u8 y, s32 language)
 {
-    if (record->wins == 0 && record->losses == 0 && record->draws == 0)
+    if (!record->wins && !record->losses && !record->draws)
     {
         // empty slot
-        AddTextPrinterParameterized(gRecordsWindowId, 2, sText_DashesNoPlayer,   8, (y * 8) + 1, 0, NULL);
+        AddTextPrinterParameterized(gRecordsWindowId, 2, sText_DashesNoPlayer,  8, (y * 8) + 1, 0, NULL);
         AddTextPrinterParameterized(gRecordsWindowId, 2, sText_DashesNoScore,  80, (y * 8) + 1, 0, NULL);
         AddTextPrinterParameterized(gRecordsWindowId, 2, sText_DashesNoScore, 128, (y * 8) + 1, 0, NULL);
         AddTextPrinterParameterized(gRecordsWindowId, 2, sText_DashesNoScore, 176, (y * 8) + 1, 0, NULL);
@@ -332,9 +332,7 @@ void ShowLinkBattleRecords(void)
     AddTextPrinterParameterized(gRecordsWindowId, 2, gStringVar4, 0, 41, 0, NULL);
 
     for (i = 0; i < LINK_B_RECORDS_COUNT; i++)
-    {
         PrintLinkBattleRecord(&gSaveBlock1Ptr->linkBattleRecords.entries[i], 7 + (i * 2), gSaveBlock1Ptr->linkBattleRecords.languages[i]);
-    }
 
     PutWindowTilemap(gRecordsWindowId);
     CopyWindowToVram(gRecordsWindowId, 3);

@@ -361,7 +361,6 @@ static bool8 InitShopData(void)
     sShopData->scrollIndicatorsTaskId = 0xFF;
     sShopData->itemSpriteIds[0] = 0xFF;
     sShopData->itemSpriteIds[1] = 0xFF;
-
     return TRUE;
 }
 

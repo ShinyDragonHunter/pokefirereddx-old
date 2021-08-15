@@ -580,8 +580,7 @@ static bool8 IsPaletteNotActive(void)
 {
     if (gPaletteFade.active)
         return FALSE;
-    else
-        return TRUE;
+    return TRUE;
 }
 
 bool8 ScrCmd_fadescreen(struct ScriptContext *ctx)
@@ -627,8 +626,7 @@ static bool8 RunPauseTimer(void)
 
     if (sPauseCounter)
         return FALSE;
-    else
-        return TRUE;
+    return TRUE;
 }
 
 bool8 ScrCmd_delay(struct ScriptContext *ctx)
@@ -743,8 +741,7 @@ bool8 ScrCmd_warphole(struct ScriptContext *ctx)
 {
     u8 mapGroup = ScriptReadByte(ctx);
     u8 mapNum = ScriptReadByte(ctx);
-    u16 x;
-    u16 y;
+    u16 x, y;
 
     PlayerGetDestCoords(&x, &y);
     if (mapGroup == 0xFF && mapNum == 0xFF)
@@ -856,8 +853,7 @@ static bool8 WaitForSoundEffectFinish(void)
 {
     if (IsSEPlaying())
         return FALSE;
-    else
-        return TRUE;
+    return TRUE;
 }
 
 bool8 ScrCmd_waitse(struct ScriptContext *ctx)
@@ -1150,9 +1146,7 @@ bool8 ScrCmd_turnvobject(struct ScriptContext *ctx)
 bool8 ScrCmd_lockall(struct ScriptContext *ctx)
 {
     if (IsUpdateLinkStateCBActive())
-    {
         return FALSE;
-    }
     else
     {
         FreezeObjects_WaitForPlayer();
@@ -1166,9 +1160,7 @@ bool8 ScrCmd_lockall(struct ScriptContext *ctx)
 bool8 ScrCmd_lock(struct ScriptContext *ctx)
 {
     if (IsUpdateLinkStateCBActive())
-    {
         return FALSE;
-    }
     else
     {
         if (gObjectEvents[gSelectedObjectEvent].active)
@@ -1287,9 +1279,7 @@ bool8 ScrCmd_yesnobox(struct ScriptContext *ctx)
         return TRUE;
     }
     else
-    {
         return FALSE;
-    }
 }
 
 bool8 ScrCmd_multichoice(struct ScriptContext *ctx)
@@ -1305,9 +1295,7 @@ bool8 ScrCmd_multichoice(struct ScriptContext *ctx)
         return TRUE;
     }
     else
-    {
         return FALSE;
-    }
 }
 
 bool8 ScrCmd_multichoicedefault(struct ScriptContext *ctx)
@@ -1324,9 +1312,7 @@ bool8 ScrCmd_multichoicedefault(struct ScriptContext *ctx)
         return TRUE;
     }
     else
-    {
         return FALSE;
-    }
 }
 
 bool8 ScrCmd_multichoicegrid(struct ScriptContext *ctx)
@@ -1343,9 +1329,7 @@ bool8 ScrCmd_multichoicegrid(struct ScriptContext *ctx)
         return TRUE;
     }
     else
-    {
         return FALSE;
-    }
 }
 
 bool8 ScrCmd_showmonpic(struct ScriptContext *ctx)
@@ -1734,7 +1718,6 @@ bool8 ScrCmd_setwildbattle(struct ScriptContext *ctx)
         CreateScriptedWildMon(species, level, item);
         gIsScriptedWildDouble = FALSE;
     }
-
     return FALSE;
 }
 
@@ -1886,8 +1869,7 @@ static bool8 IsDoorAnimationStopped(void)
 {
     if (FieldIsDoorAnimationRunning())
         return FALSE;
-    else
-        return TRUE;
+    return TRUE;
 }
 
 bool8 ScrCmd_waitdooranim(struct ScriptContext *ctx)
@@ -1984,9 +1966,7 @@ bool8 ScrCmd_selectapproachingtrainer(struct ScriptContext *ctx)
 bool8 ScrCmd_lockfortrainer(struct ScriptContext *ctx)
 {
     if (IsUpdateLinkStateCBActive())
-    {
         return FALSE;
-    }
     else
     {
         if (gObjectEvents[gSelectedObjectEvent].active)

@@ -356,8 +356,7 @@ static void VblankCb_TrainerCard(void)
 
 static void HblankCb_TrainerCard(void)
 {
-    u16 backup;
-    u16 bgVOffset;
+    u16 backup, bgVOffset;
 
     backup = REG_IME;
     REG_IME = 0;
@@ -696,7 +695,6 @@ u32 CountPlayerTrainerStars(void)
         stars++;
     if (CountPlayerTrainerExtraStars())
         stars++;
-
     return stars;
 }
 
@@ -706,14 +704,12 @@ static u8 CountPlayerTrainerExtraStars(void)
 
     if (HasAllFrontierSymbols())
         stars++;
-
     return stars;
 }
 
 static void SetPlayerCardData(struct TrainerCard *trainerCard)
 {
     u32 playTime, i;
-    u8 trainerCardMonForms[PARTY_SIZE] = {trainerCard->monForm0, trainerCard->monForm1, trainerCard->monForm2, trainerCard->monForm3, trainerCard->monForm4, trainerCard->monForm5};
 
     trainerCard->gender = gSaveBlock2Ptr->playerGender;
     trainerCard->playTimeHours = gSaveBlock2Ptr->playTimeHours;
@@ -759,13 +755,18 @@ static void SetPlayerCardData(struct TrainerCard *trainerCard)
         if (trainerCard->stickers[i])
             trainerCard->shouldDrawStickers = TRUE;
     }
-
-    for (i = 0; i < PARTY_SIZE; i++)
-    {
-        trainerCard->monSpecies[i] = VarGet(VAR_TRAINER_CARD_MON_ICON_5 - i);
-        trainerCardMonForms[i] = VarGet(VAR_TRAINER_CARD_MON_FORM_ICON_5 - i);
-    }
-
+    trainerCard->monSpecies[0] = VarGet(VAR_TRAINER_CARD_MON_ICON_0);
+    trainerCard->monSpecies[1] = VarGet(VAR_TRAINER_CARD_MON_ICON_1);
+    trainerCard->monSpecies[2] = VarGet(VAR_TRAINER_CARD_MON_ICON_2);
+    trainerCard->monSpecies[3] = VarGet(VAR_TRAINER_CARD_MON_ICON_3);
+    trainerCard->monSpecies[4] = VarGet(VAR_TRAINER_CARD_MON_ICON_4);
+    trainerCard->monSpecies[5] = VarGet(VAR_TRAINER_CARD_MON_ICON_5);
+    trainerCard->monForm0 = VarGet(VAR_TRAINER_CARD_MON_FORM_ICON_0);
+    trainerCard->monForm1 = VarGet(VAR_TRAINER_CARD_MON_FORM_ICON_1);
+    trainerCard->monForm2 = VarGet(VAR_TRAINER_CARD_MON_FORM_ICON_2);
+    trainerCard->monForm3 = VarGet(VAR_TRAINER_CARD_MON_FORM_ICON_3);
+    trainerCard->monForm4 = VarGet(VAR_TRAINER_CARD_MON_FORM_ICON_4);
+    trainerCard->monForm5 = VarGet(VAR_TRAINER_CARD_MON_FORM_ICON_5);
     trainerCard->monIconTint = VarGet(VAR_TRAINER_CARD_MON_ICON_TINT);
 
     trainerCard->stars = CountPlayerTrainerStars();
@@ -856,7 +857,7 @@ static void InitGpuRegs(void)
     ShowBg(3);
     SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT1_BG0 | BLDCNT_EFFECT_DARKEN);
     SetGpuReg(REG_OFFSET_BLDY, 0);
-    SetGpuReg(REG_OFFSET_WININ, WININ_WIN0_BG_ALL | WININ_WIN0_OBJ | WININ_WIN0_CLR);
+    SetGpuReg(REG_OFFSET_WININ, WININ_WIN0_ALL);
     SetGpuReg(REG_OFFSET_WINOUT, WINOUT_WIN01_BG1 | WINOUT_WIN01_BG2 | WINOUT_WIN01_BG3 | WINOUT_WIN01_OBJ);
     SetGpuReg(REG_OFFSET_WIN0V, DISPLAY_HEIGHT);
     SetGpuReg(REG_OFFSET_WIN0H, DISPLAY_WIDTH);
@@ -1647,7 +1648,7 @@ static void LoadMonIconGfx(void)
     for (i = 0; i < PARTY_SIZE; i++)
     {
         if (sData->trainerCard.monSpecies[i])
-            LoadBgTiles(3, GetMonIconTiles(GetFormSpecies(sData->trainerCard.monSpecies[i], monForms[i])), 512, 16 * i + 32);
+            LoadBgTiles(3, GetMonIconTiles(sData->trainerCard.monSpecies[i]), 512, 16 * i + 32);
     }
 }
 
@@ -1966,7 +1967,6 @@ static bool8 Task_AnimateCardFlipDown(struct Task* task)
     sData->allowDMACopy = TRUE;
     if (task->tCardTop >= CARD_FLIP_Y)
         task->tFlipState++;
-
     return FALSE;
 }
 
@@ -2020,7 +2020,6 @@ static bool8 Task_DrawFlippedCardSide(struct Task* task)
         }
         sData->flipDrawState++;
     } while (!gReceivedRemoteLinkPlayers);
-
     return FALSE;
 }
 
@@ -2085,7 +2084,6 @@ static bool8 Task_AnimateCardFlipUp(struct Task* task)
     sData->allowDMACopy = TRUE;
     if (task->tCardTop <= 0)
         task->tFlipState++;
-
     return FALSE;
 }
 
