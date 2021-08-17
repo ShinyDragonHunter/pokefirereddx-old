@@ -1280,8 +1280,8 @@
 	various \battler, VARIOUS_UPDATE_CHOICE_MOVE_ON_LVL_UP
 	.endm
 	
-	.macro various7 battler:req
-	various \battler, 7
+	.macro various8 battler:req
+	various \battler, 8
 	.endm
 	
 	.macro palaceflavortext battler:req
@@ -1308,12 +1308,12 @@
 	various \battler, VARIOUS_EMIT_YESNOBOX
 	.endm
 	
-	.macro various14 battler:req
-	various \battler, 14
-	.endm
-	
 	.macro various15 battler:req
 	various \battler, 15
+	.endm
+	
+	.macro various16 battler:req
+	various \battler, 16
 	.endm
 	
 	.macro arenajudgmentstring id:req
@@ -1345,11 +1345,11 @@
 	.endm
 	
 	.macro setalreadystatusedmoveattempt battler:req
-	various \battler, 23
+	various \battler, 24
 	.endm
 	
-	.macro various24 battler:req
-	various \battler, 24
+	.macro various25 battler:req
+	various \battler, 25
 	.endm
 	
 	.macro setoutcomeonteleport battler:req

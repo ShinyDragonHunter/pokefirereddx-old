@@ -386,7 +386,6 @@ gCryTable::
 	cry Cry_Jirachi
 	cry Cry_Deoxys
 	cry Cry_Chimecho
-	cry Cry_Deoxys
 
 	.align 2
 gCryTable2::
@@ -776,4 +775,3 @@ gCryTable2::
 	cry2 Cry_Jirachi
 	cry2 Cry_Deoxys
 	cry2 Cry_Chimecho
-	cry2 Cry_Deoxys

@@ -49,31 +49,31 @@ static const struct OamData sBagOamData =
 
 static const union AnimCmd sSpriteAnim_Bag_Items[] =
 {
-    ANIMCMD_FRAME(0, 4),
+    ANIMCMD_FRAME(0, 0),
     ANIMCMD_END
 };
 
 static const union AnimCmd sSpriteAnim_Bag_KeyItems[] =
 {
-    ANIMCMD_FRAME(64, 4),
+    ANIMCMD_FRAME(64, 0),
     ANIMCMD_END
 };
 
 static const union AnimCmd sSpriteAnim_Bag_Pokeballs[] =
 {
-    ANIMCMD_FRAME(128, 4),
+    ANIMCMD_FRAME(128, 0),
     ANIMCMD_END
 };
 
 static const union AnimCmd sSpriteAnim_Bag_TMsHMs[] =
 {
-    ANIMCMD_FRAME(192, 4),
+    ANIMCMD_FRAME(192, 0),
     ANIMCMD_END
 };
 
 static const union AnimCmd sSpriteAnim_Bag_Berries[] =
 {
-    ANIMCMD_FRAME(256, 4),
+    ANIMCMD_FRAME(256, 0),
     ANIMCMD_END
 };
 
@@ -150,12 +150,6 @@ static const struct OamData sOamData_SwapLine =
     .affineParam = 0
 };
 
-static const union AnimCmd sAnim_SwapLine_RightArrow[] =
-{
-    ANIMCMD_FRAME(0, 0),
-    ANIMCMD_END
-};
-
 static const union AnimCmd sAnim_SwapLine_Line[] =
 {
     ANIMCMD_FRAME(4, 0),
@@ -170,7 +164,7 @@ static const union AnimCmd sAnim_SwapLine_LeftArrow[] =
 
 static const union AnimCmd *const sAnims_SwapLine[] =
 {
-    sAnim_SwapLine_RightArrow,
+    sSpriteAnim_Bag_Items,
     sAnim_SwapLine_Line,
     sAnim_SwapLine_LeftArrow
 };
@@ -215,7 +209,7 @@ static const struct OamData sOamData_ItemIcon =
 
 static const union AnimCmd *const sSpriteAnimTable_ItemIcon[] =
 {
-    sAnim_SwapLine_RightArrow
+    sSpriteAnim_Bag_Items
 };
 
 const struct SpriteTemplate gItemIconSpriteTemplate =

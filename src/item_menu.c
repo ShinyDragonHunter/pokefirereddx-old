@@ -2192,6 +2192,7 @@ static void Task_Bag_WallyTutorialBagMenu(u8 taskId)
     }
 }
 
+// These functions are in bag.c in FRLG.
 static const u16 sBagWindowPalF[] = INCBIN_U16("graphics/item_menu/bag_window_pal.gbapal");
 
 static const u8 sFontColorTable[][3] =

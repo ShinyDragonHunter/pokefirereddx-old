@@ -2,39 +2,7 @@
 // 255 (MON_GENDERLESS) is reserved for genderless Pokémon.
 #define PERCENT_FEMALE(percent) min(254, ((percent * 255) / 100))
 
-#define OLD_UNOWN_BASE_STATS                        \
-    {                                               \
-        .baseHP = 50,                               \
-        .baseAttack = 150,                          \
-        .baseDefense = 50,                          \
-        .baseSpeed = 150,                           \
-        .baseSpAttack = 150,                        \
-        .baseSpDefense = 50,                        \
-        .type1 = TYPE_NORMAL,                       \
-        .type2 = TYPE_NORMAL,                       \
-        .catchRate = 3,                             \
-        .expYield = 1,                              \
-        .evYield_HP = 2,                            \
-        .evYield_Attack = 2,                        \
-        .evYield_Defense = 2,                       \
-        .evYield_Speed = 2,                         \
-        .evYield_SpAttack = 2,                      \
-        .evYield_SpDefense = 2,                     \
-        .item1 = ITEM_NONE,                         \
-        .item2 = ITEM_NONE,                         \
-        .genderRatio = MON_GENDERLESS,              \
-        .eggCycles = 120,                           \
-        .friendship = 0,                            \
-        .growthRate = GROWTH_MEDIUM_FAST,           \
-        .eggGroup1 = EGG_GROUP_UNDISCOVERED,        \
-        .eggGroup2 = EGG_GROUP_UNDISCOVERED,        \
-        .abilities = {ABILITY_NONE, ABILITY_NONE},  \
-        .safariZoneFleeRate = 0,                    \
-        .bodyColor = BODY_COLOR_BLACK,              \
-        .noFlip = FALSE,                            \
-    }
-
-const struct BaseStats gBaseStats[] =
+const struct BaseStats gBaseStats[SPECIES_COUNT] =
 {
     [SPECIES_NONE] = {0},
 
@@ -8070,55 +8038,55 @@ const struct BaseStats gBaseStats[] =
         .noFlip = FALSE,
     },
 
-    [SPECIES_OLD_UNOWN_B] = OLD_UNOWN_BASE_STATS,
+    [SPECIES_OLD_UNOWN_B] = {0},
 
-    [SPECIES_OLD_UNOWN_C] = OLD_UNOWN_BASE_STATS,
+    [SPECIES_OLD_UNOWN_C] = {0},
 
-    [SPECIES_OLD_UNOWN_D] = OLD_UNOWN_BASE_STATS,
+    [SPECIES_OLD_UNOWN_D] = {0},
 
-    [SPECIES_OLD_UNOWN_E] = OLD_UNOWN_BASE_STATS,
+    [SPECIES_OLD_UNOWN_E] = {0},
 
-    [SPECIES_OLD_UNOWN_F] = OLD_UNOWN_BASE_STATS,
+    [SPECIES_OLD_UNOWN_F] = {0},
 
-    [SPECIES_OLD_UNOWN_G] = OLD_UNOWN_BASE_STATS,
+    [SPECIES_OLD_UNOWN_G] = {0},
 
-    [SPECIES_OLD_UNOWN_H] = OLD_UNOWN_BASE_STATS,
+    [SPECIES_OLD_UNOWN_H] = {0},
 
-    [SPECIES_OLD_UNOWN_I] = OLD_UNOWN_BASE_STATS,
+    [SPECIES_OLD_UNOWN_I] = {0},
 
-    [SPECIES_OLD_UNOWN_J] = OLD_UNOWN_BASE_STATS,
+    [SPECIES_OLD_UNOWN_J] = {0},
 
-    [SPECIES_OLD_UNOWN_K] = OLD_UNOWN_BASE_STATS,
+    [SPECIES_OLD_UNOWN_K] = {0},
 
-    [SPECIES_OLD_UNOWN_L] = OLD_UNOWN_BASE_STATS,
+    [SPECIES_OLD_UNOWN_L] = {0},
 
-    [SPECIES_OLD_UNOWN_M] = OLD_UNOWN_BASE_STATS,
+    [SPECIES_OLD_UNOWN_M] = {0},
 
-    [SPECIES_OLD_UNOWN_N] = OLD_UNOWN_BASE_STATS,
+    [SPECIES_OLD_UNOWN_N] = {0},
 
-    [SPECIES_OLD_UNOWN_O] = OLD_UNOWN_BASE_STATS,
+    [SPECIES_OLD_UNOWN_O] = {0},
 
-    [SPECIES_OLD_UNOWN_P] = OLD_UNOWN_BASE_STATS,
+    [SPECIES_OLD_UNOWN_P] = {0},
 
-    [SPECIES_OLD_UNOWN_Q] = OLD_UNOWN_BASE_STATS,
+    [SPECIES_OLD_UNOWN_Q] = {0},
 
-    [SPECIES_OLD_UNOWN_R] = OLD_UNOWN_BASE_STATS,
+    [SPECIES_OLD_UNOWN_R] = {0},
 
-    [SPECIES_OLD_UNOWN_S] = OLD_UNOWN_BASE_STATS,
+    [SPECIES_OLD_UNOWN_S] = {0},
 
-    [SPECIES_OLD_UNOWN_T] = OLD_UNOWN_BASE_STATS,
+    [SPECIES_OLD_UNOWN_T] = {0},
 
-    [SPECIES_OLD_UNOWN_U] = OLD_UNOWN_BASE_STATS,
+    [SPECIES_OLD_UNOWN_U] = {0},
 
-    [SPECIES_OLD_UNOWN_V] = OLD_UNOWN_BASE_STATS,
+    [SPECIES_OLD_UNOWN_V] = {0},
 
-    [SPECIES_OLD_UNOWN_W] = OLD_UNOWN_BASE_STATS,
+    [SPECIES_OLD_UNOWN_W] = {0},
 
-    [SPECIES_OLD_UNOWN_X] = OLD_UNOWN_BASE_STATS,
+    [SPECIES_OLD_UNOWN_X] = {0},
 
-    [SPECIES_OLD_UNOWN_Y] = OLD_UNOWN_BASE_STATS,
+    [SPECIES_OLD_UNOWN_Y] = {0},
 
-    [SPECIES_OLD_UNOWN_Z] = OLD_UNOWN_BASE_STATS,
+    [SPECIES_OLD_UNOWN_Z] = {0},
 
     [SPECIES_TREECKO] =
     {

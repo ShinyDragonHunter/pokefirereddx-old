@@ -47,10 +47,10 @@ static const struct ItemSpeciesAlteration sItemSpeciesAlterations[] =
 static const struct WindowTemplate sDaycareLevelMenuWindowTemplate =
 {
     .bg = 0,
-    .tilemapLeft = 15,
+    .tilemapLeft = 12,
     .tilemapTop = 1,
-    .width = 14,
-    .height = 6,
+    .width = 17,
+    .height = 5,
     .paletteNum = 15,
     .baseBlock = 8
 };
@@ -82,7 +82,7 @@ static const struct ListMenuTemplate sDaycareListMenuLevelTemplate =
     .lettersSpacing = 1,
     .itemVerticalPadding = 0,
     .scrollMultiple = LIST_NO_MULTIPLE_SCROLL,
-    .fontId = 3,
+    .fontId = 2,
     .cursorKind = 0
 };
 
