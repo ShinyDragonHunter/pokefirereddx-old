@@ -46,7 +46,6 @@ bool8 MetatileBehavior_IsPlayerFacingTVScreen(u8 tile, u8 playerDir);
 bool8 MetatileBehavior_IsPC(u8);
 bool8 MetatileBehavior_IsCableBoxResults1(u8);
 bool8 MetatileBehavior_IsMB_B2(u8);
-bool8 MetatileBehavior_IsBlockDecoration(u8);
 bool8 MetatileBehavior_IsMB_C6(u8);
 bool8 MetatileBehavior_IsNormal(u8);
 bool8 MetatileBehavior_IsPlayerRoomPCOn(u8);

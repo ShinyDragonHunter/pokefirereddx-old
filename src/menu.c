@@ -1352,12 +1352,12 @@ s8 Menu_ProcessInputNoWrapAround_other(void)
     return MENU_NOTHING_CHOSEN;
 }
 
-void PrintTextArray(u8 windowId, u8 fontId, u8 left, u8 top, u8 lineHeight, u8 itemCount, const struct MenuAction *strs)
+void PrintTextArray(u8 windowId, u8 fontId, u8 left, u8 top, u8 lineHeight, u8 itemCount, const struct MenuAction *menuActions)
 {
     u32 i;
 
     for (i = 0; i < itemCount; i++)
-        AddTextPrinterParameterized(windowId, fontId, strs[i].text, left, (lineHeight * i) + top, 0xFF, NULL);
+        AddTextPrinterParameterized(windowId, fontId, menuActions[i].text, left, (lineHeight * i) + top, 0xFF, NULL);
     CopyWindowToVram(windowId, 2);
 }
 
@@ -1366,16 +1366,16 @@ void UnionRoomAndTradeMenuPrintOptions(u8 windowId, u8 fontId, u8 lineHeight, u8
     PrintTextArray(windowId, fontId, GetMenuCursorDimensionByFont(fontId, 0), 0, lineHeight, itemCount, strs);
 }
 
-void MultichoiceList_PrintItems(u8 windowId, u8 fontId, u8 left, u8 top, u8 lineHeight, u8 itemCount, const struct MenuAction *strs, u8 letterSpacing, u8 lineSpacing)
+void MultichoiceList_PrintItems(u8 windowId, u8 fontId, u8 left, u8 top, u8 lineHeight, u8 itemCount, const struct MenuAction *menuActions, u8 letterSpacing, u8 lineSpacing)
 {
     u32 i;
 
     for (i = 0; i < itemCount; i++)
-        AddTextPrinterParameterized5(windowId, fontId, strs[i].text, left, (lineHeight * i) + top, 0xFF, NULL, letterSpacing, lineSpacing);
+        AddTextPrinterParameterized5(windowId, fontId, menuActions[i].text, left, (lineHeight * i) + top, 0xFF, NULL, letterSpacing, lineSpacing);
     CopyWindowToVram(windowId, 2);
 }
 
-void AddItemMenuActionTextPrinters(u8 windowId, u8 fontId, u8 left, u8 top, u8 letterSpacing, u8 lineHeight, u8 itemCount, const struct MenuAction *strs, const u8 *a8)
+void AddItemMenuActionTextPrinters(u8 windowId, u8 fontId, u8 left, u8 top, u8 letterSpacing, u8 lineHeight, u8 itemCount, const struct MenuAction *menuActions, const u8 *actionIds)
 {
     u32 i;
     struct TextPrinterTemplate printer;
@@ -1393,7 +1393,7 @@ void AddItemMenuActionTextPrinters(u8 windowId, u8 fontId, u8 left, u8 top, u8 l
 
     for (i = 0; i < itemCount; i++)
     {
-        printer.currentChar = strs[a8[i]].text;
+        printer.currentChar = menuActions[actionIds[i]].text;
         printer.y = (lineHeight * i) + top;
         printer.currentY = printer.y;
         AddTextPrinter(&printer, 0xFF, NULL);
@@ -1465,7 +1465,7 @@ void sub_8198C78(void)
     RemoveWindow(sYesNoWindowId);
 }
 
-void PrintMenuActionGrid(u8 windowId, u8 fontId, u8 left, u8 top, u8 optionWidth, u8 horizontalCount, u8 verticalCount, const struct MenuAction *strs, const u8 *strIds)
+void PrintMenuActionGrid(u8 windowId, u8 fontId, u8 left, u8 top, u8 optionWidth, u8 horizontalCount, u8 verticalCount, const struct MenuAction *menuActions, const u8 *actionIds)
 {
     u32 i, j;
     struct TextPrinterTemplate printer;
@@ -1483,7 +1483,7 @@ void PrintMenuActionGrid(u8 windowId, u8 fontId, u8 left, u8 top, u8 optionWidth
     {
         for (j = 0; j < horizontalCount; j++)
         {
-            printer.currentChar = strs[strIds[(horizontalCount * i) + j]].text;
+            printer.currentChar = menuActions[actionIds[(horizontalCount * i) + j]].text;
             printer.x = (optionWidth * j) + left;
             printer.y = (GetFontAttribute(fontId, FONTATTR_MAX_LETTER_HEIGHT) * i) + top;
             printer.currentX = printer.x;
@@ -1515,7 +1515,6 @@ u8 MultichoiceGrid_InitCursorInternal(u8 windowId, u8 fontId, u8 left, u8 top, u
         sMenu.cursorPos = 0;
     else
         sMenu.cursorPos = pos;
-    ChangeListMenuCursorPosition(0, 0);
     return sMenu.cursorPos;
 }
 
@@ -1636,16 +1635,16 @@ s8 Menu_ProcessInputGridLayout(void)
     return MENU_NOTHING_CHOSEN;
 }
 
-void PrintMenuTable(u8 windowId, u8 itemCount, const struct MenuAction *strs)
+void PrintMenuTable(u8 windowId, u8 itemCount, const struct MenuAction *menuActions)
 {
     u32 i;
 
     for (i = 0; i < itemCount; i++)
-        AddTextPrinterParameterized(windowId, 2, strs[i].text, 8, (i * 14) + 1, 0xFF, NULL);
+        AddTextPrinterParameterized(windowId, 2, menuActions[i].text, 8, (i * 14) + 1, 0xFF, NULL);
     CopyWindowToVram(windowId, 2);
 }
 
-void sub_81995E4(u8 windowId, u8 itemCount, const struct MenuAction *strs, const u8 *a8)
+void sub_81995E4(u8 windowId, u8 itemCount, const struct MenuAction *menuActions, const u8 *actionIds)
 {
     u32 i;
     struct TextPrinterTemplate printer;
@@ -1663,7 +1662,7 @@ void sub_81995E4(u8 windowId, u8 itemCount, const struct MenuAction *strs, const
 
     for (i = 0; i < itemCount; i++)
     {
-        printer.currentChar = strs[a8[i]].text;
+        printer.currentChar = menuActions[actionIds[i]].text;
         printer.y = (i * 16) + 1;
         printer.currentY = (i * 16) + 1;
         AddTextPrinter(&printer, 0xFF, NULL);
@@ -1671,13 +1670,13 @@ void sub_81995E4(u8 windowId, u8 itemCount, const struct MenuAction *strs, const
     CopyWindowToVram(windowId, 2);
 }
 
-void PrintMenuGridTable(u8 windowId, u8 optionWidth, u8 columns, u8 rows, const struct MenuAction *strs)
+void PrintMenuGridTable(u8 windowId, u8 optionWidth, u8 columns, u8 rows, const struct MenuAction *menuActions)
 {
     u32 i, j;
 
     for (i = 0; i < rows; i++)
         for (j = 0; j < columns; j++)
-            AddTextPrinterParameterized(windowId, 2, strs[(i * columns) + j].text, (optionWidth * j) + 8, (i * 16) + 1, 0xFF, NULL);
+            AddTextPrinterParameterized(windowId, 2, menuActions[(i * columns) + j].text, (optionWidth * j) + 8, (i * 16) + 1, 0xFF, NULL);
     CopyWindowToVram(windowId, 2);
 }
 

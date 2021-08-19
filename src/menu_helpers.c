@@ -22,10 +22,10 @@
 static void Task_ContinueTaskAfterMessagePrints(u8 taskId);
 static void Task_CallYesOrNoCallback(u8 taskId);
 
-EWRAM_DATA static struct YesNoFuncTable gUnknown_0203A138 = {0};
-EWRAM_DATA static u8 gUnknown_0203A140 = 0;
+EWRAM_DATA static struct YesNoFuncTable sYesNo = {0};
+EWRAM_DATA static u8 sMessageWindowId = 0;
 
-static TaskFunc gUnknown_0300117C;
+static TaskFunc sMessageNextTask;
 
 // code
 void ResetVramOamAndBgCntRegs(void)
@@ -58,17 +58,17 @@ void SetVBlankHBlankCallbacksToNull(void)
     SetHBlankCallback(NULL);
 }
 
-void DisplayMessageAndContinueTask(u8 taskId, u8 windowId, u16 arg2, u8 arg3, u8 fontId, u8 textSpeed, const u8 *string, void *taskFunc)
+void DisplayMessageAndContinueTask(u8 taskId, u8 windowId, u16 tileNum, u8 paletteNum, u8 fontId, u8 textSpeed, const u8 *string, void *taskFunc)
 {
-    gUnknown_0203A140 = windowId;
-    DrawDialogFrameWithCustomTileAndPalette(windowId, TRUE, arg2, arg3);
+    sMessageWindowId = windowId;
+    DrawDialogFrameWithCustomTileAndPalette(windowId, TRUE, tileNum, paletteNum);
 
     if (string != gStringVar4)
         StringExpandPlaceholders(gStringVar4, string);
 
     gTextFlags.canABSpeedUpPrint = 1;
     AddTextPrinterParameterized2(windowId, fontId, gStringVar4, textSpeed, NULL, 2, 1, 3);
-    gUnknown_0300117C = taskFunc;
+    sMessageNextTask = taskFunc;
     gTasks[taskId].func = Task_ContinueTaskAfterMessagePrints;
 }
 
@@ -80,20 +80,20 @@ bool16 RunTextPrintersRetIsActive(u8 textPrinterId)
 
 static void Task_ContinueTaskAfterMessagePrints(u8 taskId)
 {
-    if (!RunTextPrintersRetIsActive(gUnknown_0203A140))
-        gUnknown_0300117C(taskId);
+    if (!RunTextPrintersRetIsActive(sMessageWindowId))
+        sMessageNextTask(taskId);
 }
 
 void DoYesNoFuncWithChoice(u8 taskId, const struct YesNoFuncTable *data)
 {
-    gUnknown_0203A138 = *data;
+    sYesNo = *data;
     gTasks[taskId].func = Task_CallYesOrNoCallback;
 }
 
 void CreateYesNoMenuWithCallbacks(u8 taskId, const struct WindowTemplate *template, u8 arg2, u8 arg3, u8 arg4, u16 tileStart, u8 palette, const struct YesNoFuncTable *yesNo)
 {
     CreateYesNoMenu(template, arg2, arg3, arg4, tileStart, palette, 0);
-    gUnknown_0203A138 = *yesNo;
+    sYesNo = *yesNo;
     gTasks[taskId].func = Task_CallYesOrNoCallback;
 }
 
@@ -103,12 +103,12 @@ static void Task_CallYesOrNoCallback(u8 taskId)
     {
     case 0:
         PlaySE(SE_SELECT);
-        gUnknown_0203A138.yesFunc(taskId);
+        sYesNo.yesFunc(taskId);
         break;
     case 1:
     case MENU_B_PRESSED:
         PlaySE(SE_SELECT);
-        gUnknown_0203A138.noFunc(taskId);
+        sYesNo.noFunc(taskId);
         break;
     }
 }
@@ -211,16 +211,17 @@ u8 GetLRKeysPressedAndHeld(void)
     return 0;
 }
 
-bool8 sub_8122148(u16 itemId)
+bool8 IsHoldingItemAllowed(u16 itemId)
 {
+    // Enigma Berry can't be held in link areas
     if (itemId != ITEM_ENIGMA_BERRY)
         return TRUE;
-    else if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(TRADE_CENTER) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(TRADE_CENTER))
+    else if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(TRADE_CENTER) 
+          && gSaveBlock1Ptr->location.mapNum == MAP_NUM(TRADE_CENTER))
         return FALSE;
     else if (InUnionRoom() != TRUE)
         return TRUE;
-    else
-        return FALSE;
+    return FALSE;
 }
 
 bool8 IsWritingMailAllowed(u16 itemId)
@@ -229,24 +230,21 @@ bool8 IsWritingMailAllowed(u16 itemId)
         return TRUE;
     else if (ItemIsMail(itemId) != TRUE)
         return TRUE;
-    else
-        return FALSE;
+    return FALSE;
 }
 
 bool8 MenuHelpers_LinkSomething(void)
 {
     if (IsUpdateLinkStateCBActive() || gReceivedRemoteLinkPlayers == 1)
         return TRUE;
-    else
-        return FALSE;
+    return FALSE;
 }
 
 static bool8 sub_81221D0(void)
 {
     if (MenuHelpers_LinkSomething())
         return Overworld_LinkRecvQueueLengthMoreThan2();
-    else
-        return FALSE;
+    return FALSE;
 }
 
 bool8 MenuHelpers_CallLinkSomething(void)
@@ -255,38 +253,39 @@ bool8 MenuHelpers_CallLinkSomething(void)
         return TRUE;
     else if (IsLinkRecvQueueLengthAtLeast3() != TRUE)
         return FALSE;
-    else
-        return TRUE;
+    return TRUE;
 }
 
-void sub_812220C(struct ItemSlot *slots, u8 count, u8 *arg2, u8 *usedSlotsCount, u8 maxUsedSlotsCount)
+void SetItemListPerPageCount(struct ItemSlot *slots, u8 slotsCount, u8 *pageItems, u8 *totalItems, u8 maxPerPage)
 {
     u32 i;
     struct ItemSlot *slots_ = slots;
 
-    (*usedSlotsCount) = 0;
-    for (i = 0; i < count; i++)
+    // Count the number of non-empty item slots
+    *totalItems = 0;
+    for (i = 0; i < slotsCount; i++)
     {
         if (slots_[i].itemId)
-            (*usedSlotsCount)++;
+            (*totalItems)++;
     }
+    (*totalItems)++; // + 1 for 'Cancel'
 
-    (*usedSlotsCount)++;
-    if ((*usedSlotsCount) > maxUsedSlotsCount)
-        *arg2 = maxUsedSlotsCount;
+    // Set number of items per page
+    if (*totalItems > maxPerPage)
+        *pageItems = maxPerPage;
     else
-        *arg2 = (*usedSlotsCount);
+        *pageItems = *totalItems;
 }
 
-void sub_812225C(u16 *scrollOffset, u16 *cursorPos, u8 maxShownItems, u8 numItems)
+void sub_812225C(u16 *scrollOffset, u16 *cursorPos, u8 maxShownItems, u8 totalItems)
 {
-    if (*scrollOffset && *scrollOffset + maxShownItems > numItems)
-        *scrollOffset = numItems - maxShownItems;
+    if (*scrollOffset && *scrollOffset + maxShownItems > totalItems)
+        *scrollOffset = totalItems - maxShownItems;
 
-    if (*scrollOffset + *cursorPos >= numItems)
+    if (*scrollOffset + *cursorPos >= totalItems)
     {
-        if (numItems)
-            *cursorPos = numItems - 1;
+        if (totalItems)
+            *cursorPos = totalItems - 1;
         else
             *cursorPos = 0;
     }

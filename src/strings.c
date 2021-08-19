@@ -1,6 +1,7 @@
 #include "global.h"
 #include "strings.h"
 #include "battle_pyramid_bag.h"
+#include "item_menu.h"
 
 ALIGNED(4)
 const u8 gText_ExpandedPlaceholder_Empty[] = _("");
@@ -144,7 +145,7 @@ const u8 gMenuText_Use[] = _("USE");
 const u8 gMenuText_Toss[] = _("TOSS");
 const u8 gMenuText_Register[] = _("REGISTER");
 const u8 gMenuText_Give[] = _("GIVE");
-const u8 gMenuText_CheckTag[] = _("VIEW TAG");
+const u8 gMenuText_ViewTag[] = _("VIEW TAG");
 const u8 gMenuText_Confirm[] = _("CONFIRM");
 const u8 gMenuText_Walk[] = _("WALK");
 const u8 gText_Cancel[] = _("CANCEL");
@@ -216,18 +217,16 @@ const u8 gText_ThePC[] = _("PC");
 
 const u8 *const gBagMenu_ReturnToStrings[] =
 {
-    gText_TheField,
-    gText_TheBattle,
-    gText_ThePokemonList,
-    gText_TheShop,
-    gText_TheField,
-    gText_TheField,
-    gText_ThePC,
-    gText_TheField,
-    gText_TheField,
-    gText_TheField,
-    gText_TheBattle,
-    gText_ThePC
+    [ITEMMENULOCATION_FIELD]               = gText_TheField,
+    [ITEMMENULOCATION_BATTLE]              = gText_TheBattle,
+    [ITEMMENULOCATION_PARTY]               = gText_ThePokemonList,
+    [ITEMMENULOCATION_SHOP]                = gText_TheShop,
+    [ITEMMENULOCATION_BERRY_TREE]          = gText_TheField,
+    [ITEMMENULOCATION_BERRY_CRUSH]         = gText_TheField,
+    [ITEMMENULOCATION_ITEMPC]              = gText_ThePC,
+    [ITEMMENULOCATION_APPRENTICE]          = gText_TheField,
+    [ITEMMENULOCATION_WALLY]               = gText_TheBattle,
+    [ITEMMENULOCATION_PCBOX]               = gText_ThePC
 };
 
 const u8 *const gPyramidBagMenu_ReturnToStrings[] =
@@ -245,8 +244,8 @@ const u8 gText_TMHMPocket[] = _("TMs & HMs");
 const u8 gText_BerriesPocket[] = _("BERRIES");
 const u8 gText_KeyItemsPocket[] = _("KEY ITEMS");
 
-const u8 gText_NumberVar1Clear7Var2[] = _("{NO}{FONT 4}{STR_VAR_1} {RESET_FONT}{STR_VAR_2}");
-const u8 gText_ClearTo11Var1Clear5Var2[] = _("{CLEAR_TO 0x11}{NO}{FONT 4}{STR_VAR_1} {RESET_FONT}{STR_VAR_2}");
+const u8 gText_NumberItem_TMBerry[] = _("{NO}{FONT 4}{STR_VAR_1} {RESET_FONT}{STR_VAR_2}");
+const u8 gText_NumberItem_HM[] = _("{CLEAR_TO 0x11}{NO}{FONT 4}{STR_VAR_1} {RESET_FONT}{STR_VAR_2}");
 const u8 gText_SizeSlash[] = _("SIZE /");
 const u8 gText_FirmSlash[] = _("FIRM /");
 const u8 gText_Var1DotVar2[] = _("{STR_VAR_1}.{STR_VAR_2}”");

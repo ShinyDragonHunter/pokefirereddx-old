@@ -145,6 +145,7 @@ SlateportCity_EventScript_EnergyGuru::
 	release
 	end
 
+	.align 2
 SlateportCity_Pokemart_EnergyGuru:
 	.2byte ITEM_PROTEIN
 	.2byte ITEM_IRON
@@ -327,14 +328,6 @@ SlateportCity_EventScript_NameRatersHouseSign::
 SlateportCity_EventScript_Maniac::
 	lock
 	faceplayer
-	compare VAR_SLATEPORT_CITY_STATE, 1
-	call_if_eq SlateportCity_EventScript_ManiacSternInterview
-	msgbox SlateportCity_Text_GetNameRaterToHelpYou, MSGBOX_DEFAULT
-	release
-	end
-
-@ Unclear if the text here was meant to be different, but its not
-SlateportCity_EventScript_ManiacSternInterview::
 	msgbox SlateportCity_Text_GetNameRaterToHelpYou, MSGBOX_DEFAULT
 	release
 	end

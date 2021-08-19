@@ -693,8 +693,7 @@ u32 CountPlayerTrainerStars(void)
         stars++;
     if (gSaveBlock2Ptr->berryPick.berriesPicked > 199 && gSaveBlock2Ptr->pokeJump.jumpsInRow > 199)
         stars++;
-    if (CountPlayerTrainerExtraStars())
-        stars++;
+    stars += CountPlayerTrainerExtraStars();
     return stars;
 }
 
@@ -772,9 +771,10 @@ static void SetPlayerCardData(struct TrainerCard *trainerCard)
     trainerCard->stars = CountPlayerTrainerStars();
 
     if (trainerCard->stars > 4)
+    {
+        trainerCard->extraStars = trainerCard->stars - 4;
         trainerCard->stars = 4;
-
-    trainerCard->extraStars = CountPlayerTrainerExtraStars();
+    }
 
     trainerCard->version = GAME_VERSION;
     trainerCard->versionModifier = VERSION_MODIFIER;

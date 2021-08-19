@@ -139,7 +139,7 @@ extern const u8 gMenuText_Register[];
 extern const u8 gMenuText_Check[];
 extern const u8 gMenuText_Walk[];
 extern const u8 gMenuText_Deselect[];
-extern const u8 gMenuText_CheckTag[];
+extern const u8 gMenuText_ViewTag[];
 extern const u8 gMenuText_Confirm[];
 extern const u8 gMenuText_Show[];
 extern const u8 gMenuText_Give2[];
@@ -358,8 +358,8 @@ extern const u8 gText_FirmSlash[];
 
 // item menu screen text
 extern const u8 gText_CloseBag[];
-extern const u8 gText_ClearTo11Var1Clear5Var2[];
-extern const u8 gText_NumberVar1Clear7Var2[];
+extern const u8 gText_NumberItem_HM[];
+extern const u8 gText_NumberItem_TMBerry[];
 extern const u8 gText_xVar1[];
 extern const u8 gText_ReturnToVar1[];
 extern const u8 gText_SelectorArrow2[];

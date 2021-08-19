@@ -246,8 +246,7 @@ bool8 AddBagItem(u16 itemId, u16 count)
     {
         struct BagPocket *itemPocket;
         struct ItemSlot *newItems;
-        u16 slotCapacity;
-        u16 ownedCount;
+        u16 slotCapacity, ownedCount;
         u8 pocket = ItemId_GetPocket(itemId) - 1;
 
         itemPocket = &gBagPockets[pocket];
@@ -350,8 +349,7 @@ bool8 RemoveBagItem(u16 itemId, u16 count)
         return RemovePyramidBagItem(itemId, count);
     else
     {
-        u8 pocket;
-        u8 var;
+        u8 pocket, var;
         u16 ownedCount;
         struct BagPocket *itemPocket;
 
@@ -571,18 +569,19 @@ static void SwapItemSlots(struct ItemSlot *a, struct ItemSlot *b)
 
 void SortBerriesOrTMHMs(struct BagPocket *bagPocket)
 {
-    u32 i, j, firstId, secondId;
+    u32 i, j;
+    u16 firstId, secondId;
 
     for (i = 0; i < bagPocket->capacity - 1; i++)
     {
         if (bagPocket->itemSlots[i].itemId >= ITEM_HM01 && bagPocket->itemSlots[i].itemId <= ITEM_HM08)
-            firstId = bagPocket->itemSlots[i].itemId - 58;
+            firstId = bagPocket->itemSlots[i].itemId - TMHM_COUNT;
         else
             firstId = bagPocket->itemSlots[i].itemId;
         for (j = i + 1; j < bagPocket->capacity; j++)
         {
             if (bagPocket->itemSlots[j].itemId >= ITEM_HM01 && bagPocket->itemSlots[j].itemId <= ITEM_HM08)
-                secondId = bagPocket->itemSlots[j].itemId - 58;
+                secondId = bagPocket->itemSlots[j].itemId - TMHM_COUNT;
             else
                 secondId = bagPocket->itemSlots[j].itemId;
             if (GetBagItemQuantity(&bagPocket->itemSlots[i].quantity))

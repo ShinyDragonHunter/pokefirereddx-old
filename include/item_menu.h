@@ -1,39 +1,69 @@
-#ifndef GUARD_item_menu_H
-#define GUARD_item_menu_H
+#ifndef GUARD_ITEM_MENU_H
+#define GUARD_ITEM_MENU_H
 
 #include "item.h"
 #include "menu_helpers.h"
 
-#define ITEMMENULOCATION_FIELD 0
-#define ITEMMENULOCATION_BATTLE 1
-#define ITEMMENULOCATION_PARTY 2
-#define ITEMMENULOCATION_SHOP 3
-#define ITEMMENULOCATION_BERRY_TREE 4
-#define ITEMMENULOCATION_BERRY_CRUSH 5
-#define ITEMMENULOCATION_ITEMPC 6
-#define ITEMMENULOCATION_APPRENTICE 7
-#define ITEMMENULOCATION_WALLY 8
-#define ITEMMENULOCATION_PCBOX 9
-#define ITEMMENULOCATION_LAST 10
+// IDs for text colors
+enum {
+    COLORID_DESCRIPTION,
+    COLORID_NORMAL,
+    COLORID_GRAY_CURSOR,
+    COLORID_NONE = 0xFF
+};
 
-#define ITEMMENUACTION_USE           0
-#define ITEMMENUACTION_TOSS          1
-#define ITEMMENUACTION_REGISTER      2
-#define ITEMMENUACTION_GIVE          3
-#define ITEMMENUACTION_CANCEL        4
-#define ITEMMENUACTION_BATTLE_USE    5
-#define ITEMMENUACTION_CHECK         6
-#define ITEMMENUACTION_WALK          7
-#define ITEMMENUACTION_DESELECT      8
-#define ITEMMENUACTION_VIEW_TAG      9
-#define ITEMMENUACTION_CONFIRM      10
-#define ITEMMENUACTION_SHOW         11
-#define ITEMMENUACTION_DUMMY        12
+enum {
+    ITEMMENULOCATION_FIELD,
+    ITEMMENULOCATION_BATTLE,
+    ITEMMENULOCATION_PARTY,
+    ITEMMENULOCATION_SHOP,
+    ITEMMENULOCATION_BERRY_TREE,
+    ITEMMENULOCATION_BERRY_CRUSH,
+    ITEMMENULOCATION_ITEMPC,
+    ITEMMENULOCATION_APPRENTICE,
+    ITEMMENULOCATION_WALLY,
+    ITEMMENULOCATION_PCBOX,
+    ITEMMENULOCATION_LAST
+};
 
-// Exported type declarations
-struct BagStruct
+// Window IDs for the item menu
+// TODO: These are possibly different in FRLG
+enum {
+    ITEMWIN_QUANTITY,
+    ITEMWIN_MONEY,
+    ITEMWIN_2x2,
+    ITEMWIN_YESNO_LOW,
+    ITEMWIN_YESNO_HIGH,
+    ITEMWIN_MESSAGE,
+    ITEMWIN_6,
+    ITEMWIN_7,
+    ITEMWIN_8,
+    ITEMWIN_9,
+    ITEMWIN_LIST,
+    ITEMWIN_COUNT
+};
+
+// There is one for the TM Case and Berry Pouch in FRLG but those aren't being used
+// TODO: These are also possibly different
+enum {
+    WIN_ITEM_LIST,
+    WIN_DESCRIPTION,
+    WIN_POCKET_NAME
+};
+
+#define ITEMMENU_SWAP_LINE_LENGTH 9  // Swap line is 9 sprites long
+
+enum {
+    ITEMMENUSPRITE_BAG,
+    ITEMMENUSPRITE_SWAP_LINE,
+    ITEMMENUSPRITE_ITEM = ITEMMENUSPRITE_SWAP_LINE + ITEMMENU_SWAP_LINE_LENGTH,
+    ITEMMENUSPRITE_ITEM_ALT, // Need two when selecting new item
+    ITEMMENUSPRITE_COUNT
+};
+
+struct BagPosition
 {
-    void (*bagCallback)(void);
+    void (*exitCallback)(void);
     u8 location;
     bool8 bagOpen;
     u8 pocket;
@@ -41,14 +71,14 @@ struct BagStruct
     u16 scrollPosition[POCKETS_COUNT];
 };
 
-extern struct BagStruct gBagPositionStruct;
+extern struct BagPosition gBagPosition;
 
-struct BagMenuStruct
+struct BagMenu
 {
-    void (*exitCallback)(void);
-    u8 tilemapBuffer[0x800];
-    u8 windowPointers[11];
-    u8 itemOriginalLocation;
+    void (*newScreenCallback)(void);
+    u8 tilemapBuffer[BG_SCREEN_SIZE];
+    u8 windowIds[ITEMWIN_COUNT];
+    u8 toSwapPos;
     u8 pocketSwitchDisabled:4;
     u8 itemIconSlot:2;
     u8 inhibitItemDescriptionPrint:2;
@@ -59,38 +89,47 @@ struct BagMenuStruct
     u8 contextMenuItemsBuffer[4];
     u8 contextMenuNumItems;
     u8 numItemStacks[POCKETS_COUNT];
-    u8 numShownItems[6];
+    u8 numShownItems[POCKETS_COUNT];
     s16 graphicsLoadState;
 };
 
-extern struct BagMenuStruct *gBagMenu;
-
-// Exported RAM declarations
-
+extern struct BagMenu *gBagMenu;
 extern u16 gSpecialVar_ItemId;
 
-// Exported ROM declarations
 void CB2_GoToItemDepositMenu(void);
 void ApprenticeOpenBagMenu(void);
 void CB2_BagMenuFromBattle(void);
 void PocketCalculateInitialCursorPosAndItemsAbove(u8 pocketId);
+void UpdatePocketListPosition(u8 pocketId);
 void CB2_ReturnToBagMenuPocket(void);
 void CB2_BagMenuFromStartMenu(void);
 void MoveItemSlotInList(struct ItemSlot* itemSlots_, u32 from, u32 to_);
 void Bag_BeginCloseWin0Animation(void);
 u8 GetSelectedItemIndex(u8 pocketId);
 bool8 UseRegisteredKeyItemOnField(void);
-void GoToBagMenu(u8 bagMenuType, u8 pocketId, void ( *postExitMenuMainCallback2)());
+void GoToBagMenu(u8 bagMenuType, u8 pocketId, void ( *exitCallback)());
 void DoWallyTutorialBagMenu(void);
-void CB2_SetUpReshowBattleScreenAfterMenu(void);
 void ResetBagCursorPositions(void);
 void ChooseBerryForMachine(void (*exitCallback)(void));
 void CB2_ChooseBerry(void);
-void ItemMenu_StartFadeToExitCallback(u8 taskId);
-void BagCreateYesNoMenuBottomRight(u8, const struct YesNoFuncTable*);
-void Task_ReturnToBagFromContextMenu(u8 taskId);
-void Pocket_CalculateNItemsAndMaxShowed(u8 pocketId);
-void DisplayItemMessageInBag(u8 taskId, u8 fontId, const u8 *str, void ( *callback)(u8 taskId));
+void Task_FadeAndCloseBagMenu(u8 taskId);
+void UpdatePocketItemList(u8 pocketId);
+void DisplayItemMessage(u8 taskId, u8 fontId, const u8 *str, void ( *callback)(u8 taskId));
 void DisplayItemMessageOnField(u8 taskId, const u8 *src, TaskFunc callback);
+void CloseItemMessage(u8 taskId);
 
-#endif //GUARD_item_menu_H
+// bag.c functions
+void LoadBagMenuTextWindows(void);
+void BagMenu_Print(u8 windowId, u8 fontId, const u8 *str, u8 left, u8 top, u8 letterSpacing, u8 lineSpacing, u8 speed, u8 colorIndex);
+/*void BagDrawDepositItemTextBox(void);*/
+u8 BagMenu_AddWindow(u8 windowType, u8 nItems);
+void BagMenu_RemoveWindow(u8 windowType);
+u8 OpenBagWindow(u8 windowType);
+void RemoveItemMessageWindow(u8 windowType);
+u8 BagMenu_GetWindowId(u8 windowType);
+void BagMenu_YesNo(u8 taskId, const struct YesNoFuncTable * ptrs);
+void BagMenu_YesNoTopRight(u8 taskId, const struct YesNoFuncTable * ptrs);
+void DisplayCurrentMoneyWindow(void);
+void BagDrawTextBoxOnWindow(u8 windowId);
+
+#endif //GUARD_ITEM_MENU_H
