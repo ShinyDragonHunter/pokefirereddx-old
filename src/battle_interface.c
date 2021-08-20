@@ -1175,7 +1175,7 @@ void UpdateHpTextInHealthbox(u8 healthboxSpriteId, s16 value, u8 maxOrCurrent)
             }
 
             ConvertIntToDecimalStringN(text + 6, value, STR_CONV_MODE_RIGHT_ALIGN, 3);
-            RenderTextFont7(gMonSpritesGfxPtr->barFontGfx, 0, text);
+            RenderTextFont4(gMonSpritesGfxPtr->barFontGfx, text);
 
             for (i = 0; i < 3; i++)
             {
@@ -1244,7 +1244,7 @@ static void UpdateHpTextInHealthboxInDoubles(u8 healthboxSpriteId, s16 value, u8
             txtPtr = ConvertIntToDecimalStringN(text + 6, value, STR_CONV_MODE_RIGHT_ALIGN, 3);
             if (!maxOrCurrent)
                 StringCopy(txtPtr, gText_Slash);
-            RenderTextFont7(gMonSpritesGfxPtr->barFontGfx, 0, text);
+            RenderTextFont4(gMonSpritesGfxPtr->barFontGfx, text);
 
             for (i = var; i < var + 3; i++)
             {
@@ -1296,7 +1296,7 @@ static void PrintSafariMonInfo(u8 healthboxSpriteId, struct Pokemon *mon)
     var = 5;
     nature = GetNature(mon);
     StringCopy(text + 6, gNatureNamePointers[nature]);
-    RenderTextFont7(barFontGfx, 9, text);
+    RenderTextFont4(barFontGfx, text);
 
     for (j = 6, i = 0; i < var; i++, j++)
     {
@@ -1328,7 +1328,7 @@ static void PrintSafariMonInfo(u8 healthboxSpriteId, struct Pokemon *mon)
     ConvertIntToDecimalStringN(text + 9, gBattleStruct->safariEscapeFactor, STR_CONV_MODE_RIGHT_ALIGN, 2);
     text[5] = CHAR_SPACE;
     text[8] = CHAR_SLASH;
-    RenderTextFont7(gMonSpritesGfxPtr->barFontGfx, 0, text);
+    RenderTextFont4(gMonSpritesGfxPtr->barFontGfx, text);
 
     for (healthBarSpriteId = 0; healthBarSpriteId < 5; healthBarSpriteId++)
     {

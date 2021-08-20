@@ -2943,9 +2943,7 @@ const u16 gMonShinyPalette_FarfetchdGalarian[] = INCBIN_U16("graphics/pokemon/fa
 const u8 gMonIcon_FarfetchdGalarian[] = INCBIN_U8("graphics/pokemon/farfetchd/galarian/icon.4bpp");
 
 const u32 gMonFrontPic_GrimerAlolan[] = INCBIN_U32("graphics/pokemon/grimer/alolan/front.4bpp.lz");
-const u16 gMonPalette_GrimerAlolan[] = INCBIN_U16("graphics/pokemon/grimer/alolan/normal.gbapal");
 const u32 gMonBackPic_GrimerAlolan[] = INCBIN_U32("graphics/pokemon/grimer/alolan/back.4bpp.lz");
-const u16 gMonShinyPalette_GrimerAlolan[] = INCBIN_U16("graphics/pokemon/grimer/alolan/shiny.gbapal");
 const u8 gMonIcon_GrimerAlolan[] = INCBIN_U8("graphics/pokemon/grimer/alolan/icon.4bpp");
 
 const u32 gMonFrontPic_MukAlolan[] = INCBIN_U32("graphics/pokemon/muk/alolan/front.4bpp.lz");

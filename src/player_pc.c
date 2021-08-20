@@ -279,7 +279,7 @@ static const struct ListMenuTemplate sListMenuTemplate_ItemStorage =
     .lettersSpacing = FALSE,
     .itemVerticalPadding = 0,
     .scrollMultiple = FALSE,
-    .fontId = 7
+    .fontId = 5
 };
 
 static const struct WindowTemplate sWindowTemplates_ItemStorage[ITEMPC_WIN_COUNT] =
@@ -598,7 +598,7 @@ static void ItemStorage_Enter(u8 taskId, bool8 toss)
     FreeAndReserveObjectSpritePalettes();
     LoadListMenuArrowsGfx();
     CreateSwapLineSprites(sItemStorageMenu->swapLineSpriteIds, SWAP_LINE_LENGTH);
-    ClearDialogWindowAndFrame(0,0);
+    ClearDialogWindowAndFrame(0, 0);
     gTasks[taskId].func = ItemStorage_CreateListMenu;
 }
 
@@ -1231,6 +1231,7 @@ static void ItemStorage_ExitItemList(u8 taskId)
 static void ItemStorage_StartItemSwap(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
+
     ListMenuSetUnkIndicatorsStructField(tListTaskId, 16, 1);
     sItemStorageMenu->toSwapPos = gPlayerPCItemPageInfo.itemsAbove + gPlayerPCItemPageInfo.cursorPos;
     ItemStorage_SetSwapArrow(tListTaskId, 0, 0);

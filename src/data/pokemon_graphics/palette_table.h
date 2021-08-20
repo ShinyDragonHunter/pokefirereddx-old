@@ -459,7 +459,7 @@ const struct SpritePalette gMonPaletteTable[] =
     SPECIES_PAL(SLOWPOKE_GALARIAN, gMonPalette_SlowpokeGalarian),
     SPECIES_PAL(SLOWBRO_GALARIAN, gMonPalette_SlowbroGalarian),
     SPECIES_PAL(FARFETCHD_GALARIAN, gMonPalette_FarfetchdGalarian),
-    SPECIES_PAL(GRIMER_ALOLAN, gMonPalette_GrimerAlolan),
+    SPECIES_PAL(GRIMER_ALOLAN, gMonShinyPalette_Grimer),
     SPECIES_PAL(MUK_ALOLAN, gMonPalette_MukAlolan),
     SPECIES_PAL(EXEGGUTOR_ALOLAN, gMonPalette_ExeggutorAlolan),
     SPECIES_PAL(MAROWAK_ALOLAN, gMonPalette_MarowakAlolan),

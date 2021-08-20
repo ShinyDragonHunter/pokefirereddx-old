@@ -459,7 +459,7 @@ const struct SpritePalette gMonShinyPaletteTable[] =
     SPECIES_SHINY_PAL(SLOWPOKE_GALARIAN, gMonShinyPalette_SlowpokeGalarian),
     SPECIES_SHINY_PAL(SLOWBRO_GALARIAN, gMonShinyPalette_SlowbroGalarian),
     SPECIES_SHINY_PAL(FARFETCHD_GALARIAN, gMonShinyPalette_FarfetchdGalarian),
-    SPECIES_SHINY_PAL(GRIMER_ALOLAN, gMonShinyPalette_GrimerAlolan),
+    SPECIES_SHINY_PAL(GRIMER_ALOLAN, gMonPalette_Grimer),
     SPECIES_SHINY_PAL(MUK_ALOLAN, gMonShinyPalette_MukAlolan),
     SPECIES_SHINY_PAL(EXEGGUTOR_ALOLAN, gMonShinyPalette_ExeggutorAlolan),
     SPECIES_SHINY_PAL(MAROWAK_ALOLAN, gMonShinyPalette_MarowakAlolan),
