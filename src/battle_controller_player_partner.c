@@ -1261,7 +1261,7 @@ static void PlayerPartnerHandleDrawTrainerPic(void)
     if (gPartnerTrainerId == TRAINER_STEVEN_PARTNER)
     {
         xPos = 90;
-        yPos = 80 + 4 * (8 - gTrainerBackPicCoords[trainerPicId].size);
+        yPos = 80;
 
         LoadPalette(gTrainerBackPicPaletteTable[trainerPicId].data, 0x100 + 16 * gActiveBattler, 32);
         SetMultiuseSpriteTemplateToTrainerBack(trainerPicId, GetBattlerPosition(gActiveBattler));
@@ -1276,7 +1276,7 @@ static void PlayerPartnerHandleDrawTrainerPic(void)
     {
         trainerPicId = GetFrontierTrainerFrontSpriteId(gPartnerTrainerId);
         xPos = 32;
-        yPos = 80 + 4 * (8 - gTrainerFrontPicCoords[trainerPicId].size);
+        yPos = 80;
 
         DecompressTrainerFrontPic(trainerPicId, gActiveBattler);
         SetMultiuseSpriteTemplateToTrainerFront(trainerPicId, GetBattlerPosition(gActiveBattler));

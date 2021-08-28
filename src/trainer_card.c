@@ -47,7 +47,6 @@ struct TrainerCardData
     bool8 hasHofResult;
     bool8 hasLinkResults;
     bool8 hasBattleTowerWins;
-    bool8 isDX;
     bool8 hasTrades;
     u8 badgeCount[NUM_BADGES];
     u8 easyChatProfile[TRAINER_CARD_PROFILE_LENGTH][13];
@@ -113,7 +112,6 @@ static u32 GetCappedGameStat(u8 statId, u32 maxValue);
 static bool8 HasAllFrontierSymbols(void);
 static u8 CountPlayerTrainerExtraStars(void);
 static u16 GetCaughtMonsCount(void);
-static void SetPlayerCardData(struct TrainerCard*);
 static void SetDataFromTrainerCard(void);
 static void InitGpuRegs(void);
 static void ResetGpuRegs(void);
@@ -309,13 +307,23 @@ static const u8 sTrainerPicFacilityClass[][GENDER_COUNT] =
 {
     [CARD_VERSION_FRLG] = 
     {
-        [MALE]   = FACILITY_CLASS_RED,
-        [FEMALE] = FACILITY_CLASS_LEAF
+        [MALE]   = FACILITY_CLASS_RED_ORIGINAL,
+        [FEMALE] = FACILITY_CLASS_LEAF_ORIGINAL
     },
     [CARD_VERSION_RS] = 
     {
         [MALE]   = FACILITY_CLASS_RS_BRENDAN,
         [FEMALE] = FACILITY_CLASS_RS_MAY
+    },
+    [CARD_VERSION_FRLG_DX] = 
+    {
+        [MALE]   = FACILITY_CLASS_RED,
+        [FEMALE] = FACILITY_CLASS_LEAF
+    },
+    [CARD_VERSION_CRYSTALDUST] = 
+    {
+        [MALE]   = FACILITY_CLASS_GOLD,
+        [FEMALE] = FACILITY_CLASS_KRIS
     },
     [CARD_VERSION_EMERALD] = 
     {
@@ -324,14 +332,48 @@ static const u8 sTrainerPicFacilityClass[][GENDER_COUNT] =
     },
     [CARD_VERSION_HELIODOR] = 
     {
-        [MALE]   = FACILITY_CLASS_H_BRENDAN, 
+        [MALE]   = FACILITY_CLASS_H_BRENDAN,
         [FEMALE] = FACILITY_CLASS_H_MAY
     },
-    [CARD_VERSION_CRYSTALDUST] = 
+};
+
+static const u8 sTrainerPicOutfitFacilityClass[][GENDER_COUNT] = 
+{
+    [OUTFIT_DX] = 
     {
-        [MALE]   = FACILITY_CLASS_GOLD,
-        [FEMALE] = FACILITY_CLASS_KRIS
-    }
+        [MALE]   = FACILITY_CLASS_RED_DX,
+        [FEMALE] = FACILITY_CLASS_LEAF_DX
+    },
+    [OUTFIT_CLASSIC] = 
+    {
+        [MALE]   = FACILITY_CLASS_RED_CLASSIC,
+        [FEMALE] = FACILITY_CLASS_LEAF_CLASSIC
+    },
+    [OUTFIT_ALOLA] = 
+    {
+        [MALE]   = FACILITY_CLASS_RED_ALOLA,
+        [FEMALE] = FACILITY_CLASS_LEAF_ALOLA
+    },
+    [OUTFIT_SYGNA_SUIT] = 
+    {
+        [MALE]   = FACILITY_CLASS_RED_SYGNA_SUIT,
+        [FEMALE] = FACILITY_CLASS_LEAF_SYGNA_SUIT
+    },
+    [OUTFIT_TEAM_ROCKET] = 
+    {
+        [MALE]   = FACILITY_CLASS_RED_TEAM_ROCKET,
+        [FEMALE] = FACILITY_CLASS_LEAF_TEAM_ROCKET
+    },
+    [OUTFIT_TEAM_AQUA] = 
+    {
+        [MALE]   = FACILITY_CLASS_RED_TEAM_AQUA,
+        [FEMALE] = FACILITY_CLASS_LEAF_TEAM_AQUA
+    },
+    [OUTFIT_TEAM_MAGMA] = 
+    {
+        [MALE]   = FACILITY_CLASS_RED_TEAM_MAGMA,
+        [FEMALE] = FACILITY_CLASS_LEAF_TEAM_MAGMA
+    },
 };
 
 static bool8 (*const sTrainerCardFlipTasks[])(struct Task *) =
@@ -706,13 +748,16 @@ static u8 CountPlayerTrainerExtraStars(void)
     return stars;
 }
 
-static void SetPlayerCardData(struct TrainerCard *trainerCard)
+void TrainerCard_GenerateCardForPlayer(struct TrainerCard *trainerCard)
 {
     u32 playTime, i;
 
+    memset(trainerCard, 0, sizeof(struct TrainerCard));
     trainerCard->gender = gSaveBlock2Ptr->playerGender;
     trainerCard->playTimeHours = gSaveBlock2Ptr->playTimeHours;
     trainerCard->playTimeMinutes = gSaveBlock2Ptr->playTimeMinutes;
+
+    trainerCard->outfit = gSaveBlock2Ptr->playerOutfit;
 
     playTime = GetGameStat(GAME_STAT_FIRST_HOF_PLAY_TIME);
     if (!GetGameStat(GAME_STAT_ENTERED_HOF))
@@ -786,34 +831,10 @@ static void SetPlayerCardData(struct TrainerCard *trainerCard)
         trainerCard->facilityClass = gLinkPlayerFacilityClasses[trainerCard->trainerId % NUM_MALE_LINK_FACILITY_CLASSES];
 }
 
-void TrainerCard_GenerateCardForPlayer(struct TrainerCard *trainerCard)
-{
-    memset(trainerCard, 0, sizeof(struct TrainerCard));
-    SetPlayerCardData(trainerCard);
-}
-
 void CopyTrainerCardData(struct TrainerCard *dst, u16 *src, u8 gameVersion, u8 versionModifier)
 {
     memset(dst, 0, sizeof(struct TrainerCard));
-    dst->version = gameVersion;
-    dst->versionModifier = versionModifier;
-
-    switch (GetSetCardType())
-    {
-    case CARD_VERSION_FRLG:
-        if (versionModifier != MODIFIER_DX)
-            memcpy(dst, src, 0x60);
-        else
-    case CARD_VERSION_HELIODOR:
-            memcpy(dst, src, sizeof(struct TrainerCard));
-        break;
-    case CARD_VERSION_RS:
-        memcpy(dst, src, 0x38);
-        break;
-    default:
-        memcpy(dst, src, 0x64);
-        break;
-    }
+    memcpy(dst, src, sizeof(struct TrainerCard));
 }
 
 static void SetDataFromTrainerCard(void)
@@ -1009,17 +1030,17 @@ static bool8 PrintAllOnCardBack(void)
     case 4:
         if (sData->cardVersion == CARD_VERSION_HELIODOR && sData->stats[sData->printState - 1])
             PrintStatBySlot(sData->printState - 1);
-        else if (!sData->cardVersion)
+        else if (!sData->cardVersion || sData->cardVersion == CARD_VERSION_FRLG_DX)
             PrintUnionRoomStringOnCard(sData->printState - 1);
-        else if (sData->cardVersion && sData->cardVersion != CARD_VERSION_HELIODOR)
+        else if (sData->cardVersion)
             PrintPokeblockStringOnCard(sData->printState - 1);
         break;
     case 5:
         if (sData->cardVersion == CARD_VERSION_HELIODOR && sData->stats[sData->printState - 1])
             PrintStatBySlot(sData->printState - 1);
-        else if (!sData->cardVersion && !sData->trainerCard.frontierBP)
+        else if (!sData->cardVersion || (sData->cardVersion == CARD_VERSION_FRLG_DX && !sData->trainerCard.frontierBP))
             PrintBerryCrushStringOnCard(sData->printState - 1);
-        else if (sData->cardVersion && sData->cardVersion != CARD_VERSION_HELIODOR)
+        else if (sData->cardVersion)
             PrintLinkContestStringOnCard(sData->printState - 1);
         else
             PrintBattlePointsStringOnCard(sData->printState - 1);
@@ -1292,7 +1313,7 @@ static void PrintProfilePhraseOnCard(void)
         txtColor = sTrainerCardRSContentColors;
     else if ((sData->trainerCard.stars + sData->trainerCard.extraStars) > 4)
     {
-        if (sData->isDX)
+        if (sData->cardVersion == CARD_VERSION_FRLG_DX)
             txtColor = sTrainerCardRSContentColors;
         else
             txtColor = sTrainerCard5StarPhraseTextColors;
@@ -1463,7 +1484,7 @@ static void PrintTradesStringOnCard(u8 slot)
 
 static void BufferBerryCrushPoints(void)
 {
-    if ((!sData->cardVersion && !sData->trainerCard.frontierBP) || sData->cardVersion == CARD_VERSION_HELIODOR)
+    if (!sData->cardVersion || (sData->cardVersion == CARD_VERSION_FRLG_DX && !sData->trainerCard.frontierBP) || sData->cardVersion == CARD_VERSION_HELIODOR)
     {
         if (sData->trainerCard.berryCrushPoints)
             ConvertIntToDecimalStringN(sData->textBerryCrushPts, sData->trainerCard.berryCrushPoints, STR_CONV_MODE_RIGHT_ALIGN, 5);
@@ -1478,7 +1499,7 @@ static void PrintBerryCrushStringOnCard(u8 slot)
 
 static void BufferUnionRoomStats(void)
 {
-    if (!sData->cardVersion || sData->cardVersion == CARD_VERSION_HELIODOR)
+    if (!sData->cardVersion || sData->cardVersion == CARD_VERSION_FRLG_DX || sData->cardVersion == CARD_VERSION_HELIODOR)
     {
         if (sData->trainerCard.unionRoomNum)
             ConvertIntToDecimalStringN(sData->textUnionRoomStats, sData->trainerCard.unionRoomNum, STR_CONV_MODE_RIGHT_ALIGN, 5);
@@ -1626,7 +1647,6 @@ static void PrintPokemonIconsOnCard(void)
 static void LoadMonIconGfx(void)
 {
     u32 i;
-    u8 monForms[PARTY_SIZE] = {sData->trainerCard.monForm0, sData->trainerCard.monForm1, sData->trainerCard.monForm2, sData->trainerCard.monForm3, sData->trainerCard.monForm4, sData->trainerCard.monForm5};
 
     CpuSet(gMonIconPalettes, sData->monIconPal, 0x60);
     switch (sData->trainerCard.monIconTint)
@@ -1796,9 +1816,9 @@ static void DrawStarsAndBadgesOnCard(void)
     s32 i, x;
     u32 tileNum = 192;
     u8 palNum = 3;
-    u8 var = (sData->isDX || sData->cardLayout == CARD_LAYOUT_HELIODOR) ? 18 - (sData->trainerCard.stars + sData->trainerCard.extraStars) : 15;
+    u8 var = (sData->cardVersion == CARD_VERSION_FRLG_DX || sData->cardLayout == CARD_LAYOUT_HELIODOR) ? 18 - (sData->trainerCard.stars + sData->trainerCard.extraStars) : 15;
     u8 y = (sData->cardLayout == CARD_LAYOUT_RS) ? 6 : 7;
-    u8 stars = (sData->isDX || sData->cardLayout == CARD_LAYOUT_HELIODOR) ? sData->trainerCard.stars + sData->trainerCard.extraStars : sData->trainerCard.stars;
+    u8 stars = (sData->cardVersion == CARD_VERSION_FRLG_DX || sData->cardLayout == CARD_LAYOUT_HELIODOR) ? sData->trainerCard.stars + sData->trainerCard.extraStars : sData->trainerCard.stars;
 
     FillBgTilemapBufferRect(3, 143, var, y, stars, 1, 4);
     if (!sData->isLink)
@@ -2131,13 +2151,13 @@ static void InitTrainerCardData(void)
 
 static u8 GetSetCardType(void)
 {
-    if (sData->trainerCard.version < VERSION_EMERALD)
+    switch (sData->trainerCard.version)
     {
+    case VERSION_SAPPHIRE:
+    case VERSION_RUBY:
         sData->cardLayout = CARD_LAYOUT_RS;
         return CARD_VERSION_RS;
-    }
-    else if (sData->trainerCard.version == VERSION_EMERALD)
-    {
+    case VERSION_EMERALD:
         if (sData->trainerCard.versionModifier == MODIFIER_HELIODOR)
         {
             sData->cardLayout = sData->trainerCard.cardLayout;
@@ -2181,13 +2201,21 @@ static u8 GetSetCardType(void)
         else
             sData->cardLayout = CARD_LAYOUT_EMERALD;
         return CARD_VERSION_EMERALD + sData->trainerCard.versionModifier;
-    }
-    else
-    {
-        if (sData->trainerCard.versionModifier == MODIFIER_DX)
-            sData->isDX = TRUE;
+    case VERSION_FIRE_RED:
+        if (sData->trainerCard.versionModifier)
+        {
+            sData->cardLayout = CARD_LAYOUT_FRLG;
+            return CARD_VERSION_FRLG + sData->trainerCard.versionModifier;
+        }
+        else
+    default:
+        {
+            sData->cardLayout = CARD_LAYOUT_FRLG;
+            return CARD_VERSION_FRLG;
+        }
+    case VERSION_CRYSTAL_DUST:
         sData->cardLayout = CARD_LAYOUT_FRLG;
-        return (sData->trainerCard.version <= VERSION_LEAF_GREEN && sData->trainerCard.versionModifier < MODIFIER_CRYSTALDUST) ? CARD_VERSION_FRLG : CARD_VERSION_CRYSTALDUST;
+        return CARD_VERSION_CRYSTALDUST;
     }
 }
 
@@ -2196,19 +2224,19 @@ static void CreateTrainerCardTrainerPic(void)
     if (InUnionRoom() && gReceivedRemoteLinkPlayers == 1)
     {
         CreateTrainerCardTrainerPicSprite(FacilityClassToPicIndex(sData->trainerCard.facilityClass),
-                    TRUE,
                     sTrainerPicOffset[sData->cardLayout][0],
-                    sTrainerPicOffset[sData->cardLayout][1],
-                    8,
-                    2);
+                    sTrainerPicOffset[sData->cardLayout][1]);
+    }
+    else if (sData->trainerCard.outfit)
+    {
+        CreateTrainerCardTrainerPicSprite(FacilityClassToPicIndex(sTrainerPicOutfitFacilityClass[sData->trainerCard.outfit][sData->trainerCard.gender]),
+                    sTrainerPicOffset[sData->cardLayout][0],
+                    sTrainerPicOffset[sData->cardLayout][1]);
     }
     else
     {
         CreateTrainerCardTrainerPicSprite(FacilityClassToPicIndex(sTrainerPicFacilityClass[sData->cardVersion][sData->trainerCard.gender]),
-                    TRUE,
                     sTrainerPicOffset[sData->cardLayout][0],
-                    sTrainerPicOffset[sData->cardLayout][1],
-                    8,
-                    2);
+                    sTrainerPicOffset[sData->cardLayout][1]);
     }
 }

@@ -207,7 +207,7 @@ const u8 gTowerFemaleFacilityClasses[20] =
     HOENN_FACILITY_CLASS_LASS
 };
 
-const u8 gTowerMaleTrainerGfxIds[30] =
+const u16 gTowerMaleTrainerGfxIds[30] =
 {
     OBJ_EVENT_GFX_HOENN_HIKER,
     OBJ_EVENT_GFX_HOENN_TUBER_M,
@@ -241,7 +241,7 @@ const u8 gTowerMaleTrainerGfxIds[30] =
     OBJ_EVENT_GFX_HOENN_HIKER
 };
 
-const u8 gTowerFemaleTrainerGfxIds[20] =
+const u16 gTowerFemaleTrainerGfxIds[20] =
 {
     OBJ_EVENT_GFX_HOENN_WOMAN_2,
     OBJ_EVENT_GFX_HOENN_TUBER_F,

@@ -98,10 +98,16 @@
 #define FEMALE 1
 #define GENDER_COUNT 2
 
-#define OUTFIT_DEFAULT   0
-#define OUTFIT_EXTRA     1
-#define OUTFIT_CLASSIC   2
-#define OUTFIT_COUNT     3
+#define OUTFIT_DEFAULT     0
+#define OUTFIT_DX          1
+#define OUTFIT_CLASSIC     2
+#define OUTFIT_ALOLA       3
+#define OUTFIT_SYGNA_SUIT  4
+#define OUTFIT_TEAM_ROCKET 5
+#define OUTFIT_TEAM_AQUA   6
+#define OUTFIT_TEAM_MAGMA  7
+
+#define OUTFIT_COUNT       OUTFIT_TEAM_MAGMA + 1
 
 #define BARD_SONG_LENGTH       6
 #define NUM_STORYTELLER_TALES  4

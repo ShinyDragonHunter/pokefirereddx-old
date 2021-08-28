@@ -1382,7 +1382,7 @@ static void NamingScreen_CreatePlayerIcon(void)
 {
     u8 playerGfxId, spriteId;
 
-    playerGfxId = GetPlayerAvatarGraphicsIdByStateIdAndGender(0, gSaveBlock2Ptr->playerGender);
+    playerGfxId = GetPlayerAvatarGraphicsIdByStateIdAndGender(gSaveBlock2Ptr->playerOutfit, 0, gSaveBlock2Ptr->playerGender);
     spriteId = AddPseudoObjectEvent(playerGfxId, SpriteCallbackDummy, 56, 37, 0);
     gSprites[spriteId].oam.priority = 3;
     StartSpriteAnim(&gSprites[spriteId], 4);

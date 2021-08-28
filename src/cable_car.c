@@ -808,7 +808,7 @@ static void CreateCableCarSprites(void)
         OBJ_EVENT_GFX_HOENN_HIKER,
         OBJ_EVENT_GFX_HOENN_CAMPER,
         OBJ_EVENT_GFX_HOENN_PICNICKER,
-        OBJ_EVENT_GFX_HOENN_ZIGZAGOON_2
+        OBJ_EVENT_GFX_HOENN_ZIGZAGOON
     };
     s16 hikerCoords[2][2] = {
         {   0,  80 }, // Going up
@@ -890,7 +890,7 @@ static void CreateCableCarSprites(void)
     if ((rval % 64) == 0)
     {
         // Unclear if this was intentional, but the - 1 in the below ARRAY_COUNT means the Zigzagoon is never used
-        spriteId = AddPseudoObjectEvent(hikerGraphicsIds[rval % (ARRAY_COUNT(hikerGraphicsIds) - 1)], hikerCallbacks[GOING_DOWN], hikerCoords[GOING_DOWN][0], hikerCoords[GOING_DOWN][1], 106);
+        spriteId = AddPseudoObjectEvent(hikerGraphicsIds[rval % (ARRAY_COUNT(hikerGraphicsIds))], hikerCallbacks[GOING_DOWN], hikerCoords[GOING_DOWN][0], hikerCoords[GOING_DOWN][1], 106);
         if (spriteId != MAX_SPRITES)
         {
             gSprites[spriteId].oam.priority = 2;

@@ -2147,6 +2147,18 @@ static void DoSwitchOutAnimation(void)
     }
 }
 
+static const u8 sOutfitBackPics[OUTFIT_COUNT][GENDER_COUNT] = 
+{
+    [OUTFIT_DEFAULT]     = {TRAINER_BACK_PIC_RED,                TRAINER_BACK_PIC_LEAF},
+    [OUTFIT_DX]          = {TRAINER_BACK_PIC_RED_DX,             TRAINER_BACK_PIC_LEAF_DX},
+    [OUTFIT_CLASSIC]     = {TRAINER_BACK_PIC_RED_CLASSIC,        TRAINER_BACK_PIC_LEAF_CLASSIC},
+    [OUTFIT_ALOLA]       = {TRAINER_BACK_PIC_RED_ALOLA,          TRAINER_BACK_PIC_LEAF_ALOLA},
+    [OUTFIT_SYGNA_SUIT]  = {TRAINER_BACK_PIC_RED_SYGNA_SUIT,     TRAINER_BACK_PIC_LEAF_SYGNA_SUIT},
+    [OUTFIT_TEAM_ROCKET] = {TRAINER_BACK_PIC_RED_TEAM_ROCKET,    TRAINER_BACK_PIC_LEAF_TEAM_ROCKET},
+    [OUTFIT_TEAM_AQUA]   = {TRAINER_BACK_PIC_RED_TEAM_AQUA,      TRAINER_BACK_PIC_LEAF_TEAM_AQUA},
+    [OUTFIT_TEAM_MAGMA]  = {TRAINER_BACK_PIC_RED_TEAM_MAGMA,     TRAINER_BACK_PIC_LEAF_TEAM_MAGMA},
+};
+
 #define sSpeedX data[0]
 
 // In emerald it's possible to have a tag battle in the battle frontier facilities with AI
@@ -2155,7 +2167,7 @@ static void DoSwitchOutAnimation(void)
 static void PlayerHandleDrawTrainerPic(void)
 {
     s16 xPos, yPos;
-    u32 trainerPicId = (gSaveBlock2Ptr->playerGender) ? TRAINER_BACK_PIC_LEAF : TRAINER_BACK_PIC_RED + gSaveBlock2Ptr->playerOutfit;
+    u32 trainerPicId = sOutfitBackPics[gSaveBlock2Ptr->playerOutfit][gSaveBlock2Ptr->playerGender];
 
     if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
     {
@@ -2167,19 +2179,13 @@ static void PlayerHandleDrawTrainerPic(void)
         if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER && gPartnerTrainerId != TRAINER_STEVEN_PARTNER)
         {
             xPos = 90;
-            yPos = (8 - gTrainerFrontPicCoords[trainerPicId].size) * 4 + 80;
         }
-        else
-        {
-            yPos = (8 - gTrainerBackPicCoords[trainerPicId].size) * 4 + 80;
-        }
-
     }
     else
     {
         xPos = 80;
-        yPos = (8 - gTrainerBackPicCoords[trainerPicId].size) * 4 + 80;
     }
+    yPos = 80;
 
     // Use front pic table for any tag battles unless your partner is Steven.
     if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER && gPartnerTrainerId != TRAINER_STEVEN_PARTNER)
@@ -2724,17 +2730,9 @@ static void PlayerHandleIntroSlide(void)
 
 #define sBattlerId data[5]
 
-static const u8 sOutfitBackPics[OUTFIT_COUNT][GENDER_COUNT] = 
-{
-    [OUTFIT_DEFAULT]     = {TRAINER_BACK_PIC_RED,                TRAINER_BACK_PIC_LEAF},
-    [OUTFIT_EXTRA]       = {TRAINER_BACK_PIC_RED_EXTRA_OUTFIT,   TRAINER_BACK_PIC_LEAF},
-    [OUTFIT_CLASSIC]     = {TRAINER_BACK_PIC_RED_CLASSIC_OUTFIT, TRAINER_BACK_PIC_LEAF},
-};
-
 static void PlayerHandleIntroTrainerBallThrow(void)
 {
-    u8 paletteNum;
-    u8 taskId;
+    u8 paletteNum, taskId;
 
     SetSpritePrimaryCoordsFromSecondaryCoords(&gSprites[gBattlerSpriteIds[gActiveBattler]]);
 

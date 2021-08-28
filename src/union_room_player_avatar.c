@@ -19,7 +19,7 @@ static u8 CreateTask_AnimateUnionRoomPlayers(void);
 static u32 IsUnionRoomPlayerInvisible(u32, u32);
 static void SetUnionRoomObjectFacingDirection(s32, s32, u8);
 
-static const u8 sUnionRoomObjGfxIds[GENDER_COUNT][MAX_UNION_ROOM_PLAYERS + 2] = {
+static const u16 sUnionRoomObjGfxIds[GENDER_COUNT][MAX_UNION_ROOM_PLAYERS + 2] = {
     [MALE] = {
         OBJ_EVENT_GFX_HOENN_MAN_3, 
         OBJ_EVENT_GFX_HOENN_BLACK_BELT, 
@@ -88,18 +88,6 @@ static const u8 sUnionRoomLocalIds[] = {
     LOCALID_UNION_ROOM_PLAYER_8
 };
 
-// Unused
-static const u16 sHidePlayerFlags[] = {
-    FLAG_HIDE_UNION_ROOM_PLAYER_1, 
-    FLAG_HIDE_UNION_ROOM_PLAYER_2, 
-    FLAG_HIDE_UNION_ROOM_PLAYER_3, 
-    FLAG_HIDE_UNION_ROOM_PLAYER_4, 
-    FLAG_HIDE_UNION_ROOM_PLAYER_5, 
-    FLAG_HIDE_UNION_ROOM_PLAYER_6, 
-    FLAG_HIDE_UNION_ROOM_PLAYER_7, 
-    FLAG_HIDE_UNION_ROOM_PLAYER_8
-};
-
 static const u8 sMovement_UnionPlayerExit[2] = {
     MOVEMENT_ACTION_FLY_UP,
     MOVEMENT_ACTION_STEP_END
@@ -118,7 +106,7 @@ static bool32 IsPlayerStandingStill(void)
         return FALSE;
 }
 
-static u8 GetUnionRoomPlayerGraphicsId(u32 gender, u32 id)
+static u16 GetUnionRoomPlayerGraphicsId(u32 gender, u32 id)
 {
     return sUnionRoomObjGfxIds[gender][id % MAX_UNION_ROOM_PLAYERS];
 }

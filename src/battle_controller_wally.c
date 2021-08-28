@@ -1027,7 +1027,7 @@ static void WallyHandleDrawTrainerPic(void)
     SetMultiuseSpriteTemplateToTrainerBack(TRAINER_BACK_PIC_POKE_DUDE, GetBattlerPosition(gActiveBattler));
     gBattlerSpriteIds[gActiveBattler] = CreateSprite(&gMultiuseSpriteTemplate,
     80,
-    80 + 4 * (8 - gTrainerBackPicCoords[TRAINER_BACK_PIC_POKE_DUDE].size),
+    80,
     30);
     gSprites[gBattlerSpriteIds[gActiveBattler]].oam.paletteNum = gActiveBattler;
     gSprites[gBattlerSpriteIds[gActiveBattler]].x2 = DISPLAY_WIDTH;
@@ -1042,7 +1042,7 @@ static void WallyHandleTrainerSlide(void)
     SetMultiuseSpriteTemplateToTrainerBack(TRAINER_BACK_PIC_POKE_DUDE, GetBattlerPosition(gActiveBattler));
     gBattlerSpriteIds[gActiveBattler] = CreateSprite(&gMultiuseSpriteTemplate,
     80,
-    80 + 4 * (8 - gTrainerBackPicCoords[TRAINER_BACK_PIC_POKE_DUDE].size),
+    80,
     30);
     gSprites[gBattlerSpriteIds[gActiveBattler]].oam.paletteNum = gActiveBattler;
     gSprites[gBattlerSpriteIds[gActiveBattler]].x2 = -96;

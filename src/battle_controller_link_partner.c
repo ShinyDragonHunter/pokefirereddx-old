@@ -1162,7 +1162,7 @@ static void LinkPartnerHandleDrawTrainerPic(void)
     SetMultiuseSpriteTemplateToTrainerBack(trainerPicId, GetBattlerPosition(gActiveBattler));
     gBattlerSpriteIds[gActiveBattler] = CreateSprite(&gMultiuseSpriteTemplate,
     xPos,
-    4 + 80 * (8 - gTrainerBackPicCoords[trainerPicId].size),
+    80,
     GetBattlerSpriteSubpriority(gActiveBattler));
 
     gSprites[gBattlerSpriteIds[gActiveBattler]].oam.paletteNum = gActiveBattler;

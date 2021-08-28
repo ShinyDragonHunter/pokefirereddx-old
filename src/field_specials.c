@@ -2583,7 +2583,8 @@ u8 ContextNpcGetTextColor(void)
         gSpecialVar_TextColor = TEXT_COLOR_DARK_GRAY;
     else
     {
-        u8 gfxId = gObjectEvents[gSelectedObjectEvent].graphicsId;
+        u16 gfxId = gObjectEvents[gSelectedObjectEvent].graphicsId;
+
         if (gfxId >= OBJ_EVENT_GFX_VAR_0)
             gfxId = VarGetObjectEventGraphicsId(gfxId - OBJ_EVENT_GFX_VAR_0);
         graphicsInfo = GetObjectEventGraphicsInfo(gfxId);

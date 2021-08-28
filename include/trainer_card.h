@@ -8,9 +8,10 @@ enum
 {
     CARD_VERSION_FRLG,
     CARD_VERSION_RS,
+    CARD_VERSION_FRLG_DX,
+    CARD_VERSION_CRYSTALDUST,
     CARD_VERSION_EMERALD,
-    CARD_VERSION_HELIODOR,
-    CARD_VERSION_CRYSTALDUST
+    CARD_VERSION_HELIODOR
 };
 
 enum
@@ -51,7 +52,7 @@ struct TrainerCard
     /*0x01*/ u8 stars;
     /*0x02*/ bool8 hasPokedex;
     /*0x03*/ bool8 caughtAllHoenn; // Free for use
-    /*0x04*/ bool8 hasAllPaintings; // Free for use
+    /*0x04*/ u8 outfit;
     /*0x05*/ u8 extraStars;
     /*0x06*/ u16 hofDebutHours;
     /*0x08*/ u16 hofDebutMinutes;
@@ -103,7 +104,7 @@ struct TrainerCard
              u16 hSticker1:3; // Heliodor only
              u16 hSticker2:3; // Heliodor only
              u16 displayDotCode:1; // Heliodor only
-             u16 filler:6; // TODO: Look into using some of these for the player's outfit
+             u16 filler:6;
 };
 
 extern struct TrainerCard gTrainerCards[4];

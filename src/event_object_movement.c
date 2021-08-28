@@ -129,7 +129,7 @@ static void SetPlayerAvatarObjectEventIdAndObjectId(u8, u8);
 static void ResetObjectEventFldEffData(struct ObjectEvent *);
 static u8 LoadSpritePaletteIfTagExists(const struct SpritePalette *);
 static u8 FindObjectEventPaletteIndexByTag(u16);
-static void LoadSpecialObjectReflectionPalette(u16 tag, u8 slot);
+static void _PatchObjectPalette(u16 tag, u8 slot);
 static bool8 ObjectEventDoesZCoordMatch(struct ObjectEvent *, u8);
 static void SpriteCB_CameraObject(struct Sprite *);
 static void CameraObject_0(struct Sprite *);
@@ -436,12 +436,19 @@ const u8 gInitialMovementTypeFacingDirections[] = {
 
 static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_Player,                OBJ_EVENT_PAL_TAG_PLAYER},
-    {gObjectEventPal_PlayerExtraOutfit,     OBJ_EVENT_PAL_TAG_PLAYER_EXTRA_OUTFIT},
+    {gObjectEventPal_PlayerDX,              OBJ_EVENT_PAL_TAG_PLAYER_DX},
+    {gObjectEventPal_PlayerClassic,         OBJ_EVENT_PAL_TAG_PLAYER_CLASSIC},
+    {gObjectEventPal_PlayerAlola,           OBJ_EVENT_PAL_TAG_PLAYER_ALOLA},
+    {gObjectEventPal_PlayerSygnaSuit,       OBJ_EVENT_PAL_TAG_PLAYER_SYGNA_SUIT},
+    {gObjectEventPal_PlayerTeamRocket,      OBJ_EVENT_PAL_TAG_PLAYER_TEAM_ROCKET},
+    {gObjectEventPal_PlayerTeamAqua,        OBJ_EVENT_PAL_TAG_PLAYER_TEAM_AQUA},
+    {gObjectEventPal_PlayerTeamMagma,       OBJ_EVENT_PAL_TAG_PLAYER_TEAM_MAGMA},
     {gObjectEventPal_PlayerUnderwater,      OBJ_EVENT_PAL_TAG_PLAYER_UNDERWATER},
     {gObjectEventPal_Gold,                  OBJ_EVENT_PAL_TAG_GOLD},
     {gObjectEventPal_Kris,                  OBJ_EVENT_PAL_TAG_KRIS},
     {gObjectEventPal_HeliodorBrendan,       OBJ_EVENT_PAL_TAG_H_BRENDAN},
     {gObjectEventPal_HeliodorMay,           OBJ_EVENT_PAL_TAG_H_MAY},
+    {gObjectEventPal_PlayerOriginal,        OBJ_EVENT_PAL_TAG_PLAYER_ORIGINAL},
     {gObjectEventPal_EmeraldBrendan,        OBJ_EVENT_PAL_TAG_E_BRENDAN},
     {gObjectEventPal_EmeraldMay,            OBJ_EVENT_PAL_TAG_E_MAY},
     {gObjectEventPal_RubySapphireBrendan,   OBJ_EVENT_PAL_TAG_RS_BRENDAN},
@@ -1477,7 +1484,6 @@ static void SetPlayerAvatarObjectEventIdAndObjectId(u8 objectEventId, u8 spriteI
 {
     gPlayerAvatar.objectEventId = objectEventId;
     gPlayerAvatar.spriteId = spriteId;
-    gPlayerAvatar.gender = gSaveBlock2Ptr->playerGender;
     SetPlayerAvatarExtraStateTransition(gObjectEvents[objectEventId].graphicsId, PLAYER_AVATAR_FLAG_4);
 }
 
@@ -1485,23 +1491,18 @@ void ObjectEventSetGraphicsId(struct ObjectEvent *objectEvent, u16 graphicsId)
 {
     const struct ObjectEventGraphicsInfo *graphicsInfo = GetObjectEventGraphicsInfo(graphicsId);
     struct Sprite *sprite = &gSprites[objectEvent->spriteId];
-    u8 paletteSlot = graphicsInfo->paletteSlot;
 
-    if (!paletteSlot)
+    if (graphicsInfo->paletteTag != 0xFFFF)
     {
-        PatchObjectPalette(graphicsInfo->paletteTag, graphicsInfo->paletteSlot);
-    }
-    else if (paletteSlot >= 16)
-    {
-        paletteSlot -= 16;
-        LoadSpecialObjectReflectionPalette(graphicsInfo->paletteTag, paletteSlot);
+        LoadObjectEventPalette(graphicsInfo->paletteTag);
+        UpdatePaletteGammaType(IndexOfSpritePaletteTag(graphicsInfo->paletteTag), GAMMA_ALT);
     }
     sprite->oam.shape = graphicsInfo->oam->shape;
     sprite->oam.size = graphicsInfo->oam->size;
     sprite->images = graphicsInfo->images;
     sprite->anims = graphicsInfo->anims;
     sprite->subspriteTables = graphicsInfo->subspriteTables;
-    sprite->oam.paletteNum = paletteSlot;
+    sprite->oam.paletteNum = IndexOfSpritePaletteTag(graphicsInfo->paletteTag);
     objectEvent->inanimate = graphicsInfo->inanimate;
     objectEvent->graphicsId = graphicsId;
     SetSpritePosToMapCoords(objectEvent->currentCoords.x, objectEvent->currentCoords.y, &sprite->x, &sprite->y);
@@ -1512,16 +1513,6 @@ void ObjectEventSetGraphicsId(struct ObjectEvent *objectEvent, u16 graphicsId)
     if (objectEvent->trackedByCamera)
     {
         CameraObjectReset1();
-    }
-}
-
-void ObjectEventSetGraphicsIdByLocalIdAndMap(u8 localId, u8 mapNum, u8 mapGroup, u16 graphicsId)
-{
-    u8 objectEventId;
-
-    if (!TryGetObjectEventIdByLocalIdAndMap(localId, mapNum, mapGroup, &objectEventId))
-    {
-        ObjectEventSetGraphicsId(&gObjectEvents[objectEventId], graphicsId);
     }
 }
 
@@ -1718,7 +1709,7 @@ static u8 FindObjectEventPaletteIndexByTag(u16 tag)
     return 0xFF;
 }
 
-void LoadSpecialObjectReflectionPalette(u16 tag, u8 slot)
+static void _PatchObjectPalette(u16 tag, u8 slot)
 {
     PatchObjectPalette(tag, slot);
 }

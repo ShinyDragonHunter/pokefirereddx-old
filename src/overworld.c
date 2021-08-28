@@ -592,8 +592,7 @@ static bool32 IsDummyWarp(struct WarpData *warp)
         return FALSE;
     else if (warp->y != -1)
         return FALSE;
-    else
-        return TRUE;
+    return TRUE;
 }
 
 struct MapHeader const *const Overworld_GetMapHeaderByGroupAndId(u16 mapGroup, u16 mapNum)
@@ -932,8 +931,7 @@ static u8 GetAdjustedInitialTransitionFlags(struct InitialPlayerAvatarState *pla
         return PLAYER_AVATAR_FLAG_ON_FOOT;
     else if (playerStruct->transitionFlags == PLAYER_AVATAR_FLAG_BIKE)
         return PLAYER_AVATAR_FLAG_BIKE;
-    else
-        return PLAYER_AVATAR_FLAG_ON_FOOT;
+    return PLAYER_AVATAR_FLAG_ON_FOOT;
 }
 
 static u8 GetAdjustedInitialDirection(struct InitialPlayerAvatarState *playerStruct, u8 transitionFlags, u16 metatileBehavior, u8 mapType)
@@ -954,8 +952,7 @@ static u8 GetAdjustedInitialDirection(struct InitialPlayerAvatarState *playerStr
      || (playerStruct->transitionFlags == PLAYER_AVATAR_FLAG_SURFING && transitionFlags == PLAYER_AVATAR_FLAG_UNDERWATER)
      || MetatileBehavior_IsLadder(metatileBehavior))
         return playerStruct->direction;
-    else
-        return DIR_SOUTH;
+    return DIR_SOUTH;
 }
 
 static u16 GetCenterScreenMetatileBehavior(void)
@@ -967,8 +964,7 @@ bool32 Overworld_IsBikingAllowed(void)
 {
     if (gMapHeader.allowCycling)
         return TRUE;
-    else
-        return FALSE;
+    return FALSE;
 }
 
 void SetDefaultFlashLevel(void)
@@ -1044,8 +1040,7 @@ static bool16 NoMusicInSotopolisWithLegendaries(struct WarpData *warp)
         return FALSE;
     else if (warp->mapNum == MAP_NUM(SOOTOPOLIS_CITY))
         return TRUE;
-    else
-        return FALSE;
+    return FALSE;
 }
 
 static bool16 IsInfiltratedWeatherInstitute(struct WarpData *warp)
@@ -1056,8 +1051,7 @@ static bool16 IsInfiltratedWeatherInstitute(struct WarpData *warp)
     else if (warp->mapNum == MAP_NUM(ROUTE119_WEATHER_INSTITUTE_1F)
      || warp->mapNum == MAP_NUM(ROUTE119_WEATHER_INSTITUTE_2F))
         return TRUE;
-    else
-        return FALSE;
+    return FALSE;
 }
 
 static bool16 IsInflitratedSpaceCenter(struct WarpData *warp)
@@ -1082,8 +1076,7 @@ u16 GetLocationMusic(struct WarpData *warp)
         return MUS_ENCOUNTER_MAGMA;
     else if (IsInfiltratedWeatherInstitute(warp))
         return MUS_MT_CHIMNEY;
-    else
-        return Overworld_GetMapHeaderByGroupAndId(warp->mapGroup, warp->mapNum)->music;
+    return Overworld_GetMapHeaderByGroupAndId(warp->mapGroup, warp->mapNum)->music;
 }
 
 u16 GetCurrLocationDefaultMusic(void)
@@ -1104,8 +1097,7 @@ u16 GetCurrLocationDefaultMusic(void)
     {
         if (gSaveBlock1Ptr->pos.x < 24)
             return MUS_ROUTE110;
-        else
-            return MUS_ROUTE119;
+        return MUS_ROUTE119;
     }
 }
 
@@ -1121,8 +1113,7 @@ u16 GetWarpDestinationMusic(void)
         if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAUVILLE_CITY)
          && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAUVILLE_CITY))
             return MUS_ROUTE110;
-        else
-            return MUS_ROUTE119;
+        return MUS_ROUTE119;
     }
 }
 
@@ -1186,6 +1177,7 @@ static void TransitionMapMusic(void)
 void Overworld_ChangeMusicToDefault(void)
 {
     u16 currentMusic = GetCurrentMapMusic();
+
     if (currentMusic != GetCurrLocationDefaultMusic())
         FadeOutAndPlayNewMapMusic(GetCurrLocationDefaultMusic(), 8);
 }
@@ -1193,6 +1185,7 @@ void Overworld_ChangeMusicToDefault(void)
 void Overworld_ChangeMusicTo(u16 newMusic)
 {
     u16 currentMusic = GetCurrentMapMusic();
+
     if (currentMusic != newMusic && currentMusic != MUS_ABNORMAL_WEATHER)
         FadeOutAndPlayNewMapMusic(newMusic, 8);
 }
@@ -1202,8 +1195,7 @@ u8 GetMapMusicFadeoutSpeed(void)
     const struct MapHeader *mapHeader = GetDestinationWarpMapHeader();
     if (IsMapTypeIndoors(mapHeader->mapType))
         return 2;
-    else
-        return 4;
+    return 4;
 }
 
 void TryFadeOutOldMapMusic(void)
@@ -1339,8 +1331,7 @@ bool8 IsMapTypeOutdoors(u8 mapType)
      || mapType == MAP_TYPE_CITY
      || mapType == MAP_TYPE_OCEAN_ROUTE)
         return TRUE;
-    else
-        return FALSE;
+    return FALSE;
 }
 
 bool8 Overworld_MapTypeAllowsTeleportAndFly(u8 mapType)
@@ -1353,16 +1344,14 @@ bool8 Overworld_MapTypeAllowsTeleportAndFly(u8 mapType)
      || mapType == MAP_TYPE_OCEAN_ROUTE
      || mapType == MAP_TYPE_CITY)
         return TRUE;
-    else
-        return FALSE;
+    return FALSE;
 }
 
 bool8 IsMapTypeIndoors(u8 mapType)
 {
     if (mapType == MAP_TYPE_INDOOR)
         return TRUE;
-    else
-        return FALSE;
+    return FALSE;
 }
 
 u8 GetSavedWarpRegionMapSectionId(void)
@@ -1416,8 +1405,7 @@ bool32 IsUpdateLinkStateCBActive(void)
 {
     if (gMain.callback1 == CB1_UpdateLinkState)
         return TRUE;
-    else
-        return FALSE;
+    return FALSE;
 }
 
 static void DoCB1_Overworld(u16 newKeys, u16 heldKeys)
@@ -2145,7 +2133,7 @@ static void InitObjectEventsLocal(void)
     ResetObjectEvents();
     GetCameraFocusCoords(&x, &y);
     player = GetInitialPlayerAvatarState();
-    InitPlayerAvatar(x, y, player->direction, gSaveBlock2Ptr->playerGender);
+    InitPlayerAvatar(x, y, player->direction);
     SetPlayerAvatarTransitionFlags(player->transitionFlags);
     ResetInitialPlayerAvatarState();
     TrySpawnObjectEvents(0, 0);
@@ -2200,6 +2188,7 @@ static void SpawnLinkPlayers(void)
 static void CreateLinkPlayerSprites(void)
 {
     u32 i;
+
     for (i = 0; i < gFieldLinkPlayerCount; i++)
         CreateLinkPlayerSprite(i, gLinkPlayers[i].version, gLinkPlayers[i].versionModifier);
 }
@@ -2258,6 +2247,7 @@ static void CheckRfuKeepAliveTimer(void)
 static void ResetAllPlayerLinkStates(void)
 {
     s32 i;
+
     for (i = 0; i < MAX_LINK_PLAYERS; i++)
         sPlayerLinkStates[i] = PLAYER_LINK_STATE_IDLE;
 }
@@ -2666,10 +2656,10 @@ static void LoadCableClubPlayer(s32 linkPlayerId, s32 myPlayerId, struct CableCl
 static bool32 IsCableClubPlayerUnfrozen(struct CableClubPlayer *player)
 {
     u8 mode = player->movementMode;
+
     if (mode == MOVEMENT_MODE_SCRIPTED || mode == MOVEMENT_MODE_FREE)
         return TRUE;
-    else
-        return FALSE;
+    return FALSE;
 }
 
 static u8 *TryGetTileEventScript(struct CableClubPlayer *player)
@@ -2687,8 +2677,7 @@ static bool32 PlayerIsAtSouthExit(struct CableClubPlayer *player)
         return FALSE;
     else if (player->facing != DIR_SOUTH)
         return FALSE;
-    else
-        return TRUE;
+    return TRUE;
 }
 
 static const u8 *TryInteractWithPlayer(struct CableClubPlayer *player)
@@ -2713,8 +2702,7 @@ static const u8 *TryInteractWithPlayer(struct CableClubPlayer *player)
             return CableClub_EventScript_TooBusyToNotice;
         else if (!GetLinkTrainerCardColor(linkPlayerId))
             return CableClub_EventScript_ReadTrainerCard;
-        else
-            return CableClub_EventScript_ReadTrainerCardColored;
+        return CableClub_EventScript_ReadTrainerCardColored;
     }
 
     return GetInteractedLinkPlayerScript(&otherPlayerPos, player->metatileBehavior, player->facing);
@@ -2748,8 +2736,7 @@ static u16 GetDirectionForEventScript(const u8 *script)
         return FACING_FORCED_RIGHT;
     else if (script == EventScript_TradeCenter_Chair1)
         return FACING_FORCED_LEFT;
-    else
-        return FACING_NONE;
+    return FACING_NONE;
 }
 
 static void InitLinkPlayerQueueScript(void)
@@ -2824,8 +2811,7 @@ bool32 Overworld_RecvKeysFromLinkIsRunning(void)
         return TRUE;
     else if (gPaletteFade.active && gPaletteFade.softwareFadeFinishing)
         return TRUE;
-    else
-        return FALSE;
+    return FALSE;
 }
 
 bool32 Overworld_SendKeysToLinkIsRunning(void)
@@ -2838,8 +2824,7 @@ bool32 Overworld_SendKeysToLinkIsRunning(void)
         return FALSE;
     else if (sPlayerKeyInterceptCallback == KeyInterCB_DeferToSendQueue)
         return TRUE;
-    else
-        return FALSE;
+    return FALSE;
 }
 
 bool32 IsSendingKeysOverCable(void)
@@ -2848,16 +2833,14 @@ bool32 IsSendingKeysOverCable(void)
         return FALSE;
     else if (!IsSendingKeysToLink())
         return FALSE;
-    else
-        return TRUE;
+    return TRUE;
 }
 
 static u32 GetLinkSendQueueLength(void)
 {
     if (gWirelessCommType != 0)
         return Rfu.sendQueue.count;
-    else
-        return gLink.sendQueue.count;
+    return gLink.sendQueue.count;
 }
 
 static void ZeroLinkPlayerObjectEvent(struct LinkPlayerObjectEvent *linkPlayerObjEvent)
@@ -2976,6 +2959,7 @@ static s32 GetLinkPlayerObjectStepTimer(u8 linkPlayerId)
 static u8 GetLinkPlayerIdAt(s16 x, s16 y)
 {
     u32 i;
+
     for (i = 0; i < MAX_LINK_PLAYERS; i++)
     {
         if (gLinkPlayerObjectEvents[i].active
@@ -3136,14 +3120,14 @@ static void CreateLinkPlayerSprite(u8 linkPlayerId, u8 gameVersion, u8 versionMo
             else
                 objEvent->spriteId = AddPseudoObjectEvent(GetEAvatarGraphicsIdByGender(objEvent->singleMovementActive), SpriteCB_LinkPlayer, 0, 0, 0);
             break;
-        case VERSION_CRYSTAL_DUST:
-            objEvent->spriteId = AddPseudoObjectEvent(GetCDAvatarGraphicsIdByGender(objEvent->singleMovementActive), SpriteCB_LinkPlayer, 0, 0, 0);
-            break;
         default:
-            if (versionModifier == MODIFIER_CRYSTALDUST)
-                objEvent->spriteId = AddPseudoObjectEvent(GetCDAvatarGraphicsIdByGender(objEvent->singleMovementActive), SpriteCB_LinkPlayer, 0, 0, 0);
+            if (!versionModifier)
+                objEvent->spriteId = AddPseudoObjectEvent(GetOriginalFRLGAvatarGraphicsIdByGender(objEvent->singleMovementActive), SpriteCB_LinkPlayer, 0, 0, 0);
+            else if (versionModifier == MODIFIER_DX)
+                objEvent->spriteId = AddPseudoObjectEvent(GetPlayerAvatarGraphicsIdByStateIdAndGender(0, PLAYER_AVATAR_STATE_NORMAL, objEvent->singleMovementActive), SpriteCB_LinkPlayer, 0, 0, 0);
             else
-                objEvent->spriteId = AddPseudoObjectEvent(GetPlayerAvatarGraphicsIdByStateIdAndGender(PLAYER_AVATAR_STATE_NORMAL, objEvent->singleMovementActive), SpriteCB_LinkPlayer, 0, 0, 0);
+        case VERSION_CRYSTAL_DUST:
+                objEvent->spriteId = AddPseudoObjectEvent(GetCDAvatarGraphicsIdByGender(objEvent->singleMovementActive), SpriteCB_LinkPlayer, 0, 0, 0);
             break;
         }
 

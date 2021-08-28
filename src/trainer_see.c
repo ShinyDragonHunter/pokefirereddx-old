@@ -678,7 +678,7 @@ u8 FldEff_ExclamationMarkIcon(void)
 {
     u8 spriteId = CreateSpriteAtEnd(&sSpriteTemplate_ExclamationQuestionMark, 0, 0, 0x52);
 
-    LoadObjectEventPalette(OBJ_EVENT_PAL_TAG_PLAYER);
+    LoadObjectEventPalette(OBJ_EVENT_PAL_TAG_PLAYER_ORIGINAL);
     if (spriteId != MAX_SPRITES)
         SetIconSpriteData(&gSprites[spriteId], FLDEFF_EXCLAMATION_MARK_ICON, 0);
     return 0;
@@ -688,7 +688,7 @@ u8 FldEff_QuestionMarkIcon(void)
 {
     u8 spriteId = CreateSpriteAtEnd(&sSpriteTemplate_ExclamationQuestionMark, 0, 0, 0x52);
 
-    LoadObjectEventPalette(OBJ_EVENT_PAL_TAG_PLAYER);
+    LoadObjectEventPalette(OBJ_EVENT_PAL_TAG_PLAYER_ORIGINAL);
     if (spriteId != MAX_SPRITES)
         SetIconSpriteData(&gSprites[spriteId], FLDEFF_QUESTION_MARK_ICON, 1);
     return 0;

@@ -2104,21 +2104,66 @@ static const struct SpriteTemplate sTrainerBackSpriteTemplates[] =
         .affineAnims = gAffineAnims_BattleSpritePlayerSide,
         .callback = SpriteCB_BattleSpriteStartSlideLeft,
     },
-    [TRAINER_BACK_PIC_RED_EXTRA_OUTFIT] = {
+    [TRAINER_BACK_PIC_RED_DX] = {
         .tileTag = 0xFFFF,
         .paletteTag = 0,
         .oam = &gOamData_BattleSpritePlayerSide,
         .anims = NULL,
-        .images = gTrainerBackPicTable_RedExtraOutfit,
+        .images = gTrainerBackPicTable_RedDX,
         .affineAnims = gAffineAnims_BattleSpritePlayerSide,
         .callback = SpriteCB_BattleSpriteStartSlideLeft,
     },
-    [TRAINER_BACK_PIC_RED_CLASSIC_OUTFIT] = {
+    [TRAINER_BACK_PIC_RED_CLASSIC] = {
         .tileTag = 0xFFFF,
         .paletteTag = 0,
         .oam = &gOamData_BattleSpritePlayerSide,
         .anims = NULL,
-        .images = gTrainerBackPicTable_RedClassicOutfit,
+        .images = gTrainerBackPicTable_RedClassic,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_RED_ALOLA] = {
+        .tileTag = 0xFFFF,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_RedAlola,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_RED_SYGNA_SUIT] = {
+        .tileTag = 0xFFFF,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_RedSygnaSuit,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_RED_TEAM_ROCKET] = {
+        .tileTag = 0xFFFF,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_RedTeamRocket,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_RED_TEAM_AQUA] = {
+        .tileTag = 0xFFFF,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_RedTeamAqua,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_RED_TEAM_MAGMA] = {
+        .tileTag = 0xFFFF,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_RedTeamMagma,
         .affineAnims = gAffineAnims_BattleSpritePlayerSide,
         .callback = SpriteCB_BattleSpriteStartSlideLeft,
     },
@@ -2128,6 +2173,69 @@ static const struct SpriteTemplate sTrainerBackSpriteTemplates[] =
         .oam = &gOamData_BattleSpritePlayerSide,
         .anims = NULL,
         .images = gTrainerBackPicTable_Leaf,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_LEAF_DX] = {
+        .tileTag = 0xFFFF,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_LeafDX,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_LEAF_CLASSIC] = {
+        .tileTag = 0xFFFF,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_LeafClassic,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_LEAF_ALOLA] = {
+        .tileTag = 0xFFFF,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_LeafAlola,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_LEAF_SYGNA_SUIT] = {
+        .tileTag = 0xFFFF,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_LeafSygnaSuit,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_LEAF_TEAM_ROCKET] = {
+        .tileTag = 0xFFFF,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_LeafTeamRocket,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_LEAF_TEAM_AQUA] = {
+        .tileTag = 0xFFFF,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_LeafTeamAqua,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_LEAF_TEAM_MAGMA] = {
+        .tileTag = 0xFFFF,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_LeafTeamMagma,
         .affineAnims = gAffineAnims_BattleSpritePlayerSide,
         .callback = SpriteCB_BattleSpriteStartSlideLeft,
     },
@@ -2183,6 +2291,24 @@ static const struct SpriteTemplate sTrainerBackSpriteTemplates[] =
         .oam = &gOamData_BattleSpritePlayerSide,
         .anims = NULL,
         .images = gTrainerBackPicTable_EMay,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_RED_ORIGINAL] = {
+        .tileTag = 0xFFFF,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_RedOriginal,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_LEAF_ORIGINAL] = {
+        .tileTag = 0xFFFF,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_LeafOriginal,
         .affineAnims = gAffineAnims_BattleSpritePlayerSide,
         .callback = SpriteCB_BattleSpriteStartSlideLeft,
     },
@@ -3455,8 +3581,7 @@ static bool8 ShouldGetStatBadgeBoost(u16 badgeFlag, u8 battlerId)
         return FALSE;
     else if (FlagGet(badgeFlag))
         return TRUE;
-    else
-        return FALSE;
+    return FALSE;
 }
 
 u8 GetDefaultMoveTarget(u8 battlerId)
@@ -6868,7 +6993,7 @@ u16 FacilityClassToPicIndex(u16 facilityClass)
 u16 PlayerGenderToFrontTrainerPicId(u8 playerGender, u8 playerOutfit)
 {
     if (playerGender)
-        return FacilityClassToPicIndex(FACILITY_CLASS_LEAF);
+        return FacilityClassToPicIndex(FACILITY_CLASS_LEAF + playerOutfit);
     return FacilityClassToPicIndex(FACILITY_CLASS_RED + playerOutfit);
 }
 
