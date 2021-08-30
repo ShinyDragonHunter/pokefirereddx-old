@@ -270,7 +270,8 @@ u16 GetRecordedCyclingRoadResults(void) {
     return TRUE;
 }
 
-void UpdateCyclingRoadState(void) {
+void UpdateCyclingRoadState(void)
+{
     if (gLastUsedWarp.mapNum == MAP_NUM(ROUTE110_SEASIDE_CYCLING_ROAD_SOUTH_ENTRANCE) && gLastUsedWarp.mapGroup == MAP_GROUP(ROUTE110_SEASIDE_CYCLING_ROAD_SOUTH_ENTRANCE))
     {
         return;

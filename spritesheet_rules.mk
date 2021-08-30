@@ -148,7 +148,7 @@ $(OBJEVENTGFXDIR)/people/team_rocket/giovanni.4bpp: %.4bpp: %.png
 $(OBJEVENTGFXDIR)/people/team_rocket/giovanni_hgss.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
-$(OBJEVENTGFXDIR)/people/leaf/bike.4bpp: %.4bpp: %.png
+$(OBJEVENTGFXDIR)/people/leaf/normal/bike.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
 $(OBJEVENTGFXDIR)/people/leaf/dx/bike.4bpp: %.4bpp: %.png
@@ -172,7 +172,7 @@ $(OBJEVENTGFXDIR)/people/leaf/team_aqua/bike.4bpp: %.4bpp: %.png
 $(OBJEVENTGFXDIR)/people/leaf/team_magma/bike.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
-$(OBJEVENTGFXDIR)/people/leaf/fishing.4bpp: %.4bpp: %.png
+$(OBJEVENTGFXDIR)/people/leaf/normal/fishing.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
 $(OBJEVENTGFXDIR)/people/leaf/dx/fishing.4bpp: %.4bpp: %.png
@@ -196,7 +196,7 @@ $(OBJEVENTGFXDIR)/people/leaf/team_aqua/fishing.4bpp: %.4bpp: %.png
 $(OBJEVENTGFXDIR)/people/leaf/team_magma/fishing.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
-$(OBJEVENTGFXDIR)/people/leaf/field_move.4bpp: %.4bpp: %.png
+$(OBJEVENTGFXDIR)/people/leaf/normal/field_move.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
 $(OBJEVENTGFXDIR)/people/leaf/dx/field_move.4bpp: %.4bpp: %.png
@@ -220,7 +220,7 @@ $(OBJEVENTGFXDIR)/people/leaf/team_aqua/field_move.4bpp: %.4bpp: %.png
 $(OBJEVENTGFXDIR)/people/leaf/team_magma/field_move.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
-$(OBJEVENTGFXDIR)/people/leaf/walking.4bpp: %.4bpp: %.png
+$(OBJEVENTGFXDIR)/people/leaf/normal/walking.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
 $(OBJEVENTGFXDIR)/people/leaf/dx/walking.4bpp: %.4bpp: %.png
@@ -244,7 +244,7 @@ $(OBJEVENTGFXDIR)/people/leaf/team_aqua/walking.4bpp: %.4bpp: %.png
 $(OBJEVENTGFXDIR)/people/leaf/team_magma/walking.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
-$(OBJEVENTGFXDIR)/people/leaf/running.4bpp: %.4bpp: %.png
+$(OBJEVENTGFXDIR)/people/leaf/normal/running.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
 $(OBJEVENTGFXDIR)/people/leaf/dx/running.4bpp: %.4bpp: %.png
@@ -268,7 +268,7 @@ $(OBJEVENTGFXDIR)/people/leaf/team_aqua/running.4bpp: %.4bpp: %.png
 $(OBJEVENTGFXDIR)/people/leaf/team_magma/running.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
-$(OBJEVENTGFXDIR)/people/leaf/surfing.4bpp: %.4bpp: %.png
+$(OBJEVENTGFXDIR)/people/leaf/normal/surfing.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
 $(OBJEVENTGFXDIR)/people/leaf/dx/surfing.4bpp: %.4bpp: %.png
@@ -292,7 +292,7 @@ $(OBJEVENTGFXDIR)/people/leaf/team_aqua/surfing.4bpp: %.4bpp: %.png
 $(OBJEVENTGFXDIR)/people/leaf/team_magma/surfing.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
-$(OBJEVENTGFXDIR)/people/leaf/field_move_bike.4bpp: %.4bpp: %.png
+$(OBJEVENTGFXDIR)/people/leaf/normal/field_move_bike.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
 $(OBJEVENTGFXDIR)/people/leaf/dx/field_move_bike.4bpp: %.4bpp: %.png
@@ -391,6 +391,24 @@ $(OBJEVENTGFXDIR)/people/prof_oak.4bpp: %.4bpp: %.png
 $(OBJEVENTGFXDIR)/people/red/normal/bike.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
+$(OBJEVENTGFXDIR)/people/red/dx/bike.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+$(OBJEVENTGFXDIR)/people/red/classic/bike.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+$(OBJEVENTGFXDIR)/people/red/sygna_suit/bike.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+$(OBJEVENTGFXDIR)/people/red/team_rocket/bike.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+$(OBJEVENTGFXDIR)/people/red/team_aqua/bike.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+$(OBJEVENTGFXDIR)/people/red/team_magma/bike.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
 $(OBJEVENTGFXDIR)/people/red/normal/fishing.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
@@ -487,7 +505,7 @@ $(OBJEVENTGFXDIR)/people/red/team_aqua/running.4bpp: %.4bpp: %.png
 $(OBJEVENTGFXDIR)/people/red/team_magma/running.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
-$(OBJEVENTGFXDIR)/people/red/surfing.4bpp: %.4bpp: %.png
+$(OBJEVENTGFXDIR)/people/red/normal/surfing.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
 $(OBJEVENTGFXDIR)/people/red/dx/surfing.4bpp: %.4bpp: %.png

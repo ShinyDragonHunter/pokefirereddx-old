@@ -1112,7 +1112,8 @@ u16 GetRandomScaledFrontierTrainerId(u8 challengeNum, u8 battleNum)
 void SetBattleFacilityTrainerGfxId(u16 trainerId, u8 tempVarId)
 {
     u32 i;
-    u8 facilityClass, trainerObjectGfxId;
+    u8 facilityClass;
+    u16 trainerObjectGfxId;
 
     SetFacilityPtrsGetLevel();
     if (trainerId == TRAINER_EREADER)
@@ -1201,7 +1202,8 @@ void SetEReaderTrainerGfxId(void)
 u8 GetBattleFacilityTrainerGfxId(u16 trainerId)
 {
     u32 i;
-    u8 facilityClass, trainerObjectGfxId;
+    u8 facilityClass;
+    u16 trainerObjectGfxId;
 
     SetFacilityPtrsGetLevel();
     if (trainerId == TRAINER_EREADER)
@@ -1679,9 +1681,7 @@ static void FillFactoryTrainerParty(void)
 static void FillFactoryFrontierTrainerParty(u16 trainerId, u8 firstMonId)
 {
     u32 i, j;
-    u8 friendship;
-    u8 level;
-    u8 fixedIV;
+    u8 friendship, level, fixedIV;
     u32 otID;
 
     if (trainerId < FRONTIER_TRAINERS_COUNT)
@@ -2627,8 +2627,7 @@ void GetEreaderTrainerName(u8 *dst)
 // Checks if the saved E-Reader trainer is valid.
 void ValidateEReaderTrainer(void)
 {
-    u32 i;
-    u32 checksum;
+    u32 i, checksum;
     struct BattleTowerEReaderTrainer *ereaderTrainer;
 
     gSpecialVar_Result = FALSE;
@@ -3177,7 +3176,7 @@ static void FillTentTrainerParty_(u16 trainerId, u8 firstMonId, u8 monCount)
 
 u8 FacilityClassToGraphicsId(u8 facilityClass)
 {
-    u8 trainerObjectGfxId;
+    u16 trainerObjectGfxId;
     u32 i;
 
     // Search male classes.

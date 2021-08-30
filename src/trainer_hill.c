@@ -190,15 +190,6 @@ static const struct TrHillTag *const sDataPerTag[] =
     &sDataTagExpert,
 };
 
-// Unused.
-static const u8 *const sFloorStrings[] =
-{
-    gText_TrainerHill1F,
-    gText_TrainerHill2F,
-    gText_TrainerHill3F,
-    gText_TrainerHill4F,
-};
-
 static void (* const sHillFunctions[])(void) =
 {
     [TRAINER_HILL_FUNC_START]                 = TrainerHillStartChallenge,
@@ -544,15 +535,10 @@ bool8 InTrainerHillChallenge(void)
 
 static void IsTrainerHillChallengeActive(void)
 {
-    if (!InTrainerHillChallenge())
-        gSpecialVar_Result = FALSE;
-    else
+    if (InTrainerHillChallenge())
         gSpecialVar_Result = TRUE;
-}
-
-static void TrainerHillDummy_Unused(void)
-{
-
+    else
+        gSpecialVar_Result = FALSE;
 }
 
 static void TrainerHillDummy(void)
@@ -609,7 +595,8 @@ static void SetTimerValue(u32 *dst, u32 val)
 
 void LoadTrainerHillObjectEventTemplates(void)
 {
-    u8 i, floorId;
+    u32 i;
+    u8 floorId;
     struct ObjectEventTemplate *eventTemplates = gSaveBlock1Ptr->objectEventTemplates;
 
     if (!LoadTrainerHillFloorObjectEventScripts())
@@ -651,8 +638,7 @@ bool32 LoadTrainerHillFloorObjectEventScripts(void)
 static u16 GetMetatileForFloor(u8 floorId, u32 x, u32 y, u32 stride) // stride is always 16
 {
     bool8 impassable;
-    u16 metatile;
-    u16 elevation;
+    u16 metatile, elevation;
 
     impassable = (sHillData->floors[floorId].display.collisionData[y] >> (15 - x) & 1);
     metatile = sHillData->floors[floorId].display.metatileData[stride * y + x] + NUM_METATILES_IN_PRIMARY;
@@ -744,19 +730,6 @@ u8 GetCurrentTrainerHillMapId(void)
         mapId = 0;
 
     return mapId;
-}
-
-// Unused
-static bool32 OnTrainerHillRoof(void)
-{
-    bool32 onRoof;
-
-    if (gMapHeader.mapLayoutId == LAYOUT_TRAINER_HILL_ROOF)
-        onRoof = TRUE;
-    else
-        onRoof = FALSE;
-
-    return onRoof;
 }
 
 const struct WarpEvent* SetWarpDestinationTrainerHill4F(void)
@@ -968,7 +941,9 @@ static void TrainerHillSetTag(void)
 
 static u8 GetPrizeListId(bool8 maxTrainers)
 {
-    u8 prizeListId, i, modBy;
+    u8 prizeListId;
+    u32 i;
+    u8 modBy;
 
     prizeListId = 0;
     for (i = 0; i < NUM_TRAINER_HILL_FLOORS; i++)

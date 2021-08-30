@@ -58,7 +58,6 @@ BattleFrontier_BattleTowerMultiPartnerRoom_EventScript_ExitRoom::
 	end
 
 BattleFrontier_BattleTowerMultiPartnerRoom_EventScript_EnterRoom::
-	textcolor RED
 	lockall
 	applymovement OBJ_EVENT_ID_PLAYER, BattleFrontier_BattleTowerMultiPartnerRoom_Movement_PlayerEnterRoom
 	waitmovement 0
@@ -67,6 +66,7 @@ BattleFrontier_BattleTowerMultiPartnerRoom_EventScript_EnterRoom::
 	copyobjectxytoperm LOCALID_ATTENDANT
 	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFastestUp
 	waitmovement 0
+	textcolor RED
 	msgbox BattleFrontier_BattleTowerMultiPartnerRoom_Text_PleaseFindPartner, MSGBOX_DEFAULT
 	special HealPlayerParty
 	setvar VAR_TEMP_1, 1

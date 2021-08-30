@@ -1,8 +1,10 @@
 #include "global.h"
 #include "battle.h"
+#include "battle_setup.h"
 #include "battle_transition.h"
 #include "battle_transition_frontier.h"
 #include "bg.h"
+#include "data.h"
 #include "decompress.h"
 #include "event_object_movement.h"
 #include "field_camera.h"
@@ -410,15 +412,6 @@ static const TransitionStateFunc sPhase2_Mugshot_Funcs[] =
     Phase2_Mugshot_Func8,
     Phase2_Mugshot_Func9,
     Phase2_Mugshot_Func10
-};
-
-static const u8 sMugshotsTrainerPicIDsTable[MUGSHOTS_COUNT] =
-{
-    [MUGSHOT_LORELEI] = TRAINER_PIC_LORELEI,
-    [MUGSHOT_BRUNO] = TRAINER_PIC_BRUNO,
-    [MUGSHOT_AGATHA] = TRAINER_PIC_AGATHA,
-    [MUGSHOT_LANCE] = TRAINER_PIC_LANCE,
-    [MUGSHOT_CHAMPION] = TRAINER_PIC_CHAMPION_RIVAL,
 };
 
 static const s16 sMugshotsOpponentCoords[MUGSHOTS_COUNT][2] =
@@ -2187,7 +2180,7 @@ static void Mugshots_CreateOpponentPlayerSprites(struct Task *task)
     struct Sprite *opponentSprite, *playerSprite;
 
     s16 mugshotId = task->tMugshotId;
-    task->tOpponentSpriteId = CreateTrainerSprite(sMugshotsTrainerPicIDsTable[mugshotId],
+    task->tOpponentSpriteId = CreateTrainerSprite(gTrainers[gTrainerBattleOpponent_A].trainerPic,
                                                      sMugshotsOpponentCoords[mugshotId][0] - 32,
                                                      sMugshotsOpponentCoords[mugshotId][1] + 42,
                                                      0, gDecompressionBuffer);

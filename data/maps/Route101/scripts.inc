@@ -198,11 +198,7 @@ Route101_EventScript_Boy::
 	end
 
 Route101_EventScript_RouteSign::
-@	giveitem ITEM_AURORA_TICKET
-	special ChangeForm
 	msgbox Route101_Text_RouteSign, MSGBOX_SIGN
-	setvar VAR_PLAYER_OUTFIT, 2
-	call EventScript_OutfitChange
 	end
 
 Route101_EventScript_BirchsBag::
