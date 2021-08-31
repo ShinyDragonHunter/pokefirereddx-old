@@ -169,6 +169,8 @@
 #define TRAINER_PIC_RS_BRENDAN                  151
 #define TRAINER_PIC_RS_MAY                      152
 
+#define TRAINER_PIC_COUNT                       TRAINER_PIC_RS_MAY + 1
+
 #define TRAINER_BACK_PIC_RED                     0
 #define TRAINER_BACK_PIC_RED_DX                  1
 #define TRAINER_BACK_PIC_RED_CLASSIC             2

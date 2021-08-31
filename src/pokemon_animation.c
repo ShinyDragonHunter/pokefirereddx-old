@@ -821,6 +821,7 @@ static void (* const sMonAnimFunctions[])(struct Sprite *sprite) =
 
 // Each back anim set has 3 possible animations depending on nature
 // Each of the 3 animations is a slight variation of the others
+// BACK_ANIM_NONE is skipped below. GetSpeciesBackAnimSet subtracts 1 from the back anim id
 static const u8 sBackAnimationIds[] =
 {
     [(BACK_ANIM_NONE) * 3]                    = ANIM_V_SQUISH_AND_BOUNCE, ANIM_V_SQUISH_AND_BOUNCE, ANIM_V_SQUISH_AND_BOUNCE,
@@ -933,7 +934,16 @@ u8 GetSpeciesBackAnimSet(u16 species)
 #define tBattlerId data[4]
 #define tSpeciesId data[5]
 
+// BUG: In vanilla, tPtrLo is read as an s16, so if bit 15 of the
+// address were to be set it would cause the pointer to be read
+// as 0xFFFFXXXX instead of the desired 0x02YYXXXX.
+// By dumb luck, this is not an issue in vanilla. However,
+// changing the link order revealed this bug.
+#if MODERN
 #define ANIM_SPRITE(taskId)   ((struct Sprite *)((gTasks[taskId].tPtrHi << 16) | ((u16)gTasks[taskId].tPtrLo)))
+#else
+#define ANIM_SPRITE(taskId)   ((struct Sprite *)((gTasks[taskId].tPtrHi << 16) | (gTasks[taskId].tPtrLo)))
+#endif //MODERN
 
 static void Task_HandleMonAnimation(u8 taskId)
 {
@@ -1035,10 +1045,10 @@ static void HandleStartAffineAnim(struct Sprite *sprite)
     if (sIsSummaryAnim)
         InitSpriteAffineAnim(sprite);
 
-    if (sprite->sDontFlip)
-        StartSpriteAffineAnim(sprite, 0);
-    else
+    if (!sprite->sDontFlip)
         StartSpriteAffineAnim(sprite, 1);
+    else
+        StartSpriteAffineAnim(sprite, 0);
 
     CalcCenterToCornerVec(sprite, sprite->oam.shape, sprite->oam.size, sprite->oam.affineMode);
     sprite->affineAnimPaused = TRUE;
@@ -1092,10 +1102,10 @@ static void ResetSpriteAfterAnim(struct Sprite *sprite)
 
     if (sIsSummaryAnim)
     {
-        if (sprite->sDontFlip)
-            sprite->hFlip = FALSE;
-        else
+        if (!sprite->sDontFlip)
             sprite->hFlip = TRUE;
+        else
+            sprite->hFlip = FALSE;
 
         FreeOamMatrix(sprite->oam.matrixNum);
         sprite->oam.matrixNum |= (sprite->hFlip << 3);
@@ -1294,15 +1304,15 @@ static void Anim_GrowVibrate(struct Sprite *sprite)
     {
         s16 index = (sprite->data[2] * 256 / 40) % 256;
 
-        if (sprite->data[2] % 2)
-        {
-            sprite->data[4] = Sin(index, 8) + 256;
-            sprite->data[5] = Sin(index, 8) + 256;
-        }
-        else
+        if (sprite->data[2] % 2 == 0)
         {
             sprite->data[4] = Sin(index, 32) + 256;
             sprite->data[5] = Sin(index, 32) + 256;
+        }
+        else
+        {
+            sprite->data[4] = Sin(index, 8) + 256;
+            sprite->data[5] = Sin(index, 8) + 256;
         }
 
         HandleSetAffineData(sprite, sprite->data[4], sprite->data[5], 0);
@@ -1335,27 +1345,27 @@ static void Zigzag(struct Sprite *sprite)
 
     if (sZigzagData[sprite->data[3]][2] == sprite->data[2])
     {
-        if (sZigzagData[sprite->data[3]][2])
+        if (sZigzagData[sprite->data[3]][2] == 0)
+        {
+            sprite->callback = WaitAnimEnd;
+        }
+        else
         {
             sprite->data[3]++;
             sprite->data[2] = 0;
         }
-        else
-        {
-            sprite->callback = WaitAnimEnd;
-        }
     }
 
-    if (sZigzagData[sprite->data[3]][2])
+    if (sZigzagData[sprite->data[3]][2] == 0)
+    {
+        sprite->callback = WaitAnimEnd;
+    }
+    else
     {
         sprite->x2 += sZigzagData[sprite->data[3]][0];
         sprite->y2 += sZigzagData[sprite->data[3]][1];
         sprite->data[2]++;
         TryFlipX(sprite);
-    }
-    else
-    {
-        sprite->callback = WaitAnimEnd;
     }
 }
 
@@ -4998,18 +5008,18 @@ static void ShrinkGrowVibrate(struct Sprite *sprite)
         s8 posY_signed;
         s32 posY;
         s16 index = (u16)(sprite->data[2] % sprite->data[6] * 256) / sprite->data[6] % 256;
-        if (sprite->data[2] % 2)
-        {
-            sprite->data[4] = Sin(index, 8) + 256;
-            sprite->data[5] = Sin(index, 8) + 256;
-            posY_unsigned = Sin(index, 8);
-            posY_signed = posY_unsigned;
-        }
-        else
+        if (sprite->data[2] % 2 == 0)
         {
             sprite->data[4] = Sin(index, 32) + 256;
             sprite->data[5] = Sin(index, 32) + 256;
             posY_unsigned = Sin(index, 32);
+            posY_signed = posY_unsigned;
+        }
+        else
+        {
+            sprite->data[4] = Sin(index, 8) + 256;
+            sprite->data[5] = Sin(index, 8) + 256;
+            posY_unsigned = Sin(index, 8);
             posY_signed = posY_unsigned;
         }
 

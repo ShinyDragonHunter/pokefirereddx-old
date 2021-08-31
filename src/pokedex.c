@@ -3190,8 +3190,7 @@ static bool8 IsInfoScreenScrolling(u8 taskId)
 {
     if (gTasks[taskId].data[0] == 0 && gTasks[taskId].func == Task_HandleInfoScreenInput)
         return FALSE;
-    else
-        return TRUE;
+    return TRUE;
 }
 
 static u8 sub_80BE9F8(struct PokedexListItem *item, u8 taskId)

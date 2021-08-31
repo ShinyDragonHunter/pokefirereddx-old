@@ -78,11 +78,6 @@ static void Phase2Task_Slice(u8 taskId);
 static void Phase2Task_WhiteFade(u8 taskId);
 static void Phase2Task_GridSquares(u8 taskId);
 static void Phase2Task_Shards(u8 taskId);
-static void Phase2Task_Sidney(u8 taskId);
-static void Phase2Task_Phoebe(u8 taskId);
-static void Phase2Task_Glacia(u8 taskId);
-static void Phase2Task_Drake(u8 taskId);
-static void Phase2Task_Champion(u8 taskId);
 static void Phase2Task_AntiClockwiseSpiral(u8 taskId);
 static void Phase2Task_Rocket(u8 taskId);
 static void Phase2Task_BlackHole(u8 taskId);
@@ -196,7 +191,7 @@ static bool8 Phase2_Mugshot_Func7(struct Task *task);
 static bool8 Phase2_Mugshot_Func8(struct Task *task);
 static bool8 Phase2_Mugshot_Func9(struct Task *task);
 static bool8 Phase2_Mugshot_Func10(struct Task *task);
-static void Phase2Task_MugShotTransition(u8 taskId);
+static void Phase2Task_MugShot(u8 taskId);
 static void Mugshots_CreateOpponentPlayerSprites(struct Task *task);
 static void VBlankCB0_Phase2_Mugshots(void);
 static void VBlankCB1_Phase2_Mugshots(void);
@@ -275,11 +270,7 @@ static const TaskFunc sPhase2_Tasks[B_TRANSITION_COUNT] =
     [B_TRANSITION_WHITEFADE] = Phase2Task_WhiteFade,
     [B_TRANSITION_GRID_SQUARES] = Phase2Task_GridSquares,
     [B_TRANSITION_SHARDS] = Phase2Task_Shards,
-    [B_TRANSITION_LORELEI] = Phase2Task_Sidney,
-    [B_TRANSITION_BRUNO] = Phase2Task_Phoebe,
-    [B_TRANSITION_AGATHA] = Phase2Task_Glacia,
-    [B_TRANSITION_LANCE] = Phase2Task_Drake,
-    [B_TRANSITION_CHAMPION] = Phase2Task_Champion,
+    [B_TRANSITION_MUGSHOT] = Phase2Task_MugShot,
     [B_TRANSITION_ANTI_CLOCKWISE_SPIRAL] = Phase2Task_AntiClockwiseSpiral,
     [B_TRANSITION_ROCKET] = Phase2Task_Rocket,
     [B_TRANSITION_BLACK_HOLE] = Phase2Task_BlackHole,
@@ -414,13 +405,13 @@ static const TransitionStateFunc sPhase2_Mugshot_Funcs[] =
     Phase2_Mugshot_Func10
 };
 
-static const s16 sMugshotsOpponentCoords[MUGSHOTS_COUNT][2] =
+static const s16 sMugshotsOpponentCoords[TRAINER_PIC_COUNT][2] =
 {
-    [MUGSHOT_LORELEI] =  {-8,  0},
-    [MUGSHOT_BRUNO] =    {-10, 0},
-    [MUGSHOT_AGATHA] =   {0,   0},
-    [MUGSHOT_LANCE] =    {-32, 0},
-    [MUGSHOT_CHAMPION] = {0,   0},
+    [TRAINER_PIC_LORELEI] = {-8, 0},
+    [TRAINER_PIC_BRUNO] = {-10, 0},
+    [TRAINER_PIC_AGATHA] = {0, 0},
+    [TRAINER_PIC_LANCE] = {-32, 0},
+    [TRAINER_PIC_CHAMPION_RIVAL] = {0, 0},
 };
 
 static const TransitionSpriteCallback sTrainerPicSpriteCbs[] =
@@ -443,9 +434,6 @@ static const TransitionStateFunc sPhase2_Slice_Funcs[] =
     Phase2_Slice_Func2,
     Phase2_Slice_Func3
 };
-
-static const u8 gUnknown_085C8C64[] = {39, 119};
-static const s16 gUnknown_085C8C66[] = {1, -1};
 
 static const TransitionStateFunc sPhase2_BlackHole_Funcs[] =
 {
@@ -605,27 +593,21 @@ static const u16 sFieldEffectPal_Pokeball[] = INCBIN_U16("graphics/field_effects
 
 const struct SpritePalette gSpritePalette_Pokeball = {sFieldEffectPal_Pokeball, FLDEFF_PAL_TAG_POKEBALL};
 
-static const u16 sMugshotPal_Sidney[] = INCBIN_U16("graphics/battle_transitions/sidney_bg.gbapal");
-static const u16 sMugshotPal_Phoebe[] = INCBIN_U16("graphics/battle_transitions/phoebe_bg.gbapal");
-static const u16 sMugshotPal_Glacia[] = INCBIN_U16("graphics/battle_transitions/glacia_bg.gbapal");
-static const u16 sMugshotPal_Drake[] = INCBIN_U16("graphics/battle_transitions/drake_bg.gbapal");
-static const u16 sMugshotPal_Champion[] = INCBIN_U16("graphics/battle_transitions/wallace_bg.gbapal");
-static const u16 sMugshotPal_Brendan[] = INCBIN_U16("graphics/battle_transitions/brendan_bg.gbapal");
-static const u16 sMugshotPal_May[] = INCBIN_U16("graphics/battle_transitions/may_bg.gbapal");
+static const u16 sMugshotPal_Purple[] = INCBIN_U16("graphics/battle_transitions/purple_bg.gbapal");
+static const u16 sMugshotPal_Green[] = INCBIN_U16("graphics/battle_transitions/green_bg.gbapal");
+static const u16 sMugshotPal_Pink[] = INCBIN_U16("graphics/battle_transitions/pink_bg.gbapal");
+static const u16 sMugshotPal_Blue[] = INCBIN_U16("graphics/battle_transitions/blue_bg.gbapal");
+static const u16 sMugshotPal_Yellow[] = INCBIN_U16("graphics/battle_transitions/yellow_bg.gbapal");
+static const u16 sMugshotPal_PlayerMale[] = INCBIN_U16("graphics/battle_transitions/player_male_bg.gbapal");
+static const u16 sMugshotPal_PlayerFemale[] = INCBIN_U16("graphics/battle_transitions/player_female_bg.gbapal");
 
-static const u16 *const sOpponentMugshotsPals[MUGSHOTS_COUNT] =
-{
-    [MUGSHOT_LORELEI] = sMugshotPal_Sidney,
-    [MUGSHOT_BRUNO] = sMugshotPal_Phoebe,
-    [MUGSHOT_AGATHA] = sMugshotPal_Glacia,
-    [MUGSHOT_LANCE] = sMugshotPal_Drake,
-    [MUGSHOT_CHAMPION] = sMugshotPal_Champion
-};
+// Moved to its own file because it was over 100 lines long
+#include "data/battle_mugshot_pals.h"
 
 static const u16 *const sPlayerMugshotsPals[GENDER_COUNT] =
 {
-    [MALE] = sMugshotPal_Brendan,
-    [FEMALE] = sMugshotPal_May
+    [MALE] = sMugshotPal_PlayerMale,
+    [FEMALE] = sMugshotPal_PlayerFemale
 };
 
 static const u16 sBigPokeball_Tilemap[] = INCBIN_U16("graphics/battle_transitions/big_pokeball_map.bin");
@@ -877,7 +859,7 @@ static void VBlankCB_Phase2_Swirl(void)
 
 static void HBlankCB_Phase2_Swirl(void)
 {
-    s16 var = gScanlineEffectRegBuffers[1][REG_VCOUNT];
+    u16 var = gScanlineEffectRegBuffers[1][REG_VCOUNT];
 
     REG_BG1HOFS = var;
     REG_BG2HOFS = var;
@@ -908,8 +890,8 @@ static bool8 Phase2_Shuffle_Func1(struct Task *task)
 
 static bool8 Phase2_Shuffle_Func2(struct Task *task)
 {
-    u32 i, theta;
-    u16 amplitude;
+    u32 i;
+    u16 theta, amplitude;
 
     sTransitionStructPtr->VBlank_DMA = FALSE;
     theta = task->tData1;
@@ -935,7 +917,7 @@ static void VBlankCB_Phase2_Shuffle(void)
 
 static void HBlankCB_Phase2_Shuffle(void)
 {
-    s16 var = gScanlineEffectRegBuffers[1][REG_VCOUNT];
+    u16 var = gScanlineEffectRegBuffers[1][REG_VCOUNT];
 
     REG_BG1VOFS = var;
     REG_BG2VOFS = var;
@@ -1249,7 +1231,7 @@ static void sub_814713C(struct Sprite *sprite)
     s16 arr0[ARRAY_COUNT(sUnknown_085C8B96)];
 
     memcpy(arr0, sUnknown_085C8B96, sizeof(sUnknown_085C8B96));
-    if (sprite->data[1])
+    if (sprite->data[1] != 0)
         sprite->data[1]--;
     else
     {
@@ -1503,7 +1485,7 @@ static bool8 Phase2_Ripple_Func2(struct Task *task)
 {
     u32 i;
     s16 amplitude;
-    u32 theta, frequency;
+    u16 theta, frequency;
 
     sTransitionStructPtr->VBlank_DMA = FALSE;
     amplitude = task->tData2 >> 8;
@@ -1541,7 +1523,7 @@ static void VBlankCB_Phase2_Ripple(void)
 
 static void HBlankCB_Phase2_Ripple(void)
 {
-    s16 var = gScanlineEffectRegBuffers[1][REG_VCOUNT];
+    u16 var = gScanlineEffectRegBuffers[1][REG_VCOUNT];
 
     REG_BG1VOFS = var;
     REG_BG2VOFS = var;
@@ -1576,7 +1558,8 @@ static bool8 Phase2_Wave_Func1(struct Task *task)
 
 static bool8 Phase2_Wave_Func2(struct Task *task)
 {
-    u32 i, theta;
+    u32 i;
+    u8 theta;
     u16* winVal;
     bool32 nextFunc;
 
@@ -1874,37 +1857,7 @@ static void VBlankCB_AntiClockwiseSpiral(void)
     }
 }
 
-static void Phase2Task_Sidney(u8 taskId)
-{
-    gTasks[taskId].tMugshotId = MUGSHOT_LORELEI;
-    Phase2Task_MugShotTransition(taskId);
-}
-
-static void Phase2Task_Phoebe(u8 taskId)
-{
-    gTasks[taskId].tMugshotId = MUGSHOT_BRUNO;
-    Phase2Task_MugShotTransition(taskId);
-}
-
-static void Phase2Task_Glacia(u8 taskId)
-{
-    gTasks[taskId].tMugshotId = MUGSHOT_AGATHA;
-    Phase2Task_MugShotTransition(taskId);
-}
-
-static void Phase2Task_Drake(u8 taskId)
-{
-    gTasks[taskId].tMugshotId = MUGSHOT_LANCE;
-    Phase2Task_MugShotTransition(taskId);
-}
-
-static void Phase2Task_Champion(u8 taskId)
-{
-    gTasks[taskId].tMugshotId = MUGSHOT_CHAMPION;
-    Phase2Task_MugShotTransition(taskId);
-}
-
-static void Phase2Task_MugShotTransition(u8 taskId)
+static void Phase2Task_MugShot(u8 taskId)
 {
     while (sPhase2_Mugshot_Funcs[gTasks[taskId].tState](&gTasks[taskId]));
 }
@@ -1921,10 +1874,10 @@ static bool8 Phase2_Mugshot_Func1(struct Task *task)
     task->tData3 = 239;
     sTransitionStructPtr->WININ = WININ_WIN0_ALL;
     sTransitionStructPtr->WINOUT = WINOUT_WIN01_BG1 | WINOUT_WIN01_BG2 | WINOUT_WIN01_BG3 | WINOUT_WIN01_OBJ | WINOUT_WIN01_CLR;
-    sTransitionStructPtr->WIN0V = WIN_RANGE(0, DISPLAY_HEIGHT);
+    sTransitionStructPtr->WIN0V = DISPLAY_HEIGHT;
 
     for (i = 0; i < 160; i++)
-        gScanlineEffectRegBuffers[1][i] = WIN_RANGE(0xF0, 0xF1);
+        gScanlineEffectRegBuffers[1][i] = 0xF0F1;
 
     SetVBlankCallback(VBlankCB0_Phase2_Mugshots);
 
@@ -1941,7 +1894,7 @@ static bool8 Phase2_Mugshot_Func2(struct Task *task)
     mugshotsMap = sMugshotsTilemap;
     GetBg0TilesDst(&tilemap, &tileset);
     CpuSet(sEliteFour_Tileset, tileset, 0xF0);
-    LoadPalette(sOpponentMugshotsPals[task->tMugshotId], 0xF0, 0x20);
+    LoadPalette(sOpponentMugshotsPals[gTrainers[gTrainerBattleOpponent_A].trainerPic], 0xF0, 0x20);
     LoadPalette(sPlayerMugshotsPals[gSaveBlock2Ptr->playerGender], 0xFA, 0xC);
 
     for (i = 0; i < 20; i++)
@@ -1957,7 +1910,8 @@ static bool8 Phase2_Mugshot_Func2(struct Task *task)
 
 static bool8 Phase2_Mugshot_Func3(struct Task *task)
 {
-    u32 i, r5;
+    u32 i;
+    u8 r5;
     u16* toStore;
     s16 value;
     s32 mergedValue;
@@ -2181,8 +2135,8 @@ static void Mugshots_CreateOpponentPlayerSprites(struct Task *task)
 
     s16 mugshotId = task->tMugshotId;
     task->tOpponentSpriteId = CreateTrainerSprite(gTrainers[gTrainerBattleOpponent_A].trainerPic,
-                                                     sMugshotsOpponentCoords[mugshotId][0] - 32,
-                                                     sMugshotsOpponentCoords[mugshotId][1] + 42,
+                                                     sMugshotsOpponentCoords[gTrainers[gTrainerBattleOpponent_A].trainerPic][0] - 32,
+                                                     sMugshotsOpponentCoords[gTrainers[gTrainerBattleOpponent_A].trainerPic][1] + 42,
                                                      0, gDecompressionBuffer);
     task->tPlayerSpriteId = CreateTrainerSprite(PlayerGenderToFrontTrainerPicId(gSaveBlock2Ptr->playerGender, gSaveBlock2Ptr->playerOutfit), DISPLAY_WIDTH + 32, 106, 0, gDecompressionBuffer);
 
@@ -2376,7 +2330,7 @@ static void HBlankCB_Phase2_Slice(void)
 {
     if (REG_VCOUNT < 160)
     {
-        s16 var = gScanlineEffectRegBuffers[1][REG_VCOUNT];
+        u16 var = gScanlineEffectRegBuffers[1][REG_VCOUNT];
         REG_BG1HOFS = var;
         REG_BG2HOFS = var;
         REG_BG3HOFS = var;
@@ -2642,8 +2596,8 @@ static bool8 Phase2_WhiteFade_Func1(struct Task *task)
 
 static bool8 Phase2_WhiteFade_Func2(struct Task *task)
 {
-    s32 i, posY;
-    s16 arr1[ARRAY_COUNT(sUnknown_085C8DA0)];
+    s32 i;
+    s16 posY, arr1[ARRAY_COUNT(sUnknown_085C8DA0)];
     struct Sprite *sprite;
 
     memcpy(arr1, sUnknown_085C8DA0, sizeof(sUnknown_085C8DA0));
@@ -2693,14 +2647,14 @@ static bool8 Phase2_WhiteFade_Func4(struct Task *task)
 
 static bool8 Phase2_WhiteFade_Func5(struct Task *task)
 {
-   sTransitionStructPtr->field_20 += 480;
-   sTransitionStructPtr->BLDY = sTransitionStructPtr->field_20 >> 8;
-   if (++sTransitionStructPtr->BLDY > 16)
-   {
-       FadeScreenBlack();
-       DestroyTask(FindTaskIdByFunc(Phase2Task_WhiteFade));
-   }
-   return FALSE;
+    sTransitionStructPtr->field_20 += 480;
+    sTransitionStructPtr->BLDY = sTransitionStructPtr->field_20 >> 8;
+    if (++sTransitionStructPtr->BLDY > 16)
+    {
+        FadeScreenBlack();
+        DestroyTask(FindTaskIdByFunc(Phase2Task_WhiteFade));
+    }
+    return FALSE;
 }
 
 static void VBlankCB0_Phase2_WhiteFade(void)

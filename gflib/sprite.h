@@ -183,38 +183,34 @@ struct SpriteTemplate
     SpriteCallback callback;
 };
 
-// UB: template pointer is often used to point to temporary storage,
-// then later dereferenced after being freed. Usually this won't
-// be visible in-game, but this is (part of) what causes the item
-// icon palette to flicker when changing items in the bag.
 struct Sprite
 {
-             u16 tileTag;       // copy from SpriteTemplate to prevent use after free
-             u16 paletteTag;    // copy from SpriteTemplate to prevent use after free
-    /*0x00*/ struct OamData oam;
-    /*0x08*/ const union AnimCmd *const *anims;
-    /*0x0C*/ const struct SpriteFrameImage *images;
-    /*0x10*/ const union AffineAnimCmd *const *affineAnims;
-    /*0x14*/ const struct SpriteTemplate *template;
-    /*0x18*/ const struct SubspriteTable *subspriteTables;
-    /*0x1C*/ SpriteCallback callback;
+    /*0x00*/ u16 tileTag;       // copy from SpriteTemplate to prevent use after free
+    /*0x02*/ u16 paletteTag;    // copy from SpriteTemplate to prevent use after free
+    /*0x04*/ struct OamData oam;
+    /*0x0C*/ const union AnimCmd *const *anims;
+    /*0x10*/ const struct SpriteFrameImage *images;
+    /*0x14*/ const union AffineAnimCmd *const *affineAnims;
+    /*0x18*/ const struct SpriteTemplate *template;
+    /*0x1C*/ const struct SubspriteTable *subspriteTables;
+    /*0x20*/ SpriteCallback callback;
 
-    /*0x20*/ s16 x, y;
-    /*0x24*/ s16 x2, y2;
-    /*0x28*/ s8 centerToCornerVecX;
-    /*0x29*/ s8 centerToCornerVecY;
+    /*0x24*/ s16 x, y;
+    /*0x28*/ s16 x2, y2;
+    /*0x2C*/ s8 centerToCornerVecX;
+    /*0x2D*/ s8 centerToCornerVecY;
 
-    /*0x2A*/ u8 animNum;
-    /*0x2B*/ u8 animCmdIndex;
-    /*0x2C*/ u8 animDelayCounter:6;
+    /*0x2E*/ u8 animNum;
+    /*0x2F*/ u8 animCmdIndex;
+    /*0x30*/ u8 animDelayCounter:6;
              bool8 animPaused:1;
              bool8 affineAnimPaused:1;
-    /*0x2D*/ u8 animLoopCounter;
+    /*0x31*/ u8 animLoopCounter;
 
     // general purpose data fields
-    /*0x2E*/ s16 data[8];
+    /*0x32*/ s16 data[8];
 
-    /*0x3E*/ bool16 inUse:1;               //1
+    /*0x42*/ bool16 inUse:1;               //1
              bool16 coordOffsetEnabled:1;  //2
              bool16 invisible:1;           //4
              bool16 flags_3:1;             //8
@@ -222,7 +218,7 @@ struct Sprite
              bool16 flags_5:1;             //0x20
              bool16 flags_6:1;             //0x40
              bool16 flags_7:1;             //0x80
-    /*0x3F*/ bool16 hFlip:1;               //1
+    /*0x43*/ bool16 hFlip:1;               //1
              bool16 vFlip:1;               //2
              bool16 animBeginning:1;       //4
              bool16 affineAnimBeginning:1; //8
@@ -231,12 +227,12 @@ struct Sprite
              bool16 usingSheet:1;          //0x40
              bool16 flags_f:1;             //0x80
 
-    /*0x40*/ u16 sheetTileStart;
+    /*0x44*/ u16 sheetTileStart;
 
-    /*0x42*/ u8 subspriteTableNum:6;
+    /*0x46*/ u8 subspriteTableNum:6;
              u8 subspriteMode:2;
 
-    /*0x43*/ u8 subpriority;
+    /*0x47*/ u8 subpriority;
 };
 
 struct OamMatrix

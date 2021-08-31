@@ -328,11 +328,10 @@ static void DestroyLogoCirclesGfx(struct Task *task)
 static bool8 IsLogoCirclesAnimFinished(struct Task *task)
 {
     if (gSprites[task->data[4]].callback == SpriteCallbackDummy
-        && gSprites[task->data[5]].callback == SpriteCallbackDummy
-        && gSprites[task->data[6]].callback == SpriteCallbackDummy)
+     && gSprites[task->data[5]].callback == SpriteCallbackDummy
+     && gSprites[task->data[6]].callback == SpriteCallbackDummy)
         return TRUE;
-    else
-        return FALSE;
+    return FALSE;
 }
 
 static bool8 Circles_Init(struct Task *task)
@@ -392,7 +391,7 @@ static bool8 FadeInCenterLogoCircle(struct Task *task)
 
 static bool8 WaitForLogoCirclesAnim(struct Task *task)
 {
-    if (IsLogoCirclesAnimFinished(task) == TRUE)
+    if (IsLogoCirclesAnimFinished(task))
         task->tState++;
 
     return FALSE;
@@ -509,7 +508,7 @@ void Phase2Task_FrontierCirclesMeetInSeq(u8 taskId)
 
 static bool8 CirclesMeetInSeq_CreateSprites(struct Task *task)
 {
-    if (task->data[1] == 0)
+    if (!task->data[1])
     {
         task->data[4] = CreateSlidingLogoCircleSprite(120, -51, 0, 0, 0, 4,  0);
     }
@@ -545,7 +544,7 @@ void Phase2Task_FrontierCirclesCrossInSeq(u8 taskId)
 
 static bool8 CirclesCrossInSeq_CreateSprites(struct Task *task)
 {
-    if (task->data[1] == 0)
+    if (!task->data[1])
     {
         task->data[4] = CreateSlidingLogoCircleSprite(120, 197, 0, 0, 0, -8,  0);
     }
@@ -581,7 +580,7 @@ void Phase2Task_FrontierCirclesAsymmetricSpiralInSeq(u8 taskId)
 
 static bool8 CirclesAsymmetricSpiralInSeq_CreateSprites(struct Task *task)
 {
-    if (task->data[1] == 0)
+    if (!task->data[1])
     {
         task->data[4] = CreateSpiralingLogoCircleSprite(120, 45, 12,  4, 128, 0, -4, 0);
     }
@@ -617,7 +616,7 @@ void Phase2Task_FrontierCirclesSymmetricSpiralInSeq(u8 taskId)
 
 static bool8 CirclesSymmetricSpiralInSeq_CreateSprites(struct Task *task)
 {
-    if (task->data[1] == 0)
+    if (!task->data[1])
     {
         task->data[4] = CreateSpiralingLogoCircleSprite(120, 80, 284, 8, 131, 35, -3, 0);
     }

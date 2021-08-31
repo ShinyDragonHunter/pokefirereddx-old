@@ -1738,10 +1738,10 @@ static void PokeBallOpenParticleAnimation(u8 taskId)
 
 static void PokeBallOpenParticleAnimation_Step1(struct Sprite *sprite)
 {
-    if (sprite->data[1])
-        sprite->data[1]--;
-    else
+    if (sprite->data[1] == 0)
         sprite->callback = PokeBallOpenParticleAnimation_Step2;
+    else
+        sprite->data[1]--;
 }
 
 static void PokeBallOpenParticleAnimation_Step2(struct Sprite *sprite)
@@ -2651,6 +2651,7 @@ static void SpriteCB_ShinyStars_Encircle(struct Sprite *sprite)
     sprite->x2 = Sin(sprite->sPhase, 24);
     sprite->y2 = Cos(sprite->sPhase, 24);
     sprite->sPhase += 12;
+
     if (sprite->sPhase > 255)
     {
         gTasks[sprite->sTaskId].tNumStars--;

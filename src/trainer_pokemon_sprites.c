@@ -304,15 +304,15 @@ static u16 sub_818D65C(u16 species, u32 otId, u32 personality, bool8 isFrontPic,
     return 0;
 }
 
-static u16 CreateTrainerCardSprite(u16 species, u32 otId, u32 personality, bool8 isFrontPic, u16 destX, u16 destY, u8 paletteSlot, u8 windowId, bool8 isTrainer)
+static u16 CreateTrainerCardSprite(u16 species, u16 destX, u16 destY, u8 paletteSlot, u8 windowId)
 {
     u8 *framePics;
 
     framePics = Alloc(4 * 0x800);
-    if (framePics && !DecompressPic(species, personality, isFrontPic, framePics, isTrainer))
+    if (framePics && !DecompressPic(species, 0, TRUE, framePics, TRUE))
     {
         BlitBitmapRectToWindow(windowId, framePics, 0, 0, 0x40, 0x40, destX, destY, 0x40, 0x40);
-        LoadPicPaletteBySlot(species, otId, personality, paletteSlot, isTrainer);
+        LoadPicPaletteBySlot(species, 0, 0, paletteSlot, TRUE);
         Free(framePics);
         return 0;
     }
@@ -337,7 +337,7 @@ u16 sub_818D834(u16 species, u32 otId, u32 personality, bool8 isFrontPic, u8 pal
 // Unused, FRLG only
 u16 CreateTrainerCardMonIconSprite(u16 species, u32 otId, u32 personality, bool8 isFrontPic, u16 destX, u16 destY, u8 paletteSlot, u8 windowId)
 {
-    return CreateTrainerCardSprite(species, otId, personality, isFrontPic, destX, destY, paletteSlot, windowId, FALSE);
+    return CreateTrainerCardSprite(species, destX, destY, paletteSlot, windowId);
 }
 
 u16 CreateTrainerPicSprite(u16 species, bool8 isFrontPic, s16 x, s16 y, u8 paletteSlot, u16 paletteTag)
@@ -357,5 +357,5 @@ u16 sub_818D904(u16 species, bool8 isFrontPic, u8 paletteSlot, u8 windowId)
 
 u16 CreateTrainerCardTrainerPicSprite(u16 species, u16 destX, u16 destY)
 {
-    return CreateTrainerCardSprite(species, 0, 0, TRUE, destX, destY, 8, 2, TRUE);
+    return CreateTrainerCardSprite(species, destX, destY, 8, 2);
 }

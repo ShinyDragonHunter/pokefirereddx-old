@@ -47,9 +47,7 @@ void RetrieveLotteryNumber(void)
 
 void PickLotteryCornerTicket(void)
 {
-    u32 i, j;
-    u32 box;
-    u32 slot;
+    u32 i, j, box, slot;
 
     gSpecialVar_0x8004 = 0;
     slot = 0;

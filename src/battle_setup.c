@@ -731,24 +731,10 @@ static u8 GetWildBattleTransition(void)
 
 static u8 GetTrainerBattleTransition(void)
 {
-    u8 minPartyCount;
-    u8 transitionType;
-    u8 enemyLevel;
-    u8 playerLevel;
+    u8 minPartyCount, transitionType, enemyLevel, playerLevel;
 
-    if (gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_ELITE_FOUR
-     || gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_CHAMPION)
-    {
-        if (gTrainerBattleOpponent_A == TRAINER_SIDNEY)
-            return B_TRANSITION_LORELEI;
-        if (gTrainerBattleOpponent_A == TRAINER_PHOEBE)
-            return B_TRANSITION_BRUNO;
-        if (gTrainerBattleOpponent_A == TRAINER_GLACIA)
-            return B_TRANSITION_AGATHA;
-        if (gTrainerBattleOpponent_A == TRAINER_DRAKE)
-            return B_TRANSITION_LANCE;
-        return B_TRANSITION_CHAMPION;
-    }
+    if (gTrainers[gTrainerBattleOpponent_A].hasMugshot)
+        return B_TRANSITION_MUGSHOT;
 
     if (gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_BOSS
      || gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_TEAM_ROCKET)
@@ -1305,8 +1291,7 @@ void ShowTrainerCantBattleSpeech(void)
 
 void PlayTrainerEncounterMusic(void)
 {
-    u16 trainerId;
-    u16 music;
+    u16 trainerId, music;
 
     if (gApproachingTrainerId)
         trainerId = gTrainerBattleOpponent_B;

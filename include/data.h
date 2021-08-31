@@ -68,6 +68,7 @@ struct Trainer
     /*0x04*/ u8 trainerName[12];
     /*0x10*/ u16 items[4];
     /*0x18*/ bool8 doubleBattle;
+    /*0x19*/ bool8 hasMugshot;
     /*0x1C*/ u32 aiFlags;
     /*0x20*/ u8 partySize;
     /*0x24*/ union TrainerMonPtr party;
@@ -124,11 +125,9 @@ extern const struct SpritePalette gMonPaletteTable[];
 extern const struct SpritePalette gMonShinyPaletteTable[];
 extern const union AnimCmd *const *const gTrainerFrontAnimsPtrTable[];
 extern const union AnimCmd *const gAnims_NONE[]; // Defined here because gTrainerFrontAnimsPtrTable uses it
-extern const struct MonCoords gTrainerFrontPicCoords[];
 extern const struct CompressedSpriteSheet gTrainerFrontPicTable[];
 extern const struct SpritePalette gTrainerFrontPicPaletteTable[];
 extern const union AnimCmd *const *const gTrainerBackAnimsPtrTable[];
-extern const struct MonCoords gTrainerBackPicCoords[];
 extern const struct SpritePalette gTrainerBackPicPaletteTable[];
 
 extern const u8 gEnemyMonElevation[SPECIES_COUNT];

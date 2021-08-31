@@ -1060,7 +1060,7 @@ void CreatePokeballSpriteToReleaseMon(u8 monSpriteId, u8 battlerId, u8 x, u8 y, 
 
 static void SpriteCB_PokeballReleaseMon(struct Sprite *sprite)
 {
-    if (sprite->data[1])
+    if (sprite->data[1] != 0)
         sprite->data[1]--;
     else
     {
@@ -1151,7 +1151,7 @@ u8 CreateTradePokeballSprite(u8 a, u8 b, u8 x, u8 y, u8 oamPriority, u8 subPrior
 
 static void SpriteCB_TradePokeball(struct Sprite *sprite)
 {
-    if (sprite->data[1])
+    if (sprite->data[1] != 0)
         sprite->data[1]--;
     else
     {

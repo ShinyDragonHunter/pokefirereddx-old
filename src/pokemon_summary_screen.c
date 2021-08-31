@@ -2089,8 +2089,7 @@ static bool8 CanReplaceMove(void)
      || !sMonSummaryScreen->newMove
      || !IsMoveHm(sMonSummaryScreen->summary.moves[sMonSummaryScreen->firstMoveIndex]))
         return TRUE;
-    else
-        return FALSE;
+    return FALSE;
 }
 
 static void ShowCantForgetHMsWindow(u8 taskId)
@@ -2353,7 +2352,8 @@ static void Task_ShowStatusWindow(u8 taskId)
 
 static void TilemapFiveMovesDisplay(u16 *dst, u16 palette, bool8 remove)
 {
-    u16 i, id;
+    u32 i;
+    u16 id;
 
     palette *= 0x1000;
     id = 0x56A;
@@ -2969,8 +2969,7 @@ static bool8 DoesMonOTMatchOwner(void)
 
     if (gender != sum->OTGender || trainerId != (sum->OTID & 0xFFFF) || StringCompareWithoutExtCtrlCodes(gStringVar1, sum->OTName))
         return FALSE;
-    else
-        return TRUE;
+    return TRUE;
 }
 
 static bool8 IsInGamePartnerMon(void)
