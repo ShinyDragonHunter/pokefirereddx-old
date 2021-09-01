@@ -1092,7 +1092,7 @@ static void ItemStorage_CompactList(void)
 
 static void ItemStorage_CompactCursor(void)
 {
-    sub_812225C(&gPlayerPCItemPageInfo.itemsAbove, &gPlayerPCItemPageInfo.cursorPos, gPlayerPCItemPageInfo.pageItems, gPlayerPCItemPageInfo.count);
+    SetCursorWithinListBounds(&gPlayerPCItemPageInfo.itemsAbove, &gPlayerPCItemPageInfo.cursorPos, gPlayerPCItemPageInfo.pageItems, gPlayerPCItemPageInfo.count);
 }
 
 static void ItemStorage_CreateListMenu(u8 taskId)

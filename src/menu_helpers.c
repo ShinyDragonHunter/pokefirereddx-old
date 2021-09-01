@@ -277,7 +277,7 @@ void SetItemListPerPageCount(struct ItemSlot *slots, u8 slotsCount, u8 *pageItem
         *pageItems = *totalItems;
 }
 
-void sub_812225C(u16 *scrollOffset, u16 *cursorPos, u8 maxShownItems, u8 totalItems)
+void SetCursorWithinListBounds(u16 *scrollOffset, u16 *cursorPos, u8 maxShownItems, u8 totalItems)
 {
     if (*scrollOffset && *scrollOffset + maxShownItems > totalItems)
         *scrollOffset = totalItems - maxShownItems;

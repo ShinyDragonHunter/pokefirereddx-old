@@ -907,7 +907,7 @@ void ResetBagCursorPositions(void)
 
 void UpdatePocketListPosition(u8 pocketId)
 {
-    sub_812225C(&gBagPosition.scrollPosition[pocketId], &gBagPosition.cursorPosition[pocketId], gBagMenu->numShownItems[pocketId], gBagMenu->numItemStacks[pocketId] + 1);
+    SetCursorWithinListBounds(&gBagPosition.scrollPosition[pocketId], &gBagPosition.cursorPosition[pocketId], gBagMenu->numShownItems[pocketId], gBagMenu->numItemStacks[pocketId] + 1);
 }
 
 static void InitPocketListPositions(void)
