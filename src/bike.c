@@ -65,7 +65,7 @@ void MovePlayerOnBike(u8 direction, u16 newKeys, u16 heldKeys)
 
 static u8 CheckMovementInputBike(u8 *newDirection, u16 newKeys, u16 heldKeys)
 {
-    return sBikeInputHandlers[gPlayerAvatar.acroBikeState](newDirection, newKeys, heldKeys);
+    return sBikeInputHandlers[gPlayerAvatar.bikeState](newDirection, newKeys, heldKeys);
 }
 
 static u8 BikeHandleInputNormal(u8 *newDirection, u16 newKeys, u16 heldKeys)
@@ -80,7 +80,7 @@ static u8 BikeHandleInputNormal(u8 *newDirection, u16 newKeys, u16 heldKeys)
     }
     if (*newDirection != direction && gPlayerAvatar.runningState != MOVING)
     {
-        gPlayerAvatar.acroBikeState = BIKE_STATE_TURNING;
+        gPlayerAvatar.bikeState = BIKE_STATE_TURNING;
         gPlayerAvatar.runningState = NOT_MOVING;
         return CheckMovementInputBike(newDirection, newKeys, heldKeys);
     }
@@ -91,7 +91,7 @@ static u8 BikeHandleInputNormal(u8 *newDirection, u16 newKeys, u16 heldKeys)
 static u8 BikeHandleInputTurning(u8 *newDirection, u16 newKeys, u16 heldKeys)
 {
     gPlayerAvatar.runningState = TURN_DIRECTION;
-    gPlayerAvatar.acroBikeState = BIKE_STATE_NORMAL;
+    gPlayerAvatar.bikeState = BIKE_STATE_NORMAL;
     return BIKE_TRANS_TURNING;
 }
 
@@ -238,7 +238,7 @@ void GetOnOffBike(u8 transitionFlags)
 
 void BikeClearState(void)
 {
-    gPlayerAvatar.acroBikeState = BIKE_STATE_NORMAL;
+    gPlayerAvatar.bikeState = BIKE_STATE_NORMAL;
 }
 
 s16 GetPlayerSpeed(void)

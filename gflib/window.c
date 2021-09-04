@@ -501,7 +501,7 @@ bool8 SetWindowAttribute(u8 windowId, u8 attributeId, u32 value)
     default:
         return TRUE;
     case WINDOW_WIDTH:
-        gWindows[windowId].window.width = value; // Added by Pidgey. Game Freak didn't have this for some reason.
+        gWindows[windowId].window.width = value; // Game Freak didn't have this for some reason.
         return FALSE;
     }
 }

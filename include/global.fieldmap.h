@@ -145,13 +145,12 @@ struct MapHeader
     /* 0x16 */ u8 weather;
     /* 0x17 */ u8 mapType;
     /* 0x18 */ s8 floorNum;
-    /* 0x19 */ u8 filler;
+    /* 0x19 */ u8 battleType;
     /* 0x1A */ bool8 allowCycling:1;
                bool8 allowEscaping:1; // Escape Rope and Dig
                bool8 allowRunning:1;
                bool8 showMapName:5; // the last 4 bits are unused 
                                     // but the 5 bit sized bitfield is required to match
-    /* 0x1B */ u8 battleType;
 };
 
 
@@ -296,7 +295,8 @@ struct PlayerAvatar
     /*0x05*/ u8 objectEventId;
     /*0x06*/ bool8 preventStep;
     /*0x07*/ u8 gender;
-    /*0x08*/ u8 acroBikeState; // 00 is normal, 01 is turning, 02 is standing wheelie, 03 is hopping wheelie
+    /*0x08*/ u8 bikeState; // 00 is normal, 01 is turning, 02 is standing wheelie, 03 is hopping wheelie
+    // For the Rocket mazes
     /*0x09*/ u16 lastSpinTile;
 };
 

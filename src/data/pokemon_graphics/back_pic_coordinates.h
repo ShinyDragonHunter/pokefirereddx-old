@@ -463,7 +463,7 @@ const struct MonCoords gMonBackPicCoords[] =
     [SPECIES_GASTLY] =
     {
         .size = 0x85,
-        .y_offset = 14,
+        .y_offset = 7,
     },
     [SPECIES_HAUNTER] =
     {

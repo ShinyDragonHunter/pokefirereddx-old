@@ -3306,12 +3306,8 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
     s32 damage = 0;
     s32 damageHelper;
     u8 type;
-    u16 attack, defense;
-    u16 spAttack, spDefense;
-    u8 defenderHoldEffect;
-    u8 defenderHoldEffectParam;
-    u8 attackerHoldEffect;
-    u8 attackerHoldEffectParam;
+    u16 attack, defense, spAttack, spDefense;
+    u8 defenderHoldEffect, defenderHoldEffectParam, attackerHoldEffect, attackerHoldEffectParam;
 
     if (powerOverride)
         gBattleMovePower = powerOverride;

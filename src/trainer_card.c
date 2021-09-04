@@ -1032,7 +1032,7 @@ static bool8 PrintAllOnCardBack(void)
             PrintStatBySlot(sData->printState - 1);
         else if (!sData->cardVersion || sData->cardVersion == CARD_VERSION_FRLG_DX)
             PrintUnionRoomStringOnCard(sData->printState - 1);
-        else if (sData->cardVersion)
+        else if (sData->cardVersion == CARD_VERSION_RS || sData->cardVersion > CARD_VERSION_FRLG_DX)
             PrintPokeblockStringOnCard(sData->printState - 1);
         break;
     case 5:
@@ -1040,13 +1040,12 @@ static bool8 PrintAllOnCardBack(void)
             PrintStatBySlot(sData->printState - 1);
         else if (!sData->cardVersion || (sData->cardVersion == CARD_VERSION_FRLG_DX && !sData->trainerCard.frontierBP))
             PrintBerryCrushStringOnCard(sData->printState - 1);
-        else if (sData->cardVersion)
+        else if (sData->cardVersion == CARD_VERSION_RS || sData->cardVersion > CARD_VERSION_FRLG_DX)
             PrintLinkContestStringOnCard(sData->printState - 1);
         else
             PrintBattlePointsStringOnCard(sData->printState - 1);
         break;
     case 6:
-        PrintPokemonIconsOnCard();
         if (sData->cardVersion == CARD_VERSION_HELIODOR && sData->stats[sData->printState - 1])
             PrintStatBySlot(sData->printState - 1);
         else if (sData->cardVersion == CARD_VERSION_EMERALD)
@@ -1055,6 +1054,9 @@ static bool8 PrintAllOnCardBack(void)
             PrintBattleTowerStringOnCard(sData->printState - 1);
         break;
     case 7:
+        PrintPokemonIconsOnCard();
+        break;
+    case 8:
         PrintStickersOnCard();
         break;
     default:
@@ -1161,7 +1163,6 @@ static void PrintIdOnCard(void)
     u8 x, y;
     u8 var = (sData->cardLayout == CARD_LAYOUT_RS || sData->cardLayout == CARD_LAYOUT_EMERALD) ? 96 : 80;
     u8 var2;
-    const u8* txtColor;
 
     txtPtr = StringCopy(buffer, (sData->cardLayout == CARD_LAYOUT_RS) ? gText_RSTrainerCardIDNo : gText_TrainerCardIDNo);
     ConvertIntToDecimalStringN(txtPtr, sData->trainerCard.trainerId, STR_CONV_MODE_LEADING_ZEROS, 5);
@@ -1241,9 +1242,9 @@ static const u8 *const sTimeColonTextColors[] = {sTrainerCardTextColors, sTimeCo
 
 static void PrintTimeOnCard(void)
 {
+    u16 hours, minutes;
     u32 x = (sData->cardLayout == CARD_LAYOUT_RS || sData->cardLayout == CARD_LAYOUT_EMERALD) ? 16 : 20;
     u8 var = (sData->cardLayout == CARD_LAYOUT_EMERALD) ? 2 : 1;
-    u16 hours, minutes;
     s32 width;
     u32 totalWidth;
     u8 var2 = (sData->cardLayout == CARD_LAYOUT_RS) ? 34 : 30;
@@ -1514,10 +1515,13 @@ static void PrintUnionRoomStringOnCard(u8 slot)
 
 static void BufferLinkPokeblocksNum(void)
 {
-    if (sData->trainerCard.pokeblocksWithFriends)
+    if (sData->cardVersion == CARD_VERSION_RS || sData->cardVersion > CARD_VERSION_FRLG_DX)
     {
-        ConvertIntToDecimalStringN(gStringVar1, sData->trainerCard.pokeblocksWithFriends, STR_CONV_MODE_RIGHT_ALIGN, 5);
-        StringExpandPlaceholders(sData->textNumLinkPokeblocks, gText_NumPokeblocks);
+        if (sData->trainerCard.pokeblocksWithFriends)
+        {
+            ConvertIntToDecimalStringN(gStringVar1, sData->trainerCard.pokeblocksWithFriends, STR_CONV_MODE_RIGHT_ALIGN, 5);
+            StringExpandPlaceholders(sData->textNumLinkPokeblocks, gText_NumPokeblocks);
+        }
     }
 }
 
@@ -1529,8 +1533,11 @@ static void PrintPokeblockStringOnCard(u8 slot)
 
 static void BufferLinkContestNum(void)
 {
-    if (sData->trainerCard.contestsWithFriends)
-        ConvertIntToDecimalStringN(sData->textNumLinkContests, sData->trainerCard.contestsWithFriends, STR_CONV_MODE_RIGHT_ALIGN, 5);
+    if (sData->cardVersion == CARD_VERSION_RS || sData->cardVersion > CARD_VERSION_FRLG_DX)
+    {
+        if (sData->trainerCard.contestsWithFriends)
+            ConvertIntToDecimalStringN(sData->textNumLinkContests, sData->trainerCard.contestsWithFriends, STR_CONV_MODE_RIGHT_ALIGN, 5);
+    }
 }
 
 static void PrintLinkContestStringOnCard(u8 slot)
@@ -1546,11 +1553,13 @@ static void PrintLinkContestStringOnCard(u8 slot)
 
 static void BufferBattlePoints(void)
 {
-    if (sData->cardVersion != CARD_VERSION_RS && sData->cardVersion != CARD_VERSION_CRYSTALDUST)
+    if (sData->cardVersion == CARD_VERSION_FRLG_DX || sData->cardVersion > CARD_VERSION_CRYSTALDUST)
     {
         if (sData->trainerCard.frontierBP)
+        {
             ConvertIntToDecimalStringN(gStringVar1, sData->trainerCard.frontierBP, STR_CONV_MODE_RIGHT_ALIGN, 5);
 	        StringExpandPlaceholders(sData->textBattlePoints, gText_NumBP);
+        }
     }
 }
 
@@ -1632,14 +1641,16 @@ static void PrintPokemonIconsOnCard(void)
     u32 i;
     u8 paletteSlots[PARTY_SIZE] = {5, 6, 7, 8, 9, 10};
     u8 xOffsets[PARTY_SIZE] = {0, 4, 8, 12, 16, 20};
-    u8 monForms[PARTY_SIZE] = {sData->trainerCard.monForm0, sData->trainerCard.monForm1, sData->trainerCard.monForm2, sData->trainerCard.monForm3, sData->trainerCard.monForm4, sData->trainerCard.monForm5};
 
     if (sData->cardLayout == CARD_LAYOUT_FRLG || sData->cardLayout == CARD_LAYOUT_HELIODOR)
     {
-        if (sData->trainerCard.monSpecies[i])
+        for (i = 0; i < PARTY_SIZE; i++)
         {
-            u8 monSpecies = GetValidMonIconPalIndex(sData->trainerCard.monSpecies[i], monForms[i]);
-            WriteSequenceToBgTilemapBuffer(3, 16 * i + 224, xOffsets[i] + 3, 15, 4, 4, paletteSlots[monSpecies], 1);
+            if (sData->trainerCard.monSpecies[i])
+            {
+                u8 monSpecies = GetMonIconPaletteIndexFromSpecies(sData->trainerCard.monSpecies[i]);
+                WriteSequenceToBgTilemapBuffer(3, 16 * i + 224, xOffsets[i] + 3, 15, 4, 4, paletteSlots[monSpecies], 1);
+            }
         }
     }
 }
@@ -1677,7 +1688,7 @@ static void PrintStickersOnCard(void)
     u8 sticker;
     u8 paletteSlots[4] = {11, 12, 13, 14};
 
-    if (sData->trainerCard.shouldDrawStickers)
+    if ((sData->cardLayout == CARD_LAYOUT_FRLG || sData->cardLayout == CARD_LAYOUT_HELIODOR) && sData->trainerCard.shouldDrawStickers)
     {
         for (i = 0; i < TRAINER_CARD_STICKER_TYPES; i++)
         {
@@ -1813,11 +1824,12 @@ static void DrawCardFrontOrBack(u16* ptr)
 
 static void DrawStarsAndBadgesOnCard(void)
 {
-    s32 i, x;
-    u32 tileNum = 192;
+    s32 i;
+    s16 x;
+    u16 tileNum = 192;
     u8 palNum = 3;
     u8 var = (sData->cardVersion == CARD_VERSION_FRLG_DX || sData->cardLayout == CARD_LAYOUT_HELIODOR) ? 18 - (sData->trainerCard.stars + sData->trainerCard.extraStars) : 15;
-    u8 y = (sData->cardLayout == CARD_LAYOUT_RS) ? 6 : 7;
+    s16 y = (sData->cardLayout == CARD_LAYOUT_RS) ? 6 : 7;
     u8 stars = (sData->cardVersion == CARD_VERSION_FRLG_DX || sData->cardLayout == CARD_LAYOUT_HELIODOR) ? sData->trainerCard.stars + sData->trainerCard.extraStars : sData->trainerCard.stars;
 
     FillBgTilemapBufferRect(3, 143, var, y, stars, 1, 4);
@@ -2201,21 +2213,12 @@ static u8 GetSetCardType(void)
         else
             sData->cardLayout = CARD_LAYOUT_EMERALD;
         return CARD_VERSION_EMERALD + sData->trainerCard.versionModifier;
-    case VERSION_FIRE_RED:
-        if (sData->trainerCard.versionModifier)
-        {
-            sData->cardLayout = CARD_LAYOUT_FRLG;
-            return CARD_VERSION_FRLG + sData->trainerCard.versionModifier;
-        }
-        else
-    default:
-        {
-            sData->cardLayout = CARD_LAYOUT_FRLG;
-            return CARD_VERSION_FRLG;
-        }
     case VERSION_CRYSTAL_DUST:
         sData->cardLayout = CARD_LAYOUT_FRLG;
         return CARD_VERSION_CRYSTALDUST;
+    default:
+        sData->cardLayout = CARD_LAYOUT_FRLG;
+        return CARD_VERSION_FRLG + sData->trainerCard.versionModifier;
     }
 }
 
