@@ -198,6 +198,8 @@ Route101_EventScript_Boy::
 	end
 
 Route101_EventScript_RouteSign::
+	special UpdateTrainerCardPhotoIcons
+	special ChangeForm
 	msgbox Route101_Text_RouteSign, MSGBOX_SIGN
 	end
 

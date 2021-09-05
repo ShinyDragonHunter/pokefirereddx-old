@@ -4502,18 +4502,23 @@ extern const u32 gRouletteMultiplier_Gfx[];
 // Trainer Card.
 extern const u16 gHoennTrainerCard0Star_Pal[];
 extern const u32 gHoennTrainerCard_Gfx[];
+extern const u32 gHoennTrainerCardBack_Tilemap[];
+extern const u32 gHoennTrainerCardFront_Tilemap[];
+extern const u32 gHoennTrainerCardFrontLink_Tilemap[];
+extern const u32 gHoennTrainerCardBg_Tilemap[];
+
 extern const u16 gKantoTrainerCard0Star_Pal[];
 extern const u32 gKantoTrainerCard_Gfx[];
 extern const u32 gKantoTrainerCardBg_Tilemap[];
-extern const u32 gHoennTrainerCardBack_Tilemap[];
 extern const u32 gKantoTrainerCardBack_Tilemap[];
+extern const u32 gKantoTrainerCardFront_Tilemap[];
+extern const u32 gKantoTrainerCardFrontLink_Tilemap[];
+
+extern const u32 gHeliodorTrainerCard_Gfx[];
+extern const u32 gHeliodorTrainerCardFront_Tilemap[];
 extern const u32 gHeliodorTrainerCardBack_Tilemap[];
 extern const u32 gHeliodorDotCodeTrainerCardBack_Tilemap[];
-extern const u32 gHoennTrainerCardFront_Tilemap[];
-extern const u32 gKantoTrainerCardFront_Tilemap[];
-extern const u32 gHoennTrainerCardFrontLink_Tilemap[];
-extern const u32 gKantoTrainerCardFrontLink_Tilemap[];
-extern const u32 gHoennTrainerCardBg_Tilemap[];
+extern const u32 gHeliodorTrainerCardFrontLink_Tilemap[];
 
 // Frontier Pass
 extern const u32 gFrontierPassBg_Gfx[];

@@ -2609,19 +2609,9 @@ void UpdateTrainerCardPhotoIcons(void)
         species[i] = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES2, NULL);
         personality[i] = GetMonData(&gPlayerParty[i], MON_DATA_PERSONALITY, NULL);
         form[i] = GetMonData(&gPlayerParty[i], MON_DATA_FORM, NULL);
+        VarSet(VAR_TRAINER_CARD_MON_ICON_0 + i, SpeciesToMailSpecies(species[i], personality[i]));
+        VarSet(VAR_TRAINER_CARD_MON_FORM_ICON_0 + i, form[i]);
     }
-	VarSet(VAR_TRAINER_CARD_MON_ICON_0, SpeciesToMailSpecies(species[0], personality[0]));
-	VarSet(VAR_TRAINER_CARD_MON_ICON_1, SpeciesToMailSpecies(species[1], personality[1]));
-	VarSet(VAR_TRAINER_CARD_MON_ICON_2, SpeciesToMailSpecies(species[2], personality[2]));
-	VarSet(VAR_TRAINER_CARD_MON_ICON_3, SpeciesToMailSpecies(species[3], personality[3]));
-	VarSet(VAR_TRAINER_CARD_MON_ICON_4, SpeciesToMailSpecies(species[4], personality[4]));
-	VarSet(VAR_TRAINER_CARD_MON_ICON_5, SpeciesToMailSpecies(species[5], personality[5]));
-	VarSet(VAR_TRAINER_CARD_MON_FORM_ICON_0, form[0]);
-	VarSet(VAR_TRAINER_CARD_MON_FORM_ICON_1, form[1]);
-	VarSet(VAR_TRAINER_CARD_MON_FORM_ICON_2, form[2]);
-	VarSet(VAR_TRAINER_CARD_MON_FORM_ICON_3, form[3]);
-	VarSet(VAR_TRAINER_CARD_MON_FORM_ICON_4, form[4]);
-	VarSet(VAR_TRAINER_CARD_MON_FORM_ICON_5, form[5]);
     VarSet(VAR_TRAINER_CARD_MON_ICON_TINT, gSpecialVar_0x8004);
 }
 

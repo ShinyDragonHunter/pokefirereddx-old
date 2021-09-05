@@ -74,7 +74,7 @@ struct TrainerCard
     /*0x30*/ u8 playerName[PLAYER_NAME_LENGTH + 1];
     /*0x38*/ u8 version;
 	/*0x39*/ u8 cardLayout; // Heliodor only
-    /*0x3A*/ bool16 hasAllFrontierSymbols; // Free for use
+    /*0x3A*/ u16 secretId; // Officially hasAllFrontierSymbols
     /*0x3C*/ u32 berryCrushPoints; // Free for use
     /*0x40*/ u32 unionRoomNum; // Free for use
     /*0x44*/ u32 berriesPicked; // Free for use
