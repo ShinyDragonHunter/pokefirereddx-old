@@ -579,7 +579,7 @@ static void BattleLoadMonSpriteGfx(struct Pokemon *mon, u8 battlerId, bool32 opp
     if (species == SPECIES_CASTFORM)
     {
         paletteOffset = 0x80 + battlerId * 16;
-        LoadPalette(paletteData + gBattleMonForms[battlerId], paletteOffset, 32);
+        LoadPalette(gBattleStruct->castformPalette[gBattleMonForms[battlerId]], paletteOffset, 32);
     }
 
     UniquePalette(0x100 + battlerId * 16, species, monsPersonality, IsMonShiny(mon));
@@ -856,7 +856,7 @@ void HandleSpeciesGfxDataChange(u8 battlerAtk, u8 battlerDef, bool8 notTransform
         if (targetSpecies == SPECIES_CASTFORM)
         {
             gSprites[gBattlerSpriteIds[battlerAtk]].anims = gMonFrontAnimsPtrTable[targetSpecies];
-            paletteOffset = 0x80 + battlerDef * 16;
+            paletteOffset = 0x80 + battlerAtk * 16;
             LoadPalette(gBattleStruct->castformPalette[0] + gBattleMonForms[battlerDef] * 16, paletteOffset, 32);
         }
 

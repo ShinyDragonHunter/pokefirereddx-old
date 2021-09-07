@@ -1327,7 +1327,7 @@ const u8 gText_LineBreak[] = _("\l");
 const u8 gText_NewLine[] = _("\n");
 const u8 gText_Are[] = _("are");
 const u8 gText_BadEgg[] = _("Bad EGG");
-const u8 gText_BattleWallyName[] = _("{PLAYER}");
+const u8 gText_BattleRivalName[] = _("{RIVAL}");
 const u8 gText_Win[] = _("{HIGHLIGHT TRANSPARENT}Win");
 const u8 gText_Loss[] = _("{HIGHLIGHT TRANSPARENT}Loss");
 const u8 gText_Draw[] = _("{HIGHLIGHT TRANSPARENT}Draw");
@@ -2329,8 +2329,8 @@ u32 BattleStringExpandPlaceholders(const u8 *src, u8 *dst)
                 }
                 else
                 {
-                    if (!StringCompare(gTrainers[gTrainerBattleOpponent_A].trainerName, gText_MenuPlayer))
-                        toCpy = gSaveBlock2Ptr->playerName;
+                    if (!StringCompare(gTrainers[gTrainerBattleOpponent_A].trainerName, gText_BattleRivalName))
+                        toCpy = gSaveBlock2Ptr->rivalName;
                     else
                         toCpy = gTrainers[gTrainerBattleOpponent_A].trainerName;
                 }
@@ -2426,8 +2426,8 @@ u32 BattleStringExpandPlaceholders(const u8 *src, u8 *dst)
                 }
                 else
                 {
-                    if (!StringCompare(gTrainers[gTrainerBattleOpponent_B].trainerName, gText_MenuPlayer))
-                        toCpy = gSaveBlock2Ptr->playerName;
+                    if (!StringCompare(gTrainers[gTrainerBattleOpponent_B].trainerName, gText_BattleRivalName))
+                        toCpy = gSaveBlock2Ptr->rivalName;
                     else
                         toCpy = gTrainers[gTrainerBattleOpponent_B].trainerName;
                 }

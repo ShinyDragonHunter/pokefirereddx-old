@@ -484,7 +484,8 @@ struct SaveBlock2
     /*0x20C*/ struct BerryPickingResults berryPick;
     /*0x21C*/ struct RankingHall1P hallRecords1P[HALL_FACILITIES_COUNT][2][3]; // From record mixing.
     /*0x57C*/ struct RankingHall2P hallRecords2P[2][3]; // From record mixing.
-    /*0x624*/ u8 filler_624[0x28];
+    /*0x624*/ u8 rivalName[PLAYER_NAME_LENGTH + 1];
+    /*0x62C*/ u8 filler_624[0x20];
     /*0x64C*/ struct BattleFrontier frontier;
 }; // sizeof=0xF2C
 

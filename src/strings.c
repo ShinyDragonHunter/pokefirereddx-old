@@ -1402,6 +1402,7 @@ const u8 gText_RecordMixingComplete[] = _("Record mixing completed.\nThank you f
 const u8 gText_YourName[] = _("YOUR NAME?");
 const u8 gText_BoxName[] = _("BOX NAME?");
 const u8 gText_PkmnsNickname[] = _("{STR_VAR_1}'s nickname?");
+const u8 gText_RivalsName[] = _("RIVAL's NAME?");
 const u8 gText_TellHimTheWords[] = _("Tell him the words.");
 const u8 gText_MoveOkBack[] = _("{DPAD_NONE}MOVE  {A_BUTTON}OK  {B_BUTTON}BACK");
 const u8 gText_CallCantBeMadeHere[] = _("A call can't be made from here.");

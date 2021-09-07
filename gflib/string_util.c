@@ -421,6 +421,8 @@ u8 *StringBraille(u8 *dest, const u8 *src)
 
 static const u8 *ExpandPlaceholder_PlayerName(void)
 {
+    if (gSaveBlock2Ptr->playerName[0] == EOS)
+        return gText_ExpandedPlaceholder_Empty;
     return gSaveBlock2Ptr->playerName;
 }
 
@@ -441,7 +443,9 @@ static const u8 *ExpandPlaceholder_StringVar3(void)
 
 static const u8 *ExpandPlaceholder_RivalName(void)
 {
-    return (gSaveBlock2Ptr->playerGender) ? gText_ExpandedPlaceholder_Brendan : gText_ExpandedPlaceholder_May;
+    if (gSaveBlock2Ptr->rivalName[0] == EOS)
+        return gText_ExpandedPlaceholder_Empty;
+    return gSaveBlock2Ptr->rivalName;
 }
 
 const u8 *GetExpandedPlaceholder(u32 id)
@@ -455,7 +459,7 @@ const u8 *GetExpandedPlaceholder(u32 id)
         [PLACEHOLDER_ID_STRING_VAR_1] = ExpandPlaceholder_StringVar1,
         [PLACEHOLDER_ID_STRING_VAR_2] = ExpandPlaceholder_StringVar2,
         [PLACEHOLDER_ID_STRING_VAR_3] = ExpandPlaceholder_StringVar3,
-        [PLACEHOLDER_ID_RIVAL]        = ExpandPlaceholder_RivalName,
+        [PLACEHOLDER_ID_RIVAL]        = ExpandPlaceholder_RivalName
     };
 
     return (id >= ARRAY_COUNT(funcs)) ? gText_ExpandedPlaceholder_Empty : funcs[id]();
