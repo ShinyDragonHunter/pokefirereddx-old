@@ -537,6 +537,14 @@ bool8 ScrCmd_checkpcitem(struct ScriptContext *ctx)
     return FALSE;
 }
 
+bool8 ScrCmd_changeplayeroutfit(struct ScriptContext *ctx)
+{
+    u8 outfit = ScriptReadByte(ctx);
+
+    ChangePlayerOutfit(outfit);
+    return FALSE;
+}
+
 bool8 ScrCmd_setflag(struct ScriptContext *ctx)
 {
     FlagSet(ScriptReadHalfword(ctx));

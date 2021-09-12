@@ -3121,13 +3121,12 @@ static void CreateLinkPlayerSprite(u8 linkPlayerId, u8 gameVersion, u8 versionMo
                 objEvent->spriteId = AddPseudoObjectEvent(GetEAvatarGraphicsIdByGender(objEvent->singleMovementActive), SpriteCB_LinkPlayer, 0, 0, 0);
             break;
         default:
-            if (!versionModifier)
-                objEvent->spriteId = AddPseudoObjectEvent(GetOriginalFRLGAvatarGraphicsIdByGender(objEvent->singleMovementActive), SpriteCB_LinkPlayer, 0, 0, 0);
-            else if (versionModifier == MODIFIER_DX)
+            if (versionModifier == MODIFIER_DX)
                 objEvent->spriteId = AddPseudoObjectEvent(GetPlayerAvatarGraphicsIdByStateIdAndGender(0, PLAYER_AVATAR_STATE_NORMAL, objEvent->singleMovementActive), SpriteCB_LinkPlayer, 0, 0, 0);
-            else
-        case VERSION_CRYSTAL_DUST:
+            else if (versionModifier == MODIFIER_CRYSTALDUST)
                 objEvent->spriteId = AddPseudoObjectEvent(GetCDAvatarGraphicsIdByGender(objEvent->singleMovementActive), SpriteCB_LinkPlayer, 0, 0, 0);
+            else
+                objEvent->spriteId = AddPseudoObjectEvent(GetOriginalFRLGAvatarGraphicsIdByGender(objEvent->singleMovementActive), SpriteCB_LinkPlayer, 0, 0, 0);
             break;
         }
 

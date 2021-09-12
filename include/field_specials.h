@@ -7,6 +7,7 @@ extern u8 gBikeCollisions;
 u8 GetLeadMonIndex(void);
 u8 IsDestinationBoxFull(void);
 u8 ContextNpcGetTextColor(void);
+void ChangePlayerOutfit(u8 outfit);
 u16 GetPCBoxToSendMon(void);
 bool8 InMultiPartnerRoom(void);
 void UpdateTrainerFansAfterLinkBattle(void);

@@ -521,9 +521,10 @@
 	.2byte \quantity
 	.endm
 
-	@ This command is a nop.
-	.macro adddecoration
+	@ Changes the player's current outfit to the specified value.
+	.macro changeplayeroutfit outfit:req
 	.byte 0x4b
+	.byte \outfit
 	.endm
 
 	@ This command is a nop.

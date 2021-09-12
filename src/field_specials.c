@@ -2593,6 +2593,16 @@ u8 ContextNpcGetTextColor(void)
     }
 }
 
+void ChangePlayerOutfit(u8 outfit)
+{
+    struct ObjectEvent *objEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
+
+    gSaveBlock2Ptr->playerOutfit = outfit;
+    ObjectEventSetGraphicsId(objEvent, GetPlayerAvatarGraphicsIdByCurrentState());
+    ObjectEventTurn(objEvent, objEvent->movementDirection);
+    BlendPalettes(PALETTES_ALL, 16, 0);
+}
+
 void UpdateTrainerCardPhotoIcons(void)
 {
     u16 species[PARTY_SIZE];
@@ -2602,9 +2612,7 @@ void UpdateTrainerCardPhotoIcons(void)
     for (i = 0; i < PARTY_SIZE; i++)
         species[i] = SPECIES_NONE;
 
-    partyCount = CalculatePlayerPartyCount();
-
-    for (i = 0; i < partyCount; i++)
+    for (i = 0; i < PARTY_SIZE; i++)
     {
         species[i] = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES2, NULL);
         personality[i] = GetMonData(&gPlayerParty[i], MON_DATA_PERSONALITY, NULL);
@@ -2648,21 +2656,14 @@ void SetBattleTowerLinkPlayerGfx(void)
             else
                 VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_E_BRENDAN + gLinkPlayers[i].gender);
         }
-        else if ((u8)gLinkPlayers[i].version <= VERSION_LEAF_GREEN && (u8)gLinkPlayers[i].versionModifier < MODIFIER_CRYSTALDUST)
-            VarSet(VAR_OBJ_GFX_ID_F - i, (gLinkPlayers[i].gender) ? OBJ_EVENT_GFX_LEAF_NORMAL : OBJ_EVENT_GFX_RED_NORMAL);
         else
-            VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_GOLD + gLinkPlayers[i].gender);
+        {
+            if ((u8)gLinkPlayers[i].versionModifier == MODIFIER_CRYSTALDUST)
+                VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_GOLD + gLinkPlayers[i].gender);
+            else
+                VarSet(VAR_OBJ_GFX_ID_F - i, (gLinkPlayers[i].gender) ? OBJ_EVENT_GFX_LEAF_NORMAL : OBJ_EVENT_GFX_RED_NORMAL);
+        }
     }
-}
-
-void ChangePlayerOutfit(void)
-{
-    struct ObjectEvent *objEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
-
-    gSaveBlock2Ptr->playerOutfit = VarGet(VAR_PLAYER_OUTFIT);
-    ObjectEventSetGraphicsId(objEvent, GetPlayerAvatarGraphicsIdByCurrentState());
-    ObjectEventTurn(objEvent, objEvent->movementDirection);
-    BlendPalettes(PALETTES_ALL, 16, 0);
 }
 
 void ShowNatureGirlMessage(void)

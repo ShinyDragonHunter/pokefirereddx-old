@@ -35,7 +35,7 @@
 #define MODIFIER_NONE             0 // Official games
 #define MODIFIER_HELIODOR         1 // Heliodor
 #define MODIFIER_DX               2 // 4-2 is FireRed DX and 5-2 is LeafGreen DX
-#define MODIFIER_CRYSTALDUST      3 // 4-3 is modified CrystalDust
+#define MODIFIER_CRYSTALDUST      3 // 4-3 is forced for CrystalDust
 
 #define GAME_VERSION (VERSION_FIRE_RED)
 #define GAME_LANGUAGE (LANGUAGE_ENGLISH)

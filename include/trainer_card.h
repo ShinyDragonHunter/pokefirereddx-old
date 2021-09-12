@@ -51,7 +51,7 @@ struct TrainerCard
     /*0x00*/ u8 gender;
     /*0x01*/ u8 stars;
     /*0x02*/ bool8 hasPokedex;
-    /*0x03*/ bool8 caughtAllHoenn; // Free for use
+    /*0x03*/ u8 cardLayout; // Heliodor only
     /*0x04*/ u8 outfit;
     /*0x05*/ u8 extraStars;
     /*0x06*/ u16 hofDebutHours;
@@ -73,15 +73,15 @@ struct TrainerCard
     /*0x28*/ u16 easyChatProfile[TRAINER_CARD_PROFILE_LENGTH];
     /*0x30*/ u8 playerName[PLAYER_NAME_LENGTH + 1];
     /*0x38*/ u8 version;
-	/*0x39*/ u8 cardLayout; // Heliodor only
+    /*0x39*/ u8 realVersion; // CrystalDust only
     /*0x3A*/ u16 secretId; // Heliodor only
-    /*0x3C*/ u32 berryCrushPoints; // Free for use
-    /*0x40*/ u32 unionRoomNum; // Free for use
+    /*0x3C*/ u32 berryCrushPoints;
+    /*0x40*/ u32 unionRoomNum;
     /*0x44*/ u32 berriesPicked; // Free for use
     /*0x48*/ u32 jumpsInRow; // Free for use
     /*0x4C*/ bool8 shouldDrawStickers;
     /*0x4D*/ bool8 hasAllMons; // Free for use
-    /*0x4E*/ u8 monIconTint; // Free for use
+    /*0x4E*/ u8 monIconTint;
     /*0x4F*/ u8 facilityClass;
     /*0x50*/ u8 stickers[TRAINER_CARD_STICKER_TYPES];
     /*0x53*/ u8 versionModifier;

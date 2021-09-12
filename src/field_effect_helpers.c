@@ -104,26 +104,38 @@ static void LoadObjectHighBridgeReflectionPalette(struct ObjectEvent *objectEven
     UpdateSpritePaletteWithWeather(sprite->oam.paletteNum);
 }
 
+#define Red(Color)		((Color) & 31)
+#define Green(Color)	((Color >> 5) & 31)
+#define Blue(Color)		((Color >> 10) & 31)
+
 void LoadSpecialReflectionPalette(struct Sprite *sprite)
 {
-    struct SpritePalette reflectionPalette;
-    u16 tempUnfaded[16];
-    u16 tempFaded[16];
+    u8 R, G, B;
+    u32 i;
+	u16 color;
+	u16* pal;
+	struct SpritePalette reflectionPalette;
 
-    // First save the current sprite's palette
-    CpuCopy16(&gPlttBufferUnfaded[0x100 + sprite->oam.paletteNum * 16], tempUnfaded, 32);
-    CpuCopy16(&gPlttBufferFaded[0x100 + sprite->oam.paletteNum * 16], tempFaded, 32);
-    BlendPalette((sprite->oam.paletteNum + 16) * 16, 16, 10, RGB_WHITE);
-    // Copy reflection palette into global buffer, and restore original palette
-    CpuCopy16(&gPlttBufferFaded[0x100 + sprite->oam.paletteNum * 16], gReflectionPaletteBuffer, 32);
-    CpuCopy16(tempFaded, &gPlttBufferFaded[0x100 + sprite->oam.paletteNum * 16], 32);
-    CpuCopy16(tempUnfaded, &gPlttBufferUnfaded[0x100 + sprite->oam.paletteNum * 16], 32);
-    reflectionPalette.data = gReflectionPaletteBuffer;
-    reflectionPalette.tag = GetSpritePaletteTagByPaletteNum(sprite->oam.paletteNum) + 0x1000;
-    LoadSpritePaletteDayNight(&reflectionPalette);
-    sprite->oam.paletteNum = IndexOfSpritePaletteTag(reflectionPalette.tag);
-    UpdatePaletteGammaType(sprite->oam.paletteNum, GAMMA_ALT);
-    UpdateSpritePaletteWithWeather(sprite->oam.paletteNum);
+	CpuCopy16(&gPlttBufferUnfaded[0x100 + sprite->oam.paletteNum * 16], gReflectionPaletteBuffer, 32);
+	BlendPalettes(gReflectionPaletteBuffer[0x100 + sprite->oam.paletteNum * 16], 6, RGB(12, 20, 27));
+	pal = gReflectionPaletteBuffer;
+	for (i = 0; i < 16; i++)
+	{
+		color = pal[i];
+		R = Red(color) + 8;
+		G = Green(color) + 8;
+		B = Blue(color) + 16;
+		if (R > 31) R = 31;
+		if (G > 31) G = 31;
+		if (B > 31) B = 31;
+		pal[i] = RGB(R, G, B);
+	}
+	reflectionPalette.data = gReflectionPaletteBuffer;
+	reflectionPalette.tag = GetSpritePaletteTagByPaletteNum(sprite->oam.paletteNum) + 0x1000;
+	LoadSpritePaletteDayNight(&reflectionPalette);
+	sprite->oam.paletteNum = IndexOfSpritePaletteTag(reflectionPalette.tag);
+	UpdatePaletteGammaType(sprite->oam.paletteNum, GAMMA_ALT);
+	UpdateSpritePaletteWithWeather(sprite->oam.paletteNum);
 }
 
 static void UpdateObjectReflectionSprite(struct Sprite *reflectionSprite)

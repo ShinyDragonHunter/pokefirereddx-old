@@ -2844,8 +2844,7 @@ static void BufferMonTrainerMemo(void)
         u8 *metLevelString = Alloc(32);
         u8 *metLocationString = Alloc(32);
         GetMetLevelString(metLevelString);
-        if (sMonSummaryScreen->versionModifier == MODIFIER_CRYSTALDUST
-         || sum->metGame == VERSION_CRYSTAL_DUST)
+        if (sum->metGame == VERSION_CRYSTAL_DUST)
         {
             if (sum->metLocation < KANTO_MAPSEC_START)
             {
@@ -3023,8 +3022,7 @@ static void PrintEggMemo(void)
 
     if (sum->metLocation == METLOC_SPECIAL_EGG)
     {
-        if ((sum->metGame == VERSION_FIRE_RED && sMonSummaryScreen->versionModifier == MODIFIER_CRYSTALDUST)
-         || sum->metGame == VERSION_CRYSTAL_DUST)
+        if (sum->metGame == VERSION_CRYSTAL_DUST)
             text = gText_EggFromElm;
         else
             text = (sum->metGame < VERSION_FIRE_RED) ? gText_EggFromHotSprings : gText_EggFromTraveler;

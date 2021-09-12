@@ -511,8 +511,7 @@ static u32 CopyRecordedPlayerMonData(u8 monId, u8 *dst)
         {
             if ((gLinkPlayers[gRecordedBattleMultiplayerId].version & 0xFF) < VERSION_EMERALD)
                 battleMon.form = NORMAL;
-            else if ((gLinkPlayers[gRecordedBattleMultiplayerId].version & 0xFF) == VERSION_EMERALD
-             || (gLinkPlayers[gRecordedBattleMultiplayerId].version & 0xFF) > VERSION_LEAF_GREEN)
+            else if ((gLinkPlayers[gRecordedBattleMultiplayerId].version & 0xFF) == VERSION_EMERALD)
                 battleMon.form = SPEED;
             else if ((gLinkPlayers[gRecordedBattleMultiplayerId].version & 0xFF) == VERSION_FIRE_RED)
                 battleMon.form = (gLinkPlayers[gRecordedBattleMultiplayerId].versionModifier == MODIFIER_CRYSTALDUST) ? SPEED : ATTACK;
@@ -562,8 +561,7 @@ static u32 CopyRecordedPlayerMonData(u8 monId, u8 *dst)
         {
             if ((gLinkPlayers[gRecordedBattleMultiplayerId].version & 0xFF) < VERSION_EMERALD)
                 form = NORMAL;
-            else if ((gLinkPlayers[gRecordedBattleMultiplayerId].version & 0xFF) == VERSION_EMERALD
-             || (gLinkPlayers[gRecordedBattleMultiplayerId].version & 0xFF) > VERSION_LEAF_GREEN)
+            else if ((gLinkPlayers[gRecordedBattleMultiplayerId].version & 0xFF) == VERSION_EMERALD)
                 form = SPEED;
             else if ((gLinkPlayers[gRecordedBattleMultiplayerId].version & 0xFF) == VERSION_FIRE_RED)
                 form = (gLinkPlayers[gRecordedBattleMultiplayerId].versionModifier == MODIFIER_CRYSTALDUST) ? SPEED : ATTACK;
@@ -1091,8 +1089,7 @@ static void RecordedPlayerHandleLoadMonSprite(void)
     {
         if ((gLinkPlayers[gRecordedBattleMultiplayerId].version & 0xFF) < VERSION_EMERALD)
             form = NORMAL;
-        else if ((gLinkPlayers[gRecordedBattleMultiplayerId].version & 0xFF) == VERSION_EMERALD
-         || (gLinkPlayers[gRecordedBattleMultiplayerId].version & 0xFF) > VERSION_LEAF_GREEN)
+        else if ((gLinkPlayers[gRecordedBattleMultiplayerId].version & 0xFF) == VERSION_EMERALD)
             form = SPEED;
         else if ((gLinkPlayers[gRecordedBattleMultiplayerId].version & 0xFF) == VERSION_FIRE_RED)
             form = (gLinkPlayers[gRecordedBattleMultiplayerId].versionModifier == MODIFIER_CRYSTALDUST) ? SPEED : ATTACK;
@@ -1133,8 +1130,7 @@ static void StartSendOutAnim(u8 battlerId, bool8 dontClearSubstituteBit)
     {
         if ((gLinkPlayers[gRecordedBattleMultiplayerId].version & 0xFF) < VERSION_EMERALD)
             form = NORMAL;
-        else if ((gLinkPlayers[gRecordedBattleMultiplayerId].version & 0xFF) == VERSION_EMERALD
-         || (gLinkPlayers[gRecordedBattleMultiplayerId].version & 0xFF) > VERSION_LEAF_GREEN)
+        else if ((gLinkPlayers[gRecordedBattleMultiplayerId].version & 0xFF) == VERSION_EMERALD)
             form = SPEED;
         else if ((gLinkPlayers[gRecordedBattleMultiplayerId].version & 0xFF) == VERSION_FIRE_RED)
             form = (gLinkPlayers[gRecordedBattleMultiplayerId].versionModifier == MODIFIER_CRYSTALDUST) ? SPEED : ATTACK;

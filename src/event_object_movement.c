@@ -129,7 +129,6 @@ static void SetPlayerAvatarObjectEventIdAndObjectId(u8, u8);
 static void ResetObjectEventFldEffData(struct ObjectEvent *);
 static u8 LoadSpritePaletteIfTagExists(const struct SpritePalette *);
 static u8 FindObjectEventPaletteIndexByTag(u16);
-static void _PatchObjectPalette(u16 tag, u8 slot);
 static bool8 ObjectEventDoesZCoordMatch(struct ObjectEvent *, u8);
 static void SpriteCB_CameraObject(struct Sprite *);
 static void CameraObject_0(struct Sprite *);
@@ -1707,11 +1706,6 @@ static u8 FindObjectEventPaletteIndexByTag(u16 tag)
         }
     }
     return 0xFF;
-}
-
-static void _PatchObjectPalette(u16 tag, u8 slot)
-{
-    PatchObjectPalette(tag, slot);
 }
 
 void ShiftObjectEventCoords(struct ObjectEvent *objectEvent, s16 x, s16 y)
