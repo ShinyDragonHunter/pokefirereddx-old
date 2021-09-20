@@ -429,7 +429,7 @@ static void CB2_LoadNamingScreen(void)
         gMain.state++;
         break;
     case 2:
-        ResetPaletteFade();
+        ResetPaletteFadeControl();
         gMain.state++;
         break;
     case 3:

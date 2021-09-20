@@ -1208,7 +1208,7 @@ static bool8 InitEasyChatScreen(u8 taskId)
         SetVBlankCallback(NULL);
         ResetSpriteData();
         FreeAllSpritePalettes();
-        ResetPaletteFade();
+        ResetPaletteFadeControl();
         break;
     case 1:
         if (!InitEasyChatScreenWordData())
@@ -3324,7 +3324,7 @@ static void InitEasyChatBgs(void)
 
 static void LoadEasyChatPalettes(void)
 {
-    ResetPaletteFade();
+    ResetPaletteFadeControl();
     LoadPalette(gEasyChatMode_Pal, 0, 32);
     LoadPalette(sTextInputFrameOrange_Pal, 1 * 16, 32);
     LoadPalette(sTextInputFrameGreen_Pal, 4 * 16, 32);

@@ -377,7 +377,7 @@ bool32 HandleMysteryGiftOrEReaderSetup(s32 mg_or_ereader)
     {
     case 0:
         SetVBlankCallback(NULL);
-        ResetPaletteFade();
+        ResetPaletteFadeControl();
         ResetSpriteData();
         FreeAllSpritePalettes();
         ResetTasks();
@@ -479,12 +479,12 @@ void PrintMysteryGiftOrEReaderTopMenu(bool8 mg_or_ereader, bool32 usePickOkCance
     FillWindowPixelBuffer(0, 0);
     if (mg_or_ereader)
     {
-        header = gJPText_MysteryGift;
-        options = gJPText_DecideStop;
+        header = gText_MainMenuMysteryGift2;
+        options = gText_DecideStop;
     }
     else
     {
-        header = gText_MysteryGift;
+        header = gText_MainMenuMysteryGift;
         options = !usePickOkCancel ? gText_PickOKExit : gText_PickOKCancel;
     }
 

@@ -727,7 +727,7 @@ static bool32 InitFrontierPass(void)
         ResetTasks();
         ResetSpriteData();
         FreeAllSpritePalettes();
-        ResetPaletteFade();
+        ResetPaletteFadeControl();
         ResetTempTileDataBuffers();
         break;
     case 3:
@@ -1373,7 +1373,7 @@ static bool32 InitFrontierMap(void)
     case 2:
         ResetSpriteData();
         FreeAllSpritePalettes();
-        ResetPaletteFade();
+        ResetPaletteFadeControl();
         ResetTempTileDataBuffers();
         break;
     case 3:

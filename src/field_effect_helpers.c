@@ -19,7 +19,6 @@
 
 static void UpdateObjectReflectionSprite(struct Sprite *);
 static void LoadObjectReflectionPalette(struct ObjectEvent *objectEvent, struct Sprite *sprite);
-static void LoadObjectHighBridgeReflectionPalette(struct ObjectEvent *, struct Sprite *sprite);
 static void UpdateGrassFieldEffectSubpriority(struct Sprite *, u8, u8);
 static void FadeFootprintsTireTracks_Step0(struct Sprite *);
 static void FadeFootprintsTireTracks_Step1(struct Sprite *);
@@ -34,7 +33,7 @@ static void SpriteCB_UnderwaterSurfBlob(struct Sprite *);
 static u32 ShowDisguiseFieldEffect(u8, u8);
 static void LoadFieldEffectPalette(u8 fieldEffect, bool8 updateGammaType);
 
-void LoadSpecialReflectionPalette(struct Sprite *sprite);
+static void LoadSpecialReflectionPalette(struct Sprite *sprite);
 
 extern u16 gReflectionPaletteBuffer[];
 
@@ -75,67 +74,53 @@ static s16 GetReflectionVerticalOffset(struct ObjectEvent *objectEvent)
 void LoadObjectReflectionPalette(struct ObjectEvent *objectEvent, struct Sprite *reflectionSprite)
 {
     u8 bridgeType;
-    u16 bridgeReflectionVerticalOffsets[] = { 12, 28, 44 };
+    u32 i;
+
     reflectionSprite->sReflectionVerticalOffset = 0;
     if (!GetObjectEventGraphicsInfo(objectEvent->graphicsId)->disableReflectionPaletteLoad && ((bridgeType = MetatileBehavior_GetBridgeType(objectEvent->previousMetatileBehavior)) || (bridgeType = MetatileBehavior_GetBridgeType(objectEvent->currentMetatileBehavior))))
     {
+        // When walking on a bridge high above water (Route 120), the reflection is a solid dark blue color.
+        // This is so the sprite blends in with the dark water metatile underneath the bridge.
+        u16 bridgeReflectionVerticalOffsets[] = {12, 28, 44};
+        u16 blueData[16] = {0};
+        struct SpritePalette bluePalette = {.tag = OBJ_EVENT_PAL_TAG_BRIDGE_REFLECTION, .data = blueData};
+
         reflectionSprite->data[2] = bridgeReflectionVerticalOffsets[bridgeType - 1];
-        LoadObjectHighBridgeReflectionPalette(objectEvent, reflectionSprite);
+        for (i = 1; i < 16; i++)
+            blueData[i] = 0x55c9;
+        reflectionSprite->oam.paletteNum = LoadSpritePaletteDayNight(&bluePalette);
+        UpdateSpritePaletteWithWeather(reflectionSprite->oam.paletteNum);
     }
     else
     {
-        LoadSpecialReflectionPalette(reflectionSprite);
+        u8 r, g, b;
+        u16 color;
+        u16* pal;
+        struct SpritePalette reflectionPalette;
+
+        CpuCopy16(&gPlttBufferUnfaded[0x100 + reflectionSprite->oam.paletteNum * 16], gReflectionPaletteBuffer, 32);
+        pal = gReflectionPaletteBuffer;
+        for (i = 0; i < 16; i++)
+        {
+            color = pal[i];
+            r = GET_R(color) + 8;
+            g = GET_G(color) + 8;
+            b = GET_B(color) + 16;
+            if (r > 31)
+                r = 31;
+            if (g > 31)
+                g = 31;
+            if (b > 31)
+                b = 31;
+            pal[i] = RGB(r, g, b);
+	    }
+        reflectionPalette.data = gReflectionPaletteBuffer;
+        reflectionPalette.tag = GetSpritePaletteTagByPaletteNum(reflectionSprite->oam.paletteNum) + 0x1000;
+        LoadSpritePaletteDayNight(&reflectionPalette);
+        reflectionSprite->oam.paletteNum = IndexOfSpritePaletteTag(reflectionPalette.tag);
+        UpdatePaletteGammaType(reflectionSprite->oam.paletteNum, GAMMA_ALT);
+        UpdateSpritePaletteWithWeather(reflectionSprite->oam.paletteNum);
     }
-}
-
-// When walking on a bridge high above water (Route 120), the reflection is a solid dark blue color.
-// This is so the sprite blends in with the dark water metatile underneath the bridge.
-static void LoadObjectHighBridgeReflectionPalette(struct ObjectEvent *objectEvent, struct Sprite *sprite)
-{
-    u16 blueData[16] = {0};
-    struct SpritePalette bluePalette = {.tag = OBJ_EVENT_PAL_TAG_BRIDGE_REFLECTION, .data = blueData};
-    u32 i;
-
-    for (i = 1; i < 16; i++)
-    {
-        blueData[i] = 0x55c9;
-    }
-    sprite->oam.paletteNum = LoadSpritePaletteDayNight(&bluePalette);
-    UpdateSpritePaletteWithWeather(sprite->oam.paletteNum);
-}
-
-#define Red(Color)		((Color) & 31)
-#define Green(Color)	((Color >> 5) & 31)
-#define Blue(Color)		((Color >> 10) & 31)
-
-void LoadSpecialReflectionPalette(struct Sprite *sprite)
-{
-    u8 R, G, B;
-    u32 i;
-	u16 color;
-	u16* pal;
-	struct SpritePalette reflectionPalette;
-
-	CpuCopy16(&gPlttBufferUnfaded[0x100 + sprite->oam.paletteNum * 16], gReflectionPaletteBuffer, 32);
-	BlendPalettes(gReflectionPaletteBuffer[0x100 + sprite->oam.paletteNum * 16], 6, RGB(12, 20, 27));
-	pal = gReflectionPaletteBuffer;
-	for (i = 0; i < 16; i++)
-	{
-		color = pal[i];
-		R = Red(color) + 8;
-		G = Green(color) + 8;
-		B = Blue(color) + 16;
-		if (R > 31) R = 31;
-		if (G > 31) G = 31;
-		if (B > 31) B = 31;
-		pal[i] = RGB(R, G, B);
-	}
-	reflectionPalette.data = gReflectionPaletteBuffer;
-	reflectionPalette.tag = GetSpritePaletteTagByPaletteNum(sprite->oam.paletteNum) + 0x1000;
-	LoadSpritePaletteDayNight(&reflectionPalette);
-	sprite->oam.paletteNum = IndexOfSpritePaletteTag(reflectionPalette.tag);
-	UpdatePaletteGammaType(sprite->oam.paletteNum, GAMMA_ALT);
-	UpdateSpritePaletteWithWeather(sprite->oam.paletteNum);
 }
 
 static void UpdateObjectReflectionSprite(struct Sprite *reflectionSprite)
@@ -209,6 +194,7 @@ void SetSpriteInvisible(u8 spriteId)
 {
     // needed in order to trick the palette system into thinking that no sprite is using that palette
     u8 paletteNum = gSprites[spriteId].oam.paletteNum;
+
     gSprites[spriteId].oam.paletteNum = 0;
     FieldEffectFreePaletteIfUnused(paletteNum);
     gSprites[spriteId].invisible = TRUE;
@@ -216,8 +202,7 @@ void SetSpriteInvisible(u8 spriteId)
 
 void ShowWarpArrowSprite(u8 spriteId, u8 direction, s16 x, s16 y)
 {
-    s16 x2;
-    s16 y2;
+    s16 x2, y2;
     struct Sprite *sprite = &gSprites[spriteId];
 
     if (sprite->invisible || sprite->data[0] != x || sprite->data[1] != y)
@@ -308,8 +293,7 @@ void UpdateShadowFieldEffect(struct Sprite *sprite)
 
 u32 FldEff_TallGrass(void)
 {
-    s16 x;
-    s16 y;
+    s16 x, y;
     u8 spriteId;
     struct Sprite *sprite;
 
@@ -337,11 +321,7 @@ u32 FldEff_TallGrass(void)
 
 void UpdateTallGrassFieldEffect(struct Sprite *sprite)
 {
-    u8 mapNum;
-    u8 mapGroup;
-    u8 metatileBehavior;
-    u8 localId;
-    u8 objectEventId;
+    u8 mapNum, mapGroup, metatileBehavior, localId, objectEventId;
     struct ObjectEvent *objectEvent;
 
     mapNum = sprite->sCurrentMap >> 8;
@@ -424,8 +404,7 @@ u8 FindTallGrassFieldEffectSpriteId(u8 localId, u8 mapNum, u8 mapGroup, s16 x, s
 
 u32 FldEff_LongGrass(void)
 {
-    s16 x;
-    s16 y;
+    s16 x, y;
     u8 spriteId;
     struct Sprite *sprite;
 
@@ -453,11 +432,7 @@ u32 FldEff_LongGrass(void)
 
 void UpdateLongGrassFieldEffect(struct Sprite *sprite)
 {
-    u8 mapNum;
-    u8 mapGroup;
-    u8 metatileBehavior;
-    u8 localId;
-    u8 objectEventId;
+    u8 mapNum, mapGroup, metatileBehavior, localId, objectEventId;
     struct ObjectEvent *objectEvent;
 
     mapNum = sprite->sCurrentMap >> 8;
@@ -547,8 +522,7 @@ u32 FldEff_ShortGrass(void)
 void UpdateShortGrassFieldEffect(struct Sprite *sprite)
 {
     u8 objectEventId;
-    s16 x;
-    s16 y;
+    s16 x, y;
     const struct ObjectEventGraphicsInfo *graphicsInfo;
     struct Sprite *linkedSprite;
 
@@ -901,8 +875,7 @@ void StartAshFieldEffect(s16 x, s16 y, u16 metatileId, s16 delay)
 
 u32 FldEff_Ash(void)
 {
-    s16 x;
-    s16 y;
+    s16 x, y;
     u8 spriteId;
     struct Sprite *sprite;
 
@@ -1084,6 +1057,7 @@ static void UpdateBobbingEffect(struct ObjectEvent *playerObj, struct Sprite *pl
 {
     u16 intervals[] = {3, 7};
     u8 bobState = GetSurfBlob_BobState(sprite);
+
     if (bobState != BOB_NONE)
     {
         // Update bobbing position of surf blob
@@ -1197,8 +1171,7 @@ u32 FldEff_SandPile(void)
 void UpdateSandPileFieldEffect(struct Sprite *sprite)
 {
     u8 objectEventId;
-    s16 x;
-    s16 y;
+    s16 x, y;
 
     if (TryGetObjectEventIdByLocalIdAndMap(sprite->data[0], sprite->data[1], sprite->data[2], &objectEventId) || !gObjectEvents[objectEventId].inSandPile)
     {

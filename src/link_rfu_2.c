@@ -2450,7 +2450,7 @@ static void sub_8011AFC(void)
     ResetSpriteData();
     FreeAllSpritePalettes();
     ResetTasks();
-    ResetPaletteFade();
+    ResetPaletteFadeControl();
     SetVBlankCallback(sub_8011AE8);
     if (IsWirelessAdapterConnected())
     {

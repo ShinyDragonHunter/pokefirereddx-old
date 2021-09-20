@@ -2330,7 +2330,17 @@ u32 BattleStringExpandPlaceholders(const u8 *src, u8 *dst)
                 else
                 {
                     if (!StringCompare(gTrainers[gTrainerBattleOpponent_A].trainerName, gText_BattleRivalName))
-                        toCpy = gSaveBlock2Ptr->rivalName;
+                    {
+                        if (gSaveBlock2Ptr->rivalName[0] == EOS)
+                        {
+                            if (gSaveBlock2Ptr->playerGender)
+                                toCpy = gText_ExpandedPlaceholder_May;
+                            else
+                                toCpy = gText_ExpandedPlaceholder_Brendan;
+                        }
+                        else
+                            toCpy = gSaveBlock2Ptr->rivalName;
+                    }
                     else
                         toCpy = gTrainers[gTrainerBattleOpponent_A].trainerName;
                 }
@@ -2427,7 +2437,17 @@ u32 BattleStringExpandPlaceholders(const u8 *src, u8 *dst)
                 else
                 {
                     if (!StringCompare(gTrainers[gTrainerBattleOpponent_B].trainerName, gText_BattleRivalName))
-                        toCpy = gSaveBlock2Ptr->rivalName;
+                    {
+                        if (gSaveBlock2Ptr->rivalName[0] == EOS)
+                        {
+                            if (gSaveBlock2Ptr->playerGender)
+                                toCpy = gText_ExpandedPlaceholder_May;
+                            else
+                                toCpy = gText_ExpandedPlaceholder_Brendan;
+                        }
+                        else
+                            toCpy = gSaveBlock2Ptr->rivalName;
+                    }
                     else
                         toCpy = gTrainers[gTrainerBattleOpponent_B].trainerName;
                 }

@@ -196,7 +196,7 @@ void CB2_InitOptionMenu(void)
         gMain.state++;
         break;
     case 2:
-        ResetPaletteFade();
+        ResetPaletteFadeControl();
         ScanlineEffect_Stop();
         ResetTasks();
         ResetSpriteData();

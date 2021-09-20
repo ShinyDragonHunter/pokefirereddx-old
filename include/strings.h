@@ -166,7 +166,6 @@ extern const u8 gText_Colon3[];
 extern const u8 gText_Confirm2[];
 
 // Day of week
-extern const u8 *const gDayOfWeekTable[];
 extern const u8 gText_Sunday[];
 extern const u8 gText_Monday[];
 extern const u8 gText_Tuesday[];
@@ -265,7 +264,7 @@ extern const u8 gText_YesNo[];
 // main menu/birch speech text
 extern const u8 gText_SaveFileErased[];
 extern const u8 gText_SaveFileCorrupted[];
-extern const u8 gJPText_No1MSubCircuit[];
+extern const u8 gText_No1MSubCircuit[];
 extern const u8 gText_BatteryRunDry[];
 extern const u8 gText_MainMenuNewGame[];
 extern const u8 gText_MainMenuOption[];
@@ -2637,19 +2636,19 @@ extern const u8 gText_UnionRoomChatKeyboard_Emoji9[];
 extern const u8 gText_UnionRoomChatKeyboard_Emoji10[];
 
 // E-Reader
-extern const u8 gJPText_ReceiveMysteryGiftWithEReader[];
-extern const u8 gJPText_SelectConnectFromEReaderMenu[];
-extern const u8 gJPText_SelectConnectWithGBA[];
-extern const u8 gJPText_LinkIsIncorrect[];
-extern const u8 gJPText_CardReadingHasBeenHalted[];
-extern const u8 gJPText_Connecting[];
-extern const u8 gJPText_ConnectionErrorCheckLink[];
-extern const u8 gJPText_ConnectionErrorTryAgain[];
-extern const u8 gJPText_AllowEReaderToLoadCard[];
-extern const u8 gJPText_ConnectionComplete[];
-extern const u8 gJPText_NewTrainerHasComeToHoenn[];
-extern const u8 gJPText_PleaseWaitAMoment[];
-extern const u8 gJPText_WriteErrorUnableToSaveData[];
+extern const u8 gText_ReceiveMysteryGiftWithEReader[];
+extern const u8 gText_SelectConnectFromEReaderMenu[];
+extern const u8 gText_SelectConnectWithGBA[];
+extern const u8 gText_LinkIsIncorrect[];
+extern const u8 gText_CardReadingHasBeenHalted[];
+extern const u8 gText_Connecting[];
+extern const u8 gText_ConnectionErrorCheckLink[];
+extern const u8 gText_ConnectionErrorTryAgain[];
+extern const u8 gText_AllowEReaderToLoadCard[];
+extern const u8 gText_ConnectionComplete[];
+extern const u8 gText_NewTrainerHasComeToHoenn[];
+extern const u8 gText_PleaseWaitAMoment[];
+extern const u8 gText_WriteErrorUnableToSaveData[];
 
 // Berry Powder Menu
 extern const u8 gText_Powder[];
@@ -2669,11 +2668,9 @@ extern const u8 gText_ThankYou[];
 extern const u8 gText_ByeBye[];
 
 // Mystery Gift
-extern const u8 gText_MysteryGift[];
 extern const u8 gText_PickOKCancel[];
 extern const u8 gText_PickOKExit[];
-extern const u8 gJPText_MysteryGift[];
-extern const u8 gJPText_DecideStop[];
+extern const u8 gText_DecideStop[];
 extern const u8 gText_WonderCards[];
 extern const u8 gText_WonderNews[];
 extern const u8 gText_Exit3[];

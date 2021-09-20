@@ -1149,7 +1149,7 @@ static void CB2_InitSelectScreen(void)
         gMain.state++;
         break;
     case 2:
-        ResetPaletteFade();
+        ResetPaletteFadeControl();
         ResetSpriteData();
         ResetTasks();
         FreeAllSpritePalettes();
@@ -3243,7 +3243,7 @@ static void CB2_InitSwapScreen(void)
         gMain.state++;
         break;
     case 2:
-        ResetPaletteFade();
+        ResetPaletteFadeControl();
         ResetSpriteData();
         ResetTasks();
         FreeAllSpritePalettes();

@@ -1085,7 +1085,7 @@ static void SlotMachineSetup_InitSlotMachineStruct(void)
 
 static void SlotMachineSetup_InitPalsSpritesTasks(void)
 {
-    ResetPaletteFade();
+    ResetPaletteFadeControl();
     ResetSpriteData();
     gOamLimit = 0x80;
     FreeAllSpritePalettes();

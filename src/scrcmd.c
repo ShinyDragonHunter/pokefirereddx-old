@@ -7,6 +7,7 @@
 #include "data.h"
 #include "day_night.h"
 #include "event_data.h"
+#include "field_camera.h"
 #include "field_door.h"
 #include "field_effect.h"
 #include "event_object_lock.h"
@@ -539,7 +540,7 @@ bool8 ScrCmd_checkpcitem(struct ScriptContext *ctx)
 
 bool8 ScrCmd_changeplayeroutfit(struct ScriptContext *ctx)
 {
-    u8 outfit = ScriptReadByte(ctx);
+    u8 outfit = VarGet(ScriptReadByte(ctx));
 
     ChangePlayerOutfit(outfit);
     return FALSE;

@@ -1180,7 +1180,7 @@ static s32 ShowGameDisplay(void)
         DigitObjUtil_Init(3);
         break;
     case 2:
-        ResetPaletteFade();
+        ResetPaletteFadeControl();
         ResetSpriteData();
         FreeAllSpritePalettes();
         break;

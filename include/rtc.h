@@ -49,10 +49,5 @@ void RtcSetDayOfWeek(s8 dayOfWeek);
 void CalcTimeDifference(struct Time *result, struct Time *t1, struct Time *t2);
 u32 RtcGetMinuteCount(void);
 u32 RtcGetLocalDayCount(void);
-void CheckClockForImmediateTimeEvents(void);
-void ProcessImmediateTimeEvents(void);
-extern const u16 sTimeOfDayTints[][3];
-bool8 ShouldTintOverworld(void);
-void TintPaletteForDayNight(u16 offset, u16 size);
 
 #endif // GUARD_RTC_UTIL_H

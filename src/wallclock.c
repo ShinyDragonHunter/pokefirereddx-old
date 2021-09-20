@@ -657,7 +657,7 @@ static void LoadWallClockGraphics(void)
     ScanlineEffect_Stop();
     ResetTasks();
     ResetSpriteData();
-    ResetPaletteFade();
+    ResetPaletteFadeControl();
     FreeAllSpritePalettes();
     LoadCompressedSpriteSheet(&sSpriteSheet_ClockHand);
     LoadSpritePalettes(sSpritePalettes_Clock);

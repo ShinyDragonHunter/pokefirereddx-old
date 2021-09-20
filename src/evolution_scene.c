@@ -223,7 +223,7 @@ void EvolutionScene(struct Pokemon* mon, u16 postEvoSpecies, bool8 canStopEvo, u
     SetGpuReg(REG_OFFSET_WININ, 0);
     SetGpuReg(REG_OFFSET_WINOUT, 0);
 
-    ResetPaletteFade();
+    ResetPaletteFadeControl();
 
     gBattle_BG0_X = 0;
     gBattle_BG0_Y = 0;
@@ -337,7 +337,7 @@ static void CB2_EvolutionSceneLoadGraphics(void)
     SetGpuReg(REG_OFFSET_WININ, 0);
     SetGpuReg(REG_OFFSET_WINOUT, 0);
 
-    ResetPaletteFade();
+    ResetPaletteFadeControl();
 
     gBattle_BG0_X = 0;
     gBattle_BG0_Y = 0;
@@ -411,7 +411,7 @@ static void CB2_TradeEvolutionSceneLoadGraphics(void)
         gMain.state++;
         break;
     case 1:
-        ResetPaletteFade();
+        ResetPaletteFadeControl();
         SetHBlankCallback(EvoDummyFunc);
         SetVBlankCallback(VBlankCB_TradeEvolutionScene);
         gMain.state++;

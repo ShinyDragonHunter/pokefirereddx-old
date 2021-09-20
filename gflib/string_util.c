@@ -444,7 +444,12 @@ static const u8 *ExpandPlaceholder_StringVar3(void)
 static const u8 *ExpandPlaceholder_RivalName(void)
 {
     if (gSaveBlock2Ptr->rivalName[0] == EOS)
-        return gText_ExpandedPlaceholder_Empty;
+    {
+        if (gSaveBlock2Ptr->playerGender)
+            return gText_ExpandedPlaceholder_Brendan;
+        else
+            return gText_ExpandedPlaceholder_May;
+    }
     return gSaveBlock2Ptr->rivalName;
 }
 

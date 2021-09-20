@@ -41,9 +41,7 @@ enum
 
 static EWRAM_DATA u16 sSaveFailedType = {0};
 static EWRAM_DATA u16 sClockInfo[2] = {0};
-static EWRAM_DATA u8 sUnused1[12] = {0};
 static EWRAM_DATA u8 sWindowIds[2] = {0};
-static EWRAM_DATA u8 sUnused2[4] = {0};
 
 static const struct OamData sClockOamData =
 {
@@ -153,7 +151,7 @@ static void SaveFailedScreenTextPrint(const u8 *text, u8 x, u8 y)
     color[0] = TEXT_COLOR_TRANSPARENT;
     color[1] = TEXT_DYNAMIC_COLOR_6;
     color[2] = TEXT_COLOR_LIGHT_GRAY;
-    AddTextPrinterParameterized4(sWindowIds[TEXT_WIN_ID], 1, x * 8, y * 8 + 1, 0, 0, color, 0, text);
+    AddTextPrinterParameterized4(sWindowIds[TEXT_WIN_ID], 2, x * 8, y * 8 + 1, 0, 0, color, 0, text);
 }
 
 void DoSaveFailedScreen(u8 saveType)
@@ -213,7 +211,7 @@ static void CB2_SaveFailedScreen(void)
         DeactivateAllTextPrinters();
         ResetSpriteData();
         ResetTasks();
-        ResetPaletteFade();
+        ResetPaletteFadeControl();
         LoadPalette(gBirchBagGrassPal, 0, 0x40);
         LoadPalette(sSaveFailedClockPal, 0x100, 0x20);
         LoadPalette(gTextWindowFrame1_Pal, 0xE0, 0x20);
@@ -372,17 +370,15 @@ static bool8 VerifySectorWipe(u16 sector)
 
 static bool8 WipeSector(u16 sector)
 {
-    u16 i, j;
-    bool8 failed = TRUE;
+    u32 i, j;
+    bool32 failed = TRUE;
 
     for (i = 0; failed && i < 130; i++)
     {
         for (j = 0; j < SECTOR_SIZE; j++)
             ProgramFlashByte(sector, j, 0);
-
         failed = VerifySectorWipe(sector);
     }
-
     return failed;
 }
 
@@ -394,8 +390,7 @@ static bool8 WipeSectors(u32 sectorBits)
         if ((sectorBits & (1 << i)) && !WipeSector(i))
             sectorBits &= ~(1 << i);
 
-    if (sectorBits == 0)
-        return FALSE;
-    else
+    if (sectorBits)
         return TRUE;
+    return FALSE;
 }

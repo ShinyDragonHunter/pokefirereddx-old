@@ -175,7 +175,7 @@ static void CB2_InitWirelessCommunicationScreen(void)
     CopyToBgTilemapBuffer(1, sBgTiles_Tilemap, 0, 0);
     InitWindows(sWindowTemplates);
     DeactivateAllTextPrinters();
-    ResetPaletteFade();
+    ResetPaletteFadeControl();
     ResetSpriteData();
     ResetTasks();
     ScanlineEffect_Stop();

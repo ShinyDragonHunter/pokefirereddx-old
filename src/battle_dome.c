@@ -2940,7 +2940,7 @@ static void Task_ShowTourneyInfoCard(u8 taskId)
         SetGpuReg(REG_OFFSET_WIN1V, 0);
         SetGpuReg(REG_OFFSET_WININ, 0);
         SetGpuReg(REG_OFFSET_WINOUT, WINOUT_WIN01_BG_ALL | WINOUT_WIN01_OBJ | WINOUT_WIN01_CLR);
-        ResetPaletteFade();
+        ResetPaletteFadeControl();
         ResetSpriteData();
         FreeAllSpritePalettes();
         gReservedSpritePaletteCount = 4;
@@ -5178,7 +5178,7 @@ static void Task_ShowTourneyTree(u8 taskId)
         SetGpuReg(REG_OFFSET_WIN1V, WIN_RANGE(0, DISPLAY_HEIGHT - 1));
         SetGpuReg(REG_OFFSET_WININ, 0);
         SetGpuReg(REG_OFFSET_WINOUT, WINOUT_WIN01_BG_ALL | WINOUT_WIN01_OBJ | WINOUT_WIN01_CLR);
-        ResetPaletteFade();
+        ResetPaletteFadeControl();
         ResetSpriteData();
         FreeAllSpritePalettes();
         gTasks[taskId].tState++;

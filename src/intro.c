@@ -1079,7 +1079,7 @@ static u8 SetUpCopyrightScreen(void)
         CpuFill32(0, (void *)VRAM, VRAM_SIZE);
         CpuFill32(0, (void *)OAM, OAM_SIZE);
         CpuFill16(0, (void *)(PLTT + 2), PLTT_SIZE - 2);
-        ResetPaletteFade();
+        ResetPaletteFadeControl();
         LoadCopyrightGraphics(0, 0x3800, 0);
         ScanlineEffect_Stop();
         ResetTasks();

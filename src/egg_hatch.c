@@ -505,7 +505,7 @@ static void CB2_EggHatch_0(void)
         SetBgTilemapBuffer(0, Alloc(0x2000));
 
         DeactivateAllTextPrinters();
-        ResetPaletteFade();
+        ResetPaletteFadeControl();
         FreeAllSpritePalettes();
         ResetSpriteData();
         ResetTasks();

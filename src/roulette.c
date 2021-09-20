@@ -1187,7 +1187,7 @@ static void CB2_LoadRoulette(void)
         SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(10, 6));
         break;
     case 2:
-        ResetPaletteFade();
+        ResetPaletteFadeControl();
         ResetSpriteData();
         ResetTasks();
         ResetTempTileDataBuffers();
@@ -1983,7 +1983,7 @@ static void Task_ExitRoulette(u8 taskId)
         SetGpuReg(REG_OFFSET_BLDALPHA, 0);
         SetGpuReg(REG_OFFSET_BLDY, 0);
         FreeAllSpritePalettes();
-        ResetPaletteFade();
+        ResetPaletteFadeControl();
         ResetSpriteData();
         FreeRoulette();
         gFieldCallback = FieldCB_ContinueScriptHandleMusic;

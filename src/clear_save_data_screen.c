@@ -144,7 +144,7 @@ static bool8 SetupClearSaveDataScreen(void)
         DmaFill16(3, 0, (void *)VRAM, VRAM_SIZE);
         DmaFill32(3, 0, (void *)OAM, OAM_SIZE);
         DmaFill16(3, 0, (void *)(PLTT + 2), PLTT_SIZE - 2);
-        ResetPaletteFade();
+        ResetPaletteFadeControl();
         gPlttBufferUnfaded[0] = RGB_WHITE;
         gPlttBufferFaded[0] = RGB_WHITE;
         gPlttBufferUnfaded[1] = RGB(4, 22, 25);

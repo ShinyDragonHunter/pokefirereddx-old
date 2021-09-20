@@ -431,7 +431,7 @@ static void ProcessRecvCmds(u8 unused)
                         block = (struct LinkPlayerBlock *)&gBlockRecvBuffer[i];
                         linkPlayer = &gLinkPlayers[i];
                         *linkPlayer = block->linkPlayer;
-                        if ((linkPlayer->version & 0xFF) < VERSION_EMERALD)
+                        if (((linkPlayer->version & 0xFF) < VERSION_EMERALD))
                         {
                             linkPlayer->progressFlagsCopy = 0;
                             linkPlayer->progressFlags = 0;
@@ -1431,7 +1431,14 @@ bool8 HandleLinkConnection(void)
     bool32 r4;
     bool32 r5;
 
-    if (gWirelessCommType)
+    if (gWirelessCommType == 0)
+    {
+        gLinkStatus = LinkMain1(&gShouldAdvanceLinkState, gSendCmd, gRecvCmds);
+        LinkMain2(&gMain.heldKeys);
+        if ((gLinkStatus & LINK_STAT_RECEIVED_NOTHING) && IsSendingKeysOverCable())
+            return TRUE;
+    }
+    else
     {
         r4 = sub_8010EC0();
         r5 = sub_8010F1C();
@@ -1440,13 +1447,6 @@ bool8 HandleLinkConnection(void)
             if (r4 || IsRfuRecvQueueEmpty() || r5)
                 return TRUE;
         }
-    }
-    else
-    {
-        gLinkStatus = LinkMain1(&gShouldAdvanceLinkState, gSendCmd, gRecvCmds);
-        LinkMain2(&gMain.heldKeys);
-        if ((gLinkStatus & LINK_STAT_RECEIVED_NOTHING) && IsSendingKeysOverCable())
-            return TRUE;
     }
     return FALSE;
 }
@@ -1481,9 +1481,15 @@ bool32 IsLinkRecvQueueLengthAtLeast3(void)
 
 void ConvertLinkPlayerName(struct LinkPlayer *player)
 {
-    if ((((player->version & 0xC000) | ((player->version & 0x3F00) >> 8)) & 0xFF) == VERSION_CRYSTAL_DUST)
+    if ((player->version & 0x3F00) > 0)
+    {
+        player->version = (player->version & 0xC000) | ((player->version & 0x3F00) >> 8);
+        if ((player->version & 0xFF) == VERSION_CRYSTAL_DUST)
+        {
         // force version modifier value for CrystalDust
         player->versionModifier = MODIFIER_CRYSTALDUST;
+        }
+    }
     player->progressFlagsCopy = player->progressFlags; // ? Perhaps relocating for a longer name field
     ConvertInternationalString(player->name, player->language);
 }

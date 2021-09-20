@@ -15,36 +15,6 @@ enum
     HARDWARE_FADE,
 };
 
-// These are structs for some unused palette system.
-// The full functionality of this system is unknown.
-
-struct PaletteStructTemplate
-{
-    u16 uid;
-    u16 *src;
-    u16 pst_field_8_0:1;
-    u16 pst_field_8_1:9;
-    u16 size:5;
-    u16 pst_field_9_7:1;
-    u8 pst_field_A;
-    u8 srcCount:5;
-    u8 pst_field_B_5:3;
-    u8 pst_field_C;
-};
-
-struct PaletteStruct
-{
-    const struct PaletteStructTemplate *base;
-    u32 ps_field_4_0:1;
-    u16 ps_field_4_1:1;
-    u32 baseDestOffset:9;
-    u16 destOffset:10;
-    u16 srcIndex:7;
-    u8 ps_field_8;
-    u8 ps_field_9;
-};
-
-static u8 GetPaletteNumByUid(u16);
 static u8 UpdateNormalPaletteFade(void);
 static void BeginFastPaletteFadeInternal(u8);
 static u8 UpdateFastPaletteFade(void);
@@ -57,16 +27,10 @@ static void Task_BlendPalettesGradually(u8 taskId);
 // unaligned word reads are issued in BlendPalette otherwise
 ALIGNED(4) EWRAM_DATA u16 gPlttBufferUnfaded[PLTT_BUFFER_SIZE] = {0};
 ALIGNED(4) EWRAM_DATA u16 gPlttBufferFaded[PLTT_BUFFER_SIZE] = {0};
-EWRAM_DATA struct PaletteStruct sPaletteStructs[0x10] = {0};
 EWRAM_DATA struct PaletteFadeControl gPaletteFade = {0};
 static EWRAM_DATA u32 sFiller = 0;
 static EWRAM_DATA u32 sPlttBufferTransferPending = 0;
 EWRAM_DATA u8 gPaletteDecompressionBuffer[PLTT_DECOMP_BUFFER_SIZE] = {0};
-
-static const struct PaletteStructTemplate gDummyPaletteStructTemplate = {
-    .uid = 0xFFFF,
-    .pst_field_B_5 = 1
-};
 
 static const u8 sRoundedDownGrayscaleMap[] = {
     0,  0,  0,  0,  0,
@@ -148,16 +112,6 @@ u8 UpdatePaletteFade(void)
     return result;
 }
 
-void ResetPaletteFade(void)
-{
-    u32 i;
-
-    for (i = 0; i < 16; i++)
-        ResetPaletteStruct(i);
-
-    ResetPaletteFadeControl();
-}
-
 void ReadPlttIntoBuffers(void)
 {
     u32 i;
@@ -216,25 +170,6 @@ bool8 BeginNormalPaletteFade(u32 selectedPalettes, s8 delay, u8 startY, u8 targe
     }
 }
 
-void ResetPaletteStructByUid(u16 a1)
-{
-    u8 paletteNum = GetPaletteNumByUid(a1);
-    if (paletteNum != 16)
-        ResetPaletteStruct(paletteNum);
-}
-
-void ResetPaletteStruct(u8 paletteNum)
-{
-    sPaletteStructs[paletteNum].base = &gDummyPaletteStructTemplate;
-    sPaletteStructs[paletteNum].ps_field_4_0 = 0;
-    sPaletteStructs[paletteNum].baseDestOffset = 0;
-    sPaletteStructs[paletteNum].destOffset = 0;
-    sPaletteStructs[paletteNum].srcIndex = 0;
-    sPaletteStructs[paletteNum].ps_field_4_1 = 0;
-    sPaletteStructs[paletteNum].ps_field_8 = 0;
-    sPaletteStructs[paletteNum].ps_field_9 = 0;
-}
-
 void ResetPaletteFadeControl(void)
 {
     gPaletteFade.multipurpose1 = 0;
@@ -252,17 +187,6 @@ void ResetPaletteFadeControl(void)
     gPaletteFade.softwareFadeFinishingCounter = 0;
     gPaletteFade.objPaletteToggle = 0;
     gPaletteFade.deltaY = 2;
-}
-
-static u8 GetPaletteNumByUid(u16 uid)
-{
-    u32 i;
-
-    for (i = 0; i < 16; i++)
-        if (sPaletteStructs[i].base->uid == uid)
-            return i;
-
-    return 16;
 }
 
 static u8 UpdateNormalPaletteFade(void)
@@ -429,14 +353,8 @@ static void BeginFastPaletteFadeInternal(u8 submode)
 static u8 UpdateFastPaletteFade(void)
 {
     u32 i;
-    u16 paletteOffsetStart;
-    u16 paletteOffsetEnd;
-    s8 r0;
-    s8 g0;
-    s8 b0;
-    s8 r;
-    s8 g;
-    s8 b;
+    u16 paletteOffsetStart, paletteOffsetEnd;
+    s8 r0, g0, b0, r, g, b;
 
     if (!gPaletteFade.active)
         return PALETTE_FADE_STATUS_DONE;
@@ -565,7 +483,7 @@ static u8 UpdateFastPaletteFade(void)
             CpuCopy32(gPlttBufferUnfaded, gPlttBufferFaded, PLTT_SIZE);
             break;
         case FAST_FADE_OUT_TO_WHITE:
-            CpuFill32(0xFFFFFFFF, gPlttBufferFaded, PLTT_SIZE);
+            CpuFill32(PALETTES_ALL, gPlttBufferFaded, PLTT_SIZE);
             break;
         case FAST_FADE_OUT_TO_BLACK:
             CpuFill32(0x00000000, gPlttBufferFaded, PLTT_SIZE);

@@ -273,7 +273,7 @@ enum
     FONTATTR_MAX_LETTER_HEIGHT,
     FONTATTR_LETTER_SPACING,
     FONTATTR_LINE_SPACING,
-    FONTATTR_UNKNOWN,   // dunno what this is yet
+    FONTATTR_UNKNOWN, // dunno what this is yet
     FONTATTR_COLOR_FOREGROUND,
     FONTATTR_COLOR_BACKGROUND,
     FONTATTR_COLOR_SHADOW
@@ -285,7 +285,7 @@ struct TextPrinterSubStruct
     bool8 hasPrintBeenSpedUp:1;
     u8 unk:3;
     u8 downArrowDelay:5;
-    u8 downArrowYPosIdx:2;
+    u8 downArrowXPosIdx:2;
     bool8 hasGlyphIdBeenSet:1;
     u8 autoScrollDelay;
 };
@@ -297,11 +297,11 @@ struct TextPrinterTemplate
     u8 fontId;
     u8 x;
     u8 y;
-    u8 currentX;        // 0x8
+    u8 currentX; // 0x8
     u8 currentY;
     u8 letterSpacing;
     u8 lineSpacing;
-    u8 unk:4;   // 0xC
+    u8 unk:4; // 0xC
     u8 fgColor:4;
     u8 bgColor:4;
     u8 shadowColor:4;
@@ -315,11 +315,11 @@ struct TextPrinter
 
     u8 subStructFields[7]; // always cast to struct TextPrinterSubStruct... so why bother
     u8 active;
-    u8 state;       // 0x1C
+    u8 state; // 0x1C
     u8 textSpeed;
     u8 delayCounter;
     u8 scrollDistance;
-    u8 minLetterSpacing;  // 0x20
+    u8 minLetterSpacing; // 0x20
     u8 japanese;
 };
 
@@ -379,10 +379,7 @@ void RunTextPrinters(void);
 bool16 IsTextPrinterActive(u8 id);
 u32 RenderFont(struct TextPrinter *textPrinter);
 void GenerateFontHalfRowLookupTable(u8 fgColor, u8 bgColor, u8 shadowColor);
-void SaveTextColors(u8 *fgColor, u8 *bgColor, u8 *shadowColor);
-void RestoreTextColors(u8 *fgColor, u8 *bgColor, u8 *shadowColor);
 void DecompressGlyphTile(const void *src_, void *dest_);
-u8 GetLastTextColor(u8 colorType);
 void CopyGlyphToWindow(struct TextPrinter *x);
 void ClearTextSpan(struct TextPrinter *textPrinter, u32 width);
 
@@ -407,9 +404,7 @@ u32 (*GetFontWidthFunc(u8 glyphId))(u16, bool32);
 s32 GetStringWidth(u8 fontId, const u8 *str, s16 letterSpacing);
 u8 RenderTextFont4(u8 *pixels, u8 *str);
 u8 DrawKeypadIcon(u8 windowId, u8 keypadIconId, u16 x, u16 y);
-u8 GetKeypadIconTileOffset(u8 keypadIconId);
 u8 GetKeypadIconWidth(u8 keypadIconId);
-u8 GetKeypadIconHeight(u8 keypadIconId);
 void DecompressGlyphFont0(u16 glyphId, bool32 isJapanese);
 u32 GetGlyphWidthFont0(u16 glyphId, bool32 isJapanese);
 void DecompressGlyphFont1(u16 glyphId, bool32 isJapanese);

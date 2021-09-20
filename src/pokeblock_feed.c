@@ -628,7 +628,7 @@ static bool8 LoadPokeblockFeedScene(void)
         gMain.state++;
         break;
     case 1:
-        ResetPaletteFade();
+        ResetPaletteFadeControl();
         gPaletteFade.bufferTransferDisabled = TRUE;
         gMain.state++;
         break;

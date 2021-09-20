@@ -4,8 +4,8 @@ static const u8 sDummyDesc[] = _(
 // Pokéballs
 static const u8 sMasterBallDesc[] = _(
     "The best POKé BALL with the ultimate\n"
-    "level of performance. With it, you will\n"
-    "catch any wild POKéMON without fail.");
+    "performance. You will catch any wild\n"
+    "POKéMON without fail.");
 
 static const u8 sUltraBallDesc[] = _(
     "An ultra-high performance POKé BALL\n"
@@ -15,7 +15,7 @@ static const u8 sUltraBallDesc[] = _(
 static const u8 sGreatBallDesc[] = _(
     "A good, high-performance POKé BALL\n"
     "that provides a higher POKéMON catch\n"
-    "than a standard POKé BALL can.");
+    "rate than a standard POKé BALL.");
 
 static const u8 sPokeBallDesc[] = _(
     "A device for catching wild POKéMON.\n"
@@ -34,33 +34,33 @@ static const u8 sNetBallDesc[] = _(
 
 static const u8 sDiveBallDesc[] = _(
     "A somewhat different POKé BALL that\n"
-    "especially well when catching\n"
+    "works especially well when catching\n"
     "POKéMON that live underwater.");
 
 static const u8 sNestBallDesc[] = _(
-    "A BALL that works\n"
-    "better on weaker\n"
-    "POKéMON.");
+    "A somewhat different POKé BALL that\n"
+    "works especially well on weaker\n"
+    "POKéMON in the wild.");
 
 static const u8 sRepeatBallDesc[] = _(
-    "A BALL that works\n"
-    "better on POKéMON\n"
-    "caught before.");
+    "A somewhat different POKé BALL that\n"
+    "works especially well on POKéMON\n"
+    "that were previously caught.");
 
 static const u8 sTimerBallDesc[] = _(
-    "A BALL that gains\n"
-    "power in battles\n"
-    "taking many turns.");
+    "A somewhat different POKé BALL that\n"
+    "becomes progressively better the\n"
+    "more turns there are in a battle.");
 
 static const u8 sLuxuryBallDesc[] = _(
-    "A cozy BALL that\n"
-    "makes POKéMON\n"
-    "more friendly.");
+    "A particularly comfortable POKé BALL\n"
+    "that makes a captured wild POKéMON\n"
+    "quickly grow friendlier.");
 
 static const u8 sPremierBallDesc[] = _(
-    "A rare BALL made\n"
-    "in commemoration\n"
-    "of some event.");
+    "A somewhat rare POKé BALL that has\n"
+    "been specially made to commemorate\n"
+    "an event of some sort.");
 
 // Medicine
 static const u8 sPotionDesc[] = _(
@@ -69,108 +69,121 @@ static const u8 sPotionDesc[] = _(
     "20 HP to an injured POKéMON.");
 
 static const u8 sAntidoteDesc[] = _(
-    "Heals a poisoned\n"
-    "POKéMON.");
+    "A spray-type medicine for poisoning.\n"
+    "It can be used to lift the effects\n"
+    "of poison from a POKéMON.");
 
 static const u8 sBurnHealDesc[] = _(
-    "Heals POKéMON\n"
-    "of a burn.");
+    "A spray-type medicine for treating\n"
+    "burns. It can be used to heal a\n"
+    "POKéMON suffering from a burn.");
 
 static const u8 sIceHealDesc[] = _(
-    "Defrosts a frozen\n"
-    "POKéMON.");
+    "A spray-type medicine for freezing.\n"
+    "It can be used to thaw out a\n"
+    "POKéMON that has been frozen solid.");
 
 static const u8 sAwakeningDesc[] = _(
-    "Awakens a sleeping\n"
-    "POKéMON.");
+    "A spray-type medicine to wake the\n"
+    "sleeping. It awakens a POKéMON from\n"
+    "the clutches of sleep.");
 
+#if UK
 static const u8 sParalyzeHealDesc[] = _(
-    "Heals a paralyzed\n"
-    "POKéMON.");
+    "A spray-type medicine for paralysis.\n"
+    "It can be used to free a POKéMON\n"
+    "that has been paralysed.");
+#else
+static const u8 sParalyzeHealDesc[] = _(
+    "A spray-type medicine for paralysis.\n"
+    "It can be used to free a POKéMON\n"
+    "that has been paralyzed.");
+#endif
 
 static const u8 sFullRestoreDesc[] = _(
-    "Fully restores the\n"
-    "HP and status of a\n"
-    "POKéMON.");
+    "A medicine that can be used to\n"
+    "fully restore the HP and heal any\n"
+    "status conditions a POKéMON has.");
 
 static const u8 sMaxPotionDesc[] = _(
-    "Fully restores the\n"
-    "HP of a POKéMON.");
+    "A spray-type medicine for treating\n"
+    "wounds. It can be used to restore\n"
+    "200 HP to an injured POKéMON.");
 
 static const u8 sHyperPotionDesc[] = _(
-    "Restores the HP of\n"
-    "a POKéMON by\n"
-    "200 points.");
+    "A spray-type medicine for treating\n"
+    "wounds. It will completely restore\n"
+    "the HP of a single POKéMON.");
 
 static const u8 sSuperPotionDesc[] = _(
-    "Restores the HP of\n"
-    "a POKéMON by\n"
-    "50 points.");
+    "A spray-type medicine for treating\n"
+    "wounds. It can be used to restore\n"
+    "50 HP to an injured POKéMON.");
 
 static const u8 sFullHealDesc[] = _(
-    "Heals all the\n"
-    "status problems of\n"
-    "one POKéMON.");
+    "A spray-type medicine that's broadly\n"
+    "effective. It can be used to heal\n"
+    "the status conditions of a POKéMON.");
 
 static const u8 sReviveDesc[] = _(
-    "Revives a fainted\n"
-    "POKéMON with half\n"
-    "its HP.");
+    "A medicine that can be used to revive\n"
+    "fainted POKéMON. It also restores half\n"
+    "of the POKéMON's maximum HP.");
 
 static const u8 sMaxReviveDesc[] = _(
-    "Revives a fainted\n"
-    "POKéMON with all\n"
-    "its HP.");
+    "A medicine that can be used to revive\n"
+    "fainted POKéMON. It fully restores\n"
+    "the POKéMON's maximum HP.");
 
 static const u8 sFreshWaterDesc[] = _(
-    "A mineral water\n"
-    "that restores HP\n"
-    "by 50 points.");
+    "Water with high mineral content.\n"
+    "It can be used to restore 50 HP\n"
+    "to a single POKéMON.");
 
 static const u8 sSodaPopDesc[] = _(
-    "A fizzy soda drink\n"
-    "that restores HP\n"
-    "by 60 points.");
+    "A highly carbonated soda drink\n"
+    "It can be used to restore 60 HP\n"
+    "to a single POKéMON.");
 
 static const u8 sLemonadeDesc[] = _(
-    "A very sweet drink\n"
-    "that restores HP\n"
-    "by 80 points.");
+    "A very sweet and refreshing drink.\n"
+    "It can be used to restore 80 HP\n"
+    "to a single POKéMON.");
 
 static const u8 sMoomooMilkDesc[] = _(
-    "A nutritious milk\n"
-    "that restores HP\n"
-    "by 100 points.");
+    "A bottle of highly nutritious milk.\n"
+    "It can be used to restore 100 HP\n"
+    "to a single POKéMON.");
 
 static const u8 sEnergyPowderDesc[] = _(
-    "A bitter powder\n"
-    "that restores HP\n"
-    "by 50 points.");
+    "A very bitter medicinal powder.\n"
+    "It can be used to restore 50 HP\n"
+    "to a single POKéMON.");
 
 static const u8 sEnergyRootDesc[] = _(
-    "A bitter root\n"
-    "that restores HP\n"
-    "by 200 points.");
+    "An extremely bitter medicinal root.\n"
+    "It can be used to restore 200 HP\n"
+    "to a single POKéMON.");
 
 static const u8 sHealPowderDesc[] = _(
-    "A bitter powder\n"
-    "that heals all\n"
-    "status problems.");
+    "A very bitter medicinal powder.\n"
+    "It can be used to heal all the\n"
+    "status conditions of a POKéMON.");
 
 static const u8 sRevivalHerbDesc[] = _(
-    "A very bitter herb\n"
-    "that revives a\n"
-    "fainted POKéMON.");
+    "A terribly bitter medicinal herb.\n"
+    "It revives a fainted POKéMON\n"
+    "and fully restores its max HP");
 
 static const u8 sEtherDesc[] = _(
-    "Restores the PP\n"
-    "of a selected move\n"
-    "by 10.");
+    "This medicine can be used to restore\n"
+    "10 PP to a single selected move that\n"
+    "that has been learned by a POKéMON.");
 
 static const u8 sMaxEtherDesc[] = _(
-    "Fully restores the\n"
-    "PP of a selected\n"
-    "move.");
+    "This medicine can be used to restore\n"
+    "the full PP of a single selected move\n"
+    "that has been learned by a POKéMON.");
 
 static const u8 sElixirDesc[] = _(
     "Restores the PP\n"
@@ -202,54 +215,96 @@ static const u8 sRedFluteDesc[] = _(
     "out of attraction.");
 
 static const u8 sBlackFluteDesc[] = _(
-    "A glass flute that\n"
-    "keeps away wild\n"
-    "POKéMON.");
+    "A black flute made from blown glass.\n"
+    "Its melody makes wild POKéMON\n"
+	"less likely to appear.");
 
 static const u8 sWhiteFluteDesc[] = _(
-    "A glass flute that\n"
-    "lures wild POKéMON.");
+    "A white flute made from blown glass.\n"
+    "Its melody makes wild POKéMON\n"
+	"more likely to appear.");
 
 static const u8 sBerryJuiceDesc[] = _(
-    "A 100% pure juice\n"
-    "that restores HP\n"
-    "by 20 points.");
+    "A 100% pure juice made of BERRIES.\n"
+    "It can be used to restore 20 HP to\n"
+    "to a single POKéMON.");
 
 static const u8 sSacredAshDesc[] = _(
-    "Fully revives and\n"
-    "restores all\n"
-    "fainted POKéMON.");
+    "This rare ash can revive all fainted\n"
+    "POKéMON in a party. In doing so,\n"
+    "it also fully restores their max HP");
 
 // Collectibles
 static const u8 sShoalSaltDesc[] = _(
-    "Salt obtained from\n"
-    "deep inside the\n"
-    "SHOAL CAVE.");
+    "Pure salt that can be discovered\n"
+    "deep inside the SHOAL CAVE.\n"
+    "It is extremely salty.");
 
 static const u8 sShoalShellDesc[] = _(
-    "A seashell found\n"
-    "deep inside the\n"
-    "SHOAL CAVE.");
+    "A pretty seashell that can be found\n"
+    "deep inside the SHOAL CAVE.\n"
+    "It is striped in blue and white.");
 
 static const u8 sRedShardDesc[] = _(
-    "A shard from an\n"
-    "ancient item. Can\n"
-    "be sold cheaply.");
+    "A small red shard.\n"
+    "It appears to be a fragment of\n"
+    "some sort of tool made long ago.");
 
 static const u8 sBlueShardDesc[] = _(
-    "A shard from an\n"
-    "ancient item. Can\n"
-    "be sold cheaply.");
+    "A small blue shard.\n"
+    "It appears to be a fragment of\n"
+    "some sort of tool made long ago.");
 
 static const u8 sYellowShardDesc[] = _(
-    "A shard from an\n"
-    "ancient item. Can\n"
-    "be sold cheaply.");
+    "A small yellow shard.\n"
+    "It appears to be a fragment of\n"
+    "some sort of tool made long ago.");
 
 static const u8 sGreenShardDesc[] = _(
-    "A shard from an\n"
-    "ancient item. Can\n"
-    "be sold cheaply.");
+    "A small green shard.\n"
+    "It appears to be a fragment of\n"
+    "some sort of tool made long ago.");
+
+// Apricorn Pokéballs
+static const u8 sLevelBallDesc[] = _(
+    "A POKé BALL that makes it easier to\n"
+    "catch POKéMON that are at a lower\n"
+    "level than your own.");
+
+static const u8 sLureBallDesc[] = _(
+    "A POKé BALL that is good for catching\n"
+    "POKéMON hooked by a fishing ROD\n"
+    "when fishing.");
+
+static const u8 sMoonBallDesc[] = _(
+    "A POKé BALL that makes it easier to\n"
+    "catch POKéMON that can evolve with\n"
+    "the use of a MOON STONE.");
+
+static const u8 sFriendBallDesc[] = _(
+    "A strange POKé BALL that makes the\n"
+    "wild POKéMON caught with it more\n"
+    "friendly.");
+
+static const u8 sFastBallDesc[] = _(
+    "A POKé BALL that makes it easier to\n"
+    "catch POKéMON that are usually very\n"
+    "quick to run away.");
+
+static const u8 sHeavyBallDesc[] = _(
+    "A POKé BALL that is better than\n"
+    "usual at catching very heavy\n"
+    "POKéMON.");
+
+static const u8 sLoveBallDesc[] = _(
+    "A POKé BALL that works best when\n"
+    "catching POKéMON that are the\n"
+    "opposite gender of your POKéMON.");
+
+static const u8 sParkBallDesc[] = _(
+    "A special POKé BALL that is used\n"
+    "during the BUG-CATCHING CONTEST\n"
+    "in the JOHTO region.");
 
 // Vitamins
 static const u8 sHPUpDesc[] = _(
@@ -365,34 +420,34 @@ static const u8 sRepelDesc[] = _(
 
 // Evolution stones
 static const u8 sSunStoneDesc[] = _(
-    "Makes certain\n"
-    "species of POKéMON\n"
-    "evolve.");
+    "A peculiar stone that makes certain\n"
+    "species of POKéMON evolve.\n"
+    "It burns as red as the evening sun.");
 
 static const u8 sMoonStoneDesc[] = _(
-    "Makes certain\n"
-    "species of POKéMON\n"
-    "evolve.");
+    "A peculiar stone that makes certain\n"
+    "species of POKéMON evolve.\n"
+    "It is as black as the night sky.");
 
 static const u8 sFireStoneDesc[] = _(
-    "Makes certain\n"
-    "species of POKéMON\n"
-    "evolve.");
+    "A peculiar stone that makes certain\n"
+    "species of POKéMON evolve.\n"
+    "The stone has a fiery orange heart.");
 
 static const u8 sThunderStoneDesc[] = _(
-    "Makes certain\n"
-    "species of POKéMON\n"
-    "evolve.");
+    "A peculiar stone that makes certain\n"
+    "species of POKéMON evolve.\n"
+    "It has a thunderbolt pattern.");
 
 static const u8 sWaterStoneDesc[] = _(
-    "Makes certain\n"
-    "species of POKéMON\n"
-    "evolve.");
+    "A peculiar stone that makes certain\n"
+    "species of POKéMON evolve.\n"
+    "It is the blue of a pool of water.");
 
 static const u8 sLeafStoneDesc[] = _(
-    "Makes certain\n"
-    "species of POKéMON\n"
-    "evolve.");
+    "A peculiar stone that makes certain\n"
+    "species of POKéMON evolve.\n"
+    "It has an unmistakable leaf pattern.");
 
 // Valuable items
 static const u8 sTinyMushroomDesc[] = _(
@@ -500,7 +555,7 @@ static const u8 sRetroMailDesc[] = _(
 static const u8 sCheriBerryDesc[] = _(
     "A BERRY to be consumed by a POKéMON.\n"
     "If a POKéMON holds one, it can recover\n"
-    "from paralysis on its own in battle.");
+    "from paralysis in battle.");
 
 static const u8 sChestoBerryDesc[] = _(
     "A hold item that\n"
@@ -626,14 +681,14 @@ static const u8 sApicotBerryDesc[] = _(
     "stat will increase when in a pinch.");
 
 static const u8 sLansatBerryDesc[] = _(
-    "A hold item that\n"
-    "ups the critical-\n"
-    "hit rate in a pinch.");
+    "A BERRY to be consumed by a POKéMON.\n"
+    "If a POKéMON holds one, its critical-\n"
+    "hit ratio is boosted when in a pinch.");
 
 static const u8 sStarfBerryDesc[] = _(
-    "A hold item that\n"
-    "sharply boosts a\n"
-    "stat in a pinch.");
+    "A BERRY to be consumed by a POKéMON.\n"
+    "If a POKéMON holds one, a random stat\n"
+    "will sharply increase when in a pinch.");
 
 // Hold items
 static const u8 sBrightPowderDesc[] = _(
@@ -861,68 +916,69 @@ static const u8 sMetalPowderDesc[] = _(
     "DEFENSE.");
 
 static const u8 sThickClubDesc[] = _(
-    "A hold item that \n"
-    "raises CUBONE or\n"
-    "MAROWAK's ATTACK.");
+    "An item to be held by CUBONE or\n"
+    "MAROWAK. It's a hard bone of some\n"
+    "sort that raises the ATTACK stat.");
 
 static const u8 sStickDesc[] = _(
-    "A hold item that\n"
-    "raises FARFETCH'D's\n"
-    "critical-hit ratio.");
+    "An item to be held by FARFETCH'D.\n"
+    "This very long and stiff stalk of\n"
+    "leek boosts its critical-hit ratio.");
 
 static const u8 sRedScarfDesc[] = _(
-    "A hold item that\n"
-    "raises COOL in\n"
-    "CONTESTS.");
+    "An item to be held by a POKéMON.\n"
+    "It raises the COOL aspect of the\n"
+    "POKéMON holding it in a CONTEST.");
 
 static const u8 sBlueScarfDesc[] = _(
-    "A hold item that\n"
-    "raises BEAUTY in\n"
-    "CONTESTS.");
+    "An item to be held by a POKéMON.\n"
+    "It raises the BEAUTY aspect of the\n"
+    "POKéMON holding it in a CONTEST.");
 
 static const u8 sPinkScarfDesc[] = _(
-    "A hold item that\n"
-    "raises CUTE in\n"
-    "CONTESTS.");
+    "An item to be held by a POKéMON.\n"
+    "It raises the CUTE aspect of the\n"
+    "POKéMON holding it in a CONTEST.");
 
 static const u8 sGreenScarfDesc[] = _(
-    "A hold item that\n"
-    "raises SMART in\n"
-    "CONTESTS.");
+    "An item to be held by a POKéMON.\n"
+    "It raises the SMART aspect of the\n"
+    "POKéMON holding it in a CONTEST.");
 
 static const u8 sYellowScarfDesc[] = _(
-    "A hold item that\n"
-    "raises TOUGH in\n"
-    "CONTESTS.");
+    "An item to be held by a POKéMON.\n"
+    "It raises the TOUGH aspect of the\n"
+    "POKéMON holding it in a CONTEST.");
 
 // Key items
 static const u8 sCoinCaseDesc[] = _(
-    "A case that holds\n"
-    "up to 9,999 COINS.");
+    "A case for holding COINS obtained\n"
+    "at the GAME CORNER.\n"
+	"It can hold up to 9,999 COINS.");
 
 static const u8 sItemfinderDesc[] = _(
-    "A device that\n"
-    "signals an invisible\n"
-    "item by sound.");
+    "A device used for finding items.\n"
+    "If there is a hidden item nearby\n"
+    "when it is used, it emits a signal.");
 
 static const u8 sOldRodDesc[] = _(
-    "Use by any body of\n"
-    "water to fish for\n"
-    "wild POKéMON.");
+    "An old and beat-up fishing rod.\n"
+    "Use it by any body of water to\n"
+    "fish for wild aquatic POKéMON.");
 
 static const u8 sGoodRodDesc[] = _(
-    "A decent fishing\n"
-    "rod for catching\n"
-    "wild POKéMON.");
+    "A new, good-quality fishing rod.\n"
+    "Use it by any body of water to\n"
+    "fish for wild aquatic POKéMON.");
 
 static const u8 sSuperRodDesc[] = _(
-    "The best fishing\n"
-    "rod for catching\n"
-    "wild POKéMON.");
+    "An awesome, high-tech fishing rod.\n"
+    "Use it by any body of water to fish\n"
+    "for wild aquatic POKéMON.");
 
 static const u8 sSSTicketDesc[] = _(
-    "The ticket required for sailing on\n"
-    "the ferry S.S. ANNE.\n"
+    "The ticket required to board the\n"
+    "ferry S.S. ANNE.\n"
     "It has a drawing of a ship on it.");
 
 static const u8 sEonTicketDesc[] = _(
@@ -1249,9 +1305,9 @@ static const u8 sBikeVoucherDesc[] = _(
     "for a bicycle.");
 
 static const u8 sGoldTeethDesc[] = _(
-    "A set of golden false teeth lost by\n"
-    "the SAFARI ZONE's WARDEN.\n"
-    "They make his teeth sparkle.");
+    "A set of golden false teeth lost\n"
+    "by the SAFARI ZONE's WARDEN.\n"
+    "They make his smile sparkle.");
 
 static const u8 sOldAmberDesc[] = _(
     "A piece of amber that contains\n"
@@ -1286,8 +1342,8 @@ static const u8 sDomeFossilDesc[] = _(
     "be a shell or carapace.");
 
 static const u8 sSilphScopeDesc[] = _(
-    "A scope that makes unseeable\n"
-    "POKéMON visible.\n"
+    "A scope that lets you see what\n"
+    "cannot usually be seen.\n"
     "It is made by SILPH CO.");
 
 static const u8 sBicycleDesc[] = _(
@@ -1316,6 +1372,22 @@ static const u8 sFameCheckerDesc[] = _(
     "A device that enables you to\n"
     "recall what you've heard and seen\n"
     "about famous people.");
+
+#if UK
+static const u8 sShinyCharmDesc[] = _(
+    "A shiny charm said to increase the\n"
+    "chance of finding an ALT. COLOURED\n"
+    "POKéMON in the wild.");
+#else
+    "A shiny charm said to increase the\n"
+    "chance of finding an ALT. COLORED\n"
+    "POKéMON in the wild.");
+#endif
+
+static const u8 sOvalCharmDesc[] = _(
+    "An oval charm said to increase the\n"
+    "chance of POKéMON EGGs being found\n"
+    "at the POKéMON DAY CARE.");
 
 #if UK
 static const u8 sTeachyTVDesc[] = _(
@@ -1383,57 +1455,5 @@ static const u8 sSapphireDesc[] = _(
 // Emerald-specific key items
 static const u8 sOldSeaMapDesc[] = _(
     "An old, faded sea chart that shows\n"
-    "the way to a certain island located\n"
-    "somewhere far away.");
-
-// New key items
-static const u8 sShinyCharmDesc[] = _(
-    "A shiny charm said to increase the\n"
-    "chance of finding a SHINY POKéMON\n"
-    "in the wild.");
-
-static const u8 sOvalCharmDesc[] = _(
-    "An oval charm said to increase the\n"
-    "chance of POKéMON EGGs being found\n"
-    "at the POKéMON DAY CARE.");
-
-// Apricorn Pokéballs
-static const u8 sLevelBallDesc[] = _(
-    "A POKé BALL that makes it easier to\n"
-    "catch POKéMON that are at a lower\n"
-    "level than your own POKéMON.");
-
-static const u8 sLureBallDesc[] = _(
-    "A POKé BALL that is good for catching\n"
-    "POKéMON that you reel in with a\n"
-    "fishing ROD while out fishing.");
-
-static const u8 sMoonBallDesc[] = _(
-    "A POKé BALL that makes it easier to\n"
-    "catch POKéMON that can evolve with\n"
-    "the use of a MOON STONE.");
-
-static const u8 sFriendBallDesc[] = _(
-    "A strange POKé BALL that makes the\n"
-    "wild POKéMON caught with it more\n"
-    "friendly toward you immediately.");
-
-static const u8 sFastBallDesc[] = _(
-    "A POKé BALL that makes it easier to\n"
-    "catch POKéMON that are quick to run\n"
-    "away.");
-
-static const u8 sHeavyBallDesc[] = _(
-    "A POKé BALL that is better than\n"
-    "usual at catching very heavy\n"
-    "POKéMON.");
-
-static const u8 sLoveBallDesc[] = _(
-    "A POKé BALL that works best when\n"
-    "catching a POKéMON that is the\n"
-    "opposite gender of your POKéMON.");
-
-static const u8 sParkBallDesc[] = _(
-    "A special POKé BALL that is used\n"
-    "during the BUG-CATCHING CONTEST\n"
-    "in the JOHTO region.");
+    "the way to a certain island.\n"
+    "It is yellow with age.");

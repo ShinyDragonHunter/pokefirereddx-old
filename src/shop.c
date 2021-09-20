@@ -312,7 +312,7 @@ static void CB2_InitBuyMenu(void)
         ScanlineEffect_Stop();
         ResetTempTileDataBuffers();
         FreeAllSpritePalettes();
-        ResetPaletteFade();
+        ResetPaletteFadeControl();
         ResetSpriteData();
         ResetTasks();
         ClearScheduledBgCopiesToVram();

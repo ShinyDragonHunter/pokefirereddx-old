@@ -222,7 +222,7 @@ static bool8 InitBerryTagScreen(void)
         gMain.state++;
         break;
     case 2:
-        ResetPaletteFade();
+        ResetPaletteFadeControl();
         gPaletteFade.bufferTransferDisabled = 1;
         gMain.state++;
         break;

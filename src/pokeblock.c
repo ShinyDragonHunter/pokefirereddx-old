@@ -534,7 +534,7 @@ static bool8 InitPokeblockMenu(void)
         gMain.state++;
         break;
     case 3:
-        ResetPaletteFade();
+        ResetPaletteFadeControl();
         gPaletteFade.bufferTransferDisabled = TRUE;
         gMain.state++;
         break;

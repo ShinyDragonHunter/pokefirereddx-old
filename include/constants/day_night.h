@@ -1,6 +1,12 @@
 #ifndef GUARD_CONSTANTS_DAY_NIGHT_H
 #define GUARD_CONSTANTS_DAY_NIGHT_H
 
+#define PALOVER_LIST_TERM 0xFF
+
+#define TINT_MORNING Q_8_8(0.7), Q_8_8(0.7), Q_8_8(0.9)
+#define TINT_DAY Q_8_8(1.0), Q_8_8(1.0), Q_8_8(1.0)
+#define TINT_NIGHT Q_8_8(0.6), Q_8_8(0.6), Q_8_8(0.92)
+
 #define HOUR_MORNING 4
 #define HOUR_DAY 10
 #define HOUR_NIGHT 20

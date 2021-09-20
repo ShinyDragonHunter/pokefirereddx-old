@@ -1052,7 +1052,7 @@ static bool8 LoadGraphics(void)
         gMain.state++;
         break;
     case 2:
-        ResetPaletteFade();
+        ResetPaletteFadeControl();
         gPaletteFade.bufferTransferDisabled = 1;
         gMain.state++;
         break;
@@ -2835,28 +2835,15 @@ static void BufferMonTrainerMemo(void)
     }
     else
     {
-        // Region mapsections cast as a u8 and trying to cast as a u16 would break compatibility,
-        // so we need to do a workaround for CrystalDust (or other hacks) which may replace
-        // IDs with their own. TODO: Look into Orange GBA compatiblity.
-        u16 mapsecShift = MAPSEC_LITTLEROOT_TOWN;
+        u16 var = sum->metLocation;
         u16 maxMapsec = MAPSEC_NONE;
-        u16 var = sum->metLocation + mapsecShift;
         u8 *metLevelString = Alloc(32);
         u8 *metLocationString = Alloc(32);
         GetMetLevelString(metLevelString);
-        if (sum->metGame == VERSION_CRYSTAL_DUST)
-        {
-            if (sum->metLocation < KANTO_MAPSEC_START)
-            {
-                mapsecShift = JOHTO_MAPSEC_START;
-                maxMapsec = JOHTO_REGION(END);
-            }
-        }
         if (sum->metGame == VERSION_GAMECUBE)
         {
-            mapsecShift = ORRE_MAPSEC_START;
-            maxMapsec = ORRE_REGION(END);
             var = sOrreMetLocationTable[sum->metLocation][sMonSummaryScreen->eventLegal];
+            maxMapsec = METLOC_FATEFUL_ENCOUNTER;
         }
         if (sum->metLocation < maxMapsec)
         {
@@ -2904,16 +2891,16 @@ static void BufferMonTrainerMemo(void)
 
         if (sum->metGame == VERSION_GAMECUBE)
         {
-            if (var == ORRE_MAPSEC_DISTANT_LAND)
+            if (var == METLOC_SPECIAL_EGG)
             {
                 text = gText_XNatureMetDistantLand;
             }
-            if (var == ORRE_MAPSEC_XD_STARTER)
+            if (var == METLOC_IN_GAME_TRADE)
             {
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, sum->OTName);
                 text = gText_ObtainedFromDad;
             }
-            if (var == ORRE_MAPSEC_STARTER_AND_PLUSLE)
+            if (var == METLOC_FATEFUL_ENCOUNTER)
             {
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, sum->OTName);
                 text = (sum->species == SPECIES_PLUSLE) ? gText_Receivedfrom : gText_OldFriend;
@@ -3031,7 +3018,7 @@ static void PrintEggMemo(void)
         text = gText_PeculiarEggNicePlace;
     else if (!DoesMonOTMatchOwner() || !sMonSummaryScreen->summary.sanity)
         text = gText_PeculiarEggTrade;
-    else if (sum->metLocation == JOHTO_REGION(GOLDENROD_CITY))
+    else if (sum->metLocation == MAPSEC_GOLDENROD_CITY)
         text = gText_EggFromPokecomCenter;
     else
         text = gText_OddEggFoundByCouple;

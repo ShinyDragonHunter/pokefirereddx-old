@@ -1915,7 +1915,7 @@ static void ResetAllBgCoords(void)
 
 static void ResetForPokeStorage(void)
 {
-    ResetPaletteFade();
+    ResetPaletteFadeControl();
     ResetSpriteData();
     FreeSpriteTileRanges();
     FreeAllSpritePalettes();

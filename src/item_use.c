@@ -179,8 +179,7 @@ u8 CheckIfItemIsTMHMOrEvolutionStone(u16 itemId)
         return 1;
     else if (ItemId_GetFieldFunc(itemId) == ItemUseOutOfBattle_EvolutionStone)
         return 2;
-    else
-        return 0;
+    return 0;
 }
 
 // Mail in the bag menu can't have a message but it can be checked (view the mail background, no message)
@@ -200,9 +199,9 @@ void ItemUseOutOfBattle_Mail(u8 taskId)
 void ItemUseOutOfBattle_Bike(u8 taskId)
 {
     s16* data = gTasks[taskId].data;
-    s16 coordsY;
-    s16 coordsX;
+    s16 coordsY, coordsX;
     u8 behavior;
+
     PlayerGetDestCoords(&coordsX, &coordsY);
     behavior = MapGridGetMetatileBehaviorAt(coordsX, coordsY);
     if (FlagGet(FLAG_SYS_CYCLING_ROAD) || MetatileBehavior_IsVerticalRail(behavior) || MetatileBehavior_IsHorizontalRail(behavior) || MetatileBehavior_IsIsolatedVerticalRail(behavior) || MetatileBehavior_IsIsolatedHorizontalRail(behavior))
@@ -296,10 +295,10 @@ static void ItemUseOnFieldCB_Itemfinder(u8 taskId)
 
 static void Task_UseItemfinder(u8 taskId)
 {
-    u8 playerDir;
-    u8 playerDirToItem;
+    u8 playerDir, playerDirToItem;
     u32 i;
     s16* data = gTasks[taskId].data;
+
     if (tCounter == 0)
     {
         if (tItemfinderBeeps == 4)
@@ -366,8 +365,7 @@ static bool8 ItemfinderCheckForHiddenItems(const struct MapEvents *events, u8 ta
     CheckForHiddenItemsInMapConnection(taskId);
     if (gTasks[taskId].tItemFound)
         return TRUE;
-    else
-        return FALSE;
+    return FALSE;
 }
 
 static bool8 IsHiddenItemPresentAtCoords(const struct MapEvents *events, s16 x, s16 y)
@@ -382,8 +380,7 @@ static bool8 IsHiddenItemPresentAtCoords(const struct MapEvents *events, s16 x, 
         {
             if (FlagGet(bgEvent[i].bgUnion.hiddenItem.hiddenItemId + FLAG_HIDDEN_ITEMS_START))
                 return FALSE;
-            else
-                return TRUE;
+            return TRUE;
         }
     }
     return FALSE;
@@ -391,7 +388,6 @@ static bool8 IsHiddenItemPresentAtCoords(const struct MapEvents *events, s16 x, 
 
 static bool8 IsHiddenItemPresentInConnection(struct MapConnection *connection, int x, int y)
 {
-
     u16 localX, localY;
     u32 localOffset;
     s32 localLength;
@@ -707,8 +703,8 @@ static void ItemUseOnFieldCB_WailmerPailBerry(u8 taskId)
 static bool8 TryToWaterSudowoodo(void)
 {
     u16 x, y;
-    u8 z;
-    u8 objId;
+    u8 z, objId;
+
     GetXYCoordsOneStepInFrontOfPlayer(&x, &y);
     z = PlayerGetZCoord();
     objId = GetObjectEventIdByXYZ(x, y, z);

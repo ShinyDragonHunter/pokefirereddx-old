@@ -1599,7 +1599,7 @@ void CB2_OpenPokedex(void)
         ScanlineEffect_Stop();
         ResetTasks();
         ResetSpriteData();
-        ResetPaletteFade();
+        ResetPaletteFadeControl();
         FreeAllSpritePalettes();
         gReservedSpritePaletteCount = 8;
         ResetAllPicSprites();
@@ -2064,7 +2064,7 @@ static bool8 LoadPokedexListPage(u8 page)
             CopyToBgTilemapBuffer(0, gPokedexStartMenuMain_Tilemap, 0, 0x280);
         else
             CopyToBgTilemapBuffer(0, gPokedexStartMenuSearchResults_Tilemap, 0, 0x280);
-        ResetPaletteFade();
+        ResetPaletteFadeControl();
         if (page == PAGE_MAIN)
             sPokedexView->isSearchResults = FALSE;
         else
@@ -3539,7 +3539,7 @@ static void Task_LoadCryScreen(u8 taskId)
         gMain.state++;
         break;
     case 3:
-        ResetPaletteFade();
+        ResetPaletteFadeControl();
         gMain.state++;
         break;
     case 4:
@@ -3741,7 +3741,7 @@ static void Task_LoadSizeScreen(u8 taskId)
         }
         break;
     case 4:
-        ResetPaletteFade();
+        ResetPaletteFadeControl();
         gMain.state++;
         break;
     case 5:
@@ -3953,7 +3953,7 @@ static void Task_DisplayCaughtMonDexPage(u8 taskId)
         PutWindowTilemap(WIN_FOOTPRINT);
         PrintFootprint(WIN_FOOTPRINT, gTasks[taskId].tDexNum);
         CopyWindowToVram(WIN_FOOTPRINT, 2);
-        ResetPaletteFade();
+        ResetPaletteFadeControl();
         LoadPokedexBgPalette(FALSE);
         gTasks[taskId].tState++;
         break;

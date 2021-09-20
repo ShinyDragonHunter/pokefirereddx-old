@@ -72,7 +72,6 @@ void HandleLoadSpecialPokePic(const struct CompressedSpriteSheet *src, void *des
         isFrontPic = TRUE; // frontPic
     else
         isFrontPic = FALSE; // backPic
-
     LoadSpecialPokePic(src, dest, species, personality, isFrontPic);
 }
 
@@ -93,8 +92,7 @@ void LoadSpecialPokePic(const struct CompressedSpriteSheet *src, void *dest, s32
         else
             LZ77UnCompWram(gMonBackPicTable[i].data, dest);
     }
-    else if (SpeciesHasGenderDifference[species]
-     && GetGenderFromSpeciesAndPersonality(species, personality) == MON_FEMALE)
+    else if (SpeciesHasGenderDifference[species] && GetGenderFromSpeciesAndPersonality(species, personality) == MON_FEMALE)
     {
         if (isFrontPic)
             LZ77UnCompWram(gFemaleMonFrontPicTable[species].data, dest);
@@ -103,7 +101,6 @@ void LoadSpecialPokePic(const struct CompressedSpriteSheet *src, void *dest, s32
     }
     else
         LZ77UnCompWram(src->data, dest);
-
     DrawSpindaSpots(species, personality, dest, isFrontPic);
 }
 

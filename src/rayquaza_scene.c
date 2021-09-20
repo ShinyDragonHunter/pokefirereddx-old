@@ -1298,7 +1298,7 @@ static void CB2_InitRayquazaScene(void)
     ClearScheduledBgCopiesToVram();
     ScanlineEffect_Stop();
     FreeAllSpritePalettes();
-    ResetPaletteFade();
+    ResetPaletteFadeControl();
     ResetSpriteData();
     ResetTasks();
     FillPalette(RGB_BLACK, 0xF0, 32);

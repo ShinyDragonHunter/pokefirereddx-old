@@ -948,7 +948,7 @@ static void ClearTasksAndGraphicalStructs(void)
     ResetTasks();
     ResetSpriteData();
     ResetAllPicSprites();
-    ResetPaletteFade();
+    ResetPaletteFadeControl();
     FreeAllSpritePalettes();
 }
 

@@ -420,7 +420,7 @@ static void ClearTasksAndGraphicalStructs(void)
     ScanlineEffect_Stop();
     ResetTasks();
     ResetSpriteData();
-    ResetPaletteFade();
+    ResetPaletteFadeControl();
     FreeAllSpritePalettes();
 }
 

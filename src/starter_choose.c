@@ -355,8 +355,7 @@ static void VblankCB_StarterChoose(void)
 
 void CB2_ChooseStarter(void)
 {
-    u8 taskId;
-    u8 spriteId;
+    u8 taskId, spriteId;
 
     SetVBlankCallback(NULL);
 
@@ -393,7 +392,7 @@ void CB2_ChooseStarter(void)
     ScanlineEffect_Stop();
     ResetTasks();
     ResetSpriteData();
-    ResetPaletteFade();
+    ResetPaletteFadeControl();
     FreeAllSpritePalettes();
     ResetAllPicSprites();
 
@@ -408,7 +407,7 @@ void CB2_ChooseStarter(void)
     SetVBlankCallback(VblankCB_StarterChoose);
     SetMainCallback2(CB2_StarterChoose);
 
-    SetGpuReg(REG_OFFSET_WININ, WININ_WIN0_BG_ALL | WININ_WIN0_OBJ | WININ_WIN0_CLR);
+    SetGpuReg(REG_OFFSET_WININ, WININ_WIN0_ALL);
     SetGpuReg(REG_OFFSET_WINOUT, WINOUT_WIN01_BG_ALL | WINOUT_WIN01_OBJ);
     SetGpuReg(REG_OFFSET_WIN0H, 0);
     SetGpuReg(REG_OFFSET_WIN0V, 0);

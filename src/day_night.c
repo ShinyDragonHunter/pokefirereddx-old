@@ -13,85 +13,79 @@
 #include "constants/layouts.h"
 #include "constants/rgb.h"
 
-#define TINT_MORNING Q_8_8(0.7), Q_8_8(0.7), Q_8_8(0.9)
-#define TINT_DAY Q_8_8(1.0), Q_8_8(1.0), Q_8_8(1.0)
-#define TINT_NIGHT Q_8_8(0.6), Q_8_8(0.6), Q_8_8(0.92)
-
 EWRAM_DATA u16 gPlttBufferPreDN[PLTT_BUFFER_SIZE] = {0};
 EWRAM_DATA struct PaletteOverride *gPaletteOverrides[4] = {NULL};
 
-static EWRAM_DATA struct {
-    bool8 initialized:1;
-    bool8 retintPhase:1;
-    u8 timeOfDay;
-    u16 prevTintPeriod; // tint period associated with currently drawn palettes
-    u16 currTintPeriod; // tint period associated with currRGBTint
-    u16 currRGBTint[3];
+static EWRAM_DATA struct
+{
+    /*0x0*/ bool8 initialized;
+    /*0x1*/ bool8 retintPhase;
+    /*0x2*/ u8 timeOfDay;
+    /*0x3*/ u16 prevTintPeriod; // tint period associated with currently drawn palettes
+    /*0x5*/ u16 currTintPeriod; // tint period associated with currRGBTint
+    /*0x7*/ u16 currRGBTint[3];
+   // sizeof=0xD
 } sDNSystemControl = {0};
 
-const u16 sTimeOfDayTints[][3] = {
-    [0] =   {TINT_NIGHT},
-    [1] =   {TINT_NIGHT},
-    [2] =   {TINT_NIGHT},
-    [3] =   {TINT_NIGHT},
-    [4] =   {Q_8_8(0.6), Q_8_8(0.65), Q_8_8(1.0)},
-    [5] =   {TINT_MORNING},
-    [6] =   {TINT_MORNING},
-    [7] =   {TINT_MORNING},
-    [8] =   {Q_8_8(0.9), Q_8_8(0.85), Q_8_8(1.0)},
-    [9] =   {Q_8_8(1.0), Q_8_8(0.9), Q_8_8(1.0)},
-    [10] =  {TINT_DAY},
-    [11] =  {TINT_DAY},
-    [12] =  {TINT_DAY},
-    [13] =  {TINT_DAY},
-    [14] =  {TINT_DAY},
-    [15] =  {TINT_DAY},
-    [16] =  {TINT_DAY},
-    [17] =  {Q_8_8(1.0), Q_8_8(0.98), Q_8_8(0.9)},
-    [18] =  {Q_8_8(0.9), Q_8_8(0.7), Q_8_8(0.67)},
-    [19] =  {Q_8_8(0.75), Q_8_8(0.66), Q_8_8(0.77)},
-    [20] =  {Q_8_8(0.7), Q_8_8(0.63), Q_8_8(0.82)},
-    [21] =  {TINT_NIGHT},
-    [22] =  {TINT_NIGHT},
-    [23] =  {TINT_NIGHT},
+static const u16 sTimeOfDayTints[][3] =
+{
+    [0] = {TINT_NIGHT},
+    [1] = {TINT_NIGHT},
+    [2] = {TINT_NIGHT},
+    [3] = {TINT_NIGHT},
+    [4] = {Q_8_8(0.6), Q_8_8(0.65), Q_8_8(1.0)},
+    [5] = {TINT_MORNING},
+    [6] = {TINT_MORNING},
+    [7] = {TINT_MORNING},
+    [8] = {Q_8_8(0.9), Q_8_8(0.85), Q_8_8(1.0)},
+    [9] = {Q_8_8(1.0), Q_8_8(0.9), Q_8_8(1.0)},
+    [10] = {TINT_DAY},
+    [11] = {TINT_DAY},
+    [12] = {TINT_DAY},
+    [13] = {TINT_DAY},
+    [14] = {TINT_DAY},
+    [15] = {TINT_DAY},
+    [16] = {TINT_DAY},
+    [17] = {Q_8_8(1.0), Q_8_8(0.98), Q_8_8(0.9)},
+    [18] = {Q_8_8(0.9), Q_8_8(0.7), Q_8_8(0.67)},
+    [19] = {Q_8_8(0.75), Q_8_8(0.66), Q_8_8(0.77)},
+    [20] = {Q_8_8(0.7), Q_8_8(0.63), Q_8_8(0.82)},
+    [21] = {TINT_NIGHT},
+    [22] = {TINT_NIGHT},
+    [23] = {TINT_NIGHT},
 };
 
-const u8 *const gDayOfWeekTable[] = 
+static const u8 *const sDayOfWeekTable[] = 
 {
-    gText_Sunday,
-    gText_Monday,
-    gText_Tuesday,
-    gText_Wednesday,
-    gText_Thursday,
-    gText_Friday,
-    gText_Saturday
+    [DAY_SUNDAY] = gText_Sunday,
+    [DAY_MONDAY] = gText_Monday,
+    [DAY_TUESDAY] = gText_Tuesday,
+    [DAY_WEDNESDAY] = gText_Wednesday,
+    [DAY_THURSDAY] = gText_Thursday,
+    [DAY_FRIDAY] = gText_Friday,
+    [DAY_SATURDAY] = gText_Saturday
 };
 
 u8 GetCurrentTimeOfDay(void)
 {
-    return GetTimeOfDay(gLocalTime.hours);
-}
-
-u8 GetTimeOfDay(s8 hours)
-{
-    if (hours < HOUR_MORNING)
+    if (gLocalTime.hours < HOUR_MORNING)
         return TIME_NIGHT;
-    else if (hours < HOUR_DAY)
+    else if (gLocalTime.hours < HOUR_DAY)
         return TIME_MORNING;
-    else if (hours < HOUR_NIGHT)
+    else if (gLocalTime.hours < HOUR_NIGHT)
         return TIME_DAY;
     return TIME_NIGHT;
 }
 
 const u8 *GetDayOfWeekString(u8 dayOfWeek)
 {
-    return gDayOfWeekTable[dayOfWeek];
+    return sDayOfWeekTable[dayOfWeek];
 }
 
 void CopyDayOfWeekStringToVar1(void)
 {
     if (gSpecialVar_0x8004 <= DAY_SATURDAY)
-        StringCopy(gStringVar1, gDayOfWeekTable[gSpecialVar_0x8004]);
+        StringCopy(gStringVar1, sDayOfWeekTable[gSpecialVar_0x8004]);
     else
         StringCopy(gStringVar1, gText_None);
 }
@@ -100,7 +94,7 @@ void CopyCurrentDayOfWeekStringToVar1(void)
 {
     RtcCalcLocalTime();
     if (gLocalTime.dayOfWeek <= DAY_SATURDAY)
-        StringCopy(gStringVar1, gDayOfWeekTable[gLocalTime.dayOfWeek]);
+        StringCopy(gStringVar1, sDayOfWeekTable[gLocalTime.dayOfWeek]);
     else
         StringCopy(gStringVar1, gText_None);
 }
@@ -139,7 +133,7 @@ static void LoadPaletteOverrides(void)
     }
 }
 
-bool8 ShouldTintOverworld(void)
+static bool8 ShouldTintOverworld(void)
 {
     if (IsMapTypeOutdoors(gMapHeader.mapType))
         return TRUE;
@@ -201,7 +195,7 @@ void ProcessImmediateTimeEvents(void)
     {
         if (sDNSystemControl.retintPhase)
         {
-            sDNSystemControl.retintPhase = 0;
+            sDNSystemControl.retintPhase = FALSE;
             TintPalette_CustomToneWithCopy(gPlttBufferPreDN + (BG_PLTT_SIZE / 2), gPlttBufferUnfaded + (BG_PLTT_SIZE / 2), OBJ_PLTT_SIZE / 2, sDNSystemControl.currRGBTint[0], sDNSystemControl.currRGBTint[1], sDNSystemControl.currRGBTint[2], TRUE);
             LoadPaletteOverrides();
 
@@ -232,7 +226,7 @@ void ProcessImmediateTimeEvents(void)
                 nextHour = (hour + 1) % 24;
                 LerpColors(sDNSystemControl.currRGBTint, sTimeOfDayTints[hour], sTimeOfDayTints[nextHour], hourPhase);
                 TintPalette_CustomToneWithCopy(gPlttBufferPreDN, gPlttBufferUnfaded, BG_PLTT_SIZE / 2, sDNSystemControl.currRGBTint[0], sDNSystemControl.currRGBTint[1], sDNSystemControl.currRGBTint[2], TRUE);
-                sDNSystemControl.retintPhase = 1;
+                sDNSystemControl.retintPhase = TRUE;
             }
         }
     }

@@ -508,7 +508,7 @@ void CB2_InitResetRtcScreen(void)
     ScanlineEffect_Clear();
     ResetSpriteData();
     ResetTasks();
-    ResetPaletteFade();
+    ResetPaletteFadeControl();
     InitResetRtcScreenBgAndWindows();
     SetVBlankCallback(VBlankCB);
     SetMainCallback2(CB2_ResetRtcScreen);

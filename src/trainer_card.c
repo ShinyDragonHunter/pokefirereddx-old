@@ -641,7 +641,7 @@ static void CB2_InitTrainerCard(void)
     case 3:
         ResetSpriteData();
         FreeAllSpritePalettes();
-        ResetPaletteFade();
+        ResetPaletteFadeControl();
         gMain.state++;
     case 4:
         InitBgsAndWindows();

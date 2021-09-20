@@ -136,7 +136,7 @@ void CB2_DoChangeMap(void)
     DmaFill16(3, 0, (void *)VRAM, VRAM_SIZE);
     DmaFill32(3, 0, (void *)OAM, OAM_SIZE);
     DmaFill16(3, 0, (void *)(PLTT + 2), PLTT_SIZE - 2);
-    ResetPaletteFade();
+    ResetPaletteFadeControl();
     ResetTasks();
     ResetSpriteData();
     ime = REG_IME;

@@ -415,7 +415,7 @@ void CB2_StartCreditsSequence(void)
     ResetGpuAndVram();
     SetVBlankCallback(NULL);
     InitHeap(gHeap, HEAP_SIZE);
-    ResetPaletteFade();
+    ResetPaletteFadeControl();
     ResetTasks();
     InitCreditsBgsAndWindows();
 
@@ -623,7 +623,7 @@ static void Task_CreditsTheEnd2(u8 taskId)
 static void Task_CreditsTheEnd3(u8 taskId)
 {
     ResetGpuAndVram();
-    ResetPaletteFade();
+    ResetPaletteFadeControl();
     LoadTheEndScreen(0, 0x3800, 0);
     ResetSpriteData();
     FreeAllSpritePalettes();

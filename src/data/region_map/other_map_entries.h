@@ -1,0 +1,106 @@
+#ifndef GUARD_DATA_JOHTO_REGION_MAP_REGION_MAP_ENTRIES_H
+#define GUARD_DATA_JOHTO_REGION_MAP_REGION_MAP_ENTRIES_H
+
+static const u8 sMapName_WhirlIslands[] = _("WHIRL ISLANDS");
+static const u8 sMapName_LakeOfRage[] = _("LAKE OF RAGE");
+static const u8 sMapName_RocketHQ[] = _("TEAM ROCKET HQ");
+static const u8 sMapName_RadioTower[] = _("RADIO TOWER");
+static const u8 sMapName_MtMortar[] = _("MT. MORTAR");
+static const u8 sMapName_Lighthouse[] = _("LIGHTHOUSE");
+static const u8 sMapName_IcePath[] = _("ICE PATH");
+static const u8 sMapName_DragonsDen[] = _("DRAGON'S DEN");
+static const u8 sMapName_DarkCave[] = _("DARK CAVE");
+static const u8 sMapName_SilverCave[] = _("SILVER CAVE");
+static const u8 sMapName_TohjoFalls[] = _("TOHJO FALLS");
+static const u8 sMapName_FastShip[] = _("FAST SHIP");
+
+static const u8 sMapName_OutskirtStand[] = _("OUTSKIRT STAND");
+static const u8 sMapName_CipherLab[] = _("CIPHER LAB");
+static const u8 sMapName_PhenacCity[] = _("PHENAC CITY");
+static const u8 sMapName_MayorsHouse[] = _("MAYOR'S HOUSE");
+static const u8 sMapName_PreGym[] = _("PRE GYM");
+static const u8 sMapName_MtBattle[] = _("MT. BATTLE");
+static const u8 sMapName_PhenacStadium[] = _("PHENAC STADIUM");
+static const u8 sMapName_PyriteTown[] = _("PYRITE TOWN");
+static const u8 sMapName_PyriteBldg[] = _("PYRITE BLDG");
+static const u8 sMapName_PyriteCave[] = _("PYRITE CAVE");
+static const u8 sMapName_MirorsHideout[] = _("MIROR'S HIDEOUT");
+static const u8 sMapName_PyriteColosseum[] = _("PYRITE COLOSSEUM");
+static const u8 sMapName_AgateVillage[] = _("AGATE VILLAGE");
+static const u8 sMapName_SSLibra[] = _("S.S. LIBRA");
+static const u8 sMapName_RelicCave[] = _("RELIC CAVE");
+static const u8 sMapName_TheUnder[] = _("THE UNDER");
+static const u8 sMapName_RealgamTower[] = _("REALGAM TOWER");
+static const u8 sMapName_TheUnderSubway[] = _("THE UNDER SUBWAY");
+static const u8 sMapName_UnderColosseum[] = _("UNDER COLOSSEUM");
+static const u8 sMapName_DeepColosseum[] = _("DEEP COLOSSEUM");
+static const u8 sMapName_CipherKeyLair[] = _("CIPHER KEY LAIR");
+static const u8 sMapName_FrontOfLab[] = _("FRONT OF LAB");
+static const u8 sMapName_Laboratory[] = _("LABORATORY");
+static const u8 sMapName_CitadarkIsle[] = _("CITADARK ISLE");
+static const u8 sMapName_Rock[] = _("ROCK");
+static const u8 sMapName_Oasis[] = _("OASIS");
+static const u8 sMapName_MtBattleColosseum[] = _("MT.BTL COLOSSEUM");
+static const u8 sMapName_RealgamTwr_Dome[] = _("REALGAMTWR DOME");
+static const u8 sMapName_RealgamTwr_Lobby[] = _("REALGAMTWR LOBBY");
+static const u8 sMapName_TowerColosseum[] = _("TOWER COLOSSEUM");
+static const u8 sMapName_OrreColosseum[] = _("ORRE COLOSSEUM");
+static const u8 sMapName_SnagemHideout[] = _("SNAGEM HIDEOUT");
+static const u8 sMapName_PokemonHQLab[] = _("POKéMON HQ LAB");
+static const u8 sMapName_GateonPort[] = _("GATEON PORT");
+static const u8 sMapName_KaminkosHouse[] = _("KAMINKO'S HOUSE");
+
+const u8 *const gOtherMapNames[] =
+{
+    [MAPSEC_BURNED_TOWER] = sMapName_BurnedTower,
+    [MAPSEC_WHIRL_ISLANDS] = sMapName_WhirlIslands,
+    [MAPSEC_LAKE_OF_RAGE] = sMapName_LakeOfRage,
+    [MAPSEC_ROCKET_HQ] = sMapName_RocketHQ,
+    [MAPSEC_RADIO_TOWER] = sMapName_RadioTower,
+    [MAPSEC_MT_MORTAR] = sMapName_MtMortar,
+    [MAPSEC_LIGHTHOUSE] = sMapName_Lighthouse,
+    [MAPSEC_ICE_PATH] = sMapName_IcePath,
+    [MAPSEC_DRAGONS_DEN] = sMapName_DragonsDen,
+    [MAPSEC_DARK_CAVE] = sMapName_DarkCave,
+    [MAPSEC_SILVER_CAVE] = sMapName_SilverCave,
+    [MAPSEC_TOHJO_FALLS] = sMapName_TohjoFalls,
+    [MAPSEC_FAST_SHIP] = sMapName_FastShip,
+    [MAPSEC_OUTSKIRT_STAND] = sMapName_OutskirtStand,
+    [MAPSEC_CIPHER_LAB] = sMapName_CipherLab,
+    [MAPSEC_PHENAC_CITY] = sMapName_PhenacCity,
+    [MAPSEC_MAYORS_HOUSE] = sMapName_MayorsHouse,
+    [MAPSEC_PRE_GYM] = sMapName_PreGym,
+    [MAPSEC_MT_BATTLE] = sMapName_MtBattle,
+    [MAPSEC_PHENAC_STADIUM] = sMapName_PhenacStadium,
+    [MAPSEC_PYRITE_TOWN] = sMapName_PyriteTown,
+    [MAPSEC_PYRITE_BUILDING] = sMapName_PyriteBldg,
+    [MAPSEC_PYRITE_CAVE] = sMapName_PyriteCave,
+    [MAPSEC_MIRORS_HIDEOUT] = sMapName_MirorsHideout,
+    [MAPSEC_PYRITE_COLOSSEUM] = sMapName_PyriteColosseum,
+    [MAPSEC_AGATE_VILLAGE] = sMapName_AgateVillage,
+    [MAPSEC_SS_LIBRA] = sMapName_SSLibra,
+    [MAPSEC_RELIC_CAVE] = sMapName_RelicCave,
+    [MAPSEC_THE_UNDER] = sMapName_TheUnder,
+    [MAPSEC_REALGAM_TOWER] = sMapName_RealgamTower,
+    [MAPSEC_THE_UNDER_SUBWAY] = sMapName_TheUnderSubway,
+    [MAPSEC_UNDER_COLOSSEUM] = sMapName_UnderColosseum,
+    [MAPSEC_DEEP_COLOSSEUM] = sMapName_DeepColosseum,
+    [MAPSEC_CIPHER_KEY_LAIR] = sMapName_CipherKeyLair,
+    [MAPSEC_FRONT_OF_LAB] = sMapName_FrontOfLab,
+    [MAPSEC_LABORATORY] = sMapName_Laboratory,
+    [MAPSEC_CITADARK_ISLE] = sMapName_CitadarkIsle,
+    [MAPSEC_POKE_SPOT_ROCK] = sMapName_Rock,
+    [MAPSEC_POKE_SPOT_OASIS] = sMapName_Oasis,
+    [MAPSEC_POKE_SPOT_CAVE] = gPCText_Cave,
+    [MAPSEC_MT_BATTLE_COLOSSEUM] = sMapName_MtBattleColosseum,
+    [MAPSEC_REALGAM_TOWER_DOME] = sMapName_RealgamTwr_Dome,
+    [MAPSEC_REALGAM_TOWER_LOBBY] = sMapName_RealgamTwr_Lobby,
+    [MAPSEC_TOWER_COLOSSEUM] = sMapName_TowerColosseum,
+    [MAPSEC_ORRE_COLOSSEUM] = sMapName_OrreColosseum,
+    [MAPSEC_SNAGEM_HIDEOUT] = sMapName_SnagemHideout,
+    [MAPSEC_POKEMON_HQ_LAB] = sMapName_PokemonHQLab,
+    [MAPSEC_GATEON_PORT] = sMapName_GateonPort,
+    [MAPSEC_KAMINKOS_HOUSE] = sMapName_KaminkosHouse
+};
+
+#endif //GUARD_DATA_JOHTO_REGION_MAP_REGION_MAP_ENTRIES_H

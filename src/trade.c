@@ -329,7 +329,7 @@ static void InitTradeMenu(void)
     ResetSpriteData();
     FreeAllSpritePalettes();
     ResetTasks();
-    ResetPaletteFade();
+    ResetPaletteFadeControl();
 
     gPaletteFade.bufferTransferDisabled = TRUE;
 
@@ -2376,23 +2376,41 @@ static u32 CanTradeSelectedMon(struct Pokemon *playerParty, int partyCount, int 
 
 s32 GetGameProgressForLinkTrade(void)
 {
-    u16 version = (gLinkPlayers[GetMultiplayerId() ^ 1].version & 0xFF);
-
-    // If trading with players that aren't playing FRLG, both players must be champion
-    if (gReceivedRemoteLinkPlayers && version < VERSION_FIRE_RED && version > VERSION_LEAF_GREEN)
+    if (gReceivedRemoteLinkPlayers != 0)
     {
-        // Is player champion
-        if (gLinkPlayers[GetMultiplayerId()].progressFlagsCopy & 0xF0)
-        {
-            // Is partner champion
-            if (gLinkPlayers[GetMultiplayerId() ^ 1].progressFlagsCopy & 0xF0)
-                return TRADE_BOTH_PLAYERS_READY;
-            else
-                return TRADE_PARTNER_NOT_READY;
-        }
+        s32 whichGameSet;
+        u16 version = (gLinkPlayers[GetMultiplayerId() ^ 1].version & 0xFF);
+
+        if (version == VERSION_FIRE_RED || version == VERSION_LEAF_GREEN || version == VERSION_CRYSTAL_DUST)
+            whichGameSet = 0;
+        else if (version == VERSION_RUBY || version == VERSION_SAPPHIRE || version == VERSION_EMERALD)
+            whichGameSet = 1;
         else
+            whichGameSet = 2;
+
+        // If trading with players that are playing Emerald, both players must be champion
+        if (whichGameSet > 0)
         {
-            return TRADE_PLAYER_NOT_READY;
+            // Is player champion
+            if (gLinkPlayers[GetMultiplayerId()].progressFlagsCopy & 0xF0)
+            {
+                if (version == VERSION_EMERALD)
+                {
+                    // Is partner champion
+                    if (gLinkPlayers[GetMultiplayerId() ^ 1].progressFlagsCopy & 0xF0)
+                        return TRADE_BOTH_PLAYERS_READY;
+                    else
+                        return TRADE_PARTNER_NOT_READY;
+                }
+                else if (whichGameSet == 2)
+                {
+                    return TRADE_PARTNER_NOT_READY;
+                }
+            }
+            else
+            {
+                return TRADE_PLAYER_NOT_READY;
+            }
         }
     }
     return TRADE_BOTH_PLAYERS_READY;
@@ -2416,7 +2434,7 @@ int GetUnionRoomTradeMessageId(struct GFtgtGnameSub rfuPlayer, struct GFtgtGname
     bool8 partnerIsChampion = rfuPartner.isChampion;
     u8 partnerVersion = rfuPartner.version;
 
-    if (partnerVersion < VERSION_FIRE_RED && partnerVersion > VERSION_LEAF_GREEN)
+    if (partnerVersion > VERSION_EMERALD)
     {
         if (!playerIsChampion)
         {

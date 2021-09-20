@@ -272,7 +272,7 @@ static void CB2_LoadCableCar(void)
         ResetSpriteData();
         ResetTasks();
         FreeAllSpritePalettes();
-        ResetPaletteFade();
+        ResetPaletteFadeControl();
         ResetTempTileDataBuffers();
         StartWeather();
         for (i = 0; i < NUM_ASH_SPRITES; i++)
@@ -396,7 +396,7 @@ static void CB2_EndCableCar(void)
 
     ResetTasks();
     ResetSpriteData();
-    ResetPaletteFade();
+    ResetPaletteFadeControl();
     UnsetBgTilemapBuffer(0);
     UnsetBgTilemapBuffer(1);
     UnsetBgTilemapBuffer(2);

@@ -573,7 +573,7 @@ static u32 InitMainMenu(bool8 returningFromOptionsMenu)
     DmaFill32(3, 0, (void *)OAM, OAM_SIZE);
     DmaFill16(3, 0, (void *)(PLTT + 2), PLTT_SIZE - 2);
 
-    ResetPaletteFade();
+    ResetPaletteFadeControl();
     LoadPalette(sMainMenuBgPal, 0, 32);
     LoadPalette(sMainMenuTextPal, 0xF0, 32);
     ScanlineEffect_Stop();
@@ -659,7 +659,7 @@ static void Task_MainMenuCheckSaveFile(u8 taskId)
                     tMenuType++;
                 break;
             case SAVE_STATUS_NO_FLASH:
-                CreateMainMenuErrorWindow(gJPText_No1MSubCircuit);
+                CreateMainMenuErrorWindow(gText_No1MSubCircuit);
                 gTasks[taskId].tMenuType = HAS_NO_SAVED_GAME;
                 gTasks[taskId].func = Task_WaitForSaveFileErrorWindow;
                 break;
@@ -1790,7 +1790,7 @@ static void CB2_NewGameBirchSpeech_ReturnFromNamingScreen(void)
     DmaFill16(3, 0, VRAM, VRAM_SIZE);
     DmaFill32(3, 0, OAM, OAM_SIZE);
     DmaFill16(3, 0, PLTT, PLTT_SIZE);
-    ResetPaletteFade();
+    ResetPaletteFadeControl();
     LZ77UnCompVram(sBirchSpeechShadowGfx, (u8*)VRAM);
     LZ77UnCompVram(sBirchSpeechBgMap, (u8*)(BG_SCREEN_ADDR(7)));
     LoadPalette(sBirchSpeechBgPals, 0, 64);

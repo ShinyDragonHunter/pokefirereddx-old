@@ -625,7 +625,7 @@ static void CB2_InitBattleInternal(void)
         ScanlineEffect_SetParams(sIntroScanlineParams16Bit);
     }
 
-    ResetPaletteFade();
+    ResetPaletteFadeControl();
     gBattle_BG0_X = 0;
     gBattle_BG0_Y = 0;
     gBattle_BG1_X = 0;
@@ -2144,7 +2144,7 @@ void CB2_InitEndLinkBattle(void)
             i++;
         }
 
-        ResetPaletteFade();
+        ResetPaletteFadeControl();
 
         gBattle_BG0_X = 0;
         gBattle_BG0_Y = 0;
@@ -2344,7 +2344,7 @@ static void sub_80392A8(void)
     SetHBlankCallback(NULL);
     SetVBlankCallback(NULL);
     CpuFill32(0, (void*)(VRAM), VRAM_SIZE);
-    ResetPaletteFade();
+    ResetPaletteFadeControl();
     gBattle_BG0_X = 0;
     gBattle_BG0_Y = 0;
     gBattle_BG1_X = 0;

@@ -115,8 +115,6 @@ void BlendRegionMap(u16 color, u32 coeff);
 void SetRegionMapDataForZoom(void);
 
 extern const struct RegionMapLocation gRegionMapEntries[];
-extern const u8 *const gJohtoRegionMapNames[];
-extern const u8 *const gOrreRegionMapNames[];
-extern const u8 *const gXDOrreRegionMapNames[];
+extern const u8 *const gOtherMapNames[];
 
 #endif //GUARD_REGION_MAP_H

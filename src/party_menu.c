@@ -490,7 +490,7 @@ static bool8 ShowPartyMenu(void)
         gMain.state++;
         break;
     case 2:
-        ResetPaletteFade();
+        ResetPaletteFadeControl();
         gPaletteFade.bufferTransferDisabled = TRUE;
         gMain.state++;
         break;

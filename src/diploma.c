@@ -70,7 +70,7 @@ void CB2_ShowDiploma(void)
     ScanlineEffect_Stop();
     ResetTasks();
     ResetSpriteData();
-    ResetPaletteFade();
+    ResetPaletteFadeControl();
     FreeAllSpritePalettes();
     LoadPalette(sDiplomaPalettes, 0, 64);
     sDiplomaTilemapPtr = malloc(0x1000);

@@ -1168,7 +1168,7 @@ static bool32 InitSaveWindowAfterLinkBattle(u8 *state)
     case 1:
         ResetSpriteData();
         ResetTasks();
-        ResetPaletteFade();
+        ResetPaletteFadeControl();
         ScanlineEffect_Clear();
         break;
     case 2:

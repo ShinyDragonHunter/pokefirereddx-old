@@ -57,14 +57,14 @@
 #define ITEM_BLUE_SHARD 49
 #define ITEM_YELLOW_SHARD 50
 #define ITEM_GREEN_SHARD 51
-#define ITEM_034 52
-#define ITEM_035 53
-#define ITEM_036 54
-#define ITEM_037 55
-#define ITEM_038 56
-#define ITEM_039 57
-#define ITEM_03A 58
-#define ITEM_03B 59
+#define ITEM_LEVEL_BALL 52
+#define ITEM_LURE_BALL 53
+#define ITEM_MOON_BALL 54
+#define ITEM_FRIEND_BALL 55
+#define ITEM_FAST_BALL 56
+#define ITEM_HEAVY_BALL 57
+#define ITEM_LOVE_BALL 58
+#define ITEM_PARK_BALL 59
 #define ITEM_03C 60
 #define ITEM_03D 61
 #define ITEM_03E 62
@@ -452,8 +452,8 @@
 #define ITEM_TOWN_MAP 361
 #define ITEM_VS_SEEKER 362
 #define ITEM_FAME_CHECKER 363
-#define ITEM_TM_CASE 364
-#define ITEM_BERRY_POUCH 365
+#define ITEM_SHINY_CHARM 364
+#define ITEM_OVAL_CHARM 365
 #define ITEM_TEACHY_TV 366
 #define ITEM_TRI_PASS 367
 #define ITEM_RAINBOW_PASS 368
@@ -468,21 +468,7 @@
 #define ITEM_MAGMA_EMBLEM 375
 #define ITEM_OLD_SEA_MAP 376
 
-// New
-#define ITEM_SHINY_CHARM 377
-#define ITEM_OVAL_CHARM 378
-
-// Apricorn balls
-#define ITEM_LEVEL_BALL 379
-#define ITEM_LURE_BALL 380
-#define ITEM_MOON_BALL 381
-#define ITEM_FRIEND_BALL 382
-#define ITEM_FAST_BALL 383
-#define ITEM_HEAVY_BALL 384
-#define ITEM_LOVE_BALL 385
-#define ITEM_PARK_BALL 386
-
-#define ITEMS_COUNT 387
+#define ITEMS_COUNT ITEM_OLD_SEA_MAP + 1
 #define ITEM_FIELD_ARROW ITEMS_COUNT
 
 // Range of berries given out by various NPCS

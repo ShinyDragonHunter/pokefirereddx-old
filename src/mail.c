@@ -514,7 +514,7 @@ static bool8 MailReadBuildGraphics(void)
             CpuFill16(0, (void *)OAM, OAM_SIZE);
             break;
         case 2:
-            ResetPaletteFade();
+            ResetPaletteFadeControl();
             break;
         case 3:
             ResetTasks();
@@ -751,7 +751,7 @@ static void CB2_ExitMailReadFreeVars(void)
             FreeAndDestroyMonIconSprite(&gSprites[sMailRead->monIconSpriteId]);
         }
         memset(sMailRead, 0, sizeof(*sMailRead));
-        ResetPaletteFade();
+        ResetPaletteFadeControl();
         UnsetBgTilemapBuffer(0);
         UnsetBgTilemapBuffer(1);
         ResetBgsAndClearDma3BusyFlags(0);
