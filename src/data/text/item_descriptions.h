@@ -1379,6 +1379,7 @@ static const u8 sShinyCharmDesc[] = _(
     "chance of finding an ALT. COLOURED\n"
     "POKéMON in the wild.");
 #else
+static const u8 sShinyCharmDesc[] = _(
     "A shiny charm said to increase the\n"
     "chance of finding an ALT. COLORED\n"
     "POKéMON in the wild.");
