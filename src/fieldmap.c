@@ -444,7 +444,7 @@ u32 GetBehaviorByMetatileId(u16 metatile)
     else if (metatile < NUM_METATILES_TOTAL)
     {
         attributes = gMapHeader.mapLayout->secondaryTileset->metatileAttributes;
-        return attributes[metatile];
+        return attributes[metatile - NUM_METATILES_IN_PRIMARY];
     }
     return MB_INVALID;
 }

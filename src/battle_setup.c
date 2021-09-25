@@ -557,9 +557,7 @@ u8 BattleSetup_GetTerrainId(void)
         return BATTLE_TERRAIN_GRASS;
     if (MetatileBehavior_IsLongGrass(tileBehavior))
         return BATTLE_TERRAIN_LONG_GRASS;
-    if (MetatileBehavior_IsSandOrDeepSand(tileBehavior)
-     || (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(ROUTE113) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(ROUTE113))
-     || GetSav1Weather() == 8)
+    if (MetatileBehavior_IsSandOrDeepSand(tileBehavior))
         return BATTLE_TERRAIN_SAND;
 
     switch (gMapHeader.mapType)
