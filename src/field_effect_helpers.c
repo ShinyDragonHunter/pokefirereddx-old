@@ -93,8 +93,6 @@ void LoadObjectReflectionPalette(struct ObjectEvent *objectEvent, struct Sprite 
     }
     else
     {
-        u8 r, g, b;
-        u16 color;
         u16* pal;
         struct SpritePalette reflectionPalette;
 
@@ -102,10 +100,11 @@ void LoadObjectReflectionPalette(struct ObjectEvent *objectEvent, struct Sprite 
         pal = gReflectionPaletteBuffer;
         for (i = 0; i < 16; i++)
         {
-            color = pal[i];
-            r = GET_R(color) + 8;
-            g = GET_G(color) + 8;
-            b = GET_B(color) + 16;
+            u16 color = pal[i];
+            u8 r = GET_R(color) + 8;
+            u8 g = GET_G(color) + 8;
+            u8 b = GET_B(color) + 16;
+
             if (r > 31)
                 r = 31;
             if (g > 31)
@@ -335,7 +334,7 @@ void UpdateTallGrassFieldEffect(struct Sprite *sprite)
     localId = sprite->sLocalId;
     mapNum = sprite->sMapNum;
     mapGroup = sprite->sMapGroup;
-    metatileBehavior = MapGridGetMetatileBehaviorAt(sprite->sX, sprite->sY);
+    metatileBehavior = MapGridGetMetatileAttributeAt(sprite->sX, sprite->sY, METATILE_ATTRIBUTE_BEHAVIOR);
 
     if (TryGetObjectEventIdByLocalIdAndMap(localId, mapNum, mapGroup, &objectEventId) 
      || !MetatileBehavior_IsTallGrass(metatileBehavior) 
@@ -446,7 +445,7 @@ void UpdateLongGrassFieldEffect(struct Sprite *sprite)
     localId = sprite->sLocalId;
     mapNum = sprite->sMapNum;
     mapGroup = sprite->sMapGroup;
-    metatileBehavior = MapGridGetMetatileBehaviorAt(sprite->data[1], sprite->data[2]);
+    metatileBehavior = MapGridGetMetatileAttributeAt(sprite->data[1], sprite->data[2], METATILE_ATTRIBUTE_BEHAVIOR);
     if (TryGetObjectEventIdByLocalIdAndMap(localId, mapNum, mapGroup, &objectEventId) 
      || !MetatileBehavior_IsLongGrass(metatileBehavior) 
      || (sprite->sObjectMoved && sprite->animEnded))

@@ -183,8 +183,7 @@ u32 GetMewMoveDirection(void)
             return GetRandomMewDirectionCandidate(2);
         else if (ShouldMewMoveWest(mew, 1))
             return GetRandomMewDirectionCandidate(2);
-        else
-            return DIR_NORTH;
+        return DIR_NORTH;
     }
 
     if (ShouldMewMoveSouth(mew, 0))
@@ -193,8 +192,7 @@ u32 GetMewMoveDirection(void)
             return GetRandomMewDirectionCandidate(2);
         else if (ShouldMewMoveWest(mew, 1))
             return GetRandomMewDirectionCandidate(2);
-        else
-            return DIR_SOUTH;
+        return DIR_SOUTH;
     }
 
     if (ShouldMewMoveEast(mew, 0))
@@ -203,8 +201,7 @@ u32 GetMewMoveDirection(void)
             return GetRandomMewDirectionCandidate(2);
         else if (ShouldMewMoveSouth(mew, 1))
             return GetRandomMewDirectionCandidate(2);
-        else
-            return DIR_EAST;
+        return DIR_EAST;
     }
 
     if (ShouldMewMoveWest(mew, 0))
@@ -213,8 +210,7 @@ u32 GetMewMoveDirection(void)
             return GetRandomMewDirectionCandidate(2);
         else if (ShouldMewMoveSouth(mew, 1))
             return GetRandomMewDirectionCandidate(2);
-        else
-            return DIR_WEST;
+        return DIR_WEST;
     }
 
     // If this point is reached, Mew cannot move without getting closer to the player
@@ -262,7 +258,6 @@ u32 GetMewMoveDirection(void)
         if (CanMewMoveToCoords(mew->currentCoords.x - 1, mew->currentCoords.y))
             return DIR_WEST;
     }
-
     // Can't avoid player on axis, move any valid direction
     return GetValidMewMoveDirection(DIR_NONE);
 }
@@ -275,8 +270,7 @@ static bool8 CanMewMoveToCoords(s16 x, s16 y)
     {
         return FALSE;
     }
-
-    return MetatileBehavior_IsPokeGrass(MapGridGetMetatileBehaviorAt(x, y));
+    return MetatileBehavior_IsPokeGrass(MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR));
 }
 
 // Last ditch effort to move, clear move candidates and try all directions again
@@ -315,13 +309,13 @@ static u8 GetValidMewMoveDirection(u8 ignoredDir)
 
     if (count > 1)
         return sMewDirectionCandidates[VarGet(VAR_FARAWAY_ISLAND_STEP_COUNTER) % count];
-    else
-        return sMewDirectionCandidates[0];
+    return sMewDirectionCandidates[0];
 }
 
 void UpdateFarawayIslandStepCounter(void)
 {
     u16 steps = VarGet(VAR_FARAWAY_ISLAND_STEP_COUNTER);
+
     if (gSaveBlock1Ptr->location.mapNum == MAP_NUM(FARAWAY_ISLAND_INTERIOR)
      && gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(FARAWAY_ISLAND_INTERIOR))
     {
@@ -341,7 +335,6 @@ bool8 ObjectEventIsFarawayIslandMew(struct ObjectEvent *objectEvent)
         if (objectEvent->graphicsId == OBJ_EVENT_GFX_MEW)
             return TRUE;
     }
-
     return FALSE;
 }
 
@@ -353,7 +346,6 @@ bool8 IsMewPlayingHideAndSeek(void)
         if (FlagGet(FLAG_CAUGHT_MEW) != TRUE && FlagGet(FLAG_HIDE_MEW) != TRUE)
             return TRUE;
     }
-
     return FALSE;
 }
 
@@ -370,8 +362,7 @@ bool8 ShouldMewShakeGrass(struct ObjectEvent *objectEvent)
 
 void SetMewAboveGrass(void)
 {
-    s16 x;
-    s16 y;
+    s16 x, y;
     struct ObjectEvent *mew = &gObjectEvents[GetMewObjectEventId()];
 
     mew->invisible = FALSE;
@@ -422,7 +413,6 @@ static bool8 ShouldMewMoveNorth(struct ObjectEvent *mew, u8 index)
         sMewDirectionCandidates[index] = DIR_NORTH;
         return TRUE;
     }
-
     return FALSE;
 }
 
@@ -433,7 +423,6 @@ static bool8 ShouldMewMoveEast(struct ObjectEvent *mew, u8 index)
         sMewDirectionCandidates[index] = DIR_EAST;
         return TRUE;
     }
-
     return FALSE;
 }
 
@@ -444,7 +433,6 @@ static bool8 ShouldMewMoveSouth(struct ObjectEvent *mew, u8 index)
         sMewDirectionCandidates[index] = DIR_SOUTH;
         return TRUE;
     }
-
     return FALSE;
 }
 
@@ -455,7 +443,6 @@ static bool8 ShouldMewMoveWest(struct ObjectEvent *mew, u8 index)
         sMewDirectionCandidates[index] = DIR_WEST;
         return TRUE;
     }
-
     return FALSE;
 }
 

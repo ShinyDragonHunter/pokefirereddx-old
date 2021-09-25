@@ -551,12 +551,16 @@ u8 BattleSetup_GetTerrainId(void)
     s16 x, y;
 
     PlayerGetDestCoords(&x, &y);
-    tileBehavior = MapGridGetMetatileBehaviorAt(x, y);
+    tileBehavior = MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR);
 
     if (MetatileBehavior_IsTallGrass(tileBehavior))
         return BATTLE_TERRAIN_GRASS;
     if (MetatileBehavior_IsLongGrass(tileBehavior))
         return BATTLE_TERRAIN_LONG_GRASS;
+    if (MetatileBehavior_IsSandOrDeepSand(tileBehavior)
+     || (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(ROUTE113) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(ROUTE113))
+     || GetSav1Weather() == 8)
+        return BATTLE_TERRAIN_SAND;
 
     switch (gMapHeader.mapType)
     {
@@ -590,11 +594,6 @@ u8 BattleSetup_GetTerrainId(void)
         if (MetatileBehavior_IsBridge(tileBehavior))
             return BATTLE_TERRAIN_WATER;
     }
-    if (MetatileBehavior_IsSandOrDeepSand(tileBehavior)
-     || (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(ROUTE113) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(ROUTE113))
-     || GetSav1Weather() == 8)
-        return BATTLE_TERRAIN_SAND;
-
     return BATTLE_TERRAIN_PLAIN;
 }
 
@@ -604,7 +603,7 @@ static u8 GetBattleTransitionTypeByMap(void)
     s16 x, y;
 
     PlayerGetDestCoords(&x, &y);
-    tileBehavior = MapGridGetMetatileBehaviorAt(x, y);
+    tileBehavior = MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR);
     if (Overworld_GetFlashLevel())
         return B_TRANSITION_SHUFFLE;
     if (!MetatileBehavior_IsSurfableWaterOrUnderwater(tileBehavior))
@@ -1377,7 +1376,8 @@ const u8 *GetTrainerBLoseText(void)
 
 const u8 *GetTrainerWonSpeech(void)
 {
-    return ReturnEmptyStringIfNull(sTrainerVictorySpeech);
+    StringExpandPlaceholders(gStringVar4, ReturnEmptyStringIfNull(sTrainerVictorySpeech));
+    return gStringVar4;
 }
 
 static const u8 *GetTrainerCantBattleSpeech(void)

@@ -166,7 +166,8 @@ string generate_map_events_text(Json map_data) {
         for (unsigned int i = 0; i < map_data["object_events"].array_items().size(); i++) {
             auto obj_event = map_data["object_events"].array_items()[i];
             text << "\tobject_event " << i + 1 << ", "
-                 << obj_event["graphics_id"].string_value() << ", 0, "
+                 << obj_event["in_connection"].bool_value() << ", "
+                 << obj_event["graphics_id"].string_value() << ", "
                  << obj_event["x"].int_value() << ", "
                  << obj_event["y"].int_value() << ", "
                  << obj_event["elevation"].int_value() << ", "
@@ -244,13 +245,6 @@ string generate_map_events_text(Json map_data) {
                      << bg_event["elevation"].int_value() << ", "
                      << bg_event["item"].string_value() << ", "
                      << bg_event["flag"].string_value() << "\n";
-            }
-            else if (bg_event["type"] == "secret_base") {
-                text << "\tbg_secret_base_event "
-                     << bg_event["x"].int_value() << ", "
-                     << bg_event["y"].int_value() << ", "
-                     << bg_event["elevation"].int_value() << ", "
-                     << bg_event["secret_base_id"].string_value() << "\n";
             }
         }
         text << "\n";

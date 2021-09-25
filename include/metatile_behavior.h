@@ -2,7 +2,6 @@
 #define GUARD_METATILE_BEHAVIOR_H
 
 bool8 MetatileBehavior_IsATile(u8);
-bool8 MetatileBehavior_IsEncounterTile(u8);
 bool8 MetatileBehavior_IsJumpEast(u8);
 bool8 MetatileBehavior_IsJumpWest(u8);
 bool8 MetatileBehavior_IsJumpNorth(u8);
@@ -15,6 +14,11 @@ bool8 MetatileBehavior_IsIce(u8);
 bool8 MetatileBehavior_IsWarpDoor(u8);
 bool8 MetatileBehavior_IsDoor(u8);
 bool8 MetatileBehavior_IsEscalator(u8);
+bool8 MetatileBehavior_IsDirectionalUpRightStairWarp(u8);
+bool8 MetatileBehavior_IsDirectionalUpLeftStairWarp(u8);
+bool8 MetatileBehavior_IsDirectionalDownRightStairWarp(u8);
+bool8 MetatileBehavior_IsDirectionalDownLeftStairWarp(u8);
+bool8 MetatileBehavior_IsDirectionalStairWarp(u8);
 bool8 MetatileBehavior_IsMB_04(u8);
 bool8 MetatileBehavior_IsLadder(u8);
 bool8 MetatileBehavior_IsNonAnimDoor(u8);
@@ -59,8 +63,6 @@ bool8 MetatileBehavior_IsFootprints(u8);
 bool8 MetatileBehavior_IsBridge(u8);
 u8 MetatileBehavior_GetBridgeType(u8);
 u8 MetatileBehavior_8089510(u8);
-bool8 MetatileBehavior_IsLandWildEncounter(u8);
-bool8 MetatileBehavior_IsWaterWildEncounter(u8);
 bool8 MetatileBehavior_IsIndoorEncounter(u8);
 bool8 MetatileBehavior_IsMountain(u8);
 bool8 MetatileBehavior_IsDiveable(u8);
@@ -119,8 +121,8 @@ bool8 MetatileBehavior_IsBattlePyramidWarp(u8);
 bool8 MetatileBehavior_IsPlayerFacingWirelessBoxResults(u8 tile, u8 playerDir);
 bool8 MetatileBehavior_IsCableBoxResults2(u8 tile, u8 playerDir);
 bool8 MetatileBehavior_IsQuestionnaire(u8);
-bool8 MetatileBehavior_IsLongGrass_Duplicate(u8);
 bool8 MetatileBehavior_IsLongGrassSouthEdge(u8);
 bool8 MetatileBehavior_IsTrainerHillTimer(u8);
+bool8 TestMetatileAttributeBit(u8 attr, u8 bitmask);
 
 #endif // GUARD_METATILE_BEHAVIOR_H

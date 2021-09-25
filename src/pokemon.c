@@ -6798,9 +6798,7 @@ const u8 *GetTrainerPartnerName(void)
     if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)
     {
         if (gPartnerTrainerId == TRAINER_STEVEN_PARTNER)
-        {
             return gTrainers[TRAINER_STEVEN].trainerName;
-        }
         else
         {
             GetFrontierTrainerName(gStringVar1, gPartnerTrainerId);
@@ -6810,8 +6808,27 @@ const u8 *GetTrainerPartnerName(void)
     else
     {
         u8 id = GetMultiplayerId();
+
         return gLinkPlayers[GetBattlerMultiplayerId(gLinkPlayers[id].id ^ 2)].name;
     }
+}
+
+u8 GetPlayerPartyHighestLevel(void)
+{
+    int slot;
+    u8 level = 1;
+
+    for (slot = 0; slot < PARTY_SIZE; ++slot)
+    {
+        if (GetMonData(&gPlayerParty[slot], MON_DATA_SANITY_HAS_SPECIES, NULL) == TRUE && !GetMonData(&gPlayerParty[slot], MON_DATA_SANITY_IS_EGG, NULL))
+        {
+            u8 monLevel = GetMonData(&gPlayerParty[slot], MON_DATA_LEVEL, NULL);
+
+            if (monLevel > level)
+                level = monLevel;
+        }
+    }
+    return level;
 }
 
 #define READ_PTR_FROM_TASK(taskId, dataId)                      \

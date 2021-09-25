@@ -236,16 +236,20 @@ extern const u8 gPokeNewsTextBlendMaster_Upcoming[];
 extern const u8 gPokeNewsTextBlendMaster_Ongoing[];
 extern const u8 gPokeNewsTextBlendMaster_Ending[];
 
-//field effects
+// field effects
 extern const u8 EventScript_UseStrength[];
 extern const u8 EventScript_FailSweetScent[];
 extern const u8 EventScript_UseFlash[];
 extern const u8 EventScript_UseCut[];
 extern const u8 EventScript_UseRockSmash[];
 
-//player pc
+// player pc
 extern const u8 LittlerootTown_BrendansHouse_2F_EventScript_TurnOffPlayerPC[];
 extern const u8 LittlerootTown_MaysHouse_2F_EventScript_TurnOffPlayerPC[];
+
+// field_screen_effect
+extern const u8 EventScript_AfterWhiteOutMomHeal[];
+extern const u8 EventScript_AfterWhiteOutHeal[];
 
 extern const u8 EventScript_SelectWithoutRegisteredItem[];
 

@@ -4,6 +4,7 @@
 #include "event_data.h"
 #include "event_object_movement.h"
 #include "field_camera.h"
+#include "field_control_avatar.h"
 #include "field_effect.h"
 #include "field_effect_helpers.h"
 #include "field_player_avatar.h"
@@ -62,6 +63,7 @@ static bool8 ForcedMovement_SlideWest(void);
 static bool8 ForcedMovement_SlideEast(void);
 static bool8 ForcedMovement_MatJump(void);
 static bool8 ForcedMovement_MuddySlope(void);
+static bool8 MetatileAtCoordsIsWaterTile(s16 x, s16 y);
 
 static void MovePlayerNotOnBike(u8, u16);
 static u8 CheckMovementInputNotOnBike(u8);
@@ -740,6 +742,8 @@ static void PlayerNotOnBikeMoving(u8 direction, u16 heldKeys)
             PlayerNotOnBikeCollideWithFarawayIslandMew(direction);
             return;
         }
+        else if (collision == COLLISION_STAIR_WARP)
+            PlayerFaceDirection(direction);
         else
         {
             u8 adjustedCollision = collision - COLLISION_STOP_SURFING;
@@ -764,9 +768,7 @@ static void PlayerNotOnBikeMoving(u8 direction, u16 heldKeys)
         return;
     }
     else
-    {
         PlayerGoSpeed1(direction);
-    }
 }
 
 static u8 CheckForPlayerAvatarCollision(u8 direction)
@@ -776,8 +778,10 @@ static u8 CheckForPlayerAvatarCollision(u8 direction)
 
     x = playerObjEvent->currentCoords.x;
     y = playerObjEvent->currentCoords.y;
+    if (IsDirectionalStairWarpMetatileBehavior(MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR), direction))
+        return COLLISION_STAIR_WARP;
     MoveCoords(direction, &x, &y);
-    return CheckForObjectEventCollision(playerObjEvent, x, y, direction, MapGridGetMetatileBehaviorAt(x, y));
+    return CheckForObjectEventCollision(playerObjEvent, x, y, direction, MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR));
 }
 
 static u8 sub_808B028(u8 direction)
@@ -788,7 +792,7 @@ static u8 sub_808B028(u8 direction)
     x = playerObjEvent->currentCoords.x;
     y = playerObjEvent->currentCoords.y;
     MoveCoords(direction, &x, &y);
-    return CheckForObjectEventCollision(playerObjEvent, x, y, direction, MapGridGetMetatileBehaviorAt(x, y));
+    return CheckForObjectEventCollision(playerObjEvent, x, y, direction, MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR));
 }
 
 u8 CheckForObjectEventCollision(struct ObjectEvent *objectEvent, s16 x, s16 y, u8 direction, u8 metatileBehavior)
@@ -843,9 +847,9 @@ static bool8 TryPushBoulder(s16 x, s16 y, u8 direction)
             x = gObjectEvents[objectEventId].currentCoords.x;
             y = gObjectEvents[objectEventId].currentCoords.y;
             MoveCoords(direction, &x, &y);
-            if (MapGridGetMetatileBehaviorAt(x, y) == MB_MT_PYRE_HOLE
+            if (MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR) == MB_MT_PYRE_HOLE
              || (GetCollisionAtCoords(&gObjectEvents[objectEventId], x, y, direction) == COLLISION_NONE
-             && !MetatileBehavior_IsNonAnimDoor(MapGridGetMetatileBehaviorAt(x, y))))
+             && !MetatileBehavior_IsNonAnimDoor(MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR))))
             {
                 StartStrengthAnim(objectEventId, direction);
                 return TRUE;
@@ -859,9 +863,7 @@ bool8 IsPlayerCollidingWithFarawayIslandMew(u8 direction)
 {
     u8 mewObjectId;
     struct ObjectEvent *object;
-    s16 playerX;
-    s16 playerY;
-    s16 mewPrevX;
+    s16 playerX, playerY, mewPrevX;
 
     object = &gObjectEvents[gPlayerAvatar.objectEventId];
     playerX = object->currentCoords.x;
@@ -1115,7 +1117,7 @@ static void PlayCollisionSoundIfNotFacingWarp(u8 a)
         {
             PlayerGetDestCoords(&x, &y);
             MoveCoords(2, &x, &y);
-            if (MetatileBehavior_IsWarpDoor(MapGridGetMetatileBehaviorAt(x, y)))
+            if (MetatileBehavior_IsWarpDoor(MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR)))
                 return;
         }
         PlaySE(SE_WALL_HIT);
@@ -1286,9 +1288,14 @@ bool8 IsPlayerFacingSurfableFishableWater(void)
     MoveCoords(playerObjEvent->facingDirection, &x, &y);
     if (GetCollisionAtCoords(playerObjEvent, x, y, playerObjEvent->facingDirection) == COLLISION_ELEVATION_MISMATCH
      && PlayerGetZCoord() == 3
-     && MetatileBehavior_IsSurfableFishableWater(MapGridGetMetatileBehaviorAt(x, y)))
+     && MetatileAtCoordsIsWaterTile(x, y))
         return TRUE;
     return FALSE;
+}
+
+bool8 MetatileAtCoordsIsWaterTile(s16 x, s16 y)
+{
+    return TestMetatileAttributeBit(MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_TERRAIN), TILE_TERRAIN_WATER);
 }
 
 void ClearPlayerAvatarInfo(void)

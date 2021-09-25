@@ -14,16 +14,14 @@
 extern struct BackupMapLayout gBackupMapLayout;
 
 u32 MapGridGetMetatileIdAt(int, int);
-u32 MapGridGetMetatileBehaviorAt(int, int);
 void MapGridSetMetatileIdAt(int, int, u16);
 void MapGridSetMetatileEntryAt(int, int, u16);
 void GetCameraCoords(u16*, u16*);
 bool8 MapGridIsImpassableAt(int, int);
 int GetMapBorderIdAt(int x, int y);
 bool32 CanCameraMoveInDirection(int direction);
-u16 GetBehaviorByMetatileId(u16 metatileId);
+u32 GetBehaviorByMetatileId(u16 metatile);
 void GetCameraFocusCoords(u16 *x, u16 *y);
-u8 MapGridGetMetatileLayerTypeAt(int x, int y);
 u8 MapGridGetZCoordAt(int x, int y);
 bool8 CameraMove(int deltaX, int deltaY);
 void SaveMapView(void);
@@ -39,8 +37,10 @@ void CopySecondaryTilesetToVramUsingHeap(struct MapLayout const *mapLayout);
 void CopyPrimaryTilesetToVram(const struct MapLayout *);
 void CopySecondaryTilesetToVram(const struct MapLayout *);
 struct MapHeader const *const GetMapHeaderFromConnection(struct MapConnection *connection);
-struct MapConnection *GetConnectionAtCoords(s16 x, s16 y);
+struct MapConnection *GetConnectionAtCoords(int x, int y);
 void MapGridSetMetatileImpassabilityAt(int x, int y, bool32 impassable);
+u32 GetMetatileAttributeFromRawMetatileBehavior(u32 original, u8 bit);
+u32 MapGridGetMetatileAttributeAt(int x, int y, u8 attr);
 
 // field_region_map.c
 void FieldInitRegionMap(MainCallback callback);

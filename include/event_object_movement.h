@@ -83,7 +83,6 @@ void SetObjectEventDirection(struct ObjectEvent *, u8);
 u8 GetFirstInactiveObjectEventId(void);
 void RemoveObjectEventByLocalIdAndMap(u8, u8, u8);
 void TryMoveObjectEventToMapCoords(u8, u8, u8, s16, s16);
-void PatchObjectPalette(u16, u8);
 void SpawnObjectEventsOnReturnToField(s16, s16);
 void GetMapCoordsFromSpritePos(s16, s16, s16 *, s16 *);
 u8 GetFaceDirectionAnimNum(u8);

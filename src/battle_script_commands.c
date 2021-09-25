@@ -5557,13 +5557,18 @@ static u32 GetTrainerMoneyToGive(u16 trainerId)
 
 static void Cmd_getmoneyreward(void)
 {
-    u32 moneyReward = GetTrainerMoneyToGive(gTrainerBattleOpponent_A);
-    if (gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS)
-        moneyReward += GetTrainerMoneyToGive(gTrainerBattleOpponent_B);
+    u32 moneyReward;
 
-    AddMoney(&gSaveBlock1Ptr->money, moneyReward);
+    if (gBattleOutcome == B_OUTCOME_WON)
+    {
+        moneyReward = GetTrainerMoneyToGive(gTrainerBattleOpponent_A);
+        if (gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS)
+            moneyReward += GetTrainerMoneyToGive(gTrainerBattleOpponent_B);
+        AddMoney(&gSaveBlock1Ptr->money, moneyReward);
+    }
+    else
+        moneyReward = ComputeWhiteOutMoneyLoss();
     PREPARE_WORD_NUMBER_BUFFER(gBattleTextBuff1, 5, moneyReward);
-
     gBattlescriptCurrInstr++;
 }
 

@@ -656,7 +656,7 @@ static void SetTVMetatilesOnMap(int width, int height, u16 tileId)
     {
         for (x = 0; x < width; x++)
         {
-            if (MapGridGetMetatileBehaviorAt(x, y) == MB_TELEVISION)
+            if (MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR) == MB_TELEVISION)
                 MapGridSetMetatileIdAt(x, y, tileId | METATILE_COLLISION_MASK);
         }
     }

@@ -10,20 +10,27 @@ EventScript_FieldPoison::
 	end
 
 EventScript_FieldWhiteOut::
+	checkmoney 1, 0
+	compare VAR_RESULT, FALSE
+	goto_if_eq EventScript_FieldWhiteOutNoMoney
+	compare VAR_RESULT, TRUE
+	goto_if_eq EventScript_FieldWhiteOutHasMoney
+	end
+
+EventScript_FieldWhiteOutNoMoney::
 	message gText_PlayerWhitedOut
 	waitmessage
 	waitbuttonpress
-	special Script_FadeOutMapMusic
-	waitstate
-	fadescreen FADE_TO_BLACK
-	call_if_set FLAG_WHITEOUT_TO_LAVARIDGE, EventScript_SetRespawnLavaridgePkmnCenter
-	special SetCB2WhiteOut
-	waitstate
+	goto EventScript_FieldWhiteOutFade
 	end
 
-EventScript_SetRespawnLavaridgePkmnCenter::
-	setrespawn HEAL_LOCATION_LAVARIDGE_TOWN
-	return
+EventScript_FieldWhiteOutHasMoney::
+	special OverworldWhiteOutGetMoneyLoss
+	msgbox gText_PlayerWhitedOutLostMoney
+	waitmessage
+	waitbuttonpress
+	goto EventScript_FieldWhiteOutFade
+	end
 
 EventScript_FrontierFieldWhiteOut::
 	message gText_PlayerWhitedOut
@@ -38,6 +45,8 @@ EventScript_FrontierFieldWhiteOut::
 	trainerhill_inchallenge
 	compare VAR_RESULT, TRUE
 	goto_if_eq TrainerHill_1F_EventScript_Lost
+
+EventScript_FieldWhiteOutFade::
 	special Script_FadeOutMapMusic
 	waitstate
 	fadescreen FADE_TO_BLACK

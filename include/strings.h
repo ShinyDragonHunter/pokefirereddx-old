@@ -183,6 +183,10 @@ extern const u8 gText_ClockHasBeenReset[];
 extern const u8 gText_SaveCompleted[];
 extern const u8 gText_SaveFailed[];
 
+// field_screen_effect
+extern const u8 gText_PlayerScurriedToCenter[];
+extern const u8 gText_PlayerScurriedBackHome[];
+
 // menu texts
 extern const u8 gText_MenuPokedex[];
 extern const u8 gText_MenuPokemon[];

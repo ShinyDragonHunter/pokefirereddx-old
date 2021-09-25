@@ -220,7 +220,7 @@ void DrawDoorMetatileAt(int x, int y, u16 *arr)
 
     if (offset >= 0)
     {
-        DrawMetatile(0xFF, arr, offset);
+        DrawMetatile(255, arr, offset);
         sFieldCameraOffset.copyBGToVRAM = TRUE;
     }
 }
@@ -239,7 +239,7 @@ static void DrawMetatileAt(const struct MapLayout *mapLayout, u16 offset, int x,
         metatiles = mapLayout->secondaryTileset->metatiles;
         metatileId -= NUM_METATILES_IN_PRIMARY;
     }
-    DrawMetatile(MapGridGetMetatileLayerTypeAt(x, y), metatiles + metatileId * 12, offset);
+    DrawMetatile(MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_LAYER_TYPE), metatiles + metatileId * 12, offset);
 }
 
 static void DrawMetatile(s32 metatileLayerType, u16 *metatiles, u16 offset)
@@ -417,7 +417,7 @@ void UpdateCameraPanning(void)
 {
     if (sFieldCameraPanningCallback != NULL)
         sFieldCameraPanningCallback();
-    //Update sprite offset of overworld objects
+    // Update sprite offset of overworld objects
     gSpriteCoordOffsetX = gTotalCameraPixelOffsetX - sHorizontalCameraPan;
     gSpriteCoordOffsetY = gTotalCameraPixelOffsetY - sVerticalCameraPan - 8;
 }

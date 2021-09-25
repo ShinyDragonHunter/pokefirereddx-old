@@ -610,8 +610,6 @@ static void BuyMenuDrawMapBg(void)
     s32 i, j;
     s16 x, y;
     const struct MapLayout *mapLayout;
-    u16 metatile;
-    u8 metatileLayerType;
 
     mapLayout = gMapHeader.mapLayout;
     GetXYCoordsOneStepInFrontOfPlayer(&x, &y);
@@ -622,8 +620,8 @@ static void BuyMenuDrawMapBg(void)
     {
         for (i = 0; i < 15; i++)
         {
-            metatile = MapGridGetMetatileIdAt(x + i, y + j);
-            metatileLayerType = MapGridGetMetatileLayerTypeAt(x + i, y + j);
+            u16 metatile = MapGridGetMetatileIdAt(x + i, y + j);
+            u8 metatileLayerType = MapGridGetMetatileAttributeAt(x + i, y + j, METATILE_ATTRIBUTE_LAYER_TYPE);
 
             if (metatile < NUM_METATILES_IN_PRIMARY)
                 BuyMenuDrawMapMetatile(i, j, (u16*)mapLayout->primaryTileset->metatiles + metatile * 12, metatileLayerType);

@@ -42,7 +42,7 @@ u8 gSelectedObjectEvent;
 
 static void GetPlayerPosition(struct MapPosition *);
 static void GetInFrontOfPlayerPosition(struct MapPosition *);
-static u16 GetPlayerCurMetatileBehavior(int);
+static u16 GetPlayerCurMetatileBehavior(void);
 static bool8 TryStartInteractionScript(struct MapPosition*, u16, u8);
 static const u8 *GetInteractionScript(struct MapPosition*, u8, u8);
 static const u8 *GetInteractedObjectEventScript(struct MapPosition *, u8, u8);
@@ -52,7 +52,7 @@ static const u8 *GetInteractedWaterScript(struct MapPosition *, u8, u8);
 static bool32 TrySetupDiveDownScript(void);
 static bool32 TrySetupDiveEmergeScript(void);
 static bool8 TryStartStepBasedScript(struct MapPosition *, u16, u16);
-static bool8 CheckStandardWildEncounter(u16);
+static bool8 CheckStandardWildEncounter(u32 metatileAttributes);
 static bool8 TryArrowWarp(struct MapPosition *, u16, u8);
 static bool8 IsWarpMetatileBehavior(u16);
 static bool8 IsArrowWarpMetatileBehavior(u16, u8);
@@ -88,9 +88,9 @@ void FieldClearPlayerInput(struct FieldInput *input)
 
 void FieldGetPlayerInput(struct FieldInput *input, u16 newKeys, u16 heldKeys)
 {
-    u8 tileTransitionState = gPlayerAvatar.tileTransitionState;
     u8 runningState = gPlayerAvatar.runningState;
-    bool8 forcedMove = MetatileBehavior_IsForcedMovementTile(GetPlayerCurMetatileBehavior(runningState));
+    u8 tileTransitionState = gPlayerAvatar.tileTransitionState;
+    bool8 forcedMove = MetatileBehavior_IsForcedMovementTile(GetPlayerCurMetatileBehavior());
 
     if ((tileTransitionState == T_TILE_CENTER && forcedMove == FALSE) || tileTransitionState == T_NOT_MOVING)
     {
@@ -136,15 +136,16 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
     struct MapPosition position;
     u8 playerDirection;
     u16 metatileBehavior;
+    u32 metatileAttributes;
 
     gSpecialVar_LastTalked = 0;
     gSelectedObjectEvent = 0;
-
     gSpecialVar_TextColor = 0xFF;
 
     playerDirection = GetPlayerFacingDirection();
     GetPlayerPosition(&position);
-    metatileBehavior = MapGridGetMetatileBehaviorAt(position.x, position.y);
+    metatileAttributes = MapGridGetMetatileAttributeAt(position.x, position.y, 0xFF);
+    metatileBehavior = MapGridGetMetatileAttributeAt(position.x, position.y, METATILE_ATTRIBUTE_BEHAVIOR);
 
     if (CheckForTrainersWantingBattle()
      || TryRunOnFrameMapScript()
@@ -158,7 +159,7 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
         if (TryStartStepBasedScript(&position, metatileBehavior, playerDirection))
             return TRUE;
     }
-    if (input->checkStandardWildEncounter && CheckStandardWildEncounter(metatileBehavior))
+    if (input->checkStandardWildEncounter && CheckStandardWildEncounter(metatileAttributes))
         return TRUE;
     if (input->heldDirection && input->dpadDirection == playerDirection)
     {
@@ -167,7 +168,7 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
     }
 
     GetInFrontOfPlayerPosition(&position);
-    metatileBehavior = MapGridGetMetatileBehaviorAt(position.x, position.y);
+    metatileBehavior = MapGridGetMetatileAttributeAt(position.x, position.y, METATILE_ATTRIBUTE_BEHAVIOR);
     if (input->pressedAButton && TryStartInteractionScript(&position, metatileBehavior, playerDirection))
         return TRUE;
 
@@ -208,12 +209,12 @@ static void GetInFrontOfPlayerPosition(struct MapPosition *position)
         position->height = 0;
 }
 
-static u16 GetPlayerCurMetatileBehavior(int runningState)
+static u16 GetPlayerCurMetatileBehavior(void)
 {
     s16 x, y;
 
     PlayerGetDestCoords(&x, &y);
-    return MapGridGetMetatileBehaviorAt(x, y);
+    return MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR);
 }
 
 static bool8 TryStartInteractionScript(struct MapPosition *position, u16 metatileBehavior, u8 direction)
@@ -258,7 +259,7 @@ const u8 *GetInteractedLinkPlayerScript(struct MapPosition *position, u8 metatil
     u8 objectEventId;
     s32 i;
 
-    if (!MetatileBehavior_IsCounter(MapGridGetMetatileBehaviorAt(position->x, position->y)))
+    if (!MetatileBehavior_IsCounter(MapGridGetMetatileAttributeAt(position->x, position->y, METATILE_ATTRIBUTE_BEHAVIOR)))
         objectEventId = GetObjectEventIdByXYZ(position->x, position->y, position->height);
     else
         objectEventId = GetObjectEventIdByXYZ(position->x + gDirectionToVectors[direction].x, position->y + gDirectionToVectors[direction].y, position->height);
@@ -475,11 +476,8 @@ static bool8 TryStartMiscWalkingScripts(u16 metatileBehavior)
 static bool8 TryStartStepCountScript(u16 metatileBehavior)
 {
     if (InUnionRoom())
-    {
         return FALSE;
-    }
 
-    IncrementRematchStepCounter();
     UpdateFriendshipStepCounter();
     UpdateFarawayIslandStepCounter();
 
@@ -496,51 +494,9 @@ static bool8 TryStartStepCountScript(u16 metatileBehavior)
             ScriptContext1_SetupScript(EventScript_EggHatch);
             return TRUE;
         }
-        if (AbnormalWeatherHasExpired())
-        {
-            ScriptContext1_SetupScript(AbnormalWeather_EventScript_EndEventAndCleanup_1);
-            return TRUE;
-        }
-        if (ShouldDoBrailleRegicePuzzle())
-        {
-            ScriptContext1_SetupScript(IslandCave_EventScript_OpenRegiEntrance);
-            return TRUE;
-        }
-        if (ShouldDoWallyCall())
-        {
-            ScriptContext1_SetupScript(MauvilleCity_EventScript_RegisterWallyCall);
-            return TRUE;
-        }
-        if (ShouldDoScottFortreeCall())
-        {
-            ScriptContext1_SetupScript(Route119_EventScript_ScottWonAtFortreeGymCall);
-            return TRUE;
-        }
-        if (ShouldDoScottBattleFrontierCall())
-        {
-            ScriptContext1_SetupScript(LittlerootTown_ProfessorBirchsLab_EventScript_ScottAboardSSTidalCall);
-            return TRUE;
-        }
-        if (ShouldDoRoxanneCall())
-        {
-            ScriptContext1_SetupScript(RustboroCity_Gym_EventScript_RegisterRoxanne);
-            return TRUE;
-        }
-        if (ShouldDoRivalRayquazaCall())
-        {
-            ScriptContext1_SetupScript(MossdeepCity_SpaceCenter_2F_EventScript_RivalRayquazaCall);
-            return TRUE;
-        }
     }
 
     if (SafariZoneTakeStep())
-        return TRUE;
-    if (CountSSTidalStep(1))
-    {
-        ScriptContext1_SetupScript(SSTidalCorridor_EventScript_ReachedStepCount);
-        return TRUE;
-    }
-    if (TryStartMatchCall())
         return TRUE;
     return FALSE;
 }
@@ -595,23 +551,23 @@ void RestartWildEncounterImmunitySteps(void)
     sWildEncounterImmunitySteps = 0;
 }
 
-static bool8 CheckStandardWildEncounter(u16 metatileBehavior)
+static bool8 CheckStandardWildEncounter(u32 metatileAttributes)
 {
     if (sWildEncounterImmunitySteps < 4)
     {
         sWildEncounterImmunitySteps++;
-        sPreviousPlayerMetatileBehavior = metatileBehavior;
+        sPreviousPlayerMetatileBehavior = GetMetatileAttributeFromRawMetatileBehavior(metatileAttributes, METATILE_ATTRIBUTE_BEHAVIOR);
         return FALSE;
     }
 
-    if (StandardWildEncounter(metatileBehavior, sPreviousPlayerMetatileBehavior))
+    if (StandardWildEncounter(metatileAttributes, sPreviousPlayerMetatileBehavior))
     {
         sWildEncounterImmunitySteps = 0;
-        sPreviousPlayerMetatileBehavior = metatileBehavior;
+        sPreviousPlayerMetatileBehavior = GetMetatileAttributeFromRawMetatileBehavior(metatileAttributes, METATILE_ATTRIBUTE_BEHAVIOR);
         return TRUE;
     }
 
-    sPreviousPlayerMetatileBehavior = metatileBehavior;
+    sPreviousPlayerMetatileBehavior = GetMetatileAttributeFromRawMetatileBehavior(metatileAttributes, METATILE_ATTRIBUTE_BEHAVIOR);
     return FALSE;
 }
 
@@ -619,12 +575,29 @@ static bool8 TryArrowWarp(struct MapPosition *position, u16 metatileBehavior, u8
 {
     s8 warpEventId = GetWarpEventAtMapPosition(&gMapHeader, position);
 
-    if (IsArrowWarpMetatileBehavior(metatileBehavior, direction) && warpEventId != -1)
+    if (warpEventId != -1)
     {
-        StoreInitialPlayerAvatarState();
-        SetupWarp(&gMapHeader, warpEventId, position);
-        DoWarp();
-        return TRUE;
+        if (IsArrowWarpMetatileBehavior(metatileBehavior, direction))
+        {
+            StoreInitialPlayerAvatarState();
+            SetupWarp(&gMapHeader, warpEventId, position);
+            DoWarp();
+            return TRUE;
+        }
+        else if (IsDirectionalStairWarpMetatileBehavior(metatileBehavior, direction))
+        {
+            u16 delay = 0;
+
+            if (gPlayerAvatar.flags & (PLAYER_AVATAR_FLAG_BIKE))
+            {
+                SetPlayerAvatarTransitionFlags(PLAYER_AVATAR_FLAG_ON_FOOT);
+                delay = 12;
+            }
+            StoreInitialPlayerAvatarState();
+            SetupWarp(&gMapHeader, warpEventId, position);
+            DoStairWarp(metatileBehavior, delay);
+            return TRUE;
+        }
     }
     return FALSE;
 }
@@ -681,18 +654,36 @@ static bool8 TryStartWarpEventScript(struct MapPosition *position, u16 metatileB
 
 static bool8 IsWarpMetatileBehavior(u16 metatileBehavior)
 {
-    if (MetatileBehavior_IsWarpDoor(metatileBehavior) != TRUE
-     && MetatileBehavior_IsLadder(metatileBehavior) != TRUE
-     && MetatileBehavior_IsEscalator(metatileBehavior) != TRUE
-     && MetatileBehavior_IsNonAnimDoor(metatileBehavior) != TRUE
-     && MetatileBehavior_IsLavaridgeB1FWarp(metatileBehavior) != TRUE
-     && MetatileBehavior_IsLavaridge1FWarp(metatileBehavior) != TRUE
-     && MetatileBehavior_IsAquaHideoutWarp(metatileBehavior) != TRUE
-     && MetatileBehavior_IsMtPyreHole(metatileBehavior) != TRUE
-     && MetatileBehavior_IsMossdeepGymWarp(metatileBehavior) != TRUE
-     && MetatileBehavior_IsWarpOrBridge(metatileBehavior) != TRUE)
-        return FALSE;
-    return TRUE;
+    if (MetatileBehavior_IsWarpDoor(metatileBehavior)
+     || MetatileBehavior_IsLadder(metatileBehavior)
+     || MetatileBehavior_IsEscalator(metatileBehavior)
+     || MetatileBehavior_IsNonAnimDoor(metatileBehavior)
+     || MetatileBehavior_IsLavaridgeB1FWarp(metatileBehavior)
+     || MetatileBehavior_IsLavaridge1FWarp(metatileBehavior)
+     || MetatileBehavior_IsAquaHideoutWarp(metatileBehavior)
+     || MetatileBehavior_IsMtPyreHole(metatileBehavior)
+     || MetatileBehavior_IsMossdeepGymWarp(metatileBehavior)
+     || MetatileBehavior_IsWarpOrBridge(metatileBehavior))
+        return TRUE;
+    return FALSE;
+}
+
+bool8 IsDirectionalStairWarpMetatileBehavior(u16 metatileBehavior, u8 playerDirection)
+{
+    switch (playerDirection)
+    {
+    case DIR_WEST:
+        if (MetatileBehavior_IsDirectionalUpLeftStairWarp(metatileBehavior)
+         || MetatileBehavior_IsDirectionalDownLeftStairWarp(metatileBehavior))
+            return TRUE;
+        break;
+    case DIR_EAST:
+        if (MetatileBehavior_IsDirectionalUpRightStairWarp(metatileBehavior)
+         || MetatileBehavior_IsDirectionalDownRightStairWarp(metatileBehavior))
+            return TRUE;
+        break;
+    }
+    return FALSE;
 }
 
 static bool8 IsArrowWarpMetatileBehavior(u16 metatileBehavior, u8 direction)
@@ -719,7 +710,6 @@ static s8 GetWarpEventAtMapPosition(struct MapHeader *mapHeader, struct MapPosit
 static void SetupWarp(struct MapHeader *unused, s8 warpEventId, struct MapPosition *position)
 {
     const struct WarpEvent *warpEvent;
-
     u8 trainerHillMapId = GetCurrentTrainerHillMapId();
 
     if (trainerHillMapId)
@@ -732,23 +722,15 @@ static void SetupWarp(struct MapHeader *unused, s8 warpEventId, struct MapPositi
                 warpEvent = &gMapHeader.events->warps[0];
         }
         else if (trainerHillMapId == TRAINER_HILL_ROOF)
-        {
             warpEvent = SetWarpDestinationTrainerHillFinalFloor(warpEventId);
-        }
         else
-        {
             warpEvent = &gMapHeader.events->warps[warpEventId];
-        }
     }
     else
-    {
         warpEvent = &gMapHeader.events->warps[warpEventId];
-    }
 
     if (warpEvent->mapNum == MAP_NUM(NONE))
-    {
         SetWarpDestinationToDynamicWarp(warpEvent->warpId);
-    }
     else
     {
         const struct MapHeader *mapHeader;
@@ -893,7 +875,7 @@ u8 TrySetDiveWarp(void)
     u8 metatileBehavior;
 
     PlayerGetDestCoords(&x, &y);
-    metatileBehavior = MapGridGetMetatileBehaviorAt(x, y);
+    metatileBehavior = MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR);
     if (gMapHeader.mapType == MAP_TYPE_UNDERWATER && !MetatileBehavior_IsUnableToEmerge(metatileBehavior))
     {
         if (SetDiveWarpEmerge(x - 7, y - 7))
@@ -914,7 +896,7 @@ const u8 *GetObjectEventScriptPointerPlayerFacing(void)
 
     direction = GetPlayerMovementDirection();
     GetInFrontOfPlayerPosition(&position);
-    return GetInteractedObjectEventScript(&position, MapGridGetMetatileBehaviorAt(position.x, position.y), direction);
+    return GetInteractedObjectEventScript(&position, MapGridGetMetatileAttributeAt(position.x, position.y, METATILE_ATTRIBUTE_BEHAVIOR), direction);
 }
 
 int SetCableClubWarp(void)

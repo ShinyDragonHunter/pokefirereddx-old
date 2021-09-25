@@ -19,9 +19,6 @@ struct BgControl
         u8 charBaseIndex:2;
         u8 mapBaseIndex:5;
         u8 paletteMode:1;
-
-        u8 unknown_2; // Assigned to but never read
-        u8 unknown_3; // Assigned to but never read
     } configs[NUM_BACKGROUNDS];
 
     u16 bgVisibilityAndMode;
@@ -67,9 +64,7 @@ void ResetBgControlStructs(void)
     int i;
 
     for (i = 0; i < NUM_BACKGROUNDS; i++)
-    {
         sGpuBgConfigs.configs[i] = sZeroedBgControlStruct;
-    }
 }
 
 enum
@@ -122,9 +117,6 @@ static void SetBgControlAttributes(u8 bg, u8 charBaseIndex, u8 mapBaseIndex, u8 
         {
             sGpuBgConfigs.configs[bg].wraparound = wraparound;
         }
-
-        sGpuBgConfigs.configs[bg].unknown_2 = 0;
-        sGpuBgConfigs.configs[bg].unknown_3 = 0;
 
         sGpuBgConfigs.configs[bg].visible = 1;
     }
@@ -567,8 +559,7 @@ s32 GetBgX(u8 bg)
         return -1;
     else if (!GetBgControlAttribute(bg, BG_CTRL_ATTR_VISIBLE))
         return -1;
-    else
-        return sGpuBgConfigs2[bg].bg_x;
+    return sGpuBgConfigs2[bg].bg_x;
 }
 
 s32 ChangeBgY(u8 bg, s32 value, u8 op)
@@ -717,8 +708,7 @@ s32 GetBgY(u8 bg)
         return -1;
     else if (!GetBgControlAttribute(bg, BG_CTRL_ATTR_VISIBLE))
         return -1;
-    else
-        return sGpuBgConfigs2[bg].bg_y;
+    return sGpuBgConfigs2[bg].bg_y;
 }
 
 void SetBgAffine(u8 bg, s32 srcCenterX, s32 srcCenterY, s16 dispCenterX, s16 dispCenterY, s16 scaleX, s16 scaleY, u16 rotationAngle)
@@ -748,8 +738,7 @@ void* GetBgTilemapBuffer(u8 bg)
         return NULL;
     else if (!GetBgControlAttribute(bg, BG_CTRL_ATTR_VISIBLE))
         return NULL;
-    else
-        return sGpuBgConfigs2[bg].tilemap;
+    return sGpuBgConfigs2[bg].tilemap;
 }
 
 void CopyToBgTilemapBuffer(u8 bg, const void *src, u16 mode, u16 destOffset)
@@ -787,8 +776,7 @@ void CopyBgTilemapBufferToVram(u8 bg)
 
 void CopyToBgTilemapBufferRect(u8 bg, const void* src, u8 destX, u8 destY, u8 width, u8 height)
 {
-    u16 destX16;
-    u32 destY16;
+    u32 destX16, destY16;
     u16 mode;
 
     if (!IsInvalidBg32(bg) && !IsTileMapOutsideWram(bg))
@@ -875,8 +863,7 @@ void CopyRectToBgTilemapBufferRect(u8 bg, const void *src, u8 srcX, u8 srcY, u8 
 
 void FillBgTilemapBufferRect_Palette0(u8 bg, u16 tileNum, u8 x, u8 y, u8 width, u8 height)
 {
-    u16 x16;
-    u32 y16;
+    u32 x16, y16;
     u16 mode;
 
     if (!IsInvalidBg32(bg) && !IsTileMapOutsideWram(bg))
@@ -1111,8 +1098,7 @@ bool32 IsInvalidBg32(u8 bg)
 {
     if (bg >= NUM_BACKGROUNDS)
         return TRUE;
-    else
-        return FALSE;
+    return FALSE;
 }
 
 bool32 IsTileMapOutsideWram(u8 bg)
@@ -1121,6 +1107,5 @@ bool32 IsTileMapOutsideWram(u8 bg)
         return TRUE;
     else if (sGpuBgConfigs2[bg].tilemap == NULL)
         return TRUE;
-    else
-        return FALSE;
+    return FALSE;
 }

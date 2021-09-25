@@ -1,7 +1,6 @@
 #ifndef GUARD_GLOBAL_FIELDMAP_H
 #define GUARD_GLOBAL_FIELDMAP_H
 
-#define METATILE_BEHAVIOR_MASK 0x00FF
 #define METATILE_COLLISION_MASK 0x0C00
 #define METATILE_ID_MASK 0x03FF
 #define METATILE_ID_UNDEFINED 0x03FF
@@ -10,6 +9,34 @@
 #define METATILE_ELEVATION_MASK 0xF000
 
 #define METATILE_ID(tileset, name) (METATILE_##tileset##_##name)
+
+enum
+{
+    METATILE_ATTRIBUTE_BEHAVIOR,
+    METATILE_ATTRIBUTE_TERRAIN,
+    METATILE_ATTRIBUTE_2,
+    METATILE_ATTRIBUTE_3,
+    METATILE_ATTRIBUTE_ENCOUNTER_TYPE,
+    METATILE_ATTRIBUTE_5,
+    METATILE_ATTRIBUTE_LAYER_TYPE,
+    METATILE_ATTRIBUTE_7,
+    METATILE_ATTRIBUTE_COUNT
+};
+
+enum
+{
+    TILE_ENCOUNTER_NONE,
+    TILE_ENCOUNTER_LAND,
+    TILE_ENCOUNTER_WATER
+};
+
+enum
+{
+    TILE_TERRAIN_NORMAL,
+    TILE_TERRAIN_GRASS,
+    TILE_TERRAIN_WATER,
+    TILE_TERRAIN_WATERFALL
+};
 
 enum
 {
@@ -31,9 +58,9 @@ struct Tileset
     /*0x01*/ bool8 isSecondary;
     /*0x04*/ void *tiles;
     /*0x08*/ void *palettes;
-    /*0x0c*/ u16 *metatiles;
-    /*0x10*/ u16 *metatileAttributes;
-    /*0x14*/ TilesetCB callback;
+    /*0x0C*/ void *metatiles;
+    /*0x10*/ TilesetCB callback;
+    /*0x14*/ void *metatileAttributes;
     /*0x18*/ struct PaletteOverride *paletteOverrides;
 };
 
@@ -59,7 +86,7 @@ struct BackupMapLayout
 struct ObjectEventTemplate
 {
     /*0x00*/ u8 localId;
-    /*0x01*/ u8 inConnection; // Leftover from FRLG
+    /*0x01*/ bool8 inConnection;
     /*0x02*/ u16 graphicsId;
     /*0x04*/ s16 x;
     /*0x06*/ s16 y;
@@ -71,7 +98,7 @@ struct ObjectEventTemplate
     /*0x0E*/ u16 trainerRange_berryTreeId;
     /*0x10*/ const u8 *script;
     /*0x14*/ u16 flagId;
-};
+};  /*size = 0x18*/
 
 struct WarpEvent
 {
@@ -102,7 +129,6 @@ struct BgEvent
             u16 item;
             u16 hiddenItemId;
         } hiddenItem;
-        u32 secretBaseId;
     } bgUnion;
 };
 
@@ -120,10 +146,10 @@ struct MapEvents
 
 struct MapConnection
 {
-    u8 direction;
-    u32 offset;
-    u8 mapGroup;
-    u8 mapNum;
+    /*0x00*/ u8 direction;
+    /*0x04*/ u32 offset;
+    /*0x08*/ u8 mapGroup;
+    /*0x09*/ u8 mapNum;
 };
 
 struct MapConnections
@@ -134,23 +160,25 @@ struct MapConnections
 
 struct MapHeader
 {
-    /* 0x00 */ const struct MapLayout *mapLayout;
-    /* 0x04 */ const struct MapEvents *events;
-    /* 0x08 */ const u8 *mapScripts;
-    /* 0x0C */ const struct MapConnections *connections;
-    /* 0x10 */ u16 music;
-    /* 0x12 */ u16 mapLayoutId;
-    /* 0x14 */ u8 regionMapSectionId;
-    /* 0x15 */ u8 cave;
-    /* 0x16 */ u8 weather;
-    /* 0x17 */ u8 mapType;
-    /* 0x18 */ s8 floorNum;
-    /* 0x19 */ u8 battleType;
-    /* 0x1A */ bool8 allowCycling:1;
-               bool8 allowEscaping:1; // Escape Rope and Dig
-               bool8 allowRunning:1;
-               bool8 showMapName:5; // the last 4 bits are unused 
-                                    // but the 5 bit sized bitfield is required to match
+    /*0x00*/ const struct MapLayout *mapLayout;
+    /*0x04*/ const struct MapEvents *events;
+    /*0x08*/ const u8 *mapScripts;
+    /*0x0C*/ const struct MapConnections *connections;
+    /*0x10*/ u16 music;
+    /*0x12*/ u16 mapLayoutId;
+    /*0x14*/ u8 regionMapSectionId;
+    /*0x15*/ u8 cave;
+    /*0x16*/ u8 weather;
+    /*0x17*/ u8 mapType;
+    /*0x18*/ s8 floorNum;
+    /*0x19*/ u8 filler_19;
+             // fields correspond to the arguments in the map_header_flags macro
+    /*0x1A*/ bool8 allowCycling:1;
+             bool8 allowEscaping:1; // Escape Rope and Dig
+             bool8 allowRunning:1;
+             bool8 showMapName:5; // the last 4 bits are unused 
+                                  // but the 5 bit sized bitfield is required to match
+    /*0x1B*/ u8 battleType;
 };
 
 
@@ -262,11 +290,13 @@ enum
     COLLISION_LEDGE_JUMP,
     COLLISION_PUSHED_BOULDER,
     COLLISION_ROTATING_GATE,
+    COLLISION_STAIR_WARP,
     COLLISION_WHEELIE_HOP,
     COLLISION_ISOLATED_VERTICAL_RAIL,
     COLLISION_ISOLATED_HORIZONTAL_RAIL,
     COLLISION_VERTICAL_RAIL,
     COLLISION_HORIZONTAL_RAIL,
+    COLLISION_COUNT
 };
 
 // player running states
@@ -294,10 +324,9 @@ struct PlayerAvatar
     /*0x04*/ u8 spriteId;
     /*0x05*/ u8 objectEventId;
     /*0x06*/ bool8 preventStep;
-    /*0x07*/ u8 gender;
-    /*0x08*/ u8 bikeState; // 00 is normal, 01 is turning, 02 is standing wheelie, 03 is hopping wheelie
+    /*0x07*/ u8 bikeState; // 00 is normal, 01 is turning, 02 is standing wheelie, 03 is hopping wheelie
     // For the Rocket mazes
-    /*0x09*/ u16 lastSpinTile;
+    /*0x08*/ u16 lastSpinTile;
 };
 
 struct Camera

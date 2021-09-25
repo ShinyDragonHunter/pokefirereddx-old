@@ -14,16 +14,13 @@
 	.4byte \address
 	.endm
 
-	.macro object_event index:req, gfx:req, replacement:req, x:req, y:req, elevation:req, movement_type:req, x_radius:req, y_radius:req, trainer_type:req, sight_radius_tree_etc:req, script:req, event_flag:req
-	.byte \index, \replacement
-	.2byte \gfx
-	.2byte \x
-	.2byte \y
+	.macro object_event index:req, inConnection:req, gfx:req, x:req, y:req, elevation:req, movement_type:req, x_radius:req, y_radius:req, trainer_type:req, sight_radius_tree_etc:req, script:req, event_flag:req
+	.byte \index, \inConnection
+	.2byte \gfx, \x, \y
 	.byte \elevation, \movement_type, ((\y_radius << 4) | \x_radius), 0
     .2byte \trainer_type, \sight_radius_tree_etc
 	.4byte \script
-	.2byte \event_flag
-	.2byte 0
+	.2byte \event_flag, 0
 	inc _num_npcs
 	.endm
 

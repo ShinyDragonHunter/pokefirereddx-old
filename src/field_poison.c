@@ -20,10 +20,9 @@
 static bool32 IsMonValidSpecies(struct Pokemon *pokemon)
 {
     u16 species = GetMonData(pokemon, MON_DATA_SPECIES2);
+
     if (species == SPECIES_NONE || species == SPECIES_EGG)
-    {
         return FALSE;
-    }
     return TRUE;
 }
 
@@ -35,9 +34,7 @@ static bool32 AllMonsFainted(void)
     for (i = 0; i < PARTY_SIZE; i++, pokemon++)
     {
         if (IsMonValidSpecies(pokemon) && GetMonData(pokemon, MON_DATA_HP) != 0)
-        {
             return FALSE;
-        }
     }
     return TRUE;
 }
@@ -56,56 +53,51 @@ static void FaintFromFieldPoison(u8 partyIdx)
 static bool32 MonFaintedFromPoison(u8 partyIdx)
 {
     struct Pokemon *pokemon = gPlayerParty + partyIdx;
+
     if (IsMonValidSpecies(pokemon) && GetMonData(pokemon, MON_DATA_HP) == 0 && GetAilmentFromStatus(GetMonData(pokemon, MON_DATA_STATUS)) == AILMENT_PSN)
-    {
         return TRUE;
-    }
     return FALSE;
 }
+
+#define tState   data[0]
+#define tPartyId data[1]
 
 static void Task_TryFieldPoisonWhiteOut(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
-    switch (data[0])
+
+    switch (tState)
     {
-        case 0:
-            for (; data[1] < PARTY_SIZE; data[1]++)
+    case 0:
+        for (; tPartyId < PARTY_SIZE; tPartyId++)
+        {
+            if (MonFaintedFromPoison(tPartyId))
             {
-                if (MonFaintedFromPoison(data[1]))
-                {
-                    FaintFromFieldPoison(data[1]);
-                    ShowFieldMessage(gText_PkmnFainted3);
-                    data[0]++;
-                    return;
-                }
+                FaintFromFieldPoison(tPartyId);
+                ShowFieldMessage(gText_PkmnFainted3);
+                tState++;
+                return;
             }
-            data[0] = 2;
-            break;
-        case 1:
-            if (IsFieldMessageBoxHidden())
-            {
-                data[0]--;
-            }
-            break;
-        case 2:
-            if (AllMonsFainted())
-            {
-                if (InBattlePyramid() | InBattlePike() || InTrainerHillChallenge())
-                {
-                    gSpecialVar_Result = FLDPSN_FRONTIER_WHITEOUT;
-                }
-                else
-                {
-                    gSpecialVar_Result = FLDPSN_WHITEOUT;
-                }
-            }
+        }
+        tState = 2;
+        break;
+    case 1:
+        if (IsFieldMessageBoxHidden())
+            tState--;
+        break;
+    case 2:
+        if (AllMonsFainted())
+        {
+            if (InBattlePyramid() | InBattlePike() || InTrainerHillChallenge())
+                gSpecialVar_Result = FLDPSN_FRONTIER_WHITEOUT;
             else
-            {
-                gSpecialVar_Result = FLDPSN_NO_WHITEOUT;
-            }
-            EnableBothScriptContexts();
-            DestroyTask(taskId);
-            break;
+                gSpecialVar_Result = FLDPSN_WHITEOUT;
+        }
+        else
+            gSpecialVar_Result = FLDPSN_NO_WHITEOUT;
+        EnableBothScriptContexts();
+        DestroyTask(taskId);
+        break;
     }
 }
 
@@ -128,25 +120,17 @@ s32 DoPoisonFieldEffect(void)
         {
             hp = GetMonData(pokemon, MON_DATA_HP);
             if (hp == 0 || --hp == 0)
-            {
                 numFainted++;
-            }
             SetMonData(pokemon, MON_DATA_HP, &hp);
             numPoisoned++;
         }
         pokemon++;
     }
-    if (numFainted != 0 || numPoisoned != 0)
-    {
+    if (numFainted || numPoisoned)
         FldEffPoison_Start();
-    }
-    if (numFainted != 0)
-    {
+    if (numFainted)
         return FLDPSN_FNT;
-    }
-    if (numPoisoned != 0)
-    {
+    if (numPoisoned)
         return FLDPSN_PSN;
-    }
     return FLDPSN_NONE;
 }
