@@ -197,7 +197,7 @@
 #define ANIM_TAG_GREEN_SPIKE                (ANIM_SPRITES_START + 186)
 #define ANIM_TAG_WHITE_CIRCLE_OF_LIGHT      (ANIM_SPRITES_START + 187)
 #define ANIM_TAG_GLOWY_BLUE_ORB             (ANIM_SPRITES_START + 188)
-#define ANIM_TAG_POKEBLOCK                  (ANIM_SPRITES_START + 189)
+#define ANIM_TAG_SAFARI_BAIT                (ANIM_SPRITES_START + 189)
 #define ANIM_TAG_WHITE_FEATHER              (ANIM_SPRITES_START + 190)
 #define ANIM_TAG_SPARKLE_6                  (ANIM_SPRITES_START + 191)
 #define ANIM_TAG_SPLASH                     (ANIM_SPRITES_START + 192)
@@ -263,7 +263,7 @@
 #define B_ANIM_STATS_CHANGE             1
 #define B_ANIM_SUBSTITUTE_FADE          2
 #define B_ANIM_SUBSTITUTE_APPEAR        3
-#define B_ANIM_POKEBLOCK_THROW          4
+#define B_ANIM_BAIT_THROW               4
 #define B_ANIM_ITEM_KNOCKOFF            5
 #define B_ANIM_TURN_TRAP                6
 #define B_ANIM_HELD_ITEM_EFFECT         7
@@ -282,6 +282,11 @@
 #define B_ANIM_FOCUS_PUNCH_SETUP        20
 #define B_ANIM_INGRAIN_HEAL             21
 #define B_ANIM_WISH_HEAL                22
+#define B_ANIM_GHOST_GET_OUT            23
+#define B_ANIM_MON_SCARED               24
+#define B_ANIM_SILPH_SCOPED             25
+#define B_ANIM_ROCK_THROW               26
+#define B_ANIM_SAFARI_REACTION          27
 
 // special animations table (gBattleAnims_Special)
 #define B_ANIM_LVL_UP                   0

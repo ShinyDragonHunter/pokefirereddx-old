@@ -2968,28 +2968,6 @@ extern const u16 gTrainerBackPicPalettePokeDude[];
 extern const u16 gTrainerBackPicPaletteOldMan[];
 extern const u16 gTrainerBackPicPalettePlayerOriginal[];
 
-// pokeblock
-extern const u32 gMenuPokeblock_Gfx[];
-extern const u32 gMenuPokeblock_Pal[];
-extern const u32 gMenuPokeblock_Tilemap[];
-extern const u32 gMenuPokeblockDevice_Gfx[];
-extern const u16 gMenuPokeblockDevice_Pal[];
-extern const u16 gPokeblockRed_Pal[];
-extern const u16 gPokeblockBlue_Pal[];
-extern const u16 gPokeblockPink_Pal[];
-extern const u16 gPokeblockGreen_Pal[];
-extern const u16 gPokeblockYellow_Pal[];
-extern const u16 gPokeblockPurple_Pal[];
-extern const u16 gPokeblockIndigo_Pal[];
-extern const u16 gPokeblockBrown_Pal[];
-extern const u16 gPokeblockLiteBlue_Pal[];
-extern const u16 gPokeblockOlive_Pal[];
-extern const u16 gPokeblockGray_Pal[];
-extern const u16 gPokeblockBlack_Pal[];
-extern const u16 gPokeblockWhite_Pal[];
-extern const u16 gPokeblockGold_Pal[];
-extern const u32 gPokeblock_Gfx[];
-
 extern const u32 gItemIcon_QuestionMark[];
 extern const u32 gItemIconPalette_QuestionMark[];
 
@@ -3531,6 +3509,8 @@ extern const u32 gItemIcon_SuperRod[];
 extern const u32 gItemIconPalette_SuperRod[];
 extern const u32 gItemIcon_SSTicket[];
 extern const u32 gItemIconPalette_SSTicket[];
+extern const u32 gItemIcon_Squirtbottle[];
+extern const u32 gItemIconPalette_Squirtbottle[];
 extern const u32 gItemIcon_EonTicket[];
 extern const u32 gItemIconPalette_EonTicket[];
 extern const u32 gItemIcon_Meteorite[];
@@ -3781,33 +3761,6 @@ extern const u32 gBerryPalette_Starf[];
 extern const u32 gBerryPic_Enigma[];
 extern const u32 gBerryPalette_Enigma[];
 
-//pokenav
-extern const u16 gPokenavCondition_Pal[];
-extern const u32 gPokenavCondition_Gfx[];
-extern const u32 gPokenavCondition_Tilemap[];
-extern const u16 gPokenavOptions_Tilemap[];
-extern const u32 gPokenavOptions_Gfx[];
-extern const u16 gPokenavOptions_Pal[];
-extern const u16 gPokenavLeftHeader_Pal[];
-extern const u16 gPokenavHeader_Pal[];
-extern const u32 gPokenavHeader_Gfx[];
-extern const u32 gPokenavHeader_Tilemap[];
-extern const u32 gPokenavLeftHeaderHoennMap_Gfx[];
-extern const u32 gPokenavLeftHeaderMainMenu_Gfx[];
-extern const u32 gPokenavLeftHeaderCondition_Gfx[];
-extern const u32 gPokenavLeftHeaderRibbons_Gfx[];
-extern const u32 gPokenavLeftHeaderMatchCall_Gfx[];
-extern const u32 gPokenavLeftHeaderParty_Gfx[];
-extern const u32 gPokenavLeftHeaderSearch_Gfx[];
-extern const u32 gPokenavLeftHeaderCool_Gfx[];
-extern const u32 gPokenavLeftHeaderBeauty_Gfx[];
-extern const u32 gPokenavLeftHeaderCute_Gfx[];
-extern const u32 gPokenavLeftHeaderSmart_Gfx[];
-extern const u32 gPokenavLeftHeaderTough_Gfx[];
-extern const u16 gPokenavRibbonsSummaryBg_Pal[];
-extern const u32 gPokenavRibbonsSummaryBg_Gfx[];
-extern const u32 gPokenavRibbonsSummaryBg_Tilemap[];
-
 extern const u32 gPageInfoTilemap[];
 extern const u32 gUnknown_08D98CC8[];
 extern const u32 gPageSkillsTilemap[];
@@ -3852,8 +3805,6 @@ extern const u8 gNamingScreenROptions_Gfx[];
 extern const u8 gNamingScreenCursor_Gfx[];
 extern const u8 gNamingScreenInputArrow_Gfx[];
 extern const u8 gNamingScreenUnderscore_Gfx[];
-
-extern const u32 gPokeblockFeedBg_Tilemap[];
 
 extern const u32 gConfetti_Gfx[];
 extern const u32 gConfetti_Pal[];
@@ -4101,7 +4052,7 @@ extern const u32 gBattleAnimSpriteGfx_IcicleSpear[];
 extern const u32 gBattleAnimSpriteGfx_Hail[];
 extern const u32 gBattleAnimSpriteGfx_GlowyRedOrb[];
 extern const u32 gBattleAnimSpriteGfx_GreenSpike[];
-extern const u32 gBattleAnimSpriteGfx_Pokeblock[];
+extern const u32 gBattleAnimSpriteGfx_SafariBait[];
 extern const u32 gBattleAnimSpriteGfx_WhiteFeather[];
 extern const u32 gBattleAnimSpriteGfx_Sparkle6[];
 extern const u32 gBattleAnimSpriteGfx_Splash[];
@@ -4295,7 +4246,7 @@ extern const u32 gBattleAnimSpritePal_GlowyGreenOrb[];
 extern const u32 gBattleAnimSpritePal_GreenSpike[];
 extern const u32 gBattleAnimSpritePal_WhiteCircleOfLight[];
 extern const u32 gBattleAnimSpritePal_GlowyBlueOrb[];
-extern const u32 gBattleAnimSpritePal_Pokeblock[];
+extern const u32 gBattleAnimSpritePal_SafariBait[];
 extern const u32 gBattleAnimSpritePal_WhiteFeather[];
 extern const u32 gBattleAnimSpritePal_Sparkle6[];
 extern const u32 gBattleAnimSpritePal_Splash[];
@@ -4390,11 +4341,6 @@ extern const u32 gBattleAnimBackgroundImageMuddyWater_Pal[];
 extern const u32 gEnemyMonShadow_Gfx[];
 
 extern const u32 gBattleAnimFogTilemap[];
-
-extern const u32 gUsePokeblockGraph_Gfx[];
-extern const u32 gUsePokeblockGraph_Tilemap[];
-extern const u16 gUsePokeblockGraph_Pal[];
-extern const u16 gUsePokeblockNatureWin_Pal[];
 
 // Slot Machine
 extern const u32 gSlotMachineDigitalDisplay_Gfx[];
@@ -4543,9 +4489,6 @@ extern const u16 gEasyChatRectangleCursor_Pal[];
 extern const u32 gEasyChatButtonWindow_Gfx[];
 extern const u16 gEasyChatButtonWindow_Pal[];
 
-// Use Pokeblock
-extern const u32 gUsePokeblockCondition_Gfx[];
-
 // Union Room Chat
 extern const u16 gUnionRoomChat_Background_Pal[];
 extern const u32 gUnionRoomChat_Background_Gfx[];
@@ -4556,24 +4499,10 @@ extern const u32 gUnionRoomChat_Border_Gfx[];
 extern const u32 gUnionRoomChat_Border_Tilemap[];
 extern const u32 gUnionRoomChat_RButtonLabels[];
 
-// Use Pokeblock
-extern const u8 gPokenavConditionCancel_Gfx[];
-extern const u16 gPokenavConditionCancel_Pal[];
-extern const u8 gUsePokeblockUpDown_Gfx[];
-extern const u16 gUsePokeblockUpDown_Pal[];
-extern const u16 gUsePokeblockCondition_Pal[];
-
 // Berry Crush
 extern const u32 gBerryCrush_Crusher_Gfx[];
 extern const u16 gBerryCrush_Crusher_Pal[];
 extern const u32 gBerryCrush_Crusher_Tilemap[];
-
-// Pokenav
-extern const u32 gPokenavMessageBox_Gfx[];
-extern const u32 gPokenavMessageBox_Tilemap[];
-extern const u16 gPokenavMessageBox_Pal[];
-extern const u32 gPokenavOptions_Gfx[];
-extern const u16 gPokenavOptions_Pal[];
 
 // Battle Factory Screen
 extern const u8 gFrontierFactorySelectMenu_Gfx[];

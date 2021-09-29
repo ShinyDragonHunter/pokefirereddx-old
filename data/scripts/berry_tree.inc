@@ -35,7 +35,6 @@ BerryTree_EventScript_WantToPlant::
 	compare VAR_RESULT, YES
 	goto_if_eq BerryTree_EventScript_ChooseBerryToPlant
 	goto_if_ne BerryTree_EventScript_CancelPlanting
-	end
 
 BerryTree_EventScript_ChooseBerryToPlant::
 	fadescreen FADE_TO_BLACK
@@ -111,8 +110,7 @@ BerryTree_EventScript_CheckBerryFullyGrown::
 	msgbox BerryTree_Text_WantToPick, MSGBOX_YESNO
 	compare VAR_RESULT, YES
 	goto_if_eq BerryTree_EventScript_PickBerry
-	compare VAR_RESULT, NO
-	goto_if_eq BerryTree_EventScript_CancelPickingBerry
+	goto_if_ne BerryTree_EventScript_CancelPickingBerry
 
 BerryTree_EventScript_PickBerry::
 	special ObjectEventInteractionPickBerryTree
@@ -149,12 +147,12 @@ BerryTree_EventScript_ItemUsePlantBerry::
 	lockall
 	special ObjectEventInteractionGetBerryTreeData
 	call BerryTree_EventScript_PlantBerry
-BerryTree_EventScript_DontWater:: @ 82744BE
+BerryTree_EventScript_DontWater::
 	releaseall
 	end
 
 BerryTree_EventScript_WantToWater::
-	checkitem ITEM_WAILMER_PAIL, 1
+	checkitem ITEM_SQUIRTBOTTLE, 1
 	compare VAR_RESULT, 0
 	goto_if_eq BerryTree_EventScript_DontWater
 	special ObjectEventInteractionGetBerryName

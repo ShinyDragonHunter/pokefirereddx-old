@@ -103,7 +103,6 @@ gSpecials::
 	def_special StartWallyTutorialBattle
 	def_special ChangePokemonNickname
 	def_special ChoosePartyMon
-	def_special GetFirstFreePokeblockSlot
 	def_special PlayRoulette
 	def_special IsFanClubMemberFanOfPlayer
 	def_special GetNumFansOfPlayerInTrainerFanClub
@@ -149,8 +148,6 @@ gSpecials::
 	def_special ResetSSTidalFlag
 	def_special EnterSafariMode
 	def_special ExitSafariMode
-	def_special GetPokeblockFeederInFront
-	def_special OpenPokeblockCaseOnFeeder
 	def_special IsMirageIslandPresent
 	def_special UpdateShoalTideFlag
 	def_special InitBirchState
@@ -217,7 +214,6 @@ gSpecials::
 	def_special MoveElevator
 	def_special SpawnCameraObject
 	def_special RemoveCameraObject
-	def_special GetPokeblockNameByMonNature
 	def_special CheckRelicanthWailord
 	def_special DoOrbEffect
 	def_special FadeOutOrbEffect
@@ -332,8 +328,6 @@ gSpecials::
 	def_special ShowFrontierGamblerLookingMessage
 	def_special ShowFrontierGamblerGoMessage
 	def_special Script_DoRayquazaScene
-	def_special OpenPokenavForTutorial
-	def_special ScriptMenu_CreateStartMenuForPokenavTutorial
 	def_special CountPlayerTrainerStars
 	def_special BufferBattleFrontierTutorMoveName
 	def_special CloseBattleFrontierTutorWindow
@@ -348,15 +342,12 @@ gSpecials::
 	def_special ChangeBoxPokemonNickname
 	def_special GetPCBoxToSendMon
 	def_special ShouldShowBoxWasFullMessage
-	def_special SetMatchCallRegisteredFlag
 	def_special DoDomeConfetti
 	def_special CreateAbnormalWeatherEvent
 	def_special GetAbnormalWeatherMapNameAndType
 	def_special GetMartEmployeeObjectEventId
 	def_special SaveForBattleTowerLink
-	def_special Unused_SetWeatherSunny
 	def_special SetUnlockedPokedexFlags
-	def_special IsTrainerRegistered
 	def_special ShouldDoBrailleRegicePuzzle
 	def_special EnableNationalPokedex
 	def_special OverworldWhiteOutGetMoneyLoss

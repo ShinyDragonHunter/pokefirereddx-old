@@ -47,12 +47,13 @@ gBattlescriptsForUsingItem::
 	.align 2
 gBattlescriptsForRunningByItem::
 	.4byte BattleScript_RunByUsingItem
+	.4byte BattleScript_ActionUsePokeFlute
 
 	.align 2
 gBattlescriptsForSafariActions::
 	.4byte BattleScript_ActionWatchesCarefully
-	.4byte BattleScript_ActionGetNear
-	.4byte BattleScript_ActionThrowPokeblock
+	.4byte BattleScript_ActionThrowRock
+	.4byte BattleScript_ActionThrowBait
 	.4byte BattleScript_ActionWallyThrow
 
 BattleScript_BallThrow::
@@ -175,27 +176,46 @@ BattleScript_OpponentUsesGuardSpec::
 	moveendcase MOVEEND_MIRROR_MOVE
 	finishaction
 
-BattleScript_RunByUsingItem::
+BattleScript_RunByUsingItem:
 	playse SE_FLEE
 	setbyte gBattleOutcome, B_OUTCOME_RAN
 	finishturn
 
+BattleScript_ActionUsePokeFlute:
+	checkpokeflute BS_ATTACKER
+	jumpifbyte CMP_EQUAL, cMULTISTRING_CHOOSER, 1, BattleScript_PokeFluteWakeUp
+	printstring STRINGID_POKEFLUTECATCHY
+	waitmessage B_WAIT_TIME_LONG
+	goto BattleScript_PokeFluteEnd
+
+BattleScript_PokeFluteWakeUp:
+	printstring STRINGID_POKEFLUTE
+	waitmessage B_WAIT_TIME_LONG
+	fanfare MUS_RG_POKE_FLUTE
+	waitfanfare BS_ATTACKER
+	printstring STRINGID_MONHEARINGFLUTEAWOKE
+	waitmessage B_WAIT_TIME_LONG
+	updatestatusicon BS_PLAYER2
+	waitstate
+BattleScript_PokeFluteEnd:
+	finishaction
+
 BattleScript_ActionWatchesCarefully:
-	printstring STRINGID_PKMNWATCHINGCAREFULLY
-	waitmessage B_WAIT_TIME_LONG
-	end2
-
-BattleScript_ActionGetNear:
-	printfromtable gSafariGetNearStringIds
-	waitmessage B_WAIT_TIME_LONG
-	end2
-
-BattleScript_ActionThrowPokeblock:
-	printstring STRINGID_THREWPOKEBLOCKATPKMN
-	waitmessage B_WAIT_TIME_LONG
-	playanimation BS_ATTACKER, B_ANIM_POKEBLOCK_THROW, NULL
 	printfromtable gSafariPokeblockResultStringIds
 	waitmessage B_WAIT_TIME_LONG
+	playanimation BS_OPPONENT1, B_ANIM_SAFARI_REACTION, NULL
+	end2
+
+BattleScript_ActionThrowRock:
+	printstring STRINGID_THREWROCK
+	waitmessage B_WAIT_TIME_LONG
+	playanimation BS_ATTACKER, B_ANIM_ROCK_THROW, NULL
+	end2
+
+BattleScript_ActionThrowBait:
+	printstring STRINGID_THREWBAIT
+	waitmessage B_WAIT_TIME_LONG
+	playanimation BS_ATTACKER, B_ANIM_BAIT_THROW, NULL
 	end2
 
 BattleScript_ActionWallyThrow:

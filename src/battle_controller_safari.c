@@ -12,7 +12,6 @@
 #include "m4a.h"
 #include "palette.h"
 #include "pokeball.h"
-#include "pokeblock.h"
 #include "pokemon.h"
 #include "reshow_battle_screen.h"
 #include "sound.h"
@@ -32,7 +31,6 @@ static void SafariHandleBallThrowAnim(void);
 static void SafariHandlePrintString(void);
 static void SafariHandlePrintSelectionString(void);
 static void SafariHandleChooseAction(void);
-static void SafariHandleChooseItem(void);
 static void SafariHandleStatusIconUpdate(void);
 static void SafariHandlePlaySE(void);
 static void SafariHandlePlayFanfareOrBGM(void);
@@ -44,7 +42,6 @@ static void SafariHandleEndLinkBattle(void);
 
 static void SafariBufferRunCommand(void);
 static void SafariBufferExecCompleted(void);
-static void CompleteWhenChosePokeblock(void);
 
 static void (*const sSafariBufferCommands[CONTROLLER_CMDS_COUNT])(void) =
 {
@@ -69,7 +66,7 @@ static void (*const sSafariBufferCommands[CONTROLLER_CMDS_COUNT])(void) =
     [CONTROLLER_CHOOSEACTION]             = SafariHandleChooseAction,
     [CONTROLLER_YESNOBOX]                 = SafariEndExecution,
     [CONTROLLER_CHOOSEMOVE]               = SafariEndExecution,
-    [CONTROLLER_OPENBAG]                  = SafariHandleChooseItem,
+    [CONTROLLER_OPENBAG]                  = SafariEndExecution,
     [CONTROLLER_CHOOSEPOKEMON]            = SafariEndExecution,
     [CONTROLLER_23]                       = SafariEndExecution,
     [CONTROLLER_HEALTHBARUPDATE]          = SafariEndExecution,
@@ -216,25 +213,6 @@ static void CompleteOnSpecialAnimDone(void)
         SafariBufferExecCompleted();
 }
 
-static void SafariOpenPokeblockCase(void)
-{
-    if (!gPaletteFade.active)
-    {
-        gBattlerControllerFuncs[gActiveBattler] = CompleteWhenChosePokeblock;
-        FreeAllWindowBuffers();
-        OpenPokeblockCaseInBattle();
-    }
-}
-
-static void CompleteWhenChosePokeblock(void)
-{
-    if (gMain.callback2 == BattleMainCB2 && !gPaletteFade.active)
-    {
-        BtlController_EmitOneReturnValue(1, gSpecialVar_ItemId);
-        SafariBufferExecCompleted();
-    }
-}
-
 static void CompleteOnFinishedBattleAnimation(void)
 {
     if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].animFromTableActive)
@@ -350,12 +328,6 @@ static void SafariHandleChooseAction(void)
     BattlePutTextOnWindow(gDisplayedStringBattle, 1);
 }
 
-static void SafariHandleChooseItem(void)
-{
-    BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
-    gBattlerControllerFuncs[gActiveBattler] = SafariOpenPokeblockCase;
-    gBattlerInMenuId = gActiveBattler;
-}
 static void SafariHandleStatusIconUpdate(void)
 {
     UpdateHealthboxAttribute(gHealthboxSpriteIds[gActiveBattler], &gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], HEALTHBOX_SAFARI_BALLS_TEXT);

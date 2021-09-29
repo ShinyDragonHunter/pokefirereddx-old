@@ -477,7 +477,6 @@ static const struct MenuAction MultichoiceList_ForcedStartMenu[] =
     {gText_MenuOptionPokedex},
     {gText_MenuOptionPokemon},
     {gText_MenuOptionBag},
-    {gText_MenuOptionPokenav},
     {gText_ExpandedPlaceholder_Empty}, // blank because it's filled by the player's name
     {gText_MenuOptionSave},
     {gText_MenuOptionOption},
@@ -609,7 +608,7 @@ static const struct MenuAction MultichoiceList_BattlePyramidRules[] =
 
 static const struct MenuAction MultichoiceList_BattlePikeRules[] =
 {
-    {gText_PokenavAndBag},
+    {gText_MenuOptionBag},
     {gText_HeldItems},
     {gText_PokemonOrder},
     {gText_Exit},

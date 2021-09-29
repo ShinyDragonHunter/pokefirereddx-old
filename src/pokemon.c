@@ -22,7 +22,6 @@
 #include "party_menu.h"
 #include "pokedex.h"
 #include "pokeball.h"
-#include "pokeblock.h"
 #include "pokemon.h"
 #include "pokemon_animation.h"
 #include "pokemon_summary_screen.h"
@@ -1987,6 +1986,36 @@ static const u8 sMonAnimationDelayTable[SPECIES_COUNT] =
     [SPECIES_MEOWTH_ALOLAN] = 40,
     [SPECIES_PERSIAN_ALOLAN] = 20,
     [SPECIES_LUGIA_SHADOW] = 20,
+};
+
+static const s8 sPokeblockFlavorCompatibilityTable[] =
+{
+    // Cool, Beauty, Cute, Smart, Tough
+          0,      0,    0,     0,     0, // Hardy
+          1,      0,    0,     0,    -1, // Lonely
+          1,      0,   -1,     0,     0, // Brave
+          1,     -1,    0,     0,     0, // Adamant
+          1,      0,    0,    -1,     0, // Naughty
+         -1,      0,    0,     0,     1, // Bold
+          0,      0,    0,     0,     0, // Docile
+          0,      0,   -1,     0,     1, // Relaxed
+          0,     -1,    0,     0,     1, // Impish
+          0,      0,    0,    -1,     1, // Lax
+         -1,      0,    1,     0,     0, // Timid
+          0,      0,    1,     0,    -1, // Hasty
+          0,      0,    0,     0,     0, // Serious
+          0,     -1,    1,     0,     0, // Jolly
+          0,      0,    1,    -1,     0, // Naive
+         -1,      1,    0,     0,     0, // Modest
+          0,      1,    0,     0,    -1, // Mild
+          0,      1,   -1,     0,     0, // Quiet
+          0,      0,    0,     0,     0, // Bashful
+          0,      1,    0,    -1,     0, // Rash
+         -1,      0,    0,     1,     0, // Calm
+          0,      0,    0,     1,    -1, // Gentle
+          0,      0,   -1,     1,     0, // Sassy
+          0,     -1,    0,     1,     0, // Careful
+          0,      0,    0,     0,     0  // Quirky
 };
 
 const u8 gPPUpGetMask[] = {0x03, 0x0c, 0x30, 0xc0}; // Masks for getting PP Up count, also PP Max values
@@ -6607,13 +6636,13 @@ bool8 IsMonSpriteNotFlipped(u16 species)
 s8 GetMonFlavorRelation(struct Pokemon *mon, u8 flavor)
 {
     u8 nature = GetNature(mon);
-    return gPokeblockFlavorCompatibilityTable[nature * FLAVOR_COUNT + flavor];
+    return sPokeblockFlavorCompatibilityTable[nature * FLAVOR_COUNT + flavor];
 }
 
 s8 GetFlavorRelationByPersonality(u32 personality, u8 flavor)
 {
     u8 nature = GetNatureFromPersonality(personality);
-    return gPokeblockFlavorCompatibilityTable[nature * FLAVOR_COUNT + flavor];
+    return sPokeblockFlavorCompatibilityTable[nature * FLAVOR_COUNT + flavor];
 }
 
 bool8 IsTradedMon(struct Pokemon *mon)
@@ -6811,24 +6840,6 @@ const u8 *GetTrainerPartnerName(void)
 
         return gLinkPlayers[GetBattlerMultiplayerId(gLinkPlayers[id].id ^ 2)].name;
     }
-}
-
-u8 GetPlayerPartyHighestLevel(void)
-{
-    int slot;
-    u8 level = 1;
-
-    for (slot = 0; slot < PARTY_SIZE; ++slot)
-    {
-        if (GetMonData(&gPlayerParty[slot], MON_DATA_SANITY_HAS_SPECIES, NULL) == TRUE && !GetMonData(&gPlayerParty[slot], MON_DATA_SANITY_IS_EGG, NULL))
-        {
-            u8 monLevel = GetMonData(&gPlayerParty[slot], MON_DATA_LEVEL, NULL);
-
-            if (monLevel > level)
-                level = monLevel;
-        }
-    }
-    return level;
 }
 
 #define READ_PTR_FROM_TASK(taskId, dataId)                      \

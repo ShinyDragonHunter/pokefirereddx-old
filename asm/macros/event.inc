@@ -53,7 +53,6 @@
 	@ callstd function names
 	STD_OBTAIN_ITEM = 0
 	STD_FIND_ITEM = 1
-	STD_REGISTER_MATCH_CALL = 7
 
 	@ Calls the standard function at index function.
 	.macro callstd function:req
@@ -527,8 +526,9 @@
 	.byte \outfit
 	.endm
 
-	@ This command is a nop.
-	.macro removedecoration
+	@ Sets "VAR_REPEL_STEP_COUNT" to the var value (VAR_REPEL_LAST_USED) of "ItemId_GetHoldEffectParam"
+	@ Used only for handling the reusage of repels.
+	.macro handleexpiredrepel
 	.byte 0x4c
 	.endm
 
@@ -674,6 +674,9 @@
 		.4byte \pointer2 @ text
 		.4byte \pointer3 @ text
 		.4byte \pointer4 @ event script
+	.elseif \type == TRAINER_BATTLE_CONTINUE_SCRIPT_WINTEXT
+		.4byte \pointer1 @ text
+		.4byte \pointer2 @ text
 	.elseif \type == TRAINER_BATTLE_PYRAMID
 		.4byte \pointer1 @ text
 		.4byte \pointer2 @ text
@@ -728,6 +731,11 @@
 	@ Starts a trainer battle, skipping intro text, takes a trainer and loss text
 	.macro trainerbattle_no_intro trainer:req, lose_text:req
 	trainerbattle TRAINER_BATTLE_SINGLE_NO_INTRO_TEXT, \trainer, 0, \lose_text
+	.endm
+
+	@ Starts a trainer battle, skipping intro text, takes a trainer, tutorial mode, and loss and win text
+	.macro trainerbattle_wintext trainer:req, mode:req, lose_text:req, win_text:req
+	trainerbattle TRAINER_BATTLE_CONTINUE_SCRIPT_WINTEXT, \trainer, \mode, \lose_text, \win_text
 	.endm
 
 
@@ -1554,9 +1562,9 @@
 	.2byte \trainer
 	.endm
 
-	.macro pokenavcall pointer:req
+	@ This command is a nop.
+	.macro pokenavcall
 	.byte 0xdf
-	.4byte \pointer
 	.endm
 
 	.macro warpsootopolislegend map:req, byte:req, word1:req, word2:req

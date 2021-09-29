@@ -505,8 +505,6 @@ LittlerootTown_ProfessorBirchsLab_EventScript_Birch::
 	goto_if_eq LittlerootTown_ProfessorBirchsLab_EventScript_CanHaveAnyOneOfRarePokemon
 	compare VAR_DEX_UPGRADE_JOHTO_STARTER_STATE, 2
 	goto_if_eq LittlerootTown_ProfessorBirchsLab_EventScript_GrassyPatchWaiting
-	goto_if_unset FLAG_HAS_MATCH_CALL, LittlerootTown_ProfessorBirchsLab_EventScript_TryRatePokedexOrRegister
-	goto_if_unset FLAG_ENABLE_PROF_BIRCH_MATCH_CALL, EventScript_RegisterProfBirch
 	goto LittlerootTown_ProfessorBirchsLab_EventScript_TryRatePokedexOrRegister
 	end
 
@@ -521,28 +519,14 @@ LittlerootTown_ProfessorBirchsLab_EventScript_GrassyPatchWaiting::
 	end
 
 LittlerootTown_ProfessorBirchsLab_EventScript_TryRatePokedexOrRegister::
-	goto_if_unset FLAG_HIDE_LITTLEROOT_TOWN_BIRCHS_LAB_UNKNOWN_0x380, ProfBirch_EventScript_RatePokedexOrRegister
+	goto_if_unset FLAG_HIDE_LITTLEROOT_TOWN_BIRCHS_LAB_UNKNOWN_0x380, ProfBirch_EventScript_AskRatePokedex
 	compare VAR_DEX_UPGRADE_JOHTO_STARTER_STATE, 3
-	goto_if_eq ProfBirch_EventScript_RatePokedexOrRegister
+	goto_if_eq ProfBirch_EventScript_AskRatePokedex
 	compare VAR_DEX_UPGRADE_JOHTO_STARTER_STATE, 6
-	goto_if_ge ProfBirch_EventScript_RatePokedexOrRegister
+	goto_if_ge ProfBirch_EventScript_AskRatePokedex
 	compare VAR_BIRCH_LAB_STATE, 5
 	goto_if_eq LittlerootTown_ProfessorBirchsLab_EventScript_PokemonAwait
 	msgbox LittlerootTown_ProfessorBirchsLab_Text_BirchRivalGoneHome, MSGBOX_DEFAULT
-	release
-	end
-
-EventScript_RegisterProfBirch::
-	msgbox MatchCall_Text_BirchRegisterCall, MSGBOX_DEFAULT
-	closemessage
-	delay 30
-	playfanfare MUS_REGISTER_MATCH_CALL
-	msgbox MatchCall_Text_RegisteredBirch, MSGBOX_DEFAULT
-	waitfanfare
-	closemessage
-	delay 30
-	setflag FLAG_ENABLE_PROF_BIRCH_MATCH_CALL
-	setvar VAR_REGISTER_BIRCH_STATE, 2
 	release
 	end
 
@@ -704,14 +688,6 @@ LittlerootTown_ProfessorBirchsLab_EventScript_Bookshelf::
 
 LittlerootTown_ProfessorBirchsLab_EventScript_Book::
 	msgbox LittlerootTown_ProfessorBirchsLab_Text_BookTooHardToRead, MSGBOX_SIGN
-	end
-
-LittlerootTown_ProfessorBirchsLab_EventScript_ScottAboardSSTidalCall::
-	lockall
-	pokenavcall LittlerootTown_ProfessorBirchsLab_Text_ScottAboardSSTidalCall
-	waitmessage
-	clearflag FLAG_SCOTT_CALL_BATTLE_FRONTIER
-	releaseall
 	end
 
 LittlerootTown_ProfessorBirchsLab_Text_BirchAwayOnFieldwork:

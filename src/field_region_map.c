@@ -144,7 +144,7 @@ static void FieldUpdateRegionMap(void)
     switch (sFieldRegionMapHandler->state)
     {
         case 0:
-            InitRegionMap(&sFieldRegionMapHandler->regionMap, FALSE);
+            InitRegionMap(&sFieldRegionMapHandler->regionMap);
             CreateRegionMapPlayerIcon(0, 0);
             CreateRegionMapCursor(1, 1);
             sFieldRegionMapHandler->state++;
@@ -207,7 +207,7 @@ static void PrintRegionMapSecName(void)
     if (sFieldRegionMapHandler->regionMap.mapSecType != MAPSECTYPE_NONE)
     {
         FillWindowPixelBuffer(0, PIXEL_FILL(1));
-        AddTextPrinterParameterized(0, 1, sFieldRegionMapHandler->regionMap.mapSecName, 0, 1, 0, NULL);
+        AddTextPrinterParameterized(0, 2, sFieldRegionMapHandler->regionMap.mapSecName, 0, 1, 0, NULL);
         ScheduleBgCopyTilemapToVram(0);
     }
     else

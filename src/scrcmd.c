@@ -546,6 +546,12 @@ bool8 ScrCmd_changeplayeroutfit(struct ScriptContext *ctx)
     return FALSE;
 }
 
+bool8 ScrCmd_handleexpiredrepel(struct ScriptContext *ctx)
+{
+    VarSet(VAR_REPEL_STEP_COUNT, ItemId_GetHoldEffectParam(VarGet(VAR_REPEL_LAST_USED)));
+    return FALSE;
+}
+
 bool8 ScrCmd_setflag(struct ScriptContext *ctx)
 {
     FlagSet(ScriptReadHalfword(ctx));
@@ -1226,16 +1232,6 @@ bool8 ScrCmd_message(struct ScriptContext *ctx)
     if (!msg)
         msg = (const u8 *)ctx->data[0];
     ShowFieldMessage(msg);
-    return FALSE;
-}
-
-bool8 ScrCmd_pokenavcall(struct ScriptContext *ctx)
-{
-    const u8 *msg = (const u8 *)ScriptReadWord(ctx);
-
-    if (!msg)
-        msg = (const u8 *)ctx->data[0];
-    ShowPokenavFieldMessage(msg);
     return FALSE;
 }
 

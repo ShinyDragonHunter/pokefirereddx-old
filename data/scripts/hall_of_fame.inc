@@ -51,3 +51,11 @@ EverGrandeCity_HallOfFame_EventScript_ReadyReceiveSSTicketEvent::
 EverGrandeCity_HallOfFame_EventScript_ReadyDexUpgradeEvent::
 	setvar VAR_DEX_UPGRADE_JOHTO_STARTER_STATE, 1
 	return
+
+EverGrandeCity_HallOfFame_EventScript_ResetEliteFour::
+	clearflag FLAG_DEFEATED_ELITE_4_SIDNEY
+	clearflag FLAG_DEFEATED_ELITE_4_PHOEBE
+	clearflag FLAG_DEFEATED_ELITE_4_GLACIA
+	clearflag FLAG_DEFEATED_ELITE_4_DRAKE
+	setvar VAR_ELITE_4_STATE, 0
+	return

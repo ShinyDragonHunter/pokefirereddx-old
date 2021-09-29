@@ -3257,13 +3257,14 @@ const struct Item gItems[] =
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
     },
 
-    [ITEM_WAILMER_PAIL] =
+    [ITEM_SQUIRTBOTTLE] =
     {
-        .name = _("????????"),
+        .name = _("SQUIRTBOTTLE"),
         .itemId = ITEM_NONE,
         .price = 0,
-        .description = sDummyDesc,
-        .pocket = POCKET_ITEMS,
+        .description = sSquirtbottleDesc,
+        .importance = 2,
+        .pocket = POCKET_KEY_ITEMS,
         .type = ITEM_USE_BAG_MENU,
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
     },

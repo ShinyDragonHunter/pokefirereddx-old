@@ -355,28 +355,6 @@ MossdeepCity_SpaceCenter_2F_EventScript_TabithaTrainer::
 	trainerbattle TRAINER_BATTLE_SET_TRAINER_B, TRAINER_TABITHA_MOSSDEEP, 0, MossdeepCity_SpaceCenter_Text_TabithaDefeat, MossdeepCity_SpaceCenter_Text_TabithaDefeat
 	end
 
-MossdeepCity_SpaceCenter_2F_EventScript_RivalRayquazaCall::
-	lockall
-	checkplayergender
-	compare VAR_RESULT, MALE
-	call_if_eq MossdeepCity_SpaceCenter_2F_EventScript_MayRayquazaCall
-	compare VAR_RESULT, FEMALE
-	call_if_eq MossdeepCity_SpaceCenter_2F_EventScript_BrendanRayquazaCall
-	closemessage
-	clearflag FLAG_DEFEATED_MAGMA_SPACE_CENTER
-	releaseall
-	end
-
-MossdeepCity_SpaceCenter_2F_EventScript_MayRayquazaCall::
-	pokenavcall MatchCall_Text_MayRayquazaCall
-	waitmessage
-	return
-
-MossdeepCity_SpaceCenter_2F_EventScript_BrendanRayquazaCall::
-	pokenavcall MatchCall_Text_BrendanRayquazaCall
-	waitmessage
-	return
-
 MossdeepCity_SpaceCenter_2F_Text_MossdeepIdealForRockets:
 	.string "MOSSDEEP has mainly sunny weather,\n"
 	.string "and its winds are stable.\p"

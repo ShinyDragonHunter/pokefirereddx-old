@@ -2882,7 +2882,7 @@ BattleScript_FaintedMonChooseAnother::
 	hidepartystatussummary BS_FAINTED
 	switchinanim BS_FAINTED, FALSE
 	waitstate
-	various8 BS_ATTACKER
+	resetplayerfaintedflag BS_ATTACKER
 	switchineffects BS_FAINTED
 	jumpifbattletype BATTLE_TYPE_DOUBLE, BattleScript_FaintedMonEnd
 	cancelallactions
@@ -2938,18 +2938,49 @@ BattleScript_PayDayMoneyAndPickUpItems::
 BattleScript_LocalBattleLost::
 	jumpifbattletype BATTLE_TYPE_DOME, BattleScript_CheckDomeDrew
 	jumpifbattletype BATTLE_TYPE_FRONTIER, BattleScript_LocalBattleLostPrintTrainersWinText
-	jumpifbattletype BATTLE_TYPE_TRAINER_HILL, BattleScript_LocalBattleLostPrintTrainersWinText
-	jumpifbattletype BATTLE_TYPE_EREADER_TRAINER, BattleScript_LocalBattleLostEnd
+	jumpifbattletype BATTLE_TYPE_TRAINER_HILL, BattleScript_LocalBattleLostPrintFrontierTrainersWinText
+	jumpifbattletype BATTLE_TYPE_EREADER_TRAINER, BattleScript_EReaderOrSecretBaseTrainerEnd
+	jumpifbyte CMP_NOT_EQUAL, cMULTISTRING_CHOOSER, 0, BattleScript_RivalBattleLost
 BattleScript_LocalBattleLostPrintWhiteOut::
+	jumpifbattletype BATTLE_TYPE_TRAINER, BattleScript_LocalBattleLostEnd
 	printstring STRINGID_PLAYERWHITEOUT
 	waitmessage B_WAIT_TIME_LONG
+	getmoneyreward
 	printstring STRINGID_PLAYERWHITEOUT2
 	waitmessage B_WAIT_TIME_LONG
+	goto BattleScript_EReaderOrSecretBaseTrainerEnd
+
 BattleScript_LocalBattleLostEnd::
+	printstring STRINGID_PLAYERLOSTAGAINSTENEMYTRAINER
+	waitmessage B_WAIT_TIME_LONG
+	getmoneyreward
+	printstring STRINGID_PLAYERPAIDPRIZEMONEY
+	waitmessage B_WAIT_TIME_LONG
+BattleScript_EReaderOrSecretBaseTrainerEnd::
 	end2
-BattleScript_CheckDomeDrew::
-	jumpifbyte CMP_EQUAL, gBattleOutcome, B_OUTCOME_DREW, BattleScript_LocalBattleLostEnd_
+
 BattleScript_LocalBattleLostPrintTrainersWinText::
+	printstring STRINGID_PLAYERWHITEDOUT
+	waitmessage B_WAIT_TIME_LONG
+	end2
+
+BattleScript_RivalBattleLost::
+	jumpifhasnohp BS_ATTACKER, BattleScript_RivalBattleLostSkipMonRecall
+	printstring STRINGID_TRAINER1MON1COMEBACK
+	waitmessage B_WAIT_TIME_LONG
+	returnatktoball
+	waitstate
+
+BattleScript_RivalBattleLostSkipMonRecall::
+	trainerslidein BS_ATTACKER
+	waitstate
+	printstring STRINGID_TRAINER1WINTEXT
+	jumpifbyte CMP_EQUAL, cMULTISTRING_CHOOSER, 2, BattleScript_LocalBattleLostPrintWhiteOut
+	end2
+
+BattleScript_CheckDomeDrew::
+	jumpifbyte CMP_EQUAL, gBattleOutcome, B_OUTCOME_DREW, BattleScript_EReaderOrSecretBaseTrainerEnd
+BattleScript_LocalBattleLostPrintFrontierTrainersWinText::
 	jumpifnotbattletype BATTLE_TYPE_TRAINER, BattleScript_LocalBattleLostPrintWhiteOut
 	returnopponentmon1toball BS_ATTACKER
 	waitstate
@@ -2959,14 +2990,13 @@ BattleScript_LocalBattleLostPrintTrainersWinText::
 	waitstate
 	printstring STRINGID_TRAINER1WINTEXT
 	jumpifbattletype BATTLE_TYPE_TOWER_LINK_MULTI, BattleScript_LocalBattleLostDoTrainer2WinText
-	jumpifnotbattletype BATTLE_TYPE_TWO_OPPONENTS, BattleScript_LocalBattleLostEnd_
+	jumpifnotbattletype BATTLE_TYPE_TWO_OPPONENTS, BattleScript_EReaderOrSecretBaseTrainerEnd
 BattleScript_LocalBattleLostDoTrainer2WinText::
 	trainerslideout B_POSITION_OPPONENT_LEFT
 	waitstate
 	trainerslidein BS_FAINTED
 	waitstate
 	printstring STRINGID_TRAINER2WINTEXT
-BattleScript_LocalBattleLostEnd_::
 	end2
 
 BattleScript_FrontierLinkBattleLost::
@@ -3010,11 +3040,9 @@ BattleScript_TowerLinkBattleWon::
 	trainerslidein BS_FAINTED
 	waitstate
 	printstring STRINGID_TRAINER2LOSETEXT
-	jumpifbattletype BATTLE_TYPE_RECORDED, BattleScript_TowerLinkBattleWonEnd
+	jumpifbattletype BATTLE_TYPE_RECORDED, BattleScript_LinkBattleWonOrLostWaitEnd
 	endlinkbattle
-BattleScript_TowerLinkBattleWonEnd::
-	waitmessage B_WAIT_TIME_LONG
-	end2
+	goto BattleScript_LinkBattleWonOrLostWaitEnd
 
 BattleScript_FrontierTrainerBattleWon::
 	jumpifnotbattletype BATTLE_TYPE_TRAINER, BattleScript_PayDayMoneyAndPickUpItems
@@ -3034,7 +3062,7 @@ BattleScript_FrontierTrainerBattleWon_LoseTexts:
 	waitstate
 	printstring STRINGID_TRAINER2LOSETEXT
 BattleScript_TryPickUpItems:
-	jumpifnotbattletype BATTLE_TYPE_PYRAMID, BattleScript_FrontierTrainerBattleWon_End
+	jumpifnotbattletype BATTLE_TYPE_PYRAMID, BattleScript_EReaderOrSecretBaseTrainerEnd
 	pickup
 BattleScript_FrontierTrainerBattleWon_End:
 	end2
@@ -4442,11 +4470,11 @@ BattleScript_ArenaTurnBeginning::
 	playse SE_ARENA_TIMEUP1
 	pause 8
 	playse SE_ARENA_TIMEUP1
-	various15 BS_ATTACKER
+	drawarenarefereetextbox BS_ATTACKER
 	arenajudgmentstring B_MSG_REF_COMMENCE_BATTLE
 	arenawaitmessage B_MSG_REF_COMMENCE_BATTLE
 	pause B_WAIT_TIME_LONG
-	various16 BS_ATTACKER
+	removearenarefereetextbox BS_ATTACKER
 	volumeup
 	end2
 
@@ -4460,7 +4488,7 @@ BattleScript_ArenaDoJudgment::
 	pause 8
 	playse SE_ARENA_TIMEUP1
 	pause B_WAIT_TIME_LONG
-	various15 BS_ATTACKER
+	drawarenarefereetextbox BS_ATTACKER
 	arenajudgmentstring B_MSG_REF_THATS_IT
 	arenawaitmessage B_MSG_REF_THATS_IT
 	pause B_WAIT_TIME_LONG
@@ -4482,7 +4510,7 @@ BattleScript_ArenaDoJudgment::
 	arenajudgmentstring B_MSG_REF_PLAYER_WON
 	arenawaitmessage B_MSG_REF_PLAYER_WON
 	arenajudgmentwindow
-	various16 BS_ATTACKER
+	removearenarefereetextbox BS_ATTACKER
 	printstring STRINGID_DEFEATEDOPPONENTBYREFEREE
 	waitmessage B_WAIT_TIME_LONG
 	playfaintcry BS_OPPONENT1
@@ -4496,7 +4524,7 @@ BattleScript_ArenaJudgmentPlayerLoses:
 	arenajudgmentstring B_MSG_REF_OPPONENT_WON
 	arenawaitmessage B_MSG_REF_OPPONENT_WON
 	arenajudgmentwindow
-	various16 BS_ATTACKER
+	removearenarefereetextbox BS_ATTACKER
 	printstring STRINGID_LOSTTOOPPONENTBYREFEREE
 	waitmessage B_WAIT_TIME_LONG
 	playfaintcry BS_PLAYER1
@@ -4510,7 +4538,7 @@ BattleScript_ArenaJudgmentDraw:
 	arenajudgmentstring B_MSG_REF_DRAW
 	arenawaitmessage B_MSG_REF_DRAW
 	arenajudgmentwindow
-	various16 BS_ATTACKER
+	removearenarefereetextbox BS_ATTACKER
 	printstring STRINGID_TIEDOPPONENTBYREFEREE
 	waitmessage B_WAIT_TIME_LONG
 	playfaintcry BS_PLAYER1

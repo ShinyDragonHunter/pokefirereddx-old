@@ -1,30 +1,31 @@
 EventScript_AfterWhiteOutHeal::
 	lockall
-	msgbox gText_FirstShouldRestoreMonsHealth
+	textcolor RED
+	message gText_FirstShouldRestoreMonsHealth
 	call EventScript_PkmnCenterNurse_TakeAndHealPkmn
 	call_if_unset FLAG_BADGE01_GET, EventScript_AfterWhiteOutHealMsgPreBrock
 	call_if_set FLAG_BADGE01_GET, EventScript_AfterWhiteOutHealMsg
 	applymovement VAR_LAST_TALKED, Movement_PkmnCenterNurse_Bow
 	waitmovement 0
-	fadedefaultbgm
-	releaseall
-	end
+	goto EventScript_AfterWhiteOutEnd
 
 EventScript_AfterWhiteOutHealMsgPreBrock::
-	msgbox gText_MonsHealedShouldBuyPotions
+	message gText_MonsHealedShouldBuyPotions
 	return
 
 EventScript_AfterWhiteOutHealMsg::
-	msgbox gText_MonsHealed
+	message gText_MonsHealed
 	return
 
 EventScript_AfterWhiteOutMomHeal::
 	lockall
 	applymovement LOCALID_MOM, Common_Movement_WalkInPlaceFastestDown
 	waitmovement 0
-	msgbox gText_HadQuiteAnExperienceTakeRest
+	textcolor RED
+	message gText_HadQuiteAnExperienceTakeRest
 	call Common_EventScript_OutOfCenterPartyHeal
-	msgbox gText_MomExplainHPGetPotions
+	message gText_MomExplainHPGetPotions
+EventScript_AfterWhiteOutEnd::
 	fadedefaultbgm
 	releaseall
 	end

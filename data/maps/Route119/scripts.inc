@@ -488,15 +488,6 @@ Route119_EventScript_TrainerTipsDecoration::
 	msgbox Route119_Text_TrainerTipsDecoration, MSGBOX_SIGN
 	end
 
-Route119_EventScript_ScottWonAtFortreeGymCall::
-	lockall
-	pokenavcall Route119_Text_ScottYouWonAtFortreeGym
-	waitmessage
-	clearflag FLAG_SCOTT_CALL_FORTREE_GYM
-	addvar VAR_SCOTT_STATE, 1
-	releaseall
-	end
-
 Route119_Text_MayIntro:
 	.string "MAY: {PLAYER}!\n"
 	.string "Where were you? I was looking for you!\p"

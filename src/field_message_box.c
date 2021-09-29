@@ -3,7 +3,6 @@
 #include "string_util.h"
 #include "task.h"
 #include "text.h"
-#include "match_call.h"
 #include "field_message_box.h"
 
 static EWRAM_DATA u8 sFieldMessageBoxMode = 0;
@@ -65,26 +64,6 @@ bool8 ShowFieldMessage(const u8 *str)
         return FALSE;
     ExpandStringAndStartDrawFieldMessage(str, TRUE);
     sFieldMessageBoxMode = FIELD_MESSAGE_BOX_NORMAL;
-    return TRUE;
-}
-
-static void Task_HidePokenavMessageWhenDone(u8 taskId)
-{
-    if (!IsMatchCallTaskActive())
-    {
-        sFieldMessageBoxMode = FIELD_MESSAGE_BOX_HIDDEN;
-        DestroyTask(taskId);
-    }
-}
-
-bool8 ShowPokenavFieldMessage(const u8 *str)
-{
-    if (sFieldMessageBoxMode != FIELD_MESSAGE_BOX_HIDDEN)
-        return FALSE;
-    StringExpandPlaceholders(gStringVar4, str);
-    CreateTask(Task_HidePokenavMessageWhenDone, 0);
-    StartMatchCallFromScript(str);
-    sFieldMessageBoxMode = 2;
     return TRUE;
 }
 

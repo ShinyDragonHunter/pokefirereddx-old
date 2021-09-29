@@ -10,7 +10,6 @@ CableClub_EventScript_HideOrShowMysteryGiftMan::
 	compare VAR_RESULT, FALSE
 	goto_if_eq CableClub_EventScript_HideMysteryGiftMan
 	goto CableClub_EventScript_ShowMysteryGiftMan
-	end
 
 CableClub_EventScript_ShowMysteryGiftMan::
 	clearflag FLAG_HIDE_POKEMON_CENTER_2F_MYSTERY_GIFT_MAN
@@ -25,7 +24,6 @@ CableClub_EventScript_MysteryGiftMan::
 	compare VAR_RESULT, TRUE
 	goto_if_eq CableClub_EventScript_DistributeEonTicket
 	goto CableClub_EventScript_AlreadyGotEonTicket
-	end
 
 CableClub_EventScript_AlreadyGotEonTicket::
 	gotoram
@@ -235,7 +233,6 @@ CableClub_EventScript_WelcomeToCableClub::
 	waitmessage
 	delay 28
 	goto CableClub_EventScript_SelectCableClubRoom
-	end
 
 CableClub_EventScript_SelectCableClubRoom::
 	setvar VAR_0x8004, 0
@@ -261,7 +258,6 @@ CableClub_EventScript_CableClubUnlockedRecordCorner::
 CableClub_EventScript_Colosseum::
 	copyvar VAR_0x8007, VAR_LAST_TALKED
 	goto CableClub_EventScript_SelectBattleMode
-	end
 
 CableClub_EventScript_SelectBattleMode::
 	message CableClub_Text_PlayWhichBattleMode
@@ -279,12 +275,10 @@ CableClub_EventScript_SelectBattleMode::
 CableClub_EventScript_BattleModeInfo::
 	msgbox CableClub_Text_ExplainBattleModes, MSGBOX_DEFAULT
 	goto CableClub_EventScript_SelectBattleMode
-	end
 
 CableClub_EventScript_SingleBattleMode::
 	setvar VAR_0x8004, USING_SINGLE_BATTLE
 	goto CableClub_EventScript_TryEnterColosseum
-	end
 
 CableClub_EventScript_DoubleBattleMode::
 	special HasEnoughMonsForDoubleBattle
@@ -292,17 +286,14 @@ CableClub_EventScript_DoubleBattleMode::
 	goto_if_ne CableClub_EventScript_NeedTwoMonsForDoubleBattle
 	setvar VAR_0x8004, USING_DOUBLE_BATTLE
 	goto CableClub_EventScript_TryEnterColosseum
-	end
 
 CableClub_EventScript_NeedTwoMonsForDoubleBattle::
 	msgbox CableClub_Text_NeedTwoMonsForDoubleBattle, MSGBOX_DEFAULT
 	goto CableClub_EventScript_SelectBattleMode
-	end
 
 CableClub_EventScript_MultiBattleMode::
 	setvar VAR_0x8004, USING_MULTI_BATTLE
 	goto CableClub_EventScript_TryEnterColosseum
-	end
 
 CableClub_EventScript_TryEnterColosseum::
 	call Common_EventScript_SaveGame
@@ -371,25 +362,21 @@ CableClub_EventScript_AbortLinkIncorrectNumberOfBattlers::
 	case USING_DOUBLE_BATTLE, CableClub_EventScript_AbortLinkWrongNumberForDoubleBattle
 	case USING_MULTI_BATTLE,  CableClub_EventScript_AbortLinkNeedFourPlayers
 	goto CableClub_EventScript_AbortLinkIncorrectNumberOfParticipants
-	end
 
 CableClub_EventScript_AbortLinkNeedFourPlayers::
 	special CloseLink
 	msgbox CableClub_Text_NeedFourPlayers, MSGBOX_DEFAULT
 	goto CableClub_EventScript_ConfirmNumberAndRestart
-	end
 
 CableClub_EventScript_AbortLinkWrongNumberForDoubleBattle::
 	special CloseLink
 	msgbox CableClub_Text_CantDoubleBattleWithXPlayers, MSGBOX_DEFAULT
 	goto CableClub_EventScript_ConfirmNumberAndRestart
-	end
 
 CableClub_EventScript_AbortLinkWrongNumberForSingleBattle::
 	special CloseLink
 	msgbox CableClub_Text_CantSingleBattleWithXPlayers, MSGBOX_DEFAULT
 	goto CableClub_EventScript_ConfirmNumberAndRestart
-	end
 
 CableClub_EventScript_ConfirmNumberAndRestart::
 	special CloseLink  @ Redundant
@@ -838,7 +825,6 @@ CableClub_EventScript_UnionRoomAttendant::
 	message CableClub_Text_WelcomeUnionRoomEnter
 	waitmessage
 	goto CableClub_EventScript_UnionRoomSelect
-	end
 
 CableClub_EventScript_UnionRoomSelect::
 	multichoice 17, 6, MULTI_YESNOINFO, FALSE
@@ -847,13 +833,11 @@ CableClub_EventScript_UnionRoomSelect::
 	case 1, CableClub_EventScript_AbortLink
 	case 2, CableClub_EventScript_UnionRoomInfo
 	case MULTI_B_PRESSED, CableClub_EventScript_AbortLink
-	end
 
 CableClub_EventScript_UnionRoomInfo::
 	message CableClub_Text_UnionRoomInfo
 	waitmessage
 	goto CableClub_EventScript_UnionRoomSelect
-	end
 
 CableClub_EventScript_EnterUnionRoom::
 	call CableClub_EventScript_CheckPartyUnionRoomRequirements
@@ -903,12 +887,10 @@ CableClub_EventScript_CheckPartyUnionRoomRequirements::
 CableClub_EventScript_NeedTwoMonsForUnionRoom::
 	msgbox CableClub_Text_NeedTwoMonsForUnionRoom, MSGBOX_DEFAULT
 	goto EventScript_CableClub_SetVarResult0
-	end
 
 CableClub_EventScript_NoEnigmaBerryInUnionRoom::
 	msgbox CableClub_Text_NoEnigmaBerryInUnionRoom, MSGBOX_DEFAULT
 	goto EventScript_CableClub_SetVarResult0
-	end
 
 CableClub_EventScript_UnionRoomAdapterNotConnected::
 	msgbox CableClub_Text_UnionRoomAdapterNotConnected, MSGBOX_DEFAULT
@@ -946,7 +928,6 @@ CableClub_EventScript_DirectCornerAttendant::
 	waitmessage
 	delay 28
 	goto CableClub_EventScript_DirectCornerSelectService
-	end
 
 CableClub_EventScript_DirectCornerSelectService::
 	checkitem ITEM_POWDER_JAR, 1
@@ -1002,7 +983,6 @@ CableClub_EventScript_WirelessTrade::
 	goto_if_eq CableClub_EventScript_AbortLink
 	setvar VAR_0x8004, LINK_GROUP_TRADE
 	goto CableClub_EventScript_SaveAndChooseLinkLeader
-	end
 
 CableClub_EventScript_WirelessBattleSelect::
 	message CableClub_Text_PlayWhichBattleMode
@@ -1028,22 +1008,18 @@ CableClub_EventScript_WirelessDoubleBattle::
 	goto_if_ne CableClub_EventScript_TwoMonsNeededForWirelessDoubleBattle
 	setvar VAR_0x8004, LINK_GROUP_DOUBLE_BATTLE
 	goto CableClub_EventScript_SaveAndChooseLinkLeader
-	end
 
 CableClub_EventScript_TwoMonsNeededForWirelessDoubleBattle::
 	msgbox CableClub_Text_NeedTwoMonsForDoubleBattle, MSGBOX_DEFAULT
 	goto CableClub_EventScript_WirelessBattleSelect
-	end
 
 CableClub_EventScript_WirelessMultiBattle::
 	setvar VAR_0x8004, LINK_GROUP_MULTI_BATTLE
 	goto CableClub_EventScript_SaveAndChooseLinkLeader
-	end
 
 CableClub_EventScript_WirelessBattleInfo::
 	msgbox CableClub_Text_ExplainBattleModes, MSGBOX_DEFAULT
 	goto CableClub_EventScript_WirelessBattleSelect
-	end
 
 CableClub_EventScript_WirelessRecordMix::
 	msgbox CableClub_Text_AccessRecordCorner, MSGBOX_YESNO
@@ -1051,7 +1027,6 @@ CableClub_EventScript_WirelessRecordMix::
 	goto_if_eq CableClub_EventScript_AbortLink
 	setvar VAR_0x8004, LINK_GROUP_RECORD_CORNER
 	goto CableClub_EventScript_SaveAndChooseLinkLeader
-	end
 
 CableClub_EventScript_WirelessBerryCrush::
 	msgbox CableClub_Text_UseBerryCrush, MSGBOX_YESNO
@@ -1062,12 +1037,10 @@ CableClub_EventScript_WirelessBerryCrush::
 	goto_if_eq CableClub_EventScript_NeedBerryForBerryCrush
 	setvar VAR_0x8004, LINK_GROUP_BERRY_CRUSH
 	goto CableClub_EventScript_SaveAndChooseLinkLeader
-	end
 
 CableClub_EventScript_NeedBerryForBerryCrush::
 	msgbox CableClub_Text_NeedBerryForBerryCrush, MSGBOX_DEFAULT
 	goto CableClub_EventScript_DirectCornerSelectService
-	end
 
 CableClub_EventScript_SaveAndChooseLinkLeader::
 	call Common_EventScript_SaveGame
@@ -1333,7 +1306,6 @@ MossdeepCity_GameCorner_1F_EventScript_PlayPokemonJump::
 	goto_if_eq MossdeepCity_GameCorner_1F_EventScript_AbortMinigame
 	setvar VAR_0x8004, LINK_GROUP_POKEMON_JUMP
 	goto MossdeepCity_GameCorner_1F_EventScript_ChooseLinkLeader
-	end
 
 MossdeepCity_GameCorner_1F_EventScript_PlayDodrioBerryPicking::
 	setvar VAR_0x8005, 1
@@ -1352,7 +1324,6 @@ MossdeepCity_GameCorner_1F_EventScript_PlayDodrioBerryPicking::
 	goto_if_eq MossdeepCity_GameCorner_1F_EventScript_AbortMinigame
 	setvar VAR_0x8004, LINK_GROUP_BERRY_PICKING
 	goto MossdeepCity_GameCorner_1F_EventScript_ChooseLinkLeader
-	end
 
 MossdeepCity_GameCorner_1F_EventScript_ChooseLinkLeader::
 	message CableClub_Text_ChooseGroupLeader
@@ -1421,7 +1392,6 @@ MossdeepCity_GameCorner_1F_EventScript_DontHaveRequiredMon::
 	call_if_eq MossdeepCity_GameCorner_1F_EventScript_ExplainPokemonJumpRequirements
 	call_if_ne MossdeepCity_GameCorner_1F_EventScript_ExplainDodrioBerryPickingRequirements
 	goto MossdeepCity_GameCorner_1F_EventScript_AbortMinigame
-	end
 
 MossdeepCity_GameCorner_1F_EventScript_ExplainPokemonJumpRequirements::
 	msgbox MossdeepCity_GameCorner_1F_Text_ShortJumpingPokemonAllowed, MSGBOX_DEFAULT

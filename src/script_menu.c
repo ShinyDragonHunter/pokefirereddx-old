@@ -34,7 +34,6 @@ static void DrawLinkServicesMultichoiceMenu(u8 multichoiceId);
 static void CreatePCMultichoice(void);
 static void CreateLilycoveSSTidalMultichoice(void);
 static bool8 IsPicboxClosed(void);
-static void CreateStartMenuForPokenavTutorial(void);
 static void InitMultichoiceNoWrap(bool8 ignoreBPress, u8 windowId, u8 multichoiceId);
 
 bool8 ScriptMenu_Multichoice(u8 left, u8 top, u8 multichoiceId, bool8 ignoreBPress)
@@ -626,37 +625,6 @@ static void DrawLinkServicesMultichoiceMenu(u8 multichoiceId)
         AddTextPrinterParameterized2(0, 2, sCableClubOptions_NoRecordMix[Menu_GetCursorPos()], 0, NULL, 2, 1, 3);
         break;
     }
-}
-
-bool16 ScriptMenu_CreateStartMenuForPokenavTutorial(void)
-{
-    if (FuncIsActiveTask(Task_HandleMultichoiceInput))
-    {
-        return FALSE;
-    }
-    else
-    {
-        gSpecialVar_Result = 0xFF;
-        CreateStartMenuForPokenavTutorial();
-        return TRUE;
-    }
-}
-
-static void CreateStartMenuForPokenavTutorial(void)
-{
-    u8 windowId = CreateWindowFromRect(21, 0, 7, 18);
-    SetStandardWindowBorderStyle(windowId, 0);
-    AddTextPrinterParameterized(windowId, 2, gText_MenuOptionPokedex, 8, 9, TEXT_SPEED_FF, NULL);
-    AddTextPrinterParameterized(windowId, 2, gText_MenuOptionPokemon, 8, 25, TEXT_SPEED_FF, NULL);
-    AddTextPrinterParameterized(windowId, 2, gText_MenuOptionBag, 8, 41, TEXT_SPEED_FF, NULL);
-    AddTextPrinterParameterized(windowId, 2, gText_MenuOptionPokenav, 8, 57, TEXT_SPEED_FF, NULL);
-    AddTextPrinterParameterized(windowId, 2, gSaveBlock2Ptr->playerName, 8, 73, TEXT_SPEED_FF, NULL);
-    AddTextPrinterParameterized(windowId, 2, gText_MenuOptionSave, 8, 89, TEXT_SPEED_FF, NULL);
-    AddTextPrinterParameterized(windowId, 2, gText_MenuOptionOption, 8, 105, TEXT_SPEED_FF, NULL);
-    AddTextPrinterParameterized(windowId, 2, gText_MenuOptionExit, 8, 121, TEXT_SPEED_FF, NULL);
-    InitMenuInUpperLeftCorner(windowId, 1, 0, 9, 16, ARRAY_COUNT(MultichoiceList_ForcedStartMenu), 0, 0);
-    InitMultichoiceNoWrap(FALSE, windowId, MULTI_FORCED_START_MENU);
-    CopyWindowToVram(windowId, 3);
 }
 
 #define tWindowId       data[6]

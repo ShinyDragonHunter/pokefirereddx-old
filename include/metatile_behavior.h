@@ -90,7 +90,6 @@ bool8 MetatileBehavior_IsTrickHousePuzzleDoor(u8);
 bool8 MetatileBehavior_IsRegionMap(u8);
 bool8 MetatileBehavior_IsClosedSootopolisDoor(u8);
 bool8 MetatileBehavior_IsSkyPillarClosedDoor(u8);
-bool8 MetatileBehavior_IsPokeblockFeeder(u8);
 bool8 MetatileBehavior_IsLavaridgeB1FWarp(u8);
 bool8 MetatileBehavior_IsLavaridge1FWarp(u8);
 bool8 MetatileBehavior_IsAquaHideoutWarp(u8);

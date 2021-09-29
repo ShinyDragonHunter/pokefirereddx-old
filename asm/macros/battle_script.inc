@@ -1280,8 +1280,24 @@
 	various \battler, VARIOUS_UPDATE_CHOICE_MOVE_ON_LVL_UP
 	.endm
 	
-	.macro various8 battler:req
-	various \battler, 8
+	.macro resetplayerfaintedflag battler:req
+	various \battler, VARIOUS_RESET_PLAYER_FAINTED_FLAG
+	.endm
+
+	.macro returnopponentmon1toball battler:req
+	various \battler, VARIOUS_RETURN_OPPONENT_MON1
+	.endm
+	
+	.macro returnopponentmon2toball battler:req
+	various \battler, VARIOUS_RETURN_OPPONENT_MON2
+	.endm
+
+	.macro checkpokeflute battler:req
+	various \battler, VARIOUS_CHECK_POKEFLUTE
+	.endm
+
+	.macro waitfanfare battler:req
+	various \battler, VARIOUS_WAIT_FANFARE
 	.endm
 	
 	.macro palaceflavortext battler:req
@@ -1308,12 +1324,12 @@
 	various \battler, VARIOUS_EMIT_YESNOBOX
 	.endm
 	
-	.macro various15 battler:req
-	various \battler, 15
+	.macro drawarenarefereetextbox battler:req
+	various \battler, VARIOUS_DRAW_ARENA_REFEREE_TEXTBOX
 	.endm
 	
-	.macro various16 battler:req
-	various \battler, 16
+	.macro removearenarefereetextbox battler:req
+	various \battler, VARIOUS_REMOVE_ARENA_REFEREE_TEXTBOX
 	.endm
 	
 	.macro arenajudgmentstring id:req
@@ -1328,14 +1344,6 @@
 	various \battler, VARIOUS_WAIT_CRY
 	.endm
 	
-	.macro returnopponentmon1toball battler:req
-	various \battler, VARIOUS_RETURN_OPPONENT_MON1
-	.endm
-	
-	.macro returnopponentmon2toball battler:req
-	various \battler, VARIOUS_RETURN_OPPONENT_MON2
-	.endm
-	
 	.macro volumedown
 	various BS_ATTACKER, VARIOUS_VOLUME_DOWN
 	.endm
@@ -1345,11 +1353,11 @@
 	.endm
 	
 	.macro setalreadystatusedmoveattempt battler:req
-	various \battler, 24
+	various \battler, VARIOUS_SET_ALREADY_STATUS_MOVE_ATTEMPT
 	.endm
 	
 	.macro various25 battler:req
-	various \battler, 25
+	various \battler, VARIOUS_CASE_27
 	.endm
 	
 	.macro setoutcomeonteleport battler:req

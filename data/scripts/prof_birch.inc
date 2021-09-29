@@ -41,12 +41,6 @@ ProfBirch_EventScript_MoveToRoute103::
 	setflag FLAG_HIDE_LITTLEROOT_TOWN_BIRCHS_LAB_UNKNOWN_0x380
 	return
 
-ProfBirch_EventScript_RatePokedexOrRegister::
-	lock
-	faceplayer
-	goto_if_unset FLAG_HAS_MATCH_CALL, ProfBirch_EventScript_AskRatePokedex
-	goto_if_unset FLAG_ENABLE_PROF_BIRCH_MATCH_CALL, EventScript_RegisterProfBirch
-
 ProfBirch_EventScript_AskRatePokedex::
 	msgbox gBirchDexRatingText_AreYouCurious, MSGBOX_YESNO
 	compare VAR_RESULT, NO

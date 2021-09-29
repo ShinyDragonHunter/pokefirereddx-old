@@ -91,21 +91,6 @@ RustboroCity_Gym_EventScript_GymStatue::
 	releaseall
 	end
 
-RustboroCity_Gym_EventScript_RegisterRoxanne::
-	lockall
-	pokenavcall RustboroCity_Gym_Text_RoxanneRegisterCall
-	waitmessage
-	delay 30
-	playfanfare MUS_REGISTER_MATCH_CALL
-	msgbox RustboroCity_Gym_Text_RegisteredRoxanne, MSGBOX_DEFAULT
-	waitfanfare
-	closemessage
-	delay 30
-	setflag FLAG_ENABLE_ROXANNE_MATCH_CALL
-	clearflag FLAG_ENABLE_ROXANNE_FIRST_CALL
-	releaseall
-	end
-
 RustboroCity_Gym_Text_GymGuideAdvice:
 	.string "Yo, how's it going?\p"
 	.string "Listen, my friend!\n"

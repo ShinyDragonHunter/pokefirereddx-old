@@ -94,9 +94,9 @@ static void Task_ShinyStars(u8);
 static void SpriteCB_ShinyStars_Encircle(struct Sprite *);
 static void SpriteCB_ShinyStars_Diagonal(struct Sprite *);
 static void Task_ShinyStars_Wait(u8);
-static void SpriteCB_PokeBlock_LiftArm(struct Sprite *);
-static void SpriteCB_PokeBlock_Arc(struct Sprite *);
-static void SpriteCB_ThrowPokeBlock_Free(struct Sprite *);
+static void SpriteCB_Safari_LiftArm(struct Sprite *);
+static void SpriteCB_Safari_Arc(struct Sprite *);
+static void SpriteCB_ThrowSafari_Free(struct Sprite *);
 static void PokeBallOpenParticleAnimation(u8);
 static void GreatBallOpenParticleAnimation(u8);
 static void SafariBallOpenParticleAnimation(u8);
@@ -111,7 +111,7 @@ static void LureBallOpenParticleAnimation(u8);
 static void MoonBallOpenParticleAnimation(u8);
 static void FriendBallOpenParticleAnimation(u8);
 static void FastBallOpenParticleAnimation(u8);
-static void SpriteCB_PokeBlock_Throw(struct Sprite *);
+static void SpriteCB_Safari_Throw(struct Sprite *);
 
 struct CaptureStar
 {
@@ -609,15 +609,15 @@ const u16 gBallOpenFadeColors[] =
     [BALL_PARK] = RGB(31, 22, 30),
 };
 
-const struct SpriteTemplate gPokeblockSpriteTemplate =
+const struct SpriteTemplate gSafariBaitSpriteTemplate =
 {
-    .tileTag = ANIM_TAG_POKEBLOCK,
-    .paletteTag = ANIM_TAG_POKEBLOCK,
+    .tileTag = ANIM_TAG_SAFARI_BAIT,
+    .paletteTag = ANIM_TAG_SAFARI_BAIT,
     .oam = &gOamData_AffineOff_ObjNormal_16x16,
     .anims = gDummySpriteAnimTable,
     .images = NULL,
     .affineAnims = gDummySpriteAffineAnimTable,
-    .callback = SpriteCB_PokeBlock_Throw,
+    .callback = SpriteCB_Safari_Throw,
 };
 
 static const union AnimCmd sAnim_SafariRock[] =
@@ -630,8 +630,7 @@ static const union AnimCmd *const sAnims_SafariRock[] = {
     sAnim_SafariRock,
 };
 
-// Unused, leftover from FRLG
-static const struct SpriteTemplate sSafariRockSpriteTemplate =
+const struct SpriteTemplate gSafariRockSpriteTemplate =
 {
     .tileTag = ANIM_TAG_ROCKS,
     .paletteTag = ANIM_TAG_ROCKS,
@@ -639,7 +638,7 @@ static const struct SpriteTemplate sSafariRockSpriteTemplate =
     .anims = sAnims_SafariRock,
     .images = NULL,
     .affineAnims = gDummySpriteAffineAnimTable,
-    .callback = SpriteCB_PokeBlock_Throw,
+    .callback = SpriteCB_Safari_Throw,
 };
 
 extern const struct SpriteTemplate gBigShinySquareSpriteTemplate;
@@ -2690,19 +2689,17 @@ static void SpriteCB_ShinyStars_Diagonal(struct Sprite *sprite)
 #undef sPhase
 #undef sTimer
 
-void AnimTask_LoadPokeblockGfx(u8 taskId)
+void AnimTask_LoadBaitGfx(u8 taskId)
 {
-    u8 paletteIndex;
-
-    LoadCompressedSpriteSheetUsingHeap(&gBattleAnimPicTable[ANIM_TAG_POKEBLOCK - ANIM_SPRITES_START]);
-    LoadCompressedSpritePaletteUsingHeap(&gBattleAnimPaletteTable[ANIM_TAG_POKEBLOCK - ANIM_SPRITES_START]);
+    LoadCompressedSpriteSheetUsingHeap(&gBattleAnimPicTable[ANIM_TAG_SAFARI_BAIT - ANIM_SPRITES_START]);
+    LoadCompressedSpritePaletteUsingHeap(&gBattleAnimPaletteTable[ANIM_TAG_SAFARI_BAIT - ANIM_SPRITES_START]);
     DestroyAnimVisualTask(taskId);
 }
 
-void AnimTask_FreePokeblockGfx(u8 taskId)
+void AnimTask_FreeBaitGfx(u8 taskId)
 {
-    FreeSpriteTilesByTag(ANIM_TAG_POKEBLOCK);
-    FreeSpritePaletteByTag(ANIM_TAG_POKEBLOCK);
+    FreeSpriteTilesByTag(ANIM_TAG_SAFARI_BAIT);
+    FreeSpritePaletteByTag(ANIM_TAG_SAFARI_BAIT);
     DestroyAnimVisualTask(taskId);
 }
 
@@ -2711,7 +2708,7 @@ void AnimTask_FreePokeblockGfx(u8 taskId)
 #define sTargetY data[4]
 #define sAmplitude data[5]
 
-static void SpriteCB_PokeBlock_Throw(struct Sprite *sprite)
+static void SpriteCB_Safari_Throw(struct Sprite *sprite)
 {
     InitSpritePosToAnimAttacker(sprite, 0);
     sprite->sDuration = 30;
@@ -2720,7 +2717,7 @@ static void SpriteCB_PokeBlock_Throw(struct Sprite *sprite)
     sprite->sAmplitude = -32;
     InitAnimArcTranslation(sprite);
     gSprites[gBattlerSpriteIds[gBattleAnimAttacker]].callback = SpriteCB_TrainerThrowObject;
-    sprite->callback = SpriteCB_PokeBlock_LiftArm;
+    sprite->callback = SpriteCB_Safari_LiftArm;
 }
 
 #undef sDuration
@@ -2728,24 +2725,24 @@ static void SpriteCB_PokeBlock_Throw(struct Sprite *sprite)
 #undef sTargetY
 #undef sAmplitude
 
-static void SpriteCB_PokeBlock_LiftArm(struct Sprite *sprite)
+static void SpriteCB_Safari_LiftArm(struct Sprite *sprite)
 {
     if (gSprites[gBattlerSpriteIds[gBattleAnimAttacker]].animCmdIndex == 1)
-        sprite->callback = SpriteCB_PokeBlock_Arc;
+        sprite->callback = SpriteCB_Safari_Arc;
 }
 
-static void SpriteCB_PokeBlock_Arc(struct Sprite *sprite)
+static void SpriteCB_Safari_Arc(struct Sprite *sprite)
 {
     if (TranslateAnimHorizontalArc(sprite))
     {
         sprite->data[0] = 0;
         sprite->invisible = TRUE;
-        sprite->callback = SpriteCB_ThrowPokeBlock_Free;
+        sprite->callback = SpriteCB_ThrowSafari_Free;
     }
 }
 
 // Destroy after end of player animation
-static void SpriteCB_ThrowPokeBlock_Free(struct Sprite *sprite) 
+static void SpriteCB_ThrowSafari_Free(struct Sprite *sprite) 
 {
     if (gSprites[gBattlerSpriteIds[gBattleAnimAttacker]].animEnded)
     {
@@ -2770,6 +2767,16 @@ void AnimTask_SetAttackerTargetLeftPos(u8 taskId)
         gBattleAnimTarget = GetBattlerAtPosition(B_POSITION_PLAYER_LEFT);
         break;
     }
+
+    DestroyAnimVisualTask(taskId);
+}
+
+void AnimTask_SafariGetReaction(u8 taskId)
+{
+    if (gBattleCommunication[MULTISTRING_CHOOSER] > 2)
+        gBattleAnimArgs[7] = 0;
+    else
+        gBattleAnimArgs[7] = gBattleCommunication[MULTISTRING_CHOOSER];
 
     DestroyAnimVisualTask(taskId);
 }

@@ -503,8 +503,8 @@ static void (* const sTurnActionsFuncsTable[])(void) =
     [B_ACTION_RUN] = HandleAction_Run,
     [B_ACTION_SAFARI_WATCH_CAREFULLY] = HandleAction_WatchesCarefully,
     [B_ACTION_SAFARI_BALL] = HandleAction_SafariZoneBallThrow,
-    [B_ACTION_SAFARI_POKEBLOCK] = HandleAction_ThrowPokeblock,
-    [B_ACTION_SAFARI_GO_NEAR] = HandleAction_GoNear,
+    [B_ACTION_SAFARI_BAIT] = HandleAction_ThrowBait,
+    [B_ACTION_SAFARI_ROCK] = HandleAction_ThrowRock,
     [B_ACTION_SAFARI_RUN] = HandleAction_SafariZoneRun,
     [B_ACTION_WALLY_THROW] = HandleAction_WallyBallThrow,
     [B_ACTION_EXEC_SCRIPT] = RunBattleScriptCommands,
@@ -3988,7 +3988,7 @@ static void HandleTurnActionSelectionState(void)
                         *(gBattleStruct->moveTarget + gActiveBattler) = gBattleBufferB[gActiveBattler][3];
                         return;
                     }
-                    else if (gDisableStructs[gActiveBattler].encoredMove != 0)
+                    else if (gDisableStructs[gActiveBattler].encoredMove != MOVE_NONE)
                     {
                         gChosenMoveByBattler[gActiveBattler] = gDisableStructs[gActiveBattler].encoredMove;
                         *(gBattleStruct->chosenMovePositions + gActiveBattler) = gDisableStructs[gActiveBattler].encoredMovePos;
@@ -4073,10 +4073,6 @@ static void HandleTurnActionSelectionState(void)
                         *(gBattleStruct->stateIdAfterSelScript + gActiveBattler) = STATE_BEFORE_ACTION_CHOSEN;
                         return;
                     }
-                    break;
-                case B_ACTION_SAFARI_POKEBLOCK:
-                    BtlController_EmitChooseItem(0, gBattleStruct->field_60[gActiveBattler]);
-                    MarkBattlerForControllerExec(gActiveBattler);
                     break;
                 case B_ACTION_CANCEL_PARTNER:
                     gBattleCommunication[gActiveBattler] = STATE_WAIT_SET_BEFORE_ACTION;
@@ -4232,19 +4228,10 @@ static void HandleTurnActionSelectionState(void)
                     gHitMarker |= HITMARKER_RUN;
                 case B_ACTION_SAFARI_WATCH_CAREFULLY:
                 case B_ACTION_SAFARI_BALL:
-                case B_ACTION_SAFARI_GO_NEAR:
+                case B_ACTION_SAFARI_BAIT:
+                case B_ACTION_SAFARI_ROCK:
                 case B_ACTION_WALLY_THROW:
                     gBattleCommunication[gActiveBattler]++;
-                    break;
-                case B_ACTION_SAFARI_POKEBLOCK:
-                    if ((gBattleBufferB[gActiveBattler][1] | (gBattleBufferB[gActiveBattler][2] << 8)) != 0)
-                    {
-                        gBattleCommunication[gActiveBattler]++;
-                    }
-                    else
-                    {
-                        gBattleCommunication[gActiveBattler] = STATE_BEFORE_ACTION_CHOSEN;
-                    }
                     break;
                 }
             }

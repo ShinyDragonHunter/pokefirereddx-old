@@ -243,6 +243,11 @@ extern const u8 EventScript_UseFlash[];
 extern const u8 EventScript_UseCut[];
 extern const u8 EventScript_UseRockSmash[];
 
+extern const u8 SafariZone_EventScript_TimesUp[];
+extern const u8 SafariZone_EventScript_RetirePrompt[];
+extern const u8 SafariZone_EventScript_OutOfBallsMidBattle[];
+extern const u8 SafariZone_EventScript_OutOfBalls[];
+
 // player pc
 extern const u8 LittlerootTown_BrendansHouse_2F_EventScript_TurnOffPlayerPC[];
 extern const u8 LittlerootTown_MaysHouse_2F_EventScript_TurnOffPlayerPC[];
@@ -263,7 +268,6 @@ extern const u8 EventScript_TV[];
 extern const u8 EventScript_ClosedSootopolisDoor[];
 extern const u8 SkyPillar_Outside_EventScript_ClosedDoor[];
 extern const u8 EventScript_CableBoxResults[];
-extern const u8 EventScript_PokeBlockFeeder[];
 extern const u8 Route110_TrickHousePuzzle_EventScript_Door[];
 extern const u8 EventScript_RegionMap[];
 extern const u8 EventScript_RunningShoesManual[];
@@ -288,11 +292,6 @@ extern const u8 EventScript_FieldPoison[];
 extern const u8 EventScript_EggHatch[];
 extern const u8 AbnormalWeather_EventScript_EndEventAndCleanup_1[];
 extern const u8 IslandCave_EventScript_OpenRegiEntrance[];
-extern const u8 MauvilleCity_EventScript_RegisterWallyCall[];
-extern const u8 Route119_EventScript_ScottWonAtFortreeGymCall[];
-extern const u8 LittlerootTown_ProfessorBirchsLab_EventScript_ScottAboardSSTidalCall[];
-extern const u8 RustboroCity_Gym_EventScript_RegisterRoxanne[];
-extern const u8 MossdeepCity_SpaceCenter_2F_EventScript_RivalRayquazaCall[];
 extern const u8 SSTidalCorridor_EventScript_ReachedStepCount[];
 extern const u8 EventScript_FallDownHoleMtPyre[];
 
@@ -313,8 +312,7 @@ extern const u8 BattleFrontier_OutsideEast_EventScript_WaterSudowoodo[];
 extern const u8 EventScript_SelectWithoutRegisteredItem[];
 
 // overworld
-extern const u8 EventScript_WhiteOut[];
-extern const u8 EventScript_ResetMrBriney[];
+extern const u8 EverGrandeCity_HallOfFame_EventScript_ResetEliteFour[];
 extern const u8 EventScript_DoLinkRoomExit[];
 extern const u8 CableClub_EventScript_TooBusyToNotice[];
 extern const u8 CableClub_EventScript_ReadTrainerCard[];

@@ -674,13 +674,6 @@ bool8 MetatileBehavior_IsSkyPillarClosedDoor(u8 metatileBehavior)
     return FALSE;
 }
 
-bool8 MetatileBehavior_IsPokeblockFeeder(u8 metatileBehavior)
-{
-    if (metatileBehavior == MB_POKEBLOCK_FEEDER)
-        return TRUE;
-    return FALSE;
-}
-
 bool8 MetatileBehavior_IsLavaridgeB1FWarp(u8 metatileBehavior)
 {
     if (metatileBehavior == MB_LAVARIDGE_GYM_B1F_WARP)

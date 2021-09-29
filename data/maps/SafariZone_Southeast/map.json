@@ -35,7 +35,7 @@
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "SafariZone_Southeast_EventScript_RichBoy",
+      "script": "NULL",
       "flag": "0"
     },
     {
@@ -48,7 +48,7 @@
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "SafariZone_Southeast_EventScript_FatMan",
+      "script": "NULL",
       "flag": "0"
     },
     {
@@ -61,7 +61,7 @@
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "SafariZone_Southeast_EventScript_LittleGirl",
+      "script": "NULL",
       "flag": "0"
     },
     {
@@ -87,7 +87,7 @@
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "SafariZone_Southeast_EventScript_ExpansionZoneAttendant",
+      "script": "NULL",
       "flag": "FLAG_HIDE_SAFARI_ZONE_SOUTH_EAST_EXPANSION"
     }
   ],

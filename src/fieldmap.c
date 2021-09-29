@@ -10,7 +10,6 @@
 #include "mirage_tower.h"
 #include "overworld.h"
 #include "palette.h"
-#include "pokenav.h"
 #include "script.h"
 #include "trainer_hill.h"
 #include "tv.h"
@@ -38,13 +37,12 @@ static struct MapConnection *GetIncomingConnection(u8 direction, int x, int y);
 static bool8 IsPosInIncomingConnectingMap(u8 direction, int x, int y, struct MapConnection *connection);
 static bool8 IsCoordInIncomingConnectingMap(int coord, int srcMax, int destMax, int offset);
 
+struct BackupMapLayout gBackupMapLayout;
 EWRAM_DATA static u16 gBackupMapData[MAX_MAP_DATA_SIZE] = {0};
 EWRAM_DATA struct MapHeader gMapHeader = {0};
 EWRAM_DATA struct Camera gCamera = {0};
 EWRAM_DATA static struct ConnectionFlags gMapConnectionFlags = {0};
 EWRAM_DATA static u32 sFiller = 0; // without this, the next file won't align properly
-
-struct BackupMapLayout gBackupMapLayout;
 
 static const struct ConnectionFlags sDummyConnectionFlags = {0};
 
@@ -446,7 +444,10 @@ u32 GetBehaviorByMetatileId(u16 metatile)
         attributes = gMapHeader.mapLayout->secondaryTileset->metatileAttributes;
         return attributes[metatile - NUM_METATILES_IN_PRIMARY];
     }
-    return MB_INVALID;
+    else
+    {
+        return MB_INVALID;
+    }
 }
 
 void SaveMapView(void)
@@ -602,7 +603,10 @@ int GetMapBorderIdAt(int x, int y)
             return CONNECTION_INVALID;
         return CONNECTION_NORTH;
     }
-    return CONNECTION_NONE;
+    else
+    {
+        return CONNECTION_NONE;
+    }
 }
 
 int GetPostCameraMoveMapBorderId(int x, int y)
@@ -685,18 +689,15 @@ static struct MapConnection *GetIncomingConnection(u8 direction, int x, int y)
     const struct MapConnections *connections = gMapHeader.connections;
     int i;
 
-    if (connections != NULL)
+    if (!connections || !connections->connections)
+        return NULL;
+
+    count = connections->count;
+    connection = connections->connections;
+    for (i = 0; i < count; i++, connection++)
     {
-        count = connections->count;
-        connection = connections->connections;
-        if (connection != NULL)
-        {
-            for (i = 0; i < count; i++, connection++)
-            {
-                if (connection->direction == direction && IsPosInIncomingConnectingMap(direction, x, y, connection))
-                    return connection;
-            }
-        }
+        if (connection->direction == direction && IsPosInIncomingConnectingMap(direction, x, y, connection) == TRUE)
+            return connection;
     }
     return NULL;
 }

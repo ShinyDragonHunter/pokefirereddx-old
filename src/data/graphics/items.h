@@ -581,6 +581,9 @@ const u32 gItemIconPalette_SuperRod[] = INCBIN_U32("graphics/items/icon_palettes
 const u32 gItemIcon_SSTicket[] = INCBIN_U32("graphics/items/icons/ss_ticket.4bpp.lz");
 const u32 gItemIconPalette_SSTicket[] = INCBIN_U32("graphics/items/icon_palettes/ss_ticket.gbapal.lz");
 
+const u32 gItemIcon_Squirtbottle[] = INCBIN_U32("graphics/items/icons/squirtbottle.4bpp.lz");
+const u32 gItemIconPalette_Squirtbottle[] = INCBIN_U32("graphics/items/icon_palettes/squirtbottle.gbapal.lz");
+
 const u32 gItemIcon_EonTicket[] = INCBIN_U32("graphics/items/icons/eon_ticket.4bpp.lz");
 const u32 gItemIconPalette_EonTicket[] = INCBIN_U32("graphics/items/icon_palettes/eon_ticket.gbapal.lz");
 

@@ -90,9 +90,7 @@ gStdScripts::
 	.4byte Std_MsgboxDefault           @ MSGBOX_DEFAULT
 	.4byte Std_MsgboxYesNo             @ MSGBOX_YESNO
 	.4byte Std_MsgboxAutoclose         @ MSGBOX_AUTOCLOSE
-	.4byte Std_RegisteredInMatchCall   @ STD_REGISTER_MATCH_CALL
 	.4byte Std_MsgboxGetPoints         @ MSGBOX_GETPOINTS
-	.4byte Std_10
 gStdScripts_End::
 
 	.include "data/maps/PetalburgCity/scripts.inc"
@@ -583,62 +581,7 @@ Common_EventScript_SetFrontierTrainerTextColorRed::
 	.include "data/scripts/new_game.inc"
 	.include "data/scripts/hall_of_fame.inc"
 
-EventScript_WhiteOut::
-	call EverGrandeCity_HallOfFame_EventScript_ResetEliteFour
-	goto EventScript_ResetMrBriney
-	end
-
-EventScript_ResetMrBriney::
-	compare VAR_BRINEY_LOCATION, 1
-	goto_if_eq EventScript_MoveMrBrineyToHouse
-	compare VAR_BRINEY_LOCATION, 2
-	goto_if_eq EventScript_MoveMrBrineyToDewford
-	compare VAR_BRINEY_LOCATION, 3
-	goto_if_eq EventScript_MoveMrBrineyToRoute109
-	end
-
-EventScript_MoveMrBrineyToHouse::
-	setflag FLAG_HIDE_MR_BRINEY_DEWFORD_TOWN
-	setflag FLAG_HIDE_MR_BRINEY_BOAT_DEWFORD_TOWN
-	setflag FLAG_HIDE_ROUTE_109_MR_BRINEY
-	setflag FLAG_HIDE_ROUTE_109_MR_BRINEY_BOAT
-	clearflag FLAG_HIDE_ROUTE_104_MR_BRINEY_BOAT
-	clearflag FLAG_HIDE_BRINEYS_HOUSE_MR_BRINEY
-	clearflag FLAG_HIDE_BRINEYS_HOUSE_PEEKO
-	end
-
-EventScript_MoveMrBrineyToDewford::
-	setflag FLAG_HIDE_ROUTE_109_MR_BRINEY
-	setflag FLAG_HIDE_ROUTE_109_MR_BRINEY_BOAT
-	setflag FLAG_HIDE_ROUTE_104_MR_BRINEY
-	setflag FLAG_HIDE_ROUTE_104_MR_BRINEY_BOAT
-	setflag FLAG_HIDE_BRINEYS_HOUSE_MR_BRINEY
-	setflag FLAG_HIDE_BRINEYS_HOUSE_PEEKO
-	clearflag FLAG_HIDE_MR_BRINEY_DEWFORD_TOWN
-	clearflag FLAG_HIDE_MR_BRINEY_BOAT_DEWFORD_TOWN
-	end
-
-EventScript_MoveMrBrineyToRoute109::
-	setflag FLAG_HIDE_ROUTE_104_MR_BRINEY
-	setflag FLAG_HIDE_ROUTE_104_MR_BRINEY_BOAT
-	setflag FLAG_HIDE_BRINEYS_HOUSE_MR_BRINEY
-	setflag FLAG_HIDE_BRINEYS_HOUSE_PEEKO
-	setflag FLAG_HIDE_MR_BRINEY_DEWFORD_TOWN
-	setflag FLAG_HIDE_MR_BRINEY_BOAT_DEWFORD_TOWN
-	clearflag FLAG_HIDE_ROUTE_109_MR_BRINEY
-	clearflag FLAG_HIDE_ROUTE_109_MR_BRINEY_BOAT
-	end
-
-EverGrandeCity_HallOfFame_EventScript_ResetEliteFour::
-	clearflag FLAG_DEFEATED_ELITE_4_SIDNEY
-	clearflag FLAG_DEFEATED_ELITE_4_PHOEBE
-	clearflag FLAG_DEFEATED_ELITE_4_GLACIA
-	clearflag FLAG_DEFEATED_ELITE_4_DRAKE
-	setvar VAR_ELITE_4_STATE, 0
-	return
-
 Common_EventScript_UpdateBrineyLocation::
-	goto_if_unset FLAG_RECEIVED_POKENAV, Common_EventScript_NopReturn
 	goto_if_set FLAG_DEFEATED_PETALBURG_GYM, Common_EventScript_NopReturn
 	goto_if_unset FLAG_HIDE_ROUTE_104_MR_BRINEY_BOAT, EventScript_SetBrineyLocation_House
 	goto_if_unset FLAG_HIDE_MR_BRINEY_DEWFORD_TOWN, EventScript_SetBrineyLocation_Dewford
@@ -791,7 +734,6 @@ Common_EventScript_FerryDepartIsland::
 	call Common_EventScript_FerryDepart
 	return
 
-	.include "data/scripts/cave_of_origin.inc"
 	.include "data/scripts/kecleon.inc"
 
 Common_EventScript_NameReceivedPartyMon::
@@ -863,9 +805,6 @@ gText_PokemonTrainerSchoolEmail::
 gText_PlayerHouseBootPC::
 	.string "{PLAYER} booted up the PC.$"
 
-gText_PokeblockLinkCanceled::
-	.string "The link was canceled.$"
-
 gText_FirstShouldRestoreMonsHealth::
 	.string "First, you should restore your\n"
 	.string "POKéMON to full health.$"
@@ -885,6 +824,31 @@ gText_MonsHealed::
 	.string "to perfect health.\p"
 	.string "We hope you excel!$"
 
+.if UK
+gText_HadQuiteAnExperienceTakeRest::
+	.string "MUM: {PLAYER}!\n"
+	.string "Welcome home.\p"
+	.string "It sounds like you had quite\n"
+	.string "an experience.\p"
+	.string "Maybe you should take a quick\n"
+	.string "rest.$"
+
+gText_MomExplainHPGetPotions::
+	.string "MUM: Oh, good! You and your\n"
+	.string "POKéMON are looking great.\p"
+	.string "I just heard from PROF. BIRCH.\p"
+	.string "He said that POKéMON's energy is\n"
+	.string "measured in HP.\p"
+	.string "If your POKéMON lose their HP,\n"
+	.string "you can restore them at any\l"
+	.string "POKéMON CENTRE.\p"
+	.string "If you're going to travel far away,\n"
+	.string "the smart TRAINER stocks up on\l"
+	.string "POTIONS at the POKéMON MART.\p"
+	.string "Make me proud, honey!\p"
+	.string "Take care!$"
+
+.else
 gText_HadQuiteAnExperienceTakeRest::
 	.string "MOM: {PLAYER}!\n"
 	.string "Welcome home.\p"
@@ -907,6 +871,7 @@ gText_MomExplainHPGetPotions::
 	.string "POTIONS at the POKéMON MART.\p"
 	.string "Make me proud, honey!\p"
 	.string "Take care!$"
+.endif
 
 gText_PlayerWhitedOutLostMoney::
 	.string "{PLAYER} is out of usable\n"
@@ -919,10 +884,6 @@ gText_PlayerWhitedOut::
 	.string "{PLAYER} is out of usable\n"
 	.string "POKéMON!\p"
 	.string "{PLAYER} whited out!$"
-
-gText_RegisteredTrainerinPokeNav::
-	.string "{COLOR DARK_GRAY}Registered {STR_VAR_1} {STR_VAR_2}\n"
-	.string "in the POKéNAV.$"
 
 gText_PokerusExplanation::
 	.string "Your POKéMON may be infected with\n"
@@ -1046,7 +1007,6 @@ Common_EventScript_LegendaryFlewAway::
 	.include "data/text/shoal_cave.inc"
 	.include "data/text/check_furniture.inc"
 	.include "data/scripts/cave_hole.inc"
-	.include "data/text/match_call.inc"
 	.include "data/scripts/apprentice.inc"
 	.include "data/text/apprentice.inc"
 	.include "data/text/battle_dome.inc"

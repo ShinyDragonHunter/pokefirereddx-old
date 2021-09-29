@@ -76,7 +76,7 @@ gScriptCmdTable::
 	.4byte ScrCmd_addpcitem                 @ 0x49
 	.4byte ScrCmd_checkpcitem               @ 0x4a
 	.4byte ScrCmd_changeplayeroutfit        @ 0x4b
-	.4byte ScrCmd_nop                       @ 0x4c
+	.4byte ScrCmd_handleexpiredrepel        @ 0x4c
 	.4byte ScrCmd_nop                       @ 0x4d
 	.4byte ScrCmd_nop                       @ 0x4e
 	.4byte ScrCmd_applymovement             @ 0x4f
@@ -223,7 +223,7 @@ gScriptCmdTable::
 	.4byte ScrCmd_fadescreenswapbuffers     @ 0xdc
 	.4byte ScrCmd_buffertrainerclassname    @ 0xdd
 	.4byte ScrCmd_buffertrainername         @ 0xde
-	.4byte ScrCmd_pokenavcall               @ 0xdf
+	.4byte ScrCmd_nop                       @ 0xdf
 	.4byte ScrCmd_warpsootopolislegend      @ 0xe0
 	.4byte ScrCmd_nop                       @ 0xe1
 	.4byte ScrCmd_bufferitemnameplural      @ 0xe2

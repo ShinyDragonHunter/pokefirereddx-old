@@ -411,21 +411,6 @@ const union AffineAnimCmd *const gAffineAnims_BattleSpriteOpponentSide[] =
     sAffineAnim_Battler_Spin,
 };
 
-const union AffineAnimCmd *const gAffineAnims_BattleSpriteContest[] =
-{
-    [BATTLER_AFFINE_NORMAL] = sAffineAnim_Battler_Flipped,
-    [BATTLER_AFFINE_EMERGE] = sAffineAnim_Battler_Emerge,
-    [BATTLER_AFFINE_RETURN] = sAffineAnim_Battler_Return,
-    sAffineAnim_Battler_HorizontalSquishLoop,
-    sAffineAnim_Battler_Grow,
-    sAffineAnim_Battler_Shrink,
-    sAffineAnim_Battler_SpinShrink,
-    sAffineAnim_Battler_TipLeft,
-    sAffineAnim_Battler_RotateUpAndBack,
-    sAffineAnim_Battler_BigToSmall,
-    sAffineAnim_Battler_Spin,
-};
-
 static const union AnimCmd sAnim_MonPic_1[] =
 {
     ANIMCMD_FRAME(1, 0),

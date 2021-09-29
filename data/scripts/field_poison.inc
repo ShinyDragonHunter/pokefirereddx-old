@@ -22,7 +22,6 @@ EventScript_FieldWhiteOutNoMoney::
 	waitmessage
 	waitbuttonpress
 	goto EventScript_FieldWhiteOutFade
-	end
 
 EventScript_FieldWhiteOutHasMoney::
 	special OverworldWhiteOutGetMoneyLoss
@@ -30,7 +29,6 @@ EventScript_FieldWhiteOutHasMoney::
 	waitmessage
 	waitbuttonpress
 	goto EventScript_FieldWhiteOutFade
-	end
 
 EventScript_FrontierFieldWhiteOut::
 	message gText_PlayerWhitedOut
@@ -45,7 +43,6 @@ EventScript_FrontierFieldWhiteOut::
 	trainerhill_inchallenge
 	compare VAR_RESULT, TRUE
 	goto_if_eq TrainerHill_1F_EventScript_Lost
-
 EventScript_FieldWhiteOutFade::
 	special Script_FadeOutMapMusic
 	waitstate

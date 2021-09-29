@@ -16,7 +16,6 @@
 #include "fldeff_misc.h"
 #include "item_menu.h"
 #include "link.h"
-#include "match_call.h"
 #include "metatile_behavior.h"
 #include "overworld.h"
 #include "pokemon.h"
@@ -365,8 +364,6 @@ static const u8 *GetInteractedMetatileScript(struct MapPosition *position, u8 me
         return SkyPillar_Outside_EventScript_ClosedDoor;
     if (MetatileBehavior_IsCableBoxResults1(metatileBehavior))
         return EventScript_CableBoxResults;
-    if (MetatileBehavior_IsPokeblockFeeder(metatileBehavior))
-        return EventScript_PokeBlockFeeder;
     if (MetatileBehavior_IsTrickHousePuzzleDoor(metatileBehavior))
         return Route110_TrickHousePuzzle_EventScript_Door;
     if (MetatileBehavior_IsRegionMap(metatileBehavior))
@@ -654,18 +651,18 @@ static bool8 TryStartWarpEventScript(struct MapPosition *position, u16 metatileB
 
 static bool8 IsWarpMetatileBehavior(u16 metatileBehavior)
 {
-    if (MetatileBehavior_IsWarpDoor(metatileBehavior)
-     || MetatileBehavior_IsLadder(metatileBehavior)
-     || MetatileBehavior_IsEscalator(metatileBehavior)
-     || MetatileBehavior_IsNonAnimDoor(metatileBehavior)
-     || MetatileBehavior_IsLavaridgeB1FWarp(metatileBehavior)
-     || MetatileBehavior_IsLavaridge1FWarp(metatileBehavior)
-     || MetatileBehavior_IsAquaHideoutWarp(metatileBehavior)
-     || MetatileBehavior_IsMtPyreHole(metatileBehavior)
-     || MetatileBehavior_IsMossdeepGymWarp(metatileBehavior)
-     || MetatileBehavior_IsWarpOrBridge(metatileBehavior))
-        return TRUE;
-    return FALSE;
+    if (MetatileBehavior_IsWarpDoor(metatileBehavior) != TRUE
+     && MetatileBehavior_IsLadder(metatileBehavior) != TRUE
+     && MetatileBehavior_IsEscalator(metatileBehavior) != TRUE
+     && MetatileBehavior_IsNonAnimDoor(metatileBehavior) != TRUE
+     && MetatileBehavior_IsLavaridgeB1FWarp(metatileBehavior) != TRUE
+     && MetatileBehavior_IsLavaridge1FWarp(metatileBehavior) != TRUE
+     && MetatileBehavior_IsAquaHideoutWarp(metatileBehavior) != TRUE
+     && MetatileBehavior_IsMtPyreHole(metatileBehavior) != TRUE
+     && MetatileBehavior_IsMossdeepGymWarp(metatileBehavior) != TRUE
+     && MetatileBehavior_IsWarpOrBridge(metatileBehavior) != TRUE)
+        return FALSE;
+    return TRUE;
 }
 
 bool8 IsDirectionalStairWarpMetatileBehavior(u16 metatileBehavior, u8 playerDirection)

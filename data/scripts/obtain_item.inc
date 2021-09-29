@@ -162,7 +162,6 @@ EventScript_HiddenItemScript::
 	goto_if_eq EventScript_PickUpHiddenItem
 	compare VAR_0x8007, 0
 	goto_if_eq EventScript_NoRoomForHiddenItem
-	end
 
 EventScript_PickUpHiddenItem::
 	copyvar VAR_0x8008, VAR_0x8004
@@ -172,18 +171,15 @@ EventScript_PickUpHiddenItem::
 	goto_if_eq EventScript_FoundHiddenTMHM
 	compare VAR_RESULT, 0
 	goto_if_eq EventScript_FoundHiddenItem
-	end
 
 EventScript_FoundHiddenTMHM::
 	bufferitemnameplural 0, VAR_0x8004, 1
 	message gText_PlayerFoundOneTMHM
 	goto EventScript_PutHiddenItemInPocket
-	end
 
 EventScript_FoundHiddenItem::
 	message gText_PlayerFoundOneItem
 	goto EventScript_PutHiddenItemInPocket
-	end
 
 EventScript_PutHiddenItemInPocket::
 	waitmessage

@@ -12,7 +12,6 @@
 #include "main.h"
 #include "m4a.h"
 #include "palette.h"
-#include "pokeball.h"
 #include "pokemon.h"
 #include "recorded_battle.h"
 #include "reshow_battle_screen.h"

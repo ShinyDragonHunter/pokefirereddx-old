@@ -161,9 +161,6 @@ MauvilleCity_EventScript_DefeatedWally::
 	removeobject LOCALID_WALLYS_UNCLE
 	clearflag FLAG_HIDE_VERDANTURF_TOWN_WANDAS_HOUSE_WALLY
 	clearflag FLAG_HIDE_VERDANTURF_TOWN_WANDAS_HOUSE_WALLYS_UNCLE
-	setflag FLAG_DEFEATED_WALLY_MAUVILLE
-	setvar VAR_WALLY_CALL_STEP_COUNTER, 0
-	setflag FLAG_ENABLE_FIRST_WALLY_POKENAV_CALL
 	compare VAR_FACING, DIR_NORTH
 	call_if_eq MauvilleCity_EventScript_ScottApproachPlayerNorth
 	compare VAR_FACING, DIR_EAST
@@ -455,21 +452,6 @@ MauvilleCity_EventScript_ReceivedThunderbolt::
 	release
 	end
 
-MauvilleCity_EventScript_RegisterWallyCall::
-	lockall
-	pokenavcall MauvilleCity_Text_WallyPokenavCall
-	waitmessage
-	delay 30
-	playfanfare MUS_REGISTER_MATCH_CALL
-	msgbox MauvilleCity_Text_RegisteredWally, MSGBOX_DEFAULT
-	waitfanfare
-	closemessage
-	delay 30
-	setflag FLAG_ENABLE_WALLY_MATCH_CALL
-	clearflag FLAG_ENABLE_FIRST_WALLY_POKENAV_CALL
-	releaseall
-	end
-
 MauvilleCity_Text_UncleHesTooPeppy:
 	.string "UNCLE: It's because of POKéMON that\n"
 	.string "this boy's got more pep, I suppose…\l"
@@ -566,10 +548,6 @@ MauvilleCity_Text_WallyPokenavCall:
 	.string "anytime, {PLAYER}!\p"
 	.string "… … … … … …\n"
 	.string "… … … … … Click!$"
-
-MauvilleCity_Text_RegisteredWally:
-	.string "Registered WALLY\n"
-	.string "in the POKéNAV.$"
 
 MauvilleCity_Text_ScottYouDidntHoldBack:
 	.string "SCOTT: Hehe…\n"

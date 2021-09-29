@@ -143,7 +143,6 @@ static bool8 WordSelectScrollDown(void);
 static bool8 WordSelectPageScrollUp(void);
 static bool8 WordSelectPageScrollDown(void);
 static bool8 SwitchKeyboardMode(void);
-static bool8 ShowSongTooShortMsg(void);
 static bool8 ShowCombineTwoWordsMsg(void);
 static bool8 ShowCantExitMsg(void);
 static void SetMainCursorPos(u8, u8);
@@ -248,7 +247,6 @@ enum {
     MSG_CONFIRM_DELETE,
     MSG_CONFIRM_EXIT,
     MSG_CONFIRM,
-    MSG_SONG_TOO_SHORT,
     MSG_COMBINE_TWO_WORDS,
     MSG_CANT_QUIT,
 };
@@ -281,7 +279,6 @@ enum {
     ECFUNC_WORD_SELECT_PAGE_DOWN,
     ECFUNC_SWITCH_KEYBOARD_MODE,
     ECFUNC_EXIT,
-    ECFUNC_MSG_SONG_TOO_SHORT,
     ECFUNC_MSG_COMBINE_TWO_WORDS,
     ECFUNC_MSG_CANT_EXIT,
 };
@@ -2628,8 +2625,6 @@ static bool8 RunEasyChatFunction(void)
             return WordSelectPageScrollDown();
         case ECFUNC_SWITCH_KEYBOARD_MODE:
             return SwitchKeyboardMode();
-        case ECFUNC_MSG_SONG_TOO_SHORT:
-            return ShowSongTooShortMsg();
         case ECFUNC_MSG_COMBINE_TWO_WORDS:
             return ShowCombineTwoWordsMsg();
         case ECFUNC_MSG_CANT_EXIT: 
@@ -3240,22 +3235,6 @@ static bool8 WordSelectPageScrollUp(void)
     return TRUE;
 }
 
-static bool8 ShowSongTooShortMsg(void)
-{
-    switch (sScreenControl->funcState)
-    {
-    case 0:
-        StopMainCursorAnim();
-        PrintEasyChatStdMessage(MSG_SONG_TOO_SHORT);
-        sScreenControl->funcState++;
-        break;
-    case 1:
-        return IsDma3ManagerBusyWithBgCopy();
-    }
-
-    return TRUE;
-}
-
 static bool8 ShowCombineTwoWordsMsg(void)
 {
     switch (sScreenControl->funcState)
@@ -3389,10 +3368,6 @@ static void PrintEasyChatStdMessage(u8 msgId)
         break;
     case MSG_CONFIRM_DELETE:
         GetEasyChatConfirmDeletionText(&text1, &text2);
-        break;
-    case MSG_SONG_TOO_SHORT:
-        text1 = gText_OnlyOnePhrase;
-        text2 = gText_OriginalSongWillBeUsed;
         break;
     case MSG_COMBINE_TWO_WORDS:
         text1 = gText_CombineTwoWordsOrPhrases3;

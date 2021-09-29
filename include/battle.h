@@ -26,8 +26,8 @@
 #define B_ACTION_RUN                    3
 #define B_ACTION_SAFARI_WATCH_CAREFULLY 4
 #define B_ACTION_SAFARI_BALL            5
-#define B_ACTION_SAFARI_POKEBLOCK       6
-#define B_ACTION_SAFARI_GO_NEAR         7
+#define B_ACTION_SAFARI_BAIT            6
+#define B_ACTION_SAFARI_ROCK            7
 #define B_ACTION_SAFARI_RUN             8
 #define B_ACTION_WALLY_THROW            9
 #define B_ACTION_EXEC_SCRIPT            10

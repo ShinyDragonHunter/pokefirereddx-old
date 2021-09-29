@@ -7,9 +7,7 @@
 #include "script.h"
 #include "lottery_corner.h"
 #include "play_time.h"
-#include "match_call.h"
 #include "load_save.h"
-#include "pokeblock.h"
 #include "dewford_trend.h"
 #include "berry.h"
 #include "rtc.h"
@@ -30,6 +28,7 @@
 #include "constants/maps.h"
 #include "pokedex.h"
 #include "save.h"
+#include "string_util.h"
 #include "link_rfu.h"
 #include "main.h"
 #include "item_menu.h"
@@ -119,14 +118,16 @@ void ResetMenuAndMonGlobals(void)
     ZeroPlayerPartyMons();
     ZeroEnemyPartyMons();
     ResetBagCursorPositions();
-    ResetPokeblockScrollPositions();
 }
 
 void NewGameInitData(void)
 {
+    u8 rivalName[PLAYER_NAME_LENGTH + 1];
+
     if (gSaveFileStatus == SAVE_STATUS_EMPTY || gSaveFileStatus == SAVE_STATUS_CORRUPT)
         RtcReset();
 
+    StringCopy(rivalName, gSaveBlock2Ptr->rivalName);
     gDifferentSaveFile = TRUE;
     gSaveBlock2Ptr->encryptionKey = 0;
     ZeroPlayerPartyMons();
@@ -142,8 +143,6 @@ void NewGameInitData(void)
     PlayTimeCounter_Reset();
     ClearPokedexFlags();
     InitEventData();
-    ClearTVShowData();
-    ResetGabbyAndTy();
     ClearBerryTrees();
     SetMoney(&gSaveBlock1Ptr->money, 3000);
     SetCoins(0);
@@ -159,9 +158,7 @@ void NewGameInitData(void)
     gSaveBlock1Ptr->registeredItem = 0;
     ClearBag();
     NewGameInitPCItems();
-    ClearPokeblocks();
     InitEasyChatPhrases();
-    InitDewfordTrend();
     ResetFanClub();
     ResetLotteryCorner();
     WarpToTruck();
@@ -170,9 +167,9 @@ void NewGameInitData(void)
     InitUnionRoomChatRegisteredTexts();
     ResetAllApprenticeData();
     ClearRankingHallRecords();
-    InitMatchCallCounters();
     sub_801AFD8();
     WipeTrainerNameRecords();
+    StringCopy(gSaveBlock2Ptr->rivalName, rivalName);
     ResetTrainerHillResults();
 }
 

@@ -9,7 +9,7 @@ Route104_MrBrineysHouse_OnTransition:
 	setflag FLAG_LANDMARK_MR_BRINEY_HOUSE
 	compare VAR_BRINEY_HOUSE_STATE, 1
 	call_if_eq Route104_MrBrineysHouse_EventScript_SetBrineyPeekoPos
-	call_if_set FLAG_RECEIVED_POKENAV, Route104_MrBrineysHouse_EventScript_HideRustboroRival
+	call Route104_MrBrineysHouse_EventScript_HideRustboroRival
 	end
 
 Route104_MrBrineysHouse_EventScript_HideRustboroRival::
@@ -162,4 +162,3 @@ Route104_MrBrineysHouse_Text_TellMeWheneverYouWantToSail:
 
 Route104_MrBrineysHouse_Text_Peeko:
 	.string "PEEKO: Pii piihyoro!$"
-

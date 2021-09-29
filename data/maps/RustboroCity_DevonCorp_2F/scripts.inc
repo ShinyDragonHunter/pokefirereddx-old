@@ -42,7 +42,7 @@ RustboroCity_DevonCorp_2F_EventScript_PokenavScientist::
 	faceplayer
 	compare VAR_FOSSIL_RESURRECTION_STATE, 1
 	call_if_eq RustboroCity_DevonCorp_2F_EventScript_SetFossilReady
-	goto_if_set FLAG_RECEIVED_POKENAV, RustboroCity_DevonCorp_2F_EventScript_HasPokenav
+	goto RustboroCity_DevonCorp_2F_EventScript_HasPokenav
 	msgbox RustboroCity_DevonCorp_2F_Text_IMadePokenav, MSGBOX_DEFAULT
 	release
 	end

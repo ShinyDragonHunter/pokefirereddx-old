@@ -390,7 +390,7 @@ gBattleAnims_General::
 	.4byte General_StatsChange              @ B_ANIM_STATS_CHANGE
 	.4byte General_SubstituteFade           @ B_ANIM_SUBSTITUTE_FADE
 	.4byte General_SubstituteAppear         @ B_ANIM_SUBSTITUTE_APPEAR
-	.4byte General_PokeblockThrow           @ B_ANIM_POKEBLOCK_THROW
+	.4byte General_BaitThrow                @ B_ANIM_BAIT_THROW
 	.4byte General_ItemKnockoff             @ B_ANIM_ITEM_KNOCKOFF
 	.4byte General_TurnTrap                 @ B_ANIM_TURN_TRAP
 	.4byte General_HeldItemEffect           @ B_ANIM_HELD_ITEM_EFFECT
@@ -409,6 +409,11 @@ gBattleAnims_General::
 	.4byte General_FocusPunchSetUp          @ B_ANIM_FOCUS_PUNCH_SETUP
 	.4byte General_IngrainHeal              @ B_ANIM_INGRAIN_HEAL
 	.4byte General_WishHeal                 @ B_ANIM_WISH_HEAL
+	.4byte General_GhostGetOut              @ B_ANIM_GHOST_GET_OUT
+	.4byte General_MonScared                @ B_ANIM_MON_SCARED
+	.4byte General_SilphScoped              @ B_ANIM_SILPH_SCOPED
+	.4byte General_SafariRockThrow          @ B_ANIM_ROCK_THROW
+	.4byte General_SafariReaction           @ B_ANIM_SAFARI_REACTION
 
 	.align 2
 gBattleAnims_Special::
@@ -10284,17 +10289,17 @@ General_SubstituteAppear:
 	createvisualtask AnimTask_MonToSubstitute, 2
 	end
 
-General_PokeblockThrow:
+General_BaitThrow:
 	createvisualtask AnimTask_SetAttackerTargetLeftPos, 2, 0
-	createvisualtask AnimTask_LoadPokeblockGfx, 2
+	createvisualtask AnimTask_LoadBaitGfx, 2
 	delay 0
 	waitplaysewithpan SE_M_JUMP_KICK, SOUND_PAN_ATTACKER, 22
-	createsprite gPokeblockSpriteTemplate, ANIM_TARGET, 3, -18, 12, 0, 32
+	createsprite gSafariBaitSpriteTemplate, ANIM_TARGET, 3, -18, 12, 0, 32
 	delay 50
 	loopsewithpan SE_M_TAIL_WHIP, SOUND_PAN_TARGET, 19, 2
 	createvisualtask AnimTask_SwayMon, 5, 1, 8, 1536, 2, ANIM_TARGET
 	waitforvisualfinish
-	createvisualtask AnimTask_FreePokeblockGfx, 2
+	createvisualtask AnimTask_FreeBaitGfx, 2
 	end
 
 General_ItemKnockoff:
@@ -10620,6 +10625,112 @@ General_WishHeal:
 	call HealingEffect
 	waitforvisualfinish
 	createsprite gSimplePaletteBlendSpriteTemplate, ANIM_ATTACKER, 2, 1, 3, 10, 0, RGB_BLACK
+	end
+
+General_GhostGetOut::
+	createvisualtask AnimTask_SetAttackerTargetLeftPos, 2, 1
+	waitforvisualfinish
+	fadetobg 2
+	waitbgfadeout
+	monbg_22 ANIM_ATTACKER
+	createvisualtask sub_80B6BBC, 2
+	waitbgfadein
+	loopsewithpan SE_M_PSYBEAM, SOUND_PAN_TARGET, 20, 3
+	waitforvisualfinish
+	clearmonbg_23 ANIM_ATTACKER
+	delay 1
+	loadspritegfx ANIM_TAG_SWEAT_BEAD
+	createsprite gSimplePaletteBlendSpriteTemplate, ANIM_ATTACKER, 0, 4, -1, 0, 6, 27349
+	createsprite gSprayWaterDropletSpriteTemplate, ANIM_TARGET, 5, 0, 1
+	createsprite gSprayWaterDropletSpriteTemplate, ANIM_TARGET, 5, 1, 1
+	createvisualtask AnimTask_ShakeMon2, 2, 1, 4, 0, 5, 1
+	createvisualtask AnimTask_StretchTargetUp, 3
+	waitforvisualfinish
+	createsprite gSimplePaletteBlendSpriteTemplate, ANIM_ATTACKER, 0, 4, -1, 6, 0, 27349
+	waitforvisualfinish
+	restorebg
+	waitbgfadein
+	end
+
+General_MonScared::
+	createvisualtask AnimTask_SetAttackerTargetLeftPos, 2, 1
+	waitforvisualfinish
+	loadspritegfx ANIM_TAG_SWEAT_BEAD
+	createsprite gSimplePaletteBlendSpriteTemplate, ANIM_ATTACKER, 0, 4, 2, 0, 10, 26336
+	createvisualtask AnimTask_ShakeMon2, 2, ANIM_TARGET, 2, 0, 10, 1
+	delay 20
+	createsprite gSprayWaterDropletSpriteTemplate, ANIM_TARGET, 5, 0, 1
+	playsewithpan SE_M_SKETCH, SOUND_PAN_TARGET
+	createsprite gSprayWaterDropletSpriteTemplate, ANIM_TARGET, 5, 1, 1
+	createvisualtask AnimTask_ShakeMon2, 2, ANIM_TARGET, 4, 0, 5, 1
+	createvisualtask AnimTask_StretchTargetUp, 3
+	waitforvisualfinish
+	createsprite gSimplePaletteBlendSpriteTemplate, ANIM_ATTACKER, 0, 4, 2, 10, 0, 26336
+	waitforvisualfinish
+	end
+
+General_SilphScoped::
+	monbg ANIM_ATTACKER
+	playsewithpan SE_M_TELEPORT, 192
+	waitplaysewithpan SE_M_MINIMIZE, 192, 48
+	createvisualtask AnimTask_TransformMon, 2, 255
+	waitsound
+	waitforvisualfinish
+	clearmonbg ANIM_ATTACKER
+	end
+
+General_SafariRockThrow::
+	createvisualtask AnimTask_SetAttackerTargetLeftPos, 2, 0
+	waitforvisualfinish
+	loadspritegfx ANIM_TAG_ROCKS
+	loadspritegfx ANIM_TAG_IMPACT
+	delay 0
+	waitplaysewithpan SE_M_JUMP_KICK, 192, 22
+	createsprite gSafariRockSpriteTemplate, ANIM_TARGET, 3, -17, 14, 8, 0
+	delay 50
+	monbg ANIM_DEF_PARTNER
+	setalpha 12, 8
+	delay 0
+	playsewithpan SE_M_DOUBLE_SLAP, SOUND_PAN_TARGET
+	createsprite gBasicHitSplatSpriteTemplate, ANIM_TARGET, 2, -4, -20, 1, 2
+	waitforvisualfinish
+	clearmonbg ANIM_DEF_PARTNER
+	blendoff
+	waitforvisualfinish
+	end
+
+General_SafariReaction::
+	createvisualtask AnimTask_SafariGetReaction, 2
+	waitforvisualfinish
+	jumpargeq 7, 0, SafariReaction_WatchingCarefully
+	jumpargeq 7, 1, SafariReaction_Angry
+	jumpargeq 7, 2, SafariReaction_Eating
+	end
+
+SafariReaction_WatchingCarefully::
+	playsewithpan SE_M_TAKE_DOWN, SOUND_PAN_TARGET
+	createvisualtask AnimTask_RotateMonToSideAndRestore, 2, 16, 96, 0, 2
+	waitforvisualfinish
+	playsewithpan SE_M_TAKE_DOWN, SOUND_PAN_TARGET
+	createvisualtask AnimTask_RotateMonToSideAndRestore, 2, 16, -96, 0, 2
+	end
+
+SafariReaction_Angry::
+	loadspritegfx ANIM_TAG_ANGER
+	createsprite gAngerMarkSpriteTemplate, ANIM_TARGET, 2, 1, 20, -20
+	playsewithpan SE_M_SWAGGER2, SOUND_PAN_TARGET
+	waitforvisualfinish
+	delay 12
+	createsprite gAngerMarkSpriteTemplate, ANIM_TARGET, 2, 1, -20, -20
+	playsewithpan SE_M_SWAGGER2, SOUND_PAN_TARGET
+	end
+
+SafariReaction_Eating::
+	playsewithpan SE_M_TAKE_DOWN, SOUND_PAN_TARGET
+	createvisualtask AnimTask_RotateMonToSideAndRestore, 2, 8, 136, 0, 2
+	waitforvisualfinish
+	playsewithpan SE_M_TAKE_DOWN, SOUND_PAN_TARGET
+	createvisualtask AnimTask_RotateMonToSideAndRestore, 2, 8, 136, 0, 2
 	end
 
 SnatchMoveTrySwapFromSubstitute:

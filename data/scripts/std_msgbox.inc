@@ -34,11 +34,6 @@ Std_MsgboxGetPoints:
 	waitmessage
 	return
 
-Std_10:
-	pokenavcall 0x0
-	waitmessage
-	return
-
 Common_EventScript_SaveGame::
 	special SaveGame
 	waitstate

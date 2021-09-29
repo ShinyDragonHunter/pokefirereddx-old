@@ -49,7 +49,6 @@
 #include "field_specials.h"
 #include "pokemon_summary_screen.h"
 #include "constants/rgb.h"
-#include "pokenav.h"
 #include "menu_specialized.h"
 #include "constants/rgb.h"
 #include "data.h"
@@ -6232,13 +6231,17 @@ static void Cmd_various(void)
 {
     u8 side;
     s32 i;
+    u32 monToCheck, status;
+    u16 species;
+    u8 abilityNum;
+    u8 form;
 
     gActiveBattler = GetBattlerForBattleScript(gBattlescriptCurrInstr[1]);
 
     switch (gBattlescriptCurrInstr[2])
     {
-    // Roar will fail in a double wild battle when used by the player against one of the two alive wild Pokémon.
-    // Also when an opposing wild Pokémon uses it against its partner.
+    // Roar will fail in a double wild battle when used by the player against one of the two alive wild Pokémon or
+    // when an opposing wild Pokémon uses it against its partner.
     case VARIOUS_JUMP_IF_ROAR_FAILS:
         if (WILD_DOUBLE_BATTLE
          && GetBattlerSide(gBattlerAttacker) == B_SIDE_PLAYER
@@ -6300,7 +6303,7 @@ static void Cmd_various(void)
                 *choicedMove = 0;
         }
         break;
-    case 8:
+    case VARIOUS_RESET_PLAYER_FAINTED_FLAG:
         if (!(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_DOUBLE))
          && gBattleTypeFlags & BATTLE_TYPE_TRAINER
          && gBattleMons[0].hp
@@ -6308,6 +6311,82 @@ static void Cmd_various(void)
         {
             gHitMarker &= ~(HITMARKER_x400000);
         }
+        break;
+    case VARIOUS_RETURN_OPPONENT_MON1:
+        gActiveBattler = 1;
+        if (gBattleMons[gActiveBattler].hp)
+        {
+            BtlController_EmitReturnMonToBall(0, 0);
+            MarkBattlerForControllerExec(gActiveBattler);
+        }
+        break;
+    case VARIOUS_RETURN_OPPONENT_MON2:
+        if (gBattlersCount > 3)
+        {
+            gActiveBattler = 3;
+            if (gBattleMons[gActiveBattler].hp)
+            {
+                BtlController_EmitReturnMonToBall(0, 0);
+                MarkBattlerForControllerExec(gActiveBattler);
+            }
+        }
+        break;
+    case VARIOUS_CHECK_POKEFLUTE:
+        gBattleCommunication[MULTISTRING_CHOOSER] = 0;
+        monToCheck = 0;
+        for (i = 0; i < gBattlersCount; i++)
+        {
+            if (gBattleMons[i].ability != ABILITY_SOUNDPROOF)
+            {
+                gBattleMons[i].status1 &= ~STATUS1_SLEEP;
+                gBattleMons[i].status2 &= ~STATUS2_NIGHTMARE;
+            }
+        }
+        for (i = 0; i < PARTY_SIZE; i++)
+        {
+            species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES2);
+            abilityNum = GetMonData(&gPlayerParty[i], MON_DATA_ABILITY_NUM);
+            status = GetMonData(&gPlayerParty[i], MON_DATA_STATUS);
+            form = GetMonData(&gPlayerParty[i], MON_DATA_FORM);
+            if (species != SPECIES_NONE
+             && species != SPECIES_EGG
+             && status & AILMENT_FNT
+             && GetAbilityBySpecies(species, abilityNum, form) != ABILITY_SOUNDPROOF)
+                monToCheck |= (1 << i);
+        }
+        if (monToCheck)
+        {
+            gActiveBattler = GetBattlerAtPosition(B_POSITION_PLAYER_LEFT);
+            status = 0;
+            BtlController_EmitSetMonData(0, REQUEST_STATUS_BATTLE, monToCheck, 4, &status);
+            MarkBattlerForControllerExec(gActiveBattler);
+            gBattleCommunication[MULTISTRING_CHOOSER] = 1;
+        }
+        monToCheck = 0;
+        for (i = 0; i < PARTY_SIZE; i++)
+        {
+            species = GetMonData(&gEnemyParty[i], MON_DATA_SPECIES2);
+            abilityNum = GetMonData(&gEnemyParty[i], MON_DATA_ABILITY_NUM);
+            status = GetMonData(&gEnemyParty[i], MON_DATA_STATUS);
+            form = GetMonData(&gEnemyParty[i], MON_DATA_FORM);
+            if (species != SPECIES_NONE
+             && species != SPECIES_EGG
+             && status & AILMENT_FNT
+             && GetAbilityBySpecies(species, abilityNum, form) != ABILITY_SOUNDPROOF)
+                monToCheck |= (1 << i);
+        }
+        if (monToCheck)
+        {
+            gActiveBattler = GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT);
+            status = 0;
+            BtlController_EmitSetMonData(0, REQUEST_STATUS_BATTLE, monToCheck, 4, &status);
+            MarkBattlerForControllerExec(gActiveBattler);
+            gBattleCommunication[5] = 1;
+        }
+        break;
+    case VARIOUS_WAIT_FANFARE:
+        if (!IsFanfareTaskInactive())
+            return;
         break;
     case VARIOUS_PALACE_FLAVOR_TEXT:
         // Try and print end-of-turn Battle Palace flavor text (e.g. "A glint appears in mon's eyes")
@@ -6326,9 +6405,8 @@ static void Cmd_various(void)
         break;
     case VARIOUS_ARENA_JUDGMENT_WINDOW:
         i = BattleArena_ShowJudgmentWindow(&gBattleCommunication[0]);
-        if (i == 0)
+        if (!i)
             return;
-
         gBattleCommunication[1] = i;
         break;
     case VARIOUS_ARENA_OPPONENT_MON_LOST:
@@ -6359,10 +6437,10 @@ static void Cmd_various(void)
         BtlController_EmitYesNoBox(0);
         MarkBattlerForControllerExec(gActiveBattler);
         break;
-    case 15:
+    case VARIOUS_DRAW_ARENA_REFEREE_TEXTBOX:
         DrawArenaRefereeTextBox();
         break;
-    case 16:
+    case VARIOUS_REMOVE_ARENA_REFEREE_TEXTBOX:
         RemoveArenaRefereeTextBox();
         break;
     case VARIOUS_ARENA_JUDGMENT_STRING:
@@ -6377,25 +6455,6 @@ static void Cmd_various(void)
         if (!IsCryFinished())
             return;
         break;
-    case VARIOUS_RETURN_OPPONENT_MON1:
-        gActiveBattler = 1;
-        if (gBattleMons[gActiveBattler].hp)
-        {
-            BtlController_EmitReturnMonToBall(0, 0);
-            MarkBattlerForControllerExec(gActiveBattler);
-        }
-        break;
-    case VARIOUS_RETURN_OPPONENT_MON2:
-        if (gBattlersCount > 3)
-        {
-            gActiveBattler = 3;
-            if (gBattleMons[gActiveBattler].hp)
-            {
-                BtlController_EmitReturnMonToBall(0, 0);
-                MarkBattlerForControllerExec(gActiveBattler);
-            }
-        }
-        break;
     case VARIOUS_VOLUME_DOWN:
         m4aMPlayVolumeControl(&gMPlayInfo_BGM, 0xFFFF, 0x55);
         break;
@@ -6405,7 +6464,7 @@ static void Cmd_various(void)
     case VARIOUS_SET_ALREADY_STATUS_MOVE_ATTEMPT:
         gBattleStruct->alreadyStatusedMoveAttempt |= gBitTable[gActiveBattler];
         break;
-    case 25:
+    case VARIOUS_CASE_27:
         if (sub_805725C(gActiveBattler))
             return;
         break;

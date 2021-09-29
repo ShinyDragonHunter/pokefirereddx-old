@@ -24,11 +24,9 @@
 #include "main.h"
 #include "mevent.h"
 #include "mail.h"
-#include "match_call.h"
 #include "menu.h"
 #include "overworld.h"
 #include "party_menu.h"
-#include "pokeblock.h"
 #include "pokemon.h"
 #include "pokemon_storage_system.h"
 #include "random.h"
@@ -359,141 +357,6 @@ u8 GetSSTidalLocation(s8 *mapGroup, s8 *mapNum, s16 *x, s16 *y)
     *mapGroup = MAP_GROUP(ROUTE132);
     *y = 20;
     return SS_TIDAL_LOCATION_CURRENTS;
-}
-
-bool32 ShouldDoWallyCall(void)
-{
-    if (FlagGet(FLAG_ENABLE_FIRST_WALLY_POKENAV_CALL))
-    {
-        switch (gMapHeader.mapType)
-        {
-            case MAP_TYPE_TOWN:
-            case MAP_TYPE_CITY:
-            case MAP_TYPE_ROUTE:
-            case MAP_TYPE_OCEAN_ROUTE:
-                if (++(*GetVarPointer(VAR_WALLY_CALL_STEP_COUNTER)) < 250)
-                {
-                    return FALSE;
-                }
-                break;
-            default:
-                return FALSE;
-        }
-    }
-    else
-    {
-        return FALSE;
-    }
-
-    return TRUE;
-}
-
-bool32 ShouldDoScottFortreeCall(void)
-{
-    if (FlagGet(FLAG_SCOTT_CALL_FORTREE_GYM))
-    {
-        switch (gMapHeader.mapType)
-        {
-            case MAP_TYPE_TOWN:
-            case MAP_TYPE_CITY:
-            case MAP_TYPE_ROUTE:
-            case MAP_TYPE_OCEAN_ROUTE:
-                if (++(*GetVarPointer(VAR_SCOTT_FORTREE_CALL_STEP_COUNTER)) < 10)
-                {
-                    return FALSE;
-                }
-                break;
-            default:
-                return FALSE;
-        }
-    }
-    else
-    {
-        return FALSE;
-    }
-
-    return TRUE;
-}
-
-bool32 ShouldDoScottBattleFrontierCall(void)
-{
-    if (FlagGet(FLAG_SCOTT_CALL_BATTLE_FRONTIER))
-    {
-        switch (gMapHeader.mapType)
-        {
-            case MAP_TYPE_TOWN:
-            case MAP_TYPE_CITY:
-            case MAP_TYPE_ROUTE:
-            case MAP_TYPE_OCEAN_ROUTE:
-                if (++(*GetVarPointer(VAR_SCOTT_BF_CALL_STEP_COUNTER)) < 10)
-                {
-                    return FALSE;
-                }
-                break;
-            default:
-                return FALSE;
-        }
-    }
-    else
-    {
-        return FALSE;
-    }
-
-    return TRUE;
-}
-
-bool32 ShouldDoRoxanneCall(void)
-{
-    if (FlagGet(FLAG_ENABLE_ROXANNE_FIRST_CALL))
-    {
-        switch (gMapHeader.mapType)
-        {
-            case MAP_TYPE_TOWN:
-            case MAP_TYPE_CITY:
-            case MAP_TYPE_ROUTE:
-            case MAP_TYPE_OCEAN_ROUTE:
-                if (++(*GetVarPointer(VAR_ROXANNE_CALL_STEP_COUNTER)) < 250)
-                {
-                    return FALSE;
-                }
-                break;
-            default:
-                return FALSE;
-        }
-    }
-    else
-    {
-        return FALSE;
-    }
-
-    return TRUE;
-}
-
-bool32 ShouldDoRivalRayquazaCall(void)
-{
-    if (FlagGet(FLAG_DEFEATED_MAGMA_SPACE_CENTER))
-    {
-        switch (gMapHeader.mapType)
-        {
-            case MAP_TYPE_TOWN:
-            case MAP_TYPE_CITY:
-            case MAP_TYPE_ROUTE:
-            case MAP_TYPE_OCEAN_ROUTE:
-                if (++(*GetVarPointer(VAR_RIVAL_RAYQUAZA_CALL_STEP_COUNTER)) < 250)
-                {
-                    return FALSE;
-                }
-                break;
-            default:
-                return FALSE;
-        }
-    }
-    else
-    {
-        return FALSE;
-    }
-
-    return TRUE;
 }
 
 // NOTE: Coordinates are +7, +7 from actual in-map coordinates
@@ -1164,11 +1027,6 @@ void RemoveCameraObject(void)
 {
     CameraObjectSetFollowedSpriteId(GetPlayerAvatarSpriteId());
     RemoveObjectEventByLocalIdAndMap(OBJ_EVENT_ID_CAMERA, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup);
-}
-
-u8 GetPokeblockNameByMonNature(void)
-{
-    return CopyMonFavoritePokeblockName(GetNature(&gPlayerParty[GetLeadMonIndex()]), gStringVar1);
 }
 
 u16 GetBestBattleTowerStreak(void)
@@ -2576,14 +2434,13 @@ static void ScrollableMultichoice_RemoveScrollArrows(u8 taskId)
 
 u8 ContextNpcGetTextColor(void)
 {
-    const struct ObjectEventGraphicsInfo *graphicsInfo;
-
     if (gSpecialVar_TextColor != 0xFF)
         return gSpecialVar_TextColor;
     else if (!gSelectedObjectEvent)
         gSpecialVar_TextColor = TEXT_COLOR_DARK_GRAY;
     else
     {
+        const struct ObjectEventGraphicsInfo *graphicsInfo;
         u16 gfxId = gObjectEvents[gSelectedObjectEvent].graphicsId;
 
         if (gfxId >= OBJ_EVENT_GFX_VAR_0)
@@ -2597,10 +2454,12 @@ void ChangePlayerOutfit(u8 outfit)
 {
     struct ObjectEvent *objEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
 
+    FadeScreen(FADE_TO_BLACK, 0);
     gSaveBlock2Ptr->playerOutfit = outfit;
     ObjectEventSetGraphicsId(objEvent, GetPlayerAvatarGraphicsIdByCurrentState());
     ObjectEventTurn(objEvent, objEvent->movementDirection);
     BlendPalettes(PALETTES_ALL, 16, 0);
+    FadeScreen(FADE_FROM_BLACK, 0);
 }
 
 void UpdateTrainerCardPhotoIcons(void)
@@ -3179,7 +3038,7 @@ static void Task_DeoxysRockInteraction(u8 taskId)
 static void ChangeDeoxysRockLevel(u8 rockLevel)
 {
     u8 objectEventId;
-    LoadPalette(&sDeoxysRockPalettes[rockLevel], 0x1A0, 8);
+    LoadPaletteDayNight(&sDeoxysRockPalettes[rockLevel], 0x1A0, 8);
     TryGetObjectEventIdByLocalIdAndMap(LOCALID_BIRTH_ISLAND_EXTERIOR_ROCK, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, &objectEventId);
 
     if (rockLevel == 0)
@@ -3231,7 +3090,7 @@ void IncrementBirthIslandRockStepCount(void)
 
 void SetDeoxysRockPalette(void)
 {
-    LoadPalette(&sDeoxysRockPalettes[(u8)VarGet(VAR_DEOXYS_ROCK_LEVEL)], 0x1A0, 8);
+    LoadPaletteDayNight(&sDeoxysRockPalettes[(u8)VarGet(VAR_DEOXYS_ROCK_LEVEL)], 0x1A0, 8);
     BlendPalettes(0x04000000, 16, 0);
 }
 
@@ -3427,11 +3286,6 @@ bool8 AbnormalWeatherHasExpired(void)
     }
 }
 
-void Unused_SetWeatherSunny(void)
-{
-    SetCurrentAndNextWeather(WEATHER_SUNNY);
-}
-
 // All mart employees have a local id of 1, so function always returns 1
 u32 GetMartEmployeeObjectEventId(void)
 {
@@ -3463,17 +3317,6 @@ u32 GetMartEmployeeObjectEventId(void)
         }
     }
     return 1;
-}
-
-bool32 IsTrainerRegistered(void)
-{
-    int index = GetRematchIdxByTrainerIdx(gSpecialVar_0x8004);
-    if (index >= 0)
-    {
-        if (FlagGet(FLAG_MATCH_CALL_REGISTERED + index))
-            return TRUE;
-    }
-    return FALSE;
 }
 
 // Always returns FALSE

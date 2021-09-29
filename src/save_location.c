@@ -75,17 +75,6 @@ static bool32 IsCurMapReloadLocation(void)
     return IsCurMapInLocationList(sSaveLocationReloadLocList);
 }
 
-// Nulled out list. Unknown what this would have been.
-static const u16 sUnknown_0861440E[] =
-{
-    0xFFFF,
-};
-
-static bool32 sub_81AFCEC(void)
-{
-    return IsCurMapInLocationList(sUnknown_0861440E);
-}
-
 static void TrySetPokeCenterWarpStatus(void)
 {
     if (IsCurMapPokeCenter())
@@ -96,26 +85,16 @@ static void TrySetPokeCenterWarpStatus(void)
 
 static void TrySetReloadWarpStatus(void)
 {
-    if (!IsCurMapReloadLocation())
-        gSaveBlock2Ptr->specialSaveWarpFlags &= ~(LOBBY_SAVEWARP);
-    else
+    if (IsCurMapReloadLocation())
         gSaveBlock2Ptr->specialSaveWarpFlags |= LOBBY_SAVEWARP;
-}
-
-// this function definitely sets a warp status, but because the list is empty, it's unknown what this does yet.
-static void sub_81AFD5C(void)
-{
-    if (!sub_81AFCEC())
-        gSaveBlock2Ptr->specialSaveWarpFlags &= ~(UNK_SPECIAL_SAVE_WARP_FLAG_3);
     else
-        gSaveBlock2Ptr->specialSaveWarpFlags |= UNK_SPECIAL_SAVE_WARP_FLAG_3;
+        gSaveBlock2Ptr->specialSaveWarpFlags &= ~(LOBBY_SAVEWARP);
 }
 
 void TrySetMapSaveWarpStatus(void)
 {
     TrySetPokeCenterWarpStatus();
     TrySetReloadWarpStatus();
-    sub_81AFD5C();
 }
 
 // In FRLG, only 0x1, 0x10, and 0x20 are set when the pokedex is received
@@ -123,16 +102,16 @@ void TrySetMapSaveWarpStatus(void)
 // These flags are read by Pokemon Colosseum/XD for linking. XD Additionally requires FLAG_SYS_GAME_CLEAR
 void SetUnlockedPokedexFlags(void)
 {
-    gSaveBlock2Ptr->gcnLinkFlags |= 0x8000;
     gSaveBlock2Ptr->gcnLinkFlags |= 0x1;
-    gSaveBlock2Ptr->gcnLinkFlags |= 0x2;
-    gSaveBlock2Ptr->gcnLinkFlags |= 0x4;
     gSaveBlock2Ptr->gcnLinkFlags |= 0x10;
     gSaveBlock2Ptr->gcnLinkFlags |= 0x20;
-    gSaveBlock2Ptr->gcnLinkFlags |= 0x8;
 }
 
 void SetChampionSaveWarp(void)
 {
     gSaveBlock2Ptr->specialSaveWarpFlags |= CHAMPION_SAVEWARP;
+    gSaveBlock2Ptr->gcnLinkFlags |= 0x2;
+    gSaveBlock2Ptr->gcnLinkFlags |= 0x4;
+    gSaveBlock2Ptr->gcnLinkFlags |= 0x8;
+    gSaveBlock2Ptr->gcnLinkFlags |= 0x8000;
 }

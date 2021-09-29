@@ -112,7 +112,6 @@ extern const struct SpriteFrameImage gTrainerBackPicTable_RSMay[];
 
 extern const union AffineAnimCmd *const gAffineAnims_BattleSpritePlayerSide[];
 extern const union AffineAnimCmd *const gAffineAnims_BattleSpriteOpponentSide[];
-extern const union AffineAnimCmd *const gAffineAnims_BattleSpriteContest[];
 
 extern const union AnimCmd *const gAnims_MonPic[]; // Castform's front pic animation uses this
 extern const struct MonCoords gMonFrontPicCoords[];

@@ -32,7 +32,6 @@
 #include "malloc.h"
 #include "m4a.h"
 #include "map_name_popup.h"
-#include "match_call.h"
 #include "menu.h"
 #include "metatile_behavior.h"
 #include "mirage_tower.h"
@@ -97,7 +96,6 @@ struct CableClubPlayer
 extern const struct MapLayout *const gMapLayouts[];
 extern const struct MapHeader *const *const gMapGroups[];
 
-static u8 CountBadgesForWhiteOutLossCalculation(void);
 static void Overworld_ResetStateAfterWhiteOut(void);
 static void CB2_ReturnToFieldLocal(void);
 static void CB2_ReturnToFieldLink(void);
@@ -364,19 +362,19 @@ const u16 gSurfMusicTable[NUM_REGION] =
     [REGION_SEVII] = MUS_RG_SURF,
 };
 
-static const u8 sWhiteOutMoneyLossMultipliers[] = {
-    2,
-    4,
-    6,
-    9,
-    12,
+static const u16 sWhiteOutMoneyLossMultipliers[] = {
+    8,
     16,
-    20,
-    25,
-    30
+    24,
+    36,
+    48,
+    60,
+    80,
+    100,
+    120
 };
 
-static const u16 sWhiteOutMoneyLossBadgeFlagIDs[] = {
+static const u16 sWhiteOutMoneyLossBadgeFlagIDs[9] = {
     FLAG_BADGE01_GET,
     FLAG_BADGE02_GET,
     FLAG_BADGE03_GET,
@@ -390,8 +388,7 @@ static const u16 sWhiteOutMoneyLossBadgeFlagIDs[] = {
 // code
 void DoWhiteOut(void)
 {
-    ScriptContext2_RunNewScript(EventScript_WhiteOut);
-    RemoveMoney(&gSaveBlock1Ptr->money, ComputeWhiteOutMoneyLoss());
+    ScriptContext2_RunNewScript(EverGrandeCity_HallOfFame_EventScript_ResetEliteFour);
     HealPlayerParty();
     Overworld_ResetStateAfterWhiteOut();
     SetWarpDestinationToLastHealLocation();
@@ -400,32 +397,30 @@ void DoWhiteOut(void)
 
 u32 ComputeWhiteOutMoneyLoss(void)
 {
-    u8 nbadges = CountBadgesForWhiteOutLossCalculation();
-    u8 toplevel = GetPlayerPartyHighestLevel();
-    u32 losings = toplevel * 4 * sWhiteOutMoneyLossMultipliers[nbadges];
-    u32 money = GetMoney(&gSaveBlock1Ptr->money);
+    s32 i, count;
+    u8 level = 1;
 
-    if (losings > money)
-        losings = money;
-    return losings;
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        if (GetMonData(&gPlayerParty[i], MON_DATA_SANITY_HAS_SPECIES, NULL)
+         && !GetMonData(&gPlayerParty[i], MON_DATA_SANITY_IS_EGG, NULL))
+        {
+            if (GetMonData(&gPlayerParty[i], MON_DATA_LEVEL) > level)
+                level = GetMonData(&gPlayerParty[i], MON_DATA_LEVEL);
+        }
+    }
+    for (count = 0, i = 0; i < ARRAY_COUNT(sWhiteOutMoneyLossBadgeFlagIDs); i++)
+    {
+        if (FlagGet(sWhiteOutMoneyLossBadgeFlagIDs[i]))
+            ++count;
+    }
+    return sWhiteOutMoneyLossMultipliers[count] * level;
 }
 
 void OverworldWhiteOutGetMoneyLoss(void)
 {
     u32 losings = ComputeWhiteOutMoneyLoss();
     ConvertIntToDecimalStringN(gStringVar1, losings, STR_CONV_MODE_LEFT_ALIGN, CountDigits(losings));
-}
-
-static u8 CountBadgesForWhiteOutLossCalculation(void)
-{
-    int i;
-    u8 nbadges = 0;
-    for (i = 0; i < ARRAY_COUNT(sWhiteOutMoneyLossBadgeFlagIDs); i++)
-    {
-        if (FlagGet(sWhiteOutMoneyLossBadgeFlagIDs[i]))
-            nbadges++;
-    }
-    return nbadges;
 }
 
 void Overworld_ResetStateAfterFly(void)
@@ -446,7 +441,6 @@ void Overworld_ResetStateAfterTeleport(void)
     FlagClear(FLAG_SYS_SAFARI_MODE);
     FlagClear(FLAG_SYS_USE_STRENGTH);
     FlagClear(FLAG_SYS_USE_FLASH);
-    ScriptContext2_RunNewScript(EventScript_ResetMrBriney);
 }
 
 static void Overworld_ResetStateAfterWhiteOut(void)
@@ -457,13 +451,6 @@ static void Overworld_ResetStateAfterWhiteOut(void)
     FlagClear(FLAG_SYS_SAFARI_MODE);
     FlagClear(FLAG_SYS_USE_STRENGTH);
     FlagClear(FLAG_SYS_USE_FLASH);
-    // If you were defeated by Kyogre/Groudon and the step counter has
-    // maxed out, end the abnormal weather.
-    if (VarGet(VAR_SHOULD_END_ABNORMAL_WEATHER) == 1)
-    {
-        VarSet(VAR_SHOULD_END_ABNORMAL_WEATHER, 0);
-        VarSet(VAR_ABNORMAL_WEATHER_LOCATION, ABNORMAL_WEATHER_NONE);
-    }
 }
 
 static void UpdateMiscOverworldStates(void)
@@ -521,19 +508,11 @@ void ApplyNewEncryptionKeyToGameStats(u32 newKey)
 
 void LoadObjEventTemplatesFromHeader(void)
 {
-    // Clear map object templates
-    /*CpuFill32(0, gSaveBlock1Ptr->objectEventTemplates, sizeof(gSaveBlock1Ptr->objectEventTemplates));
-
-    // Copy map header events to save block
-    CpuCopy32(gMapHeader.events->objectEvents,
-              gSaveBlock1Ptr->objectEventTemplates,
-              gMapHeader.events->objectEventCount * sizeof(struct ObjectEventTemplate));*/
-
     u32 i;
 
     for (i = 0; i < gMapHeader.events->objectEventCount; i++)
     {
-        if (gMapHeader.events->objectEvents[i].inConnection == 0xFF)
+        if (gMapHeader.events->objectEvents[i].inConnection)
         {
             gSaveBlock1Ptr->objectEventTemplates[i] = Overworld_GetMapHeaderByGroupAndId(gMapHeader.events->objectEvents[i].trainerRange_berryTreeId, gMapHeader.events->objectEvents[i].trainerType)->events->objectEvents[gMapHeader.events->objectEvents[i].elevation - 1];
             gSaveBlock1Ptr->objectEventTemplates[i].localId = gMapHeader.events->objectEvents[i].localId;
@@ -543,12 +522,10 @@ void LoadObjEventTemplatesFromHeader(void)
             gSaveBlock1Ptr->objectEventTemplates[i].elevation = gMapHeader.events->objectEvents[i].elevation;
             gSaveBlock1Ptr->objectEventTemplates[i].trainerType = gMapHeader.events->objectEvents[i].trainerType;
             gSaveBlock1Ptr->objectEventTemplates[i].trainerRange_berryTreeId = gMapHeader.events->objectEvents[i].trainerRange_berryTreeId;
-            gSaveBlock1Ptr->objectEventTemplates[i].inConnection = 0xFF;
+            gSaveBlock1Ptr->objectEventTemplates[i].inConnection = TRUE;
         }
         else
-        {
             gSaveBlock1Ptr->objectEventTemplates[i] = gMapHeader.events->objectEvents[i];
-        }
     }
 }
 
@@ -1328,11 +1305,6 @@ void CleanupOverworldWindowsAndTilemaps(void)
     Free(gBGTilemapBuffers2);
 }
 
-static void ResetSafariZoneFlag_(void)
-{
-    ResetSafariZoneFlag();
-}
-
 bool32 IsUpdateLinkStateCBActive(void)
 {
     if (gMain.callback1 == CB1_UpdateLinkState)
@@ -1432,7 +1404,7 @@ void CB2_NewGame(void)
 {
     FieldClearVBlankHBlankCallbacks();
     StopMapMusic();
-    ResetSafariZoneFlag_();
+    ResetSafariZoneFlag();
     NewGameInitData();
     ResetInitialPlayerAvatarState();
     PlayTimeCounter_Start();
@@ -1454,7 +1426,7 @@ void CB2_WhiteOut(void)
     {
         FieldClearVBlankHBlankCallbacks();
         StopMapMusic();
-        ResetSafariZoneFlag_();
+        ResetSafariZoneFlag();
         DoWhiteOut();
         SetInitialPlayerAvatarStateNorth();
         ScriptContext1_Init();
@@ -1590,7 +1562,7 @@ void CB2_ContinueSavedGame(void)
 
     FieldClearVBlankHBlankCallbacks();
     StopMapMusic();
-    ResetSafariZoneFlag_();
+    ResetSafariZoneFlag();
     if (gSaveFileStatus == SAVE_STATUS_ERROR)
         ResetWinStreaks();
 
@@ -1617,7 +1589,6 @@ void CB2_ContinueSavedGame(void)
     PlayTimeCounter_Start();
     ScriptContext1_Init();
     ScriptContext2_Disable();
-    InitMatchCallCounters();
     if (UseContinueGameWarp())
     {
         ClearContinueGameWarpStatus();
