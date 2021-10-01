@@ -144,7 +144,7 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
     playerDirection = GetPlayerFacingDirection();
     GetPlayerPosition(&position);
     metatileAttributes = MapGridGetMetatileAttributeAt(position.x, position.y, 0xFF);
-    metatileBehavior = MapGridGetMetatileAttributeAt(position.x, position.y, METATILE_ATTRIBUTE_BEHAVIOR);
+    metatileBehavior = MapGridGetMetatileBehaviorAt(position.x, position.y);
 
     if (CheckForTrainersWantingBattle()
      || TryRunOnFrameMapScript()
@@ -167,7 +167,7 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
     }
 
     GetInFrontOfPlayerPosition(&position);
-    metatileBehavior = MapGridGetMetatileAttributeAt(position.x, position.y, METATILE_ATTRIBUTE_BEHAVIOR);
+    metatileBehavior = MapGridGetMetatileBehaviorAt(position.x, position.y);
     if (input->pressedAButton && TryStartInteractionScript(&position, metatileBehavior, playerDirection))
         return TRUE;
 
@@ -213,7 +213,7 @@ static u16 GetPlayerCurMetatileBehavior(void)
     s16 x, y;
 
     PlayerGetDestCoords(&x, &y);
-    return MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR);
+    return MapGridGetMetatileBehaviorAt(x, y);
 }
 
 static bool8 TryStartInteractionScript(struct MapPosition *position, u16 metatileBehavior, u8 direction)
@@ -258,7 +258,7 @@ const u8 *GetInteractedLinkPlayerScript(struct MapPosition *position, u8 metatil
     u8 objectEventId;
     s32 i;
 
-    if (!MetatileBehavior_IsCounter(MapGridGetMetatileAttributeAt(position->x, position->y, METATILE_ATTRIBUTE_BEHAVIOR)))
+    if (!MetatileBehavior_IsCounter(MapGridGetMetatileBehaviorAt(position->x, position->y)))
         objectEventId = GetObjectEventIdByXYZ(position->x, position->y, position->height);
     else
         objectEventId = GetObjectEventIdByXYZ(position->x + gDirectionToVectors[direction].x, position->y + gDirectionToVectors[direction].y, position->height);
@@ -651,18 +651,18 @@ static bool8 TryStartWarpEventScript(struct MapPosition *position, u16 metatileB
 
 static bool8 IsWarpMetatileBehavior(u16 metatileBehavior)
 {
-    if (MetatileBehavior_IsWarpDoor(metatileBehavior) != TRUE
-     && MetatileBehavior_IsLadder(metatileBehavior) != TRUE
-     && MetatileBehavior_IsEscalator(metatileBehavior) != TRUE
-     && MetatileBehavior_IsNonAnimDoor(metatileBehavior) != TRUE
-     && MetatileBehavior_IsLavaridgeB1FWarp(metatileBehavior) != TRUE
-     && MetatileBehavior_IsLavaridge1FWarp(metatileBehavior) != TRUE
-     && MetatileBehavior_IsAquaHideoutWarp(metatileBehavior) != TRUE
-     && MetatileBehavior_IsMtPyreHole(metatileBehavior) != TRUE
-     && MetatileBehavior_IsMossdeepGymWarp(metatileBehavior) != TRUE
-     && MetatileBehavior_IsWarpOrBridge(metatileBehavior) != TRUE)
-        return FALSE;
-    return TRUE;
+    if (MetatileBehavior_IsWarpDoor(metatileBehavior)
+     || MetatileBehavior_IsLadder(metatileBehavior)
+     || MetatileBehavior_IsEscalator(metatileBehavior)
+     || MetatileBehavior_IsNonAnimDoor(metatileBehavior)
+     || MetatileBehavior_IsLavaridgeB1FWarp(metatileBehavior)
+     || MetatileBehavior_IsLavaridge1FWarp(metatileBehavior)
+     || MetatileBehavior_IsAquaHideoutWarp(metatileBehavior)
+     || MetatileBehavior_IsMtPyreHole(metatileBehavior)
+     || MetatileBehavior_IsMossdeepGymWarp(metatileBehavior)
+     || MetatileBehavior_IsWarpOrBridge(metatileBehavior))
+        return TRUE;
+    return FALSE;
 }
 
 bool8 IsDirectionalStairWarpMetatileBehavior(u16 metatileBehavior, u8 playerDirection)
@@ -872,7 +872,7 @@ u8 TrySetDiveWarp(void)
     u8 metatileBehavior;
 
     PlayerGetDestCoords(&x, &y);
-    metatileBehavior = MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR);
+    metatileBehavior = MapGridGetMetatileBehaviorAt(x, y);
     if (gMapHeader.mapType == MAP_TYPE_UNDERWATER && !MetatileBehavior_IsUnableToEmerge(metatileBehavior))
     {
         if (SetDiveWarpEmerge(x - 7, y - 7))
@@ -893,7 +893,7 @@ const u8 *GetObjectEventScriptPointerPlayerFacing(void)
 
     direction = GetPlayerMovementDirection();
     GetInFrontOfPlayerPosition(&position);
-    return GetInteractedObjectEventScript(&position, MapGridGetMetatileAttributeAt(position.x, position.y, METATILE_ATTRIBUTE_BEHAVIOR), direction);
+    return GetInteractedObjectEventScript(&position, MapGridGetMetatileBehaviorAt(position.x, position.y), direction);
 }
 
 int SetCableClubWarp(void)

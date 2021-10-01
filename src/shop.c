@@ -621,7 +621,7 @@ static void BuyMenuDrawMapBg(void)
         for (i = 0; i < 15; i++)
         {
             u16 metatile = MapGridGetMetatileIdAt(x + i, y + j);
-            u8 metatileLayerType = MapGridGetMetatileAttributeAt(x + i, y + j, METATILE_ATTRIBUTE_LAYER_TYPE);
+            u8 metatileLayerType = MapGridGetMetatileLayerTypeAt(x + i, y + j);
 
             if (metatile < NUM_METATILES_IN_PRIMARY)
                 BuyMenuDrawMapMetatile(i, j, (u16*)mapLayout->primaryTileset->metatiles + metatile * 12, metatileLayerType);

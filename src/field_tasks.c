@@ -250,7 +250,7 @@ static const struct PacifidlogMetatileOffsets *GetPacifidlogBridgeMetatileOffset
 
 static void SetPacifidlogBridgeMetatiles(const struct PacifidlogMetatileOffsets *offsets, s16 x, s16 y, bool32 redrawMap)
 {
-    offsets = GetPacifidlogBridgeMetatileOffsets(offsets, MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR));
+    offsets = GetPacifidlogBridgeMetatileOffsets(offsets, MapGridGetMetatileBehaviorAt(x, y));
     if (offsets)
     {
         MapGridSetMetatileIdAt(x + offsets[0].x, y + offsets[0].y, offsets[0].tileId);
@@ -280,7 +280,7 @@ static void UpdateFloatingBridgeMetatiles(s16 x, s16 y, bool32 redrawMap)
 
 static bool32 StandingOnNewPacifidlogBridge(s16 x1, s16 y1, s16 x2, s16 y2)
 {
-    u16 metatileBehavior = MapGridGetMetatileAttributeAt(x2, y2, METATILE_ATTRIBUTE_BEHAVIOR);
+    u16 metatileBehavior = MapGridGetMetatileBehaviorAt(x2, y2);
 
     if (MetatileBehavior_IsPacifidlogVerticalLog1(metatileBehavior))
     {
@@ -307,7 +307,7 @@ static bool32 StandingOnNewPacifidlogBridge(s16 x1, s16 y1, s16 x2, s16 y2)
 
 static bool32 StandingOnSamePacifidlogBridge(s16 x1, s16 y1, s16 x2, s16 y2)
 {
-    u16 metatileBehavior = MapGridGetMetatileAttributeAt(x1, y1, METATILE_ATTRIBUTE_BEHAVIOR);
+    u16 metatileBehavior = MapGridGetMetatileBehaviorAt(x1, y1);
 
     if (MetatileBehavior_IsPacifidlogVerticalLog1(metatileBehavior))
     {
@@ -373,7 +373,7 @@ static void PacifidlogBridgePerStepCallback(u8 taskId)
 
                 data[2] = x;
                 data[3] = y;
-                if (MetatileBehavior_IsPacifidlogLog(MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR)))
+                if (MetatileBehavior_IsPacifidlogLog(MapGridGetMetatileBehaviorAt(x, y)))
                     PlaySE(SE_PUDDLE);
             }
             break;
@@ -438,7 +438,7 @@ static void FortreeBridgePerStepCallback(u8 taskId)
         case 0:
             data[2] = x;
             data[3] = y;
-            if (MetatileBehavior_IsFortreeBridge(MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR)))
+            if (MetatileBehavior_IsFortreeBridge(MapGridGetMetatileBehaviorAt(x, y)))
             {
                 SetLoweredForetreeBridgeMetatile(x, y);
                 CurrentMapDrawMetatileAt(x, y);
@@ -451,8 +451,8 @@ static void FortreeBridgePerStepCallback(u8 taskId)
             if (x == x2 && y == y2)
                 break;
 
-            isFortreeBridgeCur = MetatileBehavior_IsFortreeBridge(MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR));
-            isFortreeBridgePrev = MetatileBehavior_IsFortreeBridge(MapGridGetMetatileAttributeAt(x2, y2, METATILE_ATTRIBUTE_BEHAVIOR));
+            isFortreeBridgeCur = MetatileBehavior_IsFortreeBridge(MapGridGetMetatileBehaviorAt(x, y));
+            isFortreeBridgePrev = MetatileBehavior_IsFortreeBridge(MapGridGetMetatileBehaviorAt(x2, y2));
             z = PlayerGetZCoord();
             flag = 0;
             if ((u8)(z & 1) == 0)
@@ -570,7 +570,7 @@ static void SootopolisGymIcePerStepCallback(u8 taskId)
             {
                 data[2] = x;
                 data[3] = y;
-                tileBehavior = MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR);
+                tileBehavior = MapGridGetMetatileBehaviorAt(x, y);
                 iceStepCount = GetVarPointer(VAR_ICE_STEP_COUNT);
                 if (MetatileBehavior_IsThinIce(tileBehavior))
                 {
@@ -635,7 +635,7 @@ static void AshGrassPerStepCallback(u8 taskId)
     {
         data[1] = x;
         data[2] = y;
-        if (MetatileBehavior_IsAshGrass(MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR)))
+        if (MetatileBehavior_IsAshGrass(MapGridGetMetatileBehaviorAt(x, y)))
         {
             if (MapGridGetMetatileIdAt(x, y) == METATILE_Fallarbor_AshGrass)
                 StartAshFieldEffect(x, y, METATILE_Fallarbor_NormalGrass, 4);
@@ -664,7 +664,7 @@ static void SetCrackedFloorHoleMetatile(s16 x, s16 y)
 static void CrackedFloorPerStepCallback(u8 taskId)
 {
     s16 x, y;
-    u16 behavior = MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR);
+    u16 behavior = MapGridGetMetatileBehaviorAt(x, y);
     s16 *data = gTasks[taskId].data;
     PlayerGetDestCoords(&x, &y);
 
@@ -741,7 +741,7 @@ static void Task_MuddySlope(u8 taskId)
             {
                 data[2] = x;
                 data[3] = y;
-                if (MetatileBehavior_IsMuddySlope(MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR)))
+                if (MetatileBehavior_IsMuddySlope(MapGridGetMetatileBehaviorAt(x, y)))
                 {
                     for (i = 4; i < 14; i += 3)
                     {

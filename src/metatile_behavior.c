@@ -2,7 +2,7 @@
 #include "metatile_behavior.h"
 #include "constants/metatile_behaviors.h"
 
-static const bool8 sTileSurfable[] = {
+static const bool8 sTileSurfable[METATILE_COUNT] = {
     [MB_POND_WATER] = TRUE,
     [MB_SEMI_DEEP_WATER] = TRUE,
     [MB_DEEP_WATER] = TRUE,
@@ -17,11 +17,11 @@ static const bool8 sTileSurfable[] = {
 };
 
 static const u8 sTileBitAttributes[32] = {
-    [0] = 0x00,
-    [1] = 0x01,
-    [2] = 0x02,
-    [3] = 0x04,
-    [4] = 0x08,
+    [0] = 0,
+    [1] = 1,
+    [2] = 2,
+    [3] = 4,
+    [4] = 8
 };
 
 bool8 MetatileBehavior_IsATile(u8 metatileBehavior)

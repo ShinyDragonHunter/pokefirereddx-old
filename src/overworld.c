@@ -374,7 +374,7 @@ static const u16 sWhiteOutMoneyLossMultipliers[] = {
     120
 };
 
-static const u16 sWhiteOutMoneyLossBadgeFlagIDs[9] = {
+static const u16 sWhiteOutMoneyLossBadgeFlagIDs[NUM_BADGES] = {
     FLAG_BADGE01_GET,
     FLAG_BADGE02_GET,
     FLAG_BADGE03_GET,
@@ -412,7 +412,7 @@ u32 ComputeWhiteOutMoneyLoss(void)
     for (count = 0, i = 0; i < ARRAY_COUNT(sWhiteOutMoneyLossBadgeFlagIDs); i++)
     {
         if (FlagGet(sWhiteOutMoneyLossBadgeFlagIDs[i]))
-            ++count;
+            count++;
     }
     return sWhiteOutMoneyLossMultipliers[count] * level;
 }
@@ -843,7 +843,6 @@ void LoadMapFromCameraTransition(u8 mapGroup, u8 mapNum)
     ClearTempFieldEventData();
     ResetCyclingRoadChallengeData();
     RestartWildEncounterImmunitySteps();
-    TryUpdateRandomTrainerRematches(mapGroup, mapNum);
     DoTimeBasedEvents();
     SetSav1WeatherFromCurrMapHeader();
     ChooseAmbientCrySpecies();
@@ -889,7 +888,6 @@ static void LoadMapFromWarp(bool32 a1)
     TrySetMapSaveWarpStatus();
     ClearTempFieldEventData();
     RestartWildEncounterImmunitySteps();
-    TryUpdateRandomTrainerRematches(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum);
     if (!a1)
         DoTimeBasedEvents();
     SetSav1WeatherFromCurrMapHeader();
@@ -989,7 +987,7 @@ static u8 GetAdjustedInitialDirection(struct InitialPlayerAvatarState *playerStr
 
 static u16 GetCenterScreenMetatileBehavior(void)
 {
-    return MapGridGetMetatileAttributeAt(gSaveBlock1Ptr->pos.x + 7, gSaveBlock1Ptr->pos.y + 7, METATILE_ATTRIBUTE_BEHAVIOR);
+    return MapGridGetMetatileBehaviorAt(gSaveBlock1Ptr->pos.x + 7, gSaveBlock1Ptr->pos.y + 7);
 }
 
 bool32 Overworld_IsBikingAllowed(void)
@@ -1159,7 +1157,7 @@ static void PlayAmbientCry(void)
 
     PlayerGetDestCoords(&x, &y);
     if (sIsAmbientCryWaterMon
-     && !MetatileBehavior_IsSurfableWaterOrUnderwater(MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR)))
+     && !MetatileBehavior_IsSurfableWaterOrUnderwater(MapGridGetMetatileBehaviorAt(x, y)))
         return;
     pan = (Random() % 88) + 212;
     volume = (Random() % 30) + 50;
@@ -1283,7 +1281,6 @@ u8 GetCurrentMapBattleScene(void)
 
 static void InitOverworldBgs(void)
 {
-    ResetBgsAndClearDma3BusyFlags(FALSE);
     InitBgsFromTemplates(0, sOverworldBgTemplates, ARRAY_COUNT(sOverworldBgTemplates));
     SetBgAttribute(1, BG_ATTR_MOSAIC, TRUE);
     SetBgAttribute(2, BG_ATTR_MOSAIC, TRUE);
@@ -1360,7 +1357,7 @@ void CB2_OverworldBasic(void)
 
 void CB2_Overworld(void)
 {
-    bool32 fading = !!gPaletteFade.active;
+    bool32 fading = (gPaletteFade.active != 0);
     if (fading)
         SetVBlankCallback(NULL);
     OverworldBasic();
@@ -2536,7 +2533,7 @@ static void LoadCableClubPlayer(s32 linkPlayerId, s32 myPlayerId, struct CableCl
     trainer->pos.x = x;
     trainer->pos.y = y;
     trainer->pos.height = GetLinkPlayerElevation(linkPlayerId);
-    trainer->metatileBehavior = MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR);
+    trainer->metatileBehavior = MapGridGetMetatileBehaviorAt(x, y);
 }
 
 static bool32 IsCableClubPlayerUnfrozen(struct CableClubPlayer *player)

@@ -1750,7 +1750,7 @@ static bool8 EscalatorWarpIn_Init(struct Task *task)
     objectEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
     ObjectEventSetHeldMovement(objectEvent, GetFaceDirectionMovementAction(DIR_EAST));
     PlayerGetDestCoords(&x, &y);
-    behavior = MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR);
+    behavior = MapGridGetMetatileBehaviorAt(x, y);
     task->tState++;
     task->data[1] = 16;
 

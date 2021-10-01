@@ -20,7 +20,7 @@ void GetCameraCoords(u16*, u16*);
 bool8 MapGridIsImpassableAt(int, int);
 int GetMapBorderIdAt(int x, int y);
 bool32 CanCameraMoveInDirection(int direction);
-u32 GetBehaviorByMetatileId(u16 metatile);
+u32 GetBehaviorByMetatileId(u16 metatile, u8 attr);
 void GetCameraFocusCoords(u16 *x, u16 *y);
 u8 MapGridGetZCoordAt(int x, int y);
 bool8 CameraMove(int deltaX, int deltaY);
@@ -41,6 +41,8 @@ struct MapConnection *GetConnectionAtCoords(int x, int y);
 void MapGridSetMetatileImpassabilityAt(int x, int y, bool32 impassable);
 u32 GetMetatileAttributeFromRawMetatileBehavior(u32 original, u8 bit);
 u32 MapGridGetMetatileAttributeAt(int x, int y, u8 attr);
+u32 MapGridGetMetatileBehaviorAt(int x, int y);
+u8 MapGridGetMetatileLayerTypeAt(int x, int y);
 
 // field_region_map.c
 void FieldInitRegionMap(MainCallback callback);

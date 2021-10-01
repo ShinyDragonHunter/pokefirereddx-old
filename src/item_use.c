@@ -200,7 +200,7 @@ void ItemUseOutOfBattle_Bike(u8 taskId)
     u8 behavior;
 
     PlayerGetDestCoords(&coordsX, &coordsY);
-    behavior = MapGridGetMetatileAttributeAt(coordsX, coordsY, METATILE_ATTRIBUTE_BEHAVIOR);
+    behavior = MapGridGetMetatileBehaviorAt(coordsX, coordsY);
     if (FlagGet(FLAG_SYS_CYCLING_ROAD) || MetatileBehavior_IsVerticalRail(behavior) || MetatileBehavior_IsHorizontalRail(behavior) || MetatileBehavior_IsIsolatedVerticalRail(behavior) || MetatileBehavior_IsIsolatedHorizontalRail(behavior))
         DisplayCannotDismountBikeMessage(taskId, tUsingRegisteredKeyItem);
     else
@@ -226,7 +226,7 @@ static void ItemUseOnFieldCB_Bike(u8 taskId)
 static bool32 CanFish(void)
 {
     s16 x, y;
-    u16 tileBehavior = MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR);
+    u16 tileBehavior = MapGridGetMetatileBehaviorAt(x, y);
 
     GetXYCoordsOneStepInFrontOfPlayer(&x, &y);
 

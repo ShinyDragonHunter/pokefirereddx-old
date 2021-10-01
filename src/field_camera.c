@@ -32,7 +32,7 @@ static void RedrawMapSliceWest(struct FieldCameraOffset *cameraOffset, const str
 static s32 MapPosToBgTilemapOffset(struct FieldCameraOffset *a, s32 x, s32 y);
 static void DrawWholeMapViewInternal(int x, int y, const struct MapLayout *mapLayout);
 static void DrawMetatileAt(const struct MapLayout *mapLayout, u16, int, int);
-static void DrawMetatile(s32 a, u16 *b, u16 c);
+static void DrawMetatile(s32 a, const u16 *b, u16 c);
 static void CameraPanningCB_PanAhead(void);
 
 // IWRAM bss vars
@@ -239,10 +239,10 @@ static void DrawMetatileAt(const struct MapLayout *mapLayout, u16 offset, int x,
         metatiles = mapLayout->secondaryTileset->metatiles;
         metatileId -= NUM_METATILES_IN_PRIMARY;
     }
-    DrawMetatile(MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_LAYER_TYPE), metatiles + metatileId * 12, offset);
+    DrawMetatile(MapGridGetMetatileLayerTypeAt(x, y), metatiles + metatileId * 12, offset);
 }
 
-static void DrawMetatile(s32 metatileLayerType, u16 *metatiles, u16 offset)
+static void DrawMetatile(s32 metatileLayerType, const u16 *metatiles, u16 offset)
 {
     // Draw metatile's bottom layer to the bottom background layer.
     gBGTilemapBuffers3[offset] = metatiles[0];

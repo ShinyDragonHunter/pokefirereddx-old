@@ -394,7 +394,17 @@ u32 GetMetatileAttributeFromRawMetatileBehavior(u32 original, u8 bit)
 u32 MapGridGetMetatileAttributeAt(int x, int y, u8 attr)
 {
     u16 metatile = MapGridGetMetatileIdAt(x, y);
-    return GetBehaviorByMetatileId(metatile) & sMetatileAttrMasks[attr] >> sMetatileAttrShifts[attr];
+    return GetBehaviorByMetatileId(metatile, attr);
+}
+
+u32 MapGridGetMetatileBehaviorAt(int x, int y)
+{
+    return MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR);
+}
+
+u8 MapGridGetMetatileLayerTypeAt(int x, int y)
+{
+    return MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_LAYER_TYPE);
 }
 
 void MapGridSetMetatileIdAt(int x, int y, u16 metatile)
@@ -430,24 +440,21 @@ void MapGridSetMetatileImpassabilityAt(int x, int y, bool32 impassable)
     }
 }
 
-u32 GetBehaviorByMetatileId(u16 metatile)
+u32 GetBehaviorByMetatileId(u16 metatile, u8 attr)
 {
     int *attributes;
 
     if (metatile < NUM_METATILES_IN_PRIMARY)
     {
         attributes = gMapHeader.mapLayout->primaryTileset->metatileAttributes;
-        return attributes[metatile];
+        return GetMetatileAttributeFromRawMetatileBehavior(attributes[metatile], attr);
     }
     else if (metatile < NUM_METATILES_TOTAL)
     {
         attributes = gMapHeader.mapLayout->secondaryTileset->metatileAttributes;
-        return attributes[metatile - NUM_METATILES_IN_PRIMARY];
+        return GetMetatileAttributeFromRawMetatileBehavior(attributes[metatile - NUM_METATILES_IN_PRIMARY], attr);
     }
-    else
-    {
-        return MB_INVALID;
-    }
+    return MB_INVALID;
 }
 
 void SaveMapView(void)

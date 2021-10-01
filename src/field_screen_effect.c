@@ -285,7 +285,7 @@ static void SetUpWarpExitTask(void)
     TaskFunc func;
 
     PlayerGetDestCoords(&x, &y);
-    behavior = MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR);
+    behavior = MapGridGetMetatileBehaviorAt(x, y);
     if (MetatileBehavior_IsDoor(behavior))
         func = Task_ExitDoor;
     else if (MetatileBehavior_IsNonAnimDoor(behavior))
@@ -900,7 +900,7 @@ static void ExitStairsMovement(s16 *a0, s16 *a1, s16 *a2, s16 *a3, s16 *a4)
     struct Sprite *sprite;
 
     PlayerGetDestCoords(&x, &y);
-    behavior = MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR);
+    behavior = MapGridGetMetatileBehaviorAt(x, y);
     if (MetatileBehavior_IsDirectionalDownRightStairWarp(behavior) || MetatileBehavior_IsDirectionalUpRightStairWarp(behavior))
         r1 = 3;
     else

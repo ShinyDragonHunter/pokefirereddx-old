@@ -138,7 +138,7 @@ static u8 GetBikeCollision(u8 direction)
     struct ObjectEvent *playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
     s16 x = playerObjEvent->currentCoords.x;
     s16 y = playerObjEvent->currentCoords.y;
-    u8 metatileBehavior = MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR);
+    u8 metatileBehavior = MapGridGetMetatileBehaviorAt(x, y);
 
     MoveCoords(direction, &x, &y);
     return GetBikeCollisionAt(playerObjEvent, x, y, direction, metatileBehavior);
@@ -208,7 +208,7 @@ bool8 IsBikingDisallowedByPlayer(void)
 
     if (!(gPlayerAvatar.flags & (PLAYER_AVATAR_FLAG_SURFING | PLAYER_AVATAR_FLAG_UNDERWATER)))
     {
-        u8 tileBehavior = MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR);
+        u8 tileBehavior = MapGridGetMetatileBehaviorAt(x, y);
 
         PlayerGetDestCoords(&x, &y);
         if (!IsRunningDisallowedByMetatile(tileBehavior))

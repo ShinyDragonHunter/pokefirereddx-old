@@ -270,7 +270,7 @@ static bool8 CanMewMoveToCoords(s16 x, s16 y)
     {
         return FALSE;
     }
-    return MetatileBehavior_IsPokeGrass(MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR));
+    return MetatileBehavior_IsPokeGrass(MapGridGetMetatileBehaviorAt(x, y));
 }
 
 // Last ditch effort to move, clear move candidates and try all directions again

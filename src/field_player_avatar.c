@@ -778,10 +778,10 @@ static u8 CheckForPlayerAvatarCollision(u8 direction)
 
     x = playerObjEvent->currentCoords.x;
     y = playerObjEvent->currentCoords.y;
-    if (IsDirectionalStairWarpMetatileBehavior(MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR), direction))
+    if (IsDirectionalStairWarpMetatileBehavior(MapGridGetMetatileBehaviorAt(x, y), direction))
         return COLLISION_STAIR_WARP;
     MoveCoords(direction, &x, &y);
-    return CheckForObjectEventCollision(playerObjEvent, x, y, direction, MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR));
+    return CheckForObjectEventCollision(playerObjEvent, x, y, direction, MapGridGetMetatileBehaviorAt(x, y));
 }
 
 static u8 sub_808B028(u8 direction)
@@ -792,7 +792,7 @@ static u8 sub_808B028(u8 direction)
     x = playerObjEvent->currentCoords.x;
     y = playerObjEvent->currentCoords.y;
     MoveCoords(direction, &x, &y);
-    return CheckForObjectEventCollision(playerObjEvent, x, y, direction, MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR));
+    return CheckForObjectEventCollision(playerObjEvent, x, y, direction, MapGridGetMetatileBehaviorAt(x, y));
 }
 
 u8 CheckForObjectEventCollision(struct ObjectEvent *objectEvent, s16 x, s16 y, u8 direction, u8 metatileBehavior)
@@ -847,9 +847,9 @@ static bool8 TryPushBoulder(s16 x, s16 y, u8 direction)
             x = gObjectEvents[objectEventId].currentCoords.x;
             y = gObjectEvents[objectEventId].currentCoords.y;
             MoveCoords(direction, &x, &y);
-            if (MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR) == MB_MT_PYRE_HOLE
+            if (MapGridGetMetatileBehaviorAt(x, y) == MB_MT_PYRE_HOLE
              || (GetCollisionAtCoords(&gObjectEvents[objectEventId], x, y, direction) == COLLISION_NONE
-             && !MetatileBehavior_IsNonAnimDoor(MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR))))
+             && !MetatileBehavior_IsNonAnimDoor(MapGridGetMetatileBehaviorAt(x, y))))
             {
                 StartStrengthAnim(objectEventId, direction);
                 return TRUE;
@@ -1117,7 +1117,7 @@ static void PlayCollisionSoundIfNotFacingWarp(u8 a)
         {
             PlayerGetDestCoords(&x, &y);
             MoveCoords(2, &x, &y);
-            if (MetatileBehavior_IsWarpDoor(MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR)))
+            if (MetatileBehavior_IsWarpDoor(MapGridGetMetatileBehaviorAt(x, y)))
                 return;
         }
         PlaySE(SE_WALL_HIT);

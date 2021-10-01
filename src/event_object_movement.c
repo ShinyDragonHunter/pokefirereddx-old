@@ -3706,7 +3706,7 @@ bool8 CopyablePlayerMovement_GoSpeed0(struct ObjectEvent *objectEvent, struct Sp
         direction = state_to_direction(gInitialMovementTypeFacingDirections[objectEvent->movementType], objectEvent->directionSequenceIndex, direction);
     ObjectEventMoveDestCoords(objectEvent, direction, &x, &y);
     ObjectEventSetSingleMovement(objectEvent, sprite, GetWalkNormalMovementAction(direction));
-    if (GetCollisionAtCoords(objectEvent, x, y, direction) || (tileCallback != NULL && !tileCallback(MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR))))
+    if (GetCollisionAtCoords(objectEvent, x, y, direction) || (tileCallback != NULL && !tileCallback(MapGridGetMetatileBehaviorAt(x, y))))
         ObjectEventSetSingleMovement(objectEvent, sprite, GetFaceDirectionMovementAction(direction));
     objectEvent->singleMovementActive = TRUE;
     sprite->sTypeFuncId = 2;
@@ -3722,7 +3722,7 @@ bool8 CopyablePlayerMovement_GoSpeed1(struct ObjectEvent *objectEvent, struct Sp
     direction = state_to_direction(gInitialMovementTypeFacingDirections[objectEvent->movementType], objectEvent->directionSequenceIndex, direction);
     ObjectEventMoveDestCoords(objectEvent, direction, &x, &y);
     ObjectEventSetSingleMovement(objectEvent, sprite, GetWalkFastMovementAction(direction));
-    if (GetCollisionAtCoords(objectEvent, x, y, direction) || (tileCallback && !tileCallback(MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR))))
+    if (GetCollisionAtCoords(objectEvent, x, y, direction) || (tileCallback && !tileCallback(MapGridGetMetatileBehaviorAt(x, y))))
         ObjectEventSetSingleMovement(objectEvent, sprite, GetFaceDirectionMovementAction(direction));
     objectEvent->singleMovementActive = TRUE;
     sprite->sTypeFuncId = 2;
@@ -3738,7 +3738,7 @@ bool8 CopyablePlayerMovement_GoSpeed2(struct ObjectEvent *objectEvent, struct Sp
     direction = state_to_direction(gInitialMovementTypeFacingDirections[objectEvent->movementType], objectEvent->directionSequenceIndex, direction);
     ObjectEventMoveDestCoords(objectEvent, direction, &x, &y);
     ObjectEventSetSingleMovement(objectEvent, sprite, GetWalkFastestMovementAction(direction));
-    if (GetCollisionAtCoords(objectEvent, x, y, direction) || (tileCallback != NULL && !tileCallback(MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR))))
+    if (GetCollisionAtCoords(objectEvent, x, y, direction) || (tileCallback != NULL && !tileCallback(MapGridGetMetatileBehaviorAt(x, y))))
         ObjectEventSetSingleMovement(objectEvent, sprite, GetFaceDirectionMovementAction(direction));
     objectEvent->singleMovementActive = TRUE;
     sprite->sTypeFuncId = 2;
@@ -3754,7 +3754,7 @@ bool8 CopyablePlayerMovement_Slide(struct ObjectEvent *objectEvent, struct Sprit
     direction = state_to_direction(gInitialMovementTypeFacingDirections[objectEvent->movementType], objectEvent->directionSequenceIndex, direction);
     ObjectEventMoveDestCoords(objectEvent, direction, &x, &y);
     ObjectEventSetSingleMovement(objectEvent, sprite, GetSlideMovementAction(direction));
-    if (GetCollisionAtCoords(objectEvent, x, y, direction) || (tileCallback != NULL && !tileCallback(MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR))))
+    if (GetCollisionAtCoords(objectEvent, x, y, direction) || (tileCallback != NULL && !tileCallback(MapGridGetMetatileBehaviorAt(x, y))))
         ObjectEventSetSingleMovement(objectEvent, sprite, GetFaceDirectionMovementAction(direction));
     objectEvent->singleMovementActive = TRUE;
     sprite->sTypeFuncId = 2;
@@ -3782,7 +3782,7 @@ bool8 CopyablePlayerMovement_GoSpeed4(struct ObjectEvent *objectEvent, struct Sp
     direction = state_to_direction(gInitialMovementTypeFacingDirections[objectEvent->movementType], objectEvent->directionSequenceIndex, direction);
     ObjectEventMoveDestCoords(objectEvent, direction, &x, &y);
     ObjectEventSetSingleMovement(objectEvent, sprite, GetJumpMovementAction(direction));
-    if (GetCollisionAtCoords(objectEvent, x, y, direction) || (tileCallback && !tileCallback(MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR))))
+    if (GetCollisionAtCoords(objectEvent, x, y, direction) || (tileCallback && !tileCallback(MapGridGetMetatileBehaviorAt(x, y))))
         ObjectEventSetSingleMovement(objectEvent, sprite, GetFaceDirectionMovementAction(direction));
     objectEvent->singleMovementActive = TRUE;
     sprite->sTypeFuncId = 2;
@@ -3800,7 +3800,7 @@ bool8 CopyablePlayerMovement_Jump(struct ObjectEvent *objectEvent, struct Sprite
     y = objectEvent->currentCoords.y;
     MoveCoordsInDirection(direction, &x, &y, 2, 2);
     ObjectEventSetSingleMovement(objectEvent, sprite, GetJump2MovementAction(direction));
-    if (GetCollisionAtCoords(objectEvent, x, y, direction) || (tileCallback && !tileCallback(MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR))))
+    if (GetCollisionAtCoords(objectEvent, x, y, direction) || (tileCallback && !tileCallback(MapGridGetMetatileBehaviorAt(x, y))))
         ObjectEventSetSingleMovement(objectEvent, sprite, GetFaceDirectionMovementAction(direction));
     objectEvent->singleMovementActive = TRUE;
     sprite->sTypeFuncId = 2;
@@ -4152,7 +4152,7 @@ static bool8 IsCoordOutsideObjectEventMovementRange(struct ObjectEvent *objectEv
 static bool8 IsMetatileDirectionallyImpassable(struct ObjectEvent *objectEvent, s16 x, s16 y, u8 direction)
 {
     if (gOppositeDirectionBlockedMetatileFuncs[direction - 1](objectEvent->currentMetatileBehavior)
-     || gDirectionBlockedMetatileFuncs[direction - 1](MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR)))
+     || gDirectionBlockedMetatileFuncs[direction - 1](MapGridGetMetatileBehaviorAt(x, y)))
         return TRUE;
     return FALSE;
 }
@@ -6268,8 +6268,8 @@ static void GetAllGroundEffectFlags_OnFinishStep(struct ObjectEvent *objEvent, u
 
 static void ObjectEventUpdateMetatileBehaviors(struct ObjectEvent *objEvent)
 {
-    objEvent->previousMetatileBehavior = MapGridGetMetatileAttributeAt(objEvent->previousCoords.x, objEvent->previousCoords.y, METATILE_ATTRIBUTE_BEHAVIOR);
-    objEvent->currentMetatileBehavior = MapGridGetMetatileAttributeAt(objEvent->currentCoords.x, objEvent->currentCoords.y, METATILE_ATTRIBUTE_BEHAVIOR);
+    objEvent->previousMetatileBehavior = MapGridGetMetatileBehaviorAt(objEvent->previousCoords.x, objEvent->previousCoords.y);
+    objEvent->currentMetatileBehavior = MapGridGetMetatileBehaviorAt(objEvent->currentCoords.x, objEvent->currentCoords.y);
 }
 
 static void GetGroundEffectFlags_Reflection(struct ObjectEvent *objEvent, u32 *flags)
@@ -6452,7 +6452,7 @@ static void GetGroundEffectFlags_JumpLanding(struct ObjectEvent *objEvent, u32 *
 }
 
 #define RETURN_REFLECTION_TYPE_AT(x, y)              \
-    b = MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR);          \
+    b = MapGridGetMetatileBehaviorAt(x, y);          \
     result = GetReflectionTypeByMetatileBehavior(b); \
     if (result != REFL_TYPE_NONE)                    \
         return result;
@@ -6513,7 +6513,7 @@ u8 GetLedgeJumpDirection(s16 x, s16 y, u8 direction)
         index -= DIR_EAST;
 
     index--;
-    behavior = MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR);
+    behavior = MapGridGetMetatileBehaviorAt(x, y);
 
     if (ledgeBehaviorFuncs[index](behavior))
         return index + 1;

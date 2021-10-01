@@ -550,7 +550,7 @@ u8 BattleSetup_GetTerrainId(void)
     s16 x, y;
 
     PlayerGetDestCoords(&x, &y);
-    tileBehavior = MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR);
+    tileBehavior = MapGridGetMetatileBehaviorAt(x, y);
 
     if (MetatileBehavior_IsTallGrass(tileBehavior))
         return BATTLE_TERRAIN_GRASS;
@@ -600,7 +600,7 @@ static u8 GetBattleTransitionTypeByMap(void)
     s16 x, y;
 
     PlayerGetDestCoords(&x, &y);
-    tileBehavior = MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR);
+    tileBehavior = MapGridGetMetatileBehaviorAt(x, y);
     if (Overworld_GetFlashLevel())
         return B_TRANSITION_SHUFFLE;
     if (!MetatileBehavior_IsSurfableWaterOrUnderwater(tileBehavior))

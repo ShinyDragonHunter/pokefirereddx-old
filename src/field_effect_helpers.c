@@ -334,7 +334,7 @@ void UpdateTallGrassFieldEffect(struct Sprite *sprite)
     localId = sprite->sLocalId;
     mapNum = sprite->sMapNum;
     mapGroup = sprite->sMapGroup;
-    metatileBehavior = MapGridGetMetatileAttributeAt(sprite->sX, sprite->sY, METATILE_ATTRIBUTE_BEHAVIOR);
+    metatileBehavior = MapGridGetMetatileBehaviorAt(sprite->sX, sprite->sY);
 
     if (TryGetObjectEventIdByLocalIdAndMap(localId, mapNum, mapGroup, &objectEventId) 
      || !MetatileBehavior_IsTallGrass(metatileBehavior) 
@@ -445,7 +445,7 @@ void UpdateLongGrassFieldEffect(struct Sprite *sprite)
     localId = sprite->sLocalId;
     mapNum = sprite->sMapNum;
     mapGroup = sprite->sMapGroup;
-    metatileBehavior = MapGridGetMetatileAttributeAt(sprite->data[1], sprite->data[2], METATILE_ATTRIBUTE_BEHAVIOR);
+    metatileBehavior = MapGridGetMetatileBehaviorAt(sprite->data[1], sprite->data[2]);
     if (TryGetObjectEventIdByLocalIdAndMap(localId, mapNum, mapGroup, &objectEventId) 
      || !MetatileBehavior_IsLongGrass(metatileBehavior) 
      || (sprite->sObjectMoved && sprite->animEnded))

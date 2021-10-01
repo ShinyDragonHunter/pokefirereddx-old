@@ -415,26 +415,26 @@ static s8 StartDoorCloseAnimation(const struct DoorGraphics *gfx, int x, int y)
 
 void FieldSetDoorOpened(int x, int y)
 {
-    if (MetatileBehavior_IsDoor(MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR)))
+    if (MetatileBehavior_IsDoor(MapGridGetMetatileBehaviorAt(x, y)))
         DrawOpenedDoor(sDoorAnimGraphicsTable, x, y);
 }
 
 void FieldSetDoorClosed(int x, int y)
 {
-    if (MetatileBehavior_IsDoor(MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR)))
+    if (MetatileBehavior_IsDoor(MapGridGetMetatileBehaviorAt(x, y)))
         DrawClosedDoor(sDoorAnimGraphicsTable, x, y);
 }
 
 s8 FieldAnimateDoorClose(int x, int y)
 {
-    if (!MetatileBehavior_IsDoor(MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR)))
+    if (!MetatileBehavior_IsDoor(MapGridGetMetatileBehaviorAt(x, y)))
         return -1;
     return StartDoorCloseAnimation(sDoorAnimGraphicsTable, x, y);
 }
 
 s8 FieldAnimateDoorOpen(int x, int y)
 {
-    if (!MetatileBehavior_IsDoor(MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_BEHAVIOR)))
+    if (!MetatileBehavior_IsDoor(MapGridGetMetatileBehaviorAt(x, y)))
         return -1;
     return StartDoorOpenAnimation(sDoorAnimGraphicsTable, x, y);
 }
