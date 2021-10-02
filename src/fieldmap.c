@@ -27,15 +27,38 @@ struct ConnectionFlags
 
 static void InitMapLayoutData(struct MapHeader *mapHeader);
 static void InitBackupMapLayoutData(u16 *map, u16 width, u16 height);
+static void InitBackupMapLayoutConnections(struct MapHeader *mapHeader);
 static void FillSouthConnection(struct MapHeader const *mapHeader, struct MapHeader const *connectedMapHeader, s32 offset);
 static void FillNorthConnection(struct MapHeader const *mapHeader, struct MapHeader const *connectedMapHeader, s32 offset);
 static void FillWestConnection(struct MapHeader const *mapHeader, struct MapHeader const *connectedMapHeader, s32 offset);
 static void FillEastConnection(struct MapHeader const *mapHeader, struct MapHeader const *connectedMapHeader, s32 offset);
-static void InitBackupMapLayoutConnections(struct MapHeader *mapHeader);
 static void LoadSavedMapView(void);
 static struct MapConnection *GetIncomingConnection(u8 direction, int x, int y);
 static bool8 IsPosInIncomingConnectingMap(u8 direction, int x, int y, struct MapConnection *connection);
 static bool8 IsCoordInIncomingConnectingMap(int coord, int srcMax, int destMax, int offset);
+static u32 GetAttributeByMetatileId(u16 metatile, u8 attributeType);
+
+#define MapGridGetBorderTileAt(x, y) ({                                                            \
+    u16 block;                                                                                     \
+    s32 xprime;                                                                                    \
+    s32 yprime;                                                                                    \
+                                                                                                   \
+    const struct MapLayout *mapLayout = gMapHeader.mapLayout;                                      \
+                                                                                                   \
+    xprime = x - 7;                                                                                \
+    xprime += 8 * mapLayout->borderWidth;                                                          \
+    xprime %= mapLayout->borderWidth;                                                              \
+                                                                                                   \
+    yprime = y - 7;                                                                                \
+    yprime += 8 * mapLayout->borderHeight;                                                         \
+    yprime %= mapLayout->borderHeight;                                                             \
+                                                                                                   \
+    block = mapLayout->border[xprime + yprime * mapLayout->borderWidth] | METATILE_COLLISION_MASK; \
+})
+
+#define AreCoordsWithinMapGridBounds(x, y) (x >= 0 && x < gBackupMapLayout.width && y >= 0 && y < gBackupMapLayout.height)
+
+#define MapGridGetTileAt(x, y) (AreCoordsWithinMapGridBounds(x, y) ? gBackupMapLayout.map[x + gBackupMapLayout.width * y] : MapGridGetBorderTileAt(x, y))
 
 struct BackupMapLayout gBackupMapLayout;
 EWRAM_DATA static u16 gBackupMapData[MAX_MAP_DATA_SIZE] = {0};
@@ -103,11 +126,11 @@ void InitTrainerHillMap(void)
 
 static void InitMapLayoutData(struct MapHeader *mapHeader)
 {
-    const struct MapLayout * mapLayout = mapHeader->mapLayout;
+    struct MapLayout const *mapLayout = mapHeader->mapLayout;
     int width = mapLayout->width + 15;
     int height = mapLayout->height + 14;
 
-    CpuFastFill(0x03FF03FF, gBackupMapData, sizeof(gBackupMapData));
+    CpuFastFill(METATILE_ID_UNDEFINED << 16 | METATILE_ID_UNDEFINED, gBackupMapData, sizeof(gBackupMapData));
     gBackupMapLayout.map = gBackupMapData;
     gBackupMapLayout.width = width;
     gBackupMapLayout.height = height;
@@ -126,7 +149,7 @@ static void InitBackupMapLayoutData(u16 *map, u16 width, u16 height)
 
     for (y = 0; y < height; y++)
     {
-        CpuCopy16(map, dest, width * 2);
+        CpuCopy16(map, dest, width * sizeof(u16));
         dest += width + 15;
         map += width;
     }
@@ -334,44 +357,23 @@ static void FillEastConnection(struct MapHeader const *mapHeader, struct MapHead
     }
 }
 
-#define MapGridGetBorderTileAt(x, y) ({                                                            \
-    u16 block;                                                                                     \
-    s32 xprime;                                                                                    \
-    s32 yprime;                                                                                    \
-                                                                                                   \
-    const struct MapLayout *mapLayout = gMapHeader.mapLayout;                                      \
-                                                                                                   \
-    xprime = x - 7;                                                                                \
-    xprime += 8 * mapLayout->borderWidth;                                                          \
-    xprime %= mapLayout->borderWidth;                                                              \
-                                                                                                   \
-    yprime = y - 7;                                                                                \
-    yprime += 8 * mapLayout->borderHeight;                                                         \
-    yprime %= mapLayout->borderHeight;                                                             \
-                                                                                                   \
-    block = mapLayout->border[xprime + yprime * mapLayout->borderWidth] | METATILE_COLLISION_MASK; \
-})
-
-#define AreCoordsWithinMapGridBounds(x, y) (x >= 0 && x < gBackupMapLayout.width && y >= 0 && y < gBackupMapLayout.height)
-
-#define MapGridGetTileAt(x, y) (AreCoordsWithinMapGridBounds(x, y) ? gBackupMapLayout.map[x + gBackupMapLayout.width * y] : MapGridGetBorderTileAt(x, y))
-
 u8 MapGridGetZCoordAt(int x, int y)
 {
     u16 block = MapGridGetTileAt(x, y);
 
     if (block == METATILE_ID_UNDEFINED)
-        return 0;
+        return FALSE;
 
     return block >> METATILE_ELEVATION_SHIFT;
 }
 
-bool8 MapGridIsImpassableAt(int x, int y)
+u8 MapGridIsImpassableAt(int x, int y)
 {
     u16 block = MapGridGetTileAt(x, y);
 
     if (block == METATILE_ID_UNDEFINED)
         return TRUE;
+
     return (block & METATILE_COLLISION_MASK) >> METATILE_COLLISION_SHIFT;
 }
 
@@ -381,20 +383,23 @@ u32 MapGridGetMetatileIdAt(int x, int y)
 
     if (block == METATILE_ID_UNDEFINED)
         return MapGridGetBorderTileAt(x, y) & METATILE_ID_MASK;
+
     return block & METATILE_ID_MASK;
 }
 
-u32 GetMetatileAttributeFromRawMetatileBehavior(u32 original, u8 bit)
+u32 ExtractMetatileAttribute(u32 attributes, u8 attributeType)
 {
-    if (bit >= METATILE_ATTRIBUTE_COUNT)
-        return original;
-    return (original & sMetatileAttrMasks[bit]) >> sMetatileAttrShifts[bit];
+    if (attributeType >= METATILE_ATTRIBUTE_COUNT)
+        return attributes;
+
+    return (attributes & sMetatileAttrMasks[attributeType]) >> sMetatileAttrShifts[attributeType];
 }
 
-u32 MapGridGetMetatileAttributeAt(int x, int y, u8 attr)
+u32 MapGridGetMetatileAttributeAt(int x, int y, u8 attributeType)
 {
-    u16 metatile = MapGridGetMetatileIdAt(x, y);
-    return GetBehaviorByMetatileId(metatile, attr);
+    u16 metatileId = MapGridGetMetatileIdAt(x, y);
+
+    return GetAttributeByMetatileId(metatileId, attributeType);
 }
 
 u32 MapGridGetMetatileBehaviorAt(int x, int y)
@@ -440,19 +445,19 @@ void MapGridSetMetatileImpassabilityAt(int x, int y, bool32 impassable)
     }
 }
 
-u32 GetBehaviorByMetatileId(u16 metatile, u8 attr)
+static u32 GetAttributeByMetatileId(u16 metatile, u8 attributeType)
 {
     int *attributes;
 
     if (metatile < NUM_METATILES_IN_PRIMARY)
     {
         attributes = gMapHeader.mapLayout->primaryTileset->metatileAttributes;
-        return GetMetatileAttributeFromRawMetatileBehavior(attributes[metatile], attr);
+        return ExtractMetatileAttribute(attributes[metatile], attributeType);
     }
     else if (metatile < NUM_METATILES_TOTAL)
     {
         attributes = gMapHeader.mapLayout->secondaryTileset->metatileAttributes;
-        return GetMetatileAttributeFromRawMetatileBehavior(attributes[metatile - NUM_METATILES_IN_PRIMARY], attr);
+        return ExtractMetatileAttribute(attributes[metatile - NUM_METATILES_IN_PRIMARY], attributeType);
     }
     return MB_INVALID;
 }
@@ -590,30 +595,32 @@ int GetMapBorderIdAt(int x, int y)
     {
         if (!gMapConnectionFlags.east)
             return CONNECTION_INVALID;
+
         return CONNECTION_EAST;
     }
     else if (x < 7)
     {
         if (!gMapConnectionFlags.west)
             return CONNECTION_INVALID;
+
         return CONNECTION_WEST;
     }
     else if (y >= (gBackupMapLayout.height - 7))
     {
         if (!gMapConnectionFlags.south)
             return CONNECTION_INVALID;
+
         return CONNECTION_SOUTH;
     }
     else if (y < 7)
     {
         if (!gMapConnectionFlags.north)
             return CONNECTION_INVALID;
+
         return CONNECTION_NORTH;
     }
-    else
-    {
-        return CONNECTION_NONE;
-    }
+
+    return CONNECTION_NONE;
 }
 
 int GetPostCameraMoveMapBorderId(int x, int y)
@@ -703,7 +710,7 @@ static struct MapConnection *GetIncomingConnection(u8 direction, int x, int y)
     connection = connections->connections;
     for (i = 0; i < count; i++, connection++)
     {
-        if (connection->direction == direction && IsPosInIncomingConnectingMap(direction, x, y, connection) == TRUE)
+        if (connection->direction == direction && IsPosInIncomingConnectingMap(direction, x, y, connection))
             return connection;
     }
     return NULL;
@@ -727,11 +734,7 @@ static bool8 IsPosInIncomingConnectingMap(u8 direction, int x, int y, struct Map
 
 static bool8 IsCoordInIncomingConnectingMap(int coord, int srcMax, int destMax, int offset)
 {
-    int offset2;
-    offset2 = offset;
-
-    if (offset2 < 0)
-        offset2 = 0;
+    int offset2 = max(offset, 0);
 
     if (destMax + offset < srcMax)
         srcMax = destMax + offset;
@@ -786,6 +789,7 @@ struct MapConnection *GetConnectionAtCoords(int x, int y)
              || (direction == CONNECTION_WEST && x > 6)
              || (direction == CONNECTION_EAST && x < gMapHeader.mapLayout->width + 7))
                 continue;
+
             if (IsPosInConnectingMap(connection, x - 7, y - 7))
                 return connection;
         }

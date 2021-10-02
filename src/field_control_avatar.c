@@ -51,7 +51,7 @@ static const u8 *GetInteractedWaterScript(struct MapPosition *, u8, u8);
 static bool32 TrySetupDiveDownScript(void);
 static bool32 TrySetupDiveEmergeScript(void);
 static bool8 TryStartStepBasedScript(struct MapPosition *, u16, u16);
-static bool8 CheckStandardWildEncounter(u32 metatileAttributes);
+static bool8 CheckStandardWildEncounter(u32 currMetatileAttrs);
 static bool8 TryArrowWarp(struct MapPosition *, u16, u8);
 static bool8 IsWarpMetatileBehavior(u16);
 static bool8 IsArrowWarpMetatileBehavior(u16, u8);
@@ -87,8 +87,8 @@ void FieldClearPlayerInput(struct FieldInput *input)
 
 void FieldGetPlayerInput(struct FieldInput *input, u16 newKeys, u16 heldKeys)
 {
-    u8 runningState = gPlayerAvatar.runningState;
     u8 tileTransitionState = gPlayerAvatar.tileTransitionState;
+    u8 runningState = gPlayerAvatar.runningState;
     bool8 forcedMove = MetatileBehavior_IsForcedMovementTile(GetPlayerCurMetatileBehavior());
 
     if ((tileTransitionState == T_TILE_CENTER && forcedMove == FALSE) || tileTransitionState == T_NOT_MOVING)
@@ -143,8 +143,8 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
 
     playerDirection = GetPlayerFacingDirection();
     GetPlayerPosition(&position);
-    metatileAttributes = MapGridGetMetatileAttributeAt(position.x, position.y, 0xFF);
     metatileBehavior = MapGridGetMetatileBehaviorAt(position.x, position.y);
+    metatileAttributes = MapGridGetMetatileAttributeAt(position.x, position.y, 0xFF);
 
     if (CheckForTrainersWantingBattle()
      || TryRunOnFrameMapScript()
@@ -319,6 +319,7 @@ static const u8 *GetInteractedBackgroundEventScript(struct MapPosition *position
 
     switch (bgEvent->kind)
     {
+    case BG_EVENT_PLAYER_FACING_ANY:
     default:
         return bgEvent->bgUnion.script;
     case BG_EVENT_PLAYER_FACING_NORTH:
@@ -548,23 +549,23 @@ void RestartWildEncounterImmunitySteps(void)
     sWildEncounterImmunitySteps = 0;
 }
 
-static bool8 CheckStandardWildEncounter(u32 metatileAttributes)
+static bool8 CheckStandardWildEncounter(u32 currMetatileAttrs)
 {
     if (sWildEncounterImmunitySteps < 4)
     {
         sWildEncounterImmunitySteps++;
-        sPreviousPlayerMetatileBehavior = GetMetatileAttributeFromRawMetatileBehavior(metatileAttributes, METATILE_ATTRIBUTE_BEHAVIOR);
+        sPreviousPlayerMetatileBehavior = ExtractMetatileAttribute(currMetatileAttrs, METATILE_ATTRIBUTE_BEHAVIOR);
         return FALSE;
     }
 
-    if (StandardWildEncounter(metatileAttributes, sPreviousPlayerMetatileBehavior))
+    if (StandardWildEncounter(currMetatileAttrs, sPreviousPlayerMetatileBehavior))
     {
         sWildEncounterImmunitySteps = 0;
-        sPreviousPlayerMetatileBehavior = GetMetatileAttributeFromRawMetatileBehavior(metatileAttributes, METATILE_ATTRIBUTE_BEHAVIOR);
+        sPreviousPlayerMetatileBehavior = ExtractMetatileAttribute(currMetatileAttrs, METATILE_ATTRIBUTE_BEHAVIOR);
         return TRUE;
     }
 
-    sPreviousPlayerMetatileBehavior = GetMetatileAttributeFromRawMetatileBehavior(metatileAttributes, METATILE_ATTRIBUTE_BEHAVIOR);
+    sPreviousPlayerMetatileBehavior = ExtractMetatileAttribute(currMetatileAttrs, METATILE_ATTRIBUTE_BEHAVIOR);
     return FALSE;
 }
 
@@ -651,18 +652,16 @@ static bool8 TryStartWarpEventScript(struct MapPosition *position, u16 metatileB
 
 static bool8 IsWarpMetatileBehavior(u16 metatileBehavior)
 {
-    if (MetatileBehavior_IsWarpDoor(metatileBehavior)
-     || MetatileBehavior_IsLadder(metatileBehavior)
-     || MetatileBehavior_IsEscalator(metatileBehavior)
-     || MetatileBehavior_IsNonAnimDoor(metatileBehavior)
-     || MetatileBehavior_IsLavaridgeB1FWarp(metatileBehavior)
-     || MetatileBehavior_IsLavaridge1FWarp(metatileBehavior)
-     || MetatileBehavior_IsAquaHideoutWarp(metatileBehavior)
-     || MetatileBehavior_IsMtPyreHole(metatileBehavior)
-     || MetatileBehavior_IsMossdeepGymWarp(metatileBehavior)
-     || MetatileBehavior_IsWarpOrBridge(metatileBehavior))
-        return TRUE;
-    return FALSE;
+    return MetatileBehavior_IsWarpDoor(metatileBehavior)
+        || MetatileBehavior_IsLadder(metatileBehavior)
+        || MetatileBehavior_IsEscalator(metatileBehavior)
+        || MetatileBehavior_IsNonAnimDoor(metatileBehavior)
+        || MetatileBehavior_IsLavaridgeB1FWarp(metatileBehavior)
+        || MetatileBehavior_IsLavaridge1FWarp(metatileBehavior)
+        || MetatileBehavior_IsAquaHideoutWarp(metatileBehavior)
+        || MetatileBehavior_IsMtPyreHole(metatileBehavior)
+        || MetatileBehavior_IsMossdeepGymWarp(metatileBehavior)
+        || MetatileBehavior_IsWarpOrBridge(metatileBehavior);
 }
 
 bool8 IsDirectionalStairWarpMetatileBehavior(u16 metatileBehavior, u8 playerDirection)
@@ -670,14 +669,12 @@ bool8 IsDirectionalStairWarpMetatileBehavior(u16 metatileBehavior, u8 playerDire
     switch (playerDirection)
     {
     case DIR_WEST:
-        if (MetatileBehavior_IsDirectionalUpLeftStairWarp(metatileBehavior)
-         || MetatileBehavior_IsDirectionalDownLeftStairWarp(metatileBehavior))
-            return TRUE;
+            return MetatileBehavior_IsDirectionalUpLeftStairWarp(metatileBehavior)
+                || MetatileBehavior_IsDirectionalDownLeftStairWarp(metatileBehavior);
         break;
     case DIR_EAST:
-        if (MetatileBehavior_IsDirectionalUpRightStairWarp(metatileBehavior)
-         || MetatileBehavior_IsDirectionalDownRightStairWarp(metatileBehavior))
-            return TRUE;
+            return MetatileBehavior_IsDirectionalUpRightStairWarp(metatileBehavior)
+                || MetatileBehavior_IsDirectionalDownRightStairWarp(metatileBehavior);
         break;
     }
     return FALSE;
