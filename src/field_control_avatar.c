@@ -357,7 +357,7 @@ static const u8 *GetInteractedMetatileScript(struct MapPosition *position, u8 me
 
     if (MetatileBehavior_IsPlayerFacingTVScreen(metatileBehavior, direction))
         return EventScript_TV;
-    if (MetatileBehavior_IsPC(metatileBehavior))
+    if (MetatileBehavior_IsPC(metatileBehavior, direction))
         return EventScript_PC;
     if (MetatileBehavior_IsClosedSootopolisDoor(metatileBehavior))
         return EventScript_ClosedSootopolisDoor;
@@ -367,7 +367,7 @@ static const u8 *GetInteractedMetatileScript(struct MapPosition *position, u8 me
         return EventScript_CableBoxResults;
     if (MetatileBehavior_IsTrickHousePuzzleDoor(metatileBehavior))
         return Route110_TrickHousePuzzle_EventScript_Door;
-    if (MetatileBehavior_IsRegionMap(metatileBehavior))
+    if (MetatileBehavior_IsRegionMap(metatileBehavior, direction))
         return EventScript_RegionMap;
     if (MetatileBehavior_IsRunningShoesManual(metatileBehavior))
         return EventScript_RunningShoesManual;
@@ -669,12 +669,12 @@ bool8 IsDirectionalStairWarpMetatileBehavior(u16 metatileBehavior, u8 playerDire
     switch (playerDirection)
     {
     case DIR_WEST:
-            return MetatileBehavior_IsDirectionalUpLeftStairWarp(metatileBehavior)
-                || MetatileBehavior_IsDirectionalDownLeftStairWarp(metatileBehavior);
+        return MetatileBehavior_IsDirectionalUpLeftStairWarp(metatileBehavior)
+            || MetatileBehavior_IsDirectionalDownLeftStairWarp(metatileBehavior);
         break;
     case DIR_EAST:
-            return MetatileBehavior_IsDirectionalUpRightStairWarp(metatileBehavior)
-                || MetatileBehavior_IsDirectionalDownRightStairWarp(metatileBehavior);
+        return MetatileBehavior_IsDirectionalUpRightStairWarp(metatileBehavior)
+            || MetatileBehavior_IsDirectionalDownRightStairWarp(metatileBehavior);
         break;
     }
     return FALSE;

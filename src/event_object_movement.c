@@ -1646,6 +1646,7 @@ static u8 LoadSpritePaletteIfTagExists(const struct SpritePalette *spritePalette
 {
     if (IndexOfSpritePaletteTag(spritePalette->tag) != 0xFF)
         return 0xFF;
+
     return LoadSpritePaletteDayNight(spritePalette);
 }
 

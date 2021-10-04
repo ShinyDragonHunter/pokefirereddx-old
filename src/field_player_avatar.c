@@ -129,7 +129,7 @@ static u8 TrySpinPlayerForWarp(struct ObjectEvent *object, s16 *a1);
 static bool8 (*const sForcedMovementTestFuncs[])(u8) =
 {
     MetatileBehavior_IsTrickHouseSlipperyFloor,
-    MetatileBehavior_IsIce_2,
+    MetatileBehavior_IsIce,
     MetatileBehavior_IsWalkSouth,
     MetatileBehavior_IsWalkNorth,
     MetatileBehavior_IsWalkWest,

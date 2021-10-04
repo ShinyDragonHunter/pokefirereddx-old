@@ -373,7 +373,7 @@ const struct WindowTemplate gStandardBattleWindowTemplates[] =
     DUMMY_WIN_TEMPLATE
 };
 
-static const struct BattleBackground gBattleTerrainTable[] =
+static const struct BattleBackground sBattleTerrainTable[] =
 {
     [BATTLE_TERRAIN_GRASS] =
     {
@@ -399,7 +399,7 @@ static const struct BattleBackground gBattleTerrainTable[] =
         .tilemap = gBattleTerrainTilemap_Sand,
         .entryTileset = gBattleTerrainAnimTiles_Sand,
         .entryTilemap = gBattleTerrainAnimTilemap_Sand,
-        .palette = {gBattleTerrainPalette_Sand, gBattleTerrainPalette_Sand,gBattleTerrainPalette_Sand},
+        .palette = {gBattleTerrainPalette_SandMorning, gBattleTerrainPalette_SandDay, gBattleTerrainPalette_SandNight},
     },
 
     [BATTLE_TERRAIN_UNDERWATER] =
@@ -417,7 +417,7 @@ static const struct BattleBackground gBattleTerrainTable[] =
         .tilemap = gBattleTerrainTilemap_Water,
         .entryTileset = gBattleTerrainAnimTiles_Water,
         .entryTilemap = gBattleTerrainAnimTilemap_Water,
-        .palette = {gBattleTerrainPalette_Water, gBattleTerrainPalette_Water, gBattleTerrainPalette_Water},
+        .palette = {gBattleTerrainPalette_WaterMorning, gBattleTerrainPalette_WaterDay, gBattleTerrainPalette_WaterNight},
     },
 
     [BATTLE_TERRAIN_POND] =
@@ -426,7 +426,7 @@ static const struct BattleBackground gBattleTerrainTable[] =
         .tilemap = gBattleTerrainTilemap_Pond,
         .entryTileset = gBattleTerrainAnimTiles_Pond,
         .entryTilemap = gBattleTerrainAnimTilemap_Pond,
-        .palette = {gBattleTerrainPalette_Pond, gBattleTerrainPalette_Pond, gBattleTerrainPalette_Pond},
+        .palette = {gBattleTerrainPalette_PondMorning, gBattleTerrainPalette_PondDay, gBattleTerrainPalette_PondNight},
     },
 
     [BATTLE_TERRAIN_MOUNTAIN] =
@@ -547,16 +547,16 @@ void LoadBattleTerrainGfx(u16 terrain)
      || gMapHeader.mapLayoutId == LAYOUT_FARAWAY_ISLAND_INTERIOR)
         timeOfDay = TIME_NIGHT;
     // Copy to bg3
-    LZDecompressVram(gBattleTerrainTable[terrain].tileset, (void *)BG_CHAR_ADDR(2));
-    LZDecompressVram(gBattleTerrainTable[terrain].tilemap, (void *)BG_SCREEN_ADDR(26));
-    LoadCompressedPalette(gBattleTerrainTable[terrain].palette[timeOfDay], 0x20, 0x60);
+    LZDecompressVram(sBattleTerrainTable[terrain].tileset, (void *)BG_CHAR_ADDR(2));
+    LZDecompressVram(sBattleTerrainTable[terrain].tilemap, (void *)BG_SCREEN_ADDR(26));
+    LoadCompressedPalette(sBattleTerrainTable[terrain].palette[timeOfDay], 0x20, 0x60);
 }
 
 static void LoadBattleTerrainEntryGfx(u16 terrain)
 {
     // Copy to bg1
-    LZDecompressVram(gBattleTerrainTable[terrain].entryTileset, (void *)BG_CHAR_ADDR(1));
-    LZDecompressVram(gBattleTerrainTable[terrain].entryTilemap, (void *)BG_SCREEN_ADDR(28));
+    LZDecompressVram(sBattleTerrainTable[terrain].entryTileset, (void *)BG_CHAR_ADDR(1));
+    LZDecompressVram(sBattleTerrainTable[terrain].entryTilemap, (void *)BG_SCREEN_ADDR(28));
 }
 
 void BattleInitBgsAndWindows(void)
@@ -618,7 +618,7 @@ static void DrawLinkBattleParticipantPokeballs(u8 taskId, u8 multiplayerId, u8 b
 
     if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
     {
-        if (gTasks[taskId].data[5])
+        if (gTasks[taskId].data[5] != 0)
         {
             switch (multiplayerId)
             {
@@ -719,7 +719,7 @@ static void DrawLinkBattleVsScreenOutcomeText(void)
     }
     else if (gBattleOutcome == B_OUTCOME_WON)
     {
-        if (gLinkPlayers[gBattleScripting.multiplayerId].id)
+        if (gLinkPlayers[gBattleScripting.multiplayerId].id != 0)
         {
             BattlePutTextOnWindow(gText_Win, 0x17);
             BattlePutTextOnWindow(gText_Loss, 0x16);
@@ -732,7 +732,7 @@ static void DrawLinkBattleVsScreenOutcomeText(void)
     }
     else
     {
-        if (gLinkPlayers[gBattleScripting.multiplayerId].id)
+        if (gLinkPlayers[gBattleScripting.multiplayerId].id != 0)
         {
             BattlePutTextOnWindow(gText_Win, 0x16);
             BattlePutTextOnWindow(gText_Loss, 0x17);
@@ -788,7 +788,7 @@ void InitLinkBattleVsScreen(u8 taskId)
             u8 opponentId = playerId ^ BIT_SIDE;
             u8 opponentId_copy = opponentId;
 
-            if (gLinkPlayers[playerId].id)
+            if (gLinkPlayers[playerId].id != 0)
                 opponentId = playerId, playerId = opponentId_copy;
 
             name = gLinkPlayers[playerId].name;
@@ -812,7 +812,7 @@ void InitLinkBattleVsScreen(u8 taskId)
         gTasks[taskId].data[0]++;
         break;
     case 2:
-        if (gTasks[taskId].data[5])
+        if (gTasks[taskId].data[5] != 0)
         {
             gBattle_BG1_X = -(20) - (Sin2(gTasks[taskId].data[1]) / 32);
             gBattle_BG2_X = -(140) - (Sin2(gTasks[taskId].data[2]) / 32);
@@ -827,14 +827,14 @@ void InitLinkBattleVsScreen(u8 taskId)
             gBattle_BG2_Y = (Cos2(gTasks[taskId].data[2]) / 32) - 164;
         }
 
-        if (gTasks[taskId].data[2])
+        if (gTasks[taskId].data[2] != 0)
         {
             gTasks[taskId].data[2] -= 2;
             gTasks[taskId].data[1] += 2;
         }
         else
         {
-            if (gTasks[taskId].data[5])
+            if (gTasks[taskId].data[5] != 0)
                 DrawLinkBattleVsScreenOutcomeText();
 
             PlaySE(SE_M_HARDEN);
@@ -927,16 +927,16 @@ bool8 LoadChosenBattleElement(u8 caseId)
         LoadCompressedPalette(gBattleTextboxPalette, 0, 0x40);
         break;
     case 3:
-        LZDecompressVram(gBattleTerrainTable[GetBattleTerrainOverride()].tileset, (void *)BG_CHAR_ADDR(2));
+        LZDecompressVram(sBattleTerrainTable[GetBattleTerrainOverride()].tileset, (void *)BG_CHAR_ADDR(2));
         // fallthrough
     case 4:
-        LZDecompressVram(gBattleTerrainTable[GetBattleTerrainOverride()].tilemap, (void *)BG_SCREEN_ADDR(26));
+        LZDecompressVram(sBattleTerrainTable[GetBattleTerrainOverride()].tilemap, (void *)BG_SCREEN_ADDR(26));
         break;
     case 5:
         if (gMapHeader.mapLayoutId == LAYOUT_PETALBURG_WOODS
          || gMapHeader.mapLayoutId == LAYOUT_FARAWAY_ISLAND_INTERIOR)
             timeOfDay = TIME_NIGHT;
-        LoadCompressedPalette(gBattleTerrainTable[GetBattleTerrainOverride()].palette[timeOfDay], 0x20, 0x60);
+        LoadCompressedPalette(sBattleTerrainTable[GetBattleTerrainOverride()].palette[timeOfDay], 0x20, 0x60);
         break;
     case 6:
         LoadBattleMenuWindowGfx();

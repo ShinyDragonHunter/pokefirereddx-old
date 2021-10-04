@@ -23,16 +23,6 @@
 #include "constants/maps.h"
 #include "constants/weather.h"
 
-struct WildEncounterData
-{
-    u32 rngState;
-    u16 prevMetatileBehavior;
-    u16 encounterRateBuff;
-    u8 stepsSinceLastEncounter;
-    u8 abilityEffect;
-    u16 leadMonHeldItem;
-};
-
 extern const u8 EventScript_RepelWoreOff[];
 
 // this file's functions
@@ -43,7 +33,6 @@ static bool8 TryGetAbilityInfluencedWildMonIndex(const struct WildPokemon *wildM
 static bool8 IsAbilityAllowingEncounter(u8 level);
 
 // EWRAM vars
-EWRAM_DATA static struct WildEncounterData sWildEncounterData = {0};
 EWRAM_DATA static bool8 sWildEncountersDisabled = FALSE;
 EWRAM_DATA u8 gChainFishingStreak = 0;
 EWRAM_DATA static u16 sLastFishingSpecies = 0;

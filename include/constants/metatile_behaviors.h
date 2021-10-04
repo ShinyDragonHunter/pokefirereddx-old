@@ -199,7 +199,7 @@
 #define MB_UNUSED_C3 0xC3
 #define MB_UNUSED_C4 0xC4
 #define MB_PLAYER_ROOM_PC_ON 0xC5
-#define MB_C6 0xC6
+#define MB_UNUSED_C6 0xC6
 #define MB_UNUSED_C7 0xC7
 #define MB_UNUSED_C8 0xC8
 #define MB_UNUSED_C9 0xC9

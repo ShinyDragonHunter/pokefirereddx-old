@@ -3006,7 +3006,9 @@ extern const u32 gBattleTerrainTiles_Sand[];
 extern const u32 gBattleTerrainTilemap_Sand[];
 extern const u32 gBattleTerrainAnimTiles_Sand[];
 extern const u32 gBattleTerrainAnimTilemap_Sand[];
-extern const u32 gBattleTerrainPalette_Sand[];
+extern const u32 gBattleTerrainPalette_SandMorning[];
+extern const u32 gBattleTerrainPalette_SandDay[];
+extern const u32 gBattleTerrainPalette_SandNight[];
 
 extern const u32 gBattleTerrainTiles_Underwater[];
 extern const u32 gBattleTerrainTilemap_Underwater[];
@@ -3018,13 +3020,17 @@ extern const u32 gBattleTerrainTiles_Water[];
 extern const u32 gBattleTerrainTilemap_Water[];
 extern const u32 gBattleTerrainAnimTiles_Water[];
 extern const u32 gBattleTerrainAnimTilemap_Water[];
-extern const u32 gBattleTerrainPalette_Water[];
+extern const u32 gBattleTerrainPalette_WaterMorning[];
+extern const u32 gBattleTerrainPalette_WaterDay[];
+extern const u32 gBattleTerrainPalette_WaterNight[];
 
 extern const u32 gBattleTerrainTiles_Pond[];
 extern const u32 gBattleTerrainTilemap_Pond[];
 extern const u32 gBattleTerrainAnimTiles_Pond[];
 extern const u32 gBattleTerrainAnimTilemap_Pond[];
-extern const u32 gBattleTerrainPalette_Pond[];
+extern const u32 gBattleTerrainPalette_PondMorning[];
+extern const u32 gBattleTerrainPalette_PondDay[];
+extern const u32 gBattleTerrainPalette_PondNight[];
 
 extern const u32 gBattleTerrainTiles_Mountain[];
 extern const u32 gBattleTerrainTilemap_Mountain[];
