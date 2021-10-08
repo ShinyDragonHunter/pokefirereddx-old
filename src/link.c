@@ -37,12 +37,23 @@ struct BlockTransfer
     u8 multiplayerId;
 };
 
+struct LinkTestBGInfo // Unused
+{
+    u32 screenBaseBlock;
+    u32 paletteNum;
+    u32 baseChar;
+    u32 unused;
+};
+
 static struct BlockTransfer sBlockSend;
 static struct BlockTransfer sBlockRecv[MAX_LINK_PLAYERS];
 static u32 sBlockSendDelayCounter;
 static bool32 sDummy1; // Never read
+static bool8 sDummy2; // Unused
 static u32 sPlayerDataExchangeStatus;
 static bool32 sDummy3; // Never read
+static u8 sLinkTestLastBlockSendPos; // Unused
+static u8 sLinkTestLastBlockRecvPos[MAX_LINK_PLAYERS]; // Unused
 static u8 sNumVBlanksWithoutSerialIntr;
 static bool8 sSendBufferEmpty;
 static u16 sSendNonzeroCheck;
@@ -73,8 +84,10 @@ bool8 gSavedLinkPlayerCount;
 u16 gSendCmd[CMD_LENGTH];
 u8 gSavedMultiplayerId;
 bool8 gReceivedRemoteLinkPlayers;
+struct LinkTestBGInfo gLinkTestBGInfo; // Unused
 void (*gLinkCallback)(void);
 u8 gShouldAdvanceLinkState;
+u16 gLinkTestBlockChecksums[MAX_LINK_PLAYERS];
 u8 gBlockRequestType;
 u32 gLinkFiller3;
 u32 gLinkFiller4;
@@ -84,7 +97,9 @@ struct Link gLink;
 u8 gLastRecvQueueCount;
 u16 gLinkSavedIme;
 
+static EWRAM_DATA u8 sLinkTestDebugValuesEnabled = 0; // Unused
 static EWRAM_DATA u8 sDummyFlag = FALSE;
+static EWRAM_DATA u32 gBerryBlenderKeySendAttempts = 0; // Unused
 EWRAM_DATA u16 gBlockRecvBuffer[MAX_RFU_PLAYERS][BLOCK_BUFFER_SIZE / 2] = {};
 EWRAM_DATA u8 gBlockSendBuffer[BLOCK_BUFFER_SIZE] = {};
 static EWRAM_DATA bool8 sLinkOpen = FALSE;
@@ -275,11 +290,7 @@ void OpenLink(void)
 {
     int i;
 
-    if (gWirelessCommType)
-    {
-        InitRFUAPI();
-    }
-    else
+    if (!gWirelessCommType)
     {
         ResetSerial();
         InitLink();
@@ -294,6 +305,10 @@ void OpenLink(void)
         gLinkDummy1 = FALSE;
         gReadyCloseLinkType = 0;
         CreateTask(Task_TriggerHandshake, 2);
+    }
+    else
+    {
+        InitRFUAPI();
     }
     gReceivedRemoteLinkPlayers = 0;
     for (i = 0; i < MAX_LINK_PLAYERS; i++)

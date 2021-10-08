@@ -18,13 +18,12 @@ EWRAM_DATA struct PaletteOverride *gPaletteOverrides[4] = {NULL};
 
 static EWRAM_DATA struct
 {
-    /*0x0*/ bool8 initialized;
-    /*0x1*/ bool8 retintPhase;
-    /*0x2*/ u8 timeOfDay;
-    /*0x3*/ u16 prevTintPeriod; // tint period associated with currently drawn palettes
-    /*0x5*/ u16 currTintPeriod; // tint period associated with currRGBTint
-    /*0x7*/ u16 currRGBTint[3];
-   // sizeof=0xD
+    bool8 initialized:1;
+    bool8 retintPhase:1;
+    u8 timeOfDay;
+    u16 prevTintPeriod; // tint period associated with currently drawn palettes
+    u16 currTintPeriod; // tint period associated with currRGBTint
+    u16 currRGBTint[3];
 } sDNSystemControl = {0};
 
 static const u16 sTimeOfDayTints[][3] =
@@ -106,8 +105,7 @@ static void LoadPaletteOverrides(void)
     u16* dest;
     s8 hour;
 
-    hour = (gMapHeader.mapLayoutId == LAYOUT_PETALBURG_WOODS
-         || gMapHeader.mapLayoutId == LAYOUT_FARAWAY_ISLAND_INTERIOR) ? 0 : gLocalTime.hours;
+    hour = (gMapHeader.useNightTint) ? 0 : gLocalTime.hours;
 
     for (i = 0; i < ARRAY_COUNT(gPaletteOverrides); i++)
     {
@@ -151,8 +149,7 @@ void TintPaletteForDayNight(u16 offset, u16 size)
     if (ShouldTintOverworld())
     {
         RtcCalcLocalTimeFast();
-        if (gMapHeader.mapLayoutId == LAYOUT_PETALBURG_WOODS
-         || gMapHeader.mapLayoutId == LAYOUT_FARAWAY_ISLAND_INTERIOR)
+        if (gMapHeader.useNightTint)
         {
             hour = 0;
             hourPhase = 0;
@@ -205,8 +202,7 @@ void ProcessImmediateTimeEvents(void)
         }
         else
         {
-            if (gMapHeader.mapLayoutId == LAYOUT_PETALBURG_WOODS
-             || gMapHeader.mapLayoutId == LAYOUT_FARAWAY_ISLAND_INTERIOR)
+            if (gMapHeader.useNightTint)
             {
                 hour = 0;
                 hourPhase = 0;

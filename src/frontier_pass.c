@@ -763,7 +763,7 @@ static bool32 InitFrontierPass(void)
         CopyBgTilemapBufferToVram(2);
         break;
     case 8:
-        LoadPalette(gFrontierPassBg_Pal[0], 0, 0x1A0);
+        LoadPalette(gFrontierPassBg_Pal[0], 0, 0x100);
         LoadPalette(gFrontierPassBg_Pal[1 + sPassData->trainerStars], 0x10, 0x20);
         LoadPalette(GetTextWindowPalette(0), 0xF0, 0x20);
         DrawFrontierPassBg();

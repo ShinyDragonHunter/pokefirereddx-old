@@ -293,16 +293,20 @@ const u16 gMonShinyPalette_Wigglytuff[] = INCBIN_U16("graphics/pokemon/wigglytuf
 const u8 gMonIcon_Wigglytuff[] = INCBIN_U8("graphics/pokemon/wigglytuff/icon.4bpp");
 const u8 gMonFootprint_Wigglytuff[] = INCBIN_U8("graphics/pokemon/wigglytuff/footprint.1bpp");
 
-const u32 gMonFrontPic_Zubat[] = INCBIN_U32("graphics/pokemon/zubat/front.4bpp.lz");
+const u32 gMonFrontPic_Zubat[] = INCBIN_U32("graphics/pokemon/zubat/male/front.4bpp.lz");
+const u32 gFemaleMonFrontPic_Zubat[] = INCBIN_U32("graphics/pokemon/zubat/female/front.4bpp.lz");
 const u16 gMonPalette_Zubat[] = INCBIN_U16("graphics/pokemon/zubat/normal.gbapal");
-const u32 gMonBackPic_Zubat[] = INCBIN_U32("graphics/pokemon/zubat/back.4bpp.lz");
+const u32 gMonBackPic_Zubat[] = INCBIN_U32("graphics/pokemon/zubat/male/back.4bpp.lz");
+const u32 gFemaleMonBackPic_Zubat[] = INCBIN_U32("graphics/pokemon/zubat/female/back.4bpp.lz");
 const u16 gMonShinyPalette_Zubat[] = INCBIN_U16("graphics/pokemon/zubat/shiny.gbapal");
 const u8 gMonIcon_Zubat[] = INCBIN_U8("graphics/pokemon/zubat/icon.4bpp");
 const u8 gMonFootprint_Zubat[] = INCBIN_U8("graphics/pokemon/zubat/footprint.1bpp");
 
-const u32 gMonFrontPic_Golbat[] = INCBIN_U32("graphics/pokemon/golbat/front.4bpp.lz");
+const u32 gMonFrontPic_Golbat[] = INCBIN_U32("graphics/pokemon/golbat/male/front.4bpp.lz");
+const u32 gFemaleMonFrontPic_Golbat[] = INCBIN_U32("graphics/pokemon/golbat/female/front.4bpp.lz");
 const u16 gMonPalette_Golbat[] = INCBIN_U16("graphics/pokemon/golbat/normal.gbapal");
-const u32 gMonBackPic_Golbat[] = INCBIN_U32("graphics/pokemon/golbat/back.4bpp.lz");
+const u32 gMonBackPic_Golbat[] = INCBIN_U32("graphics/pokemon/golbat/male/back.4bpp.lz");
+const u32 gFemaleMonBackPic_Golbat[] = INCBIN_U32("graphics/pokemon/golbat/female/back.4bpp.lz");
 const u16 gMonShinyPalette_Golbat[] = INCBIN_U16("graphics/pokemon/golbat/shiny.gbapal");
 const u8 gMonIcon_Golbat[] = INCBIN_U8("graphics/pokemon/golbat/icon.4bpp");
 const u8 gMonFootprint_Golbat[] = INCBIN_U8("graphics/pokemon/golbat/footprint.1bpp");

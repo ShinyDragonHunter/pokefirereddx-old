@@ -6802,8 +6802,7 @@ bool8 IsMonSquareShiny(struct Pokemon *mon)
     u32 otId = GetMonData(mon, MON_DATA_OT_ID, 0);
     u32 personality = GetMonData(mon, MON_DATA_PERSONALITY, 0);
     return ((HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality)) == 0
-     || ((GetMonData(mon, MON_DATA_EVENT_LEGAL, 0))
-     && (HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality)) < SHINY_ODDS));
+        || ((GetMonData(mon, MON_DATA_EVENT_LEGAL, 0)) && (HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality)) < SHINY_ODDS));
 }
 
 bool8 IsMonShiny(struct Pokemon *mon)

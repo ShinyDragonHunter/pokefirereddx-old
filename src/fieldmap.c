@@ -591,13 +591,14 @@ int GetMapBorderIdAt(int x, int y)
     if (MapGridGetTileAt(x, y) == METATILE_ID_UNDEFINED)
         return CONNECTION_INVALID;
 
-    if (x >= (gBackupMapLayout.width - 8))
+    if (x >= gBackupMapLayout.width - 8)
     {
         if (!gMapConnectionFlags.east)
             return CONNECTION_INVALID;
 
         return CONNECTION_EAST;
     }
+
     else if (x < 7)
     {
         if (!gMapConnectionFlags.west)
@@ -605,13 +606,15 @@ int GetMapBorderIdAt(int x, int y)
 
         return CONNECTION_WEST;
     }
-    else if (y >= (gBackupMapLayout.height - 7))
+
+    else if (y >= gBackupMapLayout.height - 7)
     {
         if (!gMapConnectionFlags.south)
             return CONNECTION_INVALID;
 
         return CONNECTION_SOUTH;
     }
+
     else if (y < 7)
     {
         if (!gMapConnectionFlags.north)

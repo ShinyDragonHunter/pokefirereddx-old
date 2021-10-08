@@ -115,6 +115,7 @@ string generate_map_header_text(Json map_data, Json layouts_data, string version
              << "allow_cycling=" << map_data["allow_cycling"].bool_value() << ", "
              << "allow_escaping=" << map_data["allow_escaping"].bool_value() << ", "
              << "allow_running=" << map_data["allow_running"].bool_value() << ", "
+             << "use_night_tint=" << map_data["use_night_tint"].bool_value() << ", "
              << "show_map_name=" << map_data["show_map_name"].bool_value() << "\n";
 
      text << "\t.byte " << map_data["battle_scene"].string_value() << "\n\n";
