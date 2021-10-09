@@ -747,9 +747,9 @@ static void Task_TitleScreenPhase3(u8 taskId)
     else if (JOY_HELD(SOUND_TEST_BUTTON_COMBO) == SOUND_TEST_BUTTON_COMBO)
     {
         FadeOutBGM(4);
-        BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 0x10, RGB_BLACK);
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
         SetMainCallback2(CB2_GoToSoundCheckScreen);
-    } 
+    }
     else
     {
         SetGpuReg(REG_OFFSET_BG2Y_L, 0);

@@ -171,6 +171,7 @@
 
 #define TRAINER_PIC_COUNT                       TRAINER_PIC_RS_MAY + 1
 
+// The player back pics are assumed to alternate according to the gender values (MALE/FEMALE)
 #define TRAINER_BACK_PIC_RED                     0
 #define TRAINER_BACK_PIC_RED_DX                  1
 #define TRAINER_BACK_PIC_RED_CLASSIC             2

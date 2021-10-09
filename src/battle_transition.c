@@ -580,7 +580,7 @@ static const union AffineAnimCmd *const sSpriteAffineAnimTable_Pokeball[] =
 
 static const struct SpriteTemplate sSpriteTemplate_Pokeball =
 {
-    .tileTag = 0xFFFF,
+    .tileTag = TAG_NONE,
     .paletteTag = FLDEFF_PAL_TAG_POKEBALL,
     .oam = &gObjectEventBaseOam_32x32,
     .anims = sSpriteAnimTable_Pokeball,

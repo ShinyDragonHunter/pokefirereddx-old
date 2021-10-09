@@ -25,5 +25,4 @@ Ideas:
 * Backstory for Mr. Fuji and the birth of Mewtwo (To tie in with Mew being available)
 
 ## Support the project
-
 Join the Pokémon FireRed & LeafGreen DX [Discord](https://discord.gg/uHPsMgY) to keep up to date with progress and show your support!

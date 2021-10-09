@@ -1279,9 +1279,9 @@
 	.macro updatechoicemoveonlvlup battler:req
 	various \battler, VARIOUS_UPDATE_CHOICE_MOVE_ON_LVL_UP
 	.endm
-	
-	.macro resetplayerfaintedflag battler:req
-	various \battler, VARIOUS_RESET_PLAYER_FAINTED_FLAG
+
+	.macro resetplayerfainted
+	various BS_ATTACKER, VARIOUS_RESET_PLAYER_FAINTED
 	.endm
 
 	.macro returnopponentmon1toball battler:req
@@ -1323,13 +1323,13 @@
 	.macro forfeityesnobox battler:req
 	various \battler, VARIOUS_EMIT_YESNOBOX
 	.endm
-	
-	.macro drawarenarefereetextbox battler:req
-	various \battler, VARIOUS_DRAW_ARENA_REFEREE_TEXTBOX
+
+	.macro arenadrawreftextbox
+	various BS_ATTACKER, VARIOUS_DRAW_ARENA_REF_TEXT_BOX
 	.endm
 	
-	.macro removearenarefereetextbox battler:req
-	various \battler, VARIOUS_REMOVE_ARENA_REFEREE_TEXTBOX
+	.macro arenaerasereftextbox
+	various BS_ATTACKER, VARIOUS_ERASE_ARENA_REF_TEXT_BOX
 	.endm
 	
 	.macro arenajudgmentstring id:req
@@ -1355,9 +1355,9 @@
 	.macro setalreadystatusedmoveattempt battler:req
 	various \battler, VARIOUS_SET_ALREADY_STATUS_MOVE_ATTEMPT
 	.endm
-	
-	.macro various25 battler:req
-	various \battler, VARIOUS_CASE_27
+
+	.macro palacetryescapestatus battler:req
+	various \battler, VARIOUS_PALACE_TRY_ESCAPE_STATUS
 	.endm
 	
 	.macro setoutcomeonteleport battler:req

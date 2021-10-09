@@ -493,7 +493,6 @@ static u8 UpdateFastPaletteFade(void)
         gPaletteFade.mode = NORMAL_FADE;
         gPaletteFade.softwareFadeFinishing = 1;
     }
-
     return PALETTE_FADE_STATUS_ACTIVE;
 }
 

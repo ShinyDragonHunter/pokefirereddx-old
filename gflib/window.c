@@ -197,6 +197,7 @@ void RemoveWindow(u8 windowId)
     }
 }
 
+
 void FreeAllWindowBuffers(void)
 {
     int i;

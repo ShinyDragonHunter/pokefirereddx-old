@@ -413,7 +413,7 @@ static void AnimCirclingSparkle(struct Sprite *sprite)
 #define tPalSelectorHi data[9]
 #define tPalSelectorLo data[10]
 
-// Blends mon/screen to designated color or back alternately tNumBlends times 
+// Blends mon/screen to designated color or back alternately tNumBlends times
 // Many uses of this task only set a tNumBlends of 2, which has the effect of blending to a color and back once
 void AnimTask_BlendColorCycle(u8 taskId)
 {
@@ -899,7 +899,7 @@ static void AnimHitSplatHandleInvert(struct Sprite *sprite)
 {
     if (GetBattlerSide(gBattleAnimAttacker) != B_SIDE_PLAYER)
         gBattleAnimArgs[1] = -gBattleAnimArgs[1];
-    
+
     AnimHitSplatBasic(sprite);
 }
 

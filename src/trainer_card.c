@@ -306,7 +306,7 @@ static const u8 sTrainerPicOffset[][2] =
     [CARD_LAYOUT_HELIODOR] = {13, 4},
 };
 
-static const u8 sTrainerPicFacilityClass[][GENDER_COUNT] = 
+static const u8 sTrainerPicFacilityClass[][GENDER_COUNT] =
 {
     [CARD_VERSION_FRLG] = 
     {

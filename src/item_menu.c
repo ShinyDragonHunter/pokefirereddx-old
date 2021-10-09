@@ -1107,7 +1107,8 @@ static void PrintItemSoldAmount(int windowId, int numSold, int moneyEarned)
 static bool8 CanSwapItems(void)
 {
     // Swaps can only be done from the field or in battle (as opposed to while selling items, for example)
-    if (gBagPosition.location < ITEMMENULOCATION_PARTY)
+    if (gBagPosition.location == ITEMMENULOCATION_FIELD
+     || gBagPosition.location == ITEMMENULOCATION_BATTLE)
     {
         // TMHMs and berries are numbered, and so may not be swapped
         if (gBagPosition.pocket != TMHM_POCKET

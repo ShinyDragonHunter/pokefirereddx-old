@@ -29,7 +29,7 @@ static const struct SpriteFrameImage sPicTable_ShadowExtraLarge[] = {
 };
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_ShadowSmall = {
-    .tileTag = SPRITE_INVALID_TAG,
+    .tileTag = TAG_NONE,
     .paletteTag = OBJ_EVENT_PAL_TAG_PLAYER_ORIGINAL,
     .oam = &gObjectEventBaseOam_8x8,
     .anims = sAnimTable_Shadow,
@@ -39,7 +39,7 @@ const struct SpriteTemplate gFieldEffectObjectTemplate_ShadowSmall = {
 };
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_ShadowMedium = {
-    .tileTag = SPRITE_INVALID_TAG,
+    .tileTag = TAG_NONE,
     .paletteTag = OBJ_EVENT_PAL_TAG_PLAYER_ORIGINAL,
     .oam = &gObjectEventBaseOam_16x8,
     .anims = sAnimTable_Shadow,
@@ -49,7 +49,7 @@ const struct SpriteTemplate gFieldEffectObjectTemplate_ShadowMedium = {
 };
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_ShadowLarge = {
-    .tileTag = SPRITE_INVALID_TAG,
+    .tileTag = TAG_NONE,
     .paletteTag = OBJ_EVENT_PAL_TAG_PLAYER_ORIGINAL,
     .oam = &gObjectEventBaseOam_32x8,
     .anims = sAnimTable_Shadow,
@@ -59,7 +59,7 @@ const struct SpriteTemplate gFieldEffectObjectTemplate_ShadowLarge = {
 };
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_ShadowExtraLarge = {
-    .tileTag = SPRITE_INVALID_TAG,
+    .tileTag = TAG_NONE,
     .paletteTag = OBJ_EVENT_PAL_TAG_PLAYER_ORIGINAL,
     .oam = &gObjectEventBaseOam_64x32,
     .anims = sAnimTable_Shadow,
@@ -92,7 +92,7 @@ static const union AnimCmd *const sAnimTable_TallGrass[] =
 };
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_TallGrass = {
-    .tileTag = SPRITE_INVALID_TAG,
+    .tileTag = TAG_NONE,
     .paletteTag = FLDEFF_PAL_TAG_GENERAL_1,
     .oam = &gObjectEventBaseOam_16x16,
     .anims = sAnimTable_TallGrass,
@@ -128,7 +128,7 @@ static const union AnimCmd *const sAnimTable_Ripple[] =
 };
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_Ripple = {
-    .tileTag = SPRITE_INVALID_TAG,
+    .tileTag = TAG_NONE,
     .paletteTag = FLDEFF_PAL_TAG_GENERAL_1,
     .oam = &gObjectEventBaseOam_16x16,
     .anims = sAnimTable_Ripple,
@@ -161,7 +161,7 @@ static const union AnimCmd *const sAnimTable_Ash[] =
 };
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_Ash = {
-    .tileTag = SPRITE_INVALID_TAG,
+    .tileTag = TAG_NONE,
     .paletteTag = FLDEFF_PAL_TAG_GENERAL_1,
     .oam = &gObjectEventBaseOam_16x16,
     .anims = sAnimTable_Ash,
@@ -185,7 +185,7 @@ static const union AnimCmd *const sAnimTable_SurfBlob[] =
 };
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_SurfBlob = {
-    .tileTag = SPRITE_INVALID_TAG,
+    .tileTag = TAG_NONE,
     .paletteTag = OBJ_EVENT_PAL_TAG_PLAYER_ORIGINAL,
     .oam = &gObjectEventBaseOam_32x32,
     .anims = sAnimTable_SurfBlob,
@@ -242,7 +242,7 @@ static const union AnimCmd *const sAnimTable_Arrow[] =
 };
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_Arrow = {
-    .tileTag = SPRITE_INVALID_TAG,
+    .tileTag = TAG_NONE,
     .paletteTag = FLDEFF_PAL_TAG_ARROW,
     .oam = &gObjectEventBaseOam_16x16,
     .anims = sAnimTable_Arrow,
@@ -271,7 +271,7 @@ static const union AnimCmd *const sAnimTable_GroundImpactDust[] =
 };
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_GroundImpactDust = {
-    .tileTag = SPRITE_INVALID_TAG,
+    .tileTag = TAG_NONE,
     .paletteTag = FLDEFF_PAL_TAG_GENERAL_0,
     .oam = &gObjectEventBaseOam_16x8,
     .anims = sAnimTable_GroundImpactDust,
@@ -293,7 +293,7 @@ static const union AnimCmd *const sAnimTable_JumpTallGrass[] =
 };
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_JumpTallGrass = {
-    .tileTag = SPRITE_INVALID_TAG,
+    .tileTag = TAG_NONE,
     .paletteTag = FLDEFF_PAL_TAG_GENERAL_1,
     .oam = &gObjectEventBaseOam_16x8,
     .anims = sAnimTable_JumpTallGrass,
@@ -335,7 +335,7 @@ static const union AnimCmd *const sAnimTable_SandFootprints[] =
 };
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_SandFootprints = {
-    .tileTag = SPRITE_INVALID_TAG,
+    .tileTag = TAG_NONE,
     .paletteTag = FLDEFF_PAL_TAG_GENERAL_0,
     .oam = &gObjectEventBaseOam_16x16,
     .anims = sAnimTable_SandFootprints,
@@ -350,7 +350,7 @@ static const struct SpriteFrameImage sPicTable_DeepSandFootprints[] = {
 };
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_DeepSandFootprints = {
-    .tileTag = SPRITE_INVALID_TAG,
+    .tileTag = TAG_NONE,
     .paletteTag = FLDEFF_PAL_TAG_GENERAL_0,
     .oam = &gObjectEventBaseOam_16x16,
     .anims = sAnimTable_SandFootprints,
@@ -404,7 +404,7 @@ static const union AnimCmd *const sAnimTable_BikeTireTracks[] =
 };
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_BikeTireTracks = {
-    .tileTag = SPRITE_INVALID_TAG,
+    .tileTag = TAG_NONE,
     .paletteTag = FLDEFF_PAL_TAG_GENERAL_0,
     .oam = &gObjectEventBaseOam_16x16,
     .anims = sAnimTable_BikeTireTracks,
@@ -421,7 +421,7 @@ static const struct SpriteFrameImage sPicTable_JumpBigSplash[] = {
 };
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_JumpBigSplash = {
-    .tileTag = SPRITE_INVALID_TAG,
+    .tileTag = TAG_NONE,
     .paletteTag = FLDEFF_PAL_TAG_GENERAL_0,
     .oam = &gObjectEventBaseOam_16x16,
     .anims = sAnimTable_JumpTallGrass,
@@ -462,7 +462,7 @@ static const union AnimCmd *const sAnimTable_Splash[] =
 };
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_Splash = {
-    .tileTag = SPRITE_INVALID_TAG,
+    .tileTag = TAG_NONE,
     .paletteTag = FLDEFF_PAL_TAG_GENERAL_0,
     .oam = &gObjectEventBaseOam_16x8,
     .anims = sAnimTable_Splash,
@@ -491,7 +491,7 @@ static const union AnimCmd *const sAnimTable_JumpSmallSplash[] =
 };
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_JumpSmallSplash = {
-    .tileTag = SPRITE_INVALID_TAG,
+    .tileTag = TAG_NONE,
     .paletteTag = FLDEFF_PAL_TAG_GENERAL_0,
     .oam = &gObjectEventBaseOam_16x8,
     .anims = sAnimTable_JumpSmallSplash,
@@ -525,7 +525,7 @@ static const union AnimCmd *const sAnimTable_LongGrass[] =
 };
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_LongGrass = {
-    .tileTag = SPRITE_INVALID_TAG,
+    .tileTag = TAG_NONE,
     .paletteTag = FLDEFF_PAL_TAG_GENERAL_1,
     .oam = &gObjectEventBaseOam_16x16,
     .anims = sAnimTable_LongGrass,
@@ -560,7 +560,7 @@ static const union AnimCmd *const sAnimTable_JumpLongGrass[] =
 };
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_JumpLongGrass = {
-    .tileTag = SPRITE_INVALID_TAG,
+    .tileTag = TAG_NONE,
     .paletteTag = FLDEFF_PAL_TAG_GENERAL_1,
     .oam = &gObjectEventBaseOam_16x16,
     .anims = sAnimTable_JumpLongGrass,
@@ -576,7 +576,7 @@ static const struct SpriteFrameImage sPicTable_SandPile[] = {
 };
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_SandPile = {
-    .tileTag = SPRITE_INVALID_TAG,
+    .tileTag = TAG_NONE,
     .paletteTag = FLDEFF_PAL_TAG_GENERAL_0,
     .oam = &gObjectEventBaseOam_16x8,
     .anims = sAnimTable_JumpSmallSplash,
@@ -609,7 +609,7 @@ static const union AnimCmd *const sAnimTable_WaterSurfacing[] =
 };
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_WaterSurfacing = {
-    .tileTag = SPRITE_INVALID_TAG,
+    .tileTag = TAG_NONE,
     .paletteTag = FLDEFF_PAL_TAG_GENERAL_0,
     .oam = &gObjectEventBaseOam_16x16,
     .anims = sAnimTable_WaterSurfacing,
@@ -654,7 +654,7 @@ static const union AffineAnimCmd *const sAffineAnims_ReflectionDistortion[] =
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_ReflectionDistortion = {
     .tileTag = 0x0,
-    .paletteTag = 0xFFFF,
+    .paletteTag = TAG_NONE,
     .oam = &gDummyOamData,
     .anims = gDummySpriteAnimTable,
     .images = NULL,
@@ -702,7 +702,7 @@ static const union AnimCmd *const sAnimTable_Sparkle[] =
 };
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_Sparkle = {
-    .tileTag = SPRITE_INVALID_TAG,
+    .tileTag = TAG_NONE,
     .paletteTag = OBJ_EVENT_PAL_TAG_HOENN_NPC_2,
     .oam = &gObjectEventBaseOam_16x16,
     .anims = sAnimTable_Sparkle,
@@ -740,7 +740,7 @@ static const union AnimCmd *const sAnimTable_TreeDisguise[] =
 };
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_TreeDisguise = {
-    .tileTag = SPRITE_INVALID_TAG,
+    .tileTag = TAG_NONE,
     .paletteTag = OBJ_EVENT_PAL_TAG_HOENN_NPC_3,
     .oam = &gObjectEventBaseOam_16x32,
     .anims = sAnimTable_TreeDisguise,
@@ -760,7 +760,7 @@ static const struct SpriteFrameImage sPicTable_MountainDisguise[] = {
 };
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_MountainDisguise = {
-    .tileTag = SPRITE_INVALID_TAG,
+    .tileTag = TAG_NONE,
     .paletteTag = OBJ_EVENT_PAL_TAG_HOENN_NPC_2,
     .oam = &gObjectEventBaseOam_16x32,
     .anims = sAnimTable_TreeDisguise,
@@ -780,7 +780,7 @@ static const struct SpriteFrameImage sPicTable_SandDisguisePlaceholder[] = {
 };
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_SandDisguisePlaceholder = {
-    .tileTag = SPRITE_INVALID_TAG,
+    .tileTag = TAG_NONE,
     .paletteTag = OBJ_EVENT_PAL_TAG_HOENN_NPC_1,
     .oam = &gObjectEventBaseOam_16x32,
     .anims = sAnimTable_TreeDisguise,
@@ -794,7 +794,7 @@ static const struct SpriteFrameImage sPicTable_Bird[] = {
 };
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_Bird = {
-    .tileTag = SPRITE_INVALID_TAG,
+    .tileTag = TAG_NONE,
     .paletteTag = OBJ_EVENT_PAL_TAG_PLAYER,
     .oam = &gObjectEventBaseOam_32x32,
     .anims = sAnimTable_Shadow,
@@ -814,7 +814,7 @@ static const union AnimCmd *const sAnimTable_ShortGrass[] =
 };
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_ShortGrass = {
-    .tileTag = SPRITE_INVALID_TAG,
+    .tileTag = TAG_NONE,
     .paletteTag = FLDEFF_PAL_TAG_GENERAL_1,
     .oam = &gObjectEventBaseOam_16x16,
     .anims = sAnimTable_ShortGrass,
@@ -828,7 +828,7 @@ static const struct SpriteFrameImage sPicTable_HotSpringsWater[] = {
 };
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_HotSpringsWater = {
-    .tileTag = SPRITE_INVALID_TAG,
+    .tileTag = TAG_NONE,
     .paletteTag = FLDEFF_PAL_TAG_GENERAL_1,
     .oam = &gObjectEventBaseOam_16x16,
     .anims = sAnimTable_Shadow,
@@ -862,12 +862,12 @@ static const union AnimCmd *const sAnimTable_AshPuff[] =
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_AshPuff = 
 {
-    .tileTag = SPRITE_INVALID_TAG, 
-    .paletteTag = FLDEFF_PAL_TAG_ASH, 
-    .oam = &gObjectEventBaseOam_16x16, 
-    .anims = sAnimTable_AshPuff, 
-    .images = sPicTable_AshPuff, 
-    .affineAnims = gDummySpriteAffineAnimTable, 
+    .tileTag = TAG_NONE,
+    .paletteTag = FLDEFF_PAL_TAG_ASH,
+    .oam = &gObjectEventBaseOam_16x16,
+    .anims = sAnimTable_AshPuff,
+    .images = sPicTable_AshPuff,
+    .affineAnims = gDummySpriteAffineAnimTable,
     .callback = SpriteCB_AshPuff
 };
 
@@ -883,7 +883,7 @@ static const struct SpriteFrameImage sPicTable_AshLaunch[] = {
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_AshLaunch = 
 {
-    .tileTag = SPRITE_INVALID_TAG, 
+    .tileTag = TAG_NONE, 
     .paletteTag = FLDEFF_PAL_TAG_ASH, 
     .oam = &gObjectEventBaseOam_16x16, 
     .anims = sAnimTable_AshPuff, 
@@ -922,13 +922,13 @@ static const union AnimCmd *const sAnimTable_Bubbles[] =
 };
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_Bubbles = {
-    .tileTag = SPRITE_INVALID_TAG,
+    .tileTag = TAG_NONE,
     .paletteTag = FLDEFF_PAL_TAG_GENERAL_0,
     .oam = &gObjectEventBaseOam_16x32,
     .anims = sAnimTable_Bubbles,
     .images = sPicTable_Bubbles,
     .affineAnims = gDummySpriteAffineAnimTable,
-    .callback = UpdateBubblesFieldEffect,
+    .callback = UpdateBubblesFieldEffect
 };
 
 static const struct SpriteFrameImage sPicTable_SmallSparkle[] = {
@@ -950,7 +950,7 @@ static const union AnimCmd *const sAnimTable_SmallSparkle[] =
 };
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_SmallSparkle = {
-    .tileTag = SPRITE_INVALID_TAG,
+    .tileTag = TAG_NONE,
     .paletteTag = FLDEFF_PAL_TAG_SMALL_SPARKLE,
     .oam = &gObjectEventBaseOam_16x16,
     .anims = sAnimTable_SmallSparkle,
@@ -966,8 +966,8 @@ const struct SpriteFrameImage  sPicTable_RayquazaSpotlightEffect[] = {
 };
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_Rayquaza = {
-    .tileTag = SPRITE_INVALID_TAG,
-    .paletteTag = 0xFFFF,
+    .tileTag = TAG_NONE,
+    .paletteTag = TAG_NONE,
     .oam = &gObjectEventBaseOam_16x32,
     .anims = sAnimTable_Shadow,
     .images = sPicTable_RayquazaSpotlightEffect,

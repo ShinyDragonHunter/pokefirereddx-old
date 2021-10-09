@@ -686,7 +686,7 @@ static const struct WindowTemplate sEasyChatYesNoWindowTemplate = {
 
 static const u8 sText_Clear17[] = _("{CLEAR 17}");
 
-static const u8 *const sEasyChatKeyboardAlphabet[NUM_ALPHABET_ROWS] = 
+static const u8 *const sEasyChatKeyboardAlphabet[NUM_ALPHABET_ROWS] =
 {
     gText_EasyChatKeyboard_ABCDEFothers,
     gText_EasyChatKeyboard_GHIJKL,
@@ -3839,7 +3839,7 @@ static void BufferLowerWindowFrame(int left, int top, int width, int height)
     bottom = top + height - 1;
     x = left;
     y = top;
-    
+
     // Draw top edge
     tilemap[y * 32 + x] = FRAME_OFFSET_GREEN + FRAME_TILE_TOP_L_CORNER;
     x++;
@@ -4011,7 +4011,7 @@ static void UpdateRectangleCursorPos(void)
     s8 column;
     s8 row;
 
-    if (sScreenControl->rectangleCursorSpriteRight 
+    if (sScreenControl->rectangleCursorSpriteRight
      && sScreenControl->rectangleCursorSpriteLeft)
     {
         GetKeyboardCursorColAndRow(&column, &row);
@@ -4747,16 +4747,16 @@ void InitEasyChatPhrases(void)
 
     for (i = 0; i < ARRAY_COUNT(sDefaultProfileWords); i++)
         gSaveBlock1Ptr->easyChatProfile[i] = sDefaultProfileWords[i];
-    
+
     for (i = 0; i < EASY_CHAT_BATTLE_WORDS_COUNT; i++)
         gSaveBlock1Ptr->easyChatBattleStart[i] = sDefaultBattleStartWords[i];
-    
+
     for (i = 0; i < EASY_CHAT_BATTLE_WORDS_COUNT; i++)
         gSaveBlock1Ptr->easyChatBattleWon[i] = sDefaultBattleWonWords[i];
-    
+
     for (i = 0; i < EASY_CHAT_BATTLE_WORDS_COUNT; i++)
         gSaveBlock1Ptr->easyChatBattleLost[i] = sDefaultBattleLostWords[i];
-    
+
     for (i = 0; i < MAIL_COUNT; i++)
     {
         for (j = 0; j < MAIL_WORDS_COUNT; j++)
@@ -4791,11 +4791,11 @@ static void SetUnlockedEasyChatGroups(void)
     sWordData->numUnlockedGroups = 0;
     if (GetNationalPokedexCount(FLAG_GET_SEEN))
         sWordData->unlockedGroupIds[sWordData->numUnlockedGroups++] = EC_GROUP_POKEMON;
-    
+
     // These groups are unlocked automatically
     for (i = EC_GROUP_TRAINER; i <= EC_GROUP_ADJECTIVES; i++)
         sWordData->unlockedGroupIds[sWordData->numUnlockedGroups++] = i;
-    
+
     if (FlagGet(FLAG_SYS_GAME_CLEAR))
     {
         sWordData->unlockedGroupIds[sWordData->numUnlockedGroups++] = EC_GROUP_EVENTS;
@@ -4837,7 +4837,7 @@ static u8 *CopyEasyChatWordPadded(u8 *dest, u16 easyChatWord, u16 totalChars)
         *str = CHAR_SPACE;
         str++;
     }
-    
+
     *str = EOS;
     return str;
 }
@@ -4887,18 +4887,17 @@ static void SetUnlockedWordsByAlphabet(void)
 
 static void SetSelectedWordGroup(bool32 inAlphabetMode, u16 groupId)
 {
-    if (!inAlphabetMode)
-        sWordData->numSelectedGroupWords = SetSelectedWordGroup_GroupMode(groupId);
-    else
+    if (inAlphabetMode)
         sWordData->numSelectedGroupWords = SetSelectedWordGroup_AlphabetMode(groupId);
+    else
+        sWordData->numSelectedGroupWords = SetSelectedWordGroup_GroupMode(groupId);
 }
 
 static u16 GetWordFromSelectedGroup(u16 index)
 {
     if (index >= sWordData->numSelectedGroupWords)
         return EC_EMPTY_WORD;
-    else
-        return sWordData->selectedGroupWords[index];
+    return sWordData->selectedGroupWords[index];
 }
 
 static u16 GetNumWordsInSelectedGroup(void)
@@ -5003,8 +5002,7 @@ static u8 IsEasyChatWordUnlocked(u16 easyChatWord)
     u32 index = EC_INDEX(easyChatWord);
     if (!IsEasyChatGroupUnlocked2(groupId))
         return FALSE;
-    else
-        return IsEasyChatIndexAndGroupUnlocked(index, groupId);
+    return IsEasyChatIndexAndGroupUnlocked(index, groupId);
 }
 
 void InitializeEasyChatWordArray(u16 *words, u16 length)
@@ -5029,6 +5027,5 @@ bool32 IsEasyChatAnswerUnlocked(int easyChatWord)
     int index = EC_INDEX(easyChatWord);
     if (!IsEasyChatGroupUnlocked(groupId & mask))
         return FALSE;
-    else
-        return IsEasyChatIndexAndGroupUnlocked(index, groupId & mask);
+    return IsEasyChatIndexAndGroupUnlocked(index, groupId & mask);
 }

@@ -60,7 +60,7 @@ static const union AnimCmd *const sAnimTable_RecordMixLights[] =
 
 static const struct SpriteTemplate sSpriteTemplate_RecordMixLights =
 {
-    .tileTag = 0xFFFF,
+    .tileTag = TAG_NONE,
     .paletteTag = 0x1000,
     .oam = &gObjectEventBaseOam_32x8,
     .anims = sAnimTable_RecordMixLights,

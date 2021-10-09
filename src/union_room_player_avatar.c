@@ -401,10 +401,11 @@ void CreateGroupMemberSpritesInvisible(u8 * spriteIds, s32 playerIdx)
     for (direction = DIR_NONE; direction <= DIR_EAST; direction++)
     {
         s32 id = UR_PLAYER_SPRITE_ID(playerIdx, direction);
+
         spriteIds[id] = CreateObjectSprite(OBJ_EVENT_GFX_HOENN_MAN_4, 
                                            id - UR_SPRITE_START_ID, 
-                                           sUnionRoomPlayerCoords[playerIdx][0] + sFacingDirectionOffsets[direction][0], 
-                                           sUnionRoomPlayerCoords[playerIdx][1] + sFacingDirectionOffsets[direction][1], 
+                                           sUnionRoomPlayerCoords[playerIdx][0] + sFacingDirectionOffsets[direction][0],
+                                           sUnionRoomPlayerCoords[playerIdx][1] + sFacingDirectionOffsets[direction][1],
                                            3, 1);
         SetObjectEventSpriteInvisibility(id - UR_SPRITE_START_ID, TRUE);
     }

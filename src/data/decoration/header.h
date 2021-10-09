@@ -11,7 +11,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_SMALL_DESK] =
     {
         .id = DECOR_SMALL_DESK,
@@ -23,7 +23,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_POKEMON_DESK] =
     {
         .id = DECOR_POKEMON_DESK,
@@ -35,7 +35,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_HEAVY_DESK] =
     {
         .id = DECOR_HEAVY_DESK,
@@ -47,7 +47,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_RAGGED_DESK] =
     {
         .id = DECOR_RAGGED_DESK,
@@ -59,7 +59,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_COMFORT_DESK] =
     {
         .id = DECOR_COMFORT_DESK,
@@ -71,7 +71,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_PRETTY_DESK] =
     {
         .id = DECOR_PRETTY_DESK,
@@ -83,7 +83,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_BRICK_DESK] =
     {
         .id = DECOR_BRICK_DESK,
@@ -95,7 +95,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_CAMP_DESK] =
     {
         .id = DECOR_CAMP_DESK,
@@ -107,7 +107,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_HARD_DESK] =
     {
         .id = DECOR_HARD_DESK,
@@ -119,7 +119,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_SMALL_CHAIR] =
     {
         .id = DECOR_SMALL_CHAIR,
@@ -131,7 +131,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_POKEMON_CHAIR] =
     {
         .id = DECOR_POKEMON_CHAIR,
@@ -143,7 +143,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_HEAVY_CHAIR] =
     {
         .id = DECOR_HEAVY_CHAIR,
@@ -155,7 +155,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_PRETTY_CHAIR] =
     {
         .id = DECOR_PRETTY_CHAIR,
@@ -167,7 +167,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_COMFORT_CHAIR] =
     {
         .id = DECOR_COMFORT_CHAIR,
@@ -179,7 +179,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_RAGGED_CHAIR] =
     {
         .id = DECOR_RAGGED_CHAIR,
@@ -191,7 +191,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_BRICK_CHAIR] =
     {
         .id = DECOR_BRICK_CHAIR,
@@ -203,7 +203,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_CAMP_CHAIR] =
     {
         .id = DECOR_CAMP_CHAIR,
@@ -215,7 +215,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_HARD_CHAIR] =
     {
         .id = DECOR_HARD_CHAIR,
@@ -227,7 +227,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_RED_PLANT] =
     {
         .id = DECOR_RED_PLANT,
@@ -239,7 +239,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_TROPICAL_PLANT] =
     {
         .id = DECOR_TROPICAL_PLANT,
@@ -251,7 +251,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_PRETTY_FLOWERS] =
     {
         .id = DECOR_PRETTY_FLOWERS,
@@ -263,7 +263,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_COLORFUL_PLANT] =
     {
         .id = DECOR_COLORFUL_PLANT,
@@ -275,7 +275,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_BIG_PLANT] =
     {
         .id = DECOR_BIG_PLANT,
@@ -287,7 +287,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_GORGEOUS_PLANT] =
     {
         .id = DECOR_GORGEOUS_PLANT,
@@ -299,7 +299,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_RED_BRICK] =
     {
         .id = DECOR_RED_BRICK,
@@ -311,7 +311,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_YELLOW_BRICK] =
     {
         .id = DECOR_YELLOW_BRICK,
@@ -323,7 +323,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_BLUE_BRICK] =
     {
         .id = DECOR_BLUE_BRICK,
@@ -335,7 +335,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_RED_BALLOON] =
     {
         .id = DECOR_RED_BALLOON,
@@ -347,7 +347,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_BLUE_BALLOON] =
     {
         .id = DECOR_BLUE_BALLOON,
@@ -359,7 +359,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_YELLOW_BALLOON] =
     {
         .id = DECOR_YELLOW_BALLOON,
@@ -371,7 +371,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_RED_TENT] =
     {
         .id = DECOR_RED_TENT,
@@ -383,7 +383,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_BLUE_TENT] =
     {
         .id = DECOR_BLUE_TENT,
@@ -395,7 +395,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_SOLID_BOARD] =
     {
         .id = DECOR_SOLID_BOARD,
@@ -407,7 +407,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_SLIDE] =
     {
         .id = DECOR_SLIDE,
@@ -419,7 +419,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_FENCE_LENGTH] =
     {
         .id = DECOR_FENCE_LENGTH,
@@ -431,7 +431,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_FENCE_WIDTH] =
     {
         .id = DECOR_FENCE_WIDTH,
@@ -443,7 +443,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_TIRE] =
     {
         .id = DECOR_TIRE,
@@ -455,7 +455,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_STAND] =
     {
         .id = DECOR_STAND,
@@ -467,7 +467,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_MUD_BALL] =
     {
         .id = DECOR_MUD_BALL,
@@ -479,7 +479,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_BREAKABLE_DOOR] =
     {
         .id = DECOR_BREAKABLE_DOOR,
@@ -491,7 +491,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_SAND_ORNAMENT] =
     {
         .id = DECOR_SAND_ORNAMENT,
@@ -503,7 +503,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_SILVER_SHIELD] =
     {
         .id = DECOR_SILVER_SHIELD,
@@ -515,7 +515,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_GOLD_SHIELD] =
     {
         .id = DECOR_GOLD_SHIELD,
@@ -527,7 +527,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_GLASS_ORNAMENT] =
     {
         .id = DECOR_GLASS_ORNAMENT,
@@ -539,7 +539,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_TV] =
     {
         .id = DECOR_TV,
@@ -551,7 +551,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_ROUND_TV] =
     {
         .id = DECOR_ROUND_TV,
@@ -563,7 +563,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_CUTE_TV] =
     {
         .id = DECOR_CUTE_TV,
@@ -575,7 +575,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_GLITTER_MAT] =
     {
         .id = DECOR_GLITTER_MAT,
@@ -587,7 +587,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_JUMP_MAT] =
     {
         .id = DECOR_JUMP_MAT,
@@ -599,7 +599,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_SPIN_MAT] =
     {
         .id = DECOR_SPIN_MAT,
@@ -611,7 +611,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_C_LOW_NOTE_MAT] =
     {
         .id = DECOR_C_LOW_NOTE_MAT,
@@ -623,7 +623,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_D_NOTE_MAT] =
     {
         .id = DECOR_D_NOTE_MAT,
@@ -635,7 +635,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_E_NOTE_MAT] =
     {
         .id = DECOR_E_NOTE_MAT,
@@ -647,7 +647,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_F_NOTE_MAT] =
     {
         .id = DECOR_F_NOTE_MAT,
@@ -659,7 +659,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_G_NOTE_MAT] =
     {
         .id = DECOR_G_NOTE_MAT,
@@ -671,7 +671,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_A_NOTE_MAT] =
     {
         .id = DECOR_A_NOTE_MAT,
@@ -683,7 +683,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_B_NOTE_MAT] =
     {
         .id = DECOR_B_NOTE_MAT,
@@ -695,7 +695,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_C_HIGH_NOTE_MAT] =
     {
         .id = DECOR_C_HIGH_NOTE_MAT,
@@ -707,7 +707,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_SURF_MAT] =
     {
         .id = DECOR_SURF_MAT,
@@ -719,7 +719,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_THUNDER_MAT] =
     {
         .id = DECOR_THUNDER_MAT,
@@ -731,7 +731,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_FIRE_BLAST_MAT] =
     {
         .id = DECOR_FIRE_BLAST_MAT,
@@ -743,7 +743,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_POWDER_SNOW_MAT] =
     {
         .id = DECOR_POWDER_SNOW_MAT,
@@ -755,7 +755,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_ATTRACT_MAT] =
     {
         .id = DECOR_ATTRACT_MAT,
@@ -767,7 +767,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_FISSURE_MAT] =
     {
         .id = DECOR_FISSURE_MAT,
@@ -779,7 +779,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_SPIKES_MAT] =
     {
         .id = DECOR_SPIKES_MAT,
@@ -791,7 +791,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_BALL_POSTER] =
     {
         .id = DECOR_BALL_POSTER,
@@ -803,7 +803,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_GREEN_POSTER] =
     {
         .id = DECOR_GREEN_POSTER,
@@ -815,7 +815,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_RED_POSTER] =
     {
         .id = DECOR_RED_POSTER,
@@ -827,7 +827,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_BLUE_POSTER] =
     {
         .id = DECOR_BLUE_POSTER,
@@ -839,7 +839,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_CUTE_POSTER] =
     {
         .id = DECOR_CUTE_POSTER,
@@ -851,7 +851,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_PIKA_POSTER] =
     {
         .id = DECOR_PIKA_POSTER,
@@ -863,7 +863,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_LONG_POSTER] =
     {
         .id = DECOR_LONG_POSTER,
@@ -875,7 +875,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_SEA_POSTER] =
     {
         .id = DECOR_SEA_POSTER,
@@ -887,7 +887,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_SKY_POSTER] =
     {
         .id = DECOR_SKY_POSTER,
@@ -899,7 +899,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_KISS_POSTER] =
     {
         .id = DECOR_KISS_POSTER,
@@ -911,7 +911,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_PICHU_DOLL] =
     {
         .id = DECOR_PICHU_DOLL,
@@ -923,7 +923,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_PIKACHU_DOLL] =
     {
         .id = DECOR_PIKACHU_DOLL,
@@ -935,7 +935,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_MARILL_DOLL] =
     {
         .id = DECOR_MARILL_DOLL,
@@ -947,7 +947,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_TOGEPI_DOLL] =
     {
         .id = DECOR_TOGEPI_DOLL,
@@ -959,7 +959,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_CYNDAQUIL_DOLL] =
     {
         .id = DECOR_CYNDAQUIL_DOLL,
@@ -971,7 +971,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_CHIKORITA_DOLL] =
     {
         .id = DECOR_CHIKORITA_DOLL,
@@ -983,7 +983,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_TOTODILE_DOLL] =
     {
         .id = DECOR_TOTODILE_DOLL,
@@ -995,7 +995,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_JIGGLYPUFF_DOLL] =
     {
         .id = DECOR_JIGGLYPUFF_DOLL,
@@ -1007,7 +1007,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_MEOWTH_DOLL] =
     {
         .id = DECOR_MEOWTH_DOLL,
@@ -1019,7 +1019,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_CLEFAIRY_DOLL] =
     {
         .id = DECOR_CLEFAIRY_DOLL,
@@ -1031,7 +1031,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_DITTO_DOLL] =
     {
         .id = DECOR_DITTO_DOLL,
@@ -1043,7 +1043,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_SMOOCHUM_DOLL] =
     {
         .id = DECOR_SMOOCHUM_DOLL,
@@ -1055,7 +1055,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_TREECKO_DOLL] =
     {
         .id = DECOR_TREECKO_DOLL,
@@ -1067,7 +1067,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_TORCHIC_DOLL] =
     {
         .id = DECOR_TORCHIC_DOLL,
@@ -1079,7 +1079,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_MUDKIP_DOLL] =
     {
         .id = DECOR_MUDKIP_DOLL,
@@ -1091,7 +1091,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_DUSKULL_DOLL] =
     {
         .id = DECOR_DUSKULL_DOLL,
@@ -1103,7 +1103,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_WYNAUT_DOLL] =
     {
         .id = DECOR_WYNAUT_DOLL,
@@ -1115,7 +1115,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_BALTOY_DOLL] =
     {
         .id = DECOR_BALTOY_DOLL,
@@ -1127,7 +1127,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_KECLEON_DOLL] =
     {
         .id = DECOR_KECLEON_DOLL,
@@ -1139,7 +1139,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_AZURILL_DOLL] =
     {
         .id = DECOR_AZURILL_DOLL,
@@ -1151,7 +1151,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_SKITTY_DOLL] =
     {
         .id = DECOR_SKITTY_DOLL,
@@ -1163,7 +1163,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_SWABLU_DOLL] =
     {
         .id = DECOR_SWABLU_DOLL,
@@ -1175,7 +1175,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_GULPIN_DOLL] =
     {
         .id = DECOR_GULPIN_DOLL,
@@ -1187,7 +1187,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_LOTAD_DOLL] =
     {
         .id = DECOR_LOTAD_DOLL,
@@ -1199,7 +1199,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_SEEDOT_DOLL] =
     {
         .id = DECOR_SEEDOT_DOLL,
@@ -1211,7 +1211,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_PIKA_CUSHION] =
     {
         .id = DECOR_PIKA_CUSHION,
@@ -1223,7 +1223,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_ROUND_CUSHION] =
     {
         .id = DECOR_ROUND_CUSHION,
@@ -1235,7 +1235,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_KISS_CUSHION] =
     {
         .id = DECOR_KISS_CUSHION,
@@ -1247,7 +1247,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_ZIGZAG_CUSHION] =
     {
         .id = DECOR_ZIGZAG_CUSHION,
@@ -1259,7 +1259,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_SPIN_CUSHION] =
     {
         .id = DECOR_SPIN_CUSHION,
@@ -1271,7 +1271,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_DIAMOND_CUSHION] =
     {
         .id = DECOR_DIAMOND_CUSHION,
@@ -1283,7 +1283,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_BALL_CUSHION] =
     {
         .id = DECOR_BALL_CUSHION,
@@ -1295,7 +1295,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_GRASS_CUSHION] =
     {
         .id = DECOR_GRASS_CUSHION,
@@ -1307,7 +1307,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_FIRE_CUSHION] =
     {
         .id = DECOR_FIRE_CUSHION,
@@ -1319,7 +1319,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_WATER_CUSHION] =
     {
         .id = DECOR_WATER_CUSHION,
@@ -1331,7 +1331,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_SNORLAX_DOLL] =
     {
         .id = DECOR_SNORLAX_DOLL,
@@ -1343,7 +1343,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_RHYDON_DOLL] =
     {
         .id = DECOR_RHYDON_DOLL,
@@ -1355,7 +1355,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_LAPRAS_DOLL] =
     {
         .id = DECOR_LAPRAS_DOLL,
@@ -1367,7 +1367,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_VENUSAUR_DOLL] =
     {
         .id = DECOR_VENUSAUR_DOLL,
@@ -1379,7 +1379,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_CHARIZARD_DOLL] =
     {
         .id = DECOR_CHARIZARD_DOLL,
@@ -1391,7 +1391,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_BLASTOISE_DOLL] =
     {
         .id = DECOR_BLASTOISE_DOLL,
@@ -1403,7 +1403,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_WAILMER_DOLL] =
     {
         .id = DECOR_WAILMER_DOLL,
@@ -1415,7 +1415,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_REGIROCK_DOLL] =
     {
         .id = DECOR_REGIROCK_DOLL,
@@ -1427,7 +1427,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_REGICE_DOLL] =
     {
         .id = DECOR_REGICE_DOLL,
@@ -1439,7 +1439,7 @@ const struct Decoration gDecorations[] =
         .description = gText_ExpandedPlaceholder_Empty,
         .tiles = DecorGfx_SMALL_DESK,
     },
- 
+
     [DECOR_REGISTEEL_DOLL] =
     {
         .id = DECOR_REGISTEEL_DOLL,

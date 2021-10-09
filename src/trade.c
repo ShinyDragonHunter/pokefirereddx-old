@@ -771,8 +771,8 @@ static void CB2_ReturnToTradeMenu(void)
         else
             sTradeMenuData->cursorPosition = gLastViewedMonIndex + PARTY_SIZE;
 
-        sTradeMenuData->cursorSpriteId = CreateSprite(&sSpriteTemplate_Cursor, 
-                                                     sTradeMonSpriteCoords[sTradeMenuData->cursorPosition][0] * 8 + 32, 
+        sTradeMenuData->cursorSpriteId = CreateSprite(&sSpriteTemplate_Cursor,
+                                                     sTradeMonSpriteCoords[sTradeMenuData->cursorPosition][0] * 8 + 32,
                                                      sTradeMonSpriteCoords[sTradeMenuData->cursorPosition][1] * 8, 2);
         gMain.state = 16;
         break;
@@ -1526,8 +1526,8 @@ static bool32 CheckMonsBeforeTrade(void)
         aliveMons[i] = sTradeMenuData->isLiveMon[TRADE_PLAYER][i];
     }
 
-    switch (CheckValidityOfTradeMons(aliveMons, sTradeMenuData->partyCounts[TRADE_PLAYER], 
-                                                sTradeMenuData->cursorPosition, 
+    switch (CheckValidityOfTradeMons(aliveMons, sTradeMenuData->partyCounts[TRADE_PLAYER],
+                                                sTradeMenuData->cursorPosition,
                                                 sTradeMenuData->partnerCursorPosition))
     {
     case PLAYER_MON_INVALID:
@@ -1569,7 +1569,7 @@ static void ConfirmOrCancelTrade(void)
     }
 }
 
-// Only when choosing Yes to cancel, when No is chosen all are redrawn anyway 
+// Only when choosing Yes to cancel, when No is chosen all are redrawn anyway
 static void RestoreNicknamesCoveredByYesNo(void)
 {
     int i;
@@ -2680,9 +2680,9 @@ static void LoadTradeMonPic(u8 whichParty, u8 state)
         formSpecies = GetFormSpecies(species, form);
 
         if (whichParty)
-            HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[whichParty * 2 + 1], formSpecies, personality);
+            HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[whichParty * 2 + B_POSITION_OPPONENT_LEFT], formSpecies, personality);
         else
-            HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[1], formSpecies, personality);
+            HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_LEFT], formSpecies, personality);
 
         LoadUniqueSpritePalette(GetMonSpritePalStruct(mon), formSpecies, personality, GetMonData(mon));
         sTradeData->monSpecies[whichParty] = formSpecies;
@@ -3505,7 +3505,7 @@ static bool8 AnimateTradeSequenceCable(void)
     case TS_STATE_CROSSING_MON_PICS_MOVE:
         gSprites[sTradeData->monSpriteIds[TRADE_PLAYER]].y2 -= 3;
         gSprites[sTradeData->monSpriteIds[TRADE_PARTNER]].y2 += 3;
-        if (gSprites[sTradeData->monSpriteIds[TRADE_PLAYER]].y2 < -DISPLAY_HEIGHT 
+        if (gSprites[sTradeData->monSpriteIds[TRADE_PLAYER]].y2 < -DISPLAY_HEIGHT
          && gSprites[sTradeData->monSpriteIds[TRADE_PLAYER]].y2 >= -DISPLAY_HEIGHT - 3)
         {
             PlaySE(SE_WARP_IN);
@@ -3660,7 +3660,8 @@ static bool8 AnimateTradeSequenceCable(void)
     case TS_STATE_POKEBALL_ARRIVE_WAIT:
         if (gSprites[sTradeData->bouncingPokeballSpriteId].callback == SpriteCallbackDummy)
         {
-            HandleLoadSpecialPokePic(&gMonFrontPicTable[sTradeData->monSpecies[TRADE_PARTNER]], gMonSpritesGfxPtr->sprites.ptr[3], sTradeData->monSpecies[TRADE_PARTNER], sTradeData->monPersonalities[TRADE_PARTNER]);
+            HandleLoadSpecialPokePic(&gMonFrontPicTable[sTradeData->monSpecies[TRADE_PARTNER]], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_RIGHT], sTradeData->monSpecies[TRADE_PARTNER], sTradeData->monPersonalities[TRADE_PARTNER]);
+            sTradeData->state++;
         }
         break;
     case TS_STATE_SHOW_NEW_MON:
@@ -3870,7 +3871,7 @@ static bool8 AnimateTradeSequenceWireless(void)
                                          BLDCNT_EFFECT_BLEND |
                                          BLDCNT_TGT2_BG2);
             SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(16, 4));
-            
+
             // Start wireless signal effect
             CreateTask(Task_AnimateWirelessSignal, 5);
             sTradeData->state++;
@@ -4149,7 +4150,7 @@ static bool8 AnimateTradeSequenceWireless(void)
     case TS_STATE_POKEBALL_ARRIVE_WAIT:
         if (gSprites[sTradeData->bouncingPokeballSpriteId].callback == SpriteCallbackDummy)
         {
-            HandleLoadSpecialPokePic(&gMonFrontPicTable[sTradeData->monSpecies[TRADE_PARTNER]], gMonSpritesGfxPtr->sprites.ptr[3], sTradeData->monSpecies[TRADE_PARTNER], sTradeData->monPersonalities[TRADE_PARTNER]);
+            HandleLoadSpecialPokePic(&gMonFrontPicTable[sTradeData->monSpecies[TRADE_PARTNER]], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_RIGHT], sTradeData->monSpecies[TRADE_PARTNER], sTradeData->monPersonalities[TRADE_PARTNER]);
             sTradeData->state++;
         }
         break;

@@ -250,7 +250,7 @@ static void door_build_blockdef(u16 *a, u16 b, const u8 *c)
 static void DrawCurrentDoorAnimFrame(const struct DoorGraphics *gfx, int x, int y, const u8 *pal)
 {
     u16 arr[24];
-    
+
     if (gfx->size == 2)
     {
         door_build_blockdef(&arr[8], 0x3F0, pal);

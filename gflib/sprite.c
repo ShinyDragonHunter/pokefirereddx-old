@@ -201,7 +201,7 @@ const union AffineAnimCmd * const gDummySpriteAffineAnimTable[] = { &sDummyAffin
 const struct SpriteTemplate gDummySpriteTemplate =
 {
     .tileTag = 0,
-    .paletteTag = 0xFFFF,
+    .paletteTag = TAG_NONE,
     .oam = &gDummyOamData,
     .anims = gDummySpriteAnimTable,
     .images = NULL,
@@ -239,7 +239,7 @@ static const AffineAnimCmdFunc sAffineAnimCmdFuncs[] =
 
 static const struct OamDimensions32 sOamDimensions32[3][4] =
 {
-    [ST_OAM_SQUARE] = 
+    [ST_OAM_SQUARE] =
     {
         [SPRITE_SIZE(8x8)]   = {  8,  8 },
         [SPRITE_SIZE(16x16)] = { 16, 16 },
@@ -253,7 +253,7 @@ static const struct OamDimensions32 sOamDimensions32[3][4] =
         [SPRITE_SIZE(32x16)] = { 32, 16 },
         [SPRITE_SIZE(64x32)] = { 64, 32 },
     },
-    [ST_OAM_V_RECTANGLE] = 
+    [ST_OAM_V_RECTANGLE] =
     {
         [SPRITE_SIZE(8x16)]  = {  8, 16 },
         [SPRITE_SIZE(8x32)]  = {  8, 32 },
@@ -264,7 +264,7 @@ static const struct OamDimensions32 sOamDimensions32[3][4] =
 
 static const struct OamDimensions sOamDimensions[3][4] =
 {
-    [ST_OAM_SQUARE] = 
+    [ST_OAM_SQUARE] =
     {
         [SPRITE_SIZE(8x8)]   = {  8,  8 },
         [SPRITE_SIZE(16x16)] = { 16, 16 },
@@ -278,7 +278,7 @@ static const struct OamDimensions sOamDimensions[3][4] =
         [SPRITE_SIZE(32x16)] = { 32, 16 },
         [SPRITE_SIZE(64x32)] = { 64, 32 },
     },
-    [ST_OAM_V_RECTANGLE] = 
+    [ST_OAM_V_RECTANGLE] =
     {
         [SPRITE_SIZE(8x16)]  = {  8, 16 },
         [SPRITE_SIZE(8x32)]  = {  8, 32 },
@@ -580,9 +580,10 @@ u8 CreateSpriteAt(u8 index, const struct SpriteTemplate *template, s16 x, s16 y,
 
     CalcCenterToCornerVec(sprite, sprite->oam.shape, sprite->oam.size, sprite->oam.affineMode);
 
-    if (sprite->tileTag == 0xFFFF)
+    if (sprite->tileTag == TAG_NONE)
     {
         s16 tileNum;
+
         sprite->images = template->images;
         tileNum = AllocSpriteTiles((u8)(sprite->images->size / TILE_SIZE_4BPP));
         if (tileNum == -1)
@@ -603,7 +604,7 @@ u8 CreateSpriteAt(u8 index, const struct SpriteTemplate *template, s16 x, s16 y,
     if (sprite->oam.affineMode & ST_OAM_AFFINE_ON_MASK)
         InitSpriteAffineAnim(sprite);
 
-    if (sprite->paletteTag != 0xFFFF)
+    if (sprite->paletteTag != TAG_NONE)
         sprite->oam.paletteNum = IndexOfSpritePaletteTag(sprite->paletteTag);
 
     return index;
@@ -887,7 +888,7 @@ void ResetAllSprites(void)
 
 void FreeSpriteTiles(struct Sprite *sprite)
 {
-    if (sprite->tileTag != 0xFFFF)
+    if (sprite->tileTag != TAG_NONE)
         FreeSpriteTilesByTag(sprite->tileTag);
 }
 
@@ -1534,7 +1535,7 @@ void FreeSpriteTilesByTag(u16 tag)
         for (i = start; i < start + count; i++)
             FREE_SPRITE_TILE(i);
 
-        sSpriteTileRangeTags[index] = 0xFFFF;
+        sSpriteTileRangeTags[index] = TAG_NONE;
     }
 }
 
@@ -1544,7 +1545,7 @@ void FreeSpriteTileRanges(void)
 
     for (i = 0; i < MAX_SPRITES; i++)
     {
-        sSpriteTileRangeTags[i] = 0xFFFF;
+        sSpriteTileRangeTags[i] = TAG_NONE;
         SET_SPRITE_TILE_RANGE(i, 0, 0);
     }
 }
@@ -1575,16 +1576,16 @@ u16 GetSpriteTileTagByTileStart(u16 start)
 
     for (i = 0; i < MAX_SPRITES; i++)
     {
-        if (sSpriteTileRangeTags[i] != 0xFFFF && sSpriteTileRanges[i * 2] == start)
+        if (sSpriteTileRangeTags[i] != TAG_NONE && sSpriteTileRanges[i * 2] == start)
             return sSpriteTileRangeTags[i];
     }
 
-    return 0xFFFF;
+    return TAG_NONE;
 }
 
 void AllocSpriteTileRange(u16 tag, u16 start, u16 count)
 {
-    u8 freeIndex = IndexOfSpriteTileTag(0xFFFF);
+    u8 freeIndex = IndexOfSpriteTileTag(TAG_NONE);
     sSpriteTileRangeTags[freeIndex] = tag;
     SET_SPRITE_TILE_RANGE(freeIndex, start, count);
 }
@@ -1595,7 +1596,7 @@ void FreeAllSpritePalettes(void)
 
     gReservedSpritePaletteCount = 0;
     for (i = 0; i < 16; i++)
-        sSpritePaletteTags[i] = 0xFFFF;
+        sSpritePaletteTags[i] = TAG_NONE;
 }
 
 u8 LoadSpritePalette(const struct SpritePalette *palette)
@@ -1605,7 +1606,7 @@ u8 LoadSpritePalette(const struct SpritePalette *palette)
     if (index != 0xFF)
         return index;
 
-    index = IndexOfSpritePaletteTag(0xFFFF);
+    index = IndexOfSpritePaletteTag(TAG_NONE);
 
     if (index == 0xFF)
         return 0xFF;
@@ -1678,7 +1679,7 @@ void DoLoadSpritePaletteDayNight(const u16 *src, u16 paletteOffset)
 
 u8 AllocSpritePalette(u16 tag)
 {
-    u8 index = IndexOfSpritePaletteTag(0xFFFF);
+    u8 index = IndexOfSpritePaletteTag(TAG_NONE);
     if (index == 0xFF)
     {
         return 0xFF;
@@ -1711,7 +1712,7 @@ void FreeSpritePaletteByTag(u16 tag)
     u8 index = IndexOfSpritePaletteTag(tag);
 
     if (index != 0xFF)
-        sSpritePaletteTags[index] = 0xFFFF;
+        sSpritePaletteTags[index] = TAG_NONE;
 }
 
 void SetSubspriteTables(struct Sprite *sprite, const struct SubspriteTable *subspriteTables)

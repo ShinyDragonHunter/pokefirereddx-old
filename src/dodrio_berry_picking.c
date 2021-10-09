@@ -139,7 +139,7 @@ enum {
 
 #define NUM_STATUS_SQUARES 10
 
-// Berries fall in predefined columns. 
+// Berries fall in predefined columns.
 // A total of 10 are available, though fewer will be used with < 5 players
 // The 11th column is a repeat of the 1st column wrapped around, so only
 // the values 0-9 are unique 'valid' columns
@@ -342,20 +342,20 @@ static void HandleWaitPlayAgainInput(void);
 static void ResetPickState(void);
 static u32 GetHighestScore(void);
 static void SendPacket_ReadyToStart(bool32);
-static void SendPacket_GameState(struct DodrioGame_Player *, 
-                                 struct DodrioGame_PlayerCommData *, 
-                                 struct DodrioGame_PlayerCommData *, 
-                                 struct DodrioGame_PlayerCommData *, 
-                                 struct DodrioGame_PlayerCommData *, 
-                                 struct DodrioGame_PlayerCommData *, 
+static void SendPacket_GameState(struct DodrioGame_Player *,
+                                 struct DodrioGame_PlayerCommData *,
+                                 struct DodrioGame_PlayerCommData *,
+                                 struct DodrioGame_PlayerCommData *,
+                                 struct DodrioGame_PlayerCommData *,
+                                 struct DodrioGame_PlayerCommData *,
                                  u8 , bool32 , bool32 );
-static bool32 RecvPacket_GameState(u32, 
-                                   struct DodrioGame_Player *, 
-                                   struct DodrioGame_PlayerCommData *, 
-                                   struct DodrioGame_PlayerCommData *, 
-                                   struct DodrioGame_PlayerCommData *, 
-                                   struct DodrioGame_PlayerCommData *, 
-                                   struct DodrioGame_PlayerCommData *, 
+static bool32 RecvPacket_GameState(u32,
+                                   struct DodrioGame_Player *,
+                                   struct DodrioGame_PlayerCommData *,
+                                   struct DodrioGame_PlayerCommData *,
+                                   struct DodrioGame_PlayerCommData *,
+                                   struct DodrioGame_PlayerCommData *,
+                                   struct DodrioGame_PlayerCommData *,
                                    u8 *, bool32 *, bool32 *);
 static void SendPacket_PickState(u8);
 static bool32 RecvPacket_PickState(u32, u8 *);
@@ -422,11 +422,11 @@ static void StopGfxFuncs(void);
 static void GfxIdle(void);
 
 // For each player, the array is a list of all the columns starting with the column to their left
-// Only the range of active columns is read from the array (dependent on the number of players), 
+// Only the range of active columns is read from the array (dependent on the number of players),
 // so the arrays are spaced such that the numbers in the center are where the data that's read starts and end.
 static const u8 sActiveColumnMap[MAX_RFU_PLAYERS][MAX_RFU_PLAYERS][NUM_BERRY_COLUMNS] =
 {
-    { // 1 player (never used), columns 4-6. 
+    { // 1 player (never used), columns 4-6.
       // Sometimes read to get default order regardless of the current number of players
         {0, 1, 2, 3,     4, 5, 6,     7, 8, 9, 0},
     },
@@ -517,21 +517,21 @@ static const u8 sDodrioNeighborMap[MAX_RFU_PLAYERS][MAX_RFU_PLAYERS][3] =
     },
 };
 
-#define __ 9 // No player at this column. This may go out of bounds if this is returned
+#define x 9 // No player at this column. This may go out of bounds if this is returned
 
 // Takes the number of players and a column and returns the player id at that column.
 // Note that the assignment is somewhat arbitrary as players share neighboring columns.
 ALIGNED(4)
 static const u8 sPlayerIdAtColumn[MAX_RFU_PLAYERS][NUM_BERRY_COLUMNS] =
 {
-    {__, __, __, __,  1,  1,  1, __, __, __, __}, // 1 player
-    {__, __, __,  0,  0,  1,  1,  0, __, __, __}, // 2 players
-    {__, __,  2,  2,  0,  0,  1,  1,  1, __, __}, // 3 players 
-    {__,  3,  3,  0,  0,  1,  1,  2,  2,  3, __}, // 4 players
-    { 3,  3,  4,  4,  0,  0,  1,  1,  2,  2,  3}, // 5 players
+    {x, x, x, x, 1, 1, 1, x, x, x, x}, // 1 player
+    {x, x, x, 0, 0, 1, 1, 0, x, x, x}, // 2 players
+    {x, x, 2, 2, 0, 0, 1, 1, 1, x, x}, // 3 players
+    {x, 3, 3, 0, 0, 1, 1, 2, 2, 3, x}, // 4 players
+    {3, 3, 4, 4, 0, 0, 1, 1, 2, 2, 3}, // 5 players
 };
 
-#undef __
+#undef x
 
 // Each array contains the columns that belong solely to one player, dependent on the number of players
 // When determing how difficult the berries in a column should be, the highest
@@ -570,15 +570,15 @@ ALIGNED(4)
 static const u8 sPrizeBerryIds[][10] =
 {
     { // Possible prizes with 3 players
-        ITEM_TO_BERRY(ITEM_RAZZ_BERRY) - 1, 
-        ITEM_TO_BERRY(ITEM_BLUK_BERRY) - 1, 
-        ITEM_TO_BERRY(ITEM_NANAB_BERRY) - 1, 
-        ITEM_TO_BERRY(ITEM_WEPEAR_BERRY) - 1, 
-        ITEM_TO_BERRY(ITEM_PINAP_BERRY) - 1, 
-        ITEM_TO_BERRY(ITEM_PINAP_BERRY) - 1, 
-        ITEM_TO_BERRY(ITEM_WEPEAR_BERRY) - 1, 
-        ITEM_TO_BERRY(ITEM_NANAB_BERRY) - 1, 
-        ITEM_TO_BERRY(ITEM_BLUK_BERRY) - 1, 
+        ITEM_TO_BERRY(ITEM_RAZZ_BERRY) - 1,
+        ITEM_TO_BERRY(ITEM_BLUK_BERRY) - 1,
+        ITEM_TO_BERRY(ITEM_NANAB_BERRY) - 1,
+        ITEM_TO_BERRY(ITEM_WEPEAR_BERRY) - 1,
+        ITEM_TO_BERRY(ITEM_PINAP_BERRY) - 1,
+        ITEM_TO_BERRY(ITEM_PINAP_BERRY) - 1,
+        ITEM_TO_BERRY(ITEM_WEPEAR_BERRY) - 1,
+        ITEM_TO_BERRY(ITEM_NANAB_BERRY) - 1,
+        ITEM_TO_BERRY(ITEM_BLUK_BERRY) - 1,
         ITEM_TO_BERRY(ITEM_RAZZ_BERRY) - 1
     },
     { // Possible prizes with 4 players
@@ -842,7 +842,7 @@ static void InitCountdown(void)
     default:
         sGame->startCountdown = TRUE;
         SetGameFunc(FUNC_COUNTDOWN);
-        break;    
+        break;
     }
 }
 
@@ -890,7 +890,7 @@ static void WaitGameStart(void)
     case 0:
         if (sGame->startGame)
             SetGameFunc(FUNC_PLAY_GAME);
-        break;  
+        break;
     }
 }
 
@@ -1447,15 +1447,15 @@ static void RecvLinkData_Gameplay(void)
     u8 i;
     u8 numPlayers = sGame->numPlayers;
 
-    sGame->players[0].receivedGameStatePacket = RecvPacket_GameState(0, 
-                                                  &sGame->players[0], 
-                                                  &sGame->players[0].comm, 
-                                                  &sGame->players[1].comm, 
-                                                  &sGame->players[2].comm, 
-                                                  &sGame->players[3].comm, 
-                                                  &sGame->players[4].comm, 
-                                                  &sGame->numGraySquares, 
-                                                  &sGame->berriesFalling, 
+    sGame->players[0].receivedGameStatePacket = RecvPacket_GameState(0,
+                                                  &sGame->players[0],
+                                                  &sGame->players[0].comm,
+                                                  &sGame->players[1].comm,
+                                                  &sGame->players[2].comm,
+                                                  &sGame->players[3].comm,
+                                                  &sGame->players[4].comm,
+                                                  &sGame->numGraySquares,
+                                                  &sGame->berriesFalling,
                                                   &sGame->allReadyToEnd);
     sGame->clearRecvCmds = TRUE;
 
@@ -1523,15 +1523,15 @@ static void RecvLinkData_ReadyToEnd(void)
     u8 i;
     u8 numPlayers = sGame->numPlayers;
 
-    sGame->players[0].receivedGameStatePacket = RecvPacket_GameState(0, 
-                                                  &sGame->players[0], 
-                                                  &sGame->players[0].comm, 
-                                                  &sGame->players[1].comm, 
-                                                  &sGame->players[2].comm, 
-                                                  &sGame->players[3].comm, 
-                                                  &sGame->players[4].comm, 
-                                                  &sGame->numGraySquares, 
-                                                  &sGame->berriesFalling, 
+    sGame->players[0].receivedGameStatePacket = RecvPacket_GameState(0,
+                                                  &sGame->players[0],
+                                                  &sGame->players[0].comm,
+                                                  &sGame->players[1].comm,
+                                                  &sGame->players[2].comm,
+                                                  &sGame->players[3].comm,
+                                                  &sGame->players[4].comm,
+                                                  &sGame->numGraySquares,
+                                                  &sGame->berriesFalling,
                                                   &sGame->allReadyToEnd);
     sGame->clearRecvCmds = TRUE;
 
@@ -1583,25 +1583,25 @@ static void SendLinkData_Leader(void)
     switch (sGame->funcId)
     {
     case FUNC_PLAY_GAME:
-        SendPacket_GameState(&sGame->player, 
-                             &sGame->players[0].comm, 
-                             &sGame->players[1].comm, 
-                             &sGame->players[2].comm, 
-                             &sGame->players[3].comm, 
-                             &sGame->players[4].comm, 
-                             sGame->numGraySquares, 
-                             sGame->berriesFalling, 
+        SendPacket_GameState(&sGame->player,
+                             &sGame->players[0].comm,
+                             &sGame->players[1].comm,
+                             &sGame->players[2].comm,
+                             &sGame->players[3].comm,
+                             &sGame->players[4].comm,
+                             sGame->numGraySquares,
+                             sGame->berriesFalling,
                              sGame->allReadyToEnd);
         break;
     case FUNC_WAIT_END_GAME:
-        SendPacket_GameState(&sGame->player, 
-                             &sGame->players[0].comm, 
-                             &sGame->players[1].comm, 
-                             &sGame->players[2].comm, 
-                             &sGame->players[3].comm, 
-                             &sGame->players[4].comm, 
-                             sGame->numGraySquares, 
-                             sGame->berriesFalling, 
+        SendPacket_GameState(&sGame->player,
+                             &sGame->players[0].comm,
+                             &sGame->players[1].comm,
+                             &sGame->players[2].comm,
+                             &sGame->players[3].comm,
+                             &sGame->players[4].comm,
+                             sGame->numGraySquares,
+                             sGame->berriesFalling,
                              sGame->allReadyToEnd);
         break;
     }
@@ -1612,27 +1612,27 @@ static void RecvLinkData_Member(void)
     switch (sGame->funcId)
     {
     case FUNC_PLAY_GAME:
-        RecvPacket_GameState(sGame->multiplayerId, 
-                            &sGame->players[sGame->multiplayerId], 
-                            &sGame->players[0].comm, 
-                            &sGame->players[1].comm, 
-                            &sGame->players[2].comm, 
-                            &sGame->players[3].comm, 
-                            &sGame->players[4].comm, 
-                            &sGame->numGraySquares, 
-                            &sGame->berriesFalling, 
+        RecvPacket_GameState(sGame->multiplayerId,
+                            &sGame->players[sGame->multiplayerId],
+                            &sGame->players[0].comm,
+                            &sGame->players[1].comm,
+                            &sGame->players[2].comm,
+                            &sGame->players[3].comm,
+                            &sGame->players[4].comm,
+                            &sGame->numGraySquares,
+                            &sGame->berriesFalling,
                             &sGame->allReadyToEnd);
         break;
     case FUNC_WAIT_END_GAME:
-        RecvPacket_GameState(sGame->multiplayerId, 
-                            &sGame->players[sGame->multiplayerId], 
-                            &sGame->players[0].comm, 
-                            &sGame->players[1].comm, 
-                            &sGame->players[2].comm, 
-                            &sGame->players[3].comm, 
-                            &sGame->players[4].comm, 
-                            &sGame->numGraySquares, 
-                            &sGame->berriesFalling, 
+        RecvPacket_GameState(sGame->multiplayerId,
+                            &sGame->players[sGame->multiplayerId],
+                            &sGame->players[0].comm,
+                            &sGame->players[1].comm,
+                            &sGame->players[2].comm,
+                            &sGame->players[3].comm,
+                            &sGame->players[4].comm,
+                            &sGame->numGraySquares,
+                            &sGame->berriesFalling,
                             &sGame->allReadyToEnd);
         break;
     }
@@ -1704,6 +1704,7 @@ static void HandleSound_Member(void)
     u8 berryStart = sGame->berryColStart;
     u8 berryEnd = sGame->berryColEnd;
     u8 i;
+
     if (!sGame->players[sGame->multiplayerId].comm.pickState)
     {
         if (!sGame->players[sGame->multiplayerId].comm.ateBerry 
@@ -1863,7 +1864,7 @@ static void HandlePickBerries(void)
                 column = sActiveColumnMap[0][0][j];
 
                 // Attempt has already been checked
-                if (sGame->playersAttemptingPick[column][0] == i 
+                if (sGame->playersAttemptingPick[column][0] == i
                  || sGame->playersAttemptingPick[column][1] == i)
                     break;
 
@@ -1907,14 +1908,14 @@ static void HandlePickBerries(void)
             if (++sGame->eatTimer[column] >= 6)
             {
                 sGame->eatTimer[column] = 0;
-                
-                if (sGame->playersAttemptingPick[column][0] == PLAYER_NONE 
+
+                if (sGame->playersAttemptingPick[column][0] == PLAYER_NONE
                  && sGame->playersAttemptingPick[column][1] == PLAYER_NONE)
                 {
                     // No players attempting to pick this berry
                     continue;
                 }
-                else if (sGame->playersAttemptingPick[column][0] != PLAYER_NONE 
+                else if (sGame->playersAttemptingPick[column][0] != PLAYER_NONE
                       && sGame->playersAttemptingPick[column][1] == PLAYER_NONE)
                 {
                     // One player attempting to pick this berry
@@ -1979,7 +1980,7 @@ static bool32 TryPickBerry(u8 playerId, u8 pickState, u8 column)
         pick = 2;
         break;
     }
-    
+
     // Check if berry is within range to be picked
     if (berries->fallDist[column] == EAT_FALL_DIST - 1 || berries->fallDist[column] == EAT_FALL_DIST)
     {
@@ -2030,7 +2031,7 @@ static void UpdateFallingBerries(void)
         if (sGame->berryState[i] == BERRYSTATE_NONE || sGame->berryState[i] == BERRYSTATE_PICKED)
         {
             sGame->berriesFalling = TRUE;
-            
+
             if (game->player.berries.fallDist[i] >= MAX_FALL_DIST)
             {
                 // Berry hit the ground
@@ -2566,9 +2567,9 @@ static void ResetForPlayAgainPrompt(void)
 }
 
 static const s16 sBerryScoreMultipliers[] = {
-    [BERRY_BLUE]   = 10, 
-    [BERRY_GREEN]  = 30, 
-    [BERRY_GOLD]   = 50, 
+    [BERRY_BLUE]   = 10,
+    [BERRY_GREEN]  = 30,
+    [BERRY_GOLD]   = 50,
     [BERRY_MISSED] = 50 // Subtracted
 };
 
@@ -2783,7 +2784,7 @@ static u32 SetScoreResults(void)
     {
         u32 score = GetScoreByRanking(ranking);
         u8 curRanking = nextRanking;
-        
+
         // Find all players with the score for this ranking.
         // Increment nextRanking but not curRanking to allow
         // for ties
@@ -3042,14 +3043,14 @@ struct GameStatePacket
     bool8 missedBerry_Player5:1;
 };
 
-static void SendPacket_GameState(struct DodrioGame_Player *player, 
-                                 struct DodrioGame_PlayerCommData *player1, 
-                                 struct DodrioGame_PlayerCommData *player2, 
-                                 struct DodrioGame_PlayerCommData *player3, 
-                                 struct DodrioGame_PlayerCommData *player4, 
-                                 struct DodrioGame_PlayerCommData *player5, 
-                                 u8 numGraySquares, 
-                                 bool32 berriesFalling, 
+static void SendPacket_GameState(struct DodrioGame_Player *player,
+                                 struct DodrioGame_PlayerCommData *player1,
+                                 struct DodrioGame_PlayerCommData *player2,
+                                 struct DodrioGame_PlayerCommData *player3,
+                                 struct DodrioGame_PlayerCommData *player4,
+                                 struct DodrioGame_PlayerCommData *player5,
+                                 u8 numGraySquares,
+                                 bool32 berriesFalling,
                                  bool32 allReadyToEnd)
 {
     struct GameStatePacket packet;
@@ -3102,15 +3103,15 @@ static void SendPacket_GameState(struct DodrioGame_Player *player,
     Rfu_SendPacket(&packet);
 }
 
-static bool32 RecvPacket_GameState(u32 playerId, 
-                                   struct DodrioGame_Player *player, 
-                                   struct DodrioGame_PlayerCommData *player1, 
-                                   struct DodrioGame_PlayerCommData *player2, 
-                                   struct DodrioGame_PlayerCommData *player3, 
-                                   struct DodrioGame_PlayerCommData *player4, 
-                                   struct DodrioGame_PlayerCommData *player5, 
-                                   u8 *numGraySquares, 
-                                   bool32 *berriesFalling, 
+static bool32 RecvPacket_GameState(u32 playerId,
+                                   struct DodrioGame_Player *player,
+                                   struct DodrioGame_PlayerCommData *player1,
+                                   struct DodrioGame_PlayerCommData *player2,
+                                   struct DodrioGame_PlayerCommData *player3,
+                                   struct DodrioGame_PlayerCommData *player4,
+                                   struct DodrioGame_PlayerCommData *player5,
+                                   u8 *numGraySquares,
+                                   bool32 *berriesFalling,
                                    bool32 *allReadyToEnd)
 {
     struct GameStatePacket *packet;
@@ -3874,7 +3875,7 @@ static void UpdateStatusBarAnim(u8 numEmpty)
                 StartSpriteAnim(&gSprites[sStatusBar->spriteIds[i]], STATUS_YELLOW);
             }
         }
-        
+
         // Set remaining squares gray
         for (; i < NUM_STATUS_SQUARES; i++)
             StartSpriteAnim(&gSprites[sStatusBar->spriteIds[i]], STATUS_GRAY);
@@ -4017,9 +4018,9 @@ static void SpriteCB_Cloud(struct Sprite *sprite)
     }
 }
 
-static const s16 sCloudStartCoords[NUM_CLOUDS][2] = 
+static const s16 sCloudStartCoords[NUM_CLOUDS][2] =
 {
-    {230, 55}, 
+    {230, 55},
     { 30, 74}
 };
 
@@ -4697,7 +4698,7 @@ static void Msg_WantToPlayAgain(void)
         AddTextPrinterParameterized(sGfx->windowIds[WIN_YES_NO], 2, gText_No, 8, 17, -1, NULL);
         AddTextPrinterParameterized(sGfx->windowIds[WIN_YES_NO], 2, gText_SelectorArrow2, 0, ((y - 1) * 16) + 1, -1, NULL);
         CopyWindowToVram(sGfx->windowIds[WIN_YES_NO], 3);
-        
+
         // Increment state only if A or B button have been pressed.
         if (JOY_NEW(A_BUTTON))
         {

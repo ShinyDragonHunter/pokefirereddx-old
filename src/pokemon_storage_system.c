@@ -4893,7 +4893,7 @@ static void SetReleaseMon(u8 mode, u8 position)
 
 static bool8 TryHideReleaseMonSprite(void)
 {
-    if (*sStorage->releaseMonSpritePtr == NULL 
+    if (*sStorage->releaseMonSpritePtr == NULL
     || (*sStorage->releaseMonSpritePtr)->invisible)
         return FALSE;
 
@@ -5339,7 +5339,7 @@ static void InitBoxTitle(u8 boxId)
     sStorage->boxTitlePalOffset = 0x10e + 16 * tagIndex;
     sStorage->wallpaperPalBits |= 0x10000 << tagIndex;
 
-    StringCopyPadded(sStorage->boxTitleText, GetBoxNamePtr(boxId), 0, 8);
+    StringCopyPadded(sStorage->boxTitleText, GetBoxNamePtr(boxId), 0, BOX_NAME_LENGTH);
     DrawTextWindowAndBufferTiles(sStorage->boxTitleText, sStorage->boxTitleTiles, 0, 0, 2);
     LoadSpriteSheet(&spriteSheet);
     x = GetBoxTitleBaseX(GetBoxNamePtr(boxId));
@@ -5384,7 +5384,7 @@ static void CreateIncomingBoxTitle(u8 boxId, s8 direction)
         palOffset = sStorage->boxTitlePalOffset;
     }
 
-    StringCopyPadded(sStorage->boxTitleText, GetBoxNamePtr(boxId), 0, 8);
+    StringCopyPadded(sStorage->boxTitleText, GetBoxNamePtr(boxId), 0, BOX_NAME_LENGTH);
     DrawTextWindowAndBufferTiles(sStorage->boxTitleText, sStorage->boxTitleTiles, 0, 0, 2);
     LoadSpriteSheet(&spriteSheet);
     LoadPalette(sBoxTitleColors[GetBoxWallpaper(boxId)], palOffset, sizeof(sBoxTitleColors[0]));
@@ -5730,7 +5730,7 @@ static bool8 UpdateCursorPos(void)
         sStorage->cursorNewY += sStorage->cursorSpeedY;
         sStorage->cursorSprite->x = sStorage->cursorNewX >> 8;
         sStorage->cursorSprite->y = sStorage->cursorNewY >> 8;
-        
+
         // Limit cursor on right
         if (sStorage->cursorSprite->x > DISPLAY_WIDTH + 16)
         {
@@ -6411,7 +6411,7 @@ static bool32 AtLeastThreeUsableMons(void)
 {
     s32 i, j;
     s32 count = (sIsMonBeingMoved != FALSE);
-    
+
     // Check party for usable Pokémon
     for (j = 0; j < PARTY_SIZE; j++)
     {
@@ -7386,7 +7386,7 @@ static u8 HandleInput_OnButtons(void)
         // Button was pressed, determine which
         if (JOY_NEW(A_BUTTON))
             return (!cursorPosition) ? INPUT_SHOW_PARTY : INPUT_CLOSE_BOX;
-        
+
         if (JOY_NEW(B_BUTTON))
             return INPUT_PRESSED_B;
 
@@ -7891,9 +7891,9 @@ static void RemoveMenu(void)
 
 //------------------------------------------------------------------------------
 //  SECTION: MultiMove
-// 
+//
 //  The functions below handle moving and selecting multiple Pokémon at once.
-//  The icon sprites are moved to bg 0, and this bg is manipulated to move 
+//  The icon sprites are moved to bg 0, and this bg is manipulated to move
 //  them as a group.
 //------------------------------------------------------------------------------
 
@@ -8449,7 +8449,7 @@ static bool8 MultiMove_CanPlaceSelection(void)
 
 //------------------------------------------------------------------------------
 //  SECTION: Item mode
-// 
+//
 //  The functions below handle the Move Items mode
 //------------------------------------------------------------------------------
 
@@ -8754,7 +8754,7 @@ static void MoveItemFromCursorToBag(void)
 
 // The party menu is being closed, if the cursor is on
 // a Pokémon that has a held item make sure it slides
-// up along with the closing menu. 
+// up along with the closing menu.
 static void MoveHeldItemWithPartyMenu(void)
 {
     s32 i;
@@ -8764,7 +8764,7 @@ static void MoveHeldItemWithPartyMenu(void)
 
     for (i = 0; i < MAX_ITEM_ICONS; i++)
     {
-        if (sStorage->itemIcons[i].active 
+        if (sStorage->itemIcons[i].active
          && sStorage->itemIcons[i].area == CURSOR_AREA_IN_PARTY)
             SetItemIconCallback(i, ITEM_CB_HIDE_PARTY, CURSOR_AREA_IN_HAND, 0);
     }
@@ -8781,7 +8781,7 @@ static bool8 IsItemIconAnimActive(void)
             if (!sStorage->itemIcons[i].sprite->affineAnimEnded 
              && sStorage->itemIcons[i].sprite->affineAnimBeginning)
                 return TRUE;
-            if (sStorage->itemIcons[i].sprite->callback != SpriteCallbackDummy 
+            if (sStorage->itemIcons[i].sprite->callback != SpriteCallbackDummy
              && sStorage->itemIcons[i].sprite->callback != SpriteCB_ItemIcon_SetPosToCursor)
                 return TRUE;
         }
@@ -8797,7 +8797,7 @@ static bool8 IsMovingItem(void)
     {
         for (i = 0; i < MAX_ITEM_ICONS; i++)
         {
-            if (sStorage->itemIcons[i].active 
+            if (sStorage->itemIcons[i].active
              && sStorage->itemIcons[i].area == CURSOR_AREA_IN_HAND)
                 return TRUE;
         }
@@ -9600,13 +9600,13 @@ struct
     u16 height;
 } static const sTilemapDimensions[][4] =
 {
-    {
+    [BG_TYPE_NORMAL] = {
         { 256,  256},
         { 512,  256},
         { 256,  512},
         { 512,  512},
     },
-    {
+    [BG_TYPE_AFFINE] = {
         { 128,  128},
         { 256,  256},
         { 512,  512},
@@ -9629,7 +9629,7 @@ static void TilemapUtil_SetMap(u8 id, u8 bg, const void *tilemap, u16 width, u16
     bgScreenSize = GetBgAttribute(bg, BG_ATTR_SCREENSIZE);
     bgType = GetBgAttribute(bg, BG_ATTR_TYPE);
     sTilemapUtil[id].altWidth = sTilemapDimensions[bgType][bgScreenSize].width;
-    if (bgType)
+    if (bgType != BG_TYPE_NORMAL)
         sTilemapUtil[id].tileSize = 1;
     else
         sTilemapUtil[id].tileSize = 2;

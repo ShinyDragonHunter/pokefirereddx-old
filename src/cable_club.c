@@ -339,14 +339,14 @@ static void Task_LinkupExchangeDataWithLeader(u8 taskId)
     gSpecialVar_Result = ExchangeDataAndGetLinkupStatus(minPlayers, maxPlayers);
     if (gSpecialVar_Result == LINKUP_ONGOING)
         return;
-    if (gSpecialVar_Result == LINKUP_DIFF_SELECTIONS 
+    if (gSpecialVar_Result == LINKUP_DIFF_SELECTIONS
      || gSpecialVar_Result == LINKUP_WRONG_NUM_PLAYERS)
     {
         SetCloseLinkCallback();
         HideFieldMessageBox();
         gTasks[taskId].func = Task_StopLinkup;
     }
-    else if (gSpecialVar_Result == LINKUP_PLAYER_NOT_READY 
+    else if (gSpecialVar_Result == LINKUP_PLAYER_NOT_READY
           || gSpecialVar_Result == LINKUP_PARTNER_NOT_READY)
     {
         CloseLink();
@@ -394,7 +394,7 @@ static void Task_LinkupCheckStatusAfterConfirm(u8 taskId)
         HideFieldMessageBox();
         gTasks[taskId].func = Task_StopLinkup;
     }
-    else if (gSpecialVar_Result == LINKUP_PLAYER_NOT_READY 
+    else if (gSpecialVar_Result == LINKUP_PLAYER_NOT_READY
           || gSpecialVar_Result == LINKUP_PARTNER_NOT_READY)
     {
         CloseLink();
@@ -989,9 +989,9 @@ void CB2_ReturnFromCableClubBattle(void)
 
 void CleanupLinkRoomState(void)
 {
-    if (gSpecialVar_0x8004 == USING_SINGLE_BATTLE 
-     || gSpecialVar_0x8004 == USING_DOUBLE_BATTLE 
-     || gSpecialVar_0x8004 == USING_MULTI_BATTLE 
+    if (gSpecialVar_0x8004 == USING_SINGLE_BATTLE
+     || gSpecialVar_0x8004 == USING_DOUBLE_BATTLE
+     || gSpecialVar_0x8004 == USING_MULTI_BATTLE
      || gSpecialVar_0x8004 == USING_BATTLE_TOWER)
     {
         LoadPlayerParty();

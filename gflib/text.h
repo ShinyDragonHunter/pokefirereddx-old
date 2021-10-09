@@ -18,7 +18,7 @@
 #define CHAR_O_ACUTE           0x0E
 #define CHAR_O_CIRCUMFLEX      0x0F
 #define CHAR_OE                0x10
-#define CHAR_U_GRAVE           0x11    
+#define CHAR_U_GRAVE           0x11
 #define CHAR_U_ACUTE           0x12
 #define CHAR_U_CIRCUMFLEX      0x13
 #define CHAR_N_TILDE           0x14
@@ -255,6 +255,10 @@
 #define PLACEHOLDER_ID_RIVAL         0x5
 
 // battle placeholders are located in battle_message.h
+
+// Hiragana from 0x1-0x50, Katakana from 0x51-0xA0.
+// This excludes Japanese punctuation, which end at 0xB0
+#define JAPANESE_CHAR_END 0xA0
 
 #define NUM_TEXT_PRINTERS 32
 

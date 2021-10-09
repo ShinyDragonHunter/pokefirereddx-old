@@ -1004,8 +1004,8 @@ void ShowPokemonSummaryScreen(u8 mode, void *mons, u8 monIndex, u8 maxMonIndex, 
     sMonSummaryScreen->currPageIndex = sMonSummaryScreen->minPageIndex;
     SummaryScreen_SetAnimDelayTaskId(TASK_NONE);
 
-    if (!gMonSpritesGfxPtr)
-        sub_806F2AC(0, 0);
+    if (gMonSpritesGfxPtr == NULL)
+        CreateMonSpritesGfxManager(MON_SPR_GFX_MANAGER_A, MON_SPR_GFX_MODE_NORMAL);
 
     SetMainCallback2(CB2_InitSummaryScreen);
 }
@@ -1372,8 +1372,8 @@ static void CloseSummaryScreen(u8 taskId)
         FreeAllSpritePalettes();
         StopCryAndClearCrySongs();
         m4aMPlayVolumeControl(&gMPlayInfo_BGM, 0xFFFF, 0x100);
-        if (!gMonSpritesGfxPtr)
-            sub_806F47C(0);
+        if (gMonSpritesGfxPtr == NULL)
+            DestroyMonSpritesGfxManager(MON_SPR_GFX_MANAGER_A);
         FreeSummaryScreen();
         DestroyTask(taskId);
     }
@@ -3515,20 +3515,20 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
         return CreateMonSprite(mon);
     case 0:
         if (gMain.inBattle)
-            HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[1], formSpecies, summary->pid);
+            HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_LEFT], formSpecies, summary->pid);
         else
         {
             if (gMonSpritesGfxPtr)
                 HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[1], formSpecies, summary->pid);
             else
-                HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], sub_806F4F8(0, 1), formSpecies, summary->pid);
+                HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], MonSpritesGfxManager_GetSpritePtr(MON_SPR_GFX_MANAGER_A, B_POSITION_OPPONENT_LEFT), formSpecies, summary->pid);
         }
         (*state)++;
         return 0xFF;
     case 1:
         pal = GetMonSpritePalStructFromOtIdPersonality(formSpecies, summary->OTID, summary->pid);
         LoadUniqueSpritePalette(pal, formSpecies, summary->pid, IsMonShiny(mon));
-        SetMultiuseSpriteTemplateToPokemon(pal->tag, 1, sMonSummaryScreen->form);
+        SetMultiuseSpriteTemplateToPokemon(pal->tag, B_POSITION_OPPONENT_LEFT, sMonSummaryScreen->form);
         (*state)++;
         return 0xFF;
     }

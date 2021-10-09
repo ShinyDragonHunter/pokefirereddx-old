@@ -180,31 +180,31 @@ static const struct {
     {
         .species = SPECIES_SEEDOT,
         .moves = {MOVE_BIDE, MOVE_HARDEN, MOVE_LEECH_SEED},
-        .level = 3, 
+        .level = 3,
         .location = MAP_NUM(ROUTE102)
     },
     {
         .species = SPECIES_NUZLEAF,
         .moves = {MOVE_HARDEN, MOVE_GROWTH, MOVE_NATURE_POWER, MOVE_LEECH_SEED},
-        .level = 15, 
+        .level = 15,
         .location = MAP_NUM(ROUTE114),
     },
     {
         .species = SPECIES_SEEDOT,
         .moves = {MOVE_HARDEN, MOVE_GROWTH, MOVE_NATURE_POWER, MOVE_LEECH_SEED},
-        .level = 13, 
+        .level = 13,
         .location = MAP_NUM(ROUTE117),
     },
     {
         .species = SPECIES_SEEDOT,
         .moves = {MOVE_GIGA_DRAIN, MOVE_FRUSTRATION, MOVE_SOLAR_BEAM, MOVE_LEECH_SEED},
-        .level = 25, 
+        .level = 25,
         .location = MAP_NUM(ROUTE120),
     },
     {
         .species = SPECIES_SKITTY,
         .moves = {MOVE_GROWL, MOVE_TACKLE, MOVE_TAIL_WHIP, MOVE_ATTRACT},
-        .level = 8, 
+        .level = 8,
         .location = MAP_NUM(ROUTE116),
     }
 };
@@ -612,7 +612,7 @@ u8 FindAnyTVShowOnTheAir(void)
     if (slot == 0xFF)
         return 0xFF;
 
-    if (gSaveBlock1Ptr->outbreakPokemonSpecies != SPECIES_NONE 
+    if (gSaveBlock1Ptr->outbreakPokemonSpecies != SPECIES_NONE
      && gSaveBlock1Ptr->tvShows[slot].common.kind == TVSHOW_MASS_OUTBREAK)
         return FindFirstActiveTVShowThatIsNotAMassOutbreak();
 
@@ -632,7 +632,7 @@ void UpdateTVScreensOnMap(int width, int height)
         break;
 //  case PLAYERS_HOUSE_TV_NONE:
     default:
-        if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(LILYCOVE_CITY_COVE_LILY_MOTEL_1F) 
+        if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(LILYCOVE_CITY_COVE_LILY_MOTEL_1F)
          && gSaveBlock1Ptr->location.mapNum == MAP_NUM(LILYCOVE_CITY_COVE_LILY_MOTEL_1F))
         {
             // NPC in Lilycove Hotel is always watching TV
@@ -686,8 +686,8 @@ static u8 FindFirstActiveTVShowThatIsNotAMassOutbreak(void)
 
     for (i = 0; i < ARRAY_COUNT(gSaveBlock1Ptr->tvShows) - 1; i++)
     {
-        if (gSaveBlock1Ptr->tvShows[i].common.kind != TVSHOW_OFF_AIR 
-         && gSaveBlock1Ptr->tvShows[i].common.kind != TVSHOW_MASS_OUTBREAK 
+        if (gSaveBlock1Ptr->tvShows[i].common.kind != TVSHOW_OFF_AIR
+         && gSaveBlock1Ptr->tvShows[i].common.kind != TVSHOW_MASS_OUTBREAK
          && gSaveBlock1Ptr->tvShows[i].common.active == TRUE)
             return i;
     }
@@ -740,7 +740,7 @@ void GabbyAndTyBeforeInterview(void)
         gSaveBlock1Ptr->gabbyAndTyData.battleNum++;
     }
     gSaveBlock1Ptr->gabbyAndTyData.battleTookMoreThanOneTurn = gBattleResults.playerMonWasDamaged;
-    
+
     if (gBattleResults.playerFaintCounter != 0)
         gSaveBlock1Ptr->gabbyAndTyData.playerLostAMon = TRUE;
     else
@@ -1785,7 +1785,7 @@ bool8 ShouldHideFanClubInterviewer(void)
 
     if (gSaveBlock1Ptr->linkBattleRecords.entries[0].name[0] == EOS)
         return TRUE;
-    
+
     return FALSE;
 }
 
@@ -2008,8 +2008,8 @@ static u8 FindAnyPokeNewsOnTheAir(void)
 
     for (i = 0; i < POKE_NEWS_COUNT; i++)
     {
-        if (gSaveBlock1Ptr->pokeNews[i].kind != POKENEWS_NONE 
-         && gSaveBlock1Ptr->pokeNews[i].state == 1 
+        if (gSaveBlock1Ptr->pokeNews[i].kind != POKENEWS_NONE
+         && gSaveBlock1Ptr->pokeNews[i].state == 1
          && gSaveBlock1Ptr->pokeNews[i].days < 3)
             return i;
     }
@@ -2170,8 +2170,8 @@ static bool8 IsRecordMixShowAlreadySpawned(u8 kind, bool8 delete)
     playerId = GetPlayerIDAsU32();
     for (i = NUM_NORMAL_TVSHOW_SLOTS; i < LAST_TVSHOW_IDX; i++)
     {
-        if (shows[i].common.kind == kind 
-         && (playerId & 0xFF) == shows[i].common.trainerIdLo 
+        if (shows[i].common.kind == kind
+         && (playerId & 0xFF) == shows[i].common.trainerIdLo
          && ((playerId >> 8) & 0xFF) == shows[i].common.trainerIdHi)
         {
             if (delete == TRUE)
@@ -2469,7 +2469,7 @@ static void GetRandomWordFromShow(TVShow *show)
     u8 i;
 
     i = Random() % ARRAY_COUNT(show->fanclubLetter.words);
-    
+
     // From random point, get first non-empty word
     while (TRUE)
     {
@@ -2778,7 +2778,7 @@ void ReceiveTvShowsData(void *src, u32 size, u8 playersLinkId)
             else if (version == VERSION_EMERALD && gLinkPlayers[i].language == LANGUAGE_JAPANESE)
                 TranslateJapaneseEmeraldShows((*rmBuffer)[i]);
         }
-        
+
         // Position player's TV shows in argument list depending on link id
         switch (playersLinkId)
         {
@@ -2867,7 +2867,7 @@ static bool8 TryMixTVShow(TVShow *dest[TV_SHOWS_COUNT], TVShow *src[TV_SHOWS_COU
         success = TryMixOutbreakTVShow(&tv1[sCurTVShowSlot], &tv2[sTVShowMixingCurSlot], idx);
         break;
     }
-    
+
     // Show was mixed, delete from array
     if (success)
     {
@@ -2881,7 +2881,7 @@ static bool8 TryMixNormalTVShow(TVShow *dest, TVShow *src, u8 idx)
 {
     u32 linkTrainerId = GetLinkPlayerTrainerId(idx);
 
-    if ((linkTrainerId & 0xFF) == src->common.trainerIdLo 
+    if ((linkTrainerId & 0xFF) == src->common.trainerIdLo
     && ((linkTrainerId >> 8) & 0xFF) == src->common.trainerIdHi)
         return FALSE;
 
@@ -2898,11 +2898,11 @@ static bool8 TryMixRecordMixTVShow(TVShow *dest, TVShow *src, u8 idx)
 {
     u32 linkTrainerId = GetLinkPlayerTrainerId(idx);
 
-    if ((linkTrainerId & 0xFF) == src->common.srcTrainerIdLo 
+    if ((linkTrainerId & 0xFF) == src->common.srcTrainerIdLo
     && ((linkTrainerId >> 8) & 0xFF) == src->common.srcTrainerIdHi)
         return FALSE;
 
-    if ((linkTrainerId & 0xFF) == src->common.trainerIdLo 
+    if ((linkTrainerId & 0xFF) == src->common.trainerIdLo
     && ((linkTrainerId >> 8) & 0xFF) == src->common.trainerIdHi)
         return FALSE;
 
@@ -2919,7 +2919,7 @@ static bool8 TryMixOutbreakTVShow(TVShow *dest, TVShow *src, u8 idx)
 {
     u32 linkTrainerId = GetLinkPlayerTrainerId(idx);
 
-    if ((linkTrainerId & 0xFF) == src->common.trainerIdLo 
+    if ((linkTrainerId & 0xFF) == src->common.trainerIdLo
     && ((linkTrainerId >> 8) & 0xFF) == src->common.trainerIdHi)
         return FALSE;
 
@@ -3136,7 +3136,7 @@ void ReceivePokeNewsData(void *src, u32 size, u8 playersLinkId)
             memcpy((*rmBuffer2)[i], src + i * size, sizeof((*rmBuffer2)[i]));
 
         rmBuffer = rmBuffer2;
-        
+
         // Position player's PokeNews in argument list depending on link id
         switch (playersLinkId)
         {
@@ -3253,7 +3253,7 @@ void SanitizeTVShowsForRuby(TVShow *shows)
     {
         if (curShow->bravoTrainerTower.kind == TVSHOW_BRAVO_TRAINER_BATTLE_TOWER_PROFILE)
         {
-            if ((curShow->bravoTrainerTower.language == LANGUAGE_JAPANESE && curShow->bravoTrainerTower.pokemonNameLanguage != LANGUAGE_JAPANESE) 
+            if ((curShow->bravoTrainerTower.language == LANGUAGE_JAPANESE && curShow->bravoTrainerTower.pokemonNameLanguage != LANGUAGE_JAPANESE)
              || (curShow->bravoTrainerTower.language != LANGUAGE_JAPANESE && curShow->bravoTrainerTower.pokemonNameLanguage == LANGUAGE_JAPANESE))
                 memset(curShow, 0, sizeof(TVShow));
         }

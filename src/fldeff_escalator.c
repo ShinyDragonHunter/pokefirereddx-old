@@ -70,7 +70,7 @@ static void SetEscalatorMetatile(u8 taskId, const s16 *metatileIds, u16 metatile
     s16 transitionStage = gTasks[taskId].tTransitionStage;
     s32 i, j;
 
-    // Check all the escalator sections and only progress the selected one to the next stage    
+    // Check all the escalator sections and only progress the selected one to the next stage
     if (!gTasks[taskId].tGoingUp)
     {
         for (i = 0; i < 3; i++)
@@ -177,7 +177,7 @@ void StopEscalator(void)
 
 bool8 IsEscalatorMoving(void)
 {
-    if (gTasks[sEscalatorAnim_TaskId].tDrawingEscalator == FALSE 
+    if (gTasks[sEscalatorAnim_TaskId].tDrawingEscalator == FALSE
      && gTasks[sEscalatorAnim_TaskId].tTransitionStage == LAST_ESCALATOR_STAGE)
         return FALSE;
     else
