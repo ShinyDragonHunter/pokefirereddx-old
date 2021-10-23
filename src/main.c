@@ -35,6 +35,8 @@ const u8 gGameVersion = GAME_VERSION;
 
 const u8 gGameLanguage = GAME_LANGUAGE; // English
 
+const u8 gVersionModifier = VERSION_MODIFIER;
+
 const char BuildDateTime[] = __DATE__ " " __TIME__;
 
 const IntrFunc gIntrTableTemplate[] =

@@ -209,7 +209,7 @@ static struct PokemonAnimData sAnims[MAX_BATTLERS_COUNT];
 static u8 sAnimIdx;
 static bool32 sIsSummaryAnim;
 
-static const u8 sSpeciesToBackAnimSet[SPECIES_COUNT] =
+const u8 gSpeciesToBackAnimSet[SPECIES_COUNT] =
 {
     [SPECIES_NONE] = BACK_ANIM_NONE,
     [SPECIES_BULBASAUR] = BACK_ANIM_DIP_RIGHT_SIDE,
@@ -821,7 +821,6 @@ static void (* const sMonAnimFunctions[])(struct Sprite *sprite) =
 
 // Each back anim set has 3 possible animations depending on nature
 // Each of the 3 animations is a slight variation of the others
-// BACK_ANIM_NONE is skipped below. GetSpeciesBackAnimSet subtracts 1 from the back anim id
 static const u8 sBackAnimationIds[] =
 {
     [(BACK_ANIM_NONE) * 3]                    = ANIM_V_SQUISH_AND_BOUNCE, ANIM_V_SQUISH_AND_BOUNCE, ANIM_V_SQUISH_AND_BOUNCE,
@@ -899,7 +898,7 @@ static const union AffineAnimCmd *const sMonAffineAnims[] =
     sMonAffineAnim_1
 };
 
-static void MonAnimDummySpriteCallback(struct Sprite *sprite)
+void MonAnimDummySpriteCallback(struct Sprite *sprite)
 {
 }
 
@@ -920,13 +919,6 @@ static void SetPosForRotation(struct Sprite *sprite, u16 index, s16 amplitudeX, 
     sprite->y2 = yAdder + amplitudeY;
 }
 
-u8 GetSpeciesBackAnimSet(u16 species)
-{
-    if (sSpeciesToBackAnimSet[species])
-        return sSpeciesToBackAnimSet[species];
-    return BACK_ANIM_NONE;
-}
-
 #define tState  data[0]
 #define tPtrHi  data[1]
 #define tPtrLo  data[2]
@@ -934,16 +926,7 @@ u8 GetSpeciesBackAnimSet(u16 species)
 #define tBattlerId data[4]
 #define tSpeciesId data[5]
 
-// BUG: In vanilla, tPtrLo is read as an s16, so if bit 15 of the
-// address were to be set it would cause the pointer to be read
-// as 0xFFFFXXXX instead of the desired 0x02YYXXXX.
-// By dumb luck, this is not an issue in vanilla. However,
-// changing the link order revealed this bug.
-#if MODERN
 #define ANIM_SPRITE(taskId)   ((struct Sprite *)((gTasks[taskId].tPtrHi << 16) | ((u16)gTasks[taskId].tPtrLo)))
-#else
-#define ANIM_SPRITE(taskId)   ((struct Sprite *)((gTasks[taskId].tPtrHi << 16) | (gTasks[taskId].tPtrLo)))
-#endif //MODERN
 
 static void Task_HandleMonAnimation(u8 taskId)
 {
@@ -1012,11 +995,6 @@ void LaunchAnimationTaskForBackSprite(struct Sprite *sprite, u8 backAnimSet)
 #undef tAnimId
 #undef tBattlerId
 #undef tSpeciesId
-
-void SetSpriteCB_MonAnimDummy(struct Sprite *sprite)
-{
-    sprite->callback = MonAnimDummySpriteCallback;
-}
 
 static void SetAffineData(struct Sprite *sprite, s16 xScale, s16 yScale, u16 rotation)
 {

@@ -72,7 +72,7 @@ EWRAM_DATA u8 gEnemyPartyCount = 0;
 EWRAM_DATA struct Pokemon gPlayerParty[PARTY_SIZE] = {0};
 EWRAM_DATA struct Pokemon gEnemyParty[PARTY_SIZE] = {0};
 EWRAM_DATA struct SpriteTemplate gMultiuseSpriteTemplate = {0};
-EWRAM_DATA static struct MonSpritesGfxManager *sMonSpritesGfxManagers[MON_SPR_GFX_MANAGERS_COUNT] = {NULL};
+EWRAM_DATA static struct MonSpritesGfxManager *sMonSpritesGfxManager = NULL;
 
 #include "data/battle_moves.h"
 
@@ -81,7 +81,7 @@ EWRAM_DATA static struct MonSpritesGfxManager *sMonSpritesGfxManagers[MON_SPR_GF
 #define HOENN_TO_NATIONAL(name)     [HOENN_DEX_##name] = NATIONAL_DEX_##name
 
  // Assigns all species to the Hoenn Dex Index (Summary No. for Hoenn Dex)
-static const u16 sSpeciesToHoennPokedexNum[SPECIES_COUNT] =
+static const u16 sSpeciesToHoennPokedexNum[] =
 {
     SPECIES_TO_HOENN(NONE),
     SPECIES_TO_HOENN(BULBASAUR),
@@ -495,47 +495,10 @@ static const u16 sSpeciesToHoennPokedexNum[SPECIES_COUNT] =
     SPECIES_TO_HOENN(JIRACHI),
     SPECIES_TO_HOENN(DEOXYS),
     SPECIES_TO_HOENN(CHIMECHO),
-    SPECIES_TO_HOENN(RATTATA_ALOLAN),
-    SPECIES_TO_HOENN(RATICATE_ALOLAN),
-    SPECIES_TO_HOENN(RAICHU_ALOLAN),
-    SPECIES_TO_HOENN(SANDSHREW_ALOLAN),
-    SPECIES_TO_HOENN(SANDSLASH_ALOLAN),
-    SPECIES_TO_HOENN(VULPIX_ALOLAN),
-    SPECIES_TO_HOENN(NINETALES_ALOLAN),
-    SPECIES_TO_HOENN(DIGLETT_ALOLAN),
-    SPECIES_TO_HOENN(DUGTRIO_ALOLAN),
-    SPECIES_TO_HOENN(MEOWTH_ALOLAN),
-    SPECIES_TO_HOENN(PERSIAN_ALOLAN),
-    SPECIES_TO_HOENN(GEODUDE_ALOLAN),
-    SPECIES_TO_HOENN(GRAVELER_ALOLAN),
-    SPECIES_TO_HOENN(GOLEM_ALOLAN),
-    SPECIES_TO_HOENN(PONYTA_GALARIAN),
-    SPECIES_TO_HOENN(RAPIDASH_GALARIAN),
-    SPECIES_TO_HOENN(SLOWPOKE_GALARIAN),
-    SPECIES_TO_HOENN(SLOWBRO_GALARIAN),
-    SPECIES_TO_HOENN(FARFETCHD_GALARIAN),
-    SPECIES_TO_HOENN(GRIMER_ALOLAN),
-    SPECIES_TO_HOENN(MUK_ALOLAN),
-    SPECIES_TO_HOENN(EXEGGUTOR_ALOLAN),
-    SPECIES_TO_HOENN(MAROWAK_ALOLAN),
-    SPECIES_TO_HOENN(WEEZING_GALARIAN),
-    SPECIES_TO_HOENN(MR_MIME_GALARIAN),
-    SPECIES_TO_HOENN(ARTICUNO_GALARIAN),
-    SPECIES_TO_HOENN(ZAPDOS_GALARIAN),
-    SPECIES_TO_HOENN(MOLTRES_GALARIAN),
-    SPECIES_TO_HOENN(MEWTWO_ARMORED),
-    SPECIES_TO_HOENN(SLOWKING_GALARIAN),
-    SPECIES_TO_HOENN(CORSOLA_GALARIAN),
-    SPECIES_TO_HOENN(LUGIA_SHADOW),
-    SPECIES_TO_HOENN(ZIGZAGOON_GALARIAN),
-    SPECIES_TO_HOENN(LINOONE_GALARIAN),
-    SPECIES_TO_HOENN(DEOXYS_SPEED),
-    SPECIES_TO_HOENN(DEOXYS_ATTACK),
-    SPECIES_TO_HOENN(DEOXYS_DEFENSE),
 };
 
  // Assigns all species to the National Dex Index (Summary No. for National Dex)
-static const u16 sSpeciesToNationalPokedexNum[SPECIES_COUNT] =
+static const u16 sSpeciesToNationalPokedexNum[] =
 {
     SPECIES_TO_NATIONAL(NONE),
     SPECIES_TO_NATIONAL(BULBASAUR),
@@ -949,47 +912,47 @@ static const u16 sSpeciesToNationalPokedexNum[SPECIES_COUNT] =
     SPECIES_TO_NATIONAL(JIRACHI),
     SPECIES_TO_NATIONAL(DEOXYS),
     SPECIES_TO_NATIONAL(CHIMECHO),
-    SPECIES_TO_NATIONAL(RATTATA_ALOLAN),
-    SPECIES_TO_NATIONAL(RATICATE_ALOLAN),
-    SPECIES_TO_NATIONAL(RAICHU_ALOLAN),
-    SPECIES_TO_NATIONAL(SANDSHREW_ALOLAN),
-    SPECIES_TO_NATIONAL(SANDSLASH_ALOLAN),
-    SPECIES_TO_NATIONAL(VULPIX_ALOLAN),
-    SPECIES_TO_NATIONAL(NINETALES_ALOLAN),
-    SPECIES_TO_NATIONAL(DIGLETT_ALOLAN),
-    SPECIES_TO_NATIONAL(DUGTRIO_ALOLAN),
-    SPECIES_TO_NATIONAL(MEOWTH_ALOLAN),
-    SPECIES_TO_NATIONAL(PERSIAN_ALOLAN),
-    SPECIES_TO_NATIONAL(GEODUDE_ALOLAN),
-    SPECIES_TO_NATIONAL(GRAVELER_ALOLAN),
-    SPECIES_TO_NATIONAL(GOLEM_ALOLAN),
-    SPECIES_TO_NATIONAL(PONYTA_GALARIAN),
-    SPECIES_TO_NATIONAL(RAPIDASH_GALARIAN),
-    SPECIES_TO_NATIONAL(SLOWPOKE_GALARIAN),
-    SPECIES_TO_NATIONAL(SLOWBRO_GALARIAN),
-    SPECIES_TO_NATIONAL(FARFETCHD_GALARIAN),
-    SPECIES_TO_NATIONAL(GRIMER_ALOLAN),
-    SPECIES_TO_NATIONAL(MUK_ALOLAN),
-    SPECIES_TO_NATIONAL(EXEGGUTOR_ALOLAN),
-    SPECIES_TO_NATIONAL(MAROWAK_ALOLAN),
-    SPECIES_TO_NATIONAL(WEEZING_GALARIAN),
-    SPECIES_TO_NATIONAL(MR_MIME_GALARIAN),
-    SPECIES_TO_NATIONAL(ARTICUNO_GALARIAN),
-    SPECIES_TO_NATIONAL(ZAPDOS_GALARIAN),
-    SPECIES_TO_NATIONAL(MOLTRES_GALARIAN),
-    SPECIES_TO_NATIONAL(MEWTWO_ARMORED),
-    SPECIES_TO_NATIONAL(SLOWKING_GALARIAN),
-    SPECIES_TO_NATIONAL(CORSOLA_GALARIAN),
-    SPECIES_TO_NATIONAL(LUGIA_SHADOW),
-    SPECIES_TO_NATIONAL(ZIGZAGOON_GALARIAN),
-    SPECIES_TO_NATIONAL(LINOONE_GALARIAN),
-    SPECIES_TO_NATIONAL(DEOXYS_SPEED),
-    SPECIES_TO_NATIONAL(DEOXYS_ATTACK),
-    SPECIES_TO_NATIONAL(DEOXYS_DEFENSE),
+    [SPECIES_RATTATA_ALOLAN] = NATIONAL_DEX_RATTATA,
+    [SPECIES_RATICATE_ALOLAN] = NATIONAL_DEX_RATICATE,
+    [SPECIES_RAICHU_ALOLAN] = NATIONAL_DEX_RAICHU,
+    [SPECIES_SANDSHREW_ALOLAN] = NATIONAL_DEX_SANDSHREW,
+    [SPECIES_SANDSLASH_ALOLAN] = NATIONAL_DEX_SANDSLASH,
+    [SPECIES_VULPIX_ALOLAN] = NATIONAL_DEX_VULPIX,
+    [SPECIES_NINETALES_ALOLAN] = NATIONAL_DEX_NINETALES,
+    [SPECIES_DIGLETT_ALOLAN] = NATIONAL_DEX_DIGLETT,
+    [SPECIES_DUGTRIO_ALOLAN] = NATIONAL_DEX_DUGTRIO,
+    [SPECIES_MEOWTH_ALOLAN] = NATIONAL_DEX_MEOWTH,
+    [SPECIES_PERSIAN_ALOLAN] = NATIONAL_DEX_PERSIAN,
+    [SPECIES_GEODUDE_ALOLAN] = NATIONAL_DEX_GEODUDE,
+    [SPECIES_GRAVELER_ALOLAN] = NATIONAL_DEX_GRAVELER,
+    [SPECIES_GOLEM_ALOLAN] = NATIONAL_DEX_GOLEM,
+    [SPECIES_PONYTA_GALARIAN] = NATIONAL_DEX_PONYTA,
+    [SPECIES_RAPIDASH_GALARIAN] = NATIONAL_DEX_RAPIDASH,
+    [SPECIES_SLOWPOKE_GALARIAN] = NATIONAL_DEX_SLOWPOKE,
+    [SPECIES_SLOWBRO_GALARIAN] = NATIONAL_DEX_SLOWBRO,
+    [SPECIES_FARFETCHD_GALARIAN] = NATIONAL_DEX_FARFETCHD,
+    [SPECIES_GRIMER_ALOLAN] = NATIONAL_DEX_GRIMER,
+    [SPECIES_MUK_ALOLAN] = NATIONAL_DEX_MUK,
+    [SPECIES_EXEGGUTOR_ALOLAN] = NATIONAL_DEX_EXEGGUTOR,
+    [SPECIES_MAROWAK_ALOLAN] = NATIONAL_DEX_MAROWAK,
+    [SPECIES_WEEZING_GALARIAN] = NATIONAL_DEX_WEEZING,
+    [SPECIES_MR_MIME_GALARIAN] = NATIONAL_DEX_MR_MIME,
+    [SPECIES_ARTICUNO_GALARIAN] = NATIONAL_DEX_ARTICUNO,
+    [SPECIES_ZAPDOS_GALARIAN] = NATIONAL_DEX_ZAPDOS,
+    [SPECIES_MOLTRES_GALARIAN] = NATIONAL_DEX_MOLTRES,
+    [SPECIES_MEWTWO_ARMORED] = NATIONAL_DEX_MEWTWO,
+    [SPECIES_SLOWKING_GALARIAN] = NATIONAL_DEX_SLOWKING,
+    [SPECIES_CORSOLA_GALARIAN] = NATIONAL_DEX_CORSOLA,
+    [SPECIES_LUGIA_SHADOW] = NATIONAL_DEX_LUGIA,
+    [SPECIES_ZIGZAGOON_GALARIAN] = NATIONAL_DEX_ZIGZAGOON,
+    [SPECIES_LINOONE_GALARIAN] = NATIONAL_DEX_LINOONE,
+    [SPECIES_DEOXYS_SPEED] = NATIONAL_DEX_DEOXYS,
+    [SPECIES_DEOXYS_ATTACK] = NATIONAL_DEX_DEOXYS,
+    [SPECIES_DEOXYS_DEFENSE] = NATIONAL_DEX_DEOXYS,
 };
 
  // Assigns all Hoenn Dex Indexes to a National Dex Index
-static const u16 sHoennToNationalOrder[SPECIES_COUNT] =
+static const u16 sHoennToNationalOrder[] =
 {
     HOENN_TO_NATIONAL(TREECKO),
     HOENN_TO_NATIONAL(GROVYLE),
@@ -1403,43 +1366,6 @@ static const u16 sHoennToNationalOrder[SPECIES_COUNT] =
     HOENN_TO_NATIONAL(OLD_UNOWN_X),
     HOENN_TO_NATIONAL(OLD_UNOWN_Y),
     HOENN_TO_NATIONAL(OLD_UNOWN_Z),
-    HOENN_TO_NATIONAL(RATTATA_ALOLAN),
-    HOENN_TO_NATIONAL(RATICATE_ALOLAN),
-    HOENN_TO_NATIONAL(RAICHU_ALOLAN),
-    HOENN_TO_NATIONAL(SANDSHREW_ALOLAN),
-    HOENN_TO_NATIONAL(SANDSLASH_ALOLAN),
-    HOENN_TO_NATIONAL(VULPIX_ALOLAN),
-    HOENN_TO_NATIONAL(NINETALES_ALOLAN),
-    HOENN_TO_NATIONAL(DIGLETT_ALOLAN),
-    HOENN_TO_NATIONAL(DUGTRIO_ALOLAN),
-    HOENN_TO_NATIONAL(MEOWTH_ALOLAN),
-    HOENN_TO_NATIONAL(PERSIAN_ALOLAN),
-    HOENN_TO_NATIONAL(GEODUDE_ALOLAN),
-    HOENN_TO_NATIONAL(GRAVELER_ALOLAN),
-    HOENN_TO_NATIONAL(GOLEM_ALOLAN),
-    HOENN_TO_NATIONAL(PONYTA_GALARIAN),
-    HOENN_TO_NATIONAL(RAPIDASH_GALARIAN),
-    HOENN_TO_NATIONAL(SLOWPOKE_GALARIAN),
-    HOENN_TO_NATIONAL(SLOWBRO_GALARIAN),
-    HOENN_TO_NATIONAL(FARFETCHD_GALARIAN),
-    HOENN_TO_NATIONAL(GRIMER_ALOLAN),
-    HOENN_TO_NATIONAL(MUK_ALOLAN),
-    HOENN_TO_NATIONAL(EXEGGUTOR_ALOLAN),
-    HOENN_TO_NATIONAL(MAROWAK_ALOLAN),
-    HOENN_TO_NATIONAL(WEEZING_GALARIAN),
-    HOENN_TO_NATIONAL(MR_MIME_GALARIAN),
-    HOENN_TO_NATIONAL(ARTICUNO_GALARIAN),
-    HOENN_TO_NATIONAL(ZAPDOS_GALARIAN),
-    HOENN_TO_NATIONAL(MOLTRES_GALARIAN),
-    HOENN_TO_NATIONAL(MEWTWO_ARMORED),
-    HOENN_TO_NATIONAL(SLOWKING_GALARIAN),
-    HOENN_TO_NATIONAL(CORSOLA_GALARIAN),
-    HOENN_TO_NATIONAL(LUGIA_SHADOW),
-    HOENN_TO_NATIONAL(ZIGZAGOON_GALARIAN),
-    HOENN_TO_NATIONAL(LINOONE_GALARIAN),
-    HOENN_TO_NATIONAL(DEOXYS_SPEED),
-    HOENN_TO_NATIONAL(DEOXYS_ATTACK),
-    HOENN_TO_NATIONAL(DEOXYS_DEFENSE),
 };
 
 const struct SpindaSpot gSpindaSpotGraphics[] =
@@ -1501,6 +1427,7 @@ static const u16 sBattleMusicTable[NUM_REGION][3] =
 
 static const u8 sMonFrontAnimIdsTable[SPECIES_COUNT] =
 {
+    [SPECIES_NONE] = ANIM_V_SQUISH_AND_BOUNCE,
     [SPECIES_BULBASAUR] = ANIM_V_JUMPS_H_JUMPS,
     [SPECIES_IVYSAUR] = ANIM_V_STRETCH,
     [SPECIES_VENUSAUR] = ANIM_ROTATE_UP_SLAM_DOWN,
@@ -2421,34 +2348,6 @@ static const struct SpeciesItem sAlteringCaveWildMonHeldItems[] =
     {SPECIES_SMEARGLE,  ITEM_SALAC_BERRY},
 };
 
-static const struct OamData sOamData_64x64 =
-{
-    .y = 0,
-    .affineMode = ST_OAM_AFFINE_OFF,
-    .objMode = ST_OAM_OBJ_NORMAL,
-    .mosaic = 0,
-    .bpp = ST_OAM_4BPP,
-    .shape = SPRITE_SHAPE(64x64),
-    .x = 0,
-    .matrixNum = 0,
-    .size = SPRITE_SIZE(64x64),
-    .tileNum = 0,
-    .priority = 0,
-    .paletteNum = 0,
-    .affineParam = 0
-};
-
-static const struct SpriteTemplate sSpriteTemplate_64x64 =
-{
-    .tileTag = TAG_NONE,
-    .paletteTag = TAG_NONE,
-    .oam = &sOamData_64x64,
-    .anims = gDummySpriteAnimTable,
-    .images = NULL,
-    .affineAnims = gDummySpriteAffineAnimTable,
-    .callback = SpriteCallbackDummy,
-};
-
 void ZeroBoxMonData(struct BoxPokemon *boxMon)
 {
     u8 *raw = (u8 *)boxMon;
@@ -2541,18 +2440,18 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
               | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
 
         if (gIsFishingEncounter)
-            shinyRolls += 1 + 2 * gChainFishingStreak; //1 + 2 rolls per streak count. max 41
+            shinyRolls += 1 + 2 * gChainFishingStreak; // 1 + 2 rolls per streak count. max 41
 
         if (CheckBagHasItem(ITEM_SHINY_CHARM, 1))
-            shinyRolls += SHINY_CHARM_REROLLS; //If you have the Shiny Charm, add 3 more rolls
+            shinyRolls += SHINY_CHARM_REROLLS; // If you have the Shiny Charm, add 3 more rolls
 
         if (shinyRolls && !hasFixedPersonality)
         {
             u32 shinyValue;
-            do 
+            do
             {
                 personality = Random32();
-                shinyValue = HIHALF(value) ^ LOHALF(value) ^ HIHALF(personality) ^ LOHALF(personality);
+                shinyValue = GET_SHINY_VALUE(value, personality);
                 rolls++;
             } while (shinyValue >= SHINY_ODDS && rolls < shinyRolls);
         }
@@ -2616,6 +2515,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
         value = personality & 1;
         SetBoxMonData(boxMon, MON_DATA_ABILITY_NUM, &value);
     }
+
     if ((species > NUM_SPECIES && !form)
      || (species >= SPECIES_COUNT && form))
         species = SPECIES_NONE;
@@ -3238,8 +3138,8 @@ u16 MonTryLearningNewMove(struct Pokemon *mon, bool8 firstMove)
     }
     while (gLevelUpLearnsets[species][sLearningMoveTableID] != LEVEL_UP_END)
     {
-        u16 moveLevel;
-        moveLevel = (gLevelUpLearnsets[species][sLearningMoveTableID] & LEVEL_UP_MOVE_LV);
+        u16 moveLevel = (gLevelUpLearnsets[species][sLearningMoveTableID] & LEVEL_UP_MOVE_LV);
+
         while (moveLevel == (level << 9))
         {
             gMoveToLearn = (gLevelUpLearnsets[species][sLearningMoveTableID] & LEVEL_UP_MOVE_ID);
@@ -3267,8 +3167,8 @@ u16 MonTryLearningNewMoveEvolution(struct Pokemon *mon, bool8 firstMove)
     }
     while (gLevelUpLearnsets[species][sLearningMoveTableID] != LEVEL_UP_END)
     {
-        u16 moveLevel;
-        moveLevel = (gLevelUpLearnsets[species][sLearningMoveTableID] & LEVEL_UP_MOVE_LV);
+        u16 moveLevel = (gLevelUpLearnsets[species][sLearningMoveTableID] & LEVEL_UP_MOVE_LV);
+
         while (!moveLevel || moveLevel == (level << 9))
         {
             gMoveToLearn = (gLevelUpLearnsets[species][sLearningMoveTableID] & LEVEL_UP_MOVE_ID);
@@ -3711,12 +3611,10 @@ void SetMultiuseSpriteTemplateToPokemon(u16 speciesTag, u8 battlerPosition, u8 f
     else
         formSpeciesTag = GetFormSpecies(speciesTag, form);
 
-    if (gMonSpritesGfxPtr)
+    if (gMonSpritesGfxPtr != NULL)
         gMultiuseSpriteTemplate = gMonSpritesGfxPtr->templates[battlerPosition];
-    else if (sMonSpritesGfxManagers[MON_SPR_GFX_MANAGER_A])
-        gMultiuseSpriteTemplate = sMonSpritesGfxManagers[MON_SPR_GFX_MANAGER_A]->templates[battlerPosition];
-    else if (sMonSpritesGfxManagers[MON_SPR_GFX_MANAGER_B])
-        gMultiuseSpriteTemplate = sMonSpritesGfxManagers[MON_SPR_GFX_MANAGER_B]->templates[battlerPosition];
+    else if (sMonSpritesGfxManager)
+        gMultiuseSpriteTemplate = sMonSpritesGfxManager->templates[battlerPosition];
     else
         gMultiuseSpriteTemplate = gBattlerSpriteTemplates[battlerPosition];
 
@@ -3737,7 +3635,7 @@ void SetMultiuseSpriteTemplateToTrainerBack(u16 trainerPicId, u8 battlerPosition
     }
     else
     {
-        if (gMonSpritesGfxPtr)
+        if (gMonSpritesGfxPtr != NULL)
             gMultiuseSpriteTemplate = gMonSpritesGfxPtr->templates[battlerPosition];
         else
             gMultiuseSpriteTemplate = gBattlerSpriteTemplates[battlerPosition];
@@ -3747,7 +3645,7 @@ void SetMultiuseSpriteTemplateToTrainerBack(u16 trainerPicId, u8 battlerPosition
 
 void SetMultiuseSpriteTemplateToTrainerFront(u16 trainerPicId, u8 battlerPosition)
 {
-    if (gMonSpritesGfxPtr)
+    if (gMonSpritesGfxPtr != NULL)
         gMultiuseSpriteTemplate = gMonSpritesGfxPtr->templates[battlerPosition];
     else
         gMultiuseSpriteTemplate = gBattlerSpriteTemplates[battlerPosition];
@@ -3911,7 +3809,7 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
     struct PokemonSubstruct3 *substruct3 = NULL;
 
     // Any field greater than MON_DATA_ENCRYPT_SEPARATOR is encrypted and must be treated as such
-    if (field > MON_DATA_ENCRYPT_SEPARATOR)
+    if (field > MON_DATA_ENCRYPT_SEPARATOR && field < MON_DATA_SHINY_LEAVES)
     {
         substruct0 = &(GetSubstruct(boxMon, boxMon->personality, 0)->type0);
         substruct1 = &(GetSubstruct(boxMon, boxMon->personality, 1)->type1);
@@ -3986,9 +3884,6 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
     case MON_DATA_SANITY_IS_EGG:
         retVal = boxMon->isEgg;
         break;
-    case MON_DATA_FORM:
-        retVal = boxMon->form;
-        break;
     case MON_DATA_OT_NAME:
     {
         retVal = 0;
@@ -4025,9 +3920,6 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
         break;
     case MON_DATA_FRIENDSHIP:
         retVal = substruct0->friendship;
-        break;
-    case MON_DATA_VERSION_MODIFIER:
-        retVal = substruct0->versionModifier;
         break;
     case MON_DATA_MOVE1:
     case MON_DATA_MOVE2:
@@ -4256,6 +4148,24 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
                 | (substruct3->earthRibbon << 25)
                 | (substruct3->worldRibbon << 26);
         }
+        break;
+    case MON_DATA_FORM:
+        retVal = boxMon->form;
+        break;
+    case MON_DATA_VERSION_MODIFIER:
+        retVal = substruct0->versionModifier;
+        break;
+    case MON_DATA_SHINY_LEAVES:
+        retVal = 0;
+        retVal &= boxMon->shinyLeafA << 5;
+        retVal &= boxMon->shinyLeafB << 4;
+        retVal &= boxMon->shinyLeafC << 3;
+        retVal &= boxMon->shinyLeafD << 2;
+        retVal &= boxMon->shinyLeafE << 1;
+        retVal &= boxMon->shinyCrown;
+        break;
+    case MON_DATA_ENCOUNTER_TYPE:
+        retVal = boxMon->encounterType;
     default:
         break;
     }
@@ -4264,7 +4174,7 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
      || (substruct0->species >= SPECIES_COUNT && boxMon->form))
         substruct0->species = SPECIES_NONE;
 
-    if (field > MON_DATA_ENCRYPT_SEPARATOR)
+    if (field > MON_DATA_ENCRYPT_SEPARATOR && field < MON_DATA_SHINY_LEAVES)
         EncryptBoxMon(boxMon);
 
     return retVal;
@@ -4326,7 +4236,7 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
     struct PokemonSubstruct2 *substruct2 = NULL;
     struct PokemonSubstruct3 *substruct3 = NULL;
 
-    if (field > MON_DATA_ENCRYPT_SEPARATOR)
+    if (field > MON_DATA_ENCRYPT_SEPARATOR && field < MON_DATA_SHINY_LEAVES)
     {
         substruct0 = &(GetSubstruct(boxMon, boxMon->personality, 0)->type0);
         substruct1 = &(GetSubstruct(boxMon, boxMon->personality, 1)->type1);
@@ -4372,9 +4282,6 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
     case MON_DATA_SANITY_IS_EGG:
         SET8(boxMon->isEgg);
         break;
-    case MON_DATA_FORM:
-        SET8(boxMon->form);
-        break;
     case MON_DATA_OT_NAME:
     {
         s32 i;
@@ -4411,9 +4318,6 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
         break;
     case MON_DATA_FRIENDSHIP:
         SET8(substruct0->friendship);
-        break;
-    case MON_DATA_VERSION_MODIFIER:
-        SET8(substruct0->versionModifier);
         break;
     case MON_DATA_MOVE1:
     case MON_DATA_MOVE2:
@@ -4589,6 +4493,22 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
         substruct3->spDefenseIV = (ivs >> 25) & MAX_IV_MASK;
         break;
     }
+    case MON_DATA_FORM:
+        SET8(boxMon->form);
+        break;
+    case MON_DATA_VERSION_MODIFIER:
+        SET8(substruct0->versionModifier);
+        break;
+    case MON_DATA_SHINY_LEAVES:
+        boxMon->shinyLeafA = *data & 0x20u >> 5;
+        boxMon->shinyLeafB = *data & 0x10u >> 4;
+        boxMon->shinyLeafC = *data & 0x8u >> 3;
+        boxMon->shinyLeafD = *data & 0x4u >> 2;
+        boxMon->shinyLeafE = *data & 0x2u >> 1;
+        boxMon->shinyCrown = *data & 0x1u;
+        break;
+    case MON_DATA_ENCOUNTER_TYPE:
+        SET8(boxMon->encounterType);
     default:
         break;
     }
@@ -4597,7 +4517,7 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
      || (substruct0->species >= SPECIES_COUNT && boxMon->form))
         substruct0->species = SPECIES_NONE;
 
-    if (field > MON_DATA_ENCRYPT_SEPARATOR)
+    if (field > MON_DATA_ENCRYPT_SEPARATOR && field < MON_DATA_SHINY_LEAVES)
     {
         boxMon->checksum = CalculateBoxMonChecksum(boxMon);
         EncryptBoxMon(boxMon);
@@ -5824,10 +5744,10 @@ u16 HoennPokedexNumToSpecies(u16 hoennNum)
 
     species = 0;
 
-    while (species < (NUM_SPECIES) && sSpeciesToHoennPokedexNum[species] != hoennNum)
+    while (species < (SPECIES_COUNT) && sSpeciesToHoennPokedexNum[species] != hoennNum)
         species++;
 
-    if (species == NUM_SPECIES)
+    if (species == SPECIES_COUNT)
         return 0;
 
     return species;
@@ -5842,10 +5762,10 @@ u16 NationalPokedexNumToSpecies(u16 nationalNum)
 
     species = 0;
 
-    while (species < (NUM_SPECIES) && sSpeciesToNationalPokedexNum[species] != nationalNum)
+    while (species < (SPECIES_COUNT) && sSpeciesToNationalPokedexNum[species] != nationalNum)
         species++;
 
-    if (species == NUM_SPECIES)
+    if (species == SPECIES_COUNT)
         return 0;
 
     return species;
@@ -5860,10 +5780,10 @@ u16 NationalToHoennOrder(u16 nationalNum)
 
     hoennNum = 0;
 
-    while (hoennNum < (NUM_SPECIES) && sHoennToNationalOrder[hoennNum] != nationalNum)
+    while (hoennNum < (SPECIES_COUNT) && sHoennToNationalOrder[hoennNum] != nationalNum)
         hoennNum++;
 
-    if (hoennNum == NUM_SPECIES)
+    if (hoennNum == SPECIES_COUNT)
         return 0;
 
     return hoennNum;
@@ -6570,7 +6490,7 @@ u16 GetBattleBGM(void)
             return MUS_VS_MEW;
         case SPECIES_DEOXYS:
             return MUS_RG_VS_DEOXYS;
-	    default:
+        default:
             return sBattleMusicTable[gMapsecToRegion[gMapHeader.regionMapSectionId]][2];
         }
     }
@@ -6842,8 +6762,8 @@ bool8 IsMonSquareShiny(struct Pokemon *mon)
 {
     u32 otId = GetMonData(mon, MON_DATA_OT_ID, 0);
     u32 personality = GetMonData(mon, MON_DATA_PERSONALITY, 0);
-    return ((HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality)) == 0
-        || ((GetMonData(mon, MON_DATA_EVENT_LEGAL, 0)) && (HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality)) < SHINY_ODDS));
+    return ((GET_SHINY_VALUE(otId, personality)) == 0)
+        || (GetMonData(mon, MON_DATA_EVENT_LEGAL, 0) && IsShinyOtIdPersonality(otId, personality));
 }
 
 bool8 IsMonShiny(struct Pokemon *mon)
@@ -6855,11 +6775,7 @@ bool8 IsMonShiny(struct Pokemon *mon)
 
 bool8 IsShinyOtIdPersonality(u32 otId, u32 personality)
 {
-    bool8 retVal = FALSE;
-    u32 shinyValue = GET_SHINY_VALUE(otId, personality);
-    if (shinyValue < SHINY_ODDS)
-        retVal = TRUE;
-    return retVal;
+    return ((GET_SHINY_VALUE(otId, personality)) < SHINY_ODDS);
 }
 
 const u8 *GetTrainerPartnerName(void)
@@ -6983,7 +6899,7 @@ void PokemonSummaryDoMonAnimation(struct Sprite* sprite, u16 species, bool8 oneF
         gTasks[taskId].sAnimId = sMonFrontAnimIdsTable[species];
         gTasks[taskId].sAnimDelay = sMonAnimationDelayTable[species];
         SummaryScreen_SetAnimDelayTaskId(taskId);
-        SetSpriteCB_MonAnimDummy(sprite);
+        sprite->callback = MonAnimDummySpriteCallback;
     }
     else
     {
@@ -7008,7 +6924,7 @@ void BattleAnimateBackSprite(struct Sprite* sprite, u16 species)
     }
     else
     {
-        LaunchAnimationTaskForBackSprite(sprite, GetSpeciesBackAnimSet(species));
+        LaunchAnimationTaskForBackSprite(sprite, gSpeciesToBackAnimSet[species]);
         sprite->callback = SpriteCallbackDummy;
     }
 }
@@ -7079,127 +6995,63 @@ const u8 *GetTrainerNameFromId(u16 trainerId)
 
 static bool8 ShouldSkipFriendshipChange(void)
 {
-    if ((gMain.inBattle && gBattleTypeFlags & (BATTLE_TYPE_FRONTIER))
-     || (!gMain.inBattle && (InBattlePike() || InBattlePyramid())))
-        return TRUE;
-    return FALSE;
+    return ((gMain.inBattle && gBattleTypeFlags & (BATTLE_TYPE_FRONTIER))
+        || (!gMain.inBattle && (InBattlePike() || InBattlePyramid())));
 }
 
 // The below functions are for the 'MonSpritesGfxManager', a method of allocating
 // space for Pokémon sprites. These are only used for the summary screen Pokémon
 // sprites (unless gMonSpritesGfxPtr is in use), but were set up for more general use.
-// Only the 'default' mode (MON_SPR_GFX_MODE_NORMAL) is used, which is set
-// up to allocate 4 sprites using the battler sprite templates (gBattlerSpriteTemplates).
-// MON_SPR_GFX_MODE_BATTLE is identical but never used.
-// MON_SPR_GFX_MODE_FULL_PARTY is set up to allocate 7 sprites (party + trainer?) 
-// using a generic 64x64 template, and is also never used.
-
-// Between the unnecessarily large sizes below, a mistake allocating the spritePointers
-// field, and the fact that ultimately only 1 of the 4 sprite positions is used, this
-// system wastes a good deal of memory.
+// It is set up to allocate 4 sprites using the battler sprite templates (gBattlerSpriteTemplates).
 
 #define ALLOC_FAIL_BUFFER (1 << 0)
 #define ALLOC_FAIL_STRUCT (1 << 1)
-#define GFX_MANAGER_ACTIVE 0xA3 // Arbitrary value
-#define GFX_MANAGER_SPR_SIZE (MON_PIC_SIZE * 4) // * 4 is unnecessary, MON_PIC_SIZE is sufficient
-#define GFX_MANAGER_NUM_FRAMES 4  // Only 2 frames are needed
+#define GFX_MANAGER_SPR_SIZE (MON_PIC_SIZE * 4)
+#define GFX_MANAGER_NUM_SPRITES MAX_BATTLERS_COUNT
+#define GFX_MANAGER_NUM_FRAMES 2
 
-static void InitMonSpritesGfx_Battle(struct MonSpritesGfxManager* gfx)
-{
-    u32 i, j;
-
-    for (i = 0; i < gfx->numSprites; i++)
-    {
-        gfx->templates[i] = gBattlerSpriteTemplates[i];
-        for (j = 0; j < gfx->numFrames; j++)
-            gfx->frameImages[i * gfx->numFrames + j].data = &gfx->spritePointers[i][j * MON_PIC_SIZE];
-
-        gfx->templates[i].images = &gfx->frameImages[i * gfx->numFrames];
-    }
-}
-
-static void InitMonSpritesGfx_FullParty(struct MonSpritesGfxManager* gfx)
-{
-    u32 i, j;
-
-    for (i = 0; i < gfx->numSprites; i++)
-    {
-        gfx->templates[i] = sSpriteTemplate_64x64;
-        for (j = 0; j < gfx->numFrames; j++)
-            gfx->frameImages[i * gfx->numSprites + j].data = &gfx->spritePointers[i][j * MON_PIC_SIZE];
-
-        gfx->templates[i].images = &gfx->frameImages[i * gfx->numSprites];
-        gfx->templates[i].anims = gAnims_MonPic;
-        gfx->templates[i].paletteTag = i;
-    }
-}
-
-struct MonSpritesGfxManager *CreateMonSpritesGfxManager(u8 managerId, u8 mode)
+struct MonSpritesGfxManager *CreateMonSpritesGfxManager(void)
 {
     u32 i;
-    u8 failureFlags;
-    struct MonSpritesGfxManager *gfx;
+    u8 failureFlags = 0;
+    struct MonSpritesGfxManager *gfx = AllocZeroed(sizeof(*gfx));
 
-    failureFlags = 0;
-    managerId %= MON_SPR_GFX_MANAGERS_COUNT;
-    gfx = AllocZeroed(sizeof(*gfx));
     if (gfx == NULL)
         return NULL;
 
-    switch (mode)
-    {
-    case MON_SPR_GFX_MODE_FULL_PARTY:
-        gfx->numSprites = PARTY_SIZE + 1;
-        gfx->numSprites2 = PARTY_SIZE + 1;
-        gfx->numFrames = GFX_MANAGER_NUM_FRAMES;
-        gfx->dataSize = 1;
-        gfx->mode = MON_SPR_GFX_MODE_FULL_PARTY;
-        break;
- // case MON_SPR_GFX_MODE_BATTLE:       
-    case MON_SPR_GFX_MODE_NORMAL:
-    default:
-        gfx->numSprites = MAX_BATTLERS_COUNT;
-        gfx->numSprites2 = MAX_BATTLERS_COUNT;
-        gfx->numFrames = GFX_MANAGER_NUM_FRAMES;
-        gfx->dataSize = 1;
-        gfx->mode = MON_SPR_GFX_MODE_NORMAL;
-        break;
-    }
-
-    gfx->spriteBuffer = AllocZeroed(gfx->dataSize * GFX_MANAGER_SPR_SIZE * gfx->numSprites);
-    gfx->spritePointers = AllocZeroed(gfx->numSprites * 32); // ? Only * 4 is necessary, perhaps they were thinking bits.
+    gfx->spriteBuffer = AllocZeroed(GFX_MANAGER_SPR_SIZE * GFX_MANAGER_NUM_SPRITES);
+    gfx->spritePointers = AllocZeroed(GFX_MANAGER_NUM_SPRITES * 4);
     if (gfx->spriteBuffer == NULL || gfx->spritePointers == NULL)
     {
         failureFlags |= ALLOC_FAIL_BUFFER;
     }
     else
     {
-        for (i = 0; i < gfx->numSprites; i++)
-            gfx->spritePointers[i] = gfx->spriteBuffer + (gfx->dataSize * GFX_MANAGER_SPR_SIZE * i);
+        for (i = 0; i < GFX_MANAGER_NUM_SPRITES; i++)
+            gfx->spritePointers[i] = gfx->spriteBuffer + (GFX_MANAGER_SPR_SIZE * i);
     }
 
     // Set up sprite structs
-    gfx->templates = AllocZeroed(sizeof(struct SpriteTemplate) * gfx->numSprites);
-    gfx->frameImages = AllocZeroed(sizeof(struct SpriteFrameImage) * gfx->numSprites * gfx->numFrames);
+    gfx->templates = AllocZeroed(sizeof(struct SpriteTemplate) * GFX_MANAGER_NUM_SPRITES);
+    gfx->frameImages = AllocZeroed(sizeof(struct SpriteFrameImage) * GFX_MANAGER_NUM_SPRITES * GFX_MANAGER_NUM_FRAMES);
     if (gfx->templates == NULL || gfx->frameImages == NULL)
     {
         failureFlags |= ALLOC_FAIL_STRUCT;
     }
     else
     {
-        for (i = 0; i < gfx->numFrames * gfx->numSprites; i++)
+        for (i = 0; i < GFX_MANAGER_NUM_FRAMES * GFX_MANAGER_NUM_SPRITES; i++)
             gfx->frameImages[i].size = MON_PIC_SIZE;
 
-        switch (gfx->mode)
+        for (i = 0; i < GFX_MANAGER_NUM_SPRITES; i++)
         {
-        case MON_SPR_GFX_MODE_FULL_PARTY:
-            InitMonSpritesGfx_FullParty(gfx);
-            break;
-        case MON_SPR_GFX_MODE_NORMAL:
-        case MON_SPR_GFX_MODE_BATTLE:
-        default:
-            InitMonSpritesGfx_Battle(gfx);
-            break;
+            u32 j;
+
+            gfx->templates[i] = gBattlerSpriteTemplates[i];
+            for (j = 0; j < GFX_MANAGER_NUM_FRAMES; j++)
+                gfx->frameImages[i * GFX_MANAGER_NUM_FRAMES + j].data = &gfx->spritePointers[i][j * MON_PIC_SIZE];
+
+            gfx->templates[i].images = &gfx->frameImages[i * GFX_MANAGER_NUM_FRAMES];
         }
     }
 
@@ -7223,27 +7075,21 @@ struct MonSpritesGfxManager *CreateMonSpritesGfxManager(u8 managerId, u8 mode)
     }
     else
     {
-        gfx->active = GFX_MANAGER_ACTIVE;
-        sMonSpritesGfxManagers[managerId] = gfx;
+        gfx->active = TRUE;
+        sMonSpritesGfxManager = gfx;
     }
 
-    return sMonSpritesGfxManagers[managerId];
+    return sMonSpritesGfxManager;
 }
 
-void DestroyMonSpritesGfxManager(u8 managerId)
+void DestroyMonSpritesGfxManager(void)
 {
-    struct MonSpritesGfxManager *gfx;
+    struct MonSpritesGfxManager *gfx = sMonSpritesGfxManager;
 
-    managerId %= MON_SPR_GFX_MANAGERS_COUNT;
-    gfx = sMonSpritesGfxManagers[managerId];
     if (gfx == NULL)
         return;
 
-    if (gfx->active != GFX_MANAGER_ACTIVE)
-    {
-        memset(gfx, 0, sizeof(*gfx));
-    }
-    else
+    if (gfx->active)
     {
         TRY_FREE_AND_SET_NULL(gfx->frameImages);
         TRY_FREE_AND_SET_NULL(gfx->templates);
@@ -7252,20 +7098,15 @@ void DestroyMonSpritesGfxManager(u8 managerId)
         memset(gfx, 0, sizeof(*gfx));
         Free(gfx);
     }
+    else
+        memset(gfx, 0, sizeof(*gfx));
 }
 
-u8 *MonSpritesGfxManager_GetSpritePtr(u8 managerId, u8 spriteNum)
+u8 *MonSpritesGfxManager_GetSpritePtr(void)
 {
-    struct MonSpritesGfxManager *gfx = sMonSpritesGfxManagers[managerId % MON_SPR_GFX_MANAGERS_COUNT];
-    if (gfx->active != GFX_MANAGER_ACTIVE)
-    {
-        return NULL;
-    }
-    else
-    {
-        if (spriteNum >= gfx->numSprites)
-            spriteNum = 0;
+    struct MonSpritesGfxManager *gfx = sMonSpritesGfxManager;
 
-        return gfx->spritePointers[spriteNum];
-    }
+    if (gfx->active)
+        return gfx->spritePointers[gfx->active];
+    return NULL;
 }

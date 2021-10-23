@@ -27,6 +27,7 @@
   "object_events": [
     {
       "graphics_id": "OBJ_EVENT_GFX_SWIMMER_M",
+      "in_connection": false,
       "x": 41,
       "y": 10,
       "elevation": 1,
@@ -40,6 +41,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_SWIMMER_M",
+      "in_connection": false,
       "x": 23,
       "y": 11,
       "elevation": 1,
@@ -53,6 +55,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_SWIMMER_F",
+      "in_connection": false,
       "x": 16,
       "y": 7,
       "elevation": 1,
@@ -66,6 +69,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_SWIMMER_F",
+      "in_connection": false,
       "x": 50,
       "y": 11,
       "elevation": 1,
@@ -79,6 +83,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_SWIMMER_F",
+      "in_connection": false,
       "x": 33,
       "y": 4,
       "elevation": 1,
@@ -92,6 +97,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_TUBER_M_SWIMMING",
+      "in_connection": false,
       "x": 32,
       "y": 4,
       "elevation": 1,
@@ -105,6 +111,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_SWIMMER_M",
+      "in_connection": false,
       "x": 50,
       "y": 5,
       "elevation": 1,
@@ -117,7 +124,13 @@
       "flag": "0"
     }
   ],
-  "warp_events": [],
-  "coord_events": [],
-  "bg_events": []
+  "warp_events": [
+
+  ],
+  "coord_events": [
+
+  ],
+  "bg_events": [
+
+  ]
 }

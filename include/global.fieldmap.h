@@ -176,11 +176,10 @@ struct MapHeader
     /*0x1A*/ bool8 allowCycling:1;
              bool8 allowEscaping:1; // Escape Rope and Dig
              bool8 allowRunning:1;
-             bool8 useNightTint:1;
-             bool8 showMapName:4; // The last 3 bits are unused
+             bool8 showMapName:1;
+             bool8 useNightTint:4; // The last 3 bits are unused
     /*0x1B*/ u8 battleType;
 };
-
 
 struct ObjectEvent
 {

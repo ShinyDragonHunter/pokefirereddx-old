@@ -32,6 +32,7 @@
   "object_events": [
     {
       "graphics_id": "OBJ_EVENT_GFX_HOENN_CAMPER",
+      "in_connection": false,
       "x": 17,
       "y": 90,
       "elevation": 3,
@@ -45,6 +46,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_HOENN_CYCLING_TRIATHLETE_M",
+      "in_connection": false,
       "x": 29,
       "y": 79,
       "elevation": 4,
@@ -58,6 +60,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_HOENN_EXPERT_F",
+      "in_connection": false,
       "x": 14,
       "y": 69,
       "elevation": 3,
@@ -71,6 +74,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_HOENN_CYCLING_TRIATHLETE_M",
+      "in_connection": false,
       "x": 9,
       "y": 57,
       "elevation": 4,
@@ -84,6 +88,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_HOENN_EXPERT_M",
+      "in_connection": false,
       "x": 10,
       "y": 11,
       "elevation": 3,
@@ -97,6 +102,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_HOENN_CYCLING_TRIATHLETE_F",
+      "in_connection": false,
       "x": 27,
       "y": 24,
       "elevation": 4,
@@ -110,6 +116,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_HOENN_BOY_3",
+      "in_connection": false,
       "x": 15,
       "y": 7,
       "elevation": 3,
@@ -123,6 +130,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_HOENN_CYCLING_TRIATHLETE_F",
+      "in_connection": false,
       "x": 16,
       "y": 73,
       "elevation": 4,
@@ -136,6 +144,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_HOENN_CYCLING_TRIATHLETE_M",
+      "in_connection": false,
       "x": 19,
       "y": 31,
       "elevation": 4,
@@ -149,6 +158,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_HOENN_CYCLING_TRIATHLETE_F",
+      "in_connection": false,
       "x": 30,
       "y": 31,
       "elevation": 4,
@@ -162,6 +172,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_HOENN_CYCLING_TRIATHLETE_M",
+      "in_connection": false,
       "x": 16,
       "y": 55,
       "elevation": 4,
@@ -175,6 +186,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_HOENN_PSYCHIC_M",
+      "in_connection": false,
       "x": 3,
       "y": 39,
       "elevation": 3,
@@ -188,6 +200,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_HOENN_LASS",
+      "in_connection": false,
       "x": 33,
       "y": 15,
       "elevation": 3,
@@ -201,6 +214,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_HOENN_MANIAC",
+      "in_connection": false,
       "x": 34,
       "y": 40,
       "elevation": 3,
@@ -214,6 +228,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_HOENN_FISHERMAN",
+      "in_connection": false,
       "x": 10,
       "y": 19,
       "elevation": 3,
@@ -227,6 +242,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_BERRY_TREE",
+      "in_connection": false,
       "x": 5,
       "y": 11,
       "elevation": 3,
@@ -240,6 +256,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_BERRY_TREE",
+      "in_connection": false,
       "x": 6,
       "y": 11,
       "elevation": 3,
@@ -253,6 +270,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_BERRY_TREE",
+      "in_connection": false,
       "x": 7,
       "y": 11,
       "elevation": 3,
@@ -266,6 +284,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
+      "in_connection": false,
       "x": 30,
       "y": 69,
       "elevation": 3,
@@ -279,6 +298,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
+      "in_connection": false,
       "x": 26,
       "y": 47,
       "elevation": 3,
@@ -292,6 +312,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_HOENN_CYCLING_TRIATHLETE_M",
+      "in_connection": false,
       "x": 27,
       "y": 92,
       "elevation": 3,
@@ -305,6 +326,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "in_connection": false,
       "x": 7,
       "y": 83,
       "elevation": 3,
@@ -318,6 +340,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "in_connection": false,
       "x": 8,
       "y": 83,
       "elevation": 3,
@@ -331,6 +354,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "in_connection": false,
       "x": 9,
       "y": 83,
       "elevation": 3,
@@ -344,6 +368,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "in_connection": false,
       "x": 10,
       "y": 83,
       "elevation": 3,
@@ -357,6 +382,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "in_connection": false,
       "x": 8,
       "y": 82,
       "elevation": 3,
@@ -370,6 +396,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_HOENN_CYCLING_TRIATHLETE_M",
+      "in_connection": false,
       "x": 21,
       "y": 78,
       "elevation": 4,
@@ -383,6 +410,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_VAR_0",
+      "in_connection": false,
       "x": 34,
       "y": 54,
       "elevation": 3,
@@ -396,6 +424,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_VAR_3",
+      "in_connection": false,
       "x": 34,
       "y": 54,
       "elevation": 3,
@@ -409,6 +438,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_HOENN_YOUNGSTER",
+      "in_connection": false,
       "x": 33,
       "y": 69,
       "elevation": 3,
@@ -422,6 +452,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_HOENN_POKEFAN_F",
+      "in_connection": false,
       "x": 10,
       "y": 76,
       "elevation": 3,
@@ -435,6 +466,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_HOENN_POKEFAN_M",
+      "in_connection": false,
       "x": 7,
       "y": 76,
       "elevation": 3,
@@ -448,6 +480,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_HOENN_CYCLING_TRIATHLETE_F",
+      "in_connection": false,
       "x": 10,
       "y": 39,
       "elevation": 3,
@@ -461,6 +494,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_HOENN_MAN_5",
+      "in_connection": false,
       "x": 36,
       "y": 40,
       "elevation": 3,
@@ -474,6 +508,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
+      "in_connection": false,
       "x": 6,
       "y": 38,
       "elevation": 3,
@@ -487,6 +522,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_PROF_OAK",
+      "in_connection": false,
       "x": 9,
       "y": 79,
       "elevation": 3,

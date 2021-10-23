@@ -1207,7 +1207,7 @@ u8 *GetMapName(u8 *dest, u16 regionMapId, u16 padLength)
 
     if (regionMapId < MAPSEC_NONE)
         str = StringCopy(dest, gRegionMapEntries[regionMapId].name);
-    else if (regionMapId >= MAPSEC_WHIRL_ISLANDS && regionMapId <= MAPSEC_KAMINKOS_HOUSE)
+    else if (regionMapId > METLOC_FATEFUL_ENCOUNTER && regionMapId <= MAPSEC_KAMINKOS_HOUSE)
         str = StringCopy(dest, gOtherMapNames[regionMapId]);
     else
     {

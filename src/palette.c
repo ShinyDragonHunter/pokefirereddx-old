@@ -42,34 +42,57 @@ static const u8 sRoundedDownGrayscaleMap[] = {
     31, 31
 };
 
-void LoadCompressedPalette(const u32 *src, u16 offset, u16 size)
+static void LoadCompressedPaletteInternal(const void *src, u16 offset, u16 size, bool8 isDayNight)
 {
     LZDecompressWram(src, gPaletteDecompressionBuffer);
-    CpuFill16(RGB_BLACK, gPlttBufferPreDN + offset, size);
-    CpuCopy16(gPaletteDecompressionBuffer, gPlttBufferUnfaded + offset, size);
-    CpuCopy16(gPaletteDecompressionBuffer, gPlttBufferFaded + offset, size);
+    if (isDayNight)
+    {
+        CpuCopy16(gPaletteDecompressionBuffer, gPlttBufferPreDN + offset, size);
+        TintPaletteForDayNight(offset, size);
+        CpuCopy16(gPlttBufferUnfaded + offset, gPlttBufferFaded + offset, size);
+    }
+    else
+    {
+        CpuFill16(RGB_BLACK, gPlttBufferPreDN + offset, size);
+        CpuCopy16(gPaletteDecompressionBuffer, gPlttBufferUnfaded + offset, size);
+        CpuCopy16(gPaletteDecompressionBuffer, gPlttBufferFaded + offset, size);
+    }
+}
+
+void LoadCompressedPalette(const u32 *src, u16 offset, u16 size)
+{
+    LoadCompressedPaletteInternal(src, offset, size, FALSE);
 }
 
 void LoadCompressedPaletteDayNight(const void *src, u16 offset, u16 size)
 {
-    LZDecompressWram(src, gPaletteDecompressionBuffer);
-    CpuCopy16(gPaletteDecompressionBuffer, gPlttBufferPreDN + offset, size);
-    TintPaletteForDayNight(offset, size);
-    CpuCopy16(gPlttBufferUnfaded + offset, gPlttBufferFaded + offset, size);
+    LoadCompressedPaletteInternal(src, offset, size, TRUE);
+}
+
+void LoadPaletteInternal(const void *src, u16 offset, u16 size, bool8 isDayNight)
+{
+    if (isDayNight)
+    {
+        CpuCopy16(src, gPlttBufferPreDN + offset, size);
+        TintPaletteForDayNight(offset, size);
+        CpuCopy16(gPlttBufferUnfaded + offset, gPlttBufferFaded + offset, size);
+    }
+    else
+    {
+        CpuFill16(RGB_BLACK, gPlttBufferPreDN + offset, size);
+        CpuCopy16(src, gPlttBufferUnfaded + offset, size);
+        CpuCopy16(src, gPlttBufferFaded + offset, size);
+    }
 }
 
 void LoadPalette(const void *src, u16 offset, u16 size)
 {
-    CpuFill16(RGB_BLACK, gPlttBufferPreDN + offset, size);
-    CpuCopy16(src, gPlttBufferUnfaded + offset, size);
-    CpuCopy16(src, gPlttBufferFaded + offset, size);
+    LoadPaletteInternal(src, offset, size, FALSE);
 }
 
 void LoadPaletteDayNight(const void *src, u16 offset, u16 size)
 {
-    CpuCopy16(src, gPlttBufferPreDN + offset, size);
-    TintPaletteForDayNight(offset, size);
-    CpuCopy16(gPlttBufferUnfaded + offset, gPlttBufferFaded + offset, size);
+    LoadPaletteInternal(src, offset, size, TRUE);
 }
 
 void FillPalette(u16 value, u16 offset, u16 size)

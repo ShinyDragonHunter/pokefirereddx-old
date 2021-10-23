@@ -392,8 +392,7 @@ struct PokemonStorageSystemData
     u16 partyMenuTilemapBuffer[0x108];
     u16 partyMenuUnused1; // Never read
     u16 partyMenuY;
-    u8 displayMonForm:2;
-    u8 partyMenuUnused2:6; // Unused
+    u8 displayMonForm;
     u8 partyMenuMoveTimer;
     u8 showPartyMenuState;
     bool8 closeBoxFlashing;
@@ -529,8 +528,8 @@ struct PokemonStorageSystemData
     struct Sprite *displayMonSprite;
     u16 displayMonPalBuffer[0x40];
     u8 tileBuffer[0x800];
-    u8 unusedBuffer[0x17E2]; // Unused
     u8 boxForm[IN_BOX_COUNT];
+    u8 unusedBuffer[0x17E2]; // Unused
     u8 itemIconBuffer[0x800];
     u8 wallpaperBgTilemapBuffer[0x1000];
     u8 displayMenuTilemapBuffer[0x800];

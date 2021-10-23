@@ -245,7 +245,7 @@ const struct SpriteFrameImage gTrainerBackPicTable_RedOriginal[] =
     gTrainerBackPicRed + 0x0800, 0x0800,
     gTrainerBackPicRedOriginal, 0x0800,
     gTrainerBackPicRed + 0x1800, 0x0800,
-    gTrainerBackPicRed + 0x2000, 0x0800,
+    gTrainerBackPicRedOriginal + 0x0800, 0x0800,
 };
 
 const struct SpriteFrameImage gTrainerBackPicTable_LeafOriginal[] =

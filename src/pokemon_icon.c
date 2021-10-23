@@ -1127,14 +1127,13 @@ u8 CreateMonIconNoPersonality(u16 species, void (*callback)(struct Sprite *), s1
     struct MonIconSpriteTemplate iconTemplate =
     {
         .oam = &sMonIconOamData,
-        .image = NULL,
+        .image = GetMonIconTiles(species),
         .anims = sMonIconAnims,
         .affineAnims = sMonIconAffineAnims,
         .callback = callback,
         .paletteTag = POKE_ICON_BASE_PAL_TAG + gMonIconPaletteIndices[species],
     };
 
-    iconTemplate.image = GetMonIconTiles(species);
     spriteId = CreateMonIconSprite(&iconTemplate, x, y, subpriority);
 
     UpdateMonIconFrame(&gSprites[spriteId]);
@@ -1263,12 +1262,15 @@ void sub_80D304C(u16 offset)
 
 u8 GetValidMonIconPalIndex(u16 species, u8 form)
 {
+    if ((species > NUM_SPECIES && !form)
+     || (species >= SPECIES_COUNT && form))
+        species = INVALID_ICON_SPECIES;
     return gMonIconPaletteIndices[GetFormSpecies(species, form)];
 }
 
-u8 GetMonIconPaletteIndexFromSpecies(u16 species)
+u8 GetMonIconPaletteIndexFromSpecies(u16 species, u8 form)
 {
-    return gMonIconPaletteIndices[species];
+    return gMonIconPaletteIndices[GetFormSpecies(species, form)];
 }
 
 const u16* GetValidMonIconPalettePtr(u16 species, u8 form)

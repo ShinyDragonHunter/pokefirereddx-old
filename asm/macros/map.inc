@@ -100,6 +100,6 @@
 	.space 2
 	.endm
 
-	.macro map_header_flags allow_cycling:req, allow_escaping:req, allow_running:req, use_night_tint:req, show_map_name:req
-	.byte ((\show_map_name & 1) << 4) | ((\use_night_tint & 1) << 3) |  | ((\allow_running & 1) << 2) | ((\allow_escaping & 1) << 1) | \allow_cycling
+	.macro map_header_flags allow_cycling:req, allow_escaping:req, allow_running:req, show_map_name:req, use_night_tint:req
+	.byte ((\use_night_tint) << 4) | ((\show_map_name & 1) << 3) | ((\allow_running & 1) << 2) | ((\allow_escaping & 1) << 1) | \allow_cycling
 	.endm

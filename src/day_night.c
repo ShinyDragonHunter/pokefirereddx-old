@@ -103,9 +103,7 @@ static void LoadPaletteOverrides(void)
     u32 i, j;
     const u16* src;
     u16* dest;
-    s8 hour;
-
-    hour = (gMapHeader.useNightTint) ? 0 : gLocalTime.hours;
+    s8 hour = (gMapHeader.useNightTint) ? HOUR_MIDNIGHT_0 : gLocalTime.hours;
 
     for (i = 0; i < ARRAY_COUNT(gPaletteOverrides); i++)
     {
@@ -151,7 +149,7 @@ void TintPaletteForDayNight(u16 offset, u16 size)
         RtcCalcLocalTimeFast();
         if (gMapHeader.useNightTint)
         {
-            hour = 0;
+            hour = HOUR_MIDNIGHT_0;
             hourPhase = 0;
         }
         else
@@ -204,7 +202,7 @@ void ProcessImmediateTimeEvents(void)
         {
             if (gMapHeader.useNightTint)
             {
-                hour = 0;
+                hour = HOUR_MIDNIGHT_0;
                 hourPhase = 0;
             }
             else

@@ -308,7 +308,6 @@ u8 LoadSpritePalette(const struct SpritePalette *palette);
 u8 LoadSpritePaletteDayNight(const struct SpritePalette *palette);
 u8 LoadUniqueSpritePalette(const struct SpritePalette *palette, u16 species, u32 personality, bool8 isShiny);
 void LoadSpritePalettes(const struct SpritePalette *palettes);
-void DoLoadSpritePaletteDayNight(const u16 *src, u16 paletteOffset);
 u8 AllocSpritePalette(u16 tag);
 u8 IndexOfSpritePaletteTag(u16 tag);
 u16 GetSpritePaletteTagByPaletteNum(u8 paletteNum);

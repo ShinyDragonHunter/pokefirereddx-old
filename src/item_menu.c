@@ -58,11 +58,11 @@
 // number of item slots that could fit in a single pocket, + 1 for Cancel.
 // This constant picks the max of the existing pocket sizes.
 // By default, the largest pocket is BAG_TMHM_COUNT at 64.
-#define MAX_POCKET_ITEMS  ((max(BAG_TMHM_COUNT,              \
-                            max(BAG_BERRIES_COUNT,           \
-                            max(BAG_ITEMS_COUNT,             \
-                            max(BAG_KEYITEMS_COUNT,          \
-                                BAG_POKEBALLS_COUNT))))) + 1)
+#define MAX_POCKET_ITEMS  ((max(BAG_ITEMS_COUNT,         \
+                            max(BAG_KEYITEMS_COUNT,      \
+                            max(BAG_POKEBALLS_COUNT,     \
+                            max(BAG_TMHM_COUNT,          \
+                                BAG_BERRIES_COUNT))))) + 1)
 
 #define FREE_IF_SET(ptr)            \
 {                                   \
@@ -111,7 +111,7 @@ struct BagSlots
     u16 pocket;
 };
 
-EWRAM_DATA struct BagPosition gBagPosition = {};
+EWRAM_DATA struct BagPosition gBagPosition = {0};
 EWRAM_DATA struct BagMenu *gBagMenu = NULL;
 static EWRAM_DATA struct ListMenuItem * sListMenuItems = NULL;
 static EWRAM_DATA u8 (*sListMenuItemStrings)[ITEM_NAME_LENGTH + 10] = NULL;
@@ -130,7 +130,6 @@ static void LoadBagItemListBuffers(u8);
 static void PrintPocketNames(void);
 static void CreatePocketScrollArrowPair(void);
 static void CreatePocketSwitchArrowPair(void);
-static bool8 BagIsTutorial(void);
 static void Task_Bag_WallyTutorialBagMenu(u8);
 static void Task_BagMenu_HandleInput(u8);
 static void GetItemName(s8 *dest, u16 itemId);
@@ -624,12 +623,12 @@ static bool8 LoadBagMenu_Graphics(void)
         break;
     case 2:
         LoadCompressedPalette(gBagScreenMale_Pal, 0, 0x60);
-        if (!BagIsTutorial() && gSaveBlock2Ptr->playerGender)
+        if (gBagPosition.location != ITEMMENULOCATION_WALLY && gSaveBlock2Ptr->playerGender)
             LoadCompressedPalette(gBagScreenFemale_Pal, 0, 0x20);
         gBagMenu->graphicsLoadState++;
         break;
     case 3:
-        if (BagIsTutorial() || !gSaveBlock2Ptr->playerGender)
+        if (gBagPosition.location == ITEMMENULOCATION_WALLY || !gSaveBlock2Ptr->playerGender)
             LoadCompressedSpriteSheet(&gBagMaleSpriteSheet);
         else
             LoadCompressedSpriteSheet(&gBagFemaleSpriteSheet);
@@ -1263,7 +1262,7 @@ static void Task_SwitchBagPocket(u8 taskId)
 {
     s16* data = gTasks[taskId].data;
 
-    if (!MenuHelpers_LinkSomething() && !BagIsTutorial())
+    if (!MenuHelpers_LinkSomething() && gBagPosition.location != ITEMMENULOCATION_WALLY)
     {
         switch (GetSwitchBagPocketDirection())
         {
@@ -2142,13 +2141,6 @@ bool8 UseRegisteredKeyItemOnField(void)
 }
 
 #undef tUsingRegisteredKeyItem
-
-static bool8 BagIsTutorial(void)
-{
-    if (gBagPosition.location == ITEMMENULOCATION_WALLY)
-        return TRUE;
-    return FALSE;
-}
 
 static void BackUpPlayerBag(void)
 {

@@ -11,8 +11,9 @@ struct PokemonSubstruct0
     u32 experience;
     u8 ppBonuses;
     u8 friendship;
-    u8 versionModifier; // Used to identify mons originated from unofficial games.
-    u8 newMetLocation;
+    u8 versionModifier; // used to identify mons originated from unofficial games.
+    u8 title:6; // "active" ribbon
+    u8 filler:2;
 };
 
 struct PokemonSubstruct1
@@ -100,7 +101,14 @@ struct BoxPokemon
     u8 otName[PLAYER_NAME_LENGTH];
     u8 markings;
     u16 checksum;
-    u16 unknown;
+    u16 shinyLeafA:1;
+    u16 shinyLeafB:1;
+    u16 shinyLeafC:1;
+    u16 shinyLeafD:1;
+    u16 shinyLeafE:1;
+    u16 shinyCrown:1;
+    u16 encounterType:5; // gen 4 encounter type
+    u16 unknown:5;
 
     union
     {
@@ -126,28 +134,11 @@ struct Pokemon
 
 struct MonSpritesGfxManager
 {
-    u32 numSprites:4;
-    u32 numSprites2:4; // Never read
-    u32 numFrames:8;
-    u32 active:8;
-    u32 dataSize:4;
-    u32 mode:4; // MON_SPR_GFX_MODE_*
+    bool32 active;
     void *spriteBuffer;
     u8 **spritePointers;
     struct SpriteTemplate *templates;
     struct SpriteFrameImage *frameImages;
-};
-
-enum {
-    MON_SPR_GFX_MODE_NORMAL,
-    MON_SPR_GFX_MODE_BATTLE,
-    MON_SPR_GFX_MODE_FULL_PARTY,
-};
-
-enum {
-    MON_SPR_GFX_MANAGER_A,
-    MON_SPR_GFX_MANAGER_B, // Nothing ever sets up this manager.
-    MON_SPR_GFX_MANAGERS_COUNT
 };
 
 struct BattlePokemon
@@ -428,8 +419,8 @@ u16 PlayerGenderToFrontTrainerPicId(u8 playerGender, u8 playerOutfit);
 void HandleSetPokedexFlag(u16 nationalNum, u8 caseId, u32 personality);
 const u8 *GetTrainerClassNameFromId(u16 trainerId);
 const u8 *GetTrainerNameFromId(u16 trainerId);
-struct MonSpritesGfxManager *CreateMonSpritesGfxManager(u8 managerId, u8 mode);
-void DestroyMonSpritesGfxManager(u8 managerId);
-u8 *MonSpritesGfxManager_GetSpritePtr(u8 managerId, u8 spriteNum);
+struct MonSpritesGfxManager *CreateMonSpritesGfxManager(void);
+void DestroyMonSpritesGfxManager(void);
+u8 *MonSpritesGfxManager_GetSpritePtr(void);
 
 #endif // GUARD_POKEMON_H

@@ -12,10 +12,11 @@
   "allow_running": false,
   "show_map_name": false,
   "battle_scene": "MAP_BATTLE_SCENE_GYM",
-  "connections": null,
+  "connections": 0,
   "object_events": [
     {
       "graphics_id": "OBJ_EVENT_GFX_MISTY",
+      "in_connection": false,
       "x": 4,
       "y": 3,
       "elevation": 0,
@@ -29,6 +30,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_HOENN_BLACK_BELT",
+      "in_connection": false,
       "x": 2,
       "y": 18,
       "elevation": 0,
@@ -42,6 +44,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_HOENN_GIRL_3",
+      "in_connection": false,
       "x": 15,
       "y": 3,
       "elevation": 3,
@@ -55,6 +58,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_HOENN_GIRL_3",
+      "in_connection": false,
       "x": 12,
       "y": 25,
       "elevation": 3,
@@ -68,6 +72,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_HOENN_MAN_2",
+      "in_connection": false,
       "x": 5,
       "y": 24,
       "elevation": 3,
@@ -81,6 +86,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_HOENN_BLACK_BELT",
+      "in_connection": false,
       "x": 7,
       "y": 8,
       "elevation": 1,
@@ -94,6 +100,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_HOENN_GIRL_3",
+      "in_connection": false,
       "x": 16,
       "y": 9,
       "elevation": 3,
@@ -107,6 +114,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_HOENN_SAILOR",
+      "in_connection": false,
       "x": 14,
       "y": 12,
       "elevation": 1,
@@ -135,7 +143,9 @@
       "dest_warp_id": 2
     }
   ],
-  "coord_events": [],
+  "coord_events": [
+
+  ],
   "bg_events": [
     {
       "type": "sign",

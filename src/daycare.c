@@ -840,13 +840,13 @@ static bool8 TryProduceOrHatchEgg(struct DayCare *daycare)
             switch (compatibility)
             {
             case PARENTS_LOW_COMPATIBILITY:
-                compatibility = 40;
+                compatibility = OVAL_CHARM_LOW_COMPATIBILITY;
                 break;
             case PARENTS_MED_COMPATIBILITY:
-                compatibility = 80;
+                compatibility = OVAL_CHARM_MED_COMPATIBILITY;
                 break;
             case PARENTS_MAX_COMPATIBILITY:
-                compatibility = 88;
+                compatibility = OVAL_CHARM_MAX_COMPATIBILITY;
                 break;
             }
         }

@@ -36,18 +36,18 @@ static bool8 WillPlayerCollideWithCollision(u8, u8);
 
 static void (*const sBikeTransitions[])(u8) =
 {
-    [BIKE_TRANS_FACE_DIRECTION]    = BikeTransition_FaceDirection,
-    [BIKE_TRANS_TURNING]           = BikeTransition_TurnDirection,
-    [BIKE_TRANS_MOVING]            = BikeTransition_Moving,
-    [BIKE_TRANS_DOWNHILL]          = BikeTransition_FaceDirection,
-    [BIKE_TRANS_UPHILL]            = BikeTransition_FaceDirection,
+    [BIKE_TRANS_FACE_DIRECTION] = BikeTransition_FaceDirection,
+    [BIKE_TRANS_TURNING] = BikeTransition_TurnDirection,
+    [BIKE_TRANS_MOVING] = BikeTransition_Moving,
+    [BIKE_TRANS_DOWNHILL] = BikeTransition_FaceDirection,
+    [BIKE_TRANS_UPHILL] = BikeTransition_FaceDirection,
 };
 
 static u8 (*const sBikeInputHandlers[])(u8 *, u16, u16) =
 {
-    [BIKE_STATE_NORMAL]           = BikeHandleInputNormal,
-    [BIKE_STATE_TURNING]          = BikeHandleInputTurning,
-    [BIKE_STATE_SLOPE]            = BikeHandleInputNormal,
+    [BIKE_STATE_NORMAL] = BikeHandleInputNormal,
+    [BIKE_STATE_TURNING] = BikeHandleInputTurning,
+    [BIKE_STATE_SLOPE] = BikeHandleInputNormal,
 };
 
 static const u16 sBikeMusicTable[NUM_REGION] =
@@ -158,17 +158,13 @@ static u8 GetBikeCollisionAt(struct ObjectEvent *objectEvent, s16 x, s16 y, u8 d
 
 bool32 IsRunningDisallowed(u8 metatile)
 {
-    if (IsRunningDisallowedByMetatile(metatile))
-        return TRUE;
-    return FALSE;
+    return IsRunningDisallowedByMetatile(metatile);
 }
 
 static bool8 IsRunningDisallowedByMetatile(u8 tile)
 {
-    if (MetatileBehavior_IsRunningDisallowed(tile)
-     || (MetatileBehavior_IsFortreeBridge(tile) && (PlayerGetZCoord() & 1) == 0))
-        return TRUE;
-    return FALSE;
+    return MetatileBehavior_IsRunningDisallowed(tile)
+       || (MetatileBehavior_IsFortreeBridge(tile) && (PlayerGetZCoord() & 1) == 0);
 }
 
 static bool8 CanBikeFaceDirOnMetatile(u8 direction, u8 tile)
@@ -229,6 +225,7 @@ void GetOnOffBike(u8 transitionFlags)
     else
     {
         u16 music = sBikeMusicTable[gMapsecToRegion[gMapHeader.regionMapSectionId]];
+
         PlaySE(SE_BIKE_BELL);
         SetPlayerAvatarTransitionFlags(transitionFlags);
         Overworld_SetSavedMusic(music);
