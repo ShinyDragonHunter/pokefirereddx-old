@@ -68,7 +68,8 @@ void HandleLoadSpecialPokePic(const struct CompressedSpriteSheet *src, void *des
 {
     bool8 isFrontPic;
 
-    if (src == &gMonFrontPicTable[species])
+    if (src == &gFemaleMonFrontPicTable[species]
+     || src == &gMonFrontPicTable[species])
         isFrontPic = TRUE; // frontPic
     else
         isFrontPic = FALSE; // backPic
@@ -92,7 +93,7 @@ void LoadSpecialPokePic(const struct CompressedSpriteSheet *src, void *dest, s32
         else
             LZ77UnCompWram(gMonBackPicTable[i].data, dest);
     }
-    else if (SpeciesHasGenderDifference[species] && GetGenderFromSpeciesAndPersonality(species, personality) == MON_FEMALE)
+    else if (SpeciesHasGenderDifferenceAndIsFemale(species, personality))
     {
         if (isFrontPic)
             LZ77UnCompWram(gFemaleMonFrontPicTable[species].data, dest);

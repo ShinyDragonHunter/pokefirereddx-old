@@ -440,56 +440,59 @@ const u8 gTypeNames[NUMBER_OF_MON_TYPES][TYPE_NAME_LENGTH + 1] =
 // This is a factor in how much money you get for beating a trainer.
 const struct TrainerMoney gTrainerMoneyTable[] =
 {
-    {TRAINER_CLASS_YOUNGSTER, 4},
-    {TRAINER_CLASS_BUG_CATCHER, 3},
-    {TRAINER_CLASS_LASS, 4},
-    {TRAINER_CLASS_SAILOR, 8},
+    {TRAINER_CLASS_HIKER, 9},
+    {TRAINER_CLASS_FIREBREATHER, 12},
+    {TRAINER_CLASS_PKMN_BREEDER, 7},
+    {TRAINER_CLASS_COOLTRAINER, 9},
+    {TRAINER_CLASS_BIRD_KEEPER, 6},
+    {TRAINER_CLASS_SWIMMER_M, 1},
+    {TRAINER_CLASS_BLACK_BELT, 6},
+    {TRAINER_CLASS_AROMA_LADY, 7},
+    {TRAINER_CLASS_RUIN_MANIAC, 12},
+    {TRAINER_CLASS_TUBER, 1},
+    {TRAINER_CLASS_LADY, 50},
+    {TRAINER_CLASS_BEAUTY, 18},
+    {TRAINER_CLASS_POKEMANIAC, 12},
     {TRAINER_CLASS_CAMPER, 5},
     {TRAINER_CLASS_PICNICKER, 5},
-    {TRAINER_CLASS_POKEMANIAC, 12},
+    {TRAINER_CLASS_PSYCHIC, 5},
+    {TRAINER_CLASS_GENTLEMAN, 18},
+    {TRAINER_CLASS_ELITE_FOUR, 25},
+    {TRAINER_CLASS_LEADER, 25},
+    {TRAINER_CLASS_YOUNGSTER, 4},
+    {TRAINER_CLASS_CHAMPION, 25},
+    {TRAINER_CLASS_FISHERMAN, 9},
+    {TRAINER_CLASS_SWIMMER_F, 1},
+    {TRAINER_CLASS_TWINS, 3},
+    {TRAINER_CLASS_SAILOR, 8},
+    {TRAINER_CLASS_PKMN_TRAINER, 15},
+    {TRAINER_CLASS_BUG_CATCHER, 3},
+    {TRAINER_CLASS_PKMN_RANGER, 9},
+    {TRAINER_CLASS_LASS, 4},
+    {TRAINER_CLASS_YOUNG_COUPLE, 7},
+    {TRAINER_CLASS_SIS_AND_BRO, 1},
     {TRAINER_CLASS_SUPER_NERD, 6},
-    {TRAINER_CLASS_HIKER, 9},
     {TRAINER_CLASS_BIKER, 5},
     {TRAINER_CLASS_BURGLAR, 22},
     {TRAINER_CLASS_ENGINEER, 12},
-    {TRAINER_CLASS_FISHERMAN, 9},
-    {TRAINER_CLASS_SWIMMER_M, 1},
     {TRAINER_CLASS_CUE_BALL, 6},
     {TRAINER_CLASS_GAMER, 18},
-    {TRAINER_CLASS_BEAUTY, 18},
-    {TRAINER_CLASS_SWIMMER_F, 1},
-    {TRAINER_CLASS_PSYCHIC, 5},
     {TRAINER_CLASS_ROCKER, 6},
     {TRAINER_CLASS_JUGGLER, 10},
     {TRAINER_CLASS_TAMER, 10},
-    {TRAINER_CLASS_BIRD_KEEPER, 6},
-    {TRAINER_CLASS_BLACK_BELT, 6},
     {TRAINER_CLASS_RIVAL_1, 4},
     {TRAINER_CLASS_SCIENTIST, 12},
     {TRAINER_CLASS_BOSS, 25},
     {TRAINER_CLASS_TEAM_ROCKET, 8},
-    {TRAINER_CLASS_COOLTRAINER, 9},
-    {TRAINER_CLASS_LEADER, 25},
-    {TRAINER_CLASS_ELITE_FOUR, 25},
-    {TRAINER_CLASS_GENTLEMAN, 18},
     {TRAINER_CLASS_RIVAL_2, 9},
-    {TRAINER_CLASS_CHAMPION, 25},
     {TRAINER_CLASS_CHANNELER, 8},
-    {TRAINER_CLASS_TWINS, 3},
     {TRAINER_CLASS_COOL_COUPLE, 6},
-    {TRAINER_CLASS_YOUNG_COUPLE, 7},
     {TRAINER_CLASS_CRUSH_KIN, 6},
-    {TRAINER_CLASS_SIS_AND_BRO, 1},
     {TRAINER_CLASS_PKMN_PROF, 25},
     {TRAINER_CLASS_CRUSH_GIRL, 6},
-    {TRAINER_CLASS_TUBER, 1},
-    {TRAINER_CLASS_PKMN_BREEDER, 7},
-    {TRAINER_CLASS_PKMN_RANGER, 9},
-    {TRAINER_CLASS_AROMA_LADY, 7},
-    {TRAINER_CLASS_RUIN_MANIAC, 12},
-    {TRAINER_CLASS_LADY, 50},
     {TRAINER_CLASS_PAINTER, 4},
-    {TRAINER_CLASS_PKMN_FAN_CLUB_PRESIDENT, 9},
+    {TRAINER_CLASS_PKMN_FAN_CLUB, 9},
+    {TRAINER_CLASS_ROCKET_ADMIN, 10},
     {0xFF, 5},
 };
 
@@ -2628,11 +2631,15 @@ void SpriteCB_FaintOpponentMon(struct Sprite *sprite)
     u8 battler = sprite->sBattler;
     u16 species;
     u8 yOffset;
+    u8 form = 0;
 
     if (gBattleSpritesDataPtr->battlerData[battler].transformSpecies)
         species = gBattleSpritesDataPtr->battlerData[battler].transformSpecies;
     else
+    {
         species = sprite->sSpeciesId;
+        form = GetMonData(&gEnemyParty[gBattlerPartyIndexes[battler]], MON_DATA_PERSONALITY);
+    }
 
     if (species == SPECIES_UNOWN)
     {
@@ -2651,10 +2658,10 @@ void SpriteCB_FaintOpponentMon(struct Sprite *sprite)
     {
         yOffset = gCastformFrontSpriteCoords[gBattleMonForms[battler]].y_offset;
     }
+    else if (IsMonValid(species, form))
+        yOffset = gMonFrontPicCoords[GetFormSpecies(species, form)].y_offset;
     else
-    {
-        yOffset = gMonFrontPicCoords[species].y_offset;
-    }
+        yOffset = gMonFrontPicCoords[SPECIES_NONE].y_offset;
 
     sprite->data[3] = 8 - yOffset / 8;
     sprite->data[4] = 1;

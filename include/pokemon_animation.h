@@ -1,8 +1,6 @@
 #ifndef GUARD_POKEMON_ANIMATION_H
 #define GUARD_POKEMON_ANIMATION_H
 
-extern const u8 gSpeciesToBackAnimSet[SPECIES_COUNT];
-
 void LaunchAnimationTaskForFrontSprite(struct Sprite *sprite, u8 frontAnimId);
 void StartMonSummaryAnimation(struct Sprite *sprite, u8 frontAnimId);
 void LaunchAnimationTaskForBackSprite(struct Sprite *sprite, u8 backAnimSet);

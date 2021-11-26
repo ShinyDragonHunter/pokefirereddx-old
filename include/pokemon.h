@@ -1,6 +1,7 @@
 #ifndef GUARD_POKEMON_H
 #define GUARD_POKEMON_H
 
+#include "constants/global.h"
 #include "constants/pokemon.h"
 #include "sprite.h"
 
@@ -12,8 +13,7 @@ struct PokemonSubstruct0
     u8 ppBonuses;
     u8 friendship;
     u8 versionModifier; // used to identify mons originated from unofficial games.
-    u8 title:6; // "active" ribbon
-    u8 filler:2;
+    u8 title; // "active" ribbon
 };
 
 struct PokemonSubstruct1
@@ -197,6 +197,8 @@ struct BaseStats
  /* 0x0A */ u16 evYield_Speed:2;
  /* 0x0B */ u16 evYield_SpAttack:2;
  /* 0x0B */ u16 evYield_SpDefense:2;
+ /* 0x0B */ u16 formCount:2;
+ /* 0x0B */ u16 formId:2;
  /* 0x0C */ u16 item1;
  /* 0x0E */ u16 item2;
  /* 0x10 */ u8 genderRatio;
@@ -209,6 +211,11 @@ struct BaseStats
  /* 0x18 */ u8 safariZoneFleeRate;
  /* 0x19 */ u8 bodyColor:7;
             u8 noFlip:1;
+ /* 0x1A */ u8 frontPicAnim;
+ /* 0x1B */ u8 frontPicAnimDelay;
+ /* 0x1C */ u8 backPicAnim;
+ /* 0x1D */ u8 flags;
+ /* 0x1E */ u16 forms[3];
 };
 
 struct BattleMove
@@ -275,6 +282,8 @@ extern const u8 gStatStageRatios[MAX_STAT_STAGE + 1][2];
 extern const u16 gLinkPlayerFacilityClasses[];
 extern const struct SpriteTemplate gBattlerSpriteTemplates[];
 extern const s8 gNatureStatTable[][5];
+extern const u8 gPlayerFrontPics[OUTFIT_COUNT][GENDER_COUNT];
+extern const u8 gPlayerBackPics[OUTFIT_COUNT][GENDER_COUNT];
 
 void ZeroBoxMonData(struct BoxPokemon *boxMon);
 void ZeroMonData(struct Pokemon *mon);
@@ -401,12 +410,14 @@ void MonRestorePP(struct Pokemon *mon);
 void BoxMonRestorePP(struct BoxPokemon *boxMon);
 void SetMonPreventsSwitchingString(void);
 void SetWildMonHeldItem(void);
+bool32 IsMonValid(u16 species, u8 form);
 u16 GetFormSpecies(u16 species, u8 form);
-u8 GetFormFromFormSpecies(u16 formSpecies);
+u8 GetForm(u16 formSpecies);
 void ChangeForm(void);
-bool8 IsMonShiny(struct Pokemon *mon);
-bool8 IsMonSquareShiny(struct Pokemon *mon);
-bool8 IsShinyOtIdPersonality(u32 otId, u32 personality);
+bool32 SpeciesHasGenderDifferenceAndIsFemale(u16 species, u32 personality);
+bool32 IsMonShiny(struct Pokemon *mon);
+bool32 IsMonSquareShiny(struct Pokemon *mon);
+bool32 IsShinyOtIdPersonality(u32 otId, u32 personality);
 const u8 *GetTrainerPartnerName(void);
 void BattleAnimateFrontSprite(struct Sprite* sprite, u16 species, bool8 noCry, u8 arg3);
 void DoMonFrontSpriteAnimation(struct Sprite* sprite, u16 species, bool8 noCry, u8 arg3);
@@ -414,8 +425,6 @@ void PokemonSummaryDoMonAnimation(struct Sprite* sprite, u16 species, bool8 oneF
 void StopPokemonAnimationDelayTask(void);
 void BattleAnimateBackSprite(struct Sprite* sprite, u16 species);
 u8 GetOpposingLinkMultiBattlerId(bool8 rightSide, u8 multiplayerId);
-u16 FacilityClassToPicIndex(u16 facilityClass);
-u16 PlayerGenderToFrontTrainerPicId(u8 playerGender, u8 playerOutfit);
 void HandleSetPokedexFlag(u16 nationalNum, u8 caseId, u32 personality);
 const u8 *GetTrainerClassNameFromId(u16 trainerId);
 const u8 *GetTrainerNameFromId(u16 trainerId);

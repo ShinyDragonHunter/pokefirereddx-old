@@ -2290,11 +2290,6 @@ const struct MonCoords gMonBackPicCoords[] =
         .size = 0x86,
         .y_offset = 10,
     },
-    [SPECIES_FARFETCHD_GALARIAN] =
-    {
-        .size = 0x66,
-        .y_offset = 10,
-    },
     [SPECIES_GRIMER_ALOLAN] =
     {
         .size = 0x75,
@@ -2319,11 +2314,6 @@ const struct MonCoords gMonBackPicCoords[] =
     {
         .size = 0x77,
         .y_offset = 6,
-    },
-    [SPECIES_MR_MIME_GALARIAN] =
-    {
-        .size = 0x85,
-        .y_offset = 13,
     },
     [SPECIES_ARTICUNO_GALARIAN] =
     {
@@ -2350,25 +2340,10 @@ const struct MonCoords gMonBackPicCoords[] =
         .size = 0x66,
         .y_offset = 8,
     },
-    [SPECIES_CORSOLA_GALARIAN] =
-    {
-        .size = 0x65,
-        .y_offset = 12,
-    },
     [SPECIES_LUGIA_SHADOW] =
     {
         .size = 0x88,
         .y_offset = 1,
-    },
-    [SPECIES_ZIGZAGOON_GALARIAN] =
-    {
-        .size = 0x76,
-        .y_offset = 11,
-    },
-    [SPECIES_LINOONE_GALARIAN] =
-    {
-        .size = 0x85,
-        .y_offset = 15,
     },
     [SPECIES_DEOXYS_SPEED] =
     {

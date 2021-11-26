@@ -51,7 +51,6 @@ enum {
     SHINY_STAR_DIAGONAL
 };
 
-bool8 IsMonShiny(struct Pokemon *mon);
 static void AnimTask_FlashHealthboxOnLevelUp_Step(u8);
 static void AnimTask_ThrowBall_Step(u8);
 static void SpriteCB_Ball_Throw(struct Sprite *);
@@ -2506,7 +2505,7 @@ void TryShinyAnimation(u8 battler, struct Pokemon *mon)
                 gTasks[taskCirc].tStarMove = SHINY_STAR_ENCIRCLE;
                 gTasks[taskDgnl].tStarMove = SHINY_STAR_DIAGONAL;
                 return;
-			}
+            }
             else
             {
                 if (GetSpriteTileStartByTag(ANIM_TAG_GOLD_STARS) == 0xFFFF)

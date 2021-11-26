@@ -435,6 +435,21 @@ const u8 gInitialMovementTypeFacingDirections[] = {
 
 static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_Player,                OBJ_EVENT_PAL_TAG_PLAYER},
+    {gObjectEventPal_PlayerUnderwater,      OBJ_EVENT_PAL_TAG_PLAYER_UNDERWATER},
+    {gObjectEventPal_RubySapphireBrendan,   OBJ_EVENT_PAL_TAG_RS_BRENDAN},
+    {gObjectEventPal_RubySapphireMay,       OBJ_EVENT_PAL_TAG_RS_MAY},
+    {gObjectEventPal_NpcBlue,               OBJ_EVENT_PAL_TAG_NPC_BLUE},
+    {gObjectEventPal_NpcPink,               OBJ_EVENT_PAL_TAG_NPC_PINK},
+    {gObjectEventPal_NpcGreen,              OBJ_EVENT_PAL_TAG_NPC_GREEN},
+    {gObjectEventPal_NpcWhite,              OBJ_EVENT_PAL_TAG_NPC_WHITE},
+    {gObjectEventPal_Meteorite,             OBJ_EVENT_PAL_TAG_BIRTH_ISLAND_STONE},
+    {gObjectEventPal_Seagallop,             OBJ_EVENT_PAL_TAG_SEAGALLOP},
+    {gObjectEventPal_RedLeafOriginal,        OBJ_EVENT_PAL_TAG_PLAYER_ORIGINAL},
+    {gObjectEventPal_EmeraldBrendan,        OBJ_EVENT_PAL_TAG_E_BRENDAN},
+    {gObjectEventPal_EmeraldMay,            OBJ_EVENT_PAL_TAG_E_MAY},
+    {gObjectEventPal_SSAnne,                OBJ_EVENT_PAL_TAG_SS_ANNE},
+    {gObjectEventPal_NpcGray,               OBJ_EVENT_PAL_TAG_NPC_GRAY},
+    {gObjectEventPal_NpcOrange,             OBJ_EVENT_PAL_TAG_NPC_ORANGE},
     {gObjectEventPal_PlayerDX,              OBJ_EVENT_PAL_TAG_PLAYER_DX},
     {gObjectEventPal_PlayerClassic,         OBJ_EVENT_PAL_TAG_PLAYER_CLASSIC},
     {gObjectEventPal_PlayerAlola,           OBJ_EVENT_PAL_TAG_PLAYER_ALOLA},
@@ -442,30 +457,16 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_PlayerTeamRocket,      OBJ_EVENT_PAL_TAG_PLAYER_TEAM_ROCKET},
     {gObjectEventPal_PlayerTeamAqua,        OBJ_EVENT_PAL_TAG_PLAYER_TEAM_AQUA},
     {gObjectEventPal_PlayerTeamMagma,       OBJ_EVENT_PAL_TAG_PLAYER_TEAM_MAGMA},
-    {gObjectEventPal_PlayerUnderwater,      OBJ_EVENT_PAL_TAG_PLAYER_UNDERWATER},
-    {gObjectEventPal_Gold,                  OBJ_EVENT_PAL_TAG_GOLD},
-    {gObjectEventPal_Kris,                  OBJ_EVENT_PAL_TAG_KRIS},
     {gObjectEventPal_HeliodorBrendan,       OBJ_EVENT_PAL_TAG_H_BRENDAN},
-    {gObjectEventPal_HeliodorMay,           OBJ_EVENT_PAL_TAG_H_MAY},
-    {gObjectEventPal_PlayerOriginal,        OBJ_EVENT_PAL_TAG_PLAYER_ORIGINAL},
-    {gObjectEventPal_EmeraldBrendan,        OBJ_EVENT_PAL_TAG_E_BRENDAN},
-    {gObjectEventPal_EmeraldMay,            OBJ_EVENT_PAL_TAG_E_MAY},
-    {gObjectEventPal_RubySapphireBrendan,   OBJ_EVENT_PAL_TAG_RS_BRENDAN},
-    {gObjectEventPal_RubySapphireMay,       OBJ_EVENT_PAL_TAG_RS_MAY},
-    {gObjectEventPal_NpcBlue,               OBJ_EVENT_PAL_TAG_NPC_BLUE},
-    {gObjectEventPal_NpcPink,               OBJ_EVENT_PAL_TAG_NPC_PINK},
-    {gObjectEventPal_NpcGreen,              OBJ_EVENT_PAL_TAG_NPC_GREEN},
-    {gObjectEventPal_NpcWhite,              OBJ_EVENT_PAL_TAG_NPC_WHITE},
-    {gObjectEventPal_NpcGray,               OBJ_EVENT_PAL_TAG_NPC_GRAY},
-    {gObjectEventPal_NpcOrange,             OBJ_EVENT_PAL_TAG_NPC_ORANGE},
-    {gObjectEventPal_BirthIslandStone,      OBJ_EVENT_PAL_TAG_BIRTH_ISLAND_STONE},
-    {gObjectEventPal_Seagallop,             OBJ_EVENT_PAL_TAG_SEAGALLOP},
-    {gObjectEventPal_SSAnne,                OBJ_EVENT_PAL_TAG_SS_ANNE},
     {gObjectEventPal_HoennNpc1,             OBJ_EVENT_PAL_TAG_HOENN_NPC_1},
     {gObjectEventPal_HoennNpc2,             OBJ_EVENT_PAL_TAG_HOENN_NPC_2},
     {gObjectEventPal_HoennNpc3,             OBJ_EVENT_PAL_TAG_HOENN_NPC_3},
     {gObjectEventPal_HoennNpc4,             OBJ_EVENT_PAL_TAG_HOENN_NPC_4},
-    {gObjectEventPal_HoennZigzagoon,        OBJ_EVENT_PAL_TAG_HOENN_ZIGZAGOON},
+    {gObjectEventPal_Zigzagoon,             OBJ_EVENT_PAL_TAG_ZIGZAGOON},
+    {gObjectEventPal_Poochyena,             OBJ_EVENT_PAL_TAG_POOCHYENA},
+    {gObjectEventPal_HeliodorMay,           OBJ_EVENT_PAL_TAG_H_MAY},
+    {gObjectEventPal_Gold,                  OBJ_EVENT_PAL_TAG_GOLD},
+    {gObjectEventPal_Kris,                  OBJ_EVENT_PAL_TAG_KRIS},
     {NULL,                                  OBJ_EVENT_PAL_TAG_NONE},
 };
 
@@ -957,8 +958,8 @@ static bool8 ShouldTreeOrRockObjectBeCreated(struct ObjectEventTemplate *templat
 
 static bool8 IsConnectionTreeOrRockOnScreen(struct ObjectEventTemplate *template, s16 x, s16 y)
 {
-    if (template->graphicsId == OBJ_EVENT_GFX_CUTTABLE_TREE
-     || template->graphicsId == OBJ_EVENT_GFX_BREAKABLE_ROCK)
+    if (template->graphicsId == OBJ_EVENT_GFX_CUT_TREE
+     || template->graphicsId == OBJ_EVENT_GFX_ROCK_SMASH_ROCK)
     {
         // if player is to left of object
         if (gSaveBlock1Ptr->pos.x < x)
@@ -995,8 +996,8 @@ static bool8 IsTreeOrRockOffScreenPostWalkTransition(struct ObjectEventTemplate 
     width = gBackupMapLayout.width - 16;
     height = gBackupMapLayout.height - 15;
 
-    if (template->graphicsId != OBJ_EVENT_GFX_CUTTABLE_TREE
-     && template->graphicsId != OBJ_EVENT_GFX_BREAKABLE_ROCK)
+    if (template->graphicsId != OBJ_EVENT_GFX_CUT_TREE
+     && template->graphicsId != OBJ_EVENT_GFX_ROCK_SMASH_ROCK)
         return TRUE;
 
     // player is at left edge of map and object is within sight to right
@@ -1472,7 +1473,7 @@ void ObjectEventSetGraphicsId(struct ObjectEvent *objectEvent, u16 graphicsId)
 
     graphicsInfo = GetObjectEventGraphicsInfo(graphicsId);
     sprite = &gSprites[objectEvent->spriteId];
-    if (graphicsInfo->paletteTag != 0xFFFF)
+    if (graphicsInfo->paletteTag != TAG_NONE)
     {
         LoadObjectEventPalette(graphicsInfo->paletteTag);
         UpdatePaletteGammaType(IndexOfSpritePaletteTag(graphicsInfo->paletteTag), GAMMA_ALT);

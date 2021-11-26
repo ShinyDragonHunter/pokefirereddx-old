@@ -9,7 +9,7 @@
   "map_type": "MAP_TYPE_CITY",
   "allow_cycling": true,
   "allow_escaping": false,
-  "allow_running": true,
+  "allow_running": false,
   "show_map_name": true,
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": [
@@ -83,7 +83,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_F",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_F",
       "x": 31,
       "y": 27,
       "elevation": 3,
@@ -239,7 +239,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "x": 30,
       "y": 27,
       "elevation": 3,
@@ -252,7 +252,7 @@
       "flag": "FLAG_HIDE_SLATEPORT_CITY_TEAM_AQUA"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "x": 29,
       "y": 27,
       "elevation": 3,
@@ -304,7 +304,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "x": 22,
       "y": 27,
       "elevation": 3,
@@ -317,7 +317,7 @@
       "flag": "FLAG_HIDE_SLATEPORT_CITY_TEAM_AQUA"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "x": 23,
       "y": 27,
       "elevation": 3,
@@ -330,7 +330,7 @@
       "flag": "FLAG_HIDE_SLATEPORT_CITY_TEAM_AQUA"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "x": 24,
       "y": 27,
       "elevation": 3,
@@ -343,7 +343,7 @@
       "flag": "FLAG_HIDE_SLATEPORT_CITY_TEAM_AQUA"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "x": 21,
       "y": 26,
       "elevation": 3,
@@ -356,7 +356,7 @@
       "flag": "FLAG_HIDE_SLATEPORT_CITY_TEAM_AQUA"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "x": 20,
       "y": 26,
       "elevation": 3,
@@ -369,7 +369,7 @@
       "flag": "FLAG_HIDE_SLATEPORT_CITY_TEAM_AQUA"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "x": 26,
       "y": 27,
       "elevation": 3,
@@ -382,7 +382,7 @@
       "flag": "FLAG_HIDE_SLATEPORT_CITY_TEAM_AQUA"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "x": 28,
       "y": 27,
       "elevation": 3,
@@ -395,7 +395,7 @@
       "flag": "FLAG_HIDE_SLATEPORT_CITY_TEAM_AQUA"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "x": 25,
       "y": 27,
       "elevation": 3,
@@ -421,7 +421,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_HOENN_SCOTT",
+      "graphics_id": "OBJ_EVENT_GFX_SCOTT",
       "x": 10,
       "y": 12,
       "elevation": 0,

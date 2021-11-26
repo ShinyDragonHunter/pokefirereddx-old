@@ -5825,8 +5825,6 @@ static const u32 sTutorLearnsets[] =
 
     [SPECIES_SLOWBRO_GALARIAN] = (0),
 
-    [SPECIES_FARFETCHD_GALARIAN] = (0),
-
     [SPECIES_GRIMER_ALOLAN] = (0),
 
     [SPECIES_MUK_ALOLAN] = (0),
@@ -5836,8 +5834,6 @@ static const u32 sTutorLearnsets[] =
     [SPECIES_MAROWAK_ALOLAN] = (0),
 
     [SPECIES_WEEZING_GALARIAN] = (0),
-
-    [SPECIES_MR_MIME_GALARIAN] = (0),
 
     [SPECIES_ARTICUNO_GALARIAN] = (0),
 
@@ -5871,8 +5867,6 @@ static const u32 sTutorLearnsets[] =
 
     [SPECIES_SLOWKING_GALARIAN] = (0),
 
-    [SPECIES_CORSOLA_GALARIAN] = (0),
-
     [SPECIES_LUGIA_SHADOW]     = (TUTOR(MOVE_BODY_SLAM)
                                 | TUTOR(MOVE_DOUBLE_EDGE)
                                 | TUTOR(MOVE_MIMIC)
@@ -5887,10 +5881,6 @@ static const u32 sTutorLearnsets[] =
                                 | TUTOR(MOVE_SWAGGER)
                                 | TUTOR(MOVE_SLEEP_TALK)
                                 | TUTOR(MOVE_SWIFT)),
-
-    [SPECIES_ZIGZAGOON_GALARIAN] = (0),
-
-    [SPECIES_LINOONE_GALARIAN] = (0),
 
     [SPECIES_DEOXYS_SPEED]     = (TUTOR(MOVE_MEGA_PUNCH)
                                 | TUTOR(MOVE_MEGA_KICK)

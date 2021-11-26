@@ -544,12 +544,12 @@ static const union AnimCmd *const sAnimTable_BerryTree[] = {
     sAnim_BerryTreeStage4,
 };
 
-static const union AnimCmd *const sAnimTable_BreakableRock[] = {
+static const union AnimCmd *const sAnimTable_RockSmashRock[] = {
     sAnim_FaceSouth,
     sAnim_RockBreak,
 };
 
-static const union AnimCmd *const sAnimTable_CuttableTree[] = {
+static const union AnimCmd *const sAnimTable_CutTree[] = {
     sAnim_FaceSouth,
     sAnim_TreeCut,
 };

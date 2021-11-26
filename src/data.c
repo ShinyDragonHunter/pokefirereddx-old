@@ -45,232 +45,256 @@ const struct SpriteFrameImage gBattlerPicTable_OpponentRight[] =
     BATTLER_OFFSET(15), MON_PIC_SIZE,
 };
 
-const struct SpriteFrameImage gTrainerBackPicTable_Red[] =
-{
-    gTrainerBackPicRed, 0x0800,
-    gTrainerBackPicRed + 0x0800, 0x0800,
-    gTrainerBackPicRed + 0x1000, 0x0800,
-    gTrainerBackPicRed + 0x1800, 0x0800,
-    gTrainerBackPicRed + 0x2000, 0x0800,
-};
-
-const struct SpriteFrameImage gTrainerBackPicTable_RedDX[] =
-{
-    gTrainerBackPicRedDX, 0x0800,
-    gTrainerBackPicRedDX + 0x0800, 0x0800,
-    gTrainerBackPicRedDX + 0x1000, 0x0800,
-    gTrainerBackPicRedDX + 0x1800, 0x0800,
-    gTrainerBackPicRedDX + 0x2000, 0x0800,
-};
-
-const struct SpriteFrameImage gTrainerBackPicTable_RedClassic[] =
-{
-    gTrainerBackPicRedClassic, 0x0800,
-    gTrainerBackPicRedClassic + 0x0800, 0x0800,
-    gTrainerBackPicRedClassic + 0x1000, 0x0800,
-    gTrainerBackPicRedClassic + 0x1800, 0x0800,
-    gTrainerBackPicRedClassic + 0x2000, 0x0800,
-};
-
-const struct SpriteFrameImage gTrainerBackPicTable_RedAlola[] =
-{
-    gTrainerBackPicRedAlola, 0x0800,
-    gTrainerBackPicRedAlola + 0x0800, 0x0800,
-    gTrainerBackPicRedAlola + 0x1000, 0x0800,
-    gTrainerBackPicRedAlola + 0x1800, 0x0800,
-    gTrainerBackPicRedAlola + 0x2000, 0x0800,
-};
-
-const struct SpriteFrameImage gTrainerBackPicTable_RedSygnaSuit[] =
-{
-    gTrainerBackPicRedSygnaSuit, 0x0800,
-    gTrainerBackPicRedSygnaSuit + 0x0800, 0x0800,
-    gTrainerBackPicRedSygnaSuit + 0x1000, 0x0800,
-    gTrainerBackPicRedSygnaSuit + 0x1800, 0x0800,
-    gTrainerBackPicRedSygnaSuit + 0x2000, 0x0800,
-};
-
-const struct SpriteFrameImage gTrainerBackPicTable_RedTeamRocket[] =
-{
-    gTrainerBackPicRedTeamRocket, 0x0800,
-    gTrainerBackPicRedTeamRocket + 0x0800, 0x0800,
-    gTrainerBackPicRedTeamRocket + 0x1000, 0x0800,
-    gTrainerBackPicRedTeamRocket + 0x1800, 0x0800,
-    gTrainerBackPicRedTeamRocket + 0x2000, 0x0800,
-};
-
-const struct SpriteFrameImage gTrainerBackPicTable_RedTeamAqua[] =
-{
-    gTrainerBackPicRedTeamAqua, 0x0800,
-    gTrainerBackPicRedTeamAqua + 0x0800, 0x0800,
-    gTrainerBackPicRedTeamAqua + 0x1000, 0x0800,
-    gTrainerBackPicRedTeamAqua + 0x1800, 0x0800,
-    gTrainerBackPicRedTeamAqua + 0x2000, 0x0800,
-};
-
-const struct SpriteFrameImage gTrainerBackPicTable_RedTeamMagma[] =
-{
-    gTrainerBackPicRedTeamMagma, 0x0800,
-    gTrainerBackPicRedTeamMagma + 0x0800, 0x0800,
-    gTrainerBackPicRedTeamMagma + 0x1000, 0x0800,
-    gTrainerBackPicRedTeamMagma + 0x1800, 0x0800,
-    gTrainerBackPicRedTeamMagma + 0x2000, 0x0800,
-};
-
-const struct SpriteFrameImage gTrainerBackPicTable_Leaf[] =
-{
-    gTrainerBackPicLeaf, 0x0800,
-    gTrainerBackPicLeaf + 0x0800, 0x0800,
-    gTrainerBackPicLeaf + 0x1000, 0x0800,
-    gTrainerBackPicLeaf + 0x1800, 0x0800,
-    gTrainerBackPicLeaf + 0x2000, 0x0800,
-};
-
-const struct SpriteFrameImage gTrainerBackPicTable_LeafDX[] =
-{
-    gTrainerBackPicLeafDX, 0x0800,
-    gTrainerBackPicLeafDX + 0x0800, 0x0800,
-    gTrainerBackPicLeafDX + 0x1000, 0x0800,
-    gTrainerBackPicLeafDX + 0x1800, 0x0800,
-    gTrainerBackPicLeafDX + 0x2000, 0x0800,
-};
-
-const struct SpriteFrameImage gTrainerBackPicTable_LeafClassic[] =
-{
-    gTrainerBackPicLeafClassic, 0x0800,
-    gTrainerBackPicLeafClassic + 0x0800, 0x0800,
-    gTrainerBackPicLeafClassic + 0x1000, 0x0800,
-    gTrainerBackPicLeafClassic + 0x1800, 0x0800,
-    gTrainerBackPicLeafClassic + 0x2000, 0x0800,
-};
-
-const struct SpriteFrameImage gTrainerBackPicTable_LeafAlola[] =
-{
-    gTrainerBackPicLeafAlola, 0x0800,
-    gTrainerBackPicLeafAlola + 0x0800, 0x0800,
-    gTrainerBackPicLeafAlola + 0x1000, 0x0800,
-    gTrainerBackPicLeafAlola + 0x1800, 0x0800,
-    gTrainerBackPicLeafAlola + 0x2000, 0x0800,
-};
-
-const struct SpriteFrameImage gTrainerBackPicTable_LeafSygnaSuit[] =
-{
-    gTrainerBackPicLeafSygnaSuit, 0x0800,
-    gTrainerBackPicLeafSygnaSuit + 0x0800, 0x0800,
-    gTrainerBackPicLeafSygnaSuit + 0x1000, 0x0800,
-    gTrainerBackPicLeafSygnaSuit + 0x1800, 0x0800,
-    gTrainerBackPicLeafSygnaSuit + 0x2000, 0x0800,
-};
-
-const struct SpriteFrameImage gTrainerBackPicTable_LeafTeamRocket[] =
-{
-    gTrainerBackPicLeafTeamRocket, 0x0800,
-    gTrainerBackPicLeafTeamRocket + 0x0800, 0x0800,
-    gTrainerBackPicLeafTeamRocket + 0x1000, 0x0800,
-    gTrainerBackPicLeafTeamRocket + 0x1800, 0x0800,
-    gTrainerBackPicLeafTeamRocket + 0x2000, 0x0800,
-};
-
-const struct SpriteFrameImage gTrainerBackPicTable_LeafTeamAqua[] =
-{
-    gTrainerBackPicLeafTeamAqua, 0x0800,
-    gTrainerBackPicLeafTeamAqua + 0x0800, 0x0800,
-    gTrainerBackPicLeafTeamAqua + 0x1000, 0x0800,
-    gTrainerBackPicLeafTeamAqua + 0x1800, 0x0800,
-    gTrainerBackPicLeafTeamAqua + 0x2000, 0x0800,
-};
-
-const struct SpriteFrameImage gTrainerBackPicTable_LeafTeamMagma[] =
-{
-    gTrainerBackPicLeafTeamMagma, 0x0800,
-    gTrainerBackPicLeafTeamMagma + 0x0800, 0x0800,
-    gTrainerBackPicLeafTeamMagma + 0x1000, 0x0800,
-    gTrainerBackPicLeafTeamMagma + 0x1800, 0x0800,
-    gTrainerBackPicLeafTeamMagma + 0x2000, 0x0800,
-};
-
-const struct SpriteFrameImage gTrainerBackPicTable_PokeDude[] =
-{
-    gTrainerBackPicPokeDude, 0x0800,
-    gTrainerBackPicPokeDude + 0x0800, 0x0800,
-    gTrainerBackPicPokeDude + 0x1000, 0x0800,
-    gTrainerBackPicPokeDude + 0x1800, 0x0800,
-};
-
-const struct SpriteFrameImage gTrainerBackPicTable_OldMan[] =
-{
-    gTrainerBackPicOldMan, 0x0800,
-    gTrainerBackPicOldMan + 0x0800, 0x0800,
-    gTrainerBackPicOldMan + 0x1000, 0x0800,
-    gTrainerBackPicOldMan + 0x1800, 0x0800,
-};
-
-const struct SpriteFrameImage gTrainerBackPicTable_Gold[] =
-{
-    gTrainerBackPicGold, 0x0800,
-    gTrainerBackPicGold + 0x0800, 0x0800,
-    gTrainerBackPicGold + 0x1000, 0x0800,
-    gTrainerBackPicGold + 0x1800, 0x0800,
-    gTrainerBackPicGold + 0x2000, 0x0800,
-};
-
-const struct SpriteFrameImage gTrainerBackPicTable_Kris[] =
-{
-    gTrainerBackPicKris, 0x0800,
-    gTrainerBackPicKris + 0x0800, 0x0800,
-    gTrainerBackPicKris + 0x1000, 0x0800,
-    gTrainerBackPicKris + 0x1800, 0x0800,
-    gTrainerBackPicKris + 0x2000, 0x0800,
-};
-
-const struct SpriteFrameImage gTrainerBackPicTable_EBrendan[] =
-{
-    gTrainerBackPicEBrendan, 0x0800,
-    gTrainerBackPicEBrendan + 0x0800, 0x0800,
-    gTrainerBackPicEBrendan + 0x1000, 0x0800,
-    gTrainerBackPicEBrendan + 0x1800, 0x0800,
-};
-
-const struct SpriteFrameImage gTrainerBackPicTable_EMay[] =
-{
-    gTrainerBackPicEMay, 0x0800,
-    gTrainerBackPicEMay + 0x0800, 0x0800,
-    gTrainerBackPicEMay + 0x1000, 0x0800,
-    gTrainerBackPicEMay + 0x1800, 0x0800,
-};
-
 const struct SpriteFrameImage gTrainerBackPicTable_RedOriginal[] =
 {
-    gTrainerBackPicRed, 0x0800,
-    gTrainerBackPicRed + 0x0800, 0x0800,
-    gTrainerBackPicRedOriginal, 0x0800,
-    gTrainerBackPicRed + 0x1800, 0x0800,
-    gTrainerBackPicRedOriginal + 0x0800, 0x0800,
+    gTrainerBackPic_RedOriginal, 0x0800,
+    gTrainerBackPic_RedOriginal + 0x0800, 0x0800,
+    gTrainerBackPic_RedOriginal + 0x1000, 0x0800,
+    gTrainerBackPic_RedOriginal + 0x1800, 0x0800,
+    gTrainerBackPic_RedOriginal + 0x2000, 0x0800,
 };
 
 const struct SpriteFrameImage gTrainerBackPicTable_LeafOriginal[] =
 {
-    gTrainerBackPicLeafOriginal, 0x0800,
-    gTrainerBackPicLeafOriginal + 0x0800, 0x0800,
-    gTrainerBackPicLeafOriginal + 0x1000, 0x0800,
-    gTrainerBackPicLeafOriginal + 0x1800, 0x0800,
-    gTrainerBackPicLeafOriginal + 0x2000, 0x0800,
+    gTrainerBackPic_LeafOriginal, 0x0800,
+    gTrainerBackPic_LeafOriginal + 0x0800, 0x0800,
+    gTrainerBackPic_LeafOriginal + 0x1000, 0x0800,
+    gTrainerBackPic_LeafOriginal + 0x1800, 0x0800,
+    gTrainerBackPic_LeafOriginal + 0x2000, 0x0800,
+};
+
+const struct SpriteFrameImage gTrainerBackPicTable_PokeDude[] =
+{
+    gTrainerBackPic_PokeDude, 0x0800,
+    gTrainerBackPic_PokeDude + 0x0800, 0x0800,
+    gTrainerBackPic_PokeDude + 0x1000, 0x0800,
+    gTrainerBackPic_PokeDude + 0x1800, 0x0800,
+};
+
+const struct SpriteFrameImage gTrainerBackPicTable_OldMan[] =
+{
+    gTrainerBackPic_OldMan, 0x0800,
+    gTrainerBackPic_OldMan + 0x0800, 0x0800,
+    gTrainerBackPic_OldMan + 0x1000, 0x0800,
+    gTrainerBackPic_OldMan + 0x1800, 0x0800,
+};
+
+const struct SpriteFrameImage gTrainerBackPicTable_EBrendan[] =
+{
+    gTrainerBackPic_EBrendan, 0x0800,
+    gTrainerBackPic_EBrendan + 0x0800, 0x0800,
+    gTrainerBackPic_EBrendan + 0x1000, 0x0800,
+    gTrainerBackPic_EBrendan + 0x1800, 0x0800,
+};
+
+const struct SpriteFrameImage gTrainerBackPicTable_EMay[] =
+{
+    gTrainerBackPic_EMay, 0x0800,
+    gTrainerBackPic_EMay + 0x0800, 0x0800,
+    gTrainerBackPic_EMay + 0x1000, 0x0800,
+    gTrainerBackPic_EMay + 0x1800, 0x0800,
 };
 
 const struct SpriteFrameImage gTrainerBackPicTable_RSBrendan[] =
 {
-    gTrainerBackPicRSBrendan, 0x0800,
-    gTrainerBackPicRSBrendan + 0x0800, 0x0800,
-    gTrainerBackPicRSBrendan + 0x1000, 0x0800,
-    gTrainerBackPicRSBrendan + 0x1800, 0x0800,
+    gTrainerBackPic_RSBrendan, 0x0800,
+    gTrainerBackPic_RSBrendan + 0x0800, 0x0800,
+    gTrainerBackPic_RSBrendan + 0x1000, 0x0800,
+    gTrainerBackPic_RSBrendan + 0x1800, 0x0800,
 };
 
 const struct SpriteFrameImage gTrainerBackPicTable_RSMay[] =
 {
-    gTrainerBackPicRSMay, 0x0800,
-    gTrainerBackPicRSMay + 0x0800, 0x0800,
-    gTrainerBackPicRSMay + 0x1000, 0x0800,
-    gTrainerBackPicRSMay + 0x1800, 0x0800,
+    gTrainerBackPic_RSMay, 0x0800,
+    gTrainerBackPic_RSMay + 0x0800, 0x0800,
+    gTrainerBackPic_RSMay + 0x1000, 0x0800,
+    gTrainerBackPic_RSMay + 0x1800, 0x0800,
+};
+
+const struct SpriteFrameImage gTrainerBackPicTable_Wally[] =
+{
+    gTrainerBackPic_Wally, 0x0800,
+    gTrainerBackPic_Wally + 0x0800, 0x0800,
+    gTrainerBackPic_Wally + 0x1000, 0x0800,
+    gTrainerBackPic_Wally + 0x1800, 0x0800,
+};
+
+const struct SpriteFrameImage gTrainerBackPicTable_Steven[] =
+{
+    gTrainerBackPic_Steven, 0x0800,
+    gTrainerBackPic_Steven + 0x0800, 0x0800,
+    gTrainerBackPic_Steven + 0x1000, 0x0800,
+    gTrainerBackPic_Steven + 0x1800, 0x0800,
+};
+
+const struct SpriteFrameImage gTrainerBackPicTable_Gold[] =
+{
+    gTrainerBackPic_Gold, 0x0800,
+    gTrainerBackPic_Gold + 0x0800, 0x0800,
+    gTrainerBackPic_Gold + 0x1000, 0x0800,
+    gTrainerBackPic_Gold + 0x1800, 0x0800,
+    gTrainerBackPic_Gold + 0x2000, 0x0800,
+};
+
+const struct SpriteFrameImage gTrainerBackPicTable_Kris[] =
+{
+    gTrainerBackPic_Kris, 0x0800,
+    gTrainerBackPic_Kris + 0x0800, 0x0800,
+    gTrainerBackPic_Kris + 0x1000, 0x0800,
+    gTrainerBackPic_Kris + 0x1800, 0x0800,
+    gTrainerBackPic_Kris + 0x2000, 0x0800,
+};
+
+const struct SpriteFrameImage gTrainerBackPicTable_Lance[] =
+{
+    gTrainerBackPic_Lance, 0x0800,
+    gTrainerBackPic_Lance + 0x0800, 0x0800,
+    gTrainerBackPic_Lance + 0x1000, 0x0800,
+    gTrainerBackPic_Lance + 0x1800, 0x0800,
+};
+
+const struct SpriteFrameImage gTrainerBackPicTable_Red[] =
+{
+    gTrainerBackPic_RedOriginal, 0x0800,
+    gTrainerBackPic_RedOriginal + 0x0800, 0x0800,
+    gTrainerBackPic_Red, 0x0800,
+    gTrainerBackPic_RedOriginal + 0x1800, 0x0800,
+    gTrainerBackPic_Red + 0x0800, 0x0800,
+};
+
+const struct SpriteFrameImage gTrainerBackPicTable_Leaf[] =
+{
+    gTrainerBackPic_Leaf, 0x0800,
+    gTrainerBackPic_Leaf + 0x0800, 0x0800,
+    gTrainerBackPic_Leaf + 0x1000, 0x0800,
+    gTrainerBackPic_Leaf + 0x1800, 0x0800,
+    gTrainerBackPic_Leaf + 0x2000, 0x0800,
+};
+
+const struct SpriteFrameImage gTrainerBackPicTable_RedDX[] =
+{
+    gTrainerBackPic_RedDX, 0x0800,
+    gTrainerBackPic_RedDX + 0x0800, 0x0800,
+    gTrainerBackPic_RedDX + 0x1000, 0x0800,
+    gTrainerBackPic_RedDX + 0x1800, 0x0800,
+    gTrainerBackPic_RedDX + 0x2000, 0x0800,
+};
+
+const struct SpriteFrameImage gTrainerBackPicTable_LeafDX[] =
+{
+    gTrainerBackPic_LeafDX, 0x0800,
+    gTrainerBackPic_LeafDX + 0x0800, 0x0800,
+    gTrainerBackPic_LeafDX + 0x1000, 0x0800,
+    gTrainerBackPic_LeafDX + 0x1800, 0x0800,
+    gTrainerBackPic_LeafDX + 0x2000, 0x0800,
+};
+
+const struct SpriteFrameImage gTrainerBackPicTable_RedClassic[] =
+{
+    gTrainerBackPic_RedClassic, 0x0800,
+    gTrainerBackPic_RedClassic + 0x0800, 0x0800,
+    gTrainerBackPic_RedClassic + 0x1000, 0x0800,
+    gTrainerBackPic_RedClassic + 0x1800, 0x0800,
+    gTrainerBackPic_RedClassic + 0x2000, 0x0800,
+};
+
+const struct SpriteFrameImage gTrainerBackPicTable_LeafClassic[] =
+{
+    gTrainerBackPic_LeafClassic, 0x0800,
+    gTrainerBackPic_LeafClassic + 0x0800, 0x0800,
+    gTrainerBackPic_LeafClassic + 0x1000, 0x0800,
+    gTrainerBackPic_LeafClassic + 0x1800, 0x0800,
+    gTrainerBackPic_LeafClassic + 0x2000, 0x0800,
+};
+
+const struct SpriteFrameImage gTrainerBackPicTable_RedAlola[] =
+{
+    gTrainerBackPic_RedAlola, 0x0800,
+    gTrainerBackPic_RedAlola + 0x0800, 0x0800,
+    gTrainerBackPic_RedAlola + 0x1000, 0x0800,
+    gTrainerBackPic_RedAlola + 0x1800, 0x0800,
+    gTrainerBackPic_RedAlola + 0x2000, 0x0800,
+};
+
+const struct SpriteFrameImage gTrainerBackPicTable_LeafAlola[] =
+{
+    gTrainerBackPic_LeafAlola, 0x0800,
+    gTrainerBackPic_LeafAlola + 0x0800, 0x0800,
+    gTrainerBackPic_LeafAlola + 0x1000, 0x0800,
+    gTrainerBackPic_LeafAlola + 0x1800, 0x0800,
+    gTrainerBackPic_LeafAlola + 0x2000, 0x0800,
+};
+
+const struct SpriteFrameImage gTrainerBackPicTable_RedSygnaSuit[] =
+{
+    gTrainerBackPic_RedSygnaSuit, 0x0800,
+    gTrainerBackPic_RedSygnaSuit + 0x0800, 0x0800,
+    gTrainerBackPic_RedSygnaSuit + 0x1000, 0x0800,
+    gTrainerBackPic_RedSygnaSuit + 0x1800, 0x0800,
+    gTrainerBackPic_RedSygnaSuit + 0x2000, 0x0800,
+};
+
+const struct SpriteFrameImage gTrainerBackPicTable_LeafSygnaSuit[] =
+{
+    gTrainerBackPic_LeafSygnaSuit, 0x0800,
+    gTrainerBackPic_LeafSygnaSuit + 0x0800, 0x0800,
+    gTrainerBackPic_LeafSygnaSuit + 0x1000, 0x0800,
+    gTrainerBackPic_LeafSygnaSuit + 0x1800, 0x0800,
+    gTrainerBackPic_LeafSygnaSuit + 0x2000, 0x0800,
+};
+
+const struct SpriteFrameImage gTrainerBackPicTable_RedTeamRocket[] =
+{
+    gTrainerBackPic_RedTeamRocket, 0x0800,
+    gTrainerBackPic_RedTeamRocket + 0x0800, 0x0800,
+    gTrainerBackPic_RedTeamRocket + 0x1000, 0x0800,
+    gTrainerBackPic_RedTeamRocket + 0x1800, 0x0800,
+    gTrainerBackPic_RedTeamRocket + 0x2000, 0x0800,
+};
+
+const struct SpriteFrameImage gTrainerBackPicTable_LeafTeamRocket[] =
+{
+    gTrainerBackPic_LeafTeamRocket, 0x0800,
+    gTrainerBackPic_LeafTeamRocket + 0x0800, 0x0800,
+    gTrainerBackPic_LeafTeamRocket + 0x1000, 0x0800,
+    gTrainerBackPic_LeafTeamRocket + 0x1800, 0x0800,
+    gTrainerBackPic_LeafTeamRocket + 0x2000, 0x0800,
+};
+
+const struct SpriteFrameImage gTrainerBackPicTable_RedTeamAqua[] =
+{
+    gTrainerBackPic_RedTeamAqua, 0x0800,
+    gTrainerBackPic_RedTeamAqua + 0x0800, 0x0800,
+    gTrainerBackPic_RedTeamAqua + 0x1000, 0x0800,
+    gTrainerBackPic_RedTeamAqua + 0x1800, 0x0800,
+    gTrainerBackPic_RedTeamAqua + 0x2000, 0x0800,
+};
+
+const struct SpriteFrameImage gTrainerBackPicTable_LeafTeamAqua[] =
+{
+    gTrainerBackPic_LeafTeamAqua, 0x0800,
+    gTrainerBackPic_LeafTeamAqua + 0x0800, 0x0800,
+    gTrainerBackPic_LeafTeamAqua + 0x1000, 0x0800,
+    gTrainerBackPic_LeafTeamAqua + 0x1800, 0x0800,
+    gTrainerBackPic_LeafTeamAqua + 0x2000, 0x0800,
+};
+
+const struct SpriteFrameImage gTrainerBackPicTable_RedTeamMagma[] =
+{
+    gTrainerBackPic_RedTeamMagma, 0x0800,
+    gTrainerBackPic_RedTeamMagma + 0x0800, 0x0800,
+    gTrainerBackPic_RedTeamMagma + 0x1000, 0x0800,
+    gTrainerBackPic_RedTeamMagma + 0x1800, 0x0800,
+    gTrainerBackPic_RedTeamMagma + 0x2000, 0x0800,
+};
+
+const struct SpriteFrameImage gTrainerBackPicTable_LeafTeamMagma[] =
+{
+    gTrainerBackPic_LeafTeamMagma, 0x0800,
+    gTrainerBackPic_LeafTeamMagma + 0x0800, 0x0800,
+    gTrainerBackPic_LeafTeamMagma + 0x1000, 0x0800,
+    gTrainerBackPic_LeafTeamMagma + 0x1800, 0x0800,
+    gTrainerBackPic_LeafTeamMagma + 0x2000, 0x0800,
 };
 
 static const union AnimCmd sAnim_GeneralFrame0[] =
@@ -450,76 +474,11 @@ const union AnimCmd *const gAnims_MonPic[] =
 #include "data/pokemon_graphics/enemy_mon_elevation.h"
 #include "data/pokemon_graphics/front_pic_anims.h"
 
-const bool8 SpeciesHasGenderDifference[SPECIES_COUNT] =
-{
-    [SPECIES_VENUSAUR] = TRUE,
-    [SPECIES_BUTTERFREE] = TRUE,
-    [SPECIES_RATTATA] = TRUE,
-    [SPECIES_RATICATE] = TRUE,
-    [SPECIES_PIKACHU] = TRUE,
-    [SPECIES_RAICHU] = TRUE,
-    [SPECIES_ZUBAT] = TRUE,
-    [SPECIES_GOLBAT] = TRUE,
-    [SPECIES_GLOOM] = TRUE,
-    [SPECIES_VILEPLUME] = TRUE,
-    [SPECIES_KADABRA] = TRUE,
-    [SPECIES_ALAKAZAM] = TRUE,
-    [SPECIES_DODUO] = TRUE,
-    [SPECIES_DODRIO] = TRUE,
-    [SPECIES_HYPNO] = TRUE,
-    [SPECIES_RHYHORN] = TRUE,
-    [SPECIES_RHYDON] = TRUE,
-    [SPECIES_GOLDEEN] = TRUE,
-    [SPECIES_SEAKING] = TRUE,
-    [SPECIES_SCYTHER] = TRUE,
-    [SPECIES_MAGIKARP] = TRUE,
-    [SPECIES_GYARADOS] = TRUE,
-    [SPECIES_EEVEE] = TRUE,
-    [SPECIES_MEGANIUM] = TRUE,
-    [SPECIES_LEDYBA] = TRUE,
-    [SPECIES_LEDIAN] = TRUE,
-    [SPECIES_SUDOWOODO] = TRUE,
-    [SPECIES_POLITOED] = TRUE,
-    [SPECIES_AIPOM] = TRUE,
-    [SPECIES_WOOPER] = TRUE,
-    [SPECIES_QUAGSIRE] = TRUE,
-    [SPECIES_MURKROW] = TRUE,
-    [SPECIES_WOBBUFFET] = TRUE,
-    [SPECIES_GIRAFARIG] = TRUE,
-    [SPECIES_GLIGAR] = TRUE,
-    [SPECIES_STEELIX] = TRUE,
-    [SPECIES_SCIZOR] = TRUE,
-    [SPECIES_HERACROSS] = TRUE,
-    [SPECIES_SNEASEL] = TRUE,
-    [SPECIES_URSARING] = TRUE,
-    [SPECIES_PILOSWINE] = TRUE,
-    [SPECIES_OCTILLERY] = TRUE,
-    [SPECIES_HOUNDOOM] = TRUE,
-    [SPECIES_DONPHAN] = TRUE,
-    [SPECIES_TORCHIC] = TRUE,
-    [SPECIES_COMBUSKEN] = TRUE,
-    [SPECIES_BLAZIKEN] = TRUE,
-    [SPECIES_BEAUTIFLY] = TRUE,
-    [SPECIES_DUSTOX] = TRUE,
-    [SPECIES_LUDICOLO] = TRUE,
-    [SPECIES_NUZLEAF] = TRUE,
-    [SPECIES_SHIFTRY] = TRUE,
-    [SPECIES_MILOTIC] = TRUE,
-    [SPECIES_NUMEL] = TRUE,
-    [SPECIES_CAMERUPT] = TRUE,
-    [SPECIES_CACTURNE] = TRUE,
-    [SPECIES_MEDITITE] = TRUE,
-    [SPECIES_MEDICHAM] = TRUE,
-    [SPECIES_ROSELIA] = TRUE,
-    [SPECIES_GULPIN] = TRUE,
-    [SPECIES_SWALOT] = TRUE,
-    [SPECIES_RELICANTH] = TRUE,
-};
-
 #include "data/trainer_parties.h"
 #include "data/text/trainer_class_names.h"
 #include "data/trainers.h"
 #include "data/text/japanese_species_names.h"
 #include "data/text/species_names.h"
+#include "data/text/french_species_names.h"
 #include "data/text/german_species_names.h"
 #include "data/text/move_names.h"

@@ -9,13 +9,13 @@
   "map_type": "MAP_TYPE_UNDERGROUND",
   "allow_cycling": true,
   "allow_escaping": true,
-  "allow_running": true,
+  "allow_running": false,
   "show_map_name": true,
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": null,
   "object_events": [
     {
-      "graphics_id": "OBJ_EVENT_GFX_BREAKABLE_ROCK",
+      "graphics_id": "OBJ_EVENT_GFX_ROCK_SMASH_ROCK",
       "x": 3,
       "y": 7,
       "elevation": 3,
@@ -28,7 +28,7 @@
       "flag": "FLAG_TEMP_11"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_BREAKABLE_ROCK",
+      "graphics_id": "OBJ_EVENT_GFX_ROCK_SMASH_ROCK",
       "x": 4,
       "y": 8,
       "elevation": 3,

@@ -407,10 +407,10 @@ static const TransitionStateFunc sPhase2_Mugshot_Funcs[] =
 
 static const s16 sMugshotsOpponentCoords[TRAINER_PIC_COUNT][2] =
 {
-    [TRAINER_PIC_LORELEI] = {-8, 0},
-    [TRAINER_PIC_BRUNO] = {-10, 0},
-    [TRAINER_PIC_AGATHA] = {0, 0},
-    [TRAINER_PIC_LANCE] = {-32, 0},
+    [TRAINER_PIC_ELITE_FOUR_LORELEI] = {-8, 0},
+    [TRAINER_PIC_ELITE_FOUR_BRUNO] = {-10, 0},
+    [TRAINER_PIC_ELITE_FOUR_AGATHA] = {0, 0},
+    [TRAINER_PIC_ELITE_FOUR_LANCE] = {-32, 0},
     [TRAINER_PIC_CHAMPION_RIVAL] = {0, 0},
 };
 
@@ -2138,7 +2138,7 @@ static void Mugshots_CreateOpponentPlayerSprites(struct Task *task)
                                                      sMugshotsOpponentCoords[gTrainers[gTrainerBattleOpponent_A].trainerPic][0] - 32,
                                                      sMugshotsOpponentCoords[gTrainers[gTrainerBattleOpponent_A].trainerPic][1] + 42,
                                                      0, gDecompressionBuffer);
-    task->tPlayerSpriteId = CreateTrainerSprite(PlayerGenderToFrontTrainerPicId(gSaveBlock2Ptr->playerGender, gSaveBlock2Ptr->playerOutfit), DISPLAY_WIDTH + 32, 106, 0, gDecompressionBuffer);
+    task->tPlayerSpriteId = CreateTrainerSprite(gPlayerFrontPics[gSaveBlock2Ptr->playerOutfit][gSaveBlock2Ptr->playerGender], DISPLAY_WIDTH + 32, 106, 0, gDecompressionBuffer);
 
     opponentSprite = &gSprites[task->tOpponentSpriteId];
     playerSprite = &gSprites[task->tPlayerSpriteId];

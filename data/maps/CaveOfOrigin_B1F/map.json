@@ -9,7 +9,7 @@
   "map_type": "MAP_TYPE_UNDERGROUND",
   "allow_cycling": false,
   "allow_escaping": true,
-  "allow_running": true,
+  "allow_running": false,
   "show_map_name": true,
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": null,

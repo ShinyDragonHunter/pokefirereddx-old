@@ -425,20 +425,31 @@ static u32 CopyLinkPartnerMonData(u8 monId, u8 *dst)
     switch (gBattleBufferA[gActiveBattler][1])
     {
     case REQUEST_ALL_BATTLE:
-        battleMon.form = GetMonData(&gPlayerParty[monId], MON_DATA_FORM);
-        battleMon.species = GetFormSpecies(GetMonData(&gPlayerParty[monId], MON_DATA_SPECIES), battleMon.form);
-        if (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].versionModifier != MODIFIER_DX
-         && battleMon.species == SPECIES_DEOXYS)
+        battleMon.species = GetMonData(&gPlayerParty[monId], MON_DATA_SPECIES);
+        if (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].versionModifier != MODIFIER_DX)
         {
-            if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) < VERSION_EMERALD)
-                battleMon.form = NORMAL;
-            else if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_EMERALD)
-                battleMon.form = SPEED;
-            else if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_FIRE_RED)
-                battleMon.form = (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].versionModifier == MODIFIER_CRYSTALDUST) ? SPEED : ATTACK;
-            else if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_LEAF_GREEN)
-                battleMon.form = DEFENSE;
+            if (battleMon.species == SPECIES_DEOXYS)
+            {
+                if (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].versionModifier == MODIFIER_CRYSTALDUST)
+                    battleMon.form = SPEED;
+                else
+                {
+                    if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_EMERALD)
+                        battleMon.form = SPEED;
+                    else if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_FIRE_RED)
+                        battleMon.form = ATTACK;
+                    else if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_LEAF_GREEN)
+                        battleMon.form = DEFENSE;
+                    else
+                        battleMon.form = NORMAL;
+                }
+            }
+            else
+                battleMon.form = 0;
         }
+        else
+	        battleMon.form = GetMonData(&gPlayerParty[monId], MON_DATA_FORM);
+        battleMon.species = GetFormSpecies(battleMon.species, battleMon.form);
         battleMon.item = GetMonData(&gPlayerParty[monId], MON_DATA_HELD_ITEM);
         for (size = 0; size < MAX_MON_MOVES; size++)
         {
@@ -475,20 +486,31 @@ static u32 CopyLinkPartnerMonData(u8 monId, u8 *dst)
             dst[size] = src[size];
         break;
     case REQUEST_SPECIES_BATTLE:
-        form = GetMonData(&gPlayerParty[monId], MON_DATA_FORM);
-        data16 = GetFormSpecies(GetMonData(&gPlayerParty[monId], MON_DATA_SPECIES), form);
-        if (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].versionModifier != MODIFIER_DX
-         && data16 == SPECIES_DEOXYS)
+        data16 = GetMonData(&gPlayerParty[monId], MON_DATA_SPECIES);
+        if (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].versionModifier != MODIFIER_DX)
         {
-            if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) < VERSION_EMERALD)
-                form = NORMAL;
-            else if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_EMERALD)
-                form = SPEED;
-            else if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_FIRE_RED)
-                form = (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].versionModifier == MODIFIER_CRYSTALDUST) ? SPEED : ATTACK;
-            else if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_LEAF_GREEN)
-                form = DEFENSE;
+            if (data16 == SPECIES_DEOXYS)
+            {
+                if (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].versionModifier == MODIFIER_CRYSTALDUST)
+                    form = SPEED;
+                else
+                {
+                    if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_EMERALD)
+                        form = SPEED;
+                    else if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_FIRE_RED)
+                        form = ATTACK;
+                    else if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_LEAF_GREEN)
+                        form = DEFENSE;
+                    else
+                        form = NORMAL;
+                }
+            }
+            else
+                form = 0;
         }
+        else
+            form = GetMonData(&gPlayerParty[monId], MON_DATA_FORM);
+        data16 = GetFormSpecies(data16, form);
         dst[0] = data16;
         dst[1] = data16 >> 8;
         size = 2;
@@ -1003,20 +1025,32 @@ static void LinkPartnerHandleSetRawMonData(void)
 static void LinkPartnerHandleLoadMonSprite(void)
 {
     u16 species = GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPECIES);
-    u8 form = GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_FORM);
+    u8 form;
 
-    if (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].versionModifier != MODIFIER_DX
-     && species == SPECIES_DEOXYS)
+    if (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].versionModifier != MODIFIER_DX)
     {
-        if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) < VERSION_EMERALD)
-            form = NORMAL;
-        else if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_EMERALD)
-            form = SPEED;
-        else if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_FIRE_RED)
-            form = (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].versionModifier == MODIFIER_CRYSTALDUST) ? SPEED : ATTACK;
-        else if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_LEAF_GREEN)
-            form = DEFENSE;
+        if (species == SPECIES_DEOXYS)
+        {
+            if (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].versionModifier == MODIFIER_CRYSTALDUST)
+                form = SPEED;
+            else
+            {
+                if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_EMERALD)
+                    form = SPEED;
+                else if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_FIRE_RED)
+                    form = ATTACK;
+                else if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_LEAF_GREEN)
+                    form = DEFENSE;
+                else
+                    form = NORMAL;
+            }
+        }
+        else
+            form = 0;
     }
+    else
+        form = GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_FORM);
+
     BattleLoadPlayerMonSpriteGfx(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], gActiveBattler);
     SetMultiuseSpriteTemplateToPokemon(species, GetBattlerPosition(gActiveBattler), form);
 
@@ -1043,20 +1077,32 @@ static void LinkPartnerHandleSwitchInAnim(void)
 static void StartSendOutAnim(u8 battlerId, bool8 dontClearSubstituteBit)
 {
     u16 species = GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerId]], MON_DATA_SPECIES);
-    u8 form = GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerId]], MON_DATA_FORM);
+    u8 form;
 
-    if (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].versionModifier != MODIFIER_DX
-     && species == SPECIES_DEOXYS)
+    if (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].versionModifier != MODIFIER_DX)
     {
-        if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) < VERSION_EMERALD)
-            form = NORMAL;
-        else if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_EMERALD)
-            form = SPEED;
-        else if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_FIRE_RED)
-            form = (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].versionModifier == MODIFIER_CRYSTALDUST) ? SPEED : ATTACK;
-        else if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_LEAF_GREEN)
-            form = DEFENSE;
+        if (species == SPECIES_DEOXYS)
+        {
+            if (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].versionModifier == MODIFIER_CRYSTALDUST)
+                form = SPEED;
+            else
+            {
+                if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_EMERALD)
+                    form = SPEED;
+                else if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_FIRE_RED)
+                    form = ATTACK;
+                else if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_LEAF_GREEN)
+                    form = DEFENSE;
+                else
+                    form = NORMAL;
+            }
+        }
+        else
+            form = 0;
     }
+    else
+        form = GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerId]], MON_DATA_FORM);
+
     ClearTemporarySpeciesSpriteData(battlerId, dontClearSubstituteBit);
     gBattlerPartyIndexes[battlerId] = gBattleBufferA[battlerId][1];
     gBattleControllerData[battlerId] = CreateInvisibleSpriteWithCallback(SpriteCB_WaitForBattlerBallReleaseAnim);
@@ -1127,23 +1173,26 @@ static void LinkPartnerHandleDrawTrainerPic(void)
     s16 xPos;
     u32 trainerPicId;
 
-    if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) < VERSION_EMERALD)
-        trainerPicId = TRAINER_BACK_PIC_RS_BRENDAN + gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender;
-    else if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_EMERALD)
+    switch (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].versionModifier)
     {
-        if (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].versionModifier == MODIFIER_HELIODOR)
-            trainerPicId = TRAINER_BACK_PIC_H_BRENDAN + gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender;
-        else
-            trainerPicId = TRAINER_BACK_PIC_E_BRENDAN + gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender;
-    }
-    else
-    {
-        if (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].versionModifier == MODIFIER_DX)
-            trainerPicId = (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender) ? TRAINER_BACK_PIC_LEAF : TRAINER_BACK_PIC_RED;
-        else if (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].versionModifier == MODIFIER_CRYSTALDUST)
-            trainerPicId = TRAINER_BACK_PIC_GOLD + gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender;
-        else
+    case MODIFIER_HELIODOR:
+        trainerPicId = TRAINER_BACK_PIC_H_BRENDAN + gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender;
+        break;
+    case MODIFIER_DX:
+        trainerPicId = gPlayerBackPics[0][gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender];
+        break;
+    case MODIFIER_CRYSTALDUST:
+        trainerPicId = TRAINER_BACK_PIC_GOLD + gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender;
+        break;
+    default:
+        if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_FIRE_RED
+         || (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_LEAF_GREEN)
             trainerPicId = TRAINER_BACK_PIC_RED_ORIGINAL + gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender;
+        else if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_EMERALD)
+            trainerPicId = TRAINER_BACK_PIC_E_BRENDAN + gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender;
+        else
+            trainerPicId = TRAINER_BACK_PIC_RS_BRENDAN + gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender;
+        break;
     }
 
     if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
@@ -1427,25 +1476,33 @@ static void LinkPartnerHandleIntroTrainerBallThrow(void)
 
     paletteNum = AllocSpritePalette(0xD6F9);
 
-    if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) < VERSION_EMERALD)
-        trainerPicId = TRAINER_BACK_PIC_RS_BRENDAN + gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender;
-    else if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_EMERALD)
+    switch (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].versionModifier)
     {
-        if (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].versionModifier == MODIFIER_HELIODOR)
-            trainerPicId = TRAINER_BACK_PIC_H_BRENDAN + gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender;
-        else
-            trainerPicId = TRAINER_BACK_PIC_E_BRENDAN + gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender;
-    }
-    else if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_CRYSTAL_DUST)
+    case MODIFIER_HELIODOR:
+        trainerPicId = TRAINER_BACK_PIC_H_BRENDAN + gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender;
+        break;
+    case MODIFIER_DX:
+        trainerPicId = gPlayerBackPics[0][gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender];
+        break;
+    case MODIFIER_CRYSTALDUST:
         trainerPicId = TRAINER_BACK_PIC_GOLD + gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender;
-    else
-    {
-        if (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].versionModifier == MODIFIER_DX)
-            trainerPicId = (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender) ? TRAINER_BACK_PIC_LEAF : TRAINER_BACK_PIC_RED;
-        else
+        break;
+    default:
+        switch ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF))
+        {
+        case VERSION_FIRE_RED:
+        case VERSION_LEAF_GREEN:
             trainerPicId = TRAINER_BACK_PIC_RED_ORIGINAL + gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender;
+            break;
+        case VERSION_EMERALD:
+            trainerPicId = TRAINER_BACK_PIC_E_BRENDAN + gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender;
+            break;
+        default:
+            trainerPicId = TRAINER_BACK_PIC_RS_BRENDAN + gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].gender;
+            break;
+        }
+        break;
     }
-
 
     LoadPalette(gTrainerBackPicPaletteTable[trainerPicId].data, 0x100 + paletteNum * 16, 32);
 

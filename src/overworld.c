@@ -155,7 +155,7 @@ static void RunConfirmLeaveCableClubScript(void);
 static void InitMenuBasedScript(const u8 *);
 static void LoadCableClubPlayer(s32, s32, struct CableClubPlayer *);
 static bool32 IsCableClubPlayerUnfrozen(struct CableClubPlayer *);
-static u8 *TryGetTileEventScript(struct CableClubPlayer *);
+static const u8 *TryGetTileEventScript(struct CableClubPlayer *);
 static bool32 PlayerIsAtSouthExit(struct CableClubPlayer *);
 static const u8 *TryInteractWithPlayer(struct CableClubPlayer *);
 static u16 KeyInterCB_DeferToRecvQueue(u32);
@@ -962,27 +962,34 @@ static u8 GetAdjustedInitialTransitionFlags(struct InitialPlayerAvatarState *pla
 
 static u8 GetAdjustedInitialDirection(struct InitialPlayerAvatarState *playerStruct, u8 transitionFlags, u16 metatileBehavior, u8 mapType)
 {
-    if ((FlagGet(FLAG_SYS_CRUISE_MODE) && mapType == MAP_TYPE_OCEAN_ROUTE)
-     || MetatileBehavior_IsWestArrowWarp(metatileBehavior)
-     || MetatileBehavior_IsDirectionalUpLeftStairWarp(metatileBehavior)
-     || MetatileBehavior_IsDirectionalDownLeftStairWarp(metatileBehavior))
+    if (FlagGet(FLAG_SYS_CRUISE_MODE) && mapType == MAP_TYPE_OCEAN_ROUTE)
         return DIR_EAST;
-    else if (MetatileBehavior_IsDeepSouthWarp(metatileBehavior)
-     || MetatileBehavior_IsSouthArrowWarp(metatileBehavior))
+    else if (MetatileBehavior_IsDeepSouthWarp(metatileBehavior))
         return DIR_NORTH;
     else if (MetatileBehavior_IsNonAnimDoor(metatileBehavior)
-     || MetatileBehavior_IsDoor(metatileBehavior)
-     || MetatileBehavior_IsNorthArrowWarp(metatileBehavior))
+     || MetatileBehavior_IsDoor(metatileBehavior))
         return DIR_SOUTH;
-    else if (MetatileBehavior_IsEastArrowWarp(metatileBehavior)
-     || MetatileBehavior_IsDirectionalUpRightStairWarp(metatileBehavior)
+    else if (MetatileBehavior_IsSouthArrowWarp(metatileBehavior))
+        return DIR_NORTH;
+    else if (MetatileBehavior_IsNorthArrowWarp(metatileBehavior))
+        return DIR_SOUTH;
+    else if (MetatileBehavior_IsWestArrowWarp(metatileBehavior))
+        return DIR_EAST;
+    else if (MetatileBehavior_IsEastArrowWarp(metatileBehavior))
+        return DIR_WEST;
+    else if (MetatileBehavior_IsDirectionalUpRightStairWarp(metatileBehavior)
      || MetatileBehavior_IsDirectionalDownRightStairWarp(metatileBehavior))
         return DIR_WEST;
-    else if ((playerStruct->transitionFlags == PLAYER_AVATAR_FLAG_UNDERWATER  && transitionFlags == PLAYER_AVATAR_FLAG_SURFING)
-     || (playerStruct->transitionFlags == PLAYER_AVATAR_FLAG_SURFING && transitionFlags == PLAYER_AVATAR_FLAG_UNDERWATER)
-     || MetatileBehavior_IsLadder(metatileBehavior))
+    else if (MetatileBehavior_IsDirectionalUpLeftStairWarp(metatileBehavior)
+     || MetatileBehavior_IsDirectionalDownLeftStairWarp(metatileBehavior))
+        return DIR_EAST;
+    else if ((playerStruct->transitionFlags == PLAYER_AVATAR_FLAG_UNDERWATER && transitionFlags == PLAYER_AVATAR_FLAG_SURFING)
+     || (playerStruct->transitionFlags == PLAYER_AVATAR_FLAG_SURFING && transitionFlags == PLAYER_AVATAR_FLAG_UNDERWATER))
         return playerStruct->direction;
-    return DIR_SOUTH;
+    else if (MetatileBehavior_IsLadder(metatileBehavior))
+        return playerStruct->direction;
+    else
+        return DIR_SOUTH;
 }
 
 static u16 GetCenterScreenMetatileBehavior(void)
@@ -992,9 +999,7 @@ static u16 GetCenterScreenMetatileBehavior(void)
 
 bool32 Overworld_IsBikingAllowed(void)
 {
-    if (gMapHeader.allowCycling)
-        return TRUE;
-    return FALSE;
+    return gMapHeader.allowCycling;
 }
 
 void SetDefaultFlashLevel(void)
@@ -1032,19 +1037,17 @@ void SetObjectEventLoadFlag(u8 flag)
 
 u16 GetLocationMusic(struct WarpData *warp)
 {
-    return Overworld_GetMapHeaderByGroupAndId(warp->mapGroup, warp->mapNum)->music;
+    return GetDayNightSong(Overworld_GetMapHeaderByGroupAndId(warp->mapGroup, warp->mapNum)->music);
 }
 
 u16 GetCurrLocationDefaultMusic(void)
 {
-    u16 music = GetLocationMusic(&gSaveBlock1Ptr->location);
-    return music;
+    return GetLocationMusic(&gSaveBlock1Ptr->location);
 }
 
 u16 GetWarpDestinationMusic(void)
 {
-    u16 music = GetLocationMusic(&sWarpDestination);
-    return music;
+    return GetLocationMusic(&sWarpDestination);
 }
 
 void Overworld_ResetMapMusic(void)
@@ -1063,7 +1066,7 @@ void Overworld_PlaySpecialMapMusic(void)
         else if (GetCurrentMapType() == MAP_TYPE_UNDERWATER)
             music = MUS_UNDERWATER;
         else if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
-            music = gSurfMusicTable[gMapsecToRegion[gMapHeader.regionMapSectionId]];
+            music = GetDayNightSong(gSurfMusicTable[gMapsecToRegion[gMapHeader.regionMapSectionId]]);
     }
 
     if (music != GetCurrentMapMusic())
@@ -1072,7 +1075,7 @@ void Overworld_PlaySpecialMapMusic(void)
 
 void Overworld_SetSavedMusic(u16 songNum)
 {
-    gSaveBlock1Ptr->savedMusic = songNum;
+    gSaveBlock1Ptr->savedMusic = GetDayNightSong(songNum);
 }
 
 void Overworld_ClearSavedMusic(void)
@@ -1131,6 +1134,7 @@ void TryFadeOutOldMapMusic(void)
 {
     u16 currentMusic = GetCurrentMapMusic();
     u16 warpMusic = GetWarpDestinationMusic();
+
     if (FlagGet(FLAG_DONT_TRANSITION_MUSIC) != TRUE && warpMusic != GetCurrentMapMusic())
     {
         if (currentMusic == gSurfMusicTable[gMapsecToRegion[gMapHeader.regionMapSectionId]])
@@ -1235,33 +1239,26 @@ u8 GetLastUsedWarpMapType(void)
 
 bool8 IsMapTypeOutdoors(u8 mapType)
 {
-    if (mapType == MAP_TYPE_ROUTE
-     || mapType == MAP_TYPE_TOWN
-     || mapType == MAP_TYPE_UNDERWATER
-     || mapType == MAP_TYPE_CITY
-     || mapType == MAP_TYPE_OCEAN_ROUTE)
-        return TRUE;
-    return FALSE;
+    return mapType == MAP_TYPE_ROUTE
+        || mapType == MAP_TYPE_TOWN
+        || mapType == MAP_TYPE_UNDERWATER
+        || mapType == MAP_TYPE_CITY
+        || mapType == MAP_TYPE_OCEAN_ROUTE;
 }
 
 bool8 Overworld_MapTypeAllowsTeleportAndFly(u8 mapType)
 {
     if (GetCurrentRegionMapSectionId() > KANTO_MAPSEC_END)
         return FALSE;
-
-    if (mapType == MAP_TYPE_ROUTE
-     || mapType == MAP_TYPE_TOWN
-     || mapType == MAP_TYPE_OCEAN_ROUTE
-     || mapType == MAP_TYPE_CITY)
-        return TRUE;
-    return FALSE;
+    return mapType == MAP_TYPE_ROUTE
+        || mapType == MAP_TYPE_TOWN
+        || mapType == MAP_TYPE_OCEAN_ROUTE
+        || mapType == MAP_TYPE_CITY;
 }
 
 bool8 IsMapTypeIndoors(u8 mapType)
 {
-    if (mapType == MAP_TYPE_INDOOR)
-        return TRUE;
-    return FALSE;
+    return mapType == MAP_TYPE_INDOOR;
 }
 
 u8 GetSavedWarpRegionMapSectionId(void)
@@ -1297,16 +1294,17 @@ static void InitOverworldBgs(void)
 void CleanupOverworldWindowsAndTilemaps(void)
 {
     FreeAllOverworldWindowBuffers();
-    Free(gBGTilemapBuffers3);
-    Free(gBGTilemapBuffers1);
-    Free(gBGTilemapBuffers2);
+    if (gBGTilemapBuffers3)
+        FREE_AND_SET_NULL(gBGTilemapBuffers3);
+    if (gBGTilemapBuffers1)
+        FREE_AND_SET_NULL(gBGTilemapBuffers1);
+    if (gBGTilemapBuffers2)
+        FREE_AND_SET_NULL(gBGTilemapBuffers2);
 }
 
 bool32 IsUpdateLinkStateCBActive(void)
 {
-    if (gMain.callback1 == CB1_UpdateLinkState)
-        return TRUE;
-    return FALSE;
+    return gMain.callback1 == CB1_UpdateLinkState;
 }
 
 static void DoCB1_Overworld(u16 newKeys, u16 heldKeys)
@@ -2071,7 +2069,6 @@ static void SpawnLinkPlayers(void)
 static void CreateLinkPlayerSprites(void)
 {
     u32 i;
-
     for (i = 0; i < gFieldLinkPlayerCount; i++)
         CreateLinkPlayerSprite(i, gLinkPlayers[i].version, gLinkPlayers[i].versionModifier);
 }
@@ -2130,7 +2127,6 @@ static void CheckRfuKeepAliveTimer(void)
 static void ResetAllPlayerLinkStates(void)
 {
     s32 i;
-
     for (i = 0; i < MAX_LINK_PLAYERS; i++)
         sPlayerLinkStates[i] = PLAYER_LINK_STATE_IDLE;
 }
@@ -2545,7 +2541,7 @@ static bool32 IsCableClubPlayerUnfrozen(struct CableClubPlayer *player)
     return FALSE;
 }
 
-static u8 *TryGetTileEventScript(struct CableClubPlayer *player)
+static const u8 *TryGetTileEventScript(struct CableClubPlayer *player)
 {
     if (player->movementMode != MOVEMENT_MODE_SCRIPTED)
         return FACING_NONE;
@@ -2694,7 +2690,8 @@ bool32 Overworld_RecvKeysFromLinkIsRunning(void)
         return TRUE;
     else if (gPaletteFade.active && gPaletteFade.softwareFadeFinishing)
         return TRUE;
-    return FALSE;
+    else
+        return FALSE;
 }
 
 bool32 Overworld_SendKeysToLinkIsRunning(void)
@@ -2842,7 +2839,6 @@ static s32 GetLinkPlayerObjectStepTimer(u8 linkPlayerId)
 static u8 GetLinkPlayerIdAt(s16 x, s16 y)
 {
     u32 i;
-
     for (i = 0; i < MAX_LINK_PLAYERS; i++)
     {
         if (gLinkPlayerObjectEvents[i].active
@@ -2991,32 +2987,32 @@ static void CreateLinkPlayerSprite(u8 linkPlayerId, u8 gameVersion, u8 versionMo
 
     if (linkPlayerObjEvent->active)
     {
-        switch (gameVersion)
+        switch (versionModifier)
         {
-        case VERSION_SAPPHIRE:
-        case VERSION_RUBY:
-            objEvent->spriteId = AddPseudoObjectEvent(GetRSAvatarGraphicsIdByGender(objEvent->singleMovementActive), SpriteCB_LinkPlayer, 0, 0, 0);
+        case MODIFIER_HELIODOR:
+            objEvent->spriteId = AddPseudoObjectEvent(gHeliodorAvatarGfxIds[linkGender(objEvent)], SpriteCB_LinkPlayer, 0, 0, 0);
             break;
-        case VERSION_EMERALD:
-            if (versionModifier == MODIFIER_HELIODOR)
-                objEvent->spriteId = AddPseudoObjectEvent(GetHAvatarGraphicsIdByGender(objEvent->singleMovementActive), SpriteCB_LinkPlayer, 0, 0, 0);
-            else
-                objEvent->spriteId = AddPseudoObjectEvent(GetEAvatarGraphicsIdByGender(objEvent->singleMovementActive), SpriteCB_LinkPlayer, 0, 0, 0);
+        case MODIFIER_DX:
+            objEvent->spriteId = AddPseudoObjectEvent(gPlayerAvatarGfxIds[OUTFIT_DEFAULT][PLAYER_AVATAR_STATE_NORMAL][linkGender(objEvent)], SpriteCB_LinkPlayer, 0, 0, 0);
+            break;
+        case MODIFIER_CRYSTALDUST:
+            objEvent->spriteId = AddPseudoObjectEvent(gCrystalDustAvatarGfxIds[linkGender(objEvent)], SpriteCB_LinkPlayer, 0, 0, 0);
             break;
         default:
-            if (versionModifier == MODIFIER_DX)
-                objEvent->spriteId = AddPseudoObjectEvent(GetPlayerAvatarGraphicsIdByStateIdAndGender(0, PLAYER_AVATAR_STATE_NORMAL, objEvent->singleMovementActive), SpriteCB_LinkPlayer, 0, 0, 0);
-            else if (versionModifier == MODIFIER_CRYSTALDUST)
-                objEvent->spriteId = AddPseudoObjectEvent(GetCDAvatarGraphicsIdByGender(objEvent->singleMovementActive), SpriteCB_LinkPlayer, 0, 0, 0);
+            if (gameVersion == VERSION_FIRE_RED
+             || gameVersion == VERSION_LEAF_GREEN)
+                objEvent->spriteId = AddPseudoObjectEvent(gOriginalFRLGAvatarGfxIds[linkGender(objEvent)], SpriteCB_LinkPlayer, 0, 0, 0);
+            else if (gameVersion == VERSION_EMERALD)
+                objEvent->spriteId = AddPseudoObjectEvent(gEmeraldAvatarGfxIds[linkGender(objEvent)], SpriteCB_LinkPlayer, 0, 0, 0);
             else
-                objEvent->spriteId = AddPseudoObjectEvent(GetOriginalFRLGAvatarGraphicsIdByGender(objEvent->singleMovementActive), SpriteCB_LinkPlayer, 0, 0, 0);
+                objEvent->spriteId = AddPseudoObjectEvent(gRSAvatarGfxIds[linkGender(objEvent)], SpriteCB_LinkPlayer, 0, 0, 0);
             break;
         }
 
         sprite = &gSprites[objEvent->spriteId];
         sprite->coordOffsetEnabled = TRUE;
         sprite->data[0] = linkPlayerId;
-        objEvent->triggerGroundEffectsOnMove = 0;
+        objEvent->triggerGroundEffectsOnMove = FALSE;
     }
 }
 

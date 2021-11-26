@@ -930,22 +930,17 @@ static const u16 sSpeciesToNationalPokedexNum[] =
     [SPECIES_RAPIDASH_GALARIAN] = NATIONAL_DEX_RAPIDASH,
     [SPECIES_SLOWPOKE_GALARIAN] = NATIONAL_DEX_SLOWPOKE,
     [SPECIES_SLOWBRO_GALARIAN] = NATIONAL_DEX_SLOWBRO,
-    [SPECIES_FARFETCHD_GALARIAN] = NATIONAL_DEX_FARFETCHD,
     [SPECIES_GRIMER_ALOLAN] = NATIONAL_DEX_GRIMER,
     [SPECIES_MUK_ALOLAN] = NATIONAL_DEX_MUK,
     [SPECIES_EXEGGUTOR_ALOLAN] = NATIONAL_DEX_EXEGGUTOR,
     [SPECIES_MAROWAK_ALOLAN] = NATIONAL_DEX_MAROWAK,
     [SPECIES_WEEZING_GALARIAN] = NATIONAL_DEX_WEEZING,
-    [SPECIES_MR_MIME_GALARIAN] = NATIONAL_DEX_MR_MIME,
     [SPECIES_ARTICUNO_GALARIAN] = NATIONAL_DEX_ARTICUNO,
     [SPECIES_ZAPDOS_GALARIAN] = NATIONAL_DEX_ZAPDOS,
     [SPECIES_MOLTRES_GALARIAN] = NATIONAL_DEX_MOLTRES,
     [SPECIES_MEWTWO_ARMORED] = NATIONAL_DEX_MEWTWO,
     [SPECIES_SLOWKING_GALARIAN] = NATIONAL_DEX_SLOWKING,
-    [SPECIES_CORSOLA_GALARIAN] = NATIONAL_DEX_CORSOLA,
     [SPECIES_LUGIA_SHADOW] = NATIONAL_DEX_LUGIA,
-    [SPECIES_ZIGZAGOON_GALARIAN] = NATIONAL_DEX_ZIGZAGOON,
-    [SPECIES_LINOONE_GALARIAN] = NATIONAL_DEX_LINOONE,
     [SPECIES_DEOXYS_SPEED] = NATIONAL_DEX_DEOXYS,
     [SPECIES_DEOXYS_ATTACK] = NATIONAL_DEX_DEOXYS,
     [SPECIES_DEOXYS_DEFENSE] = NATIONAL_DEX_DEOXYS,
@@ -1415,505 +1410,12 @@ const s8 gNatureStatTable[NUM_NATURES][NUM_NATURE_STATS] =
 #include "data/pokemon/level_up_learnsets.h"
 #include "data/pokemon/evolution.h"
 #include "data/pokemon/level_up_learnset_pointers.h"
-#include "data/pokemon/form_species_tables.h"
-#include "data/pokemon/form_species_table_pointers.h"
 
 static const u16 sBattleMusicTable[NUM_REGION][3] =
 {
     [REGION_HOENN] = {MUS_VS_FRONTIER_BRAIN, MUS_VS_TRAINER,    MUS_VS_WILD},
     [REGION_KANTO] = {MUS_RG_VS_GYM_LEADER,  MUS_RG_VS_TRAINER, MUS_RG_VS_WILD},
     [REGION_SEVII] = {MUS_DUMMY,             MUS_RG_VS_TRAINER, MUS_RG_VS_WILD},
-};
-
-static const u8 sMonFrontAnimIdsTable[SPECIES_COUNT] =
-{
-    [SPECIES_NONE] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_BULBASAUR] = ANIM_V_JUMPS_H_JUMPS,
-    [SPECIES_IVYSAUR] = ANIM_V_STRETCH,
-    [SPECIES_VENUSAUR] = ANIM_ROTATE_UP_SLAM_DOWN,
-    [SPECIES_CHARMANDER] = ANIM_V_JUMPS_SMALL,
-    [SPECIES_CHARMELEON] = ANIM_BACK_AND_LUNGE,
-    [SPECIES_CHARIZARD] = ANIM_V_SHAKE,
-    [SPECIES_SQUIRTLE] = ANIM_SWING_CONCAVE,
-    [SPECIES_WARTORTLE] = ANIM_SHRINK_GROW,
-    [SPECIES_BLASTOISE] = ANIM_V_SHAKE_TWICE,
-    [SPECIES_CATERPIE] = ANIM_SWING_CONCAVE,
-    [SPECIES_METAPOD] = ANIM_SWING_CONCAVE,
-    [SPECIES_BUTTERFREE] = ANIM_H_SLIDE_WOBBLE,
-    [SPECIES_WEEDLE] = ANIM_H_SLIDE_SLOW,
-    [SPECIES_KAKUNA] = ANIM_GLOW_ORANGE,
-    [SPECIES_BEEDRILL] = ANIM_H_VIBRATE,
-    [SPECIES_PIDGEY] = ANIM_V_STRETCH,
-    [SPECIES_PIDGEOTTO] = ANIM_V_STRETCH,
-    [SPECIES_PIDGEOT] = ANIM_FRONT_FLIP,
-    [SPECIES_RATTATA] = ANIM_RAPID_H_HOPS,
-    [SPECIES_RATICATE] = ANIM_FIGURE_8,
-    [SPECIES_SPEAROW] = ANIM_RISING_WOBBLE,
-    [SPECIES_FEAROW] = ANIM_FIGURE_8,
-    [SPECIES_EKANS] = ANIM_H_STRETCH,
-    [SPECIES_ARBOK] = ANIM_V_STRETCH,
-    [SPECIES_PIKACHU] = ANIM_FLASH_YELLOW,
-    [SPECIES_RAICHU] = ANIM_V_STRETCH,
-    [SPECIES_SANDSHREW] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_SANDSLASH] = ANIM_V_STRETCH,
-    [SPECIES_NIDORAN_F] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_NIDORINA] = ANIM_V_STRETCH,
-    [SPECIES_NIDOQUEEN] = ANIM_H_SHAKE,
-    [SPECIES_NIDORAN_M] = ANIM_GROW_VIBRATE,
-    [SPECIES_NIDORINO] = ANIM_SHRINK_GROW,
-    [SPECIES_NIDOKING] = ANIM_H_SHAKE,
-    [SPECIES_CLEFAIRY] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_CLEFABLE] = ANIM_BOUNCE_ROTATE_TO_SIDES_SMALL_SLOW,
-    [SPECIES_VULPIX] = ANIM_V_STRETCH,
-    [SPECIES_NINETALES] = ANIM_V_SHAKE,
-    [SPECIES_JIGGLYPUFF] = ANIM_BOUNCE_ROTATE_TO_SIDES_SMALL,
-    [SPECIES_WIGGLYTUFF] = ANIM_H_JUMPS,
-    [SPECIES_ZUBAT] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_GOLBAT] = ANIM_H_SLIDE_WOBBLE,
-    [SPECIES_ODDISH] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_GLOOM] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_VILEPLUME] = ANIM_BOUNCE_ROTATE_TO_SIDES_SLOW,
-    [SPECIES_PARAS] = ANIM_H_SLIDE_SLOW,
-    [SPECIES_PARASECT] = ANIM_H_SHAKE,
-    [SPECIES_VENONAT] = ANIM_V_JUMPS_H_JUMPS,
-    [SPECIES_VENOMOTH] = ANIM_ZIGZAG_SLOW,
-    [SPECIES_DIGLETT] = ANIM_V_SHAKE,
-    [SPECIES_DUGTRIO] = ANIM_H_SHAKE_SLOW,
-    [SPECIES_MEOWTH] = ANIM_V_JUMPS_SMALL,
-    [SPECIES_PERSIAN] = ANIM_V_STRETCH,
-    [SPECIES_PSYDUCK] = ANIM_V_JUMPS_H_JUMPS,
-    [SPECIES_GOLDUCK] = ANIM_H_SHAKE_SLOW,
-    [SPECIES_MANKEY] = ANIM_H_JUMPS_V_STRETCH,
-    [SPECIES_PRIMEAPE] = ANIM_BOUNCE_ROTATE_TO_SIDES_SMALL,
-    [SPECIES_GROWLITHE] = ANIM_BACK_AND_LUNGE,
-    [SPECIES_ARCANINE] = ANIM_H_VIBRATE,
-    [SPECIES_POLIWAG] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_POLIWHIRL] = ANIM_H_JUMPS_V_STRETCH,
-    [SPECIES_POLIWRATH] = ANIM_V_SHAKE_TWICE,
-    [SPECIES_ABRA] = ANIM_H_JUMPS,
-    [SPECIES_KADABRA] = ANIM_GROW_VIBRATE,
-    [SPECIES_ALAKAZAM] = ANIM_FLICKER_INCREASING,
-    [SPECIES_MACHOP] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_MACHOKE] = ANIM_V_SHAKE,
-    [SPECIES_MACHAMP] = ANIM_H_JUMPS,
-    [SPECIES_BELLSPROUT] = ANIM_V_STRETCH,
-    [SPECIES_WEEPINBELL] = ANIM_SWING_CONVEX,
-    [SPECIES_VICTREEBEL] = ANIM_H_JUMPS_V_STRETCH,
-    [SPECIES_TENTACOOL] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_TENTACRUEL] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_GEODUDE] = ANIM_BOUNCE_ROTATE_TO_SIDES_SMALL,
-    [SPECIES_GRAVELER] = ANIM_BOUNCE_ROTATE_TO_SIDES_SMALL,
-    [SPECIES_GOLEM] = ANIM_SWING_CONCAVE_FAST_SHORT,
-    [SPECIES_PONYTA] = ANIM_GLOW_ORANGE,
-    [SPECIES_RAPIDASH] = ANIM_CIRCULAR_VIBRATE,
-    [SPECIES_SLOWPOKE] = ANIM_V_SQUISH_AND_BOUNCE_SLOW,
-    [SPECIES_SLOWBRO] = ANIM_SWING_CONCAVE,
-    [SPECIES_MAGNEMITE] = ANIM_TUMBLING_FRONT_FLIP_TWICE,
-    [SPECIES_MAGNETON] = ANIM_FLASH_YELLOW,
-    [SPECIES_FARFETCHD] = ANIM_BOUNCE_ROTATE_TO_SIDES_SMALL,
-    [SPECIES_DODUO] = ANIM_H_SHAKE_SLOW,
-    [SPECIES_DODRIO] = ANIM_LUNGE_GROW,
-    [SPECIES_SEEL] = ANIM_SWING_CONCAVE,
-    [SPECIES_DEWGONG] = ANIM_V_SQUISH_AND_BOUNCE_SLOW,
-    [SPECIES_GRIMER] = ANIM_H_SLIDE_SLOW,
-    [SPECIES_MUK] = ANIM_DEEP_V_SQUISH_AND_BOUNCE,
-    [SPECIES_SHELLDER] = ANIM_TWIST,
-    [SPECIES_CLOYSTER] = ANIM_H_SLIDE_WOBBLE,
-    [SPECIES_GASTLY] = ANIM_GLOW_BLACK,
-    [SPECIES_HAUNTER] = ANIM_FLICKER_INCREASING,
-    [SPECIES_GENGAR] = ANIM_GROW_IN_STAGES,
-    [SPECIES_ONIX] = ANIM_RAPID_H_HOPS,
-    [SPECIES_DROWZEE] = ANIM_CIRCLE_C_CLOCKWISE_SLOW,
-    [SPECIES_HYPNO] = ANIM_GROW_VIBRATE,
-    [SPECIES_KRABBY] = ANIM_H_SLIDE,
-    [SPECIES_KINGLER] = ANIM_ZIGZAG_SLOW,
-    [SPECIES_VOLTORB] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_ELECTRODE] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_EXEGGCUTE] = ANIM_H_SLIDE_SLOW,
-    [SPECIES_EXEGGUTOR] = ANIM_H_JUMPS_V_STRETCH,
-    [SPECIES_CUBONE] = ANIM_V_SHAKE,
-    [SPECIES_MAROWAK] = ANIM_BOUNCE_ROTATE_TO_SIDES,
-    [SPECIES_HITMONLEE] = ANIM_H_STRETCH,
-    [SPECIES_HITMONCHAN] = ANIM_GROW_VIBRATE,
-    [SPECIES_LICKITUNG] = ANIM_V_SQUISH_AND_BOUNCE_SLOW,
-    [SPECIES_KOFFING] = ANIM_SHRINK_GROW,
-    [SPECIES_WEEZING] = ANIM_V_SLIDE,
-    [SPECIES_RHYHORN] = ANIM_V_SHAKE,
-    [SPECIES_RHYDON] = ANIM_SHRINK_GROW,
-    [SPECIES_CHANSEY] = ANIM_V_SQUISH_AND_BOUNCE_SLOW,
-    [SPECIES_TANGELA] = ANIM_BOUNCE_ROTATE_TO_SIDES_SMALL,
-    [SPECIES_KANGASKHAN] = ANIM_V_STRETCH,
-    [SPECIES_HORSEA] = ANIM_TWIST,
-    [SPECIES_SEADRA] = ANIM_V_SLIDE,
-    [SPECIES_GOLDEEN] = ANIM_SWING_CONVEX,
-    [SPECIES_SEAKING] = ANIM_V_SLIDE_WOBBLE,
-    [SPECIES_STARYU] = ANIM_TWIST_TWICE,
-    [SPECIES_STARMIE] = ANIM_TWIST,
-    [SPECIES_MR_MIME] = ANIM_H_SLIDE_SLOW,
-    [SPECIES_SCYTHER] = ANIM_H_VIBRATE,
-    [SPECIES_JYNX] = ANIM_V_STRETCH,
-    [SPECIES_ELECTABUZZ] = ANIM_FLASH_YELLOW,
-    [SPECIES_MAGMAR] = ANIM_H_SHAKE,
-    [SPECIES_PINSIR] = ANIM_GROW_VIBRATE,
-    [SPECIES_TAUROS] = ANIM_V_SHAKE_TWICE,
-    [SPECIES_MAGIKARP] = ANIM_BOUNCE_ROTATE_TO_SIDES,
-    [SPECIES_GYARADOS] = ANIM_GROW_VIBRATE,
-    [SPECIES_LAPRAS] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_DITTO] = ANIM_CIRCULAR_STRETCH_TWICE,
-    [SPECIES_EEVEE] = ANIM_V_STRETCH,
-    [SPECIES_VAPOREON] = ANIM_V_STRETCH,
-    [SPECIES_JOLTEON] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_FLAREON] = ANIM_V_STRETCH,
-    [SPECIES_PORYGON] = ANIM_V_JUMPS_SMALL,
-    [SPECIES_OMANYTE] = ANIM_V_SLIDE_WOBBLE_SMALL,
-    [SPECIES_OMASTAR] = ANIM_GROW_VIBRATE,
-    [SPECIES_KABUTO] = ANIM_H_SLIDE_WOBBLE,
-    [SPECIES_KABUTOPS] = ANIM_H_SHAKE,
-    [SPECIES_AERODACTYL] = ANIM_V_SLIDE_SLOW,
-    [SPECIES_SNORLAX] = ANIM_SWING_CONCAVE,
-    [SPECIES_ARTICUNO] = ANIM_GROW_VIBRATE,
-    [SPECIES_ZAPDOS] = ANIM_FLASH_YELLOW,
-    [SPECIES_MOLTRES] = ANIM_V_SQUISH_AND_BOUNCE_SLOW,
-    [SPECIES_DRATINI] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_DRAGONAIR] = ANIM_V_SHAKE,
-    [SPECIES_DRAGONITE] = ANIM_V_SLIDE_SLOW,
-    [SPECIES_MEWTWO] = ANIM_GROW_VIBRATE,
-    [SPECIES_MEW] = ANIM_SWING_CONVEX,
-    [SPECIES_CHIKORITA] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_BAYLEEF] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_MEGANIUM] = ANIM_V_STRETCH,
-    [SPECIES_CYNDAQUIL] = ANIM_V_JUMPS_SMALL,
-    [SPECIES_QUILAVA] = ANIM_V_STRETCH,
-    [SPECIES_TYPHLOSION] = ANIM_V_SHAKE,
-    [SPECIES_TOTODILE] = ANIM_H_JUMPS,
-    [SPECIES_CROCONAW] = ANIM_H_SHAKE,
-    [SPECIES_FERALIGATR] = ANIM_H_SHAKE,
-    [SPECIES_SENTRET] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_FURRET] = ANIM_H_JUMPS_V_STRETCH,
-    [SPECIES_HOOTHOOT] = ANIM_V_SLIDE_SLOW,
-    [SPECIES_NOCTOWL] = ANIM_V_STRETCH,
-    [SPECIES_LEDYBA] = ANIM_V_JUMPS_SMALL,
-    [SPECIES_LEDIAN] = ANIM_V_SLIDE_SLOW,
-    [SPECIES_SPINARAK] = ANIM_CIRCLE_C_CLOCKWISE_SLOW,
-    [SPECIES_ARIADOS] = ANIM_H_SHAKE,
-    [SPECIES_CROBAT] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_CHINCHOU] = ANIM_V_SQUISH_AND_BOUNCE_SLOW,
-    [SPECIES_LANTURN] = ANIM_V_SLIDE_WOBBLE_SMALL,
-    [SPECIES_PICHU] = ANIM_V_JUMPS_BIG,
-    [SPECIES_CLEFFA] = ANIM_V_JUMPS_SMALL,
-    [SPECIES_IGGLYBUFF] = ANIM_SWING_CONCAVE_FAST,
-    [SPECIES_TOGEPI] = ANIM_SWING_CONCAVE,
-    [SPECIES_TOGETIC] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_NATU] = ANIM_H_JUMPS,
-    [SPECIES_XATU] = ANIM_GROW_VIBRATE,
-    [SPECIES_MAREEP] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_FLAAFFY] = ANIM_V_JUMPS_BIG,
-    [SPECIES_AMPHAROS] = ANIM_FLASH_YELLOW,
-    [SPECIES_BELLOSSOM] = ANIM_SWING_CONCAVE,
-    [SPECIES_MARILL] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_AZUMARILL] = ANIM_BOUNCE_ROTATE_TO_SIDES_SMALL_SLOW,
-    [SPECIES_SUDOWOODO] = ANIM_H_SLIDE_SLOW,
-    [SPECIES_POLITOED] = ANIM_H_JUMPS_V_STRETCH,
-    [SPECIES_HOPPIP] = ANIM_V_SLIDE_WOBBLE,
-    [SPECIES_SKIPLOOM] = ANIM_RISING_WOBBLE,
-    [SPECIES_JUMPLUFF] = ANIM_V_SLIDE_WOBBLE_SMALL,
-    [SPECIES_AIPOM] = ANIM_H_JUMPS_V_STRETCH,
-    [SPECIES_SUNKERN] = ANIM_V_JUMPS_SMALL,
-    [SPECIES_SUNFLORA] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_YANMA] = ANIM_FIGURE_8,
-    [SPECIES_WOOPER] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_QUAGSIRE] = ANIM_H_STRETCH,
-    [SPECIES_ESPEON] = ANIM_GROW_VIBRATE,
-    [SPECIES_UMBREON] = ANIM_V_SHAKE,
-    [SPECIES_MURKROW] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_SLOWKING] = ANIM_SHRINK_GROW,
-    [SPECIES_MISDREAVUS] = ANIM_V_SLIDE_WOBBLE,
-    [SPECIES_UNOWN] = ANIM_ZIGZAG_FAST,
-    [SPECIES_WOBBUFFET] = ANIM_DEEP_V_SQUISH_AND_BOUNCE,
-    [SPECIES_GIRAFARIG] = ANIM_V_JUMPS_BIG,
-    [SPECIES_PINECO] = ANIM_SWING_CONCAVE,
-    [SPECIES_FORRETRESS] = ANIM_V_SHAKE,
-    [SPECIES_DUNSPARCE] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_GLIGAR] = ANIM_SHRINK_GROW,
-    [SPECIES_STEELIX] = ANIM_H_SHAKE,
-    [SPECIES_SNUBBULL] = ANIM_V_STRETCH,
-    [SPECIES_GRANBULL] = ANIM_V_SHAKE,
-    [SPECIES_QWILFISH] = ANIM_GROW_IN_STAGES,
-    [SPECIES_SCIZOR] = ANIM_H_VIBRATE,
-    [SPECIES_SHUCKLE] = ANIM_SWING_CONCAVE,
-    [SPECIES_HERACROSS] = ANIM_LUNGE_GROW,
-    [SPECIES_SNEASEL] = ANIM_H_STRETCH,
-    [SPECIES_TEDDIURSA] = ANIM_V_STRETCH,
-    [SPECIES_URSARING] = ANIM_V_SHAKE,
-    [SPECIES_SLUGMA] = ANIM_V_STRETCH,
-    [SPECIES_MAGCARGO] = ANIM_V_STRETCH,
-    [SPECIES_SWINUB] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_PILOSWINE] = ANIM_H_SHAKE,
-    [SPECIES_CORSOLA] = ANIM_H_SLIDE,
-    [SPECIES_REMORAID] = ANIM_V_JUMPS_SMALL,
-    [SPECIES_OCTILLERY] = ANIM_V_STRETCH,
-    [SPECIES_DELIBIRD] = ANIM_V_JUMPS_SMALL,
-    [SPECIES_MANTINE] = ANIM_SWING_CONVEX,
-    [SPECIES_SKARMORY] = ANIM_V_STRETCH,
-    [SPECIES_HOUNDOUR] = ANIM_V_STRETCH,
-    [SPECIES_HOUNDOOM] = ANIM_V_SHAKE,
-    [SPECIES_KINGDRA] = ANIM_CIRCLE_INTO_BG,
-    [SPECIES_PHANPY] = ANIM_H_JUMPS_V_STRETCH,
-    [SPECIES_DONPHAN] = ANIM_V_SHAKE_TWICE,
-    [SPECIES_PORYGON2] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_STANTLER] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_SMEARGLE] = ANIM_H_JUMPS,
-    [SPECIES_TYROGUE] = ANIM_H_STRETCH,
-    [SPECIES_HITMONTOP] = ANIM_H_VIBRATE,
-    [SPECIES_SMOOCHUM] = ANIM_GROW_VIBRATE,
-    [SPECIES_ELEKID] = ANIM_FLASH_YELLOW,
-    [SPECIES_MAGBY] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_MILTANK] = ANIM_V_SQUISH_AND_BOUNCE_SLOW,
-    [SPECIES_BLISSEY] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_RAIKOU] = ANIM_FLASH_YELLOW,
-    [SPECIES_ENTEI] = ANIM_GROW_VIBRATE,
-    [SPECIES_SUICUNE] = ANIM_V_SHAKE,
-    [SPECIES_LARVITAR] = ANIM_V_JUMPS_SMALL,
-    [SPECIES_PUPITAR] = ANIM_V_SHAKE,
-    [SPECIES_TYRANITAR] = ANIM_H_SHAKE,
-    [SPECIES_LUGIA] = ANIM_GROW_IN_STAGES,
-    [SPECIES_HO_OH] = ANIM_GROW_VIBRATE,
-    [SPECIES_CELEBI] = ANIM_RISING_WOBBLE,
-    [SPECIES_TREECKO] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_GROVYLE] = ANIM_V_STRETCH,
-    [SPECIES_SCEPTILE] = ANIM_V_SHAKE,
-    [SPECIES_TORCHIC] = ANIM_H_STRETCH,
-    [SPECIES_COMBUSKEN] = ANIM_V_JUMPS_H_JUMPS,
-    [SPECIES_BLAZIKEN] = ANIM_H_SHAKE,
-    [SPECIES_MUDKIP] = ANIM_CIRCULAR_STRETCH_TWICE,
-    [SPECIES_MARSHTOMP] = ANIM_V_SLIDE,
-    [SPECIES_SWAMPERT] = ANIM_V_JUMPS_BIG,
-    [SPECIES_POOCHYENA] = ANIM_V_SHAKE,
-    [SPECIES_MIGHTYENA] = ANIM_V_SHAKE,
-    [SPECIES_ZIGZAGOON] = ANIM_H_SLIDE,
-    [SPECIES_LINOONE] = ANIM_GROW_VIBRATE,
-    [SPECIES_WURMPLE] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_SILCOON] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_BEAUTIFLY] = ANIM_V_SLIDE,
-    [SPECIES_CASCOON] = ANIM_V_SLIDE,
-    [SPECIES_DUSTOX] = ANIM_V_JUMPS_H_JUMPS,
-    [SPECIES_LOTAD] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_LOMBRE] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_LUDICOLO] = ANIM_BOUNCE_ROTATE_TO_SIDES_SLOW,
-    [SPECIES_SEEDOT] = ANIM_BOUNCE_ROTATE_TO_SIDES,
-    [SPECIES_NUZLEAF] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_SHIFTRY] = ANIM_H_VIBRATE,
-    [SPECIES_NINCADA] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_NINJASK] = ANIM_H_SLIDE_SLOW,
-    [SPECIES_SHEDINJA] = ANIM_V_SLIDE_WOBBLE,
-    [SPECIES_TAILLOW] = ANIM_V_JUMPS_BIG,
-    [SPECIES_SWELLOW] = ANIM_CIRCULAR_STRETCH_TWICE,
-    [SPECIES_SHROOMISH] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_BRELOOM] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_SPINDA] = ANIM_H_JUMPS,
-    [SPECIES_WINGULL] = ANIM_H_PIVOT,
-    [SPECIES_PELIPPER] = ANIM_V_SLIDE_WOBBLE,
-    [SPECIES_SURSKIT] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_MASQUERAIN] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_WAILMER] = ANIM_CIRCULAR_STRETCH_TWICE,
-    [SPECIES_WAILORD] = ANIM_V_SLIDE_WOBBLE,
-    [SPECIES_SKITTY] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_DELCATTY] = ANIM_V_STRETCH,
-    [SPECIES_KECLEON] = ANIM_FLICKER_INCREASING,
-    [SPECIES_BALTOY] = ANIM_H_SLIDE_WOBBLE,
-    [SPECIES_CLAYDOL] = ANIM_V_SLIDE_WOBBLE_SMALL,
-    [SPECIES_NOSEPASS] = ANIM_BOUNCE_ROTATE_TO_SIDES_SLOW,
-    [SPECIES_TORKOAL] = ANIM_V_STRETCH,
-    [SPECIES_SABLEYE] = ANIM_GLOW_BLACK,
-    [SPECIES_BARBOACH] = ANIM_BOUNCE_ROTATE_TO_SIDES_SLOW,
-    [SPECIES_WHISCASH] = ANIM_BOUNCE_ROTATE_TO_SIDES_SLOW,
-    [SPECIES_LUVDISC] = ANIM_H_SLIDE_WOBBLE,
-    [SPECIES_CORPHISH] = ANIM_V_SHAKE,
-    [SPECIES_CRAWDAUNT] = ANIM_GROW_VIBRATE,
-    [SPECIES_FEEBAS] = ANIM_BOUNCE_ROTATE_TO_SIDES_SLOW,
-    [SPECIES_MILOTIC] = ANIM_GLOW_BLUE,
-    [SPECIES_CARVANHA] = ANIM_BOUNCE_ROTATE_TO_SIDES_SLOW,
-    [SPECIES_SHARPEDO] = ANIM_H_JUMPS_V_STRETCH_TWICE,
-    [SPECIES_TRAPINCH] = ANIM_V_SHAKE,
-    [SPECIES_VIBRAVA] = ANIM_H_SHAKE,
-    [SPECIES_FLYGON] = ANIM_ZIGZAG_SLOW,
-    [SPECIES_MAKUHITA] = ANIM_SWING_CONCAVE,
-    [SPECIES_HARIYAMA] = ANIM_ROTATE_UP_TO_SIDES,
-    [SPECIES_ELECTRIKE] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_MANECTRIC] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_NUMEL] = ANIM_V_SLIDE,
-    [SPECIES_CAMERUPT] = ANIM_V_SHAKE,
-    [SPECIES_SPHEAL] = ANIM_SPIN,
-    [SPECIES_SEALEO] = ANIM_V_STRETCH,
-    [SPECIES_WALREIN] = ANIM_H_SHAKE,
-    [SPECIES_CACNEA] = ANIM_BOUNCE_ROTATE_TO_SIDES_SLOW,
-    [SPECIES_CACTURNE] = ANIM_V_SLIDE,
-    [SPECIES_SNORUNT] = ANIM_V_SQUISH_AND_BOUNCE_SLOW,
-    [SPECIES_GLALIE] = ANIM_ZIGZAG_FAST,
-    [SPECIES_LUNATONE] = ANIM_SWING_CONVEX_FAST,
-    [SPECIES_SOLROCK] = ANIM_ROTATE_TO_SIDES_TWICE,
-    [SPECIES_AZURILL] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_SPOINK] = ANIM_H_JUMPS_V_STRETCH_TWICE,
-    [SPECIES_GRUMPIG] = ANIM_H_JUMPS_V_STRETCH,
-    [SPECIES_PLUSLE] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_MINUN] = ANIM_CIRCULAR_STRETCH_TWICE,
-    [SPECIES_MAWILE] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_MEDITITE] = ANIM_BOUNCE_ROTATE_TO_SIDES,
-    [SPECIES_MEDICHAM] = ANIM_V_SQUISH_AND_BOUNCE_SLOW,
-    [SPECIES_SWABLU] = ANIM_V_SLIDE,
-    [SPECIES_ALTARIA] = ANIM_H_STRETCH,
-    [SPECIES_WYNAUT] = ANIM_H_JUMPS_V_STRETCH,
-    [SPECIES_DUSKULL] = ANIM_ZIGZAG_FAST,
-    [SPECIES_DUSCLOPS] = ANIM_H_VIBRATE,
-    [SPECIES_ROSELIA] = ANIM_V_SQUISH_AND_BOUNCE_SLOW,
-    [SPECIES_SLAKOTH] = ANIM_V_SQUISH_AND_BOUNCE_SLOW,
-    [SPECIES_VIGOROTH] = ANIM_H_JUMPS,
-    [SPECIES_SLAKING] = ANIM_V_SQUISH_AND_BOUNCE_SLOW,
-    [SPECIES_GULPIN] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_SWALOT] = ANIM_V_SQUISH_AND_BOUNCE_SLOW,
-    [SPECIES_TROPIUS] = ANIM_V_SHAKE,
-    [SPECIES_WHISMUR] = ANIM_H_SLIDE,
-    [SPECIES_LOUDRED] = ANIM_BOUNCE_ROTATE_TO_SIDES_SLOW,
-    [SPECIES_EXPLOUD] = ANIM_V_SHAKE_TWICE,
-    [SPECIES_CLAMPERL] = ANIM_TWIST,
-    [SPECIES_HUNTAIL] = ANIM_GROW_VIBRATE,
-    [SPECIES_GOREBYSS] = ANIM_V_SLIDE_WOBBLE,
-    [SPECIES_ABSOL] = ANIM_CIRCULAR_VIBRATE,
-    [SPECIES_SHUPPET] = ANIM_V_SLIDE_WOBBLE,
-    [SPECIES_BANETTE] = ANIM_SWING_CONVEX,
-    [SPECIES_SEVIPER] = ANIM_V_STRETCH,
-    [SPECIES_ZANGOOSE] = ANIM_GROW_VIBRATE,
-    [SPECIES_RELICANTH] = ANIM_TIP_MOVE_FORWARD,
-    [SPECIES_ARON] = ANIM_V_SQUISH_AND_BOUNCE_SLOW,
-    [SPECIES_LAIRON] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_AGGRON] = ANIM_V_SHAKE_TWICE,
-    [SPECIES_CASTFORM] = ANIM_H_SLIDE_WOBBLE,
-    [SPECIES_VOLBEAT] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_ILLUMISE] = ANIM_BOUNCE_ROTATE_TO_SIDES,
-    [SPECIES_LILEEP] = ANIM_V_STRETCH,
-    [SPECIES_CRADILY] = ANIM_V_SHAKE_TWICE,
-    [SPECIES_ANORITH] = ANIM_TWIST,
-    [SPECIES_ARMALDO] = ANIM_V_SHAKE,
-    [SPECIES_RALTS] = ANIM_V_SQUISH_AND_BOUNCE_SLOW,
-    [SPECIES_KIRLIA] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_GARDEVOIR] = ANIM_V_SQUISH_AND_BOUNCE,
-    [SPECIES_BAGON] = ANIM_V_SHAKE_TWICE,
-    [SPECIES_SHELGON] = ANIM_V_SLIDE,
-    [SPECIES_SALAMENCE] = ANIM_H_SHAKE,
-    [SPECIES_BELDUM] = ANIM_H_SHAKE,
-    [SPECIES_METANG] = ANIM_V_SLIDE,
-    [SPECIES_METAGROSS] = ANIM_V_SHAKE,
-    [SPECIES_REGIROCK] = ANIM_CIRCULAR_STRETCH_TWICE,
-    [SPECIES_REGICE] = ANIM_FOUR_PETAL,
-    [SPECIES_REGISTEEL] = ANIM_GROW_VIBRATE,
-    [SPECIES_KYOGRE] = ANIM_SWING_CONCAVE_FAST_SHORT,
-    [SPECIES_GROUDON] = ANIM_V_SHAKE,
-    [SPECIES_RAYQUAZA] = ANIM_H_SHAKE,
-    [SPECIES_LATIAS] = ANIM_SWING_CONCAVE_FAST_SHORT,
-    [SPECIES_LATIOS] = ANIM_V_SHAKE,
-    [SPECIES_JIRACHI] = ANIM_SWING_CONVEX,
-    [SPECIES_DEOXYS] = ANIM_H_PIVOT,
-    [SPECIES_CHIMECHO] = ANIM_H_SLIDE_WOBBLE,
-    [SPECIES_RATTATA_ALOLAN] = ANIM_RAPID_H_HOPS,
-    [SPECIES_RATICATE_ALOLAN] = ANIM_FIGURE_8,
-    [SPECIES_RAICHU_ALOLAN] = ANIM_V_STRETCH,
-    [SPECIES_SANDSHREW_ALOLAN] = ANIM_SWING_CONCAVE_FAST_SHORT,
-    [SPECIES_SANDSLASH_ALOLAN] = ANIM_V_STRETCH,
-    [SPECIES_VULPIX_ALOLAN] = ANIM_V_STRETCH,
-    [SPECIES_NINETALES_ALOLAN] = ANIM_V_SHAKE,
-    [SPECIES_DIGLETT_ALOLAN] = ANIM_V_SHAKE,
-    [SPECIES_DUGTRIO_ALOLAN] = ANIM_H_SHAKE_SLOW,
-    [SPECIES_MEOWTH_ALOLAN] = ANIM_V_JUMPS_SMALL,
-    [SPECIES_PERSIAN_ALOLAN] = ANIM_V_STRETCH,
-    [SPECIES_GEODUDE_ALOLAN] = ANIM_BOUNCE_ROTATE_TO_SIDES_SMALL,
-    [SPECIES_GRAVELER_ALOLAN] = ANIM_BOUNCE_ROTATE_TO_SIDES_SMALL,
-    [SPECIES_GOLEM_ALOLAN] = ANIM_SWING_CONCAVE_FAST_SHORT,
-    [SPECIES_PONYTA_GALARIAN] = ANIM_GLOW_ORANGE,
-    [SPECIES_RAPIDASH_GALARIAN] = ANIM_CIRCULAR_VIBRATE,
-    [SPECIES_SLOWPOKE_GALARIAN] = ANIM_V_SQUISH_AND_BOUNCE_SLOW,
-    [SPECIES_SLOWBRO_GALARIAN] = ANIM_SWING_CONCAVE,
-    [SPECIES_FARFETCHD_GALARIAN] = ANIM_BOUNCE_ROTATE_TO_SIDES_SMALL,
-    [SPECIES_GRIMER_ALOLAN] = ANIM_H_SLIDE_SLOW,
-    [SPECIES_MUK_ALOLAN] = ANIM_DEEP_V_SQUISH_AND_BOUNCE,
-    [SPECIES_EXEGGUTOR_ALOLAN] = ANIM_H_JUMPS_V_STRETCH,
-    [SPECIES_MAROWAK_ALOLAN] = ANIM_BOUNCE_ROTATE_TO_SIDES,
-    [SPECIES_WEEZING_GALARIAN] = ANIM_V_SLIDE,
-    [SPECIES_MR_MIME_GALARIAN] = ANIM_H_SLIDE_SLOW,
-    [SPECIES_ARTICUNO_GALARIAN] = ANIM_GROW_VIBRATE,
-    [SPECIES_ZAPDOS_GALARIAN] = ANIM_FLASH_YELLOW,
-    [SPECIES_MOLTRES_GALARIAN] = ANIM_V_SQUISH_AND_BOUNCE_SLOW,
-    [SPECIES_MEWTWO_ARMORED] = ANIM_GROW_VIBRATE,
-    [SPECIES_SLOWKING_GALARIAN] = ANIM_SHRINK_GROW,
-    [SPECIES_CORSOLA_GALARIAN] = ANIM_H_SLIDE,
-    [SPECIES_LUGIA_SHADOW] = ANIM_GROW_IN_STAGES,
-    [SPECIES_ZIGZAGOON_GALARIAN] = ANIM_H_SLIDE,
-    [SPECIES_LINOONE_GALARIAN] = ANIM_GROW_VIBRATE,
-    [SPECIES_DEOXYS_SPEED] = ANIM_FIGURE_8,
-    [SPECIES_DEOXYS_ATTACK] = ANIM_GROW_VIBRATE,
-    [SPECIES_DEOXYS_DEFENSE] = ANIM_V_SQUISH_AND_BOUNCE_SLOW,
-};
-
-static const u8 sMonAnimationDelayTable[SPECIES_COUNT] =
-{
-    [SPECIES_WEEDLE] = 10,
-    [SPECIES_KAKUNA] = 20,
-    [SPECIES_BEEDRILL] = 35,
-    [SPECIES_PIDGEOTTO] = 25,
-    [SPECIES_FEAROW] = 2,
-    [SPECIES_EKANS] = 30,
-    [SPECIES_NIDORAN_F] = 28,
-    [SPECIES_NIDOKING] = 25,
-    [SPECIES_PARAS] = 10,
-    [SPECIES_PARASECT] = 45,
-    [SPECIES_VENONAT] = 20,
-    [SPECIES_DIGLETT] = 25,
-    [SPECIES_DUGTRIO] = 35,
-    [SPECIES_MEOWTH] = 40,
-    [SPECIES_PERSIAN] = 20,
-    [SPECIES_MANKEY] = 20,
-    [SPECIES_GROWLITHE] = 30,
-    [SPECIES_ARCANINE] = 40,
-    [SPECIES_POLIWHIRL] = 5,
-    [SPECIES_WEEPINBELL] = 3,
-    [SPECIES_MUK] = 45,
-    [SPECIES_SHELLDER] = 20,
-    [SPECIES_HAUNTER] = 23,
-    [SPECIES_DROWZEE] = 48,
-    [SPECIES_HYPNO] = 40,
-    [SPECIES_HITMONCHAN] = 25,
-    [SPECIES_SCYTHER] = 10,
-    [SPECIES_TAUROS] = 10,
-    [SPECIES_TYPHLOSION] = 20,
-    [SPECIES_FERALIGATR] = 5,
-    [SPECIES_NATU] = 30,
-    [SPECIES_MAREEP] = 50,
-    [SPECIES_AMPHAROS] = 10,
-    [SPECIES_POLITOED] = 40,
-    [SPECIES_DUNSPARCE] = 10,
-    [SPECIES_STEELIX] = 45,
-    [SPECIES_QWILFISH] = 39,
-    [SPECIES_SCIZOR] = 19,
-    [SPECIES_OCTILLERY] = 20,
-    [SPECIES_SMOOCHUM] = 40,
-    [SPECIES_TYRANITAR] = 10,
-    [SPECIES_LUGIA] = 20,
-    [SPECIES_WAILORD] = 10,
-    [SPECIES_KECLEON] = 30,
-    [SPECIES_MILOTIC] = 45,
-    [SPECIES_SPHEAL] = 15,
-    [SPECIES_SNORUNT] = 20,
-    [SPECIES_GRUMPIG] = 15,
-    [SPECIES_WYNAUT] = 15,
-    [SPECIES_DUSCLOPS] = 30,
-    [SPECIES_ABSOL] = 45,
-    [SPECIES_SALAMENCE] = 70,
-    [SPECIES_KYOGRE] = 60,
-    [SPECIES_RAYQUAZA] = 60,
-    [SPECIES_DIGLETT_ALOLAN] = 25,
-    [SPECIES_DUGTRIO_ALOLAN] = 35,
-    [SPECIES_MEOWTH_ALOLAN] = 40,
-    [SPECIES_PERSIAN_ALOLAN] = 20,
-    [SPECIES_LUGIA_SHADOW] = 20,
 };
 
 static const s8 sPokeblockFlavorCompatibilityTable[] =
@@ -1980,23 +1482,23 @@ const u8 gStatStageRatios[MAX_STAT_STAGE + 1][2] =
 const u16 gLinkPlayerFacilityClasses[NUM_MALE_LINK_FACILITY_CLASSES + NUM_FEMALE_LINK_FACILITY_CLASSES] =
 {
     // Male classes
-    HOENN_FACILITY_CLASS_COOLTRAINER_M,
-    HOENN_FACILITY_CLASS_BLACK_BELT,
-    HOENN_FACILITY_CLASS_CAMPER,
-    HOENN_FACILITY_CLASS_YOUNGSTER,
-    HOENN_FACILITY_CLASS_PSYCHIC_M,
-    HOENN_FACILITY_CLASS_BUG_CATCHER,
-    HOENN_FACILITY_CLASS_PKMN_BREEDER_M,
-    HOENN_FACILITY_CLASS_GUITARIST,
+    FACILITY_CLASS_HOENN_COOLTRAINER_M,
+    FACILITY_CLASS_HOENN_BLACK_BELT,
+    FACILITY_CLASS_HOENN_CAMPER,
+    FACILITY_CLASS_HOENN_YOUNGSTER,
+    FACILITY_CLASS_HOENN_PSYCHIC_M,
+    FACILITY_CLASS_HOENN_BUG_CATCHER,
+    FACILITY_CLASS_HOENN_PKMN_BREEDER_M,
+    FACILITY_CLASS_HOENN_GUITARIST,
     // Female Classes
-    HOENN_FACILITY_CLASS_COOLTRAINER_F,
-    HOENN_FACILITY_CLASS_HEX_MANIAC,
-    HOENN_FACILITY_CLASS_PICNICKER,
-    HOENN_FACILITY_CLASS_LASS,
-    HOENN_FACILITY_CLASS_PSYCHIC_F,
-    HOENN_FACILITY_CLASS_BATTLE_GIRL,
-    HOENN_FACILITY_CLASS_PKMN_BREEDER_F,
-    HOENN_FACILITY_CLASS_BEAUTY
+    FACILITY_CLASS_HOENN_COOLTRAINER_F,
+    FACILITY_CLASS_HOENN_HEX_MANIAC,
+    FACILITY_CLASS_HOENN_PICNICKER,
+    FACILITY_CLASS_HOENN_LASS,
+    FACILITY_CLASS_HOENN_PSYCHIC_F,
+    FACILITY_CLASS_HOENN_BATTLE_GIRL,
+    FACILITY_CLASS_HOENN_PKMN_BREEDER_F,
+    FACILITY_CLASS_HOENN_BEAUTY
 };
 
 static const u8 sHoldEffectToType[][2] =
@@ -2062,147 +1564,21 @@ const struct SpriteTemplate gBattlerSpriteTemplates[MAX_BATTLERS_COUNT] =
 
 static const struct SpriteTemplate sTrainerBackSpriteTemplates[] =
 {
-    [TRAINER_BACK_PIC_RED] = {
+    [TRAINER_BACK_PIC_RED_ORIGINAL] = {
         .tileTag = TAG_NONE,
         .paletteTag = 0,
         .oam = &gOamData_BattleSpritePlayerSide,
         .anims = NULL,
-        .images = gTrainerBackPicTable_Red,
+        .images = gTrainerBackPicTable_RedOriginal,
         .affineAnims = gAffineAnims_BattleSpritePlayerSide,
         .callback = SpriteCB_BattleSpriteStartSlideLeft,
     },
-    [TRAINER_BACK_PIC_RED_DX] = {
+    [TRAINER_BACK_PIC_LEAF_ORIGINAL] = {
         .tileTag = TAG_NONE,
         .paletteTag = 0,
         .oam = &gOamData_BattleSpritePlayerSide,
         .anims = NULL,
-        .images = gTrainerBackPicTable_RedDX,
-        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
-        .callback = SpriteCB_BattleSpriteStartSlideLeft,
-    },
-    [TRAINER_BACK_PIC_RED_CLASSIC] = {
-        .tileTag = TAG_NONE,
-        .paletteTag = 0,
-        .oam = &gOamData_BattleSpritePlayerSide,
-        .anims = NULL,
-        .images = gTrainerBackPicTable_RedClassic,
-        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
-        .callback = SpriteCB_BattleSpriteStartSlideLeft,
-    },
-    [TRAINER_BACK_PIC_RED_ALOLA] = {
-        .tileTag = TAG_NONE,
-        .paletteTag = 0,
-        .oam = &gOamData_BattleSpritePlayerSide,
-        .anims = NULL,
-        .images = gTrainerBackPicTable_RedAlola,
-        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
-        .callback = SpriteCB_BattleSpriteStartSlideLeft,
-    },
-    [TRAINER_BACK_PIC_RED_SYGNA_SUIT] = {
-        .tileTag = TAG_NONE,
-        .paletteTag = 0,
-        .oam = &gOamData_BattleSpritePlayerSide,
-        .anims = NULL,
-        .images = gTrainerBackPicTable_RedSygnaSuit,
-        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
-        .callback = SpriteCB_BattleSpriteStartSlideLeft,
-    },
-    [TRAINER_BACK_PIC_RED_TEAM_ROCKET] = {
-        .tileTag = TAG_NONE,
-        .paletteTag = 0,
-        .oam = &gOamData_BattleSpritePlayerSide,
-        .anims = NULL,
-        .images = gTrainerBackPicTable_RedTeamRocket,
-        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
-        .callback = SpriteCB_BattleSpriteStartSlideLeft,
-    },
-    [TRAINER_BACK_PIC_RED_TEAM_AQUA] = {
-        .tileTag = TAG_NONE,
-        .paletteTag = 0,
-        .oam = &gOamData_BattleSpritePlayerSide,
-        .anims = NULL,
-        .images = gTrainerBackPicTable_RedTeamAqua,
-        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
-        .callback = SpriteCB_BattleSpriteStartSlideLeft,
-    },
-    [TRAINER_BACK_PIC_RED_TEAM_MAGMA] = {
-        .tileTag = TAG_NONE,
-        .paletteTag = 0,
-        .oam = &gOamData_BattleSpritePlayerSide,
-        .anims = NULL,
-        .images = gTrainerBackPicTable_RedTeamMagma,
-        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
-        .callback = SpriteCB_BattleSpriteStartSlideLeft,
-    },
-    [TRAINER_BACK_PIC_LEAF] = {
-        .tileTag = TAG_NONE,
-        .paletteTag = 0,
-        .oam = &gOamData_BattleSpritePlayerSide,
-        .anims = NULL,
-        .images = gTrainerBackPicTable_Leaf,
-        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
-        .callback = SpriteCB_BattleSpriteStartSlideLeft,
-    },
-    [TRAINER_BACK_PIC_LEAF_DX] = {
-        .tileTag = TAG_NONE,
-        .paletteTag = 0,
-        .oam = &gOamData_BattleSpritePlayerSide,
-        .anims = NULL,
-        .images = gTrainerBackPicTable_LeafDX,
-        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
-        .callback = SpriteCB_BattleSpriteStartSlideLeft,
-    },
-    [TRAINER_BACK_PIC_LEAF_CLASSIC] = {
-        .tileTag = TAG_NONE,
-        .paletteTag = 0,
-        .oam = &gOamData_BattleSpritePlayerSide,
-        .anims = NULL,
-        .images = gTrainerBackPicTable_LeafClassic,
-        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
-        .callback = SpriteCB_BattleSpriteStartSlideLeft,
-    },
-    [TRAINER_BACK_PIC_LEAF_ALOLA] = {
-        .tileTag = TAG_NONE,
-        .paletteTag = 0,
-        .oam = &gOamData_BattleSpritePlayerSide,
-        .anims = NULL,
-        .images = gTrainerBackPicTable_LeafAlola,
-        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
-        .callback = SpriteCB_BattleSpriteStartSlideLeft,
-    },
-    [TRAINER_BACK_PIC_LEAF_SYGNA_SUIT] = {
-        .tileTag = TAG_NONE,
-        .paletteTag = 0,
-        .oam = &gOamData_BattleSpritePlayerSide,
-        .anims = NULL,
-        .images = gTrainerBackPicTable_LeafSygnaSuit,
-        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
-        .callback = SpriteCB_BattleSpriteStartSlideLeft,
-    },
-    [TRAINER_BACK_PIC_LEAF_TEAM_ROCKET] = {
-        .tileTag = TAG_NONE,
-        .paletteTag = 0,
-        .oam = &gOamData_BattleSpritePlayerSide,
-        .anims = NULL,
-        .images = gTrainerBackPicTable_LeafTeamRocket,
-        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
-        .callback = SpriteCB_BattleSpriteStartSlideLeft,
-    },
-    [TRAINER_BACK_PIC_LEAF_TEAM_AQUA] = {
-        .tileTag = TAG_NONE,
-        .paletteTag = 0,
-        .oam = &gOamData_BattleSpritePlayerSide,
-        .anims = NULL,
-        .images = gTrainerBackPicTable_LeafTeamAqua,
-        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
-        .callback = SpriteCB_BattleSpriteStartSlideLeft,
-    },
-    [TRAINER_BACK_PIC_LEAF_TEAM_MAGMA] = {
-        .tileTag = TAG_NONE,
-        .paletteTag = 0,
-        .oam = &gOamData_BattleSpritePlayerSide,
-        .anims = NULL,
-        .images = gTrainerBackPicTable_LeafTeamMagma,
+        .images = gTrainerBackPicTable_LeafOriginal,
         .affineAnims = gAffineAnims_BattleSpritePlayerSide,
         .callback = SpriteCB_BattleSpriteStartSlideLeft,
     },
@@ -2224,24 +1600,6 @@ static const struct SpriteTemplate sTrainerBackSpriteTemplates[] =
         .affineAnims = gAffineAnims_BattleSpritePlayerSide,
         .callback = SpriteCB_BattleSpriteStartSlideLeft,
     },
-    [TRAINER_BACK_PIC_GOLD] = {
-        .tileTag = TAG_NONE,
-        .paletteTag = 0,
-        .oam = &gOamData_BattleSpritePlayerSide,
-        .anims = NULL,
-        .images = gTrainerBackPicTable_Gold,
-        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
-        .callback = SpriteCB_BattleSpriteStartSlideLeft,
-    },
-    [TRAINER_BACK_PIC_KRIS] = {
-        .tileTag = TAG_NONE,
-        .paletteTag = 0,
-        .oam = &gOamData_BattleSpritePlayerSide,
-        .anims = NULL,
-        .images = gTrainerBackPicTable_Kris,
-        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
-        .callback = SpriteCB_BattleSpriteStartSlideLeft,
-    },
     [TRAINER_BACK_PIC_E_BRENDAN] = {
         .tileTag = TAG_NONE,
         .paletteTag = 0,
@@ -2257,24 +1615,6 @@ static const struct SpriteTemplate sTrainerBackSpriteTemplates[] =
         .oam = &gOamData_BattleSpritePlayerSide,
         .anims = NULL,
         .images = gTrainerBackPicTable_EMay,
-        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
-        .callback = SpriteCB_BattleSpriteStartSlideLeft,
-    },
-    [TRAINER_BACK_PIC_RED_ORIGINAL] = {
-        .tileTag = TAG_NONE,
-        .paletteTag = 0,
-        .oam = &gOamData_BattleSpritePlayerSide,
-        .anims = NULL,
-        .images = gTrainerBackPicTable_RedOriginal,
-        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
-        .callback = SpriteCB_BattleSpriteStartSlideLeft,
-    },
-    [TRAINER_BACK_PIC_LEAF_ORIGINAL] = {
-        .tileTag = TAG_NONE,
-        .paletteTag = 0,
-        .oam = &gOamData_BattleSpritePlayerSide,
-        .anims = NULL,
-        .images = gTrainerBackPicTable_LeafOriginal,
         .affineAnims = gAffineAnims_BattleSpritePlayerSide,
         .callback = SpriteCB_BattleSpriteStartSlideLeft,
     },
@@ -2296,6 +1636,237 @@ static const struct SpriteTemplate sTrainerBackSpriteTemplates[] =
         .affineAnims = gAffineAnims_BattleSpritePlayerSide,
         .callback = SpriteCB_BattleSpriteStartSlideLeft,
     },
+    [TRAINER_BACK_PIC_WALLY] = {
+        .tileTag = TAG_NONE,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_Wally,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_STEVEN] = {
+        .tileTag = TAG_NONE,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_Steven,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_H_BRENDAN] = {
+        .tileTag = TAG_NONE,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_EBrendan,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_H_MAY] = {
+        .tileTag = TAG_NONE,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_EMay,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_GOLD] = {
+        .tileTag = TAG_NONE,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_Gold,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_KRIS] = {
+        .tileTag = TAG_NONE,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_Kris,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_LANCE] = {
+        .tileTag = TAG_NONE,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_Lance,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_RED] = {
+        .tileTag = TAG_NONE,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_Red,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_LEAF] = {
+        .tileTag = TAG_NONE,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_Leaf,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_RED_DX] = {
+        .tileTag = TAG_NONE,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_RedDX,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_LEAF_DX] = {
+        .tileTag = TAG_NONE,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_LeafDX,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_RED_CLASSIC] = {
+        .tileTag = TAG_NONE,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_RedClassic,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_LEAF_CLASSIC] = {
+        .tileTag = TAG_NONE,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_LeafClassic,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_RED_ALOLA] = {
+        .tileTag = TAG_NONE,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_RedAlola,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_LEAF_ALOLA] = {
+        .tileTag = TAG_NONE,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_LeafAlola,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_RED_SYGNA_SUIT] = {
+        .tileTag = TAG_NONE,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_RedSygnaSuit,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_LEAF_SYGNA_SUIT] = {
+        .tileTag = TAG_NONE,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_LeafSygnaSuit,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_RED_TEAM_ROCKET] = {
+        .tileTag = TAG_NONE,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_RedTeamRocket,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_LEAF_TEAM_ROCKET] = {
+        .tileTag = TAG_NONE,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_LeafTeamRocket,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_RED_TEAM_AQUA] = {
+        .tileTag = TAG_NONE,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_RedTeamAqua,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_LEAF_TEAM_AQUA] = {
+        .tileTag = TAG_NONE,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_LeafTeamAqua,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_RED_TEAM_MAGMA] = {
+        .tileTag = TAG_NONE,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_RedTeamMagma,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_LEAF_TEAM_MAGMA] = {
+        .tileTag = TAG_NONE,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_LeafTeamMagma,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+};
+
+const u8 gPlayerFrontPics[OUTFIT_COUNT][GENDER_COUNT] = 
+{
+    [OUTFIT_DEFAULT]     = {TRAINER_PIC_RED,             TRAINER_PIC_LEAF},
+    [OUTFIT_DX]          = {TRAINER_PIC_RED_DX,          TRAINER_PIC_LEAF_DX},
+    [OUTFIT_CLASSIC]     = {TRAINER_PIC_RED_CLASSIC,     TRAINER_PIC_LEAF_CLASSIC},
+    [OUTFIT_ALOLA]       = {TRAINER_PIC_RED_ALOLA,       TRAINER_PIC_LEAF_ALOLA},
+    [OUTFIT_SYGNA_SUIT]  = {TRAINER_PIC_RED_SYGNA_SUIT,  TRAINER_PIC_LEAF_SYGNA_SUIT},
+    [OUTFIT_TEAM_ROCKET] = {TRAINER_PIC_RED_TEAM_ROCKET, TRAINER_PIC_LEAF_TEAM_ROCKET},
+    [OUTFIT_TEAM_AQUA]   = {TRAINER_PIC_RED_TEAM_AQUA,   TRAINER_PIC_LEAF_TEAM_AQUA},
+    [OUTFIT_TEAM_MAGMA]  = {TRAINER_PIC_RED_TEAM_MAGMA,  TRAINER_PIC_LEAF_TEAM_MAGMA},
+};
+
+const u8 gPlayerBackPics[OUTFIT_COUNT][GENDER_COUNT] = 
+{
+    [OUTFIT_DEFAULT]     = {TRAINER_BACK_PIC_RED,             TRAINER_BACK_PIC_LEAF},
+    [OUTFIT_DX]          = {TRAINER_BACK_PIC_RED_DX,          TRAINER_BACK_PIC_LEAF_DX},
+    [OUTFIT_CLASSIC]     = {TRAINER_BACK_PIC_RED_CLASSIC,     TRAINER_BACK_PIC_LEAF_CLASSIC},
+    [OUTFIT_ALOLA]       = {TRAINER_BACK_PIC_RED_ALOLA,       TRAINER_BACK_PIC_LEAF_ALOLA},
+    [OUTFIT_SYGNA_SUIT]  = {TRAINER_BACK_PIC_RED_SYGNA_SUIT,  TRAINER_BACK_PIC_LEAF_SYGNA_SUIT},
+    [OUTFIT_TEAM_ROCKET] = {TRAINER_BACK_PIC_RED_TEAM_ROCKET, TRAINER_BACK_PIC_LEAF_TEAM_ROCKET},
+    [OUTFIT_TEAM_AQUA]   = {TRAINER_BACK_PIC_RED_TEAM_AQUA,   TRAINER_BACK_PIC_LEAF_TEAM_AQUA},
+    [OUTFIT_TEAM_MAGMA]  = {TRAINER_BACK_PIC_RED_TEAM_MAGMA,  TRAINER_BACK_PIC_LEAF_TEAM_MAGMA},
 };
 
 static const u8 sGetMonDataEVConstants[] =
@@ -2516,8 +2087,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
         SetBoxMonData(boxMon, MON_DATA_ABILITY_NUM, &value);
     }
 
-    if ((species > NUM_SPECIES && !form)
-     || (species >= SPECIES_COUNT && form))
+    if (!IsMonValid(species, form))
         species = SPECIES_NONE;
 
     GiveBoxMonInitialMoveset(boxMon);
@@ -2873,7 +2443,7 @@ u16 GetUnionRoomTrainerPic(void)
 
     arrId = gLinkPlayers[linkId].trainerId & 7;
     arrId |= gLinkPlayers[linkId].gender << 3;
-    return FacilityClassToPicIndex(gLinkPlayerFacilityClasses[arrId]);
+    return gFacilityClassToPicIndex[gLinkPlayerFacilityClasses[arrId]];
 }
 
 u16 GetUnionRoomTrainerClass(void)
@@ -4170,8 +3740,7 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
         break;
     }
 
-    if ((substruct0->species > NUM_SPECIES && !boxMon->form)
-     || (substruct0->species >= SPECIES_COUNT && boxMon->form))
+    if (!IsMonValid(substruct0->species, boxMon->form))
         substruct0->species = SPECIES_NONE;
 
     if (field > MON_DATA_ENCRYPT_SEPARATOR && field < MON_DATA_SHINY_LEAVES)
@@ -4513,8 +4082,7 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
         break;
     }
 
-    if ((substruct0->species > NUM_SPECIES && !boxMon->form)
-     || (substruct0->species >= SPECIES_COUNT && boxMon->form))
+    if (!IsMonValid(substruct0->species, boxMon->form))
         substruct0->species = SPECIES_NONE;
 
     if (field > MON_DATA_ENCRYPT_SEPARATOR && field < MON_DATA_SHINY_LEAVES)
@@ -4696,14 +4264,14 @@ bool8 IsPokemonStorageFull(void)
 void GetSpeciesName(u8 *name, u16 species, u8 form)
 {
     s32 i;
+    u16 formSpecies = GetFormSpecies(species, form);
 
     for (i = 0; i <= POKEMON_NAME_LENGTH; i++)
     {
-        if ((species > NUM_SPECIES && !form)
-         || (species >= SPECIES_COUNT && form))
-            name[i] = gSpeciesNames[SPECIES_NONE][i];
+        if (IsMonValid(species, form))
+            name[i] = gSpeciesNames[formSpecies][i];
         else
-            name[i] = gSpeciesNames[GetFormSpecies(species, form)][i];
+            name[i] = gSpeciesNames[SPECIES_NONE][i];
 
         if (name[i] == EOS)
             break;
@@ -5597,7 +5165,7 @@ u16 GetEvolutionTargetSpecies(struct Pokemon *mon, u8 mode, u16 evolutionItem, u
             case EVO_FRIENDSHIP:
                 if (friendship >= 220)
                 {
-                    *targetForm = GetFormFromFormSpecies(gEvolutionTable[species][i].targetSpecies);
+                    *targetForm = GetForm(gEvolutionTable[species][i].targetSpecies);
                     targetSpecies = GetFormSpecies(gEvolutionTable[species][i].targetSpecies, 0);
                 }
                 break;
@@ -5605,7 +5173,7 @@ u16 GetEvolutionTargetSpecies(struct Pokemon *mon, u8 mode, u16 evolutionItem, u
                 RtcCalcLocalTime();
                 if (GetCurrentTimeOfDay() != TIME_NIGHT && friendship >= 220)
                 {
-                    *targetForm = GetFormFromFormSpecies(gEvolutionTable[species][i].targetSpecies);
+                    *targetForm = GetForm(gEvolutionTable[species][i].targetSpecies);
                     targetSpecies = GetFormSpecies(gEvolutionTable[species][i].targetSpecies, 0);
                 }
                 break;
@@ -5613,14 +5181,14 @@ u16 GetEvolutionTargetSpecies(struct Pokemon *mon, u8 mode, u16 evolutionItem, u
                RtcCalcLocalTime();
                if (GetCurrentTimeOfDay() == TIME_NIGHT && friendship >= 220)
                 {
-                    *targetForm = GetFormFromFormSpecies(gEvolutionTable[species][i].targetSpecies);
+                    *targetForm = GetForm(gEvolutionTable[species][i].targetSpecies);
                     targetSpecies = GetFormSpecies(gEvolutionTable[species][i].targetSpecies, 0);
                 }
                 break;
             case EVO_LEVEL:
                 if (gEvolutionTable[species][i].param <= level)
                 {
-                    *targetForm = GetFormFromFormSpecies(gEvolutionTable[species][i].targetSpecies);
+                    *targetForm = GetForm(gEvolutionTable[species][i].targetSpecies);
                     targetSpecies = GetFormSpecies(gEvolutionTable[species][i].targetSpecies, 0);
                 }
                 break;
@@ -5628,7 +5196,7 @@ u16 GetEvolutionTargetSpecies(struct Pokemon *mon, u8 mode, u16 evolutionItem, u
                 RtcCalcLocalTime();
                 if (GetCurrentTimeOfDay() == TIME_NIGHT && gEvolutionTable[species][i].param <= level)
                 {
-                    *targetForm = GetFormFromFormSpecies(gEvolutionTable[species][i].targetSpecies);
+                    *targetForm = GetForm(gEvolutionTable[species][i].targetSpecies);
                     targetSpecies = GetFormSpecies(gEvolutionTable[species][i].targetSpecies, 0);
                 }
                 break;
@@ -5636,7 +5204,7 @@ u16 GetEvolutionTargetSpecies(struct Pokemon *mon, u8 mode, u16 evolutionItem, u
                 if (gEvolutionTable[species][i].param <= level)
                     if (GetMonData(mon, MON_DATA_ATK, 0) > GetMonData(mon, MON_DATA_DEF, 0))
                     {
-                        *targetForm = GetFormFromFormSpecies(gEvolutionTable[species][i].targetSpecies);
+                        *targetForm = GetForm(gEvolutionTable[species][i].targetSpecies);
                         targetSpecies = GetFormSpecies(gEvolutionTable[species][i].targetSpecies, 0);
                     }
                 break;
@@ -5644,7 +5212,7 @@ u16 GetEvolutionTargetSpecies(struct Pokemon *mon, u8 mode, u16 evolutionItem, u
                 if (gEvolutionTable[species][i].param <= level)
                     if (GetMonData(mon, MON_DATA_ATK, 0) == GetMonData(mon, MON_DATA_DEF, 0))
                     {
-                        *targetForm = GetFormFromFormSpecies(gEvolutionTable[species][i].targetSpecies);
+                        *targetForm = GetForm(gEvolutionTable[species][i].targetSpecies);
                         targetSpecies = GetFormSpecies(gEvolutionTable[species][i].targetSpecies, 0);
                     }
                 break;
@@ -5652,35 +5220,35 @@ u16 GetEvolutionTargetSpecies(struct Pokemon *mon, u8 mode, u16 evolutionItem, u
                 if (gEvolutionTable[species][i].param <= level)
                     if (GetMonData(mon, MON_DATA_ATK, 0) < GetMonData(mon, MON_DATA_DEF, 0))
                     {
-                        *targetForm = GetFormFromFormSpecies(gEvolutionTable[species][i].targetSpecies);
+                        *targetForm = GetForm(gEvolutionTable[species][i].targetSpecies);
                         targetSpecies = GetFormSpecies(gEvolutionTable[species][i].targetSpecies, 0);
                     }
                 break;
             case EVO_LEVEL_SILCOON:
                 if (gEvolutionTable[species][i].param <= level && (upperPersonality % 10) <= 4)
                 {
-                    *targetForm = GetFormFromFormSpecies(gEvolutionTable[species][i].targetSpecies);
+                    *targetForm = GetForm(gEvolutionTable[species][i].targetSpecies);
                     targetSpecies = GetFormSpecies(gEvolutionTable[species][i].targetSpecies, 0);
                 }
                 break;
             case EVO_LEVEL_CASCOON:
                 if (gEvolutionTable[species][i].param <= level && (upperPersonality % 10) > 4)
                 {
-                    *targetForm = GetFormFromFormSpecies(gEvolutionTable[species][i].targetSpecies);
+                    *targetForm = GetForm(gEvolutionTable[species][i].targetSpecies);
                     targetSpecies = GetFormSpecies(gEvolutionTable[species][i].targetSpecies, 0);
                 }
                 break;
             case EVO_LEVEL_NINJASK:
                 if (gEvolutionTable[species][i].param <= level)
                 {
-                    *targetForm = GetFormFromFormSpecies(gEvolutionTable[species][i].targetSpecies);
+                    *targetForm = GetForm(gEvolutionTable[species][i].targetSpecies);
                     targetSpecies = GetFormSpecies(gEvolutionTable[species][i].targetSpecies, 0);
                 }
                 break;
             case EVO_BEAUTY:
                 if (gEvolutionTable[species][i].param <= beauty)
                 {
-                    *targetForm = GetFormFromFormSpecies(gEvolutionTable[species][i].targetSpecies);
+                    *targetForm = GetForm(gEvolutionTable[species][i].targetSpecies);
                     targetSpecies = GetFormSpecies(gEvolutionTable[species][i].targetSpecies, 0);
                 }
                 break;
@@ -5689,7 +5257,7 @@ u16 GetEvolutionTargetSpecies(struct Pokemon *mon, u8 mode, u16 evolutionItem, u
                 {
                     heldItem = 0;
                     SetMonData(mon, MON_DATA_HELD_ITEM, &heldItem);
-                    *targetForm = GetFormFromFormSpecies(gEvolutionTable[species][i].targetSpecies);
+                    *targetForm = GetForm(gEvolutionTable[species][i].targetSpecies);
                     targetSpecies = GetFormSpecies(gEvolutionTable[species][i].targetSpecies, 0);
                 }
                 break;
@@ -5702,7 +5270,7 @@ u16 GetEvolutionTargetSpecies(struct Pokemon *mon, u8 mode, u16 evolutionItem, u
             switch (gEvolutionTable[species][i].method)
             {
             case EVO_TRADE:
-                *targetForm = GetFormFromFormSpecies(gEvolutionTable[species][i].targetSpecies);
+                *targetForm = GetForm(gEvolutionTable[species][i].targetSpecies);
                 targetSpecies = GetFormSpecies(gEvolutionTable[species][i].targetSpecies, 0);
                 break;
             case EVO_TRADE_ITEM:
@@ -5710,7 +5278,7 @@ u16 GetEvolutionTargetSpecies(struct Pokemon *mon, u8 mode, u16 evolutionItem, u
                 {
                     heldItem = ITEM_NONE;
                     SetMonData(mon, MON_DATA_HELD_ITEM, &heldItem);
-                    *targetForm = GetFormFromFormSpecies(gEvolutionTable[species][i].targetSpecies);
+                    *targetForm = GetForm(gEvolutionTable[species][i].targetSpecies);
                     targetSpecies = GetFormSpecies(gEvolutionTable[species][i].targetSpecies, 0);
                 }
                 break;
@@ -5724,7 +5292,7 @@ u16 GetEvolutionTargetSpecies(struct Pokemon *mon, u8 mode, u16 evolutionItem, u
             if (gEvolutionTable[species][i].method == EVO_ITEM
              && gEvolutionTable[species][i].param == evolutionItem)
             {
-                *targetForm = GetFormFromFormSpecies(gEvolutionTable[species][i].targetSpecies);
+                *targetForm = GetForm(gEvolutionTable[species][i].targetSpecies);
                 targetSpecies = GetFormSpecies(gEvolutionTable[species][i].targetSpecies, 0);
                 break;
             }
@@ -5744,10 +5312,10 @@ u16 HoennPokedexNumToSpecies(u16 hoennNum)
 
     species = 0;
 
-    while (species < (SPECIES_COUNT) && sSpeciesToHoennPokedexNum[species] != hoennNum)
+    while (species < (NUM_SPECIES) && sSpeciesToHoennPokedexNum[species] != hoennNum)
         species++;
 
-    if (species == SPECIES_COUNT)
+    if (species == NUM_SPECIES)
         return 0;
 
     return species;
@@ -5762,10 +5330,10 @@ u16 NationalPokedexNumToSpecies(u16 nationalNum)
 
     species = 0;
 
-    while (species < (SPECIES_COUNT) && sSpeciesToNationalPokedexNum[species] != nationalNum)
+    while (species < (NUM_SPECIES) && sSpeciesToNationalPokedexNum[species] != nationalNum)
         species++;
 
-    if (species == SPECIES_COUNT)
+    if (species == NUM_SPECIES)
         return 0;
 
     return species;
@@ -5780,10 +5348,10 @@ u16 NationalToHoennOrder(u16 nationalNum)
 
     hoennNum = 0;
 
-    while (hoennNum < (SPECIES_COUNT) && sHoennToNationalOrder[hoennNum] != nationalNum)
+    while (hoennNum < (NUM_SPECIES) && sHoennToNationalOrder[hoennNum] != nationalNum)
         hoennNum++;
 
-    if (hoennNum == SPECIES_COUNT)
+    if (hoennNum == NUM_SPECIES)
         return 0;
 
     return hoennNum;
@@ -5870,12 +5438,25 @@ void EvolutionRenameMon(struct Pokemon *mon, u16 oldSpecies, u16 newSpecies)
     GetMonData(mon, MON_DATA_NICKNAME, gStringVar1);
     language = GetMonData(mon, MON_DATA_LANGUAGE, &language);
 
-    if (language == LANGUAGE_JAPANESE && !StringCompareWithoutExtCtrlCodes(gJapaneseSpeciesNames[oldSpecies], gStringVar1))
-        SetMonData(mon, MON_DATA_NICKNAME, gJapaneseSpeciesNames[newSpecies]);
-    if (language == LANGUAGE_ENGLISH && !StringCompare(gSpeciesNames[oldSpecies], gStringVar1))
-        SetMonData(mon, MON_DATA_NICKNAME, gSpeciesNames[newSpecies]);
-    if (language == LANGUAGE_GERMAN && !StringCompare(gGermanSpeciesNames[oldSpecies], gStringVar1))
-        SetMonData(mon, MON_DATA_NICKNAME, gGermanSpeciesNames[newSpecies]);
+    switch (language)
+    {
+    case LANGUAGE_JAPANESE:
+        if (!StringCompareWithoutExtCtrlCodes(gJapaneseSpeciesNames[oldSpecies], gStringVar1))
+            SetMonData(mon, MON_DATA_NICKNAME, gJapaneseSpeciesNames[newSpecies]);
+        break;
+    default:
+        if (!StringCompare(gSpeciesNames[oldSpecies], gStringVar1))
+            SetMonData(mon, MON_DATA_NICKNAME, gSpeciesNames[newSpecies]);
+        break;
+    case LANGUAGE_FRENCH: 
+        if (!StringCompare(gFrenchSpeciesNames[oldSpecies], gStringVar1))
+            SetMonData(mon, MON_DATA_NICKNAME, gFrenchSpeciesNames[newSpecies]);
+        break;
+    case LANGUAGE_GERMAN: 
+        if (!StringCompare(gGermanSpeciesNames[oldSpecies], gStringVar1))
+            SetMonData(mon, MON_DATA_NICKNAME, gGermanSpeciesNames[newSpecies]);
+        break;
+    }
 }
 
 // The below two functions determine which side of a multi battle the trainer battles on
@@ -6452,21 +6033,21 @@ u16 GetBattleBGM(void)
 
         switch (trainerClass)
         {
-        case TRAINER_CLASS_BOSS:
-        case TRAINER_CLASS_TEAM_ROCKET:
-            return MUS_VS_AQUA_MAGMA;
         case TRAINER_CLASS_LEADER:
         case TRAINER_CLASS_ELITE_FOUR:
-        case HOENN_TRAINER_CLASS_SALON_MAIDEN:
-        case HOENN_TRAINER_CLASS_DOME_ACE:
-        case HOENN_TRAINER_CLASS_PALACE_MAVEN:
-        case HOENN_TRAINER_CLASS_ARENA_TYCOON:
-        case HOENN_TRAINER_CLASS_FACTORY_HEAD:
-        case HOENN_TRAINER_CLASS_PIKE_QUEEN:
-        case HOENN_TRAINER_CLASS_PYRAMID_KING:
+        case TRAINER_CLASS_SALON_MAIDEN:
+        case TRAINER_CLASS_DOME_ACE:
+        case TRAINER_CLASS_PALACE_MAVEN:
+        case TRAINER_CLASS_ARENA_TYCOON:
+        case TRAINER_CLASS_FACTORY_HEAD:
+        case TRAINER_CLASS_PIKE_QUEEN:
+        case TRAINER_CLASS_PYRAMID_KING:
             return sBattleMusicTable[gMapsecToRegion[gMapHeader.regionMapSectionId]][0];
         case TRAINER_CLASS_CHAMPION:
             return MUS_RG_VS_CHAMPION;
+        case TRAINER_CLASS_BOSS:
+        case TRAINER_CLASS_TEAM_ROCKET:
+            return MUS_VS_AQUA_MAGMA;
         default:
             return (gBattleTypeFlags & BATTLE_TYPE_RECORDED) ? MUS_VS_TRAINER : sBattleMusicTable[gMapsecToRegion[gMapHeader.regionMapSectionId]][1];
         }
@@ -6716,33 +6297,46 @@ void SetWildMonHeldItem(void)
                 // Both held items are the same, 100% chance to hold item
                 SetMonData(&gEnemyParty[i], MON_DATA_HELD_ITEM, &gBaseStats[species].item1);
             }
-            // In inactive Altering Cave, use normal items
-            if (rnd < chanceNoItem)
-                return;
-            if (rnd < chanceCommon)
-                SetMonData(&gEnemyParty[i], MON_DATA_HELD_ITEM, &gBaseStats[species].item1);
             else
-                SetMonData(&gEnemyParty[i], MON_DATA_HELD_ITEM, &gBaseStats[species].item2);
+            {
+                // In inactive Altering Cave, use normal items
+                if (rnd < chanceNoItem)
+                    return;
+                if (rnd < chanceCommon)
+                    SetMonData(&gEnemyParty[i], MON_DATA_HELD_ITEM, &gBaseStats[species].item1);
+                else
+                    SetMonData(&gEnemyParty[i], MON_DATA_HELD_ITEM, &gBaseStats[species].item2);
+            }
         }
     }
 }
 
+// Used for checking if the species ID loaded is a valid one
+bool32 IsMonValid(u16 species, u8 form)
+{
+    u16 formSpecies = GetFormSpecies(species, form);
+
+    if (formSpecies > NUM_SPECIES && formSpecies < SPECIES_COUNT)
+        return (formSpecies == gBaseStats[species].forms[form - 1] && form == gBaseStats[formSpecies].formId);
+    return (species < NUM_SPECIES);
+}
+
 u16 GetFormSpecies(u16 species, u8 form)
 {
-    if (gFormSpeciesTables[species])
-        return gFormSpeciesTables[species][form];
+    if (gBaseStats[species].formCount && form)
+        return gBaseStats[species].forms[form - 1];
     return species;
 }
 
-u8 GetFormFromFormSpecies(u16 formSpecies)
+u8 GetForm(u16 formSpecies)
 {
     u32 targetForm = 0;
 
-    if (gFormSpeciesTables[formSpecies])
+    if (gBaseStats[formSpecies].formId)
     {
-        for (targetForm = 0; targetForm < ARRAY_COUNT(gFormSpeciesTables[formSpecies]); targetForm++) 
+        for (targetForm = 1; targetForm < gBaseStats[formSpecies].formCount + 1; targetForm++) 
         {
-            if (formSpecies == gFormSpeciesTables[formSpecies][targetForm])
+            if (formSpecies == gBaseStats[formSpecies].forms[targetForm - 1])
                 break;
         }
     }
@@ -6751,14 +6345,20 @@ u8 GetFormFromFormSpecies(u16 formSpecies)
 
 void ChangeForm(void)
 {
+    u16 species = GetMonData(&gPlayerParty[0], MON_DATA_SPECIES, 0);
     u8 form = GetMonData(&gPlayerParty[0], MON_DATA_FORM, 0);
 
-    form = (form + 1) % 4;
+    form = (form + 1) % gBaseStats[species].formCount + 1;
     SetMonData(&gPlayerParty[0], MON_DATA_FORM, &form);
     CalculateMonStats(&gPlayerParty[0]);
 }
 
-bool8 IsMonSquareShiny(struct Pokemon *mon)
+bool32 SpeciesHasGenderDifferenceAndIsFemale(u16 species, u32 personality)
+{
+    return ((gBaseStats[species].flags & FLAG_GENDER_DIFFERENCE) && GetGenderFromSpeciesAndPersonality(species, personality) == MON_FEMALE);
+}
+
+bool32 IsMonSquareShiny(struct Pokemon *mon)
 {
     u32 otId = GetMonData(mon, MON_DATA_OT_ID, 0);
     u32 personality = GetMonData(mon, MON_DATA_PERSONALITY, 0);
@@ -6766,14 +6366,14 @@ bool8 IsMonSquareShiny(struct Pokemon *mon)
         || (GetMonData(mon, MON_DATA_EVENT_LEGAL, 0) && IsShinyOtIdPersonality(otId, personality));
 }
 
-bool8 IsMonShiny(struct Pokemon *mon)
+bool32 IsMonShiny(struct Pokemon *mon)
 {
     u32 otId = GetMonData(mon, MON_DATA_OT_ID, 0);
     u32 personality = GetMonData(mon, MON_DATA_PERSONALITY, 0);
     return IsShinyOtIdPersonality(otId, personality);
 }
 
-bool8 IsShinyOtIdPersonality(u32 otId, u32 personality)
+bool32 IsShinyOtIdPersonality(u32 otId, u32 personality)
 {
     return ((GET_SHINY_VALUE(otId, personality)) < SHINY_ODDS);
 }
@@ -6869,18 +6469,18 @@ void DoMonFrontSpriteAnimation(struct Sprite* sprite, u16 species, bool8 noCry, 
             if (species != SPECIES_CASTFORM)
                 StartSpriteAnim(sprite, 1);
         }
-        if (sMonAnimationDelayTable[species] != 0)
+        if (gBaseStats[species].frontPicAnimDelay != 0)
         {
             // Animation has delay, start delay task
             u8 taskId = CreateTask(Task_AnimateAfterDelay, 0);
             STORE_PTR_IN_TASK(sprite, taskId, 0);
-            gTasks[taskId].sAnimId = sMonFrontAnimIdsTable[species];
-            gTasks[taskId].sAnimDelay = sMonAnimationDelayTable[species];
+            gTasks[taskId].sAnimId = gBaseStats[species].frontPicAnim;
+            gTasks[taskId].sAnimDelay = gBaseStats[species].frontPicAnimDelay;
         }
         else
         {
             // No delay, start animation
-            LaunchAnimationTaskForFrontSprite(sprite, sMonFrontAnimIdsTable[species]);
+            LaunchAnimationTaskForFrontSprite(sprite, gBaseStats[species].frontPicAnim);
         }
         sprite->callback = SpriteCallbackDummy;
     }
@@ -6890,21 +6490,21 @@ void PokemonSummaryDoMonAnimation(struct Sprite* sprite, u16 species, bool8 oneF
 {
     if (!oneFrame && species != SPECIES_CASTFORM)
         StartSpriteAnim(sprite, 1);
-    if (sMonAnimationDelayTable[species] != 0)
+    if (gBaseStats[species].frontPicAnimDelay != 0)
     {
         // Animation has delay, start delay task
         u8 taskId = CreateTask(Task_PokemonSummaryAnimateAfterDelay, 0);
 
         STORE_PTR_IN_TASK(sprite, taskId, 0);
-        gTasks[taskId].sAnimId = sMonFrontAnimIdsTable[species];
-        gTasks[taskId].sAnimDelay = sMonAnimationDelayTable[species];
+        gTasks[taskId].sAnimId = gBaseStats[species].frontPicAnim;
+        gTasks[taskId].sAnimDelay = gBaseStats[species].frontPicAnimDelay;
         SummaryScreen_SetAnimDelayTaskId(taskId);
         sprite->callback = MonAnimDummySpriteCallback;
     }
     else
     {
         // No delay, start animation
-        StartMonSummaryAnimation(sprite, sMonFrontAnimIdsTable[species]);
+        StartMonSummaryAnimation(sprite, gBaseStats[species].frontPicAnim);
     }
 }
 
@@ -6924,7 +6524,7 @@ void BattleAnimateBackSprite(struct Sprite* sprite, u16 species)
     }
     else
     {
-        LaunchAnimationTaskForBackSprite(sprite, gSpeciesToBackAnimSet[species]);
+        LaunchAnimationTaskForBackSprite(sprite, gBaseStats[species].backPicAnim);
         sprite->callback = SpriteCallbackDummy;
     }
 }
@@ -6951,18 +6551,6 @@ u8 GetOpposingLinkMultiBattlerId(bool8 rightSide, u8 multiplayerId)
             break;
     }
     return i;
-}
-
-u16 FacilityClassToPicIndex(u16 facilityClass)
-{
-    return gFacilityClassToPicIndex[facilityClass];
-}
-
-u16 PlayerGenderToFrontTrainerPicId(u8 playerGender, u8 playerOutfit)
-{
-    if (playerGender)
-        return FacilityClassToPicIndex(FACILITY_CLASS_LEAF + playerOutfit);
-    return FacilityClassToPicIndex(FACILITY_CLASS_RED + playerOutfit);
 }
 
 void HandleSetPokedexFlag(u16 nationalNum, u8 caseId, u32 personality)
@@ -7001,7 +6589,7 @@ static bool8 ShouldSkipFriendshipChange(void)
 
 // The below functions are for the 'MonSpritesGfxManager', a method of allocating
 // space for Pokémon sprites. These are only used for the summary screen Pokémon
-// sprites (unless gMonSpritesGfxPtr is in use), but were set up for more general use.
+// sprites (unless gMonSpritesGfxPtr is in use).
 // It is set up to allocate 4 sprites using the battler sprite templates (gBattlerSpriteTemplates).
 
 #define ALLOC_FAIL_BUFFER (1 << 0)

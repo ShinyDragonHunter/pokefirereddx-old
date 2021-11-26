@@ -3,15 +3,17 @@
 
 #define TRAINER_CARD_PROFILE_LENGTH  4
 #define TRAINER_CARD_STICKER_TYPES   3
+#define STAT_COUNT                   6
 
 enum
 {
     CARD_VERSION_FRLG,
     CARD_VERSION_RS,
     CARD_VERSION_EMERALD,
+    CARD_VERSION_FRLG_DX,
     CARD_VERSION_HELIODOR,
     CARD_VERSION_CRYSTALDUST,
-    CARD_VERSION_FRLG_DX
+    CARD_VERSION_COUNT
 };
 
 enum
@@ -24,10 +26,11 @@ enum
 
 enum
 {
-	CARD_LAYOUT_RS,
+    CARD_LAYOUT_RS,
     CARD_LAYOUT_FRLG,
     CARD_LAYOUT_EMERALD,
-    CARD_LAYOUT_HELIODOR
+    CARD_LAYOUT_HELIODOR,
+    CARD_LAYOUT_COUNT
 };
 
 enum
@@ -103,8 +106,7 @@ struct TrainerCard
     /*0x6A*/ u16 hSticker0:3; // Heliodor only
              u16 hSticker1:3; // Heliodor only
              u16 hSticker2:3; // Heliodor only
-             u16 displayDotCode:1; // Heliodor only
-             u16 filler:6;
+             u16 displayDotCode:7; // Heliodor only
 };
 
 extern struct TrainerCard gTrainerCards[4];

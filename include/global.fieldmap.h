@@ -176,8 +176,8 @@ struct MapHeader
     /*0x1A*/ bool8 allowCycling:1;
              bool8 allowEscaping:1; // Escape Rope and Dig
              bool8 allowRunning:1;
-             bool8 showMapName:1;
-             bool8 useNightTint:4; // The last 3 bits are unused
+             bool8 showMapName:5; // the last 4 bits are unused 
+                                  // but the 5 bit sized bitfield is required to match
     /*0x1B*/ u8 battleType;
 };
 
@@ -289,12 +289,12 @@ enum
     COLLISION_LEDGE_JUMP,
     COLLISION_PUSHED_BOULDER,
     COLLISION_ROTATING_GATE,
-    COLLISION_STAIR_WARP,
     COLLISION_WHEELIE_HOP,
     COLLISION_ISOLATED_VERTICAL_RAIL,
     COLLISION_ISOLATED_HORIZONTAL_RAIL,
     COLLISION_VERTICAL_RAIL,
     COLLISION_HORIZONTAL_RAIL,
+    COLLISION_STAIR_WARP,
     COLLISION_COUNT
 };
 

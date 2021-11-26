@@ -484,22 +484,17 @@ const u8 *const gMonIconTable[] =
     [SPECIES_RAPIDASH_GALARIAN] = gMonIcon_RapidashGalarian,
     [SPECIES_SLOWPOKE_GALARIAN] = gMonIcon_SlowpokeGalarian,
     [SPECIES_SLOWBRO_GALARIAN] = gMonIcon_SlowbroGalarian,
-    [SPECIES_FARFETCHD_GALARIAN] = gMonIcon_FarfetchdGalarian,
     [SPECIES_GRIMER_ALOLAN] = gMonIcon_GrimerAlolan,
     [SPECIES_MUK_ALOLAN] = gMonIcon_MukAlolan,
     [SPECIES_EXEGGUTOR_ALOLAN] = gMonIcon_ExeggutorAlolan,
     [SPECIES_MAROWAK_ALOLAN] = gMonIcon_MarowakAlolan,
     [SPECIES_WEEZING_GALARIAN] = gMonIcon_WeezingGalarian,
-    [SPECIES_MR_MIME_GALARIAN] = gMonIcon_MrMimeGalarian,
     [SPECIES_ARTICUNO_GALARIAN] = gMonIcon_ArticunoGalarian,
     [SPECIES_ZAPDOS_GALARIAN] = gMonIcon_ZapdosGalarian,
     [SPECIES_MOLTRES_GALARIAN] = gMonIcon_MoltresGalarian,
     [SPECIES_MEWTWO_ARMORED] = gMonIcon_MewtwoArmored,
     [SPECIES_SLOWKING_GALARIAN] = gMonIcon_SlowkingGalarian,
-    [SPECIES_CORSOLA_GALARIAN] = gMonIcon_CorsolaGalarian,
     [SPECIES_LUGIA_SHADOW] = gMonIcon_LugiaShadow,
-    [SPECIES_ZIGZAGOON_GALARIAN] = gMonIcon_ZigzagoonGalarian,
-    [SPECIES_LINOONE_GALARIAN] = gMonIcon_LinooneGalarian,
     [SPECIES_DEOXYS_SPEED] = gMonIcon_DeoxysSpeed,
     [SPECIES_DEOXYS_ATTACK] = gMonIcon_DeoxysAttack,
     [SPECIES_DEOXYS_DEFENSE] = gMonIcon_DeoxysDefense,
@@ -965,22 +960,17 @@ const u8 gMonIconPaletteIndices[] =
     [SPECIES_RAPIDASH_GALARIAN] = 0,
     [SPECIES_SLOWPOKE_GALARIAN] = 0,
     [SPECIES_SLOWBRO_GALARIAN] = 0,
-    [SPECIES_FARFETCHD_GALARIAN] = 1,
     [SPECIES_GRIMER_ALOLAN] = 1,
     [SPECIES_MUK_ALOLAN] = 2,
     [SPECIES_EXEGGUTOR_ALOLAN] = 1,
     [SPECIES_MAROWAK_ALOLAN] = 1,
     [SPECIES_WEEZING_GALARIAN] = 2,
-    [SPECIES_MR_MIME_GALARIAN] = 0,
     [SPECIES_ARTICUNO_GALARIAN] = 0,
     [SPECIES_ZAPDOS_GALARIAN] = 0,
     [SPECIES_MOLTRES_GALARIAN] = 0,
     [SPECIES_MEWTWO_ARMORED] = 2,
     [SPECIES_SLOWKING_GALARIAN] = 0,
-    [SPECIES_CORSOLA_GALARIAN] = 0,
     [SPECIES_LUGIA_SHADOW] = 0,
-    [SPECIES_ZIGZAGOON_GALARIAN] = 2,
-    [SPECIES_LINOONE_GALARIAN] = 2,
     [SPECIES_DEOXYS_SPEED] = 0,
     [SPECIES_DEOXYS_ATTACK] = 0,
     [SPECIES_DEOXYS_DEFENSE] = 0,
@@ -1109,8 +1099,7 @@ u8 CreateMonIcon(u16 species, void (*callback)(struct Sprite *), s16 x, s16 y, u
         .paletteTag = POKE_ICON_BASE_PAL_TAG + gMonIconPaletteIndices[GetFormSpecies(species, form)],
     };
 
-    if ((species > NUM_SPECIES && !form)
-     || (species >= SPECIES_COUNT && form))
+    if (!IsMonValid(species, form))
         iconTemplate.paletteTag = POKE_ICON_BASE_PAL_TAG;
 
     spriteId = CreateMonIconSprite(&iconTemplate, x, y, subpriority);
@@ -1148,6 +1137,7 @@ u16 GetIconSpecies(u16 species, u32 personality, u8 form)
     if (species == SPECIES_UNOWN)
     {
         u16 letter = GetUnownLetterByPersonality(personality);
+
         if (letter)
             letter += (SPECIES_UNOWN_B - 1);
         else
@@ -1156,11 +1146,10 @@ u16 GetIconSpecies(u16 species, u32 personality, u8 form)
     }
     else
     {
-        if ((species > NUM_SPECIES && !form)
-         || (species >= SPECIES_COUNT && form))
-            result = INVALID_ICON_SPECIES;
-        else
+        if (IsMonValid(species, form))
             result = GetFormSpecies(species, form);
+        else
+            result = INVALID_ICON_SPECIES;
     }
 
     return result;
@@ -1177,7 +1166,7 @@ u16 GetIconSpeciesNoPersonality(u16 species)
 {
     u16 value;
 
-    if (MailSpeciesToSpecies(species, &value) == SPECIES_UNOWN)
+    if (MailSpeciesToSpecies(species, 0, &value) == SPECIES_UNOWN)
     {
         if (value)
             value += (SPECIES_UNOWN_B - 1);
@@ -1185,8 +1174,7 @@ u16 GetIconSpeciesNoPersonality(u16 species)
             value += SPECIES_UNOWN;
         return value;
     }
-    else
-        return GetIconSpecies(species, 0, 0);
+    return GetIconSpecies(species, 0, 0);
 }
 
 const u8 *GetMonIconPtr(u16 species, u32 personality, u8 form)
@@ -1225,9 +1213,8 @@ void FreeMonIconPalettes(void)
 
 void FreeMonIconPalette(u16 species)
 {
-    u8 palIndex;
+    u8 palIndex = gMonIconPaletteIndices[species];
 
-    palIndex = gMonIconPaletteIndices[species];
     FreeSpritePaletteByTag(gMonIconPaletteTable[palIndex].tag);
 }
 
@@ -1262,14 +1249,9 @@ void sub_80D304C(u16 offset)
 
 u8 GetValidMonIconPalIndex(u16 species, u8 form)
 {
-    if ((species > NUM_SPECIES && !form)
-     || (species >= SPECIES_COUNT && form))
+    if (!IsMonValid(species, form))
         species = INVALID_ICON_SPECIES;
-    return gMonIconPaletteIndices[GetFormSpecies(species, form)];
-}
 
-u8 GetMonIconPaletteIndexFromSpecies(u16 species, u8 form)
-{
     return gMonIconPaletteIndices[GetFormSpecies(species, form)];
 }
 

@@ -9,13 +9,13 @@
   "map_type": "MAP_TYPE_UNDERGROUND",
   "allow_cycling": true,
   "allow_escaping": true,
-  "allow_running": true,
+  "allow_running": false,
   "show_map_name": true,
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": null,
   "object_events": [
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "x": 5,
       "y": 8,
       "elevation": 3,
@@ -28,7 +28,7 @@
       "flag": "FLAG_HIDE_SEAFLOOR_CAVERN_AQUA_GRUNTS"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_F",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_F",
       "x": 5,
       "y": 12,
       "elevation": 3,

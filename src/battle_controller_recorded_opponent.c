@@ -1240,7 +1240,7 @@ static void RecordedOpponentHandleDrawTrainerPic(void)
         }
         else
         {
-            trainerPicId = PlayerGenderToFrontTrainerPicId(GetActiveBattlerLinkPlayerGender(), 0);
+            trainerPicId = gPlayerFrontPics[0][GetActiveBattlerLinkPlayerGender()];
         }
     }
     else
@@ -1252,7 +1252,7 @@ static void RecordedOpponentHandleDrawTrainerPic(void)
         }
         else
         {
-            trainerPicId = PlayerGenderToFrontTrainerPicId(gLinkPlayers[gRecordedBattleMultiplayerId ^ BIT_SIDE].gender, 0);
+            trainerPicId = gPlayerFrontPics[0][gRecordedBattleMultiplayerId ^ BIT_SIDE];
         }
     }
 

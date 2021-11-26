@@ -28,7 +28,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "x": 18,
       "y": 5,
       "elevation": 3,
@@ -41,7 +41,7 @@
       "flag": "FLAG_HIDE_SLATEPORT_CITY_OCEANIC_MUSEUM_AQUA_GRUNTS"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "x": 12,
       "y": 2,
       "elevation": 3,
@@ -54,7 +54,7 @@
       "flag": "FLAG_HIDE_SLATEPORT_CITY_OCEANIC_MUSEUM_AQUA_GRUNTS"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "x": 2,
       "y": 8,
       "elevation": 3,
@@ -67,7 +67,7 @@
       "flag": "FLAG_HIDE_SLATEPORT_CITY_OCEANIC_MUSEUM_AQUA_GRUNTS"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_F",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_F",
       "x": 3,
       "y": 4,
       "elevation": 3,
@@ -80,7 +80,7 @@
       "flag": "FLAG_HIDE_SLATEPORT_CITY_OCEANIC_MUSEUM_AQUA_GRUNTS"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "x": 14,
       "y": 4,
       "elevation": 3,
@@ -106,7 +106,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "x": 8,
       "y": 3,
       "elevation": 3,
@@ -171,7 +171,7 @@
       "flag": "FLAG_HIDE_SLATEPORT_MUSEUM_POPULATION"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "x": 9,
       "y": 4,
       "elevation": 3,

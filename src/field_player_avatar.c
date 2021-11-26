@@ -207,7 +207,7 @@ static bool8 (*const sArrowWarpMetatileBehaviorChecks[])(u8) =
     MetatileBehavior_IsEastArrowWarp,
 };
 
-static const u16 sPlayerAvatarGfxIds[OUTFIT_COUNT][8][GENDER_COUNT] =
+const u16 gPlayerAvatarGfxIds[OUTFIT_COUNT][8][GENDER_COUNT] =
 {
     [OUTFIT_DEFAULT] =
     {
@@ -299,15 +299,15 @@ static const u16 sPlayerAvatarGfxIds[OUTFIT_COUNT][8][GENDER_COUNT] =
     }
 };
 
-static const u16 sCDAvatarGfxIds[] = {OBJ_EVENT_GFX_GOLD, OBJ_EVENT_GFX_KRIS};
+const u16 gRSAvatarGfxIds[] = {OBJ_EVENT_GFX_RS_BRENDAN, OBJ_EVENT_GFX_RS_MAY};
 
-static const u16 sHeliodorAvatarGfxIds[] = {OBJ_EVENT_GFX_H_BRENDAN, OBJ_EVENT_GFX_H_MAY};
+const u16 gOriginalFRLGAvatarGfxIds[] = {OBJ_EVENT_GFX_RED_ORIGINAL, OBJ_EVENT_GFX_LEAF_ORIGINAL};
 
-static const u16 sOriginalFRLGAvatarGfxIds[] = {OBJ_EVENT_GFX_RED_ORIGINAL, OBJ_EVENT_GFX_LEAF_ORIGINAL};
+const u16 gEmeraldAvatarGfxIds[] = {OBJ_EVENT_GFX_E_BRENDAN, OBJ_EVENT_GFX_E_MAY};
 
-static const u16 sEAvatarGfxIds[] = {OBJ_EVENT_GFX_E_BRENDAN, OBJ_EVENT_GFX_E_MAY};
+const u16 gHeliodorAvatarGfxIds[] = {OBJ_EVENT_GFX_H_BRENDAN, OBJ_EVENT_GFX_H_MAY};
 
-static const u16 sRSAvatarGfxIds[] = {OBJ_EVENT_GFX_RS_BRENDAN, OBJ_EVENT_GFX_RS_MAY};
+const u16 gCrystalDustAvatarGfxIds[] = {OBJ_EVENT_GFX_GOLD, OBJ_EVENT_GFX_KRIS};
 
 static const u16 sPlayerAvatarGfxToStateFlag[OUTFIT_COUNT][2][4][2] =
 {
@@ -743,7 +743,9 @@ static void PlayerNotOnBikeMoving(u8 direction, u16 heldKeys)
             return;
         }
         else if (collision == COLLISION_STAIR_WARP)
+        {
             PlayerFaceDirection(direction);
+        }
         else
         {
             u8 adjustedCollision = collision - COLLISION_STOP_SURFING;
@@ -768,7 +770,9 @@ static void PlayerNotOnBikeMoving(u8 direction, u16 heldKeys)
         return;
     }
     else
+    {
         PlayerGoSpeed1(direction);
+    }
 }
 
 static u8 CheckForPlayerAvatarCollision(u8 direction)
@@ -863,7 +867,9 @@ bool8 IsPlayerCollidingWithFarawayIslandMew(u8 direction)
 {
     u8 mewObjectId;
     struct ObjectEvent *object;
-    s16 playerX, playerY, mewPrevX;
+    s16 playerX;
+    s16 playerY;
+    s16 mewPrevX;
 
     object = &gObjectEvents[gPlayerAvatar.objectEventId];
     playerX = object->currentCoords.x;
@@ -883,8 +889,7 @@ bool8 IsPlayerCollidingWithFarawayIslandMew(u8 direction)
          || object->currentCoords.x != mewPrevX
          || object->currentCoords.y != object->previousCoords.y)
         {
-            if (object->previousCoords.x == playerX
-             && object->previousCoords.y == playerY)
+            if (object->previousCoords.x == playerX && object->previousCoords.y == playerY)
                 return TRUE;
         }
     }
@@ -1220,39 +1225,14 @@ void sub_808BCF4(void)
     SetObjectEventDirection(playerObjEvent, playerObjEvent->facingDirection);
 }
 
-u16 GetPlayerAvatarGraphicsIdByStateIdAndGender(u8 outfit, u8 state, u8 gender)
-{
-    return sPlayerAvatarGfxIds[outfit][state][gender];
-}
-
-u16 GetCDAvatarGraphicsIdByGender(u8 gender)
-{
-    return sCDAvatarGfxIds[gender];
-}
-
-u16 GetHAvatarGraphicsIdByGender(u8 gender)
-{
-    return sHeliodorAvatarGfxIds[gender];
-}
-
-u16 GetOriginalFRLGAvatarGraphicsIdByGender(u8 gender)
-{
-    return sOriginalFRLGAvatarGfxIds[gender];
-}
-
-u16 GetEAvatarGraphicsIdByGender(u8 gender)
-{
-    return sEAvatarGfxIds[gender];
-}
-
-u16 GetRSAvatarGraphicsIdByGender(u8 gender)
-{
-    return sRSAvatarGfxIds[gender];
-}
+//u16 GetPlayerAvatarGraphicsIdByStateIdAndGender(u8 outfit, u8 state, u8 gender)
+//{
+//    return gPlayerAvatarGfxIds[outfit][state][gender];
+//}
 
 u16 GetPlayerAvatarGraphicsIdByStateId(u8 state)
 {
-    return GetPlayerAvatarGraphicsIdByStateIdAndGender(gSaveBlock2Ptr->playerOutfit, state, gSaveBlock2Ptr->playerGender);
+    return gPlayerAvatarGfxIds[gSaveBlock2Ptr->playerOutfit][state][gSaveBlock2Ptr->playerGender];
 }
 
 bool8 PartyHasMonWithSurf(void)
@@ -1349,7 +1329,8 @@ void InitPlayerAvatar(s16 x, s16 y, u8 direction)
     struct ObjectEvent *objectEvent;
 
     playerObjEventTemplate.localId = OBJ_EVENT_ID_PLAYER;
-    playerObjEventTemplate.graphicsId = GetPlayerAvatarGraphicsIdByStateIdAndGender(gSaveBlock2Ptr->playerOutfit, PLAYER_AVATAR_STATE_NORMAL, gSaveBlock2Ptr->playerGender);
+//    playerObjEventTemplate.graphicsId = GetPlayerAvatarGraphicsIdByStateIdAndGender(gSaveBlock2Ptr->playerOutfit, PLAYER_AVATAR_STATE_NORMAL, gSaveBlock2Ptr->playerGender);
+    playerObjEventTemplate.graphicsId = gPlayerAvatarGfxIds[gSaveBlock2Ptr->playerOutfit][PLAYER_AVATAR_STATE_NORMAL][gSaveBlock2Ptr->playerGender];
     playerObjEventTemplate.x = x - 7;
     playerObjEventTemplate.y = y - 7;
     playerObjEventTemplate.elevation = 0;

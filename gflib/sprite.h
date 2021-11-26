@@ -185,8 +185,8 @@ struct SpriteTemplate
 
 struct Sprite
 {
-    /*0x00*/ u16 tileTag;       // copy from SpriteTemplate to prevent use after free
-    /*0x02*/ u16 paletteTag;    // copy from SpriteTemplate to prevent use after free
+    /*0x00*/ u16 tileTag; // copy from SpriteTemplate to prevent use after free
+    /*0x02*/ u16 paletteTag; // copy from SpriteTemplate to prevent use after free
     /*0x04*/ struct OamData oam;
     /*0x0C*/ const union AnimCmd *const *anims;
     /*0x10*/ const struct SpriteFrameImage *images;

@@ -59,8 +59,8 @@ static s8 GetWarpEventAtMapPosition(struct MapHeader *, struct MapPosition *);
 static void SetupWarp(struct MapHeader *, s8, struct MapPosition *);
 static bool8 TryDoorWarp(struct MapPosition *, u16, u8);
 static s8 GetWarpEventAtPosition(struct MapHeader *, u16, u16, u8);
-static u8 *GetCoordEventScriptAtPosition(struct MapHeader *, u16, u16, u8);
-static struct BgEvent *GetBackgroundEventAtPosition(struct MapHeader *, u16, u16, u8);
+static const u8 *GetCoordEventScriptAtPosition(struct MapHeader *, u16, u16, u8);
+static const struct BgEvent *GetBackgroundEventAtPosition(struct MapHeader *, u16, u16, u8);
 static bool8 TryStartCoordEventScript(struct MapPosition *);
 static bool8 TryStartWarpEventScript(struct MapPosition *, u16);
 static bool8 TryStartMiscWalkingScripts(u16);
@@ -143,8 +143,8 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
 
     playerDirection = GetPlayerFacingDirection();
     GetPlayerPosition(&position);
-    metatileBehavior = MapGridGetMetatileBehaviorAt(position.x, position.y);
     metatileAttributes = MapGridGetMetatileAttributeAt(position.x, position.y, 0xFF);
+    metatileBehavior = MapGridGetMetatileBehaviorAt(position.x, position.y);
 
     if (CheckForTrainersWantingBattle()
      || TryRunOnFrameMapScript()
@@ -310,7 +310,7 @@ static const u8 *GetInteractedObjectEventScript(struct MapPosition *position, u8
 
 static const u8 *GetInteractedBackgroundEventScript(struct MapPosition *position, u8 metatileBehavior, u8 direction)
 {
-    struct BgEvent *bgEvent = GetBackgroundEventAtPosition(&gMapHeader, position->x - 7, position->y - 7, position->height);
+    const struct BgEvent *bgEvent = GetBackgroundEventAtPosition(&gMapHeader, position->x - 7, position->y - 7, position->height);
 
     if (bgEvent == NULL)
         return NULL;
@@ -321,7 +321,7 @@ static const u8 *GetInteractedBackgroundEventScript(struct MapPosition *position
     {
     case BG_EVENT_PLAYER_FACING_ANY:
     default:
-        return bgEvent->bgUnion.script;
+        break;
     case BG_EVENT_PLAYER_FACING_NORTH:
         if (direction != DIR_NORTH)
             return NULL;
@@ -394,7 +394,7 @@ static const u8 *GetInteractedMetatileScript(struct MapPosition *position, u8 me
     if (MetatileBehavior_IsTrainerHillTimer(metatileBehavior))
         return EventScript_TrainerHillTimer;
 
-    height = position->height;
+//    height = position->height;
     return NULL;
 }
 
@@ -446,7 +446,7 @@ static bool8 TryStartStepBasedScript(struct MapPosition *position, u16 metatileB
 
 static bool8 TryStartCoordEventScript(struct MapPosition *position)
 {
-    u8 *script = GetCoordEventScriptAtPosition(&gMapHeader, position->x - 7, position->y - 7, position->height);
+    const u8 *script = GetCoordEventScriptAtPosition(&gMapHeader, position->x - 7, position->y - 7, position->height);
 
     if (script == NULL)
         return FALSE;
@@ -671,11 +671,9 @@ bool8 IsDirectionalStairWarpMetatileBehavior(u16 metatileBehavior, u8 playerDire
     case DIR_WEST:
         return MetatileBehavior_IsDirectionalUpLeftStairWarp(metatileBehavior)
             || MetatileBehavior_IsDirectionalDownLeftStairWarp(metatileBehavior);
-        break;
     case DIR_EAST:
         return MetatileBehavior_IsDirectionalUpRightStairWarp(metatileBehavior)
             || MetatileBehavior_IsDirectionalDownRightStairWarp(metatileBehavior);
-        break;
     }
     return FALSE;
 }
@@ -775,7 +773,7 @@ static s8 GetWarpEventAtPosition(struct MapHeader *mapHeader, u16 x, u16 y, u8 e
     return -1;
 }
 
-static u8 *TryRunCoordEventScript(struct CoordEvent *coordEvent)
+static const u8 *TryRunCoordEventScript(struct CoordEvent *coordEvent)
 {
     if (coordEvent != NULL)
     {
@@ -795,7 +793,7 @@ static u8 *TryRunCoordEventScript(struct CoordEvent *coordEvent)
     return NULL;
 }
 
-static u8 *GetCoordEventScriptAtPosition(struct MapHeader *mapHeader, u16 x, u16 y, u8 elevation)
+static const u8 *GetCoordEventScriptAtPosition(struct MapHeader *mapHeader, u16 x, u16 y, u8 elevation)
 {
     s32 i;
     struct CoordEvent *coordEvents = mapHeader->events->coordEvents;
@@ -807,7 +805,7 @@ static u8 *GetCoordEventScriptAtPosition(struct MapHeader *mapHeader, u16 x, u16
         {
             if (coordEvents[i].elevation == elevation || coordEvents[i].elevation == 0)
             {
-                u8 *script = TryRunCoordEventScript(&coordEvents[i]);
+                const u8 *script = TryRunCoordEventScript(&coordEvents[i]);
                 if (script != NULL)
                     return script;
             }
@@ -816,12 +814,12 @@ static u8 *GetCoordEventScriptAtPosition(struct MapHeader *mapHeader, u16 x, u16
     return NULL;
 }
 
-u8 *GetCoordEventScriptAtMapPosition(struct MapPosition *position)
+const u8 *GetCoordEventScriptAtMapPosition(struct MapPosition *position)
 {
     return GetCoordEventScriptAtPosition(&gMapHeader, position->x - 7, position->y - 7, position->height);
 }
 
-static struct BgEvent *GetBackgroundEventAtPosition(struct MapHeader *mapHeader, u16 x, u16 y, u8 elevation)
+static const struct BgEvent *GetBackgroundEventAtPosition(struct MapHeader *mapHeader, u16 x, u16 y, u8 elevation)
 {
     u32 i;
     struct BgEvent *bgEvents = mapHeader->events->bgEvents;

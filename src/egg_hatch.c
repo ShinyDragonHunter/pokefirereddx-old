@@ -410,41 +410,44 @@ bool8 CheckDaycareMonReceivedMail(void)
     return _CheckDaycareMonReceivedMail(&gSaveBlock1Ptr->daycare, gSpecialVar_0x8004);
 }
 
-static u8 EggHatchCreateMonSprite(u8 useAlt, u8 switchID, u8 pokeID, u16* speciesLoc)
+static u8 EggHatchCreateMonSprite(u8 switchID, u8 pokeID, u16* speciesLoc)
 {
     u8 position = 0;
     u8 spriteID = 0;
     struct Pokemon* mon = NULL;
     u8 form;
 
-    if (useAlt == FALSE)
-    {
-        mon = &gPlayerParty[pokeID];
-        position = B_POSITION_OPPONENT_LEFT;
-    }
-    if (useAlt == TRUE)
-    {
-        // Alternate sprite allocation position. Never reached.
-        mon = &gPlayerParty[pokeID];
-        position = B_POSITION_OPPONENT_RIGHT;
-    }
+//    if (useAlt == FALSE)
+//    {
+//        mon = &gPlayerParty[pokeID];
+//        position = B_POSITION_OPPONENT_LEFT;
+//    }
+//    if (useAlt == TRUE)
+//    {
+//        // Alternate sprite allocation position. Never reached.
+//        mon = &gPlayerParty[pokeID];
+//        position = B_POSITION_OPPONENT_RIGHT;
+//    }
 
     form = GetMonData(mon, MON_DATA_FORM);
     switch (switchID)
     {
     case 0:
         {
-            u16 species = GetMonData(mon, MON_DATA_SPECIES);
-            u32 pid = GetMonData(mon, MON_DATA_PERSONALITY);
+            u16 species = GetMonData(&gPlayerParty[pokeID], MON_DATA_SPECIES);
+            u32 pid = GetMonData(&gPlayerParty[pokeID], MON_DATA_PERSONALITY);
             u16 formSpecies = GetFormSpecies(species, form);
 
-            HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[(useAlt * 2) + B_POSITION_OPPONENT_LEFT], formSpecies, pid);
+            if (SpeciesHasGenderDifferenceAndIsFemale(formSpecies, pid))
+                HandleLoadSpecialPokePic(&gFemaleMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_LEFT], formSpecies, pid);
+            else
+                HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_LEFT], formSpecies, pid);
             LoadUniqueSpritePalette(GetMonSpritePalStruct(mon), formSpecies, pid, IsMonShiny(mon));
             *speciesLoc = formSpecies;
         }
         break;
     case 1:
-        SetMultiuseSpriteTemplateToPokemon(GetMonSpritePalStruct(mon)->tag, position, form);
+        SetMultiuseSpriteTemplateToPokemon(GetMonSpritePalStruct(&gPlayerParty[pokeID])->tag, position, form);
         spriteID = CreateSprite(&gMultiuseSpriteTemplate, 120, 70, 6);
         gSprites[spriteID].invisible = TRUE;
         gSprites[spriteID].callback = SpriteCallbackDummy;
@@ -538,11 +541,11 @@ static void CB2_EggHatch_0(void)
         gMain.state++;
         break;
     case 5:
-        EggHatchCreateMonSprite(FALSE, 0, sEggHatchData->eggPartyID, &sEggHatchData->species);
+        EggHatchCreateMonSprite(0, sEggHatchData->eggPartyID, &sEggHatchData->species);
         gMain.state++;
         break;
     case 6:
-        sEggHatchData->pokeSpriteID = EggHatchCreateMonSprite(FALSE, 1, sEggHatchData->eggPartyID, &sEggHatchData->species);
+        sEggHatchData->pokeSpriteID = EggHatchCreateMonSprite(1, sEggHatchData->eggPartyID, &sEggHatchData->species);
         gMain.state++;
         break;
     case 7:

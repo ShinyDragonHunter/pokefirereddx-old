@@ -472,13 +472,8 @@ void ReadMail(struct MailStruct *mail, void (*exitCallback)(void), bool8 hasText
             sMailRead->layout = &sMailLayouts_Wide[sMailRead->mailType];
             break;
     }
-    species = MailSpeciesToSpecies(GetFormSpecies(sMailRead->mail->species, sMailRead->mail->form), buffer);
-    if ((sMailRead->mail->species > NUM_SPECIES && !sMailRead->mail->form)
-     || (sMailRead->mail->species >= SPECIES_COUNT && sMailRead->mail->form))
-    {
-        sMailRead->iconType = ICON_TYPE_NONE;
-    }
-    else
+    species = MailSpeciesToSpecies(sMailRead->mail->species, sMailRead->mail->form, buffer);
+    if (species)
     {
         switch (sMailRead->mailType)
         {
@@ -493,6 +488,9 @@ void ReadMail(struct MailStruct *mail, void (*exitCallback)(void), bool8 hasText
                 break;
         }
     }
+    else
+        sMailRead->iconType = ICON_TYPE_NONE;
+
     sMailRead->mail = mail;
     sMailRead->exitCallback = exitCallback;
     sMailRead->hasText = hasText;

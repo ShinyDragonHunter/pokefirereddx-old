@@ -1489,8 +1489,8 @@ void DecompressGlyphFont2(u16 glyphId, bool32 isJapanese)
         glyphs = gFont2JapaneseGlyphs + (0x100 * (glyphId >> 0x3)) + (0x10 * (glyphId & 0x7));
         DecompressGlyphTile(glyphs, gCurGlyph.gfxBufferTop);
         DecompressGlyphTile(glyphs + 0x8, gCurGlyph.gfxBufferTop + 8);
-        DecompressGlyphTile(glyphs + 0x80, gCurGlyph.gfxBufferBottom);    // gCurGlyph + 0x20
-        DecompressGlyphTile(glyphs + 0x88, gCurGlyph.gfxBufferBottom + 8);    // gCurGlyph + 0x60
+        DecompressGlyphTile(glyphs + 0x80, gCurGlyph.gfxBufferBottom); // gCurGlyph + 0x20
+        DecompressGlyphTile(glyphs + 0x88, gCurGlyph.gfxBufferBottom + 8); // gCurGlyph + 0x60
         gCurGlyph.width = gFont2JapaneseGlyphWidths[glyphId];
     }
     else

@@ -49,7 +49,6 @@ u8 GiveMailToMon(struct Pokemon *mon, u16 itemId)
     u32 i;
     u16 species;
     u32 personality;
-    u8 form;
 
     heldItem[0] = itemId;
     heldItem[1] = itemId >> 8;
@@ -69,11 +68,11 @@ u8 GiveMailToMon(struct Pokemon *mon, u16 itemId)
             for (i = 0; i < TRAINER_ID_LENGTH; i++)
                 gSaveBlock1Ptr->mail[id].trainerId[i] = gSaveBlock2Ptr->playerTrainerId[i];
 
-            species = GetFormSpecies(GetBoxMonData(&mon->box, MON_DATA_SPECIES),
-                                    GetBoxMonData(&mon->box, MON_DATA_FORM));
+            species = GetBoxMonData(&mon->box, MON_DATA_SPECIES);
             personality = GetBoxMonData(&mon->box, MON_DATA_PERSONALITY);
             gSaveBlock1Ptr->mail[id].species = SpeciesToMailSpecies(species, personality);
             gSaveBlock1Ptr->mail[id].itemId = itemId;
+            gSaveBlock1Ptr->mail[id].form = GetBoxMonData(&mon->box, MON_DATA_FORM);
             SetMonData(mon, MON_DATA_MAIL, &id);
             SetMonData(mon, MON_DATA_HELD_ITEM, heldItem);
             return id;
@@ -94,7 +93,7 @@ u16 SpeciesToMailSpecies(u16 species, u32 personality)
     return species;
 }
 
-u16 MailSpeciesToSpecies(u16 mailSpecies, u16 *buffer)
+u16 MailSpeciesToSpecies(u16 mailSpecies, u8 mailForm, u16 *buffer)
 {
     u16 result;
 
@@ -103,10 +102,10 @@ u16 MailSpeciesToSpecies(u16 mailSpecies, u16 *buffer)
         result = SPECIES_UNOWN;
         *buffer = mailSpecies - 30000;
     }
+    else if (IsMonValid(mailSpecies, mailForm))
+        result = GetFormSpecies(mailSpecies, mailForm);
     else
-    {
-        result = mailSpecies;
-    }
+        result = SPECIES_NONE;
 
     return result;
 }

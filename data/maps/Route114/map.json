@@ -9,7 +9,7 @@
   "map_type": "MAP_TYPE_ROUTE",
   "allow_cycling": true,
   "allow_escaping": false,
-  "allow_running": true,
+  "allow_running": false,
   "show_map_name": true,
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": [
@@ -156,7 +156,7 @@
       "flag": "FLAG_ITEM_ROUTE_114_PROTEIN"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_BREAKABLE_ROCK",
+      "graphics_id": "OBJ_EVENT_GFX_ROCK_SMASH_ROCK",
       "x": 12,
       "y": 43,
       "elevation": 4,
@@ -247,7 +247,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_BREAKABLE_ROCK",
+      "graphics_id": "OBJ_EVENT_GFX_ROCK_SMASH_ROCK",
       "x": 29,
       "y": 53,
       "elevation": 5,
@@ -260,7 +260,7 @@
       "flag": "FLAG_TEMP_12"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_BREAKABLE_ROCK",
+      "graphics_id": "OBJ_EVENT_GFX_ROCK_SMASH_ROCK",
       "x": 30,
       "y": 54,
       "elevation": 5,
@@ -273,7 +273,7 @@
       "flag": "FLAG_TEMP_13"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_BREAKABLE_ROCK",
+      "graphics_id": "OBJ_EVENT_GFX_ROCK_SMASH_ROCK",
       "x": 22,
       "y": 69,
       "elevation": 7,
@@ -286,7 +286,7 @@
       "flag": "FLAG_TEMP_14"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_BREAKABLE_ROCK",
+      "graphics_id": "OBJ_EVENT_GFX_ROCK_SMASH_ROCK",
       "x": 11,
       "y": 64,
       "elevation": 5,

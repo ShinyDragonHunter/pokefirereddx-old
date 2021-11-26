@@ -76,7 +76,7 @@ static u16 sSavedRCnt;
 static const struct TrainerHillTrainer sTrainerHillTrainerTemplates_JP[] = {
     [0] = {
         .name = __("マキエ$$$$$   "),
-        .facilityClass = HOENN_FACILITY_CLASS_HEX_MANIAC,
+        .facilityClass = FACILITY_CLASS_HOENN_HEX_MANIAC,
         .unused = 0x1,
         .speechBefore = { EC_WORD_PREPOSTEROUS, EC_WORD_CASE, EC_WORD_THERE, EC_WORD_TO_HER, EC_WORD_CHALLENGE, EC_WORD_JOKING },
         .speechWin = { EC_WORD_HERS, EC_WORD_TRUMP_CARD, EC_MOVE2(SECRET_POWER), EC_WORD_USING, EC_WORD_WON, EC_WORD_EXCL_EXCL },
@@ -162,7 +162,7 @@ static const struct TrainerHillTrainer sTrainerHillTrainerTemplates_JP[] = {
     },
     [1] = {
         .name = __("ハルヒト$$$$   "),
-        .facilityClass = HOENN_FACILITY_CLASS_CAMPER,
+        .facilityClass = FACILITY_CLASS_HOENN_CAMPER,
         .unused = 0x1,
         .speechBefore = { EC_MOVE2(BOUNCE), EC_WORD_AS_MUCH_AS, EC_EMPTY_WORD, EC_WORD_THEY_RE, EC_WORD_STRONG, EC_WORD_EXCL },
         .speechWin = { EC_MOVE(FLY), EC_WORD_AS_MUCH_AS, EC_EMPTY_WORD, EC_WORD_THEY_RE, EC_WORD_HAPPY, EC_WORD_EXCL },
@@ -248,7 +248,7 @@ static const struct TrainerHillTrainer sTrainerHillTrainerTemplates_JP[] = {
     },
     [2] = {
         .name = __("メイコ$$$$$   "),
-        .facilityClass = HOENN_FACILITY_CLASS_SCHOOL_KID_F,
+        .facilityClass = FACILITY_CLASS_HOENN_SCHOOL_KID_F,
         .unused = 0x1,
         .speechBefore = { EC_WORD_SHINE, EC_WORD_POKEMON, EC_WORD_RELEASE, EC_WORD_WAS, EC_MOVE2(FRUSTRATION), EC_WORD_WITHOUT },
         .speechWin = { EC_WORD_SHINE, EC_WORD_POKEMON, EC_WORD_TO_HER, EC_MOVE2(PRESENT), EC_WORD_KNOWS, EC_WORD_WITHOUT },
@@ -334,7 +334,7 @@ static const struct TrainerHillTrainer sTrainerHillTrainerTemplates_JP[] = {
     },
     [3] = {
         .name = __("ピエール$$$$   "),
-        .facilityClass = HOENN_FACILITY_CLASS_GENTLEMAN,
+        .facilityClass = FACILITY_CLASS_HOENN_GENTLEMAN,
         .unused = 0x1,
         .speechBefore = { EC_WORD_SHE_WAS, EC_WORD_NO_1, EC_WORD_STRONG, EC_WORD_UNCLE, EC_WORD_THERE, EC_WORD_EXCL },
         .speechWin = { EC_WORD_HAHAHA, EC_WORD_TEACHER, EC_WORD_BECOMES, EC_WORD_GIVE, EC_WORD_IS_IT_QUES, EC_EMPTY_WORD },

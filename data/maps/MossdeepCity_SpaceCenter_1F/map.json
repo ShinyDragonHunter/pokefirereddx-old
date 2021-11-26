@@ -80,7 +80,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_F",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_F",
       "x": 12,
       "y": 9,
       "elevation": 3,
@@ -93,7 +93,7 @@
       "flag": "FLAG_HIDE_MOSSDEEP_CITY_SPACE_CENTER_1F_TEAM_MAGMA"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "x": 11,
       "y": 6,
       "elevation": 3,
@@ -106,7 +106,7 @@
       "flag": "FLAG_HIDE_MOSSDEEP_CITY_SPACE_CENTER_1F_TEAM_MAGMA"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "x": 10,
       "y": 2,
       "elevation": 3,
@@ -119,7 +119,7 @@
       "flag": "FLAG_HIDE_MOSSDEEP_CITY_SPACE_CENTER_1F_TEAM_MAGMA"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "x": 13,
       "y": 2,
       "elevation": 3,

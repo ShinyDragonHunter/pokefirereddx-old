@@ -2680,9 +2680,19 @@ static void LoadTradeMonPic(u8 whichParty, u8 state)
         formSpecies = GetFormSpecies(species, form);
 
         if (whichParty)
-            HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[whichParty * 2 + B_POSITION_OPPONENT_LEFT], formSpecies, personality);
+        {
+            if (SpeciesHasGenderDifferenceAndIsFemale(formSpecies, personality))
+                HandleLoadSpecialPokePic(&gFemaleMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[whichParty * 2 + B_POSITION_OPPONENT_LEFT], formSpecies, personality);
+            else
+                HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[whichParty * 2 + B_POSITION_OPPONENT_LEFT], formSpecies, personality);
+        }
         else
-            HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_LEFT], formSpecies, personality);
+        {
+            if (SpeciesHasGenderDifferenceAndIsFemale(formSpecies, personality))
+                HandleLoadSpecialPokePic(&gFemaleMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_LEFT], formSpecies, personality);
+            else
+                HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_LEFT], formSpecies, personality);
+        }
 
         LoadUniqueSpritePalette(GetMonSpritePalStruct(mon), formSpecies, personality, GetMonData(mon));
         sTradeData->monSpecies[whichParty] = formSpecies;
@@ -3660,7 +3670,10 @@ static bool8 AnimateTradeSequenceCable(void)
     case TS_STATE_POKEBALL_ARRIVE_WAIT:
         if (gSprites[sTradeData->bouncingPokeballSpriteId].callback == SpriteCallbackDummy)
         {
-            HandleLoadSpecialPokePic(&gMonFrontPicTable[sTradeData->monSpecies[TRADE_PARTNER]], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_RIGHT], sTradeData->monSpecies[TRADE_PARTNER], sTradeData->monPersonalities[TRADE_PARTNER]);
+            if (SpeciesHasGenderDifferenceAndIsFemale(sTradeData->monSpecies[TRADE_PARTNER], sTradeData->monPersonalities[TRADE_PARTNER]))
+                HandleLoadSpecialPokePic(&gFemaleMonFrontPicTable[sTradeData->monSpecies[TRADE_PARTNER]], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_RIGHT], sTradeData->monSpecies[TRADE_PARTNER], sTradeData->monPersonalities[TRADE_PARTNER]);
+            else
+                HandleLoadSpecialPokePic(&gMonFrontPicTable[sTradeData->monSpecies[TRADE_PARTNER]], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_RIGHT], sTradeData->monSpecies[TRADE_PARTNER], sTradeData->monPersonalities[TRADE_PARTNER]);
             sTradeData->state++;
         }
         break;
@@ -4150,7 +4163,10 @@ static bool8 AnimateTradeSequenceWireless(void)
     case TS_STATE_POKEBALL_ARRIVE_WAIT:
         if (gSprites[sTradeData->bouncingPokeballSpriteId].callback == SpriteCallbackDummy)
         {
-            HandleLoadSpecialPokePic(&gMonFrontPicTable[sTradeData->monSpecies[TRADE_PARTNER]], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_RIGHT], sTradeData->monSpecies[TRADE_PARTNER], sTradeData->monPersonalities[TRADE_PARTNER]);
+            if (SpeciesHasGenderDifferenceAndIsFemale(sTradeData->monSpecies[TRADE_PARTNER], sTradeData->monPersonalities[TRADE_PARTNER]))
+                HandleLoadSpecialPokePic(&gFemaleMonFrontPicTable[sTradeData->monSpecies[TRADE_PARTNER]], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_RIGHT], sTradeData->monSpecies[TRADE_PARTNER], sTradeData->monPersonalities[TRADE_PARTNER]);
+            else
+                HandleLoadSpecialPokePic(&gMonFrontPicTable[sTradeData->monSpecies[TRADE_PARTNER]], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_RIGHT], sTradeData->monSpecies[TRADE_PARTNER], sTradeData->monPersonalities[TRADE_PARTNER]);
             sTradeData->state++;
         }
         break;

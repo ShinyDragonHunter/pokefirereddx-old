@@ -15,7 +15,7 @@
   "connections": null,
   "object_events": [
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "x": 15,
       "y": 6,
       "elevation": 3,
@@ -28,7 +28,7 @@
       "flag": "FLAG_HIDE_ROUTE_119_TEAM_AQUA"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "x": 10,
       "y": 8,
       "elevation": 3,
@@ -41,7 +41,7 @@
       "flag": "FLAG_HIDE_ROUTE_119_TEAM_AQUA"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_F",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_F",
       "x": 4,
       "y": 6,
       "elevation": 3,
@@ -93,7 +93,7 @@
       "flag": "FLAG_HIDE_WEATHER_INSTITUTE_2F_WORKERS"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "x": 16,
       "y": 6,
       "elevation": 3,
@@ -106,7 +106,7 @@
       "flag": "FLAG_HIDE_WEATHER_INSTITUTE_2F_AQUA_GRUNT_M"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_F",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_F",
       "x": 19,
       "y": 6,
       "elevation": 3,

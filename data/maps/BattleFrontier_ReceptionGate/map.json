@@ -15,7 +15,7 @@
   "connections": null,
   "object_events": [
     {
-      "graphics_id": "OBJ_EVENT_GFX_HOENN_TEALA",
+      "graphics_id": "OBJ_EVENT_GFX_TEALA",
       "x": 0,
       "y": 11,
       "elevation": 0,
@@ -28,7 +28,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_HOENN_TEALA",
+      "graphics_id": "OBJ_EVENT_GFX_TEALA",
       "x": 8,
       "y": 11,
       "elevation": 0,
@@ -54,7 +54,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_HOENN_SCOTT",
+      "graphics_id": "OBJ_EVENT_GFX_SCOTT",
       "x": 4,
       "y": 5,
       "elevation": 3,

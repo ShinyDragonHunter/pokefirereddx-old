@@ -103,7 +103,9 @@ void DrawWholeMapView(void)
 
 static void DrawWholeMapViewInternal(int x, int y, const struct MapLayout *mapLayout)
 {
-    u32 i, j, r6;
+    u32 i;
+    u32 j;
+    u32 r6;
     u8 temp;
 
     for (i = 0; i < 32; i += 2)
@@ -214,13 +216,13 @@ void CurrentMapDrawMetatileAt(int x, int y)
     }
 }
 
-void DrawDoorMetatileAt(int x, int y, u16 *arr)
+void DrawDoorMetatileAt(int x, int y, const u16 *arr)
 {
     int offset = MapPosToBgTilemapOffset(&sFieldCameraOffset, x, y);
 
     if (offset >= 0)
     {
-        DrawMetatile(255, arr, offset);
+        DrawMetatile(0xFF, arr, offset);
         sFieldCameraOffset.copyBGToVRAM = TRUE;
     }
 }

@@ -9,7 +9,7 @@
   "map_type": "MAP_TYPE_ROUTE",
   "allow_cycling": true,
   "allow_escaping": false,
-  "allow_running": true,
+  "allow_running": false,
   "show_map_name": true,
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": [
@@ -174,7 +174,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "x": 30,
       "y": 8,
       "elevation": 3,
@@ -187,7 +187,7 @@
       "flag": "FLAG_HIDE_ROUTE_121_TEAM_AQUA_GRUNTS"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "x": 30,
       "y": 7,
       "elevation": 3,
@@ -200,7 +200,7 @@
       "flag": "FLAG_HIDE_ROUTE_121_TEAM_AQUA_GRUNTS"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "x": 31,
       "y": 7,
       "elevation": 3,
@@ -213,7 +213,7 @@
       "flag": "FLAG_HIDE_ROUTE_121_TEAM_AQUA_GRUNTS"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_CUTTABLE_TREE",
+      "graphics_id": "OBJ_EVENT_GFX_CUT_TREE",
       "x": 32,
       "y": 5,
       "elevation": 3,
@@ -226,7 +226,7 @@
       "flag": "FLAG_TEMP_11"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_CUTTABLE_TREE",
+      "graphics_id": "OBJ_EVENT_GFX_CUT_TREE",
       "x": 65,
       "y": 4,
       "elevation": 3,
@@ -304,7 +304,7 @@
       "flag": "FLAG_ITEM_ROUTE_121_CARBOS"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_CUTTABLE_TREE",
+      "graphics_id": "OBJ_EVENT_GFX_CUT_TREE",
       "x": 26,
       "y": 12,
       "elevation": 3,

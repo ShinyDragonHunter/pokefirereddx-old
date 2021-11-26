@@ -15,7 +15,7 @@
   "connections": 0,
   "object_events": [
     {
-      "graphics_id": "OBJ_EVENT_GFX_CUTTABLE_TREE",
+      "graphics_id": "OBJ_EVENT_GFX_CUT_TREE",
       "in_connection": false,
       "x": 19,
       "y": 10,
@@ -29,7 +29,7 @@
       "flag": "FLAG_TEMP_11"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_CUTTABLE_TREE",
+      "graphics_id": "OBJ_EVENT_GFX_CUT_TREE",
       "in_connection": false,
       "x": 19,
       "y": 11,
@@ -43,7 +43,7 @@
       "flag": "FLAG_TEMP_12"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "in_connection": false,
       "x": 26,
       "y": 17,
@@ -310,6 +310,5 @@
       "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
       "script": "PetalburgWoods_EventScript_Sign2"
     }
-  ],
-  "use_night_tint": "TRUE"
+  ]
 }

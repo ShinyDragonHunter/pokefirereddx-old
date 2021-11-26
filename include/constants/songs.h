@@ -471,6 +471,9 @@
 #define MUS_RG_SLOW_PALLET          557 // MUS_RG_SLOWMASARA
 #define MUS_RG_TEACHY_TV_MENU       558 // MUS_RG_TVNOIZE
 
+#define FIRST_SONG                  MUS_LITTLEROOT_TEST
+#define SONG_COUNT                  MUS_RG_TEACHY_TV_MENU + 1 - FIRST_SONG
+
 #define MUS_ROUTE118                0x7FFF  // Map is split into 2 music sections. controlled by GetCurrLocationDefaultMusic().
 
 #define MUS_NONE                    0xFFFF

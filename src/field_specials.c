@@ -2471,12 +2471,10 @@ void ChangePlayerOutfit(u8 outfit)
 {
     struct ObjectEvent *objEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
 
-    FadeScreen(FADE_TO_BLACK, 0);
     gSaveBlock2Ptr->playerOutfit = outfit;
     ObjectEventSetGraphicsId(objEvent, GetPlayerAvatarGraphicsIdByCurrentState());
     ObjectEventTurn(objEvent, objEvent->movementDirection);
     BlendPalettes(PALETTES_ALL, 16, 0);
-    FadeScreen(FADE_FROM_BLACK, 0);
 }
 
 void UpdateTrainerCardPhotoIcons(void)
@@ -2525,19 +2523,24 @@ void SetBattleTowerLinkPlayerGfx(void)
 
     for (i = 0; i < 2; i++)
     {
-        if ((u8)gLinkPlayers[i].version == VERSION_EMERALD)
+        switch ((u8)gLinkPlayers[i].versionModifier)
         {
-            if ((u8)gLinkPlayers[i].versionModifier == MODIFIER_HELIODOR)
-                VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_H_BRENDAN + gLinkPlayers[i].gender);
+        case MODIFIER_HELIODOR:
+            VarSet(VAR_OBJ_GFX_ID_F - i, gHeliodorAvatarGfxIds[gLinkPlayers[i].gender]);
+            break;
+        case MODIFIER_DX:
+            VarSet(VAR_OBJ_GFX_ID_F - i, gPlayerAvatarGfxIds[0][0][gLinkPlayers[i].gender]);
+            break;
+        case MODIFIER_CRYSTALDUST:
+            VarSet(VAR_OBJ_GFX_ID_F - i, gCrystalDustAvatarGfxIds[gLinkPlayers[i].gender]);
+            break;
+        default:
+            if ((u8)gLinkPlayers[i].version == VERSION_FIRE_RED
+             || (u8)gLinkPlayers[i].version == VERSION_LEAF_GREEN)
+                VarSet(VAR_OBJ_GFX_ID_F - i, gOriginalFRLGAvatarGfxIds[gLinkPlayers[i].gender]);
             else
-                VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_E_BRENDAN + gLinkPlayers[i].gender);
-        }
-        else
-        {
-            if ((u8)gLinkPlayers[i].versionModifier == MODIFIER_CRYSTALDUST)
-                VarSet(VAR_OBJ_GFX_ID_F - i, OBJ_EVENT_GFX_GOLD + gLinkPlayers[i].gender);
-            else
-                VarSet(VAR_OBJ_GFX_ID_F - i, (gLinkPlayers[i].gender) ? OBJ_EVENT_GFX_LEAF_NORMAL : OBJ_EVENT_GFX_RED_NORMAL);
+                VarSet(VAR_OBJ_GFX_ID_F - i, gEmeraldAvatarGfxIds[gLinkPlayers[i].gender]);
+            break;
         }
     }
 }

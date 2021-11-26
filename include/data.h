@@ -85,32 +85,38 @@ extern const struct SpriteFrameImage gBattlerPicTable_PlayerLeft[];
 extern const struct SpriteFrameImage gBattlerPicTable_OpponentLeft[];
 extern const struct SpriteFrameImage gBattlerPicTable_PlayerRight[];
 extern const struct SpriteFrameImage gBattlerPicTable_OpponentRight[];
-extern const struct SpriteFrameImage gTrainerBackPicTable_Red[];
-extern const struct SpriteFrameImage gTrainerBackPicTable_RedDX[];
-extern const struct SpriteFrameImage gTrainerBackPicTable_RedClassic[];
-extern const struct SpriteFrameImage gTrainerBackPicTable_RedAlola[];
-extern const struct SpriteFrameImage gTrainerBackPicTable_RedSygnaSuit[];
-extern const struct SpriteFrameImage gTrainerBackPicTable_RedTeamRocket[];
-extern const struct SpriteFrameImage gTrainerBackPicTable_RedTeamAqua[];
-extern const struct SpriteFrameImage gTrainerBackPicTable_RedTeamMagma[];
-extern const struct SpriteFrameImage gTrainerBackPicTable_Leaf[];
-extern const struct SpriteFrameImage gTrainerBackPicTable_LeafDX[];
-extern const struct SpriteFrameImage gTrainerBackPicTable_LeafClassic[];
-extern const struct SpriteFrameImage gTrainerBackPicTable_LeafAlola[];
-extern const struct SpriteFrameImage gTrainerBackPicTable_LeafSygnaSuit[];
-extern const struct SpriteFrameImage gTrainerBackPicTable_LeafTeamRocket[];
-extern const struct SpriteFrameImage gTrainerBackPicTable_LeafTeamAqua[];
-extern const struct SpriteFrameImage gTrainerBackPicTable_LeafTeamMagma[];
-extern const struct SpriteFrameImage gTrainerBackPicTable_PokeDude[];
-extern const struct SpriteFrameImage gTrainerBackPicTable_OldMan[];
-extern const struct SpriteFrameImage gTrainerBackPicTable_Gold[];
-extern const struct SpriteFrameImage gTrainerBackPicTable_Kris[];
-extern const struct SpriteFrameImage gTrainerBackPicTable_EBrendan[];
-extern const struct SpriteFrameImage gTrainerBackPicTable_EMay[];
+
 extern const struct SpriteFrameImage gTrainerBackPicTable_RedOriginal[];
 extern const struct SpriteFrameImage gTrainerBackPicTable_LeafOriginal[];
+extern const struct SpriteFrameImage gTrainerBackPicTable_PokeDude[];
+extern const struct SpriteFrameImage gTrainerBackPicTable_OldMan[];
+extern const struct SpriteFrameImage gTrainerBackPicTable_EBrendan[];
+extern const struct SpriteFrameImage gTrainerBackPicTable_EMay[];
 extern const struct SpriteFrameImage gTrainerBackPicTable_RSBrendan[];
 extern const struct SpriteFrameImage gTrainerBackPicTable_RSMay[];
+extern const struct SpriteFrameImage gTrainerBackPicTable_Wally[];
+extern const struct SpriteFrameImage gTrainerBackPicTable_Steven[];
+
+extern const struct SpriteFrameImage gTrainerBackPicTable_Gold[];
+extern const struct SpriteFrameImage gTrainerBackPicTable_Kris[];
+extern const struct SpriteFrameImage gTrainerBackPicTable_Lance[];
+
+extern const struct SpriteFrameImage gTrainerBackPicTable_Red[];
+extern const struct SpriteFrameImage gTrainerBackPicTable_Leaf[];
+extern const struct SpriteFrameImage gTrainerBackPicTable_RedDX[];
+extern const struct SpriteFrameImage gTrainerBackPicTable_LeafDX[];
+extern const struct SpriteFrameImage gTrainerBackPicTable_RedClassic[];
+extern const struct SpriteFrameImage gTrainerBackPicTable_LeafClassic[];
+extern const struct SpriteFrameImage gTrainerBackPicTable_RedAlola[];
+extern const struct SpriteFrameImage gTrainerBackPicTable_LeafAlola[];
+extern const struct SpriteFrameImage gTrainerBackPicTable_RedSygnaSuit[];
+extern const struct SpriteFrameImage gTrainerBackPicTable_LeafSygnaSuit[];
+extern const struct SpriteFrameImage gTrainerBackPicTable_RedTeamRocket[];
+extern const struct SpriteFrameImage gTrainerBackPicTable_LeafTeamRocket[];
+extern const struct SpriteFrameImage gTrainerBackPicTable_RedTeamAqua[];
+extern const struct SpriteFrameImage gTrainerBackPicTable_LeafTeamAqua[];
+extern const struct SpriteFrameImage gTrainerBackPicTable_RedTeamMagma[];
+extern const struct SpriteFrameImage gTrainerBackPicTable_LeafTeamMagma[];
 
 extern const union AffineAnimCmd *const gAffineAnims_BattleSpritePlayerSide[];
 extern const union AffineAnimCmd *const gAffineAnims_BattleSpriteOpponentSide[];
@@ -132,7 +138,6 @@ extern const union AnimCmd *const *const gTrainerBackAnimsPtrTable[];
 extern const struct SpritePalette gTrainerBackPicPaletteTable[];
 
 extern const u8 gEnemyMonElevation[SPECIES_COUNT];
-extern const bool8 SpeciesHasGenderDifference[SPECIES_COUNT];
 
 extern const union AnimCmd *const *const gMonFrontAnimsPtrTable[];
 
@@ -140,6 +145,7 @@ extern const struct Trainer gTrainers[];
 extern const u8 gTrainerClassNames[][13];
 extern const u8 gJapaneseSpeciesNames[][JAPANESE_NAME_LENGTH + 1];
 extern const u8 gSpeciesNames[][POKEMON_NAME_LENGTH + 1];
+extern const u8 gFrenchSpeciesNames[][FRENCH_POKEMON_NAME_LENGTH + 1];
 extern const u8 gGermanSpeciesNames[][POKEMON_NAME_LENGTH + 1];
 extern const u8 gMoveNames[MOVES_COUNT][MOVE_NAME_LENGTH + 1];
 

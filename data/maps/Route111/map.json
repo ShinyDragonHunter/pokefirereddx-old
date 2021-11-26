@@ -9,7 +9,7 @@
   "map_type": "MAP_TYPE_ROUTE",
   "allow_cycling": true,
   "allow_escaping": false,
-  "allow_running": true,
+  "allow_running": false,
   "show_map_name": true,
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": [
@@ -213,7 +213,7 @@
       "flag": "FLAG_HIDE_ROUTE_111_GABBY_AND_TY_1"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_BREAKABLE_ROCK",
+      "graphics_id": "OBJ_EVENT_GFX_ROCK_SMASH_ROCK",
       "x": 18,
       "y": 101,
       "elevation": 3,
@@ -226,7 +226,7 @@
       "flag": "FLAG_TEMP_11"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_BREAKABLE_ROCK",
+      "graphics_id": "OBJ_EVENT_GFX_ROCK_SMASH_ROCK",
       "x": 19,
       "y": 100,
       "elevation": 3,
@@ -369,7 +369,7 @@
       "flag": "FLAG_ITEM_ROUTE_111_HP_UP"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_CUTTABLE_TREE",
+      "graphics_id": "OBJ_EVENT_GFX_CUT_TREE",
       "x": 22,
       "y": 21,
       "elevation": 3,

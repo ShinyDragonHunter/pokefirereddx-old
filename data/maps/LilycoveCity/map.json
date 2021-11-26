@@ -9,7 +9,7 @@
   "map_type": "MAP_TYPE_CITY",
   "allow_cycling": true,
   "allow_escaping": false,
-  "allow_running": true,
+  "allow_running": false,
   "show_map_name": true,
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": [
@@ -143,7 +143,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "x": 73,
       "y": 15,
       "elevation": 3,
@@ -169,7 +169,7 @@
       "flag": "FLAG_ITEM_LILYCOVE_CITY_MAX_REPEL"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "x": 43,
       "y": 18,
       "elevation": 3,
@@ -182,7 +182,7 @@
       "flag": "FLAG_HIDE_LILYCOVE_CITY_AQUA_GRUNTS"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "x": 46,
       "y": 12,
       "elevation": 3,
@@ -195,7 +195,7 @@
       "flag": "FLAG_HIDE_LILYCOVE_CITY_AQUA_GRUNTS"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "x": 45,
       "y": 12,
       "elevation": 3,
@@ -208,7 +208,7 @@
       "flag": "FLAG_HIDE_LILYCOVE_CITY_AQUA_GRUNTS"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "x": 38,
       "y": 9,
       "elevation": 5,

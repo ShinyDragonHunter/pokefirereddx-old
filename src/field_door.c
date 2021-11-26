@@ -338,7 +338,7 @@ static void Task_AnimateDoor(u8 taskId)
         DestroyTask(taskId);
 }
 
-static const struct DoorAnimFrame *GetLastDoorFrame(const struct DoorAnimFrame *frame, const void *unused)
+static const struct DoorAnimFrame *GetLastDoorFrame(const struct DoorAnimFrame *frame)
 {
     while (frame->time != 0)
         frame++;
@@ -386,17 +386,17 @@ static void DrawClosedDoor(const struct DoorGraphics *gfx, int x, int y)
 static void DrawOpenedDoor(const struct DoorGraphics *gfx, int x, int y)
 {
     gfx = GetDoorGraphics(gfx, MapGridGetMetatileIdAt(x, y));
-
     if (gfx != NULL)
-        DrawDoor(gfx, GetLastDoorFrame(sDoorOpenAnimFrames, sDoorOpenAnimFrames), x, y);
+        DrawDoor(gfx, GetLastDoorFrame(sDoorOpenAnimFrames), x, y);
 }
 
 static s8 StartDoorOpenAnimation(const struct DoorGraphics *gfx, int x, int y)
 {
     gfx = GetDoorGraphics(gfx, MapGridGetMetatileIdAt(x, y));
-
     if (gfx == NULL)
+    {
         return -1;
+    }
     else
     {
         if (gfx->size == 2)
@@ -447,12 +447,14 @@ bool8 FieldIsDoorAnimationRunning(void)
 u32 GetDoorSoundEffect(int x, int y)
 {
     int sound = GetDoorSoundType(sDoorAnimGraphicsTable, x, y);
-    
-    if (sound == DOOR_SOUND_SLIDING)
+
+    if (sound == DOOR_SOUND_NORMAL)
+        return SE_DOOR;
+    else if (sound == DOOR_SOUND_SLIDING)
         return SE_SLIDING_DOOR;
     else if (sound == DOOR_SOUND_ARENA)
         return SE_REPEL;
-    return SE_DOOR;
+    return SE_RG_DOOR;
 }
 
 static s8 GetDoorSoundType(const struct DoorGraphics *gfx, int x, int y)
@@ -468,8 +470,7 @@ static bool8 ShouldUseMultiCorridorDoor(void)
 {
     if (FlagGet(FLAG_ENABLE_MULTI_CORRIDOR_DOOR))
     {
-        if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(BATTLE_FRONTIER_BATTLE_TOWER_MULTI_CORRIDOR) 
-         && gSaveBlock1Ptr->location.mapNum == MAP_NUM(BATTLE_FRONTIER_BATTLE_TOWER_MULTI_CORRIDOR))
+        if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(BATTLE_FRONTIER_BATTLE_TOWER_MULTI_CORRIDOR) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(BATTLE_FRONTIER_BATTLE_TOWER_MULTI_CORRIDOR))
             return TRUE;
     }
     return FALSE;

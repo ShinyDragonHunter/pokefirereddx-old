@@ -3514,13 +3514,28 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
         return CreateMonSprite(mon);
     case 0:
         if (gMain.inBattle)
-            HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_LEFT], formSpecies, summary->pid);
+        {
+            if (SpeciesHasGenderDifferenceAndIsFemale(formSpecies, summary->pid))
+                HandleLoadSpecialPokePic(&gFemaleMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_LEFT], formSpecies, summary->pid);
+            else
+                HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_LEFT], formSpecies, summary->pid);
+        }
         else
         {
             if (gMonSpritesGfxPtr)
-                HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[1], formSpecies, summary->pid);
+            {
+                if (SpeciesHasGenderDifferenceAndIsFemale(formSpecies, summary->pid))
+                    HandleLoadSpecialPokePic(&gFemaleMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[1], formSpecies, summary->pid);
+                else
+                    HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[1], formSpecies, summary->pid);
+            }
             else
-                HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], MonSpritesGfxManager_GetSpritePtr(), formSpecies, summary->pid);
+            {
+                if (SpeciesHasGenderDifferenceAndIsFemale(formSpecies, summary->pid))
+                    HandleLoadSpecialPokePic(&gFemaleMonFrontPicTable[formSpecies], MonSpritesGfxManager_GetSpritePtr(), formSpecies, summary->pid);
+                else
+                    HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], MonSpritesGfxManager_GetSpritePtr(), formSpecies, summary->pid);
+            }
         }
         (*state)++;
         return 0xFF;

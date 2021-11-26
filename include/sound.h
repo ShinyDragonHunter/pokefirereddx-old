@@ -22,6 +22,7 @@ enum {
     FANFARE_REGISTER_MATCH_CALL,
 };
 
+u16 GetDayNightSong(u16 songNum);
 void InitMapMusic(void);
 void MapMusicMain(void);
 void ResetMapMusic(void);

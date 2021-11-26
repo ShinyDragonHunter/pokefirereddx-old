@@ -149,7 +149,7 @@ const struct BgTemplate gBattleBgTemplates[4] =
         .priority = 1,
         .baseTile = 0
     },
-   {
+    {
         .bg = 3,
         .charBaseIndex = 2,
         .mapBaseIndex = 26,
@@ -465,6 +465,7 @@ static const struct BattleBackground sBattleTerrainTable[] =
         .entryTilemap = sBattleTerrainAnimTilemap_Building,
         .palette = {sBattleTerrainPalette_Plain, sBattleTerrainPalette_Plain, sBattleTerrainPalette_Plain},
     },
+
     // The order of these up to BATTLE_TERRAIN_CHAMPION are in sync with MAP_BATTLE_SCENE_* defines 
     [BATTLE_TERRAIN_GYM] =
     {
@@ -474,6 +475,7 @@ static const struct BattleBackground sBattleTerrainTable[] =
         .entryTilemap = sBattleTerrainAnimTilemap_Building,
         .palette = {sBattleTerrainPalette_Gym, sBattleTerrainPalette_Gym, sBattleTerrainPalette_Gym},
     },
+
     [BATTLE_TERRAIN_INDOOR_1] =
     {
         .tileset = sBattleTerrainTiles_Building,
@@ -482,6 +484,7 @@ static const struct BattleBackground sBattleTerrainTable[] =
         .entryTilemap = sBattleTerrainAnimTilemap_Building,
         .palette = {sBattleTerrainPalette_Indoor1, sBattleTerrainPalette_Indoor1, sBattleTerrainPalette_Indoor1},
     },
+
     [BATTLE_TERRAIN_INDOOR_2] =
     {
         .tileset = sBattleTerrainTiles_Building,
@@ -490,6 +493,7 @@ static const struct BattleBackground sBattleTerrainTable[] =
         .entryTilemap = sBattleTerrainAnimTilemap_Building,
         .palette = {sBattleTerrainPalette_Indoor2, sBattleTerrainPalette_Indoor2, sBattleTerrainPalette_Indoor2},
     },
+
     [BATTLE_TERRAIN_LORELEI] =
     {
         .tileset = sBattleTerrainTiles_Building,
@@ -498,6 +502,7 @@ static const struct BattleBackground sBattleTerrainTable[] =
         .entryTilemap = sBattleTerrainAnimTilemap_Building,
         .palette = {sBattleTerrainPalette_Lorelei, sBattleTerrainPalette_Lorelei, sBattleTerrainPalette_Lorelei},
     },
+
     [BATTLE_TERRAIN_BRUNO] =
     {
         .tileset = sBattleTerrainTiles_Building,
@@ -506,6 +511,7 @@ static const struct BattleBackground sBattleTerrainTable[] =
         .entryTilemap = sBattleTerrainAnimTilemap_Building,
         .palette = {sBattleTerrainPalette_Bruno, sBattleTerrainPalette_Bruno, sBattleTerrainPalette_Bruno},
     },
+
     [BATTLE_TERRAIN_AGATHA] =
     {
         .tileset = sBattleTerrainTiles_Building,
@@ -514,6 +520,7 @@ static const struct BattleBackground sBattleTerrainTable[] =
         .entryTilemap = sBattleTerrainAnimTilemap_Building,
         .palette = {sBattleTerrainPalette_Agatha, sBattleTerrainPalette_Agatha, sBattleTerrainPalette_Agatha},
     },
+
     [BATTLE_TERRAIN_LANCE] =
     {
         .tileset = sBattleTerrainTiles_Building,
@@ -522,6 +529,7 @@ static const struct BattleBackground sBattleTerrainTable[] =
         .entryTilemap = sBattleTerrainAnimTilemap_Building,
         .palette = {sBattleTerrainPalette_Lance, sBattleTerrainPalette_Lance, sBattleTerrainPalette_Lance},
     },
+
     [BATTLE_TERRAIN_LINK] =
     {
         .tileset = sBattleTerrainTiles_Building,
@@ -530,6 +538,7 @@ static const struct BattleBackground sBattleTerrainTable[] =
         .entryTilemap = sBattleTerrainAnimTilemap_Building,
         .palette = {sBattleTerrainPalette_Link, sBattleTerrainPalette_Link, sBattleTerrainPalette_Link},
     },
+
     [BATTLE_TERRAIN_CHAMPION] =
     {
         .tileset = sBattleTerrainTiles_Building,
@@ -542,7 +551,7 @@ static const struct BattleBackground sBattleTerrainTable[] =
 
 void LoadBattleTerrainGfx(u16 terrain)
 {
-    u8 timeOfDay = (gMapHeader.useNightTint) ? TIME_NIGHT : GetCurrentTimeOfDay();
+    u8 timeOfDay = (gMapHeader.allowRunning) ? TIME_NIGHT : GetCurrentTimeOfDay();
 
     if (terrain >= ARRAY_COUNT(sBattleTerrainTable))
         terrain = BATTLE_TERRAIN_PLAIN;
@@ -924,7 +933,7 @@ u8 GetBattleTerrainOverride(void)
 
 bool8 LoadChosenBattleElement(u8 caseId)
 {
-    u8 timeOfDay = (gMapHeader.useNightTint) ? TIME_NIGHT : GetCurrentTimeOfDay();
+    u8 timeOfDay = (gMapHeader.allowRunning) ? TIME_NIGHT : GetCurrentTimeOfDay();
     bool8 ret = FALSE;
 
     switch (caseId)

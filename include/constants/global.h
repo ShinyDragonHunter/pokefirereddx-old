@@ -32,10 +32,10 @@
 // The idea is that each unofficial game will have its own number
 // they can use in conjunction with one of the official origin game IDs
 // so that they do not have to requisition a new ID for every project.
-#define MODIFIER_NONE             0 // Official games
-#define MODIFIER_HELIODOR         1 // Heliodor
-#define MODIFIER_DX               2 // 4-2 is FireRed DX and 5-2 is LeafGreen DX
-#define MODIFIER_CRYSTALDUST      3 // 4-3 is forced for CrystalDust
+#define MODIFIER_NONE        0 // Official games
+#define MODIFIER_HELIODOR    1 // Heliodor
+#define MODIFIER_DX          2 // 4-2 is FireRed DX and 5-2 is LeafGreen DX
+#define MODIFIER_CRYSTALDUST 3 // 4-3 is forced for CrystalDust
 
 #define GAME_VERSION (VERSION_FIRE_RED)
 #define GAME_LANGUAGE (LANGUAGE_ENGLISH)
@@ -86,8 +86,9 @@
 
 // string lengths
 #define ITEM_NAME_LENGTH 14
-#define POKEMON_NAME_LENGTH 10
 #define JAPANESE_NAME_LENGTH 5
+#define POKEMON_NAME_LENGTH 10
+#define FRENCH_POKEMON_NAME_LENGTH 12
 #define PLAYER_NAME_LENGTH 7
 #define MAIL_WORDS_COUNT 9
 #define EASY_CHAT_BATTLE_WORDS_COUNT 6

@@ -103,7 +103,7 @@ static void LoadPaletteOverrides(void)
     u32 i, j;
     const u16* src;
     u16* dest;
-    s8 hour = (gMapHeader.useNightTint) ? HOUR_MIDNIGHT_0 : gLocalTime.hours;
+    s8 hour = (gMapHeader.allowRunning) ? HOUR_MIDNIGHT_0 : gLocalTime.hours;
 
     for (i = 0; i < ARRAY_COUNT(gPaletteOverrides); i++)
     {
@@ -129,25 +129,16 @@ static void LoadPaletteOverrides(void)
     }
 }
 
-static bool8 ShouldTintOverworld(void)
-{
-    if (IsMapTypeOutdoors(gMapHeader.mapType))
-        return TRUE;
-
-    // more conditions?
-    return FALSE;
-}
-
 void TintPaletteForDayNight(u16 offset, u16 size)
 {
     s8 hour, nextHour;
     u8 hourPhase;
     u16 period;
 
-    if (ShouldTintOverworld())
+    if (IsMapTypeOutdoors(gMapHeader.mapType))
     {
         RtcCalcLocalTimeFast();
-        if (gMapHeader.useNightTint)
+        if (gMapHeader.allowRunning)
         {
             hour = HOUR_MIDNIGHT_0;
             hourPhase = 0;
@@ -175,7 +166,7 @@ void TintPaletteForDayNight(u16 offset, u16 size)
 
 void CheckClockForImmediateTimeEvents(void)
 {
-    if (!sDNSystemControl.retintPhase && ShouldTintOverworld())
+    if (!sDNSystemControl.retintPhase && IsMapTypeOutdoors(gMapHeader.mapType))
         RtcCalcLocalTimeFast();
 }
 
@@ -186,7 +177,7 @@ void ProcessImmediateTimeEvents(void)
     u16 period;
     u8 timeOfDay = GetCurrentTimeOfDay();
 
-    if (ShouldTintOverworld())
+    if (IsMapTypeOutdoors(gMapHeader.mapType))
     {
         if (sDNSystemControl.retintPhase)
         {
@@ -200,7 +191,7 @@ void ProcessImmediateTimeEvents(void)
         }
         else
         {
-            if (gMapHeader.useNightTint)
+            if (gMapHeader.allowRunning)
             {
                 hour = HOUR_MIDNIGHT_0;
                 hourPhase = 0;

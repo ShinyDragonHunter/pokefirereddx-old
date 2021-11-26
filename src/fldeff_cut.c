@@ -148,7 +148,7 @@ bool8 SetUpFieldMove_Cut(void)
     bool8 cutTiles[CUT_NORMAL_AREA];
     bool8 ret;
 
-    if (CheckObjectGraphicsInFrontOfPlayer(OBJ_EVENT_GFX_CUTTABLE_TREE))
+    if (CheckObjectGraphicsInFrontOfPlayer(OBJ_EVENT_GFX_CUT_TREE))
     {
         // Standing in front of cuttable tree.
         gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;

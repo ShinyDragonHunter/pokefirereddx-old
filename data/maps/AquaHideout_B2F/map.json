@@ -15,7 +15,7 @@
   "connections": null,
   "object_events": [
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "x": 23,
       "y": 19,
       "elevation": 3,
@@ -28,7 +28,7 @@
       "flag": "FLAG_HIDE_AQUA_HIDEOUT_GRUNTS"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "x": 23,
       "y": 10,
       "elevation": 3,
@@ -67,7 +67,7 @@
       "flag": "FLAG_HIDE_AQUA_HIDEOUT_B2F_SUBMARINE_SHADOW"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_F",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_F",
       "x": 7,
       "y": 5,
       "elevation": 3,
@@ -80,7 +80,7 @@
       "flag": "FLAG_HIDE_AQUA_HIDEOUT_GRUNTS"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "x": 13,
       "y": 5,
       "elevation": 3,

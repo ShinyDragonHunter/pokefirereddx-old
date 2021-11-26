@@ -9,7 +9,7 @@
   "map_type": "MAP_TYPE_CITY",
   "allow_cycling": true,
   "allow_escaping": false,
-  "allow_running": true,
+  "allow_running": false,
   "show_map_name": true,
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": [
@@ -166,7 +166,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_HOENN_SCOTT",
+      "graphics_id": "OBJ_EVENT_GFX_SCOTT",
       "x": 12,
       "y": 14,
       "elevation": 3,

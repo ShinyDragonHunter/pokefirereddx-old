@@ -28,7 +28,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_HOENN_AZURILL",
+      "graphics_id": "OBJ_EVENT_GFX_AZURILL",
       "x": 3,
       "y": 5,
       "elevation": 0,
@@ -41,7 +41,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_HOENN_KIRLIA",
+      "graphics_id": "OBJ_EVENT_GFX_KIRLIA",
       "x": 12,
       "y": 6,
       "elevation": 0,
@@ -67,7 +67,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_HOENN_ZIGZAGOON",
+      "graphics_id": "OBJ_EVENT_GFX_ZIGZAGOON",
       "x": 4,
       "y": 9,
       "elevation": 0,
@@ -80,7 +80,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_HOENN_AZUMARILL",
+      "graphics_id": "OBJ_EVENT_GFX_AZUMARILL",
       "x": 13,
       "y": 9,
       "elevation": 0,
@@ -93,7 +93,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_HOENN_WINGULL",
+      "graphics_id": "OBJ_EVENT_GFX_WINGULL",
       "x": 3,
       "y": 10,
       "elevation": 0,
