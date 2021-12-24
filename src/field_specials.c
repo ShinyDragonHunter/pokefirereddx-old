@@ -2112,7 +2112,7 @@ static const u8 *const sScrollableMultichoiceOptions[][MAX_SCROLL_MULTI_LENGTH] 
 {
     [SCROLL_MULTI_NONE] =
     {
-        gText_Exit
+        gText_MenuOptionExit
     },
     [SCROLL_MULTI_GLASS_WORKSHOP_VENDOR] =
     {
@@ -2123,7 +2123,7 @@ static const u8 *const sScrollableMultichoiceOptions[][MAX_SCROLL_MULTI_LENGTH] 
         gText_BlackFlute,
         gText_PrettyChair,
         gText_PrettyDesk,
-        gText_Exit
+        gText_MenuOptionExit
     },
     [SCROLL_MULTI_POKEMON_FAN_CLUB_RATER] =
     {
@@ -2148,7 +2148,7 @@ static const u8 *const sScrollableMultichoiceOptions[][MAX_SCROLL_MULTI_LENGTH] 
         gText_Zinc1BP,
         gText_Carbos1BP,
         gText_HpUp1BP,
-        gText_Exit
+        gText_MenuOptionExit
     },
     [SCROLL_MULTI_BF_EXCHANGE_CORNER_HOLD_ITEM_VENDOR] =
     {
@@ -2161,7 +2161,7 @@ static const u8 *const sScrollableMultichoiceOptions[][MAX_SCROLL_MULTI_LENGTH] 
         gText_KingsRock64BP,
         gText_FocusBand64BP,
         gText_ScopeLens64BP,
-        gText_Exit
+        gText_MenuOptionExit
     },
     [SCROLL_MULTI_BERRY_POWDER_VENDOR] =
     {
@@ -2176,11 +2176,11 @@ static const u8 *const sScrollableMultichoiceOptions[][MAX_SCROLL_MULTI_LENGTH] 
         gText_Zinc1000,
         gText_HPUp1000,
         gText_PPUp3000,
-        gText_Exit
+        gText_MenuOptionExit
     },
     [SCROLL_MULTI_BF_RECEPTIONIST] =
     {
-        gText_BattleTower2,
+        gText_BattleTower,
         gText_BattleDome,
         gText_BattlePalace,
         gText_BattleArena,
@@ -2189,7 +2189,7 @@ static const u8 *const sScrollableMultichoiceOptions[][MAX_SCROLL_MULTI_LENGTH] 
         gText_BattlePyramid,
         gText_RankingHall,
         gText_ExchangeService,
-        gText_Exit
+        gText_MenuOptionExit
     },
     [SCROLL_MULTI_BF_MOVE_TUTOR_1] =
     {
@@ -2203,7 +2203,7 @@ static const u8 *const sScrollableMultichoiceOptions[][MAX_SCROLL_MULTI_LENGTH] 
         gText_Counter48BP,
         gText_ThunderWave48BP,
         gText_SwordsDance48BP,
-        gText_Exit
+        gText_MenuOptionExit
     },
     [SCROLL_MULTI_BF_MOVE_TUTOR_2] =
     {
@@ -2217,7 +2217,7 @@ static const u8 *const sScrollableMultichoiceOptions[][MAX_SCROLL_MULTI_LENGTH] 
         gText_IcePunch48BP,
         gText_ThunderPunch48BP,
         gText_FirePunch48BP,
-        gText_Exit
+        gText_MenuOptionExit
     },
     [SCROLL_MULTI_SS_TIDAL_DESTINATION] =
     {
@@ -2227,7 +2227,7 @@ static const u8 *const sScrollableMultichoiceOptions[][MAX_SCROLL_MULTI_LENGTH] 
         gText_NavelRock,
         gText_BirthIsland,
         gText_FarawayIsland,
-        gText_Exit
+        gText_MenuOptionExit
     },
     [SCROLL_MULTI_BATTLE_TENT_RULES] =
     {
@@ -2237,7 +2237,7 @@ static const u8 *const sScrollableMultichoiceOptions[][MAX_SCROLL_MULTI_LENGTH] 
         gText_PokemonMoves,
         gText_Underpowered,
         gText_WhenInDanger,
-        gText_Exit
+        gText_MenuOptionExit
     }
 };
 
@@ -2888,7 +2888,7 @@ static void ShowBattleFrontierTutorMoveDescription(u8 menu, u16 selection)
         BattleFrontier_Lounge7_Text_CounterDesc,
         BattleFrontier_Lounge7_Text_ThunderWaveDesc,
         BattleFrontier_Lounge7_Text_SwordsDanceDesc,
-        gText_Exit,
+        gText_MenuOptionExit,
     };
 
     static const u8 *const sBattleFrontier_TutorMoveDescriptions2[] =
@@ -2903,7 +2903,7 @@ static void ShowBattleFrontierTutorMoveDescription(u8 menu, u16 selection)
         BattleFrontier_Lounge7_Text_IcePunchDesc,
         BattleFrontier_Lounge7_Text_ThunderPunchDesc,
         BattleFrontier_Lounge7_Text_FirePunchDesc,
-        gText_Exit,
+        gText_MenuOptionExit,
     };
 
     if (menu == SCROLL_MULTI_BF_MOVE_TUTOR_1 || menu == SCROLL_MULTI_BF_MOVE_TUTOR_2)

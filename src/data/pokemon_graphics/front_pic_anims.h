@@ -493,7 +493,6 @@ static const union AnimCmd sAnim_MANKEY_1[] =
     ANIMCMD_FRAME(0, 5),
     ANIMCMD_FRAME(1, 5),
     ANIMCMD_FRAME(0, 28),
-    ANIMCMD_FRAME(1, 20),
     ANIMCMD_FRAME(0, 5),
     ANIMCMD_END,
 };
@@ -676,9 +675,8 @@ static const union AnimCmd sAnim_GRAVELER_1[] =
 
 static const union AnimCmd sAnim_GOLEM_1[] =
 {
-    ANIMCMD_FRAME(0, 15),
-    ANIMCMD_FRAME(1, 60),
-    ANIMCMD_FRAME(1, 5),
+    ANIMCMD_FRAME(1, 40),
+    ANIMCMD_FRAME(1, 25),
     ANIMCMD_FRAME(0, 5),
     ANIMCMD_END,
 };
@@ -3803,7 +3801,7 @@ static const union AnimCmd *const sAnims_EGG[] ={
 #define ANIM_CMD(name)             [SPECIES_##name] = sAnims_##name
 #define ANIM_CMD_FULL(name, anims) [SPECIES_##name] = anims
 
-const union AnimCmd *const *const gMonFrontAnimsPtrTable[SPECIES_COUNT] =
+const union AnimCmd *const *const gMonFrontAnimsPtrTable[] =
 {
     ANIM_CMD_FULL(NONE, gAnims_NONE),
     ANIM_CMD(BULBASAUR),
@@ -4113,7 +4111,7 @@ const union AnimCmd *const *const gMonFrontAnimsPtrTable[SPECIES_COUNT] =
     ANIM_CMD(SWELLOW),
     ANIM_CMD(SHROOMISH),
     ANIM_CMD_FULL(BRELOOM, sAnims_LOMBRE),
-    ANIM_CMD_FULL(SPINDA, gAnims_NONE),
+    ANIM_CMD_FULL(SPINDA, sAnims_MAGIKARP),
     ANIM_CMD(WINGULL),
     ANIM_CMD(PELIPPER),
     ANIM_CMD(SURSKIT),

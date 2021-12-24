@@ -198,7 +198,14 @@ Route101_EventScript_Boy::
 	end
 
 Route101_EventScript_RouteSign::
+	call EventScript_OutfitChange
+	special ChangeForm
+	lockall
 	msgbox Route101_Text_RouteSign, MSGBOX_SIGN
+	setwildbattle SPECIES_MAROWAK, 30, ITEM_NONE
+	special BattleSetup_StartMarowakBattle
+	waitstate
+	releaseall
 	end
 
 Route101_EventScript_BirchsBag::

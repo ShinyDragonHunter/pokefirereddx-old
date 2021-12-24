@@ -202,6 +202,9 @@ static void Anim_ShakeGlowGreen_Slow(struct Sprite *sprite);
 static void Anim_ShakeGlowBlue_Fast(struct Sprite *sprite);
 static void Anim_ShakeGlowBlue(struct Sprite *sprite);
 static void Anim_ShakeGlowBlue_Slow(struct Sprite *sprite);
+static void Anim_ShakeGlowPurple_Fast(struct Sprite *sprite);
+static void Anim_ShakeGlowPurple(struct Sprite *sprite);
+static void Anim_ShakeGlowPurple_Slow(struct Sprite *sprite);
 
 static void WaitAnimEnd(struct Sprite *sprite);
 
@@ -238,6 +241,7 @@ static const u8 sVerticalShakeData[][2] =
 
 static void (* const sMonAnimFunctions[])(struct Sprite *sprite) =
 {
+    [ANIM_NONE]                              = SpriteCallbackDummy,
     [ANIM_V_SQUISH_AND_BOUNCE]               = Anim_VerticalSquishBounce,
     [ANIM_CIRCULAR_STRETCH_TWICE]            = Anim_CircularStretchTwice,
     [ANIM_H_VIBRATE]                         = Anim_HorizontalVibrate,
@@ -273,11 +277,11 @@ static void (* const sMonAnimFunctions[])(struct Sprite *sprite) =
     [ANIM_GLOW_ORANGE]                       = Anim_GlowOrange,
     [ANIM_GLOW_RED]                          = Anim_GlowRed, // Unused
     [ANIM_GLOW_BLUE]                         = Anim_GlowBlue,
-    [ANIM_GLOW_YELLOW]                       = Anim_GlowYellow, // Unused
+    [ANIM_GLOW_YELLOW]                       = Anim_GlowYellow,
     [ANIM_GLOW_PURPLE]                       = Anim_GlowPurple, // Unused
     [ANIM_BACK_AND_LUNGE]                    = Anim_BackAndLunge,
     [ANIM_BACK_FLIP]                         = Anim_BackFlip, // Unused
-    [ANIM_FLICKER]                           = Anim_Flicker, // Unused
+    [ANIM_FLICKER]                           = Anim_Flicker,
     [ANIM_BACK_FLIP_BIG]                     = Anim_BackFlipBig, // Unused
     [ANIM_FRONT_FLIP]                        = Anim_FrontFlip,
     [ANIM_TUMBLING_FRONT_FLIP]               = Anim_TumblingFrontFlip, // Unused
@@ -388,14 +392,17 @@ static void (* const sMonAnimFunctions[])(struct Sprite *sprite) =
     [ANIM_SHAKE_GLOW_GREEN_SLOW]             = Anim_ShakeGlowGreen_Slow,
     [ANIM_SHAKE_GLOW_BLUE_FAST]              = Anim_ShakeGlowBlue_Fast,
     [ANIM_SHAKE_GLOW_BLUE]                   = Anim_ShakeGlowBlue,
-    [ANIM_SHAKE_GLOW_BLUE_SLOW]              = Anim_ShakeGlowBlue_Slow
+    [ANIM_SHAKE_GLOW_BLUE_SLOW]              = Anim_ShakeGlowBlue_Slow,
+    [ANIM_SHAKE_GLOW_PURPLE_FAST]            = Anim_ShakeGlowPurple_Fast,
+    [ANIM_SHAKE_GLOW_PURPLE]                 = Anim_ShakeGlowPurple,
+    [ANIM_SHAKE_GLOW_PURPLE_SLOW]            = Anim_ShakeGlowPurple_Slow
 };
 
 // Each back anim set has 3 possible animations depending on nature
 // Each of the 3 animations is a slight variation of the others
 static const u8 sBackAnimationIds[] =
 {
-    [(BACK_ANIM_NONE) * 3]                    = ANIM_V_SQUISH_AND_BOUNCE, ANIM_V_SQUISH_AND_BOUNCE, ANIM_V_SQUISH_AND_BOUNCE,
+    [(BACK_ANIM_NONE) * 3]                    = ANIM_NONE, ANIM_NONE, ANIM_NONE,
     [(BACK_ANIM_H_VIBRATE) * 3]               = ANIM_H_VIBRATE_FASTEST, ANIM_H_VIBRATE_FAST, ANIM_H_VIBRATE,
     [(BACK_ANIM_H_SLIDE) * 3]                 = ANIM_H_SLIDE_FAST, ANIM_H_SLIDE, ANIM_H_SLIDE_SLOW,
     [(BACK_ANIM_H_SPRING) * 3]                = ANIM_H_SPRING_FAST, ANIM_H_SPRING, ANIM_H_SPRING_SLOW,
@@ -421,6 +428,7 @@ static const u8 sBackAnimationIds[] =
     [(BACK_ANIM_SHAKE_GLOW_RED) * 3]          = ANIM_SHAKE_GLOW_RED_FAST, ANIM_SHAKE_GLOW_RED, ANIM_SHAKE_GLOW_RED_SLOW,
     [(BACK_ANIM_SHAKE_GLOW_GREEN) * 3]        = ANIM_SHAKE_GLOW_GREEN_FAST, ANIM_SHAKE_GLOW_GREEN, ANIM_SHAKE_GLOW_GREEN_SLOW,
     [(BACK_ANIM_SHAKE_GLOW_BLUE) * 3]         = ANIM_SHAKE_GLOW_BLUE_FAST,  ANIM_SHAKE_GLOW_BLUE, ANIM_SHAKE_GLOW_BLUE_SLOW,
+    [(BACK_ANIM_SHAKE_GLOW_PURPLE) * 3]       = ANIM_SHAKE_GLOW_PURPLE_FAST,  ANIM_SHAKE_GLOW_PURPLE, ANIM_SHAKE_GLOW_PURPLE_SLOW,
 };
 
 static const u8 sBackAnimNatureModTable[NUM_NATURES] =
@@ -595,10 +603,10 @@ static void HandleStartAffineAnim(struct Sprite *sprite)
     if (sIsSummaryAnim)
         InitSpriteAffineAnim(sprite);
 
-    if (!sprite->sDontFlip)
-        StartSpriteAffineAnim(sprite, 1);
-    else
+    if (sprite->sDontFlip)
         StartSpriteAffineAnim(sprite, 0);
+    else
+        StartSpriteAffineAnim(sprite, 1);
 
     CalcCenterToCornerVec(sprite, sprite->oam.shape, sprite->oam.size, sprite->oam.affineMode);
     sprite->affineAnimPaused = TRUE;
@@ -652,10 +660,7 @@ static void ResetSpriteAfterAnim(struct Sprite *sprite)
 
     if (sIsSummaryAnim)
     {
-        if (!sprite->sDontFlip)
-            sprite->hFlip = TRUE;
-        else
-            sprite->hFlip = FALSE;
+        sprite->hFlip = !sprite->sDontFlip;
 
         FreeOamMatrix(sprite->oam.matrixNum);
         sprite->oam.matrixNum |= (sprite->hFlip << 3);
@@ -3557,10 +3562,10 @@ static void VerticalStretchBothEnds(struct Sprite *sprite)
             index1 = sprite->data[7] & 0xFF;
         }
 
-        if (!sprite->sDontFlip)
-            xScale = -256 - Sin(index2, 16);
-        else
+        if (sprite->sDontFlip)
             xScale = 256 + Sin(index2, 16);
+        else
+            xScale = -256 - Sin(index2, 16);
 
         amplitude = sprite->data[3];
         yScale = 256 - Sin(index2, amplitude) - Sin(index1, amplitude / 5);
@@ -3620,10 +3625,10 @@ static void HorizontalStretchFar(struct Sprite *sprite)
 
         amplitude = sprite->data[3];
 
-        if (!sprite->sDontFlip)
-            xScale = -256 + Sin(index2, amplitude) + Sin(index1, amplitude / 5 * 2);
-        else
+        if (sprite->sDontFlip)
             xScale = 256 - Sin(index2, amplitude) - Sin(index1, amplitude / 5 * 2);
+        else
+            xScale = -256 + Sin(index2, amplitude) + Sin(index1, amplitude / 5 * 2);
 
         SetAffineData(sprite, xScale, 256, 0);
         sprite->data[5]++;
@@ -3819,10 +3824,10 @@ static void GrowStutter(struct Sprite *sprite)
 
         amplitude = sprite->data[3];
 
-        if (!sprite->sDontFlip)
-            xScale = Sin(index2, amplitude) + (Sin(index1, amplitude / 5 * 2) - 256);
-        else
+        if (sprite->sDontFlip)
             xScale = 256 - Sin(index1, amplitude / 5 * 2) - Sin(index2, amplitude);
+        else
+            xScale = Sin(index2, amplitude) + (Sin(index1, amplitude / 5 * 2) - 256);
 
         yScale = 256 - Sin(index1, amplitude / 5) - Sin(index2, amplitude);
         SetAffineData(sprite, xScale, yScale, 0);
@@ -4890,7 +4895,8 @@ enum {
     SHAKEGLOW_RED,
     SHAKEGLOW_GREEN,
     SHAKEGLOW_BLUE,
-    SHAKEGLOW_BLACK
+    SHAKEGLOW_BLACK,
+    SHAKEGLOW_PURPLE
 };
 
 static void ShakeGlow_Blend(struct Sprite *sprite)
@@ -4900,7 +4906,8 @@ static void ShakeGlow_Blend(struct Sprite *sprite)
         [SHAKEGLOW_RED]   = RGB_RED,
         [SHAKEGLOW_GREEN] = RGB_GREEN,
         [SHAKEGLOW_BLUE]  = RGB_BLUE,
-        [SHAKEGLOW_BLACK] = RGB_BLACK
+        [SHAKEGLOW_BLACK] = RGB_BLACK,
+        [SHAKEGLOW_PURPLE] = RGB(24, 0, 24)
     };
 
     if (sprite->data[2] > 127)
@@ -5116,6 +5123,69 @@ static void Anim_ShakeGlowBlue_Slow(struct Sprite *sprite)
         sprite->data[4] = 1;
         sprite->data[3] = 0;
         sprite->data[1] = SHAKEGLOW_BLUE;
+    }
+
+    if (sprite->data[2] % 2 == 0)
+        ShakeGlow_Blend(sprite);
+
+    if (sprite->data[2] >= (128 - sprite->data[0] * sprite->data[4]) / 2)
+        ShakeGlow_Move(sprite);
+
+    sprite->data[2]++;
+}
+
+static void Anim_ShakeGlowPurple_Fast(struct Sprite *sprite)
+{
+    if (sprite->data[2] == 0)
+    {
+        sprite->data[7] = (sprite->oam.paletteNum * 16) + 256;
+        sprite->data[0] = 10;
+        sprite->data[5] = 0;
+        sprite->data[4] = 2;
+        sprite->data[3] = 0;
+        sprite->data[1] = SHAKEGLOW_PURPLE;
+    }
+
+    if (sprite->data[2] % 2 == 0)
+        ShakeGlow_Blend(sprite);
+
+    if (sprite->data[2] >= (128 - sprite->data[0] * sprite->data[4]) / 2)
+        ShakeGlow_Move(sprite);
+
+    sprite->data[2]++;
+}
+
+static void Anim_ShakeGlowPurple(struct Sprite *sprite)
+{
+    if (sprite->data[2] == 0)
+    {
+        sprite->data[7] = (sprite->oam.paletteNum * 16) + 256;
+        sprite->data[0] = 20;
+        sprite->data[5] = 0;
+        sprite->data[4] = 1;
+        sprite->data[3] = 0;
+        sprite->data[1] = SHAKEGLOW_PURPLE;
+    }
+
+    if (sprite->data[2] % 2 == 0)
+        ShakeGlow_Blend(sprite);
+
+    if (sprite->data[2] >= (128 - sprite->data[0] * sprite->data[4]) / 2)
+        ShakeGlow_Move(sprite);
+
+    sprite->data[2]++;
+}
+
+static void Anim_ShakeGlowPurple_Slow(struct Sprite *sprite)
+{
+    if (sprite->data[2] == 0)
+    {
+        sprite->data[7] = (sprite->oam.paletteNum * 16) + 256;
+        sprite->data[0] = 80;
+        sprite->data[5] = 0;
+        sprite->data[4] = 1;
+        sprite->data[3] = 0;
+        sprite->data[1] = SHAKEGLOW_PURPLE;
     }
 
     if (sprite->data[2] % 2 == 0)

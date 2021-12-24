@@ -56,8 +56,8 @@
 #define BATTLE_TYPE_WALLY_TUTORIAL     (1 << 9)
 #define BATTLE_TYPE_ROAMER             (1 << 10)
 #define BATTLE_TYPE_EREADER_TRAINER    (1 << 11)
-#define BATTLE_TYPE_GHOST_UNVEILED     (1 << 12)
-#define BATTLE_TYPE_GHOST              (1 << 13)
+#define BATTLE_TYPE_GHOST              (1 << 12)
+#define BATTLE_TYPE_GHOST_UNVEILED     (1 << 13)
 #define BATTLE_TYPE_TWO_OPPONENTS      (1 << 14)
 #define BATTLE_TYPE_DOME               (1 << 15)
 #define BATTLE_TYPE_PALACE             (1 << 16)
@@ -75,6 +75,8 @@
 #define BATTLE_TYPE_FRONTIER_NO_PYRAMID     (BATTLE_TYPE_BATTLE_TOWER | BATTLE_TYPE_DOME | BATTLE_TYPE_PALACE | BATTLE_TYPE_ARENA | BATTLE_TYPE_FACTORY | BATTLE_TYPE_PIKE)
 
 #define WILD_DOUBLE_BATTLE ((gBattleTypeFlags & BATTLE_TYPE_DOUBLE && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_TRAINER))))
+#define IS_BATTLE_TYPE_GHOST_WITHOUT_SCOPE(flags) ((flags) & BATTLE_TYPE_GHOST && !((flags) & BATTLE_TYPE_GHOST_UNVEILED))
+#define IS_BATTLE_TYPE_GHOST_WITH_SCOPE(flags) ((flags) & BATTLE_TYPE_GHOST && (flags) & BATTLE_TYPE_GHOST_UNVEILED)
 
 #define B_DOUBLE_WILD_CHANCE 5 // % chance of encountering two Pokémon at once in a wild encounter.
 
@@ -307,8 +309,8 @@
 #define BATTLE_TERRAIN_BRUNO       14
 #define BATTLE_TERRAIN_AGATHA      15
 #define BATTLE_TERRAIN_LANCE       16
-#define BATTLE_TERRAIN_CHAMPION    17
-#define BATTLE_TERRAIN_LINK        18
+#define BATTLE_TERRAIN_LINK        17
+#define BATTLE_TERRAIN_CHAMPION    18
 
 #define B_WAIT_TIME_LONG  64
 #define B_WAIT_TIME_MED   48

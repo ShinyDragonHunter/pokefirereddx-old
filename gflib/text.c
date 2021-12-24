@@ -60,7 +60,8 @@ const struct GlyphWidthFunc gGlyphWidthFuncs[] =
     { 0x3, GetGlyphWidthFont3 },
     { 0x4, GetGlyphWidthFont4 },
     { 0x5, GetGlyphWidthFont5 },
-    { 0x6, GetGlyphWidthFont6 }
+    { 0x6, GetGlyphWidthFont6 },
+    { 0x7, GetGlyphWidthFont7 }
 };
 
 static const struct KeypadIcon sKeypadIcons[] =
@@ -99,6 +100,7 @@ extern const u8 gFont4LatinGlyphWidths[];
 extern const u16 gFont4JapaneseGlyphs[];
 extern const u16 gFont5LatinGlyphs[];
 extern const u8 gFont5LatinGlyphWidths[];
+extern const u8 gFont6LatinGlyphWidths[];
 
 void SetFontsPointer(const struct FontInfo *fonts)
 {
@@ -593,6 +595,18 @@ u16 Font5Func(struct TextPrinter *textPrinter)
     return RenderText(textPrinter);
 }
 
+u16 Font6Func(struct TextPrinter *textPrinter)
+{
+    struct TextPrinterSubStruct *subStruct = (struct TextPrinterSubStruct *)(&textPrinter->subStructFields);
+
+    if (!subStruct->hasGlyphIdBeenSet)
+    {
+        subStruct->glyphId = 6;
+        subStruct->hasGlyphIdBeenSet = TRUE;
+    }
+    return RenderText(textPrinter);
+}
+
 void TextPrinterInitDownArrowCounters(struct TextPrinter *textPrinter)
 {
     struct TextPrinterSubStruct *subStruct = (struct TextPrinterSubStruct *)(&textPrinter->subStructFields);
@@ -934,7 +948,7 @@ u16 RenderText(struct TextPrinter *textPrinter)
             DecompressGlyphFont1(currChar, textPrinter->japanese);
             break;
         default:
-            DecompressGlyphFont2(currChar, textPrinter->japanese);
+            DecompressGlyphFont2(subStruct->glyphId, currChar, textPrinter->japanese);
             break;
         case 3:
             DecompressGlyphFont3(currChar, textPrinter->japanese);
@@ -944,7 +958,7 @@ u16 RenderText(struct TextPrinter *textPrinter)
             break;
         case 5:
             DecompressGlyphFont5(currChar, textPrinter->japanese);
-        case 6:
+        case 7:
             break;
         }
 
@@ -1480,7 +1494,7 @@ u32 GetGlyphWidthFont1(u16 glyphId, bool32 isJapanese)
     return gFont1LatinGlyphWidths[glyphId];
 }
 
-void DecompressGlyphFont2(u16 glyphId, bool32 isJapanese)
+void DecompressGlyphFont2(u8 fontId, u16 glyphId, bool32 isJapanese)
 {
     const u16* glyphs;
 
@@ -1496,7 +1510,11 @@ void DecompressGlyphFont2(u16 glyphId, bool32 isJapanese)
     else
     {
         glyphs = gFont2LatinGlyphs + (0x20 * glyphId);
-        gCurGlyph.width = gFont2LatinGlyphWidths[glyphId];
+
+        if (fontId == 2)
+            gCurGlyph.width = gFont2LatinGlyphWidths[glyphId];
+        else
+            gCurGlyph.width = gFont6LatinGlyphWidths[glyphId];
 
         if (gCurGlyph.width <= 8)
         {
@@ -1638,4 +1656,11 @@ u32 GetGlyphWidthFont5(u16 glyphId, bool32 isJapanese)
     if (isJapanese)
         return 8;
     return gFont5LatinGlyphWidths[glyphId];
+}
+
+u32 GetGlyphWidthFont6(u16 glyphId, bool32 isJapanese)
+{
+    if (isJapanese)
+        return gFont2JapaneseGlyphWidths[glyphId];
+    return gFont6LatinGlyphWidths[glyphId];
 }

@@ -1669,7 +1669,7 @@ static void PrintCrushingResults(struct BerryCrushGame *game)
     // Print seconds value
     ConvertIntToDecimalStringN(gStringVar1, game->gfx.secondsInt, STR_CONV_MODE_LEADING_ZEROS, 2);
     ConvertIntToDecimalStringN(gStringVar2, game->gfx.secondsFrac, STR_CONV_MODE_LEADING_ZEROS, 2);
-    StringExpandPlaceholders(gStringVar4, gText_XDotY2);
+    StringExpandPlaceholders(gStringVar4, gText_XDotY);
     x -= GetStringWidth(2, gStringVar4, -1);
     AddTextPrinterParameterized3(game->gfx.resultsWindowId, 2, x, y, sTextColorTable[COLORID_GRAY], 0, gStringVar4);
 
@@ -1679,7 +1679,7 @@ static void PrintCrushingResults(struct BerryCrushGame *game)
 
     // Print minutes value
     ConvertIntToDecimalStringN(gStringVar1, game->gfx.minutes, STR_CONV_MODE_LEADING_ZEROS, 1);
-    StringExpandPlaceholders(gStringVar4, gText_StrVar1);
+    StringExpandPlaceholders(gStringVar4, gText_Facility);
     x -= GetStringWidth(2, gStringVar4, -1);
     AddTextPrinterParameterized3(game->gfx.resultsWindowId, 2, x, y, sTextColorTable[COLORID_GRAY], 0, gStringVar4);
 
@@ -1695,7 +1695,7 @@ static void PrintCrushingResults(struct BerryCrushGame *game)
             pressingSpeedFrac += *(i + sPressingSpeedConversionTable); // It's accessed in a different way here for unknown reason
     ConvertIntToDecimalStringN(gStringVar1, game->pressingSpeed >> 8, STR_CONV_MODE_RIGHT_ALIGN, 3);
     ConvertIntToDecimalStringN(gStringVar2, pressingSpeedFrac / 1000000, STR_CONV_MODE_LEADING_ZEROS, 2);
-    StringExpandPlaceholders(gStringVar4, gText_XDotY3);
+    StringExpandPlaceholders(gStringVar4, gText_XDotY);
     x -= GetStringWidth(2, gStringVar4, -1);
     if (game->newRecord)
         AddTextPrinterParameterized3(game->gfx.resultsWindowId, 2, x, y, sTextColorTable[COLORID_RED], 0, gStringVar4);
@@ -1798,8 +1798,8 @@ static void Task_ShowRankings(u8 taskId)
         break;
     case 1:
         // Print header text
-        xPos = 96 - GetStringWidth(2, gText_BerryCrush2, -1) / 2u;
-        AddTextPrinterParameterized3(tWindowId, 2, xPos, 1, sTextColorTable[COLORID_BLUE], 0, gText_BerryCrush2);
+        xPos = 96 - GetStringWidth(2, gText_BerryCrush, -1) / 2u;
+        AddTextPrinterParameterized3(tWindowId, 2, xPos, 1, sTextColorTable[COLORID_BLUE], 0, gText_BerryCrush);
         xPos = 96 - GetStringWidth(2, gText_PressingSpeedRankings, -1) / 2u;
         AddTextPrinterParameterized3(tWindowId, 2, xPos, 17, sTextColorTable[COLORID_BLUE], 0, gText_PressingSpeedRankings);
 
@@ -1819,7 +1819,7 @@ static void Task_ShowRankings(u8 taskId)
             }
             ConvertIntToDecimalStringN(gStringVar1, (u16)tPressingSpeeds(i) >> 8, STR_CONV_MODE_RIGHT_ALIGN, 3);
             ConvertIntToDecimalStringN(gStringVar2, score / 1000000, STR_CONV_MODE_LEADING_ZEROS, 2);
-            StringExpandPlaceholders(gStringVar4, gText_XDotY3);
+            StringExpandPlaceholders(gStringVar4, gText_XDotY);
             xPos -= GetStringWidth(2, gStringVar4, -1);
             AddTextPrinterParameterized3(tWindowId, 2, xPos, yPos, sTextColorTable[COLORID_GRAY], 0, gStringVar4);
             yPos += 16;
@@ -2733,21 +2733,17 @@ static void HandlePlayerInput(struct BerryCrushGame *game)
     // depending on how many A presses there were in that time (including the bonus)
     if (game->timer % 15 == 0)
     {
-        #define field sparkleAmount
-
         if (game->sparkleCounter < sSparkleThresholds[game->playerCount - 2][0])
             game->sparkleAmount = 0;
         else if (game->sparkleCounter < sSparkleThresholds[game->playerCount - 2][1])
             game->sparkleAmount = 1;
         else if (game->sparkleCounter < sSparkleThresholds[game->playerCount - 2][2])
-            game->field = 2;
+            game->sparkleAmount = 2;
         else if (game->sparkleCounter < sSparkleThresholds[game->playerCount - 2][3])
-            game->field = 3;
+            game->sparkleAmount = 3;
         else
             game->sparkleAmount = 4;
         game->sparkleCounter = 0;
-
-        #undef field
     }
     else
     {

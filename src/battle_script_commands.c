@@ -3943,7 +3943,8 @@ static void Cmd_playanimation(void)
 
     if (gBattlescriptCurrInstr[2] == B_ANIM_STATS_CHANGE
      || gBattlescriptCurrInstr[2] == B_ANIM_SNATCH_MOVE
-     || gBattlescriptCurrInstr[2] == B_ANIM_SUBSTITUTE_FADE)
+     || gBattlescriptCurrInstr[2] == B_ANIM_SUBSTITUTE_FADE
+     || gBattlescriptCurrInstr[2] == B_ANIM_SILPH_SCOPED)
     {
         BtlController_EmitBattleAnimation(0, gBattlescriptCurrInstr[2], *argumentPtr);
         MarkBattlerForControllerExec(gActiveBattler);
@@ -4608,6 +4609,7 @@ static void Cmd_switchinanim(void)
     if (GetBattlerSide(gActiveBattler) == B_SIDE_OPPONENT
         && !(gBattleTypeFlags & (BATTLE_TYPE_LINK
                                  | BATTLE_TYPE_EREADER_TRAINER
+                                 | BATTLE_TYPE_GHOST
                                  | BATTLE_TYPE_RECORDED_LINK
                                  | BATTLE_TYPE_TRAINER_HILL
                                  | BATTLE_TYPE_FRONTIER)))
@@ -6348,6 +6350,7 @@ static void Cmd_various(void)
             abilityNum = GetMonData(&gPlayerParty[i], MON_DATA_ABILITY_NUM);
             status = GetMonData(&gPlayerParty[i], MON_DATA_STATUS);
             form = GetMonData(&gPlayerParty[i], MON_DATA_FORM);
+
             if (species != SPECIES_NONE
              && species != SPECIES_EGG
              && status & AILMENT_FNT
@@ -6369,6 +6372,7 @@ static void Cmd_various(void)
             abilityNum = GetMonData(&gEnemyParty[i], MON_DATA_ABILITY_NUM);
             status = GetMonData(&gEnemyParty[i], MON_DATA_STATUS);
             form = GetMonData(&gEnemyParty[i], MON_DATA_FORM);
+
             if (species != SPECIES_NONE
              && species != SPECIES_EGG
              && status & AILMENT_FNT
@@ -7541,6 +7545,13 @@ static void Cmd_setsandstorm(void)
 
 static void Cmd_weatherdamage(void)
 {
+    if (IS_BATTLE_TYPE_GHOST_WITHOUT_SCOPE(gBattleTypeFlags)
+     && (GetBattlerSide(gBattlerAttacker) == B_SIDE_OPPONENT))
+    {
+        gBattleMoveDamage = 0;
+        ++gBattlescriptCurrInstr;
+        return;
+    }
     if (WEATHER_HAS_EFFECT)
     {
         if (gBattleWeather & B_WEATHER_SANDSTORM)
@@ -9800,7 +9811,13 @@ static void Cmd_handleballthrow(void)
     gActiveBattler = gBattlerAttacker;
     gBattlerTarget = GetCatchingBattler();
 
-    if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+    if (gBattleTypeFlags & BATTLE_TYPE_GHOST)
+    {
+        BtlController_EmitBallThrowAnim(0, BALL_GHOST_DODGE);
+        MarkBattlerForControllerExec(gActiveBattler);
+        gBattlescriptCurrInstr = BattleScript_GhostBallDodge;
+    }
+    else if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
     {
         BtlController_EmitBallThrowAnim(0, BALL_TRAINER_BLOCK);
         MarkBattlerForControllerExec(gActiveBattler);

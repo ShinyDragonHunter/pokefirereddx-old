@@ -476,7 +476,8 @@ struct PokemonStorageSystemData
     u32 displayMonPersonality;
     u16 displayMonSpecies;
     u16 displayMonItemId;
-    u16 displayUnusedVar;
+    u8 displayMonMetGame;
+    u8 displayUnusedVar;
     bool8 setMosaic;
     u8 displayMonMarkings;
     u8 displayMonLevel;
@@ -833,7 +834,7 @@ static bool8 IsDisplayMosaicActive(void);
 static void ShowYesNoWindow(s8);
 static void UpdateCloseBoxButtonTilemap(bool8);
 static void PrintMessage(u8 id);
-static void LoadDisplayMonGfx(u16 species, u32 pid, u8 form);
+static void LoadDisplayMonGfx(u16 species, u32 pid, u8 form, u8 metGame);
 static void SpriteCB_DisplayMonMosaic(struct Sprite *);
 static void SetPartySlotTilemap(u8 partyId, bool8 hasMon);
 
@@ -3744,7 +3745,7 @@ static void CreateWaveformSprites(void)
 
 static void RefreshDisplayMonData(void)
 {
-    LoadDisplayMonGfx(sStorage->displayMonSpecies, sStorage->displayMonPersonality, sStorage->displayMonForm);
+    LoadDisplayMonGfx(sStorage->displayMonSpecies, sStorage->displayMonPersonality, sStorage->displayMonForm, sStorage->displayMonMetGame);
     PrintDisplayMonInfo();
     UpdateWaveformAnimation();
     ScheduleBgCopyTilemapToVram(0);
@@ -3822,16 +3823,20 @@ static void CreateDisplayMonSprite(void)
     }
 }
 
-static void LoadDisplayMonGfx(u16 species, u32 pid, u8 form)
+static void LoadDisplayMonGfx(u16 species, u32 pid, u8 form, u8 metGame)
 {
-    u16 formSpecies = GetFormSpecies(species, form);
+    u16 formSpecies;
 
     if (!sStorage->displayMonSprite)
         return;
 
+    formSpecies = GetFormSpecies(species, form);
     if (formSpecies)
     {
-        LoadSpecialPokePic(&gMonFrontPicTable[formSpecies], sStorage->tileBuffer, formSpecies, pid, TRUE);
+        if (SpeciesHasGenderDifferenceAndIsFemale(formSpecies, pid))
+            LoadSpecialPokePic(&gFemaleMonFrontPicTable[formSpecies], sStorage->tileBuffer, formSpecies, pid, TRUE, 0);
+        else
+            LoadSpecialPokePic(&gMonFrontPicTable[formSpecies], sStorage->tileBuffer, formSpecies, pid, TRUE, metGame);
         CpuCopy32(sStorage->tileBuffer, sStorage->displayMonTilePtr, MON_PIC_SIZE);
         LoadPalette(sStorage->displayMonPalette, sStorage->displayMonPalOffset, 0x20);
         UniquePalette(sStorage->displayMonPalOffset, formSpecies, pid, sStorage->displayMonShiny);
@@ -4044,7 +4049,8 @@ static void SetPartySlotTilemaps(void)
 
 static void SetPartySlotTilemap(u8 partyId, bool8 hasMon)
 {
-    u16 i, j, index;
+    u32 i, j;
+    u16 index;
     const u16 *data;
 
     if (hasMon)
@@ -7755,24 +7761,24 @@ static void InitMenu(void)
 
 static const u8 *const sMenuTexts[] =
 {
-    [MENU_CANCEL]     = gPCText_Cancel,
-    [MENU_STORE]      = gPCText_Store,
+    [MENU_CANCEL]     = gText_Cancel,
+    [MENU_STORE]      = gText_Store,
     [MENU_WITHDRAW]   = gPCText_Withdraw,
     [MENU_MOVE]       = gPCText_Move,
-    [MENU_SHIFT]      = gPCText_Shift,
+    [MENU_SHIFT]      = gText_Shift,
     [MENU_PLACE]      = gPCText_Place,
-    [MENU_SUMMARY]    = gPCText_Summary,
+    [MENU_SUMMARY]    = gText_Summary,
     [MENU_RELEASE]    = gPCText_Release,
     [MENU_MARK]       = gPCText_Mark,
     [MENU_JUMP]       = gPCText_Jump,
     [MENU_WALLPAPER]  = gPCText_Wallpaper,
-    [MENU_NAME]       = gPCText_Name,
-    [MENU_TAKE]       = gPCText_Take,
-    [MENU_GIVE]       = gPCText_Give,
-    [MENU_GIVE_2]     = gPCText_Give,
-    [MENU_SWITCH]     = gPCText_Switch,
-    [MENU_BAG]        = gPCText_Bag,
-    [MENU_INFO]       = gPCText_Info,
+    [MENU_NAME]       = gText_Name,
+    [MENU_TAKE]       = gText_Take,
+    [MENU_GIVE]       = gText_Give,
+    [MENU_GIVE_2]     = gText_Give,
+    [MENU_SWITCH]     = gText_Switch,
+    [MENU_BAG]        = gText_MenuOptionBag,
+    [MENU_INFO]       = gText_Info,
     [MENU_SCENERY_1]  = gPCText_Scenery1,
     [MENU_SCENERY_2]  = gPCText_Scenery2,
     [MENU_SCENERY_3]  = gPCText_Scenery3,

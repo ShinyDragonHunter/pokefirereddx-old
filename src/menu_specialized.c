@@ -268,7 +268,7 @@ u8 MailboxMenu_CreateList(struct PlayerPCItemPageStruct *page)
         sMailboxList[i].id = i;
     }
 
-    sMailboxList[i].name = gText_Cancel2;
+    sMailboxList[i].name = gText_Cancel;
     sMailboxList[i].id = LIST_CANCEL;
 
     gMultiuseListMenuTemplate.items = sMailboxList;

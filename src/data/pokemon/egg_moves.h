@@ -1316,5 +1316,47 @@ const u16 gEggMoves[] = {
               MOVE_SWALLOW,
               MOVE_SNATCH),
 
+    egg_moves(SANDSHREW_ALOLAN,
+              MOVE_FLAIL,
+              MOVE_SAFEGUARD,
+              MOVE_COUNTER,
+              MOVE_RAPID_SPIN,
+              MOVE_ROCK_SLIDE,
+              MOVE_METAL_CLAW,
+              MOVE_SWORDS_DANCE,
+              MOVE_CRUSH_CLAW),
+
+    egg_moves(VULPIX_ALOLAN,
+              MOVE_AGILITY,
+              MOVE_HYPNOSIS,
+              MOVE_FLAIL,
+              MOVE_SPITE,
+              MOVE_DISABLE,
+              MOVE_HOWL,
+              MOVE_PSYCH_UP,
+              MOVE_CHARM),
+
+    egg_moves(DIGLETT_ALOLAN,
+              MOVE_FAINT_ATTACK,
+              MOVE_METAL_SOUND,
+              MOVE_ANCIENT_POWER,
+              MOVE_PURSUIT,
+              MOVE_BEAT_UP,
+              MOVE_THRASH,
+              MOVE_ROCK_SLIDE),
+
+    egg_moves(MEOWTH_ALOLAN,
+              MOVE_SPITE,
+              MOVE_CHARM,
+              MOVE_HYPNOSIS,
+              MOVE_AMNESIA,
+              MOVE_PSYCH_UP,
+              MOVE_ASSIST),
+
+    egg_moves(GEODUDE_ALOLAN,
+              MOVE_COUNTER,
+              MOVE_ROCK_SLIDE,
+              MOVE_BLOCK),
+
     EGG_MOVES_TERMINATOR
 };

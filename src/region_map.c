@@ -125,7 +125,7 @@ static const u8 sRegionMapPlayerIcon_MayGfx[] = INCBIN_U8("graphics/pokenav/may_
 static const u8 sRegionMap_MapSectionLayout[] = INCBIN_U8("graphics/pokenav/region_map_section_layout.bin");
 
 #include "data/region_map/region_map_entries.h"
-#include "data/region_map/other_map_entries.h"
+#include "data/region_map/mapsec_to_met_location.h"
 
 static const u16 sRegionMap_SpecialPlaceLocations[][2] =
 {
@@ -1206,9 +1206,17 @@ u8 *GetMapName(u8 *dest, u16 regionMapId, u16 padLength)
     u32 i;
 
     if (regionMapId < MAPSEC_NONE)
+    {
         str = StringCopy(dest, gRegionMapEntries[regionMapId].name);
-    else if (regionMapId > METLOC_FATEFUL_ENCOUNTER && regionMapId <= MAPSEC_KAMINKOS_HOUSE)
-        str = StringCopy(dest, gOtherMapNames[regionMapId]);
+    }
+    else if (regionMapId >= JOHTO_METLOC_START && regionMapId < METLOC_DISTANT_LAND) // Johto entries for Summary Screen
+    {
+        str = StringCopy(dest, gJohtoRegionMapNames[regionMapId - JOHTO_METLOC_START]);
+    }
+    else if (regionMapId >= METLOC_DISTANT_LAND) // Orre entries for Summary Screen
+    {
+        str = StringCopy(dest, gOrreRegionMapNames[regionMapId - ORRE_METLOC_START]);
+    }
     else
     {
         if (!padLength)

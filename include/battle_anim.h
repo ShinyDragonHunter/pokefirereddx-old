@@ -86,7 +86,7 @@ void InitSpritePosToAnimAttacker(struct Sprite *sprite, bool8 respectMonPicOffse
 void InitSpritePosToAnimTarget(struct Sprite *sprite, bool8 respectMonPicOffsets);
 void StartAnimLinearTranslation(struct Sprite *sprite);
 void InitAnimArcTranslation(struct Sprite *sprite);
-bool8 AnimTranslateLinear(struct Sprite *sprite);
+bool32 AnimTranslateLinear(struct Sprite *sprite);
 void TranslateAnimSpriteToTargetMonLocation(struct Sprite *sprite);
 u8 GetBattlerSpriteCoord2(u8 battlerId, u8 attributeId);
 void InitAnimLinearTranslationWithSpeed(struct Sprite *sprite);
@@ -110,7 +110,8 @@ void sub_80A8278(void);
 void GetBattleAnimBg1Data(struct BattleAnimBgData*);
 void GetBattleAnimBgData(struct BattleAnimBgData*, u32 arg1);
 u8 GetBattlerSpriteSubpriority(u8 battlerId);
-bool8 TranslateAnimHorizontalArc(struct Sprite *sprite);
+bool32 TranslateAnimHorizontalArc(struct Sprite *sprite);
+bool32 TranslateAnimVerticalArc(struct Sprite *sprite);
 void sub_80A6630(struct Sprite *sprite);
 void TranslateMonSpriteLinearFixedPoint(struct Sprite *sprite);
 void ResetSpriteRotScale(u8 spriteId);
@@ -135,7 +136,7 @@ u8 UpdateEruptAnimTask(struct Task *task);
 void DestroyAnimSpriteAndDisableBlend(struct Sprite *);
 void AnimLoadCompressedBgTilemap(u32 bgId, const void *src);
 void InitAnimFastLinearTranslationWithSpeed(struct Sprite *sprite);
-bool8 AnimFastTranslateLinear(struct Sprite *sprite);
+bool32 AnimFastTranslateLinear(struct Sprite *sprite);
 void InitAndRunAnimFastLinearTranslation(struct Sprite *sprite);
 void TranslateMonSpriteLinear(struct Sprite *sprite);
 void TranslateSpriteLinear(struct Sprite *sprite);
@@ -144,7 +145,7 @@ void InitAnimLinearTranslationWithSpeedAndPos(struct Sprite *sprite);
 void TranslateSpriteInCircleOverDuration(struct Sprite *sprite);
 void SetGrayscaleOrOriginalPalette(u16 palNum, bool8 restoreOriginal);
 void PrepareAffineAnimInTaskData(struct Task *task, u8 spriteId, const union AffineAnimCmd *affineAnimCmds);
-bool8 RunAffineAnimFromTaskData(struct Task *task);
+bool32 RunAffineAnimFromTaskData(struct Task *task);
 void AnimThrowProjectile(struct Sprite *sprite);
 void sub_80A6BFC(struct BattleAnimBgData *unk, u8 unused);
 u8 CreateAdditionalMonSpriteForMoveAnim(u16 species, bool8 isBackpic, u8 id, s16 x, s16 y, u8 subpriority, u32 personality, u32 trainerId, u32 battlerId, u8 form);
@@ -181,16 +182,17 @@ enum
 
 u8 GetBattlerSpriteCoord(u8 battlerId, u8 attributeId);
 
-bool8 IsBattlerSpritePresent(u8 battlerId);
+bool32 IsBattlerSpritePresent(u8 battlerId);
 void ClearBattleAnimBg(u32 arg0);
 u8 GetAnimBattlerSpriteId(u8 wantedBattler);
-bool8 IsDoubleBattle(void);
+bool32 IsDoubleBattle(void);
 u8 GetBattleBgPaletteNum(void);
 u8 GetBattlerSpriteBGPriorityRank(u8 battlerId);
 void StoreSpriteCallbackInData6(struct Sprite *sprite, void (*spriteCallback)(struct Sprite*));
 void SetSpritePrimaryCoordsFromSecondaryCoords(struct Sprite *sprite);
 u8 GetBattlerSpriteDefault_Y(u8 battlerId);
 u8 GetSubstituteSpriteDefault_Y(u8 battlerId);
+u8 GetGhostSpriteDefault_Y(u8 battlerId);
 
 // battle_anim_status_effects.c
 #define STAT_ANIM_PLUS1  15
@@ -211,7 +213,7 @@ void TryShinyAnimation(u8 battler, struct Pokemon *mon);
 u8 ItemIdToBallId(u16 ballItem);
 u8 AnimateBallOpenParticles(u8 x, u8 y, u8 priority, u8 subpriority, u8 ballId);
 u8 LaunchBallFadeMonTask(bool8 unFadeLater, u8 battlerId, u32 selectedPalettes, u8 ballId);
-bool8 IsCriticalCapture(void);
+bool32 IsCriticalCapture(void);
 
 // battle_anim_utility_funcs.c
 void InitStatsChangeAnimation(u8);

@@ -134,6 +134,7 @@ static void (*const sPlayerPartnerBufferCommands[CONTROLLER_CMDS_COUNT])(void) =
     [CONTROLLER_LINKSTANDBYMSG]           = PlayerPartnerEndExecution,
     [CONTROLLER_RESETACTIONMOVESELECTION] = PlayerPartnerEndExecution,
     [CONTROLLER_ENDLINKBATTLE]            = PlayerPartnerHandleEndLinkBattle,
+    [CONTROLLER_DEBUGMENU]                = PlayerPartnerEndExecution,
     [CONTROLLER_TERMINATOR_NOP]           = BattleControllerDummy
 };
 
@@ -431,8 +432,6 @@ static void FreeMonSpriteAfterFaintAnim(void)
 {
     if (gSprites[gBattlerSpriteIds[gActiveBattler]].y + gSprites[gBattlerSpriteIds[gActiveBattler]].y2 > DISPLAY_HEIGHT)
     {
-        u16 species = GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPECIES);
-
         FreeOamMatrix(gSprites[gBattlerSpriteIds[gActiveBattler]].oam.matrixNum);
         DestroySprite(&gSprites[gBattlerSpriteIds[gActiveBattler]]);
         SetHealthboxSpriteInvisible(gHealthboxSpriteIds[gActiveBattler]);
@@ -600,8 +599,7 @@ static u32 CopyPlayerPartnerMonData(u8 monId, u8 *dst)
     switch (gBattleBufferA[gActiveBattler][1])
     {
     case REQUEST_ALL_BATTLE:
-        battleMon.species = GetFormSpecies(GetMonData(&gPlayerParty[monId], MON_DATA_SPECIES),
-                                        GetMonData(&gPlayerParty[monId], MON_DATA_FORM));
+        battleMon.species = GetMonData(&gPlayerParty[monId], MON_DATA_SPECIES);
         battleMon.item = GetMonData(&gPlayerParty[monId], MON_DATA_HELD_ITEM);
         for (size = 0; size < MAX_MON_MOVES; size++)
         {
@@ -630,6 +628,7 @@ static u32 CopyPlayerPartnerMonData(u8 monId, u8 *dst)
         battleMon.isEgg = GetMonData(&gPlayerParty[monId], MON_DATA_IS_EGG);
         battleMon.abilityNum = GetMonData(&gPlayerParty[monId], MON_DATA_ABILITY_NUM);
         battleMon.otId = GetMonData(&gPlayerParty[monId], MON_DATA_OT_ID);
+        battleMon.form = GetMonData(&gPlayerParty[monId], MON_DATA_FORM);
         GetMonData(&gPlayerParty[monId], MON_DATA_NICKNAME, nickname);
         StringCopy10(battleMon.nickname, nickname);
         GetMonData(&gPlayerParty[monId], MON_DATA_OT_NAME, battleMon.otName);
@@ -638,8 +637,7 @@ static u32 CopyPlayerPartnerMonData(u8 monId, u8 *dst)
             dst[size] = src[size];
         break;
     case REQUEST_SPECIES_BATTLE:
-        data16 = GetFormSpecies(GetMonData(&gPlayerParty[monId], MON_DATA_SPECIES),
-                                GetMonData(&gPlayerParty[monId], MON_DATA_FORM));
+        data16 = GetMonData(&gPlayerParty[monId], MON_DATA_SPECIES);
         dst[0] = data16;
         dst[1] = data16 >> 8;
         size = 2;

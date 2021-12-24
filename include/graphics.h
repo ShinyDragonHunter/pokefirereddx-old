@@ -2476,6 +2476,7 @@ extern const u8 gMonIcon_UnownExclamationMark[];
 extern const u32 gMonFrontPic_UnownQuestionMark[];
 extern const u32 gMonBackPic_UnownQuestionMark[];
 extern const u8 gMonIcon_UnownQuestionMark[];
+extern const u32 gMonFrontPic_ArbokKanto[];
 
 // pokemon form gfx
 extern const u32 gMonFrontPic_RattataAlolan[];
@@ -2626,8 +2627,6 @@ extern const u8 gMonIcon_DeoxysAttack[];
 extern const u32 gMonFrontPic_DeoxysDefense[];
 extern const u32 gMonBackPic_DeoxysDefense[];
 extern const u8 gMonIcon_DeoxysDefense[];
-
-extern const u16 gMonIconPalettes[][16];
 
 // trainer sprites
 extern const u32 gTrainerFrontPic_HoennHiker[];
@@ -4478,5 +4477,8 @@ extern const u8 gMailTilemap_Retro[];
 
 extern const u8 gMonMarkingsMenu_Gfx[];
 extern const u16 gMonMarkingsMenu_Pal[];
+
+extern const u32 gGhostFrontPic[];
+extern const u16 gGhostPalette[];
 
 #endif //GUARD_GRAPHICS_H

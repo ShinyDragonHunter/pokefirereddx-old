@@ -203,6 +203,7 @@ static u8 PickWildMonNature(void)
 static void CreateWildMon(u16 species, u8 level)
 {
     bool32 checkCuteCharm;
+    u8 form;
 
     ZeroEnemyPartyMons();
     checkCuteCharm = TRUE;
@@ -215,6 +216,11 @@ static void CreateWildMon(u16 species, u8 level)
         checkCuteCharm = FALSE;
         break;
     }
+
+    form = GetForm(species); // Gets the species' form value. Should be 0 if lower than NUM_SPECIES.
+
+    if (form)
+        species = gBaseStats[species].forms[0]; // If form value is not 0, change the species to be the base species.
 
     if (checkCuteCharm
      && !GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG)
@@ -231,11 +237,11 @@ static void CreateWildMon(u16 species, u8 level)
         else
             gender = MON_FEMALE;
 
-        CreateMonWithGenderNatureLetter(&gEnemyParty[0], species, level, 32, gender, PickWildMonNature(), 0, 0);
+        CreateMonWithGenderNatureLetter(&gEnemyParty[0], species, level, 32, gender, PickWildMonNature(), 0, form);
         return;
     }
 
-    CreateMonWithNature(&gEnemyParty[0], species, level, 32, PickWildMonNature(), 0);
+    CreateMonWithNature(&gEnemyParty[0], species, level, 32, PickWildMonNature(), form);
 }
 
 enum

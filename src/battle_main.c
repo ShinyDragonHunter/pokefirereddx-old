@@ -90,6 +90,7 @@ static void SpriteCb_WildMonAnimate(struct Sprite *sprite);
 static void sub_80398D0(struct Sprite *sprite);
 static void SpriteCB_AnimFaintOpponent(struct Sprite *sprite);
 static void SpriteCb_BlinkVisible(struct Sprite *sprite);
+static void SpriteCallbackDummy_3(struct Sprite *sprite);
 static void SpriteCB_BattleSpriteSlideLeft(struct Sprite *sprite);
 static void TurnValuesCleanUp(bool8 var0);
 static void SpriteCB_BounceEffect(struct Sprite *sprite);
@@ -2607,6 +2608,11 @@ static void SpriteCb_WildMonAnimate(struct Sprite *sprite)
     }
 }
 
+void SpriteCallbackDummy_2(struct Sprite *sprite)
+{
+
+}
+
 static void sub_80398D0(struct Sprite *sprite)
 {
     sprite->data[4]--;
@@ -2618,7 +2624,7 @@ static void sub_80398D0(struct Sprite *sprite)
         if (sprite->data[3] == 0)
         {
             sprite->invisible = FALSE;
-            sprite->callback = SpriteCallbackDummy;
+            sprite->callback = SpriteCallbackDummy_2;
         }
     }
 }
@@ -2632,34 +2638,28 @@ void SpriteCB_FaintOpponentMon(struct Sprite *sprite)
     u16 species;
     u8 yOffset;
     u8 form = 0;
+    u16 formSpecies = GetFormSpecies(species, form);
 
     if (gBattleSpritesDataPtr->battlerData[battler].transformSpecies)
         species = gBattleSpritesDataPtr->battlerData[battler].transformSpecies;
     else
     {
         species = sprite->sSpeciesId;
-        form = GetMonData(&gEnemyParty[gBattlerPartyIndexes[battler]], MON_DATA_PERSONALITY);
+        form = GetMonData(&gEnemyParty[gBattlerPartyIndexes[battler]], MON_DATA_FORM);
     }
 
     if (species == SPECIES_UNOWN)
     {
         u32 personalityValue = GetMonData(&gEnemyParty[gBattlerPartyIndexes[battler]], MON_DATA_PERSONALITY);
-        u16 unownForm = GET_UNOWN_LETTER(personalityValue);
-        u16 unownSpecies;
 
-        if (unownForm)
-            unownSpecies = NUM_SPECIES + unownForm;  // Use one of the other Unown letters.
-        else
-            unownSpecies = SPECIES_UNOWN;  // Use the A Unown form.
-
-        yOffset = gMonFrontPicCoords[unownSpecies].y_offset;
+        yOffset = gMonFrontPicCoords[GetUnownSpecies(personalityValue)].y_offset;
     }
     else if (species == SPECIES_CASTFORM)
     {
         yOffset = gCastformFrontSpriteCoords[gBattleMonForms[battler]].y_offset;
     }
-    else if (IsMonValid(species, form))
-        yOffset = gMonFrontPicCoords[GetFormSpecies(species, form)].y_offset;
+    else if (IsMonValid(formSpecies))
+        yOffset = gMonFrontPicCoords[formSpecies].y_offset;
     else
         yOffset = gMonFrontPicCoords[SPECIES_NONE].y_offset;
 
@@ -2714,7 +2714,7 @@ void SpriteCb_HideAsMoveTarget(struct Sprite *sprite)
 {
     sprite->invisible = sprite->data[4];
     sprite->data[4] = FALSE;
-    sprite->callback = SpriteCallbackDummy;
+    sprite->callback = SpriteCallbackDummy_2;
 }
 
 void SpriteCb_OpponentMonFromBall(struct Sprite *sprite)
@@ -2743,10 +2743,14 @@ static void SpriteCB_BattleSpriteSlideLeft(struct Sprite *sprite)
         sprite->x2 -= 2;
         if (!sprite->x2)
         {
-            sprite->callback = SpriteCallbackDummy;
+            sprite->callback = SpriteCallbackDummy_3;
             sprite->data[1] = 0;
         }
     }
+}
+
+static void SpriteCallbackDummy_3(struct Sprite *sprite)
+{
 }
 
 #define sSpeedX data[1]
@@ -2863,7 +2867,7 @@ void sub_8039E60(struct Sprite *sprite)
 {
     sub_8039E9C(sprite);
     if (sprite->animEnded)
-        sprite->callback = SpriteCallbackDummy;
+        sprite->callback = SpriteCallbackDummy_3;
 }
 
 void SpriteCB_TrainerThrowObject(struct Sprite *sprite)
@@ -2903,6 +2907,7 @@ static void BattleStartClearSetData(void)
     s32 i;
     u32 j;
     u8 *dataPtr;
+    u16 formSpecies;
 
     TurnValuesCleanUp(FALSE);
     SpecialStatusesClear();
@@ -2976,8 +2981,9 @@ static void BattleStartClearSetData(void)
     gBattleStruct->runTries = 0;
     gBattleStruct->safariGoNearCounter = 0;
     gBattleStruct->safariPkblThrowCounter = 0;
-    *(&gBattleStruct->safariCatchFactor) = gBaseStats[GetFormSpecies(GetMonData(&gEnemyParty[0], MON_DATA_SPECIES), GetMonData(&gEnemyParty[0], MON_DATA_FORM))].catchRate * 100 / 1275;
-    gBattleStruct->safariEscapeFactor = 3;
+    formSpecies = GetFormSpecies(GetMonData(&gEnemyParty[0], MON_DATA_SPECIES), GetMonData(&gEnemyParty[0], MON_DATA_FORM));
+    *(&gBattleStruct->safariCatchFactor) = gBaseStats[formSpecies].catchRate * 100 / 1275;
+    *(&gBattleStruct->safariEscapeFactor) = gBaseStats[formSpecies].safariZoneFleeRate * 100 / 1275;
     gBattleStruct->wildVictorySong = 0;
     gBattleStruct->moneyMultiplier = 1;
 
@@ -3307,7 +3313,10 @@ static void BattleIntroDrawTrainersOrMonsSprites(void)
                 MarkBattlerForControllerExec(gActiveBattler);
             }
             if (GetBattlerSide(gActiveBattler) == B_SIDE_OPPONENT
-             && !(gBattleTypeFlags & (BATTLE_TYPE_EREADER_TRAINER
+             && !(gBattleTypeFlags & (BATTLE_TYPE_WALLY_TUTORIAL
+                                      | BATTLE_TYPE_EREADER_TRAINER
+                                      | BATTLE_TYPE_GHOST
+                                      | BATTLE_TYPE_GHOST_UNVEILED
                                       | BATTLE_TYPE_FRONTIER
                                       | BATTLE_TYPE_LINK
                                       | BATTLE_TYPE_RECORDED_LINK
@@ -3320,7 +3329,15 @@ static void BattleIntroDrawTrainersOrMonsSprites(void)
         {
             if (GetBattlerSide(gActiveBattler) == B_SIDE_OPPONENT)
             {
-                if (!(gBattleTypeFlags & (BATTLE_TYPE_EREADER_TRAINER
+                if (gBattleTypeFlags & (BATTLE_TYPE_GHOST | BATTLE_TYPE_GHOST_UNVEILED))
+                {
+                    if (!IS_BATTLE_TYPE_GHOST_WITHOUT_SCOPE(gBattleTypeFlags))
+                        HandleSetPokedexFlag(SpeciesToNationalPokedexNum(gBattleMons[gActiveBattler].species), FLAG_SET_SEEN, gBattleMons[gActiveBattler].personality);
+                }
+                else if (!(gBattleTypeFlags & (BATTLE_TYPE_WALLY_TUTORIAL
+                                      | BATTLE_TYPE_EREADER_TRAINER
+                                      | BATTLE_TYPE_GHOST
+                                      | BATTLE_TYPE_GHOST_UNVEILED
                                       | BATTLE_TYPE_FRONTIER
                                       | BATTLE_TYPE_LINK
                                       | BATTLE_TYPE_RECORDED_LINK
@@ -3427,6 +3444,11 @@ static void BattleIntroPrintWildMonAttacked(void)
     {
         gBattleMainFunc = BattleIntroPrintPlayerSendsOut;
         PrepareStringBattle(STRINGID_INTROMSG, 0);
+        if (IS_BATTLE_TYPE_GHOST_WITH_SCOPE(gBattleTypeFlags))
+        {
+            gBattleScripting.battler = GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT);
+            BattleScriptExecute(BattleScript_SilphScopeUnveiled);
+        }
     }
 }
 
@@ -4119,6 +4141,10 @@ static void HandleTurnActionSelectionState(void)
                     BtlController_EmitEndBounceEffect(0);
                     MarkBattlerForControllerExec(gActiveBattler);
                     return;
+                case B_ACTION_DEBUG:
+                    BtlController_EmitDebugMenu(0);
+                    MarkBattlerForControllerExec(gActiveBattler);
+                    break;
                 }
 
                 if (gBattleTypeFlags & BATTLE_TYPE_TRAINER
@@ -4239,6 +4265,9 @@ static void HandleTurnActionSelectionState(void)
                 case B_ACTION_SAFARI_ROCK:
                 case B_ACTION_WALLY_THROW:
                     gBattleCommunication[gActiveBattler]++;
+                    break;
+                case B_ACTION_DEBUG:
+                    gBattleCommunication[gActiveBattler] = STATE_BEFORE_ACTION_CHOSEN;
                     break;
                 }
             }

@@ -126,6 +126,7 @@ static void (*const sRecordedPlayerBufferCommands[CONTROLLER_CMDS_COUNT])(void) 
     [CONTROLLER_LINKSTANDBYMSG]           = RecordedPlayerEndExecution,
     [CONTROLLER_RESETACTIONMOVESELECTION] = RecordedPlayerEndExecution,
     [CONTROLLER_ENDLINKBATTLE]            = RecordedPlayerHandleEndLinkBattle,
+    [CONTROLLER_DEBUGMENU]                = RecordedPlayerEndExecution,
     [CONTROLLER_TERMINATOR_NOP]           = BattleControllerDummy
 };
 
@@ -333,8 +334,6 @@ static void FreeMonSpriteAfterFaintAnim(void)
 {
     if (gSprites[gBattlerSpriteIds[gActiveBattler]].y + gSprites[gBattlerSpriteIds[gActiveBattler]].y2 > DISPLAY_HEIGHT)
     {
-        u16 species = GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPECIES);
-
         FreeOamMatrix(gSprites[gBattlerSpriteIds[gActiveBattler]].oam.matrixNum);
         DestroySprite(&gSprites[gBattlerSpriteIds[gActiveBattler]]);
         SetHealthboxSpriteInvisible(gHealthboxSpriteIds[gActiveBattler]);

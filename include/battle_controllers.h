@@ -77,6 +77,7 @@ enum
 #define BALL_3_SHAKES_FAIL      3
 #define BALL_3_SHAKES_SUCCESS   4
 #define BALL_TRAINER_BLOCK      5
+#define BALL_GHOST_DODGE        6
 
 #define INSTANT_HP_BAR_DROP     32767
 
@@ -170,6 +171,7 @@ enum
     CONTROLLER_LINKSTANDBYMSG,
     CONTROLLER_RESETACTIONMOVESELECTION,
     CONTROLLER_ENDLINKBATTLE,
+    CONTROLLER_DEBUGMENU,
     /*new controllers should go here*/
     CONTROLLER_TERMINATOR_NOP,
     CONTROLLER_CMDS_COUNT
@@ -225,6 +227,7 @@ void BtlController_EmitBattleAnimation(u8 bufferId, u8 animationId, u16 argument
 void BtlController_EmitLinkStandbyMsg(u8 bufferId, u8 arg1, bool32 record);
 void BtlController_EmitResetActionMoveSelection(u8 bufferId, u8 caseId);
 void BtlController_EmitEndLinkBattle(u8 bufferId, u8 battleOutcome);
+void BtlController_EmitDebugMenu(u8 bufferId);
 
 // player controller
 void SetControllerToPlayer(void);

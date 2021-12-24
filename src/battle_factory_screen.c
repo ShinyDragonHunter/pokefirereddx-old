@@ -1886,11 +1886,11 @@ static void Select_PrintMenuOptions(void)
     FillWindowPixelBuffer(SELECT_WIN_OPTIONS, PIXEL_FILL(0));
     AddTextPrinterParameterized3(SELECT_WIN_OPTIONS, 2, 7, 1, sMenuOptionTextColors, 0, gText_Summary);
     if (selectedId != 0)
-        AddTextPrinterParameterized3(SELECT_WIN_OPTIONS, 2, 7, 17, sMenuOptionTextColors, 0, gText_Deselect);
+        AddTextPrinterParameterized3(SELECT_WIN_OPTIONS, 2, 7, 17, sMenuOptionTextColors, 0, gMenuText_Deselect);
     else
         AddTextPrinterParameterized3(SELECT_WIN_OPTIONS, 2, 7, 17, sMenuOptionTextColors, 0, gText_Rent);
 
-    AddTextPrinterParameterized3(SELECT_WIN_OPTIONS, 2, 7, 33, sMenuOptionTextColors, 0, gText_Others2);
+    AddTextPrinterParameterized3(SELECT_WIN_OPTIONS, 2, 7, 33, sMenuOptionTextColors, 0, gText_Others);
     CopyWindowToVram(SELECT_WIN_OPTIONS, 3);
 }
 
@@ -1898,8 +1898,8 @@ static void Select_PrintYesNoOptions(void)
 {
     PutWindowTilemap(SELECT_WIN_YES_NO);
     FillWindowPixelBuffer(SELECT_WIN_YES_NO, PIXEL_FILL(0));
-    AddTextPrinterParameterized3(SELECT_WIN_YES_NO, 2, 7, 1, sMenuOptionTextColors, 0, gText_Yes2);
-    AddTextPrinterParameterized3(SELECT_WIN_YES_NO, 2, 7, 17, sMenuOptionTextColors, 0, gText_No2);
+    AddTextPrinterParameterized3(SELECT_WIN_YES_NO, 2, 7, 1, sMenuOptionTextColors, 0, gText_Yes);
+    AddTextPrinterParameterized3(SELECT_WIN_YES_NO, 2, 7, 17, sMenuOptionTextColors, 0, gText_No);
     CopyWindowToVram(SELECT_WIN_YES_NO, 3);
 }
 
@@ -3730,7 +3730,7 @@ static void Swap_PrintMenuOptions(void)
 {
     PutWindowTilemap(SWAP_WIN_OPTIONS);
     FillWindowPixelBuffer(SWAP_WIN_OPTIONS, PIXEL_FILL(0));
-    AddTextPrinterParameterized3(SWAP_WIN_OPTIONS, 2, 15,  1, sSwapMenuOptionsTextColors, 0, gText_Summary2);
+    AddTextPrinterParameterized3(SWAP_WIN_OPTIONS, 2, 15,  1, sSwapMenuOptionsTextColors, 0, gText_Summary);
     AddTextPrinterParameterized3(SWAP_WIN_OPTIONS, 2, 15, 17, sSwapMenuOptionsTextColors, 0, gText_Swap);
     AddTextPrinterParameterized3(SWAP_WIN_OPTIONS, 2, 15, 33, sSwapMenuOptionsTextColors, 0, gText_Rechoose);
     CopyWindowToVram(SWAP_WIN_OPTIONS, 3);
@@ -3740,8 +3740,8 @@ static void Swap_PrintYesNoOptions(void)
 {
     PutWindowTilemap(SWAP_WIN_YES_NO);
     FillWindowPixelBuffer(SWAP_WIN_YES_NO, PIXEL_FILL(0));
-    AddTextPrinterParameterized3(SWAP_WIN_YES_NO, 2, 7, 1,  sSwapMenuOptionsTextColors, 0, gText_Yes3);
-    AddTextPrinterParameterized3(SWAP_WIN_YES_NO, 2, 7, 17, sSwapMenuOptionsTextColors, 0, gText_No3);
+    AddTextPrinterParameterized3(SWAP_WIN_YES_NO, 2, 7, 1,  sSwapMenuOptionsTextColors, 0, gText_Yes);
+    AddTextPrinterParameterized3(SWAP_WIN_YES_NO, 2, 7, 17, sSwapMenuOptionsTextColors, 0, gText_No);
     CopyWindowToVram(SWAP_WIN_YES_NO, 3);
 }
 
@@ -3759,7 +3759,7 @@ static void Swap_PrintActionStrings(void)
     case TRUE:
         Swap_PrintActionString(gText_PkmnForSwap, 0, SWAP_WIN_ACTION_FADE);
     case FALSE:
-        Swap_PrintActionString(gText_Cancel3, 24, SWAP_WIN_ACTION_FADE);
+        Swap_PrintActionString(gText_Cancel, 24, SWAP_WIN_ACTION_FADE);
         break;
     }
     CopyWindowToVram(SWAP_WIN_ACTION_FADE, 3);
@@ -3773,7 +3773,7 @@ static void Swap_PrintActionStrings2(void)
     case TRUE:
         Swap_PrintActionString(gText_PkmnForSwap, 8, SWAP_WIN_OPTIONS);
     case FALSE:
-        Swap_PrintActionString(gText_Cancel3, 32, SWAP_WIN_OPTIONS);
+        Swap_PrintActionString(gText_Cancel, 32, SWAP_WIN_OPTIONS);
         break;
     }
     CopyWindowToVram(SWAP_WIN_OPTIONS, 3);
@@ -3788,7 +3788,7 @@ static void Swap_PrintOneActionString(u8 which)
             Swap_PrintActionString(gText_PkmnForSwap, 8, SWAP_WIN_OPTIONS);
         break;
     case 1:
-        Swap_PrintActionString(gText_Cancel3, 32, SWAP_WIN_OPTIONS);
+        Swap_PrintActionString(gText_Cancel, 32, SWAP_WIN_OPTIONS);
         break;
     }
     CopyWindowToVram(SWAP_WIN_OPTIONS, 3);

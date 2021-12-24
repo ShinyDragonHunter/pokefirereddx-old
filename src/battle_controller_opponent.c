@@ -11,7 +11,9 @@
 #include "battle_tv.h"
 #include "bg.h"
 #include "data.h"
+#include "decompress.h"
 #include "frontier_util.h"
+#include "graphics.h"
 #include "item.h"
 #include "link.h"
 #include "main.h"
@@ -143,6 +145,7 @@ static void (*const sOpponentBufferCommands[CONTROLLER_CMDS_COUNT])(void) =
     [CONTROLLER_LINKSTANDBYMSG]           = OpponentEndExecution,
     [CONTROLLER_RESETACTIONMOVESELECTION] = OpponentEndExecution,
     [CONTROLLER_ENDLINKBATTLE]            = OpponentHandleEndLinkBattle,
+    [CONTROLLER_DEBUGMENU]                = OpponentEndExecution,
     [CONTROLLER_TERMINATOR_NOP]           = BattleControllerDummy
 };
 
@@ -432,7 +435,8 @@ static void SwitchIn_HandleSoundAndEnd(void)
 {
     if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].specialAnimActive && !IsCryPlayingOrClearCrySongs())
     {
-        if (gSprites[gBattlerSpriteIds[gActiveBattler]].callback == SpriteCallbackDummy)
+        if (gSprites[gBattlerSpriteIds[gActiveBattler]].callback == SpriteCallbackDummy
+         || gSprites[gBattlerSpriteIds[gActiveBattler]].callback == SpriteCallbackDummy_2)
         {
             m4aMPlayVolumeControl(&gMPlayInfo_BGM, 0xFFFF, 0x100);
             OpponentBufferExecCompleted();
@@ -539,8 +543,7 @@ static u32 GetOpponentMonData(u8 monId, u8 *dst)
     switch (gBattleBufferA[gActiveBattler][1])
     {
     case REQUEST_ALL_BATTLE:
-        battleMon.species = GetFormSpecies(GetMonData(&gEnemyParty[monId], MON_DATA_SPECIES),
-                                        GetMonData(&gEnemyParty[monId], MON_DATA_FORM));
+        battleMon.species = GetMonData(&gEnemyParty[monId], MON_DATA_SPECIES);
         battleMon.item = GetMonData(&gEnemyParty[monId], MON_DATA_HELD_ITEM);
         for (size = 0; size < MAX_MON_MOVES; size++)
         {
@@ -569,6 +572,7 @@ static u32 GetOpponentMonData(u8 monId, u8 *dst)
         battleMon.isEgg = GetMonData(&gEnemyParty[monId], MON_DATA_IS_EGG);
         battleMon.abilityNum = GetMonData(&gEnemyParty[monId], MON_DATA_ABILITY_NUM);
         battleMon.otId = GetMonData(&gEnemyParty[monId], MON_DATA_OT_ID);
+        battleMon.form = GetMonData(&gEnemyParty[monId], MON_DATA_FORM);
         GetMonData(&gEnemyParty[monId], MON_DATA_NICKNAME, nickname);
         StringCopy10(battleMon.nickname, nickname);
         GetMonData(&gEnemyParty[monId], MON_DATA_OT_NAME, battleMon.otName);
@@ -577,8 +581,7 @@ static u32 GetOpponentMonData(u8 monId, u8 *dst)
             dst[size] = src[size];
         break;
     case REQUEST_SPECIES_BATTLE:
-        data16 = GetFormSpecies(GetMonData(&gEnemyParty[monId], MON_DATA_SPECIES),
-                                GetMonData(&gEnemyParty[monId], MON_DATA_FORM));
+        data16 = GetMonData(&gEnemyParty[monId], MON_DATA_SPECIES);
         dst[0] = data16;
         dst[1] = data16 >> 8;
         size = 2;
@@ -1100,15 +1103,29 @@ static void OpponentHandleSetRawMonData(void)
 static void OpponentHandleLoadMonSprite(void)
 {
     u16 species = GetMonData(&gEnemyParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPECIES);
+    u32 y;
     u8 form = GetMonData(&gEnemyParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_FORM);
     u16 formSpecies = GetFormSpecies(species, form);
+    u8 position = GetBattlerPosition(gActiveBattler);
 
-    BattleLoadOpponentMonSpriteGfx(&gEnemyParty[gBattlerPartyIndexes[gActiveBattler]], gActiveBattler);
-    SetMultiuseSpriteTemplateToPokemon(species, GetBattlerPosition(gActiveBattler), form);
+    if (gBattleTypeFlags & BATTLE_TYPE_GHOST)
+    {
+        LZ77UnCompWram(gGhostFrontPic, gMonSpritesGfxPtr->sprites.ptr[position]);
+        LoadPalette(gGhostPalette, 0x100 + 16 * gActiveBattler, 32);
+        y = GetGhostSpriteDefault_Y(gActiveBattler);
+        gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].triedShinyMonAnim = TRUE;
+        gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].finishedShinyMonAnim = TRUE;
+    }
+    else
+    {
+        BattleLoadOpponentMonSpriteGfx(&gEnemyParty[gBattlerPartyIndexes[gActiveBattler]], gActiveBattler);
+        y = GetBattlerSpriteDefault_Y(gActiveBattler);
+    }
+    SetMultiuseSpriteTemplateToPokemon(species, position, form);
 
     gBattlerSpriteIds[gActiveBattler] = CreateSprite(&gMultiuseSpriteTemplate,
                                                GetBattlerSpriteCoord(gActiveBattler, 2),
-                                               GetBattlerSpriteDefault_Y(gActiveBattler),
+                                               y,
                                                GetBattlerSpriteSubpriority(gActiveBattler));
 
     gSprites[gBattlerSpriteIds[gActiveBattler]].x2 = -DISPLAY_WIDTH;

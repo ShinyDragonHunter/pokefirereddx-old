@@ -176,7 +176,7 @@ static const struct SpriteFrameImage sPicTable_Arrow[] =
     obj_frame_tiles(sArrowRight_Gfx)
 };
 
-static const struct SpritePalette sSpritePalette_Arrow =
+const struct SpritePalette gSpritePalette_Arrow =
 {
     sArrow_Pal, PALTAG_ARROW
 };
@@ -212,7 +212,7 @@ static const union AnimCmd *const sAnims_Arrow[] =
     [ARROW_RIGHT] = sAnim_Arrow_Right,
 };
 
-static const struct SpriteTemplate sSpriteTemplate_Arrow =
+const struct SpriteTemplate gSpriteTemplate_Arrow =
 {
     .tileTag = TAG_NONE,
     .paletteTag = PALTAG_ARROW,
@@ -317,14 +317,14 @@ static void CreateCursor(u8 taskId)
 {
     u32 spriteId;
 
-    LoadSpritePalette(&sSpritePalette_Arrow);
+    LoadSpritePalette(&gSpritePalette_Arrow);
 
-    spriteId = CreateSpriteAtEnd(&sSpriteTemplate_Arrow, 53, 68, 0);
+    spriteId = CreateSpriteAtEnd(&gSpriteTemplate_Arrow, 53, 68, 0);
     gSprites[spriteId].callback = SpriteCB_Cursor_UpOrRight;
     gSprites[spriteId].sTaskId = taskId;
     gSprites[spriteId].sState = -1;
 
-    spriteId = CreateSpriteAtEnd(&sSpriteTemplate_Arrow, 53, 68, 0);
+    spriteId = CreateSpriteAtEnd(&gSpriteTemplate_Arrow, 53, 68, 0);
     gSprites[spriteId].callback = SpriteCB_Cursor_Down;
     gSprites[spriteId].sTaskId = taskId;
     gSprites[spriteId].sState = -1;
@@ -332,7 +332,7 @@ static void CreateCursor(u8 taskId)
 
 static void FreeCursorPalette(void)
 {
-    FreeSpritePaletteByTag(sSpritePalette_Arrow.tag);
+    FreeSpritePaletteByTag(gSpritePalette_Arrow.tag);
 }
 
 static void HideChooseTimeWindow(u8 windowId)
@@ -354,12 +354,12 @@ static void PrintTime(u8 windowId, u8 x, u8 y, u16 days, u8 hours, u8 minutes, u
     // Print hours
     ConvertIntToDecimalStringN(gStringVar1, hours, STR_CONV_MODE_RIGHT_ALIGN, 3);
     dest = StringCopy(dest, gStringVar1);
-    dest = StringCopy(dest, gText_Colon3);
+    dest = StringCopy(dest, gText_Colon2);
 
     // Print minutes
     ConvertIntToDecimalStringN(gStringVar1, minutes, STR_CONV_MODE_LEADING_ZEROS, 2);
     dest = StringCopy(dest, gStringVar1);
-    dest = StringCopy(dest, gText_Colon3);
+    dest = StringCopy(dest, gText_Colon2);
 
     // Print seconds
     ConvertIntToDecimalStringN(gStringVar1, seconds, STR_CONV_MODE_LEADING_ZEROS, 2);
@@ -372,7 +372,7 @@ static void ShowChooseTimeWindow(u8 windowId, u16 days, u8 hours, u8 minutes, u8
 {
     DrawStdFrameWithCustomTileAndPalette(windowId, FALSE, 0x214, 0xE);
     PrintTime(windowId, 0, 1, days, hours, minutes, seconds);
-    AddTextPrinterParameterized(windowId, 2, gText_Confirm2, 126, 1, 0, NULL);
+    AddTextPrinterParameterized(windowId, 2, gMenuText_Confirm, 126, 1, 0, NULL);
     ScheduleBgCopyTilemapToVram(0);
 }
 

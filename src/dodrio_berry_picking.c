@@ -544,7 +544,7 @@ static const u8 sUnsharedColumns[MAX_RFU_PLAYERS][MAX_RFU_PLAYERS] =
     {4, 6},
     {3, 5, 7},
     {2, 4, 6, 8},
-    {1, 3, 5, 7, 9},
+    {1, 3, 5, 6, 9},
 };
 
 
@@ -2219,8 +2219,6 @@ static bool32 AllPlayersReadyToStart(void)
     }
 
     numPlayers = numPlayers; // Needed to force compiler to keep loop below
-
-    i = 1; // i isn't reset, loop below never runs. As a result, game can begin before all players ready
 
     for (; i < numPlayers; i++)
     {

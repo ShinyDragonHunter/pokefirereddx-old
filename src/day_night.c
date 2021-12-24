@@ -86,7 +86,7 @@ void CopyDayOfWeekStringToVar1(void)
     if (gSpecialVar_0x8004 <= DAY_SATURDAY)
         StringCopy(gStringVar1, sDayOfWeekTable[gSpecialVar_0x8004]);
     else
-        StringCopy(gStringVar1, gText_None);
+        StringCopy(gStringVar1, gText_DexSearchTypeNone);
 }
 
 void CopyCurrentDayOfWeekStringToVar1(void)
@@ -95,7 +95,7 @@ void CopyCurrentDayOfWeekStringToVar1(void)
     if (gLocalTime.dayOfWeek <= DAY_SATURDAY)
         StringCopy(gStringVar1, sDayOfWeekTable[gLocalTime.dayOfWeek]);
     else
-        StringCopy(gStringVar1, gText_None);
+        StringCopy(gStringVar1, gText_DexSearchTypeNone);
 }
 
 static void LoadPaletteOverrides(void)
@@ -157,10 +157,10 @@ void TintPaletteForDayNight(u16 offset, u16 size)
             nextHour = (hour + 1) % 24;
             LerpColors(sDNSystemControl.currRGBTint, sTimeOfDayTints[hour], sTimeOfDayTints[nextHour], hourPhase);
         }
-        TintPalette_CustomToneWithCopy(gPlttBufferPreDN + offset, gPlttBufferUnfaded + offset, size / 2, sDNSystemControl.currRGBTint[0], sDNSystemControl.currRGBTint[1], sDNSystemControl.currRGBTint[2], FALSE);
+        TintPalette_CustomToneWithCopy(&gPlttBufferPreDN[offset], &gPlttBufferUnfaded[offset], size / 2, sDNSystemControl.currRGBTint[0], sDNSystemControl.currRGBTint[1], sDNSystemControl.currRGBTint[2], FALSE);
     }
     else
-        CpuCopy16(gPlttBufferPreDN + offset, gPlttBufferUnfaded + offset, size);
+        CpuCopy16(&gPlttBufferPreDN[offset], gPlttBufferUnfaded + offset, size);
     LoadPaletteOverrides();
 }
 

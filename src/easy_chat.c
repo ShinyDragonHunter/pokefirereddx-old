@@ -1014,17 +1014,17 @@ static const u8 sFooterOptionXOffsets[NUM_FOOTER_TYPES][4] = {
 };
 
 static const u8 *const sFooterTextOptions[NUM_FOOTER_TYPES][4] = {
-    [FOOTER_NORMAL] = {gText_DelAll, gText_Cancel5, gText_Ok2, NULL},
+    [FOOTER_NORMAL] = {gText_DelAll, gText_Cancel, gText_Ok2, NULL},
 };
 
 #include "data/easy_chat/easy_chat_groups.h"
 #include "data/easy_chat/easy_chat_words_by_letter.h"
 
 static const u8 *const sEasyChatGroupNamePointers[EC_NUM_GROUPS] = {
-    [EC_GROUP_POKEMON]          = gEasyChatGroupName_Pokemon,
+    [EC_GROUP_POKEMON]          = gText_Pokemon,
     [EC_GROUP_TRAINER]          = gEasyChatGroupName_Trainer,
-    [EC_GROUP_STATUS]           = gEasyChatGroupName_Status,
-    [EC_GROUP_BATTLE]           = gEasyChatGroupName_Battle,
+    [EC_GROUP_STATUS]           = gText_Status,
+    [EC_GROUP_BATTLE]           = gText_Battle,
     [EC_GROUP_GREETINGS]        = gEasyChatGroupName_Greetings,
     [EC_GROUP_PEOPLE]           = gEasyChatGroupName_People,
     [EC_GROUP_VOICES]           = gEasyChatGroupName_Voices,
@@ -1035,7 +1035,7 @@ static const u8 *const sEasyChatGroupNamePointers[EC_NUM_GROUPS] = {
     [EC_GROUP_ACTIONS]          = gEasyChatGroupName_Actions,
     [EC_GROUP_LIFESTYLE]        = gEasyChatGroupName_Lifestyle,
     [EC_GROUP_HOBBIES]          = gEasyChatGroupName_Hobbies,
-    [EC_GROUP_TIME]             = gEasyChatGroupName_Time,
+    [EC_GROUP_TIME]             = gText_Time,
     [EC_GROUP_MISC]             = gEasyChatGroupName_Misc,
     [EC_GROUP_ADJECTIVES]       = gEasyChatGroupName_Adjectives,
     [EC_GROUP_EVENTS]           = gEasyChatGroupName_Events,

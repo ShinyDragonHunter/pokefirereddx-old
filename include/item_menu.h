@@ -106,7 +106,7 @@ void CB2_BagMenuFromStartMenu(void);
 void MoveItemSlotInList(struct ItemSlot* itemSlots_, u32 from, u32 to_);
 void Bag_BeginCloseWin0Animation(void);
 u8 GetSelectedItemIndex(u8 pocketId);
-bool8 UseRegisteredKeyItemOnField(void);
+bool32 UseRegisteredKeyItemOnField(u8 button);
 void GoToBagMenu(u8 bagMenuType, u8 pocketId, void ( *exitCallback)());
 void DoWallyTutorialBagMenu(void);
 void ResetBagCursorPositions(void);

@@ -9,6 +9,7 @@
 #include "bg.h"
 #include "data.h"
 #include "daycare.h"
+#include "debug.h"
 #include "decompress.h"
 #include "dynamic_placeholder_text_util.h"
 #include "event_data.h"
@@ -26,6 +27,7 @@
 #include "palette.h"
 #include "pokeball.h"
 #include "pokemon.h"
+#include "pokemon_debug.h"
 #include "pokemon_storage_system.h"
 #include "pokemon_summary_screen.h"
 #include "region_map.h"
@@ -126,7 +128,9 @@ static EWRAM_DATA struct PokemonSummaryScreenData
     {
         u16 species; // 0x0
         u16 species2; // 0x2
-        u8 isEgg; // 0x4
+        u8 isEgg:1; // 0x4
+        u8 locationBit:1;
+        u8 filler:6;
         u8 level; // 0x5
         u8 ribbonCount; // 0x6
         u8 ailment; // 0x7
@@ -666,8 +670,6 @@ static const u8 sMemoMiscTextColor[] = _("{COLOR WHITE}{SHADOW DARK_GRAY}"); // 
 static const u8 sStatsLeftColumnLayout[] = _("{DYNAMIC 0}/{DYNAMIC 1}\n{DYNAMIC 2}\n{DYNAMIC 3}");
 static const u8 sStatsRightColumnLayout[] = _("{DYNAMIC 0}\n{DYNAMIC 1}\n{DYNAMIC 2}");
 static const u8 sMovesPPLayout[] = _("{PP}{DYNAMIC 0}/{DYNAMIC 1}");
-
-#include "data/region_map/orre_met_locations.h"
 
 #define TAG_MOVE_SELECTOR 30000
 #define TAG_MON_STATUS 30001
@@ -1281,6 +1283,7 @@ static bool8 ExtractMonDataToSummaryStruct(struct Pokemon *mon)
         else
             sum->isEgg = GetMonData(mon, MON_DATA_IS_EGG);
 
+        sum->locationBit = GetMonData(mon, MON_DATA_LOCATION_BIT);
         break;
     case 1:
         for (i = 0; i < MAX_MON_MOVES; i++)
@@ -1420,6 +1423,13 @@ static void Task_HandleInput(u8 taskId)
             StopPokemonAnimations();
             PlaySE(SE_SELECT);
             BeginCloseSummaryScreen(taskId);
+        }
+        else if (JOY_NEW(SELECT_BUTTON) && !gMain.inBattle)
+        {
+            sMonSummaryScreen->callback = CB2_Debug_Pokemon;
+            StopPokemonAnimations();
+            PlaySE(SE_SELECT);
+            CloseSummaryScreen(taskId);
         }
     }
 }
@@ -2567,14 +2577,13 @@ static void PrintPageNamesAndStats(void)
     PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_INFO_TITLE, gText_PkmnInfo, 2, 1, 0, 1);
     PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_TITLE, gText_PkmnSkills, 2, 1, 0, 1);
     PrintTextOnWindow(PSS_LABEL_WINDOW_BATTLE_MOVES_TITLE, gText_BattleMoves, 2, 1, 0, 1);
-    PrintTextOnWindow(PSS_LABEL_WINDOW_BATTLE_MOVES_TITLE, gText_BattleMoves, 2, 1, 0, 1);
 
-    stringXPos = GetStringRightAlignXOffset(2, gText_Cancel2, 62);
+    stringXPos = GetStringRightAlignXOffset(2, gText_Cancel, 62);
     iconXPos = stringXPos - 16;
     if (iconXPos < 0)
         iconXPos = 0;
     PrintAOrBButtonIcon(PSS_LABEL_WINDOW_PROMPT_CANCEL, FALSE, iconXPos);
-    PrintTextOnWindow(PSS_LABEL_WINDOW_PROMPT_CANCEL, gText_Cancel2, stringXPos, 1, 0, 0);
+    PrintTextOnWindow(PSS_LABEL_WINDOW_PROMPT_CANCEL, gText_Cancel, stringXPos, 1, 0, 0);
 
     stringXPos = GetStringRightAlignXOffset(2, gText_Info, 62);
     iconXPos = stringXPos - 16;
@@ -2592,18 +2601,18 @@ static void PrintPageNamesAndStats(void)
 
     PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_INFO_RENTAL, gText_RentalPkmn, 0, 1, 0, 1);
     PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_INFO_TYPE, gText_TypeSlash, 0, 1, 0, 0);
-    statsXPos = 6 + GetStringCenterAlignXOffset(2, gText_HP4, 42);
-    PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_STATS_LEFT, gText_HP4, statsXPos, 1, 0, 1);
-    statsXPos = 6 + GetStringCenterAlignXOffset(2, gText_Attack3, 42);
-    PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_STATS_LEFT, gText_Attack3, statsXPos, 17, 0, 1);
-    statsXPos = 6 + GetStringCenterAlignXOffset(2, gText_Defense3, 42);
-    PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_STATS_LEFT, gText_Defense3, statsXPos, 33, 0, 1);
-    statsXPos = 2 + GetStringCenterAlignXOffset(2, gText_SpAtk4, 36);
-    PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_STATS_RIGHT, gText_SpAtk4, statsXPos, 1, 0, 1);
-    statsXPos = 2 + GetStringCenterAlignXOffset(2, gText_SpDef4, 36);
-    PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_STATS_RIGHT, gText_SpDef4, statsXPos, 17, 0, 1);
-    statsXPos = 2 + GetStringCenterAlignXOffset(2, gText_Speed2, 36);
-    PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_STATS_RIGHT, gText_Speed2, statsXPos, 33, 0, 1);
+    statsXPos = 6 + GetStringCenterAlignXOffset(2, gText_HP, 42);
+    PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_STATS_LEFT, gText_HP, statsXPos, 1, 0, 1);
+    statsXPos = 6 + GetStringCenterAlignXOffset(2, gText_Attack, 42);
+    PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_STATS_LEFT, gText_Attack, statsXPos, 17, 0, 1);
+    statsXPos = 6 + GetStringCenterAlignXOffset(2, gText_Defense, 42);
+    PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_STATS_LEFT, gText_Defense, statsXPos, 33, 0, 1);
+    statsXPos = 2 + GetStringCenterAlignXOffset(2, gText_SpAtk, 36);
+    PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_STATS_RIGHT, gText_SpAtk, statsXPos, 1, 0, 1);
+    statsXPos = 2 + GetStringCenterAlignXOffset(2, gText_SpDef, 36);
+    PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_STATS_RIGHT, gText_SpDef, statsXPos, 17, 0, 1);
+    statsXPos = 2 + GetStringCenterAlignXOffset(2, gText_Speed, 36);
+    PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_STATS_RIGHT, gText_Speed, statsXPos, 33, 0, 1);
     PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_EXP, gText_ExpPoints, 6, 1, 0, 1);
     PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_EXP, gText_NextLv, 6, 17, 0, 1);
     PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_STATUS, gText_Status, 2, 1, 0, 1);
@@ -2834,19 +2843,30 @@ static void BufferMonTrainerMemo(void)
     }
     else
     {
-        u16 var = sum->metLocation;
+        u16 metlocation = sum->metLocation;
+        u16 mapsecShift = MAPSEC_LITTLEROOT_TOWN;
         u16 maxMapsec = MAPSEC_NONE;
+        u16 mapEntry = metlocation + mapsecShift;
         u8 *metLevelString = Alloc(32);
         u8 *metLocationString = Alloc(32);
         GetMetLevelString(metLevelString);
+
         if (sum->metGame == VERSION_GAMECUBE)
-        {
-            var = sOrreMetLocationTable[sum->metLocation][sMonSummaryScreen->eventLegal];
-            maxMapsec = METLOC_FATEFUL_ENCOUNTER;
+        {   // orre location
+            mapEntry = gMapSecToOrreMetLoc[metlocation][sMonSummaryScreen->eventLegal];
+            maxMapsec = METLOC_LAKE_OF_RAGE + NUM_ORRE_MAPSECS; // should be 0x12D and down
         }
-        if (sum->metLocation < maxMapsec)
+        else if (metlocation >= MAPSEC_NONE)
+        {   // johto location
+            if (sum->locationBit)
+                metlocation += 39;
+            mapsecShift = JOHTO_METLOC_START;
+            maxMapsec = MAPSEC_NONE + NUM_JOHTO_MAPSECS; // should be 0x106 and down
+        }
+
+        if (metlocation < maxMapsec)
         {
-            GetMapNameGeneric(metLocationString, var);
+            GetMapNameGeneric(metLocationString, mapEntry);
             DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
         }
 
@@ -2857,13 +2877,13 @@ static void BufferMonTrainerMemo(void)
         {
             // This map isn't in Emerald and both Team Aqua and Magma got their own maps with their own mapsec IDs,
             // so we can use these to get the respective map name for the game exclusive enemy team.
-            if (sum->metLocation == MAPSEC_AQUA_HIDEOUT_OLD)
+            if (metlocation == MAPSEC_AQUA_HIDEOUT_OLD)
                 GetMapNameGeneric(metLocationString, MAPSEC_SPECIAL_AREA + sum->metGame); // MAPSEC_AQUA_HIDEOUT if Sapphire, MAPSEC_MAGMA_HIDEOUT if Ruby.
             // Battle Tower in RS.
-            if (sum->metLocation == MAPSEC_BATTLE_FRONTIER)
+            if (metlocation == MAPSEC_BATTLE_FRONTIER)
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, gText_BattleTower);
         }
-        if (sum->metLocation == MAPSEC_ROUTE_130 && sum->metLevel
+        if (metlocation == MAPSEC_ROUTE_130 && sum->metLevel
          && (sum->species == SPECIES_MEWTWO // Heliodor has Mewtwo at this location.
          || sum->species == SPECIES_WOBBUFFET // Check for Wobbuffet and Wynaut to get the
          || sum->species == SPECIES_WYNAUT)) // Mirage Island metLocationString at Route 130.
@@ -2871,15 +2891,15 @@ static void BufferMonTrainerMemo(void)
         if (DoesMonOTMatchOwner())
         {
             if (sum->metLevel)
-                text = (sum->metLocation >= maxMapsec) ? gText_XNatureMetSomewhereAt : gText_XNatureMetAtYZ;
+                text = (metlocation >= maxMapsec) ? gText_XNatureMetSomewhereAt : gText_XNatureMetAtYZ;
             else
-                text = (sum->metLocation >= maxMapsec) ? gText_XNatureHatchedSomewhereAt : gText_XNatureHatchedAtYZ;
+                text = (metlocation >= maxMapsec) ? gText_XNatureHatchedSomewhereAt : gText_XNatureHatchedAtYZ;
         }
-        else if (sum->metLocation == METLOC_FATEFUL_ENCOUNTER)
+        else if (metlocation == METLOC_FATEFUL_ENCOUNTER)
         {
             text = gText_XNatureFatefulEncounter;
         }
-        else if (sum->metLocation != METLOC_IN_GAME_TRADE)
+        else if (metlocation != METLOC_IN_GAME_TRADE)
         {
             text = (sum->metLocation >= maxMapsec) ? gText_XNatureObtainedInTrade : gText_XNatureProbablyMetAt;
         }
@@ -2890,16 +2910,16 @@ static void BufferMonTrainerMemo(void)
 
         if (sum->metGame == VERSION_GAMECUBE)
         {
-            if (var == METLOC_SPECIAL_EGG)
+            if (mapEntry == METLOC_DISTANT_LAND)
             {
                 text = gText_XNatureMetDistantLand;
             }
-            if (var == METLOC_IN_GAME_TRADE)
+            if (mapEntry == METLOC_XD_STARTER)
             {
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, sum->OTName);
                 text = gText_ObtainedFromDad;
             }
-            if (var == METLOC_FATEFUL_ENCOUNTER)
+            if (mapEntry == METLOC_COLO_STARTER_DUKING)
             {
                 DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, sum->OTName);
                 text = (sum->species == SPECIES_PLUSLE) ? gText_Receivedfrom : gText_OldFriend;
@@ -3017,7 +3037,7 @@ static void PrintEggMemo(void)
         text = gText_PeculiarEggNicePlace;
     else if (!DoesMonOTMatchOwner() || !sMonSummaryScreen->summary.sanity)
         text = gText_PeculiarEggTrade;
-    else if (sum->metLocation == MAPSEC_GOLDENROD_CITY)
+    else if (sum->metLocation == METLOC_GOLDENROD_CITY)
         text = gText_EggFromPokecomCenter;
     else
         text = gText_OddEggFoundByCouple;
@@ -3087,7 +3107,7 @@ static void PrintHeldItemName(void)
         text = gStringVar1;
     }
     else
-        text = gText_None;
+        text = gText_DexSearchTypeNone;
 
     x = GetStringCenterAlignXOffset(2, text, 72) + 6;
     PrintTextOnWindow(AddWindowFromTemplateList(sPageSkillsTemplate, PSS_DATA_WINDOW_SKILLS_HELD_ITEM), text, x, 1, 0, 0);
@@ -3105,7 +3125,7 @@ static void PrintRibbonCount(void)
         text = gStringVar4;
     }
     else
-        text = gText_None;
+        text = gText_DexSearchTypeNone;
 
     x = GetStringCenterAlignXOffset(2, text, 70) + 6;
     PrintTextOnWindow(AddWindowFromTemplateList(sPageSkillsTemplate, PSS_DATA_WINDOW_SKILLS_RIBBON_COUNT), text, x, 1, 0, 0);
@@ -3516,25 +3536,25 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
         if (gMain.inBattle)
         {
             if (SpeciesHasGenderDifferenceAndIsFemale(formSpecies, summary->pid))
-                HandleLoadSpecialPokePic(&gFemaleMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_LEFT], formSpecies, summary->pid);
+                HandleLoadSpecialPokePic(&gFemaleMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_LEFT], formSpecies, summary->pid, 0);
             else
-                HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_LEFT], formSpecies, summary->pid);
+                HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_LEFT], formSpecies, summary->pid, summary->metGame);
         }
         else
         {
             if (gMonSpritesGfxPtr)
             {
                 if (SpeciesHasGenderDifferenceAndIsFemale(formSpecies, summary->pid))
-                    HandleLoadSpecialPokePic(&gFemaleMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[1], formSpecies, summary->pid);
+                    HandleLoadSpecialPokePic(&gFemaleMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_LEFT], formSpecies, summary->pid, 0);
                 else
-                    HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[1], formSpecies, summary->pid);
+                    HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_LEFT], formSpecies, summary->pid, summary->metGame);
             }
             else
             {
                 if (SpeciesHasGenderDifferenceAndIsFemale(formSpecies, summary->pid))
-                    HandleLoadSpecialPokePic(&gFemaleMonFrontPicTable[formSpecies], MonSpritesGfxManager_GetSpritePtr(), formSpecies, summary->pid);
+                    HandleLoadSpecialPokePic(&gFemaleMonFrontPicTable[formSpecies], MonSpritesGfxManager_GetSpritePtr(), formSpecies, summary->pid, 0);
                 else
-                    HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], MonSpritesGfxManager_GetSpritePtr(), formSpecies, summary->pid);
+                    HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], MonSpritesGfxManager_GetSpritePtr(), formSpecies, summary->pid, summary->metGame);
             }
         }
         (*state)++;
@@ -3551,13 +3571,13 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
 static void PlayMonCry(void)
 {
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
-    u16 formSpecies = GetFormSpecies(summary->species2, sMonSummaryScreen->form);
+
     if (!summary->isEgg)
     {
         if (ShouldPlayNormalMonCry(&sMonSummaryScreen->currentMon))
-            PlayCry3(formSpecies, 0, 0);
+            PlayCry3(summary->species2, 0, 0);
         else
-            PlayCry3(formSpecies, 0, 11);
+            PlayCry3(summary->species2, 0, 11);
     }
 }
 
@@ -3573,10 +3593,7 @@ static u8 CreateMonSprite(struct Pokemon *unused)
     gSprites[spriteId].callback = SpriteCB_Pokemon;
     gSprites[spriteId].oam.priority = 0;
 
-    if (IsMonSpriteNotFlipped(formSpecies))
-        gSprites[spriteId].hFlip = FALSE;
-    else
-        gSprites[spriteId].hFlip = TRUE;
+    gSprites[spriteId].hFlip = !IsMonSpriteNotFlipped(formSpecies);
 
     return spriteId;
 }

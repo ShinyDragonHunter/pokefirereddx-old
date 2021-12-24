@@ -546,12 +546,6 @@ bool8 ScrCmd_changeplayeroutfit(struct ScriptContext *ctx)
     return FALSE;
 }
 
-bool8 ScrCmd_handleexpiredrepel(struct ScriptContext *ctx)
-{
-    VarSet(VAR_REPEL_STEP_COUNT, ItemId_GetHoldEffectParam(VarGet(VAR_REPEL_LAST_USED)));
-    return FALSE;
-}
-
 bool8 ScrCmd_setflag(struct ScriptContext *ctx)
 {
     FlagSet(ScriptReadHalfword(ctx));

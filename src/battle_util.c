@@ -401,6 +401,11 @@ bool8 TryRunFromBattle(u8 battler)
             effect++;
         }
     }
+    else if (IS_BATTLE_TYPE_GHOST_WITHOUT_SCOPE(gBattleTypeFlags))
+    {
+        if (GetBattlerSide(battler) == B_SIDE_PLAYER)
+            ++effect;
+    }
     else if (gBattleTypeFlags & (BATTLE_TYPE_FRONTIER | BATTLE_TYPE_TRAINER_HILL) && gBattleTypeFlags & BATTLE_TYPE_TRAINER)
     {
         effect++;
@@ -992,7 +997,9 @@ u8 TrySetCantSelectMoveBattleScript(void)
         }
     }
 
-    if (gBattleMons[gActiveBattler].item == ITEM_ENIGMA_BERRY)
+    if (gBattleStruct->debugHoldEffects[gActiveBattler] && gBattleMons[gActiveBattler].item)
+        holdEffect = gBattleStruct->debugHoldEffects[gActiveBattler];
+    else if (gBattleMons[gActiveBattler].item == ITEM_ENIGMA_BERRY)
         holdEffect = gEnigmaBerries[gActiveBattler].holdEffect;
     else
         holdEffect = ItemId_GetHoldEffect(gBattleMons[gActiveBattler].item);
@@ -1931,6 +1938,7 @@ enum
     CANCELLER_IMPRISONED,
     CANCELLER_CONFUSED,
     CANCELLER_PARALYSED,
+    CANCELLER_GHOST,
     CANCELLER_IN_LOVE,
     CANCELLER_BIDE,
     CANCELLER_THAW,
@@ -2134,6 +2142,18 @@ u8 AtkCanceller_UnableToUseMove(void)
                 effect = 1;
             }
             gBattleStruct->atkCancellerTracker++;
+            break;
+        case CANCELLER_GHOST: // GHOST in pokemon tower
+            if (IS_BATTLE_TYPE_GHOST_WITHOUT_SCOPE(gBattleTypeFlags))
+            {
+                if (GetBattlerSide(gBattlerAttacker) == B_SIDE_PLAYER)
+                    gBattlescriptCurrInstr = BattleScript_TooScaredToMove;
+                else
+                    gBattlescriptCurrInstr = BattleScript_GhostGetOutGetOut;
+                gBattleCommunication[MULTISTRING_CHOOSER] = 0;
+                effect = 1;
+            }
+            ++gBattleStruct->atkCancellerTracker;
             break;
         case CANCELLER_IN_LOVE: // infatuation
             if (gBattleMons[gBattlerAttacker].status2 & STATUS2_INFATUATION)
@@ -2427,7 +2447,9 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
             move = gCurrentMove;
 
         GET_MOVE_TYPE(move, moveType);
-
+        if (IS_BATTLE_TYPE_GHOST_WITHOUT_SCOPE(gBattleTypeFlags)
+         && (gLastUsedAbility == ABILITY_INTIMIDATE || gLastUsedAbility == ABILITY_TRACE))
+            return effect;
         switch (caseID)
         {
         case ABILITYEFFECT_ON_SWITCHIN: // 0

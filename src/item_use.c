@@ -56,6 +56,8 @@ static void CheckForHiddenItemsInMapConnection(u8 taskId);
 static void ItemUseOnFieldCB_Bike(u8 taskId);
 static void ItemUseOnFieldCB_Rod(u8);
 static void ItemUseOnFieldCB_Itemfinder(u8);
+static void ItemUseOnFieldCB_PokeFlute(u8 taskId);
+static void FinishPokeFlute(u8 taskId);
 static void ItemUseOnFieldCB_Berry(u8 taskId);
 static void ItemUseOnFieldCB_WailmerPailBerry(u8 taskId);
 static void ItemUseOnFieldCB_WailmerPailSudowoodo(u8 taskId);
@@ -620,6 +622,51 @@ void ItemUseOutOfBattle_PowderJar(u8 taskId)
         DisplayItemMessage(taskId, 2, gStringVar4, CloseItemMessage);
 }
 
+void ItemUseOutOfBattle_PokeFlute(u8 taskId)
+{
+    bool8 wokeSomeoneUp = FALSE;
+    u32 i;
+
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        if (!ExecuteTableBasedItemEffect(&gPlayerParty[i], ITEM_AWAKENING, i, MOVE_NONE))
+            wokeSomeoneUp = TRUE;
+    }
+
+    if (wokeSomeoneUp)
+    {
+        if (gTasks[taskId].tUsingRegisteredKeyItem)
+            DisplayItemMessageOnField(taskId, gText_PlayedPokeFlute, ItemUseOnFieldCB_PokeFlute);
+        else
+            DisplayItemMessage(taskId, 2, gText_PlayedPokeFlute, ItemUseOnFieldCB_PokeFlute);
+    }
+    else
+    {
+        // Now that's a catchy tune!
+        if (gTasks[taskId].tUsingRegisteredKeyItem)
+            DisplayItemMessageOnField(taskId, gText_PlayedPokeFluteCatchyTune, Task_CloseCantUseKeyItemMessage);
+        else
+            DisplayItemMessage(taskId, 2, gText_PlayedPokeFluteCatchyTune, CloseItemMessage);
+    }
+}
+
+static void ItemUseOnFieldCB_PokeFlute(u8 taskId)
+{
+    PlayFanfareByFanfareNum(FANFARE_RG_POKE_FLUTE);
+    gTasks[taskId].func = FinishPokeFlute;
+}
+
+static void FinishPokeFlute(u8 taskId)
+{
+    if (WaitFanfare(FALSE))
+    {
+        if (gTasks[taskId].tUsingRegisteredKeyItem)
+            DisplayItemMessageOnField(taskId, gText_PokeFluteAwakened, Task_CloseCantUseKeyItemMessage);
+        else
+            DisplayItemMessage(taskId, 2, gText_PokeFluteAwakened, CloseItemMessage);
+    }
+}
+
 void ItemUseOutOfBattle_Berry(u8 taskId)
 {
     if (IsPlayerFacingEmptyBerryTreePatch())
@@ -894,6 +941,12 @@ void ItemUseInBattle_PokeBall(u8 taskId)
     }
     else
         DisplayItemMessage(taskId, 2, gText_BoxFull, CloseItemMessage);
+}
+
+void ItemUseInBattle_PokeFlute(u8 taskId)
+{
+    Bag_BeginCloseWin0Animation();
+    Task_FadeAndCloseBagMenu(taskId);
 }
 
 static void Task_CloseStatIncreaseMessage(u8 taskId)

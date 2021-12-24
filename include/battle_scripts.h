@@ -222,5 +222,9 @@ extern const u8 BattleScript_RunByUsingItem[];
 extern const u8 BattleScript_ActionWatchesCarefully[];
 extern const u8 BattleScript_ActionGetNear[];
 extern const u8 BattleScript_ActionThrowPokeblock[];
+extern const u8 BattleScript_GhostGetOutGetOut[];
+extern const u8 BattleScript_TooScaredToMove[];
+extern const u8 BattleScript_GhostBallDodge[];
+extern const u8 BattleScript_SilphScopeUnveiled[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H

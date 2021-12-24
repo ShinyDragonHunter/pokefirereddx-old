@@ -147,14 +147,14 @@ static EWRAM_DATA struct {
     /*0x00*/ struct Pokemon mon;
     /*0x64*/ u32 timer;
     /*0x68*/ u32 monPersonalities[2];
-    /*0x70*/ u8 filler_70[2];
+    /*0x70*/ u8 monMetGame[2];
     /*0x72*/ u8 playerLinkFlagFinishTrade;
     /*0x73*/ u8 partnerLinkFlagFinishTrade;
     /*0x74*/ u16 linkData[10];
     /*0x88*/ u8 linkTimeoutZero1;
     /*0x89*/ u8 linkTimeoutZero2;
     /*0x8A*/ u16 linkTimeoutCounter;
-    /*0x8C*/ u16 neverRead_8C;
+    /*0x8C*/ u8 monForm[2];
     /*0x8E*/ u8 monSpriteIds[2];
     /*0x90*/ u8 connectionSpriteId1; // Multi-purpose sprite ids used during the transfer sequence
     /*0x91*/ u8 connectionSpriteId2;
@@ -2658,6 +2658,7 @@ static void LoadTradeMonPic(u8 whichParty, u8 state)
     u32 personality;
     u8 form;
     u16 formSpecies;
+    u8 metGame;
 
     if (whichParty == TRADE_PLAYER)
     {
@@ -2678,25 +2679,28 @@ static void LoadTradeMonPic(u8 whichParty, u8 state)
         species = GetMonData(mon, MON_DATA_SPECIES2);
         personality = GetMonData(mon, MON_DATA_PERSONALITY);
         formSpecies = GetFormSpecies(species, form);
+        metGame = GetMonData(mon, MON_DATA_MET_GAME);
 
         if (whichParty)
         {
             if (SpeciesHasGenderDifferenceAndIsFemale(formSpecies, personality))
-                HandleLoadSpecialPokePic(&gFemaleMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[whichParty * 2 + B_POSITION_OPPONENT_LEFT], formSpecies, personality);
+                HandleLoadSpecialPokePic(&gFemaleMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[whichParty * 2 + B_POSITION_OPPONENT_LEFT], formSpecies, personality, 0);
             else
-                HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[whichParty * 2 + B_POSITION_OPPONENT_LEFT], formSpecies, personality);
+                HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[whichParty * 2 + B_POSITION_OPPONENT_LEFT], formSpecies, personality, metGame);
         }
         else
         {
             if (SpeciesHasGenderDifferenceAndIsFemale(formSpecies, personality))
-                HandleLoadSpecialPokePic(&gFemaleMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_LEFT], formSpecies, personality);
+                HandleLoadSpecialPokePic(&gFemaleMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_LEFT], formSpecies, personality, 0);
             else
-                HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_LEFT], formSpecies, personality);
+                HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_LEFT], formSpecies, personality, metGame);
         }
 
         LoadUniqueSpritePalette(GetMonSpritePalStruct(mon), formSpecies, personality, GetMonData(mon));
-        sTradeData->monSpecies[whichParty] = formSpecies;
+        sTradeData->monSpecies[whichParty] = species;
         sTradeData->monPersonalities[whichParty] = personality;
+        sTradeData->monMetGame[whichParty] = metGame;
+        sTradeData->monForm[whichParty] = form;
         break;
     case 1:
         SetMultiuseSpriteTemplateToPokemon(GetMonSpritePalStruct(mon)->tag, pos, form);
@@ -2726,7 +2730,6 @@ void CB2_LinkTrade(void)
         InitTradeBgInternal();
         ClearLinkTimeoutCounter();
         gMain.state++;
-        sTradeData->neverRead_8C = 0;
         sTradeData->state = 0;
         sTradeData->isLinkTrade = TRUE;
         sTradeData->texX = 64;
@@ -2896,7 +2899,6 @@ static void CB2_InGameTrade(void)
         SetVBlankCallback(VBlankCB_Trade);
         InitTradeBgInternal();
         sTradeData->isLinkTrade = FALSE;
-        sTradeData->neverRead_8C = 0;
         sTradeData->state = 0;
         sTradeData->texX = 64;
         sTradeData->texY = 64;
@@ -3309,13 +3311,14 @@ static bool8 AnimateTradeSequenceCable(void)
 {
     u16 evoTarget;
     u8 formTarget;
+    u16 formSpecies = GetFormSpecies(sTradeData->monSpecies[TRADE_PARTNER], sTradeData->monForm[TRADE_PARTNER]);
 
     switch (sTradeData->state)
     {
     case TS_STATE_START:
         gSprites[sTradeData->monSpriteIds[TRADE_PLAYER]].invisible = FALSE;
         gSprites[sTradeData->monSpriteIds[TRADE_PLAYER]].x2 = -180;
-        gSprites[sTradeData->monSpriteIds[TRADE_PLAYER]].y2 = gMonFrontPicCoords[sTradeData->monSpecies[TRADE_PLAYER]].y_offset;
+        gSprites[sTradeData->monSpriteIds[TRADE_PLAYER]].y2 = gMonFrontPicCoords[GetFormSpecies(sTradeData->monSpecies[TRADE_PLAYER], sTradeData->monForm[TRADE_PLAYER])].y_offset;
         sTradeData->state++;
         sTradeData->cachedMapMusic = GetCurrentMapMusic();
         PlayNewMapMusic(MUS_EVOLUTION);
@@ -3670,20 +3673,20 @@ static bool8 AnimateTradeSequenceCable(void)
     case TS_STATE_POKEBALL_ARRIVE_WAIT:
         if (gSprites[sTradeData->bouncingPokeballSpriteId].callback == SpriteCallbackDummy)
         {
-            if (SpeciesHasGenderDifferenceAndIsFemale(sTradeData->monSpecies[TRADE_PARTNER], sTradeData->monPersonalities[TRADE_PARTNER]))
-                HandleLoadSpecialPokePic(&gFemaleMonFrontPicTable[sTradeData->monSpecies[TRADE_PARTNER]], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_RIGHT], sTradeData->monSpecies[TRADE_PARTNER], sTradeData->monPersonalities[TRADE_PARTNER]);
+            if (SpeciesHasGenderDifferenceAndIsFemale(formSpecies, sTradeData->monPersonalities[TRADE_PARTNER]))
+                HandleLoadSpecialPokePic(&gFemaleMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_RIGHT], formSpecies, sTradeData->monPersonalities[TRADE_PARTNER], 0);
             else
-                HandleLoadSpecialPokePic(&gMonFrontPicTable[sTradeData->monSpecies[TRADE_PARTNER]], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_RIGHT], sTradeData->monSpecies[TRADE_PARTNER], sTradeData->monPersonalities[TRADE_PARTNER]);
+                HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_RIGHT], formSpecies, sTradeData->monPersonalities[TRADE_PARTNER], sTradeData->monMetGame[TRADE_PARTNER]);
             sTradeData->state++;
         }
         break;
     case TS_STATE_SHOW_NEW_MON:
         gSprites[sTradeData->monSpriteIds[TRADE_PARTNER]].x = 120;
-        gSprites[sTradeData->monSpriteIds[TRADE_PARTNER]].y = gMonFrontPicCoords[sTradeData->monSpecies[TRADE_PARTNER]].y_offset + 60;
+        gSprites[sTradeData->monSpriteIds[TRADE_PARTNER]].y = gMonFrontPicCoords[formSpecies].y_offset + 60;
         gSprites[sTradeData->monSpriteIds[TRADE_PARTNER]].x2 = 0;
         gSprites[sTradeData->monSpriteIds[TRADE_PARTNER]].y2 = 0;
         StartSpriteAnim(&gSprites[sTradeData->monSpriteIds[TRADE_PARTNER]], 0);
-        CreatePokeballSpriteToReleaseMon(sTradeData->monSpriteIds[TRADE_PARTNER], gSprites[sTradeData->monSpriteIds[TRADE_PARTNER]].oam.paletteNum, 120, 84, 2, 1, 20, 0xFFFFF, sTradeData->monSpecies[TRADE_PARTNER]);
+        CreatePokeballSpriteToReleaseMon(sTradeData->monSpriteIds[TRADE_PARTNER], gSprites[sTradeData->monSpriteIds[TRADE_PARTNER]].oam.paletteNum, 120, 84, 2, 1, 20, 0xFFFFF, formSpecies);
         FreeSpriteOamMatrix(&gSprites[sTradeData->bouncingPokeballSpriteId]);
         DestroySprite(&gSprites[sTradeData->bouncingPokeballSpriteId]);
         sTradeData->state++;
@@ -3779,13 +3782,14 @@ static bool8 AnimateTradeSequenceWireless(void)
 {
     u16 evoTarget;
     u8 formTarget;
+    u16 formSpecies = GetFormSpecies(sTradeData->monSpecies[TRADE_PARTNER], sTradeData->monForm[TRADE_PARTNER]);
 
     switch (sTradeData->state)
     {
     case TS_STATE_START:
         gSprites[sTradeData->monSpriteIds[TRADE_PLAYER]].invisible = FALSE;
         gSprites[sTradeData->monSpriteIds[TRADE_PLAYER]].x2 = -180;
-        gSprites[sTradeData->monSpriteIds[TRADE_PLAYER]].y2 = gMonFrontPicCoords[sTradeData->monSpecies[TRADE_PLAYER]].y_offset;
+        gSprites[sTradeData->monSpriteIds[TRADE_PLAYER]].y2 = gMonFrontPicCoords[GetFormSpecies(sTradeData->monSpecies[TRADE_PLAYER], sTradeData->monForm[TRADE_PLAYER])].y_offset;
         sTradeData->state++;
         sTradeData->cachedMapMusic = GetCurrentMapMusic();
         PlayNewMapMusic(MUS_EVOLUTION);
@@ -4163,20 +4167,20 @@ static bool8 AnimateTradeSequenceWireless(void)
     case TS_STATE_POKEBALL_ARRIVE_WAIT:
         if (gSprites[sTradeData->bouncingPokeballSpriteId].callback == SpriteCallbackDummy)
         {
-            if (SpeciesHasGenderDifferenceAndIsFemale(sTradeData->monSpecies[TRADE_PARTNER], sTradeData->monPersonalities[TRADE_PARTNER]))
-                HandleLoadSpecialPokePic(&gFemaleMonFrontPicTable[sTradeData->monSpecies[TRADE_PARTNER]], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_RIGHT], sTradeData->monSpecies[TRADE_PARTNER], sTradeData->monPersonalities[TRADE_PARTNER]);
+            if (SpeciesHasGenderDifferenceAndIsFemale(formSpecies, sTradeData->monPersonalities[TRADE_PARTNER]))
+                HandleLoadSpecialPokePic(&gFemaleMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_RIGHT], formSpecies, sTradeData->monPersonalities[TRADE_PARTNER], 0);
             else
-                HandleLoadSpecialPokePic(&gMonFrontPicTable[sTradeData->monSpecies[TRADE_PARTNER]], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_RIGHT], sTradeData->monSpecies[TRADE_PARTNER], sTradeData->monPersonalities[TRADE_PARTNER]);
+                HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_RIGHT], formSpecies, sTradeData->monPersonalities[TRADE_PARTNER], sTradeData->monMetGame[TRADE_PARTNER]);
             sTradeData->state++;
         }
         break;
     case TS_STATE_SHOW_NEW_MON:
         gSprites[sTradeData->monSpriteIds[TRADE_PARTNER]].x = 120;
-        gSprites[sTradeData->monSpriteIds[TRADE_PARTNER]].y = gMonFrontPicCoords[sTradeData->monSpecies[TRADE_PARTNER]].y_offset + 60;
+        gSprites[sTradeData->monSpriteIds[TRADE_PARTNER]].y = gMonFrontPicCoords[formSpecies].y_offset + 60;
         gSprites[sTradeData->monSpriteIds[TRADE_PARTNER]].x2 = 0;
         gSprites[sTradeData->monSpriteIds[TRADE_PARTNER]].y2 = 0;
         StartSpriteAnim(&gSprites[sTradeData->monSpriteIds[TRADE_PARTNER]], 0);
-        CreatePokeballSpriteToReleaseMon(sTradeData->monSpriteIds[TRADE_PARTNER], gSprites[sTradeData->monSpriteIds[TRADE_PARTNER]].oam.paletteNum, 120, 84, 2, 1, 20, 0xFFFFF, sTradeData->monSpecies[TRADE_PARTNER]);
+        CreatePokeballSpriteToReleaseMon(sTradeData->monSpriteIds[TRADE_PARTNER], gSprites[sTradeData->monSpriteIds[TRADE_PARTNER]].oam.paletteNum, 120, 84, 2, 1, 20, 0xFFFFF, formSpecies);
         FreeSpriteOamMatrix(&gSprites[sTradeData->bouncingPokeballSpriteId]);
         DestroySprite(&gSprites[sTradeData->bouncingPokeballSpriteId]);
         sTradeData->state++;

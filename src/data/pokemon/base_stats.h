@@ -153,8 +153,6 @@ const struct BaseStats gBaseStats[] =
         .catchRate = 45,
         .expYield = 209,
         .evYield_SpAttack  = 3,
-        .item1 = ITEM_NONE,
-        .item2 = ITEM_NONE,
         .genderRatio = PERCENT_FEMALE(12.5),
         .eggCycles = 20,
         .friendship = 70,
@@ -287,8 +285,6 @@ const struct BaseStats gBaseStats[] =
         .catchRate = 120,
         .expYield = 72,
         .evYield_Defense   = 2,
-        .item1 = ITEM_NONE,
-        .item2 = ITEM_NONE,
         .genderRatio = PERCENT_FEMALE(50),
         .eggCycles = 15,
         .friendship = 70,
@@ -316,7 +312,6 @@ const struct BaseStats gBaseStats[] =
         .expYield = 160,
         .evYield_SpAttack  = 2,
         .evYield_SpDefense = 1,
-        .item1 = ITEM_NONE,
         .item2 = ITEM_SILVER_POWDER,
         .genderRatio = PERCENT_FEMALE(50),
         .eggCycles = 15,
@@ -383,7 +378,7 @@ const struct BaseStats gBaseStats[] =
         .abilities = {ABILITY_SHED_SKIN, ABILITY_NONE},
         .bodyColor = BODY_COLOR_YELLOW,
         .noFlip = FALSE,
-        .frontPicAnim = ANIM_GLOW_ORANGE,
+        .frontPicAnim = ANIM_GLOW_YELLOW,
         .frontPicAnimDelay = 20,
         .backPicAnim = BACK_ANIM_DIP_RIGHT_SIDE,
     },
@@ -523,7 +518,7 @@ const struct BaseStats gBaseStats[] =
         .frontPicAnim = ANIM_RAPID_H_HOPS,
         .backPicAnim = BACK_ANIM_V_SHAKE_H_SLIDE,
         .flags = FLAG_GENDER_DIFFERENCE,
-        .forms = {SPECIES_RATTATA_ALOLAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_RATTATA, SPECIES_RATTATA_ALOLAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_RATICATE] =
@@ -552,7 +547,7 @@ const struct BaseStats gBaseStats[] =
         .frontPicAnim = ANIM_FIGURE_8,
         .backPicAnim = BACK_ANIM_V_SHAKE_H_SLIDE,
         .flags = FLAG_GENDER_DIFFERENCE,
-        .forms = {SPECIES_RATICATE_ALOLAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_RATICATE, SPECIES_RATICATE_ALOLAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_SPEAROW] =
@@ -719,7 +714,7 @@ const struct BaseStats gBaseStats[] =
         .frontPicAnim = ANIM_V_STRETCH,
         .backPicAnim = BACK_ANIM_SHAKE_FLASH_YELLOW,
         .flags = FLAG_GENDER_DIFFERENCE,
-        .forms = {SPECIES_RAICHU_ALOLAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_RAICHU, SPECIES_RAICHU_ALOLAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_SANDSHREW] =
@@ -748,7 +743,7 @@ const struct BaseStats gBaseStats[] =
         .noFlip = FALSE,
         .frontPicAnim = ANIM_V_SQUISH_AND_BOUNCE,
         .backPicAnim = BACK_ANIM_CONCAVE_ARC_SMALL,
-        .forms = {SPECIES_SANDSHREW_ALOLAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_SANDSHREW, SPECIES_SANDSHREW_ALOLAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_SANDSLASH] =
@@ -777,7 +772,7 @@ const struct BaseStats gBaseStats[] =
         .noFlip = FALSE,
         .frontPicAnim = ANIM_V_STRETCH,
         .backPicAnim = BACK_ANIM_CONCAVE_ARC_LARGE,
-        .forms = {SPECIES_SANDSLASH_ALOLAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_SANDSLASH, SPECIES_SANDSLASH_ALOLAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_NIDORAN_F] =
@@ -1025,7 +1020,7 @@ const struct BaseStats gBaseStats[] =
         .noFlip = FALSE,
         .frontPicAnim = ANIM_V_STRETCH,
         .backPicAnim = BACK_ANIM_CONCAVE_ARC_LARGE,
-        .forms = {SPECIES_VULPIX_ALOLAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_VULPIX, SPECIES_VULPIX_ALOLAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_NINETALES] =
@@ -1056,7 +1051,7 @@ const struct BaseStats gBaseStats[] =
         .noFlip = FALSE,
         .frontPicAnim = ANIM_V_SHAKE,
         .backPicAnim = BACK_ANIM_H_VIBRATE,
-        .forms = {SPECIES_NINETALES_ALOLAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_NINETALES, SPECIES_NINETALES_ALOLAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_JIGGLYPUFF] =
@@ -1395,7 +1390,7 @@ const struct BaseStats gBaseStats[] =
         .frontPicAnim = ANIM_V_SHAKE,
         .frontPicAnimDelay = 25,
         .backPicAnim = BACK_ANIM_V_SHAKE,
-        .forms = {SPECIES_DIGLETT_ALOLAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_DIGLETT, SPECIES_DIGLETT_ALOLAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_DUGTRIO] =
@@ -1424,7 +1419,7 @@ const struct BaseStats gBaseStats[] =
         .frontPicAnim = ANIM_H_SHAKE_SLOW,
         .frontPicAnimDelay = 35,
         .backPicAnim = BACK_ANIM_V_SHAKE,
-        .forms = {SPECIES_DUGTRIO_ALOLAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_DUGTRIO, SPECIES_DUGTRIO_ALOLAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_MEOWTH] =
@@ -1454,7 +1449,7 @@ const struct BaseStats gBaseStats[] =
         .frontPicAnim = ANIM_V_JUMPS_SMALL,
         .frontPicAnimDelay = 35,
         .backPicAnim = BACK_ANIM_CONCAVE_ARC_LARGE,
-        .forms = {SPECIES_MEOWTH_ALOLAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_MEOWTH, SPECIES_MEOWTH_ALOLAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_PERSIAN] =
@@ -1483,7 +1478,7 @@ const struct BaseStats gBaseStats[] =
         .frontPicAnim = ANIM_V_STRETCH,
         .frontPicAnimDelay = 20,
         .backPicAnim = BACK_ANIM_TRIANGLE_DOWN,
-        .forms = {SPECIES_PERSIAN_ALOLAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_PERSIAN, SPECIES_PERSIAN_ALOLAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_PSYDUCK] =
@@ -1562,7 +1557,7 @@ const struct BaseStats gBaseStats[] =
         .abilities = {ABILITY_VITAL_SPIRIT, ABILITY_NONE},
         .bodyColor = BODY_COLOR_BROWN,
         .noFlip = FALSE,
-        .frontPicAnim = ANIM_H_JUMPS_V_STRETCH,
+        .frontPicAnim = ANIM_GROW_STUTTER_SLOW,
         .backPicAnim = BACK_ANIM_CONCAVE_ARC_LARGE,
     },
 
@@ -1811,7 +1806,7 @@ const struct BaseStats gBaseStats[] =
         .abilities = {ABILITY_SYNCHRONIZE, ABILITY_INNER_FOCUS},
         .bodyColor = BODY_COLOR_BROWN,
         .noFlip = FALSE,
-        .frontPicAnim = ANIM_FLICKER_INCREASING,
+        .frontPicAnim = ANIM_FLICKER,
         .backPicAnim = BACK_ANIM_GROW_STUTTER,
         .flags = FLAG_GENDER_DIFFERENCE,
     },
@@ -2054,7 +2049,7 @@ const struct BaseStats gBaseStats[] =
         .noFlip = FALSE,
         .frontPicAnim = ANIM_BOUNCE_ROTATE_TO_SIDES_SMALL,
         .backPicAnim = BACK_ANIM_V_SHAKE_LOW,
-        .forms = {SPECIES_GEODUDE_ALOLAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_GEODUDE, SPECIES_GEODUDE_ALOLAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_GRAVELER] =
@@ -2084,7 +2079,7 @@ const struct BaseStats gBaseStats[] =
         .noFlip = FALSE,
         .frontPicAnim = ANIM_BOUNCE_ROTATE_TO_SIDES_SMALL,
         .backPicAnim = BACK_ANIM_H_SHAKE,
-        .forms = {SPECIES_GRAVELER_ALOLAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_GRAVELER, SPECIES_GRAVELER_ALOLAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_GOLEM] =
@@ -2113,7 +2108,7 @@ const struct BaseStats gBaseStats[] =
         .noFlip = FALSE,
         .frontPicAnim = ANIM_SWING_CONCAVE_FAST_SHORT,
         .backPicAnim = BACK_ANIM_H_SHAKE,
-        .forms = {SPECIES_GOLEM_ALOLAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_GOLEM, SPECIES_GOLEM_ALOLAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_PONYTA] =
@@ -2141,7 +2136,7 @@ const struct BaseStats gBaseStats[] =
         .noFlip = FALSE,
         .frontPicAnim = ANIM_GLOW_ORANGE,
         .backPicAnim = BACK_ANIM_SHAKE_GLOW_RED,
-        .forms = {SPECIES_PONYTA_GALARIAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_PONYTA, SPECIES_PONYTA_GALARIAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_RAPIDASH] =
@@ -2169,7 +2164,7 @@ const struct BaseStats gBaseStats[] =
         .noFlip = FALSE,
         .frontPicAnim = ANIM_CIRCULAR_VIBRATE,
         .backPicAnim = BACK_ANIM_JOLT_RIGHT,
-        .forms = {SPECIES_RAPIDASH_GALARIAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_RAPIDASH, SPECIES_RAPIDASH_GALARIAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_SLOWPOKE] =
@@ -2199,7 +2194,7 @@ const struct BaseStats gBaseStats[] =
         .noFlip = FALSE,
         .frontPicAnim = ANIM_V_SQUISH_AND_BOUNCE_SLOW,
         .backPicAnim = BACK_ANIM_H_SLIDE,
-        .forms = {SPECIES_SLOWPOKE_GALARIAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_SLOWPOKE, SPECIES_SLOWPOKE_GALARIAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_SLOWBRO] =
@@ -2228,7 +2223,7 @@ const struct BaseStats gBaseStats[] =
         .noFlip = FALSE,
         .frontPicAnim = ANIM_SWING_CONCAVE,
         .backPicAnim = BACK_ANIM_DIP_RIGHT_SIDE,
-        .forms = {SPECIES_SLOWBRO_GALARIAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_SLOWBRO, SPECIES_SLOWBRO_GALARIAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_MAGNEMITE] =
@@ -2451,7 +2446,7 @@ const struct BaseStats gBaseStats[] =
         .noFlip = FALSE,
         .frontPicAnim = ANIM_H_SLIDE_SLOW,
         .backPicAnim = BACK_ANIM_V_STRETCH,
-        .forms = {SPECIES_GRIMER_ALOLAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_GRIMER, SPECIES_GRIMER_ALOLAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_MUK] =
@@ -2482,7 +2477,7 @@ const struct BaseStats gBaseStats[] =
         .frontPicAnim = ANIM_DEEP_V_SQUISH_AND_BOUNCE,
         .frontPicAnimDelay = 45,
         .backPicAnim = BACK_ANIM_H_STRETCH,
-        .forms = {SPECIES_MUK_ALOLAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_MUK, SPECIES_MUK_ALOLAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_SHELLDER] =
@@ -2859,7 +2854,7 @@ const struct BaseStats gBaseStats[] =
         .noFlip = FALSE,
         .frontPicAnim = ANIM_H_JUMPS_V_STRETCH,
         .backPicAnim = BACK_ANIM_CONCAVE_ARC_LARGE,
-        .forms = {SPECIES_EXEGGUTOR_ALOLAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_EXEGGUTOR, SPECIES_EXEGGUTOR_ALOLAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_CUBONE] =
@@ -2915,7 +2910,7 @@ const struct BaseStats gBaseStats[] =
         .noFlip = FALSE,
         .frontPicAnim = ANIM_BOUNCE_ROTATE_TO_SIDES,
         .backPicAnim = BACK_ANIM_CONCAVE_ARC_LARGE,
-        .forms = {SPECIES_MAROWAK_ALOLAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_MAROWAK, SPECIES_MAROWAK_ALOLAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_HITMONLEE] =
@@ -3050,7 +3045,7 @@ const struct BaseStats gBaseStats[] =
         .noFlip = FALSE,
         .frontPicAnim = ANIM_V_SLIDE,
         .backPicAnim = BACK_ANIM_GROW,
-        .forms = {SPECIES_WEEZING_GALARIAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_WEEZING, SPECIES_WEEZING_GALARIAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_RHYHORN] =
@@ -3974,7 +3969,7 @@ const struct BaseStats gBaseStats[] =
         .frontPicAnim = ANIM_GROW_VIBRATE,
         .backPicAnim = BACK_ANIM_SHAKE_GLOW_BLUE,
         .flags = FLAG_LEGENDARY,
-        .forms = {SPECIES_ARTICUNO_GALARIAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_ARTICUNO, SPECIES_ARTICUNO_GALARIAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_ZAPDOS] =
@@ -4003,7 +3998,7 @@ const struct BaseStats gBaseStats[] =
         .frontPicAnim = ANIM_FLASH_YELLOW,
         .backPicAnim = BACK_ANIM_SHAKE_FLASH_YELLOW,
         .flags = FLAG_LEGENDARY,
-        .forms = {SPECIES_ZAPDOS_GALARIAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_ZAPDOS, SPECIES_ZAPDOS_GALARIAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_MOLTRES] =
@@ -4032,7 +4027,7 @@ const struct BaseStats gBaseStats[] =
         .frontPicAnim = ANIM_V_SQUISH_AND_BOUNCE_SLOW,
         .backPicAnim = BACK_ANIM_SHAKE_GLOW_RED,
         .flags = FLAG_LEGENDARY,
-        .forms = {SPECIES_MOLTRES_GALARIAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_MOLTRES, SPECIES_MOLTRES_GALARIAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_DRATINI] =
@@ -4143,7 +4138,7 @@ const struct BaseStats gBaseStats[] =
         .frontPicAnim = ANIM_GROW_VIBRATE,
         .backPicAnim = BACK_ANIM_GROW_STUTTER,
         .flags = FLAG_LEGENDARY | FLAG_SPECIAL,
-        .forms = {SPECIES_MEWTWO_ARMORED, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_MEWTWO, SPECIES_MEWTWO_ARMORED, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_MEW] =
@@ -5465,7 +5460,7 @@ const struct BaseStats gBaseStats[] =
         .noFlip = FALSE,
         .frontPicAnim = ANIM_SHRINK_GROW,
         .backPicAnim = BACK_ANIM_DIP_RIGHT_SIDE,
-        .forms = {SPECIES_SLOWKING_GALARIAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_SLOWKING, SPECIES_SLOWKING_GALARIAN, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_MISDREAVUS] =
@@ -6855,7 +6850,7 @@ const struct BaseStats gBaseStats[] =
         .frontPicAnimDelay = 20,
         .backPicAnim = BACK_ANIM_SHAKE_GLOW_BLUE,
         .flags = FLAG_LEGENDARY | FLAG_SPECIAL,
-        .forms = {SPECIES_LUGIA_SHADOW, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_LUGIA, SPECIES_LUGIA_SHADOW, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_HO_OH] =
@@ -10580,7 +10575,7 @@ const struct BaseStats gBaseStats[] =
         .frontPicAnim = ANIM_H_PIVOT,
         .backPicAnim = BACK_ANIM_SHRINK_GROW_VIBRATE,
         .flags = FLAG_LEGENDARY | FLAG_SPECIAL | FLAG_OBEDIENCE_CHECK,
-        .forms = {SPECIES_DEOXYS_SPEED, SPECIES_DEOXYS_ATTACK, SPECIES_DEOXYS_DEFENSE},
+        .forms = {SPECIES_DEOXYS, SPECIES_DEOXYS_SPEED, SPECIES_DEOXYS_ATTACK, SPECIES_DEOXYS_DEFENSE, SPECIES_NONE},
     },
 
     [SPECIES_CHIMECHO] =
@@ -10637,7 +10632,7 @@ const struct BaseStats gBaseStats[] =
         .noFlip = FALSE,
         .frontPicAnim = ANIM_RAPID_H_HOPS,
         .backPicAnim = BACK_ANIM_V_SHAKE_H_SLIDE,
-        .forms = {SPECIES_RATTATA_ALOLAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_RATTATA, SPECIES_RATTATA_ALOLAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_RATICATE_ALOLAN] =
@@ -10667,7 +10662,7 @@ const struct BaseStats gBaseStats[] =
         .noFlip = FALSE,
         .frontPicAnim = ANIM_FIGURE_8,
         .backPicAnim = BACK_ANIM_V_SHAKE_H_SLIDE,
-        .forms = {SPECIES_RATICATE_ALOLAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_RATICATE, SPECIES_RATICATE_ALOLAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_RAICHU_ALOLAN] =
@@ -10696,7 +10691,7 @@ const struct BaseStats gBaseStats[] =
         .noFlip = FALSE,
         .frontPicAnim = ANIM_V_STRETCH,
         .backPicAnim = BACK_ANIM_SHAKE_FLASH_YELLOW,
-        .forms = {SPECIES_RAICHU_ALOLAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_RAICHU, SPECIES_RAICHU_ALOLAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_SANDSHREW_ALOLAN] =
@@ -10726,7 +10721,7 @@ const struct BaseStats gBaseStats[] =
         .noFlip = FALSE,
         .frontPicAnim = ANIM_SWING_CONCAVE_FAST_SHORT,
         .backPicAnim = BACK_ANIM_CONCAVE_ARC_SMALL,
-        .forms = {SPECIES_SANDSHREW_ALOLAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_SANDSHREW, SPECIES_SANDSHREW_ALOLAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_SANDSLASH_ALOLAN] =
@@ -10756,7 +10751,7 @@ const struct BaseStats gBaseStats[] =
         .noFlip = FALSE,
         .frontPicAnim = ANIM_V_STRETCH,
         .backPicAnim = BACK_ANIM_CONCAVE_ARC_LARGE,
-        .forms = {SPECIES_SANDSLASH_ALOLAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_SANDSLASH, SPECIES_SANDSLASH_ALOLAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_VULPIX_ALOLAN] =
@@ -10787,7 +10782,7 @@ const struct BaseStats gBaseStats[] =
         .noFlip = FALSE,
         .frontPicAnim = ANIM_V_STRETCH,
         .backPicAnim = BACK_ANIM_CONCAVE_ARC_LARGE,
-        .forms = {SPECIES_VULPIX_ALOLAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_VULPIX, SPECIES_VULPIX_ALOLAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_NINETALES_ALOLAN] =
@@ -10818,7 +10813,7 @@ const struct BaseStats gBaseStats[] =
         .noFlip = FALSE,
         .frontPicAnim = ANIM_V_SHAKE,
         .backPicAnim = BACK_ANIM_H_VIBRATE,
-        .forms = {SPECIES_NINETALES_ALOLAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_NINETALES, SPECIES_NINETALES_ALOLAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_DIGLETT_ALOLAN] =
@@ -10848,7 +10843,7 @@ const struct BaseStats gBaseStats[] =
         .frontPicAnim = ANIM_V_SHAKE,
         .frontPicAnimDelay = 25,
         .backPicAnim = BACK_ANIM_V_SHAKE,
-        .forms = {SPECIES_DIGLETT_ALOLAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_DIGLETT, SPECIES_DIGLETT_ALOLAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_DUGTRIO_ALOLAN] =
@@ -10878,7 +10873,7 @@ const struct BaseStats gBaseStats[] =
         .frontPicAnim = ANIM_H_SHAKE_SLOW,
         .frontPicAnimDelay = 35,
         .backPicAnim = BACK_ANIM_V_SHAKE,
-        .forms = {SPECIES_DUGTRIO_ALOLAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_DUGTRIO, SPECIES_DUGTRIO_ALOLAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_MEOWTH_ALOLAN] =
@@ -10909,7 +10904,7 @@ const struct BaseStats gBaseStats[] =
         .frontPicAnim = ANIM_V_JUMPS_SMALL,
         .frontPicAnimDelay = 35,
         .backPicAnim = BACK_ANIM_CONCAVE_ARC_LARGE,
-        .forms = {SPECIES_MEOWTH_ALOLAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_MEOWTH, SPECIES_MEOWTH_ALOLAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_PERSIAN_ALOLAN] =
@@ -10939,7 +10934,7 @@ const struct BaseStats gBaseStats[] =
         .frontPicAnim = ANIM_V_STRETCH,
         .frontPicAnimDelay = 20,
         .backPicAnim = BACK_ANIM_TRIANGLE_DOWN,
-        .forms = {SPECIES_PERSIAN_ALOLAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_PERSIAN, SPECIES_PERSIAN_ALOLAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_GEODUDE_ALOLAN] =
@@ -10969,7 +10964,7 @@ const struct BaseStats gBaseStats[] =
         .noFlip = FALSE,
         .frontPicAnim = ANIM_BOUNCE_ROTATE_TO_SIDES_SMALL,
         .backPicAnim = BACK_ANIM_V_SHAKE_LOW,
-        .forms = {SPECIES_GEODUDE_ALOLAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_GEODUDE, SPECIES_GEODUDE_ALOLAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_GRAVELER_ALOLAN] =
@@ -10999,7 +10994,7 @@ const struct BaseStats gBaseStats[] =
         .noFlip = FALSE,
         .frontPicAnim = ANIM_BOUNCE_ROTATE_TO_SIDES_SMALL,
         .backPicAnim = BACK_ANIM_H_SHAKE,
-        .forms = {SPECIES_GRAVELER_ALOLAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_GRAVELER, SPECIES_GRAVELER_ALOLAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_GOLEM_ALOLAN] =
@@ -11029,7 +11024,7 @@ const struct BaseStats gBaseStats[] =
         .noFlip = FALSE,
         .frontPicAnim = ANIM_SWING_CONCAVE_FAST_SHORT,
         .backPicAnim = BACK_ANIM_H_SHAKE,
-        .forms = {SPECIES_GOLEM_ALOLAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_GOLEM, SPECIES_GOLEM_ALOLAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_PONYTA_GALARIAN] =
@@ -11058,7 +11053,7 @@ const struct BaseStats gBaseStats[] =
         .noFlip = FALSE,
         .frontPicAnim = ANIM_GLOW_ORANGE,
         .backPicAnim = BACK_ANIM_SHAKE_GLOW_RED,
-        .forms = {SPECIES_PONYTA_GALARIAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_PONYTA, SPECIES_PONYTA_GALARIAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_RAPIDASH_GALARIAN] =
@@ -11087,7 +11082,7 @@ const struct BaseStats gBaseStats[] =
         .noFlip = FALSE,
         .frontPicAnim = ANIM_CIRCULAR_VIBRATE,
         .backPicAnim = BACK_ANIM_JOLT_RIGHT,
-        .forms = {SPECIES_RAPIDASH_GALARIAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_RAPIDASH, SPECIES_RAPIDASH_GALARIAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_SLOWPOKE_GALARIAN] =
@@ -11116,7 +11111,7 @@ const struct BaseStats gBaseStats[] =
         .noFlip = FALSE,
         .frontPicAnim = ANIM_V_SQUISH_AND_BOUNCE_SLOW,
         .backPicAnim = BACK_ANIM_H_SLIDE,
-        .forms = {SPECIES_SLOWPOKE_GALARIAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_SLOWPOKE, SPECIES_SLOWPOKE_GALARIAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_SLOWBRO_GALARIAN] =
@@ -11145,7 +11140,7 @@ const struct BaseStats gBaseStats[] =
         .noFlip = FALSE,
         .frontPicAnim = ANIM_SWING_CONCAVE,
         .backPicAnim = BACK_ANIM_DIP_RIGHT_SIDE,
-        .forms = {SPECIES_SLOWBRO_GALARIAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_SLOWBRO, SPECIES_SLOWBRO_GALARIAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_GRIMER_ALOLAN] =
@@ -11175,7 +11170,7 @@ const struct BaseStats gBaseStats[] =
         .noFlip = FALSE,
         .frontPicAnim = ANIM_H_SLIDE_SLOW,
         .backPicAnim = BACK_ANIM_V_STRETCH,
-        .forms = {SPECIES_GRIMER_ALOLAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_GRIMER, SPECIES_GRIMER_ALOLAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_MUK_ALOLAN] =
@@ -11207,7 +11202,7 @@ const struct BaseStats gBaseStats[] =
         .frontPicAnim = ANIM_DEEP_V_SQUISH_AND_BOUNCE,
         .frontPicAnimDelay = 45,
         .backPicAnim = BACK_ANIM_H_STRETCH,
-        .forms = {SPECIES_MUK_ALOLAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_MUK, SPECIES_MUK_ALOLAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_EXEGGUTOR_ALOLAN] =
@@ -11236,7 +11231,7 @@ const struct BaseStats gBaseStats[] =
         .noFlip = FALSE,
         .frontPicAnim = ANIM_H_JUMPS_V_STRETCH,
         .backPicAnim = BACK_ANIM_CONCAVE_ARC_LARGE,
-        .forms = {SPECIES_EXEGGUTOR_ALOLAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_EXEGGUTOR, SPECIES_EXEGGUTOR_ALOLAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_MAROWAK_ALOLAN] =
@@ -11266,7 +11261,7 @@ const struct BaseStats gBaseStats[] =
         .noFlip = FALSE,
         .frontPicAnim = ANIM_BOUNCE_ROTATE_TO_SIDES,
         .backPicAnim = BACK_ANIM_CONCAVE_ARC_LARGE,
-        .forms = {SPECIES_MAROWAK_ALOLAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_MAROWAK, SPECIES_MAROWAK_ALOLAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_WEEZING_GALARIAN] =
@@ -11295,7 +11290,7 @@ const struct BaseStats gBaseStats[] =
         .noFlip = FALSE,
         .frontPicAnim = ANIM_V_SLIDE,
         .backPicAnim = BACK_ANIM_GROW,
-        .forms = {SPECIES_WEEZING_GALARIAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_WEEZING, SPECIES_WEEZING_GALARIAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_ARTICUNO_GALARIAN] =
@@ -11325,7 +11320,7 @@ const struct BaseStats gBaseStats[] =
         .frontPicAnim = ANIM_GROW_VIBRATE,
         .backPicAnim = BACK_ANIM_SHAKE_GLOW_BLUE,
         .flags = FLAG_LEGENDARY,
-        .forms = {SPECIES_ARTICUNO_GALARIAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_ARTICUNO, SPECIES_ARTICUNO_GALARIAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_ZAPDOS_GALARIAN] =
@@ -11355,7 +11350,7 @@ const struct BaseStats gBaseStats[] =
         .frontPicAnim = ANIM_GLOW_ORANGE,
         .backPicAnim = BACK_ANIM_SHAKE_FLASH_YELLOW,
         .flags = FLAG_LEGENDARY,
-        .forms = {SPECIES_ZAPDOS_GALARIAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_ZAPDOS, SPECIES_ZAPDOS_GALARIAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_MOLTRES_GALARIAN] =
@@ -11385,7 +11380,7 @@ const struct BaseStats gBaseStats[] =
         .frontPicAnim = ANIM_V_SQUISH_AND_BOUNCE_SLOW,
         .backPicAnim = BACK_ANIM_SHAKE_GLOW_RED,
         .flags = FLAG_LEGENDARY,
-        .forms = {SPECIES_MOLTRES_GALARIAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_MOLTRES, SPECIES_MOLTRES_GALARIAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_MEWTWO_ARMORED] =
@@ -11415,7 +11410,7 @@ const struct BaseStats gBaseStats[] =
         .frontPicAnim = ANIM_GROW_VIBRATE,
         .backPicAnim = BACK_ANIM_GROW_STUTTER,
         .flags = FLAG_LEGENDARY | FLAG_SPECIAL,
-        .forms = {SPECIES_MEWTWO_ARMORED, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_MEWTWO, SPECIES_MEWTWO_ARMORED, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_SLOWKING_GALARIAN] =
@@ -11444,7 +11439,7 @@ const struct BaseStats gBaseStats[] =
         .noFlip = FALSE,
         .frontPicAnim = ANIM_SHRINK_GROW,
         .backPicAnim = BACK_ANIM_DIP_RIGHT_SIDE,
-        .forms = {SPECIES_SLOWKING_GALARIAN, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_SLOWKING, SPECIES_SLOWKING_GALARIAN, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_LUGIA_SHADOW] =
@@ -11472,9 +11467,9 @@ const struct BaseStats gBaseStats[] =
         .noFlip = FALSE,
         .frontPicAnim = ANIM_GROW_IN_STAGES,
         .frontPicAnimDelay = 20,
-        .backPicAnim = BACK_ANIM_SHAKE_GLOW_BLUE,
+        .backPicAnim = BACK_ANIM_SHAKE_GLOW_PURPLE,
         .flags = FLAG_LEGENDARY | FLAG_SPECIAL,
-        .forms = {SPECIES_LUGIA_SHADOW, SPECIES_NONE, SPECIES_NONE},
+        .forms = {SPECIES_LUGIA, SPECIES_LUGIA_SHADOW, SPECIES_NONE, SPECIES_NONE, SPECIES_NONE},
     },
 
     [SPECIES_DEOXYS_SPEED] =
@@ -11500,8 +11495,10 @@ const struct BaseStats gBaseStats[] =
         .abilities = {ABILITY_PRESSURE, ABILITY_NONE},
         .bodyColor = BODY_COLOR_RED,
         .noFlip = TRUE,
+        .frontPicAnim = ANIM_FIGURE_8,
+        .backPicAnim = BACK_ANIM_CONVEX_DOUBLE_ARC,
         .flags = FLAG_LEGENDARY | FLAG_SPECIAL | FLAG_OBEDIENCE_CHECK,
-        .forms = {SPECIES_DEOXYS_SPEED, SPECIES_DEOXYS_ATTACK, SPECIES_DEOXYS_DEFENSE},
+        .forms = {SPECIES_DEOXYS, SPECIES_DEOXYS_SPEED, SPECIES_DEOXYS_ATTACK, SPECIES_DEOXYS_DEFENSE, SPECIES_NONE},
     },
 
     [SPECIES_DEOXYS_ATTACK] =
@@ -11528,8 +11525,10 @@ const struct BaseStats gBaseStats[] =
         .abilities = {ABILITY_PRESSURE, ABILITY_NONE},
         .bodyColor = BODY_COLOR_RED,
         .noFlip = TRUE,
+        .frontPicAnim = ANIM_GROW_VIBRATE,
+        .backPicAnim = BACK_ANIM_GROW_STUTTER,
         .flags = FLAG_LEGENDARY | FLAG_SPECIAL | FLAG_OBEDIENCE_CHECK,
-        .forms = {SPECIES_DEOXYS_SPEED, SPECIES_DEOXYS_ATTACK, SPECIES_DEOXYS_DEFENSE},
+        .forms = {SPECIES_DEOXYS, SPECIES_DEOXYS_SPEED, SPECIES_DEOXYS_ATTACK, SPECIES_DEOXYS_DEFENSE, SPECIES_NONE},
     },
 
     [SPECIES_DEOXYS_DEFENSE] =
@@ -11556,7 +11555,9 @@ const struct BaseStats gBaseStats[] =
         .abilities = {ABILITY_PRESSURE, ABILITY_NONE},
         .bodyColor = BODY_COLOR_RED,
         .noFlip = TRUE,
+        .frontPicAnim = ANIM_V_SQUISH_AND_BOUNCE_SLOW,
+        .backPicAnim = BACK_ANIM_DIP_RIGHT_SIDE,
         .flags = FLAG_LEGENDARY | FLAG_SPECIAL | FLAG_OBEDIENCE_CHECK,
-        .forms = {SPECIES_DEOXYS_SPEED, SPECIES_DEOXYS_ATTACK, SPECIES_DEOXYS_DEFENSE},
+        .forms = {SPECIES_DEOXYS, SPECIES_DEOXYS_SPEED, SPECIES_DEOXYS_ATTACK, SPECIES_DEOXYS_DEFENSE, SPECIES_NONE},
     }
 };

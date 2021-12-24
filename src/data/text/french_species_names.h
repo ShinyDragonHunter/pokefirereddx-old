@@ -1,4 +1,4 @@
-const u8 gFrenchSpeciesNames[SPECIES_COUNT][FRENCH_POKEMON_NAME_LENGTH + 1] = {
+const u8 gFrenchSpeciesNames[][POKEMON_NAME_LENGTH + 1] = {
     [SPECIES_NONE] = _("??????????"),
     [SPECIES_BULBASAUR] = _("BULBIZARRE"),
     [SPECIES_IVYSAUR] = _("HERBIZARRE"),
@@ -117,7 +117,7 @@ const u8 gFrenchSpeciesNames[SPECIES_COUNT][FRENCH_POKEMON_NAME_LENGTH + 1] = {
     [SPECIES_KANGASKHAN] = _("KANGOUREX"),
     [SPECIES_HORSEA] = _("HYPOTREMPE"),
     [SPECIES_SEADRA] = _("HYPOCÉAN"),
-    [SPECIES_GOLDEEN] = _("POISSIERÈNE"),
+    [SPECIES_GOLDEEN] = _("POISSIRÈNE"),
     [SPECIES_SEAKING] = _("POISSOROY"),
     [SPECIES_STARYU] = _("STARI"),
     [SPECIES_STARMIE] = _("STAROSS"),

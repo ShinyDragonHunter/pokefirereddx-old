@@ -58,6 +58,8 @@ static void AnimTask_ThrowBall_StandingTrainer_Step(u8);
 static void Task_PlayerThrow_Wait(u8);
 static void SpriteCB_Ball_Arc(struct Sprite *);
 static void SpriteCB_Ball_Block(struct Sprite *);
+static void SpriteCB_GhostBall_Dodge(struct Sprite *sprite);
+static void SpriteCB_GhostBall_Dodge_Step(struct Sprite *sprite);
 static void SpriteCB_Ball_MonShrink(struct Sprite *);
 static void SpriteCB_Ball_MonShrink_Step(struct Sprite *);
 static void SpriteCB_Ball_Bounce(struct Sprite *);
@@ -799,6 +801,8 @@ void AnimTask_IsBallBlockedByTrainer(u8 taskId)
 {
     if (gBattleSpritesDataPtr->animationData->ballThrowCaseId == BALL_TRAINER_BLOCK)
         gBattleAnimArgs[ARG_RET_ID] = -1;
+    else if (gBattleSpritesDataPtr->animationData->ballThrowCaseId == BALL_GHOST_DODGE)
+        gBattleAnimArgs[ARG_RET_ID] = -2;
     else
         gBattleAnimArgs[ARG_RET_ID] = 0;
     DestroyAnimVisualTask(taskId);
@@ -954,6 +958,10 @@ static void SpriteCB_Ball_Arc(struct Sprite *sprite)
         {
             sprite->callback = SpriteCB_Ball_Block;
         }
+        else if (gBattleSpritesDataPtr->animationData->ballThrowCaseId == BALL_GHOST_DODGE)
+        {
+            sprite->callback = SpriteCB_GhostBall_Dodge;
+        }
         else
         {
             StartSpriteAnim(sprite, 1);
@@ -1066,7 +1074,7 @@ static void SpriteCB_Ball_Bounce(struct Sprite *sprite)
 #undef sAmplitude
 #undef sPhase
 
-bool8 IsCriticalCapture(void)
+bool32 IsCriticalCapture(void)
 {
     return gBattleSpritesDataPtr->animationData->isCriticalCapture;
 }
@@ -1434,7 +1442,7 @@ static void SpriteCB_Ball_Capture_Step(struct Sprite *sprite)
     else if (sprite->sTimer == 95)
     {
         gDoingBattleAnim = FALSE;
-        UpdateOamPriorityInAllHealthboxesNoInvisibility(1);
+        UpdateOamPriorityInAllHealthboxes(1, FALSE);
         m4aMPlayAllStop();
         PlaySE(MUS_RG_CAUGHT_INTRO);
     }
@@ -1610,7 +1618,7 @@ static void SpriteCB_Ball_Release_Wait(struct Sprite *sprite)
         sprite->sFrame = 0;
         sprite->callback = DestroySpriteAfterOneFrame;
         gDoingBattleAnim = 0;
-        UpdateOamPriorityInAllHealthboxesNoInvisibility(1);
+        UpdateOamPriorityInAllHealthboxes(1, FALSE);
     }
 }
 
@@ -1641,6 +1649,7 @@ static void SpriteCB_Ball_Block_Step(struct Sprite *sprite)
 {
     s16 dy = sprite->sDy + 0x800;
     s16 dx = sprite->sDx + 0x680;
+
     sprite->x2 -= dx >> 8;
     sprite->y2 += dy >> 8;
     sprite->sDy = (sprite->sDy + 0x800) & 0xFF;
@@ -1652,12 +1661,42 @@ static void SpriteCB_Ball_Block_Step(struct Sprite *sprite)
         sprite->sFrame = 0;
         sprite->callback = DestroySpriteAfterOneFrame;
         gDoingBattleAnim = 0;
-        UpdateOamPriorityInAllHealthboxesNoInvisibility(1);
+        UpdateOamPriorityInAllHealthboxes(1, FALSE);
     }
 }
 
 #undef sDy
 #undef sDx
+
+static void SpriteCB_GhostBall_Dodge(struct Sprite *sprite)
+{
+    sprite->x += sprite->x2;
+    sprite->y += sprite->y2;
+    sprite->x2 = sprite->y2 = 0;
+    sprite->sFrame = 0x22;
+    sprite->data[1] = sprite->x;
+    sprite->data[2] = sprite->x - 8;
+    sprite->data[3] = sprite->y;
+    sprite->data[4] = 0x90;
+    sprite->data[5] = 0x20;
+    InitAnimArcTranslation(sprite);
+    TranslateAnimVerticalArc(sprite);
+    sprite->callback = SpriteCB_GhostBall_Dodge_Step;
+}
+
+static void SpriteCB_GhostBall_Dodge_Step(struct Sprite *sprite)
+{
+    if (!TranslateAnimVerticalArc(sprite))
+    {
+        if ((sprite->y + sprite->y2) < 65)
+            return;
+    }
+    
+    sprite->sFrame = 0;
+    sprite->callback = DestroySpriteAfterOneFrame;
+    gDoingBattleAnim = FALSE;
+    UpdateOamPriorityInAllHealthboxes(1, FALSE);
+}
 
 #undef sFrame
 

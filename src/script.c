@@ -1,6 +1,7 @@
 #include "global.h"
 #include "script.h"
 #include "event_data.h"
+#include "item.h"
 #include "mevent.h"
 #include "util.h"
 #include "constants/map_scripts.h"
@@ -339,6 +340,16 @@ void TryRunOnWarpIntoMapScript(void)
     u8 *ptr = MapHeaderCheckScriptTable(MAP_SCRIPT_ON_WARP_INTO_MAP_TABLE);
     if (ptr)
         ScriptContext2_RunNewScript(ptr);
+}
+
+void GetObjectEventTrainerRangeFromTemplate(void)
+{
+    gSpecialVar_Result = gMapHeader.events->objectEvents[gSpecialVar_LastTalked - 1].trainerRange_berryTreeId;
+}
+
+void HandleUseExpiredRepel(void)
+{
+    VarSet(VAR_REPEL_STEP_COUNT, ItemId_GetHoldEffectParam(VarGet(VAR_REPEL_LAST_USED)));
 }
 
 u32 CalculateRamScriptChecksum(void)

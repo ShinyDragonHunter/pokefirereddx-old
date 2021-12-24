@@ -521,7 +521,7 @@ bool8 IsBattleSEPlaying(u8 battlerId)
     if (IsSEPlaying())
     {
         gBattleSpritesDataPtr->healthBoxesData[battlerId].soundTimer++;
-        if (gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].soundTimer < 30)
+        if (gBattleSpritesDataPtr->healthBoxesData[battlerId].soundTimer < 30)
             return TRUE;
 
         m4aMPlayStop(&gMPlayInfo_SE1);
@@ -541,6 +541,7 @@ static void BattleLoadMonSpriteGfx(struct Pokemon *mon, u8 battlerId, bool32 opp
     u8 position;
     u16 paletteOffset;
     const void *paletteData;
+    u8 metGame = 0;
 
     monsPersonality = GetMonData(mon, MON_DATA_PERSONALITY);
 
@@ -551,9 +552,9 @@ static void BattleLoadMonSpriteGfx(struct Pokemon *mon, u8 battlerId, bool32 opp
     }
     else
     {
-        species = GetFormSpecies(GetMonData(mon, MON_DATA_SPECIES),
-                                GetMonData(mon, MON_DATA_FORM));
+        species = GetFormSpecies(GetMonData(mon, MON_DATA_SPECIES), GetMonData(mon, MON_DATA_FORM));
         currentPersonality = monsPersonality;
+        metGame = GetMonData(mon, MON_DATA_MET_GAME);
     }
 
     otId = GetMonData(mon, MON_DATA_OT_ID);
@@ -561,17 +562,17 @@ static void BattleLoadMonSpriteGfx(struct Pokemon *mon, u8 battlerId, bool32 opp
 
     if (opponent)
     {
-        if (SpeciesHasGenderDifferenceAndIsFemale(species, monsPersonality))
-            HandleLoadSpecialPokePic(&gFemaleMonFrontPicTable[species], gMonSpritesGfxPtr->sprites.ptr[position], species, currentPersonality);
+        if (SpeciesHasGenderDifferenceAndIsFemale(species, currentPersonality))
+            HandleLoadSpecialPokePic(&gFemaleMonFrontPicTable[species], gMonSpritesGfxPtr->sprites.ptr[position], species, currentPersonality, 0);
         else
-            HandleLoadSpecialPokePic(&gMonFrontPicTable[species], gMonSpritesGfxPtr->sprites.ptr[position], species, currentPersonality);
+            HandleLoadSpecialPokePic(&gMonFrontPicTable[species], gMonSpritesGfxPtr->sprites.ptr[position], species, currentPersonality, metGame);
     }
     else
     {
-        if (SpeciesHasGenderDifferenceAndIsFemale(species, monsPersonality))
-            HandleLoadSpecialPokePic(&gFemaleMonBackPicTable[species], gMonSpritesGfxPtr->sprites.ptr[position], species, currentPersonality);
+        if (SpeciesHasGenderDifferenceAndIsFemale(species, currentPersonality))
+            HandleLoadSpecialPokePic(&gFemaleMonBackPicTable[species], gMonSpritesGfxPtr->sprites.ptr[position], species, currentPersonality, 0);
         else
-            HandleLoadSpecialPokePic(&gMonBackPicTable[species], gMonSpritesGfxPtr->sprites.ptr[position], species, currentPersonality);
+            HandleLoadSpecialPokePic(&gMonBackPicTable[species], gMonSpritesGfxPtr->sprites.ptr[position], species, currentPersonality, 0);
     }
 
     paletteOffset = 0x100 + battlerId * 16;
@@ -590,7 +591,7 @@ static void BattleLoadMonSpriteGfx(struct Pokemon *mon, u8 battlerId, bool32 opp
     }
 
     UniquePalette(paletteOffset, species, monsPersonality, IsMonShiny(mon));
-    CpuCopy32(gPlttBufferFaded + 0x100 + battlerId * 16, gPlttBufferUnfaded + paletteOffset, 32);
+    CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
     UniquePalette(0x80 + battlerId * 16, species, monsPersonality, IsMonShiny(mon));
     CpuCopy32(gPlttBufferFaded + 0x80 + battlerId * 16, gPlttBufferUnfaded + 0x80 + battlerId * 16, 32);
 
@@ -612,13 +613,18 @@ void BattleLoadPlayerMonSpriteGfx(struct Pokemon *mon, u8 battlerId)
     BattleLoadMonSpriteGfx(mon, battlerId, FALSE);
 }
 
-void BattleGfxSfxDummy2(u16 species)
+void DecompressGhostFrontPic(u8 battlerId)
 {
+    u8 position = GetBattlerPosition(battlerId);
+
+    LZ77UnCompWram(gGhostFrontPic, gMonSpritesGfxPtr->sprites.ptr[position]);
+    LoadPalette(gGhostPalette, 0x100 + 16 * battlerId, 32);
 }
 
 void DecompressTrainerFrontPic(u16 frontPicId, u8 battlerId)
 {
     u8 position = GetBattlerPosition(battlerId);
+
     DecompressPicFromTable(&gTrainerFrontPicTable[frontPicId], gMonSpritesGfxPtr->sprites.ptr[position], SPECIES_NONE);
     LoadSpritePalette(&gTrainerFrontPicPaletteTable[frontPicId]);
 }
@@ -802,17 +808,17 @@ void HandleSpeciesGfxDataChange(u8 battlerAtk, u8 battlerDef, bool8 notTransform
     u32 personalityValue;
     u32 otId;
     u8 position;
-    u16 species;
     const u16 *paletteData;
 
     if (notTransform)
     {
+        u16 species;
+
         StartSpriteAnim(&gSprites[gBattlerSpriteIds[battlerAtk]], gBattleSpritesDataPtr->animationData->animArg);
-        paletteOffset = 0x80 + battlerAtk * 16;
+        paletteOffset = 0x100 + battlerAtk * 16;
         LoadPalette(gBattleStruct->castformPalette[gBattleSpritesDataPtr->animationData->animArg], paletteOffset, 32);
         personalityValue = GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerAtk]], MON_DATA_PERSONALITY);
-        species = GetFormSpecies(GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerAtk]], MON_DATA_SPECIES),
-                                GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerAtk]], MON_DATA_FORM));
+        species = GetFormSpecies(GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerAtk]], MON_DATA_SPECIES), GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerAtk]], MON_DATA_FORM));
         UniquePalette(paletteOffset, species, personalityValue, IsMonShiny(&gPlayerParty[gBattlerPartyIndexes[battlerAtk]]));
         CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
         gBattleMonForms[battlerAtk] = gBattleSpritesDataPtr->animationData->animArg;
@@ -828,42 +834,49 @@ void HandleSpeciesGfxDataChange(u8 battlerAtk, u8 battlerDef, bool8 notTransform
         const void *src;
         void *dst;
         u16 targetSpecies;
+        u8 targetForm;
+        u16 targetFormSpecies;
 
         position = GetBattlerPosition(battlerAtk);
 
         if (GetBattlerSide(battlerDef))
-            targetSpecies = GetFormSpecies(GetMonData(&gEnemyParty[gBattlerPartyIndexes[battlerDef]], MON_DATA_SPECIES),
-                                        GetMonData(&gEnemyParty[gBattlerPartyIndexes[battlerDef]], MON_DATA_FORM));
+        {
+            targetSpecies = GetMonData(&gEnemyParty[gBattlerPartyIndexes[battlerDef]], MON_DATA_SPECIES);
+            targetForm = GetMonData(&gEnemyParty[gBattlerPartyIndexes[battlerDef]], MON_DATA_FORM);
+        }
         else
-            targetSpecies = GetFormSpecies(GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerDef]], MON_DATA_SPECIES),
-                                        GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerDef]], MON_DATA_FORM));
+        {
+            targetSpecies = GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerDef]], MON_DATA_SPECIES);
+            targetForm = GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerDef]], MON_DATA_FORM);
+        }
+        targetFormSpecies = GetFormSpecies(targetSpecies, targetForm);
 
         if (GetBattlerSide(battlerAtk))
         {
             personalityValue = GetMonData(&gEnemyParty[gBattlerPartyIndexes[battlerAtk]], MON_DATA_PERSONALITY);
             otId = GetMonData(&gEnemyParty[gBattlerPartyIndexes[battlerAtk]], MON_DATA_OT_ID);
 
-            if (SpeciesHasGenderDifferenceAndIsFemale(species, personalityValue))
-                HandleLoadSpecialPokePic(&gFemaleMonFrontPicTable[targetSpecies], gMonSpritesGfxPtr->sprites.ptr[position], targetSpecies, gTransformedPersonalities[battlerAtk]);
+            if (SpeciesHasGenderDifferenceAndIsFemale(targetFormSpecies, personalityValue))
+                HandleLoadSpecialPokePic(&gFemaleMonFrontPicTable[targetFormSpecies], gMonSpritesGfxPtr->sprites.ptr[position], targetFormSpecies, gTransformedPersonalities[battlerAtk], 0);
             else
-                HandleLoadSpecialPokePic(&gMonFrontPicTable[targetSpecies], gMonSpritesGfxPtr->sprites.ptr[position], targetSpecies, gTransformedPersonalities[battlerAtk]);
+                HandleLoadSpecialPokePic(&gMonFrontPicTable[targetFormSpecies], gMonSpritesGfxPtr->sprites.ptr[position], targetFormSpecies, gTransformedPersonalities[battlerAtk], GetMonData(&gEnemyParty[gBattlerPartyIndexes[battlerAtk]], MON_DATA_MET_GAME));
         }
         else
         {
             personalityValue = GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerAtk]], MON_DATA_PERSONALITY);
             otId = GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerAtk]], MON_DATA_OT_ID);
 
-            if (SpeciesHasGenderDifferenceAndIsFemale(species, personalityValue))
-                HandleLoadSpecialPokePic(&gFemaleMonBackPicTable[targetSpecies], gMonSpritesGfxPtr->sprites.ptr[position], targetSpecies, gTransformedPersonalities[battlerAtk]);
+            if (SpeciesHasGenderDifferenceAndIsFemale(targetFormSpecies, personalityValue))
+                HandleLoadSpecialPokePic(&gFemaleMonBackPicTable[targetFormSpecies], gMonSpritesGfxPtr->sprites.ptr[position], targetFormSpecies, gTransformedPersonalities[battlerAtk], 0);
             else
-                HandleLoadSpecialPokePic(&gMonBackPicTable[targetSpecies], gMonSpritesGfxPtr->sprites.ptr[position], targetSpecies, gTransformedPersonalities[battlerAtk]);
+                HandleLoadSpecialPokePic(&gMonBackPicTable[targetFormSpecies], gMonSpritesGfxPtr->sprites.ptr[position], targetFormSpecies, gTransformedPersonalities[battlerAtk], 0);
         }
 
         src = gMonSpritesGfxPtr->sprites.ptr[position];
         dst = (void *)(OBJ_VRAM0 + gSprites[gBattlerSpriteIds[battlerAtk]].oam.tileNum * 32);
         DmaCopy32(3, src, dst, MON_PIC_SIZE);
         paletteOffset = 0x100 + battlerAtk * 16;
-        paletteData = GetMonSpritePalFromSpeciesAndPersonality(targetSpecies, otId, personalityValue);
+        paletteData = GetMonSpritePalFromSpeciesAndPersonality(targetFormSpecies, otId, personalityValue);
         LoadPalette(paletteData, paletteOffset, 32);
 
         if (targetSpecies == SPECIES_CASTFORM)
@@ -873,13 +886,13 @@ void HandleSpeciesGfxDataChange(u8 battlerAtk, u8 battlerDef, bool8 notTransform
             LoadPalette(gBattleStruct->castformPalette[0] + gBattleMonForms[battlerDef] * 16, paletteOffset, 32);
         }
 
-        UniquePalette(paletteOffset, targetSpecies, personalityValue, IsShinyOtIdPersonality(otId, personalityValue));
+        UniquePalette(paletteOffset, targetFormSpecies, personalityValue, IsShinyOtIdPersonality(otId, personalityValue));
         CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
 
         BlendPalette(paletteOffset, 16, 6, RGB_WHITE);
         CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
 
-        gBattleSpritesDataPtr->battlerData[battlerAtk].transformSpecies = targetSpecies;
+        gBattleSpritesDataPtr->battlerData[battlerAtk].transformSpecies = targetFormSpecies;
         gBattleMonForms[battlerAtk] = gBattleMonForms[battlerDef];
 
         gSprites[gBattlerSpriteIds[battlerAtk]].y = GetBattlerSpriteDefault_Y(battlerAtk);
@@ -1035,13 +1048,19 @@ void LoadAndCreateEnemyShadowSprites(void)
     LoadCompressedSpriteSheet(&gSpriteSheet_EnemyShadow);
 
     battlerId = GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT);
-    gBattleSpritesDataPtr->healthBoxesData[battlerId].shadowSpriteId = CreateSprite(&gSpriteTemplate_EnemyShadow, GetBattlerSpriteCoord(battlerId, 0), GetBattlerSpriteCoord(battlerId, 1) + 29, 0xC8);
+    gBattleSpritesDataPtr->healthBoxesData[battlerId].shadowSpriteId = CreateSprite(&gSpriteTemplate_EnemyShadow,
+                                                                                    GetBattlerSpriteCoord(battlerId, 0),
+                                                                                    GetBattlerSpriteCoord(battlerId, 1) + 29,
+                                                                                    0xC8);
     gSprites[gBattleSpritesDataPtr->healthBoxesData[battlerId].shadowSpriteId].data[0] = battlerId;
 
     if (IsDoubleBattle())
     {
         battlerId = GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT);
-        gBattleSpritesDataPtr->healthBoxesData[battlerId].shadowSpriteId = CreateSprite(&gSpriteTemplate_EnemyShadow, GetBattlerSpriteCoord(battlerId, 0), GetBattlerSpriteCoord(battlerId, 1) + 29, 0xC8);
+        gBattleSpritesDataPtr->healthBoxesData[battlerId].shadowSpriteId = CreateSprite(&gSpriteTemplate_EnemyShadow,
+                                                                                        GetBattlerSpriteCoord(battlerId, 0),
+                                                                                        GetBattlerSpriteCoord(battlerId, 1) + 29,
+                                                                                        0xC8);
         gSprites[gBattleSpritesDataPtr->healthBoxesData[battlerId].shadowSpriteId].data[0] = battlerId;
     }
 }
@@ -1060,7 +1079,7 @@ void SpriteCB_EnemyShadow(struct Sprite *shadowSprite)
     if (gAnimScriptActive || battlerSprite->invisible)
         invisible = TRUE;
     else if (gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies
-     && gEnemyMonElevation[gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies] == 0)
+             && gEnemyMonElevation[gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies] == 0)
         invisible = TRUE;
 
     if (gBattleSpritesDataPtr->battlerData[battlerId].behindSubstitute)
@@ -1080,10 +1099,14 @@ void SpriteCB_SetInvisible(struct Sprite *sprite)
 
 void SetBattlerShadowSpriteCallback(u8 battlerId, u16 species)
 {
+    // The player's shadow is never seen.
+    if (GetBattlerSide(battlerId) == B_SIDE_PLAYER)
+        return;
+
     if (gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies)
         species = gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies;
 
-    if (gEnemyMonElevation[species])
+    if (gBattleTypeFlags & BATTLE_TYPE_GHOST || gEnemyMonElevation[species])
         gSprites[gBattleSpritesDataPtr->healthBoxesData[battlerId].shadowSpriteId].callback = SpriteCB_EnemyShadow;
     else
         gSprites[gBattleSpritesDataPtr->healthBoxesData[battlerId].shadowSpriteId].callback = SpriteCB_SetInvisible;

@@ -178,9 +178,10 @@
 #define MON_DATA_RIBBON_COUNT      82
 #define MON_DATA_RIBBONS           83
 #define MON_DATA_FORM              84
-#define MON_DATA_VERSION_MODIFIER  85
-#define MON_DATA_SHINY_LEAVES      86
-#define MON_DATA_ENCOUNTER_TYPE    87
+#define MON_DATA_LOCATION_BIT      85
+#define MON_DATA_VERSION_MODIFIER  86
+#define MON_DATA_SHINY_LEAVES      87
+#define MON_DATA_ENCOUNTER_TYPE    88
 
 // Ribbon IDs used by TV and Pokénav
 #define CHAMPION_RIBBON       0

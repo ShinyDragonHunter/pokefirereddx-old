@@ -810,6 +810,21 @@ bool8 RemovePyramidBagItem(u16 itemId, u16 count)
     }
 }
 
+u16 GetItemIdFromKeyItemId(u8 keyItemId)
+{
+    u32 itemId = ITEM_NONE;
+
+    if (keyItemId)
+    {
+        for (itemId = 0; itemId < ITEMS_COUNT; itemId++)
+        {
+            if (keyItemId == ItemId_GetKeyItemId(itemId))
+                break;
+        }
+    }
+    return itemId;
+}
+
 static u16 SanitizeItemId(u16 itemId)
 {
     if (itemId >= ITEMS_COUNT)
@@ -850,6 +865,11 @@ const u8 *ItemId_GetDescription(u16 itemId)
 u8 ItemId_GetImportance(u16 itemId)
 {
     return gItems[SanitizeItemId(itemId)].importance;
+}
+
+u8 ItemId_GetKeyItemId(u16 itemId)
+{
+    return gItems[SanitizeItemId(itemId)].keyItemId;
 }
 
 u8 ItemId_GetPocket(u16 itemId)

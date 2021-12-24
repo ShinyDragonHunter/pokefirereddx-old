@@ -91,7 +91,7 @@ static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
     [MENUITEM_SOUND]       = gText_Sound,
     [MENUITEM_BUTTONMODE]  = gText_ButtonMode,
     [MENUITEM_FRAMETYPE]   = gText_Frame,
-    [MENUITEM_CANCEL]      = gText_OptionMenuCancel,
+    [MENUITEM_CANCEL]      = gText_Cancel,
 };
 
 static const struct WindowTemplate sOptionMenuWinTemplates[] =
@@ -626,7 +626,7 @@ static void ButtonMode_DrawChoices(u8 selection)
 static void DrawTextOption(void)
 {
     FillWindowPixelBuffer(WIN_TEXT_OPTION, PIXEL_FILL(1));
-    AddTextPrinterParameterized(WIN_TEXT_OPTION, 2, gText_Option, 8, 1, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(WIN_TEXT_OPTION, 2, gText_MainMenuOption, 8, 1, TEXT_SPEED_FF, NULL);
     CopyWindowToVram(WIN_TEXT_OPTION, 3);
 }
 

@@ -30,7 +30,7 @@ static void AnimTask_BlendPalInAndOutSetup(struct Task *task);
 static void AnimTask_AlphaFadeIn_Step(u8 taskId);
 static void AnimTask_AttackerPunchWithTrace_Step(u8 taskId);
 static void AnimTask_BlendMonInAndOut_Step(u8 taskId);
-static bool8 sub_80A7238(void);
+static bool32 sub_80A7238(void);
 static void sub_80A8D78(struct Task *task, u8 taskId);
 
 // EWRAM vars
@@ -116,6 +116,8 @@ u8 GetBattlerSpriteCoord(u8 battlerId, u8 coordType)
     u8 retVal;
     u16 species;
     struct BattleSpriteInfo *spriteInfo;
+    u8 form;
+    u16 formSpecies;
 
     switch (coordType)
     {
@@ -126,22 +128,28 @@ u8 GetBattlerSpriteCoord(u8 battlerId, u8 coordType)
     case BATTLER_COORD_Y:
         retVal = sBattlerCoords[IS_DOUBLE_BATTLE()][GetBattlerPosition(battlerId)].y;
         break;
-    case BATTLER_COORD_Y_PIC_OFFSET:
-    case BATTLER_COORD_Y_PIC_OFFSET_DEFAULT:
     default:
         spriteInfo = gBattleSpritesDataPtr->battlerData;
         if (spriteInfo[battlerId].transformSpecies)
+        {
             species = spriteInfo[battlerId].transformSpecies;
+            form = GetForm(spriteInfo[battlerId].transformSpecies);
+        }
         else if (GetBattlerSide(battlerId) != B_SIDE_PLAYER)
-            species = GetFormSpecies(GetMonData(&gEnemyParty[gBattlerPartyIndexes[battlerId]], MON_DATA_SPECIES),
-                                    GetMonData(&gEnemyParty[gBattlerPartyIndexes[battlerId]], MON_DATA_FORM));
+        {
+            species = GetMonData(&gEnemyParty[gBattlerPartyIndexes[battlerId]], MON_DATA_SPECIES);
+            form = GetMonData(&gEnemyParty[gBattlerPartyIndexes[battlerId]], MON_DATA_FORM);
+        }
         else
-            species = GetFormSpecies(GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerId]], MON_DATA_SPECIES),
-                                    GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerId]], MON_DATA_FORM));
+        {
+            species = GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerId]], MON_DATA_SPECIES);
+            form = GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerId]], MON_DATA_FORM);
+        }
+        formSpecies = GetFormSpecies(species, form);
         if (coordType == BATTLER_COORD_Y_PIC_OFFSET)
-            retVal = GetBattlerSpriteFinal_Y(battlerId, species, TRUE);
+            retVal = GetBattlerSpriteFinal_Y(battlerId, formSpecies, TRUE);
         else
-            retVal = GetBattlerSpriteFinal_Y(battlerId, species, FALSE);
+            retVal = GetBattlerSpriteFinal_Y(battlerId, formSpecies, FALSE);
         break;
     }
 
@@ -168,18 +176,13 @@ u8 GetBattlerYDelta(u8 battlerId, u16 species)
                 personality = gTransformedPersonalities[battlerId];
             else
                 personality = GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerId]], MON_DATA_PERSONALITY);
-            letter = GET_UNOWN_LETTER(personality);
-            if (letter)
-                coordSpecies = letter + SPECIES_UNOWN_B - 1;
-            else
-                coordSpecies = species;
-            ret = gMonBackPicCoords[coordSpecies].y_offset;
+            ret = gMonBackPicCoords[GetUnownSpecies(personality)].y_offset;
         }
         else if (species == SPECIES_CASTFORM)
         {
             ret = sCastformBackSpriteYCoords[gBattleMonForms[battlerId]];
         }
-        else if (IsMonValid(species, form))
+        else if (IsMonValid(formSpecies))
             ret = gMonBackPicCoords[formSpecies].y_offset;
         else
             ret = gMonBackPicCoords[SPECIES_NONE].y_offset;
@@ -194,16 +197,11 @@ u8 GetBattlerYDelta(u8 battlerId, u16 species)
                 personality = gTransformedPersonalities[battlerId];
             else
                 personality = GetMonData(&gEnemyParty[gBattlerPartyIndexes[battlerId]], MON_DATA_PERSONALITY);
-            letter = GET_UNOWN_LETTER(personality);
-            if (letter)
-                coordSpecies = letter + SPECIES_UNOWN_B - 1;
-            else
-                coordSpecies = species;
-            ret = gMonFrontPicCoords[coordSpecies].y_offset;
+            ret = gMonFrontPicCoords[GetUnownSpecies(personality)].y_offset;
         }
         else if (species == SPECIES_CASTFORM)
             ret = gCastformFrontSpriteCoords[gBattleMonForms[battlerId]].y_offset;
-        else if (IsMonValid(species, form))
+        else if (IsMonValid(formSpecies))
             ret = gMonFrontPicCoords[formSpecies].y_offset;
         else
             ret = gMonFrontPicCoords[SPECIES_NONE].y_offset;
@@ -214,13 +212,13 @@ u8 GetBattlerYDelta(u8 battlerId, u16 species)
 u8 GetBattlerElevation(u8 battlerId, u16 species)
 {
     u8 ret = 0;
-    u8 form = GetMonData(&gEnemyParty[gBattlerPartyIndexes[battlerId]], MON_DATA_FORM);
+
     if (GetBattlerSide(battlerId) == B_SIDE_OPPONENT)
     {
         if (species == SPECIES_CASTFORM)
             ret = sCastformElevations[gBattleMonForms[battlerId]];
-        else if (IsMonValid(species, form))
-            ret = gEnemyMonElevation[GetFormSpecies(species, form)];
+        else if (IsMonValid(species))
+            ret = gEnemyMonElevation[species];
         else
             ret = gEnemyMonElevation[SPECIES_NONE];
     }
@@ -268,13 +266,9 @@ u8 GetBattlerSpriteCoord2(u8 battlerId, u8 coordType)
 
         if (coordType == BATTLER_COORD_Y_PIC_OFFSET)
             return GetBattlerSpriteFinal_Y(battlerId, species, TRUE);
-        else
-            return GetBattlerSpriteFinal_Y(battlerId, species, FALSE);
+        return GetBattlerSpriteFinal_Y(battlerId, species, FALSE);
     }
-    else
-    {
-        return GetBattlerSpriteCoord(battlerId, coordType);
-    }
+    return GetBattlerSpriteCoord(battlerId, coordType);
 }
 
 u8 GetBattlerSpriteDefault_Y(u8 battlerId)
@@ -292,20 +286,34 @@ u8 GetSubstituteSpriteDefault_Y(u8 battlerId)
     return y;
 }
 
+u8 GetGhostSpriteDefault_Y(u8 battlerId)
+{
+    if (GetBattlerSide(battlerId))
+        return GetBattlerSpriteCoord(battlerId, BATTLER_COORD_Y);
+    return GetBattlerSpriteCoord(battlerId, BATTLER_COORD_Y_PIC_OFFSET_DEFAULT);
+}
+
 u8 GetBattlerYCoordWithElevation(u8 battlerId)
 {
     u16 species;
     u8 y;
     struct BattleSpriteInfo *spriteInfo;
+    u8 form;
 
     y = GetBattlerSpriteCoord(battlerId, BATTLER_COORD_Y);
     if (GetBattlerSide(battlerId) != B_SIDE_PLAYER)
     {
         spriteInfo = gBattleSpritesDataPtr->battlerData;
         if (spriteInfo[battlerId].transformSpecies)
+        {
             species = spriteInfo[battlerId].transformSpecies;
+            form = GetForm(spriteInfo[battlerId].transformSpecies);
+        }
         else
+        {
             species = GetMonData(&gEnemyParty[gBattlerPartyIndexes[battlerId]], MON_DATA_SPECIES);
+            form = GetMonData(&gEnemyParty[gBattlerPartyIndexes[battlerId]], MON_DATA_FORM);
+        }
     }
     else
     {
@@ -316,7 +324,7 @@ u8 GetBattlerYCoordWithElevation(u8 battlerId)
             species = GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerId]], MON_DATA_SPECIES);
     }
     if (GetBattlerSide(battlerId) != B_SIDE_PLAYER)
-        y -= GetBattlerElevation(battlerId, species);
+        y -= GetBattlerElevation(battlerId, GetFormSpecies(species, form));
     return y;
 }
 
@@ -331,10 +339,7 @@ u8 GetAnimBattlerSpriteId(u8 animBattler)
             sprites = gBattlerSpriteIds;
             return sprites[gBattleAnimAttacker];
         }
-        else
-        {
-            return 0xff;
-        }
+        return 0xff;
     }
     else if (animBattler == ANIM_TARGET)
     {
@@ -343,24 +348,19 @@ u8 GetAnimBattlerSpriteId(u8 animBattler)
             sprites = gBattlerSpriteIds;
             return sprites[gBattleAnimTarget];
         }
-        else
-        {
-            return 0xff;
-        }
+        return 0xff;
     }
     else if (animBattler == ANIM_ATK_PARTNER)
     {
         if (IsBattlerSpriteVisible(BATTLE_PARTNER(gBattleAnimAttacker)))
             return gBattlerSpriteIds[BATTLE_PARTNER(gBattleAnimAttacker)];
-        else
-            return 0xff;
+        return 0xff;
     }
     else
     {
         if (IsBattlerSpriteVisible(BATTLE_PARTNER(gBattleAnimTarget)))
             return gBattlerSpriteIds[BATTLE_PARTNER(gBattleAnimTarget)];
-        else
-            return 0xff;
+        return 0xff;
     }
 }
 
@@ -678,7 +678,7 @@ void InitAnimArcTranslation(struct Sprite *sprite)
     sprite->data[7] = 0;
 }
 
-bool8 TranslateAnimHorizontalArc(struct Sprite *sprite)
+bool32 TranslateAnimHorizontalArc(struct Sprite *sprite)
 {
     if (AnimTranslateLinear(sprite))
         return TRUE;
@@ -687,7 +687,7 @@ bool8 TranslateAnimHorizontalArc(struct Sprite *sprite)
     return FALSE;
 }
 
-bool8 TranslateAnimVerticalArc(struct Sprite *sprite)
+bool32 TranslateAnimVerticalArc(struct Sprite *sprite)
 {
     if (AnimTranslateLinear(sprite))
         return TRUE;
@@ -755,7 +755,7 @@ u8 GetBattlerAtPosition(u8 position)
     return i;
 }
 
-bool8 IsBattlerSpritePresent(u8 battlerId)
+bool32 IsBattlerSpritePresent(u8 battlerId)
 {
     if (gBattlerPositions[battlerId] == 0xff)
     {
@@ -774,7 +774,7 @@ bool8 IsBattlerSpritePresent(u8 battlerId)
     return FALSE;
 }
 
-bool8 IsDoubleBattle(void)
+bool32 IsDoubleBattle(void)
 {
     return IS_DOUBLE_BATTLE();
 }
@@ -946,7 +946,7 @@ void sub_80A6F14(struct Sprite *sprite)
     sprite->callback(sprite);
 }
 
-bool8 AnimTranslateLinear(struct Sprite *sprite)
+bool32 AnimTranslateLinear(struct Sprite *sprite)
 {
     u16 v1, v2, x, y;
 
@@ -1042,7 +1042,7 @@ void InitAndRunAnimFastLinearTranslation(struct Sprite *sprite)
     sprite->callback(sprite);
 }
 
-bool8 AnimFastTranslateLinear(struct Sprite *sprite)
+bool32 AnimFastTranslateLinear(struct Sprite *sprite)
 {
     u16 v1, v2, x, y;
 
@@ -1113,7 +1113,7 @@ void SetSpriteRotScale(u8 spriteId, s16 xScale, s16 yScale, u16 rotation)
     gOamMatrices[i].d = matrix.d;
 }
 
-static bool8 sub_80A7238(void)
+static bool32 sub_80A7238(void)
 {
     return FALSE;
 }
@@ -1607,7 +1607,7 @@ void PrepareAffineAnimInTaskData(struct Task *task, u8 spriteId, const union Aff
     PrepareBattlerSpriteForRotScale(spriteId, ST_OAM_OBJ_NORMAL);
 }
 
-bool8 RunAffineAnimFromTaskData(struct Task *task)
+bool32 RunAffineAnimFromTaskData(struct Task *task)
 {
     gAnimTaskAffineAnim = &((union AffineAnimCmd *)LoadPointerFromVars(task->data[13], task->data[14]))[task->data[7]];
     switch (gAnimTaskAffineAnim->type)
@@ -1710,34 +1710,42 @@ static u16 GetBattlerYDeltaFromSpriteId(u8 spriteId)
     u8 battlerId = gSprites[spriteId].data[0];
     u16 species;
     u32 i;
+    u8 form = 0;
 
     for (i = 0; i < MAX_BATTLERS_COUNT; i++)
     {
         if (gBattlerSpriteIds[i] == spriteId)
         {
-            spriteInfo = gBattleSpritesDataPtr->battlerData;
-            if (spriteInfo[battlerId].transformSpecies)
-                species = spriteInfo[battlerId].transformSpecies;
             if (GetBattlerSide(i) == B_SIDE_PLAYER)
             {
-                species = GetFormSpecies(GetMonData(&gPlayerParty[gBattlerPartyIndexes[i]], MON_DATA_SPECIES),
-                                        GetMonData(&gPlayerParty[gBattlerPartyIndexes[i]], MON_DATA_FORM));
+                spriteInfo = gBattleSpritesDataPtr->battlerData;
+                if (spriteInfo[battlerId].transformSpecies)
+                    species = spriteInfo[battlerId].transformSpecies;
+                else
+                {
+                    species = GetMonData(&gPlayerParty[gBattlerPartyIndexes[i]], MON_DATA_SPECIES);
+                    form = GetMonData(&gPlayerParty[gBattlerPartyIndexes[i]], MON_DATA_FORM);
+                }
 
                 if (species == SPECIES_CASTFORM)
                     return sCastformBackSpriteYCoords[gBattleMonForms[battlerId]];
-                else
-                    return gMonBackPicCoords[species].y_offset;
+                return gMonBackPicCoords[GetFormSpecies(species, form)].y_offset;
             }                    
             else
             {
-                species = GetFormSpecies(GetMonData(&gEnemyParty[gBattlerPartyIndexes[i]], MON_DATA_SPECIES),
-                                        GetMonData(&gEnemyParty[gBattlerPartyIndexes[i]], MON_DATA_FORM));
+                spriteInfo = gBattleSpritesDataPtr->battlerData;
+                if (spriteInfo[battlerId].transformSpecies)
+                    species = spriteInfo[battlerId].transformSpecies;
+                else
+                {
+                    species = GetMonData(&gEnemyParty[gBattlerPartyIndexes[i]], MON_DATA_SPECIES);
+                    form = GetMonData(&gEnemyParty[gBattlerPartyIndexes[i]], MON_DATA_FORM);
+                }
 
                 if (species == SPECIES_CASTFORM)
                     return sCastformElevations[gBattleMonForms[battlerId]];
-                else
-                    return gMonFrontPicCoords[species].y_offset; 
-            }
+                return gMonFrontPicCoords[GetFormSpecies(species, form)].y_offset;
+	        }
         }
     }
     return 64;
@@ -1855,18 +1863,15 @@ u8 GetBattlerSpriteBGPriority(u8 battlerId)
 
     if (position == B_POSITION_PLAYER_LEFT || position == B_POSITION_OPPONENT_RIGHT)
         return GetAnimBgAttribute(2, BG_ANIM_PRIORITY);
-    else
-        return GetAnimBgAttribute(1, BG_ANIM_PRIORITY);
+    return GetAnimBgAttribute(1, BG_ANIM_PRIORITY);
 }
 
 u8 GetBattlerSpriteBGPriorityRank(u8 battlerId)
 {
     u8 position = GetBattlerPosition(battlerId);
+
     if (position == B_POSITION_PLAYER_LEFT || position == B_POSITION_OPPONENT_RIGHT)
         return 2;
-    else
-        return 1;
-
     return 1;
 }
 
@@ -1876,16 +1881,17 @@ u8 CreateAdditionalMonSpriteForMoveAnim(u16 species, bool8 isBackpic, u8 id, s16
     u8 spriteId;
     u16 sheet = LoadSpriteSheet(&sSpriteSheet_MoveEffectMons[id]);
     u16 palette = AllocSpritePalette(sSpriteTemplate_MoveEffectMons[id].paletteTag);
-    u16 formSpecies = GetFormSpecies(species, form);
+    u16 formSpecies;
 
-    if (gMonSpritesGfxPtr != NULL && gMonSpritesGfxPtr->buffer == NULL)
+    if (gMonSpritesGfxPtr && !gMonSpritesGfxPtr->buffer)
         gMonSpritesGfxPtr->buffer = AllocZeroed(0x2000);
 
+    formSpecies = GetFormSpecies(species, form);
     LoadPalette(GetMonSpritePalFromSpeciesAndPersonality(formSpecies, trainerId, personality), (palette * 0x10) + 0x100, 0x20);
     if (isBackpic)
-        LoadSpecialPokePic(&gMonBackPicTable[formSpecies], gMonSpritesGfxPtr->buffer, formSpecies, personality, FALSE);
+        LoadSpecialPokePic(&gMonBackPicTable[formSpecies], gMonSpritesGfxPtr->buffer, formSpecies, personality, FALSE, 0);
     else
-        LoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->buffer, formSpecies, personality, TRUE);
+        LoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->buffer, formSpecies, personality, TRUE, 0);
 
     RequestDma3Copy(gMonSpritesGfxPtr->buffer, (void *)(OBJ_VRAM0 + (sheet * 0x20)), MON_PIC_SIZE, 1);
     FREE_AND_SET_NULL(gMonSpritesGfxPtr->buffer);
@@ -1913,7 +1919,7 @@ s16 GetBattlerSpriteCoordAttr(u8 battlerId, u8 attr)
     const struct MonCoords *coords;
     struct BattleSpriteInfo *spriteInfo;
     u8 form = 0;
-    u16 formSpecies = GetFormSpecies(species, form);
+    u16 formSpecies;
 
     if (GetBattlerSide(battlerId) == B_SIDE_PLAYER)
     {
@@ -1930,16 +1936,10 @@ s16 GetBattlerSpriteCoordAttr(u8 battlerId, u8 attr)
             form = GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerId]], MON_DATA_FORM);
         }
 
+        formSpecies = GetFormSpecies(species, form);
         if (species == SPECIES_UNOWN)
-        {
-            letter = GET_UNOWN_LETTER(personality);
-            if (letter)
-                unownSpecies = letter + SPECIES_UNOWN_B - 1;
-            else
-                unownSpecies = SPECIES_UNOWN;
-            coords = &gMonBackPicCoords[unownSpecies];
-        }
-        else if (IsMonValid(species, form))
+            coords = &gMonBackPicCoords[GetUnownSpecies(personality)];
+        else if (IsMonValid(formSpecies))
             coords = &gMonBackPicCoords[formSpecies];
         else
             coords = &gMonBackPicCoords[SPECIES_NONE];
@@ -1959,20 +1959,12 @@ s16 GetBattlerSpriteCoordAttr(u8 battlerId, u8 attr)
             form = GetMonData(&gEnemyParty[gBattlerPartyIndexes[battlerId]], MON_DATA_FORM);
         }
 
+        formSpecies = GetFormSpecies(species, form);
         if (species == SPECIES_UNOWN)
-        {
-            letter = GET_UNOWN_LETTER(personality);
-            if (letter)
-                unownSpecies = letter + SPECIES_UNOWN_B - 1;
-            else
-                unownSpecies = SPECIES_UNOWN;
-            coords = &gMonFrontPicCoords[unownSpecies];
-        }
+            coords = &gMonFrontPicCoords[GetUnownSpecies(personality)];
         else if (species == SPECIES_CASTFORM)
-        {
             coords = &gCastformFrontSpriteCoords[gBattleMonForms[battlerId]];
-        }
-        else if (IsMonValid(species, form))
+        else if (IsMonValid(formSpecies))
             coords = &gMonFrontPicCoords[formSpecies];
         else
             coords = &gMonFrontPicCoords[SPECIES_NONE];

@@ -394,6 +394,7 @@ u16 Font3Func(struct TextPrinter *textPrinter);
 u16 Font4Func(struct TextPrinter *textPrinter);
 u16 Font5Func(struct TextPrinter *textPrinter);
 u16 Font6Func(struct TextPrinter *textPrinter);
+u16 Font7Func(struct TextPrinter *textPrinter);
 
 void TextPrinterInitDownArrowCounters(struct TextPrinter *textPrinter);
 void TextPrinterDrawDownArrow(struct TextPrinter *textPrinter);
@@ -413,7 +414,7 @@ void DecompressGlyphFont0(u16 glyphId, bool32 isJapanese);
 u32 GetGlyphWidthFont0(u16 glyphId, bool32 isJapanese);
 void DecompressGlyphFont1(u16 glyphId, bool32 isJapanese);
 u32 GetGlyphWidthFont1(u16 glyphId, bool32 isJapanese);
-void DecompressGlyphFont2(u16 glyphId, bool32 isJapanese);
+void DecompressGlyphFont2(u8 fontId, u16 glyphId, bool32 isJapanese);
 u32 GetGlyphWidthFont2(u16 glyphId, bool32 isJapanese);
 void DecompressGlyphFont3(u16 glyphId, bool32 isJapanese);
 u32 GetGlyphWidthFont3(u16 glyphId, bool32 isJapanese);
@@ -422,5 +423,6 @@ u32 GetGlyphWidthFont4(u16 glyphId, bool32 isJapanese);
 void DecompressGlyphFont5(u16 glyphId, bool32 isJapanese);
 u32 GetGlyphWidthFont5(u16 glyphId, bool32 isJapanese);
 u32 GetGlyphWidthFont6(u16 glyphId, bool32 isJapanese);
+u32 GetGlyphWidthFont7(u16 glyphId, bool32 isJapanese);
 
 #endif // GUARD_TEXT_H

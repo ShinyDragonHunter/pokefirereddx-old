@@ -1500,7 +1500,7 @@ void ConvertLinkPlayerName(struct LinkPlayer *player)
     {
         // if game other than standard games detected, restore it
         player->version = (player->version & 0xC000) | ((player->version & 0x3F00) >> 8);
-        // force version modifier value for the version spoof
+        // use specific version modifier value for the version spoof
         player->versionModifier = MODIFIER_CRYSTALDUST;
     }
     player->progressFlagsCopy = player->progressFlags; // ? Perhaps relocating for a longer name field

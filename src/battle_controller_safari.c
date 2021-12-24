@@ -101,6 +101,7 @@ static void (*const sSafariBufferCommands[CONTROLLER_CMDS_COUNT])(void) =
     [CONTROLLER_LINKSTANDBYMSG]           = SafariEndExecution,
     [CONTROLLER_RESETACTIONMOVESELECTION] = SafariEndExecution,
     [CONTROLLER_ENDLINKBATTLE]            = SafariHandleEndLinkBattle,
+    [CONTROLLER_DEBUGMENU]                = SafariEndExecution,
     [CONTROLLER_TERMINATOR_NOP]           = BattleControllerDummy
 };
 

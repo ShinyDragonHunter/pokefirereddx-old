@@ -1225,10 +1225,10 @@ void sub_808BCF4(void)
     SetObjectEventDirection(playerObjEvent, playerObjEvent->facingDirection);
 }
 
-//u16 GetPlayerAvatarGraphicsIdByStateIdAndGender(u8 outfit, u8 state, u8 gender)
-//{
-//    return gPlayerAvatarGfxIds[outfit][state][gender];
-//}
+u16 GetPlayerAvatarGraphicsIdByStateIdAndGender(u8 outfit, u8 state, u8 gender)
+{
+    return gPlayerAvatarGfxIds[outfit][state][gender];
+}
 
 u16 GetPlayerAvatarGraphicsIdByStateId(u8 state)
 {
@@ -1329,8 +1329,7 @@ void InitPlayerAvatar(s16 x, s16 y, u8 direction)
     struct ObjectEvent *objectEvent;
 
     playerObjEventTemplate.localId = OBJ_EVENT_ID_PLAYER;
-//    playerObjEventTemplate.graphicsId = GetPlayerAvatarGraphicsIdByStateIdAndGender(gSaveBlock2Ptr->playerOutfit, PLAYER_AVATAR_STATE_NORMAL, gSaveBlock2Ptr->playerGender);
-    playerObjEventTemplate.graphicsId = gPlayerAvatarGfxIds[gSaveBlock2Ptr->playerOutfit][PLAYER_AVATAR_STATE_NORMAL][gSaveBlock2Ptr->playerGender];
+    playerObjEventTemplate.graphicsId = GetPlayerAvatarGraphicsIdByStateIdAndGender(gSaveBlock2Ptr->playerOutfit, PLAYER_AVATAR_STATE_NORMAL, gSaveBlock2Ptr->playerGender);
     playerObjEventTemplate.x = x - 7;
     playerObjEventTemplate.y = y - 7;
     playerObjEventTemplate.elevation = 0;

@@ -96,14 +96,15 @@ u16 SpeciesToMailSpecies(u16 species, u32 personality)
 u16 MailSpeciesToSpecies(u16 mailSpecies, u8 mailForm, u16 *buffer)
 {
     u16 result;
+    u16 formSpecies = GetFormSpecies(mailSpecies, mailForm);
 
     if (mailSpecies >= 30000 && mailSpecies < (30000 + NUM_UNOWN_FORMS))
     {
         result = SPECIES_UNOWN;
         *buffer = mailSpecies - 30000;
     }
-    else if (IsMonValid(mailSpecies, mailForm))
-        result = GetFormSpecies(mailSpecies, mailForm);
+    else if (IsMonValid(formSpecies))
+        result = formSpecies;
     else
         result = SPECIES_NONE;
 

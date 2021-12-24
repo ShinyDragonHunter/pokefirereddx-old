@@ -72,6 +72,7 @@ void CopyTrainerId(u8 *dst, u8 *src)
 static void InitPlayerTrainerId(void)
 {
     SetTrainerId((Random() << 16) | Random(), gSaveBlock2Ptr->playerTrainerId);
+    IssueRSSID();
 }
 
 // L=A isnt set here for some reason.
@@ -155,7 +156,9 @@ void NewGameInitData(void)
     ResetPokemonStorageSystem();
     ClearRoamerData();
     ClearRoamerLocationData();
-    gSaveBlock1Ptr->registeredItem = 0;
+    gSaveBlock1Ptr->registeredItemSelect = 0;
+    gSaveBlock1Ptr->registeredItemL = 0;
+    gSaveBlock1Ptr->registeredItemR = 0;
     ClearBag();
     NewGameInitPCItems();
     InitEasyChatPhrases();
@@ -179,4 +182,23 @@ static void ResetMiniGamesRecords(void)
     SetBerryPowder(&gSaveBlock2Ptr->berryCrush.berryPowderAmount, 0);
     ResetPokemonJumpRecords();
     CpuFill16(0, &gSaveBlock2Ptr->berryPick, sizeof(struct BerryPickingResults));
+}
+
+void IssueRSSID(void)
+{
+    u16 otid, ntid, sid;
+
+    gDisableVBlankRNGAdvance = TRUE;
+    otid = (gSaveBlock2Ptr->playerTrainerId[1] << 8) | gSaveBlock2Ptr->playerTrainerId[0];
+    sid = Random();
+    ntid = Random();
+
+    while (ntid != otid)
+    {
+        sid = ntid;
+        ntid = Random();
+    }
+
+    gSaveBlock1Ptr->rubySapphireSecretId = sid;
+    gDisableVBlankRNGAdvance = FALSE;
 }

@@ -799,7 +799,10 @@ struct SaveBlock1
     /*0x238*/ struct Pokemon playerParty[PARTY_SIZE];
     /*0x490*/ u32 money;
     /*0x494*/ u16 coins;
-    /*0x496*/ u16 registeredItem; // registered for use with SELECT button
+    /*0x496*/ u16 registeredItemSelect:5; // registered for use with the SELECT button
+              u16 registeredItemL:5; // registered for use with the L button
+              u16 registeredItemR:5; // registered for use with the R button
+              u16 registeredItemPadding:1;
     /*0x498*/ struct ItemSlot pcItems[PC_ITEMS_COUNT];
     /*0x560*/ struct ItemSlot bagPocket_Items[BAG_ITEMS_COUNT];
     /*0x5D8*/ u8 bagPocket_KeyItems[BAG_KEYITEMS_COUNT];
@@ -866,7 +869,8 @@ struct SaveBlock1
     /*0x3728*/ struct RamScript ramScript;
     /*0x3B14*/ struct RecordMixingGift recordMixingGift;
     /*0x3B24*/ u8 seen2[DEX_FLAGS_NO];
-    /*0x3B58*/ u8 filler_3B58[0x40];
+    /*0x3B58*/ u16 rubySapphireSecretId;
+    /*0x3B5A*/ u8 filler_3B5A[0x3E];
     /*0x3B98*/ struct TrainerNameRecord trainerNameRecords[20];
     /*0x3C88*/ u8 registeredTexts[UNION_ROOM_KB_ROW_COUNT][21];
     /*0x3D5A*/ u8 filler3D5A[0xA];

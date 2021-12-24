@@ -6,11 +6,11 @@
 
 ALIGNED(4)
 static const u8 sScrollDistances[] = {1, 2, 4};
-static const u16 sFont6BrailleGlyphs[] = INCBIN_U16("graphics/fonts/font6.fwjpnfont");
+static const u16 sFont7BrailleGlyphs[] = INCBIN_U16("graphics/fonts/font7.fwjpnfont");
 
-static void DecompressGlyphFont6(u16);
+static void DecompressGlyphFont7(u16);
 
-u16 Font6Func(struct TextPrinter *textPrinter)
+u16 Font7Func(struct TextPrinter *textPrinter)
 {
     u16 char_;
     struct TextPrinterSubStruct *subStruct;
@@ -130,7 +130,7 @@ u16 Font6Func(struct TextPrinter *textPrinter)
                     textPrinter->printerTemplate.currentChar++;
                     return 0;
             }
-            DecompressGlyphFont6(char_);
+            DecompressGlyphFont7(char_);
             CopyGlyphToWindow(textPrinter);
             textPrinter->printerTemplate.currentX += gCurGlyph.width + textPrinter->printerTemplate.letterSpacing;
             return 0;
@@ -198,11 +198,11 @@ u16 Font6Func(struct TextPrinter *textPrinter)
     return 1;
 }
 
-static void DecompressGlyphFont6(u16 glyph)
+static void DecompressGlyphFont7(u16 glyph)
 {
     const u16 *glyphs;
 
-    glyphs = sFont6BrailleGlyphs + 0x100 * (glyph / 8) + 0x10 * (glyph % 8);
+    glyphs = sFont7BrailleGlyphs + 0x100 * (glyph / 8) + 0x10 * (glyph % 8);
     DecompressGlyphTile(glyphs, gCurGlyph.gfxBufferTop);
     DecompressGlyphTile(glyphs + 0x8, gCurGlyph.gfxBufferTop + 8);
     DecompressGlyphTile(glyphs + 0x80, gCurGlyph.gfxBufferBottom);
@@ -211,7 +211,7 @@ static void DecompressGlyphFont6(u16 glyph)
     gCurGlyph.height = 0x10;
 }
 
-u32 GetGlyphWidthFont6(u16 glyphId, bool32 isJapanese)
+u32 GetGlyphWidthFont7(u16 glyphId, bool32 isJapanese)
 {
     return 0x10;
 }

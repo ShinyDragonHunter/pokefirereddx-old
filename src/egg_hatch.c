@@ -415,21 +415,8 @@ static u8 EggHatchCreateMonSprite(u8 switchID, u8 pokeID, u16* speciesLoc)
     u8 position = 0;
     u8 spriteID = 0;
     struct Pokemon* mon = NULL;
-    u8 form;
+    u8 form = GetMonData(mon, MON_DATA_FORM);
 
-//    if (useAlt == FALSE)
-//    {
-//        mon = &gPlayerParty[pokeID];
-//        position = B_POSITION_OPPONENT_LEFT;
-//    }
-//    if (useAlt == TRUE)
-//    {
-//        // Alternate sprite allocation position. Never reached.
-//        mon = &gPlayerParty[pokeID];
-//        position = B_POSITION_OPPONENT_RIGHT;
-//    }
-
-    form = GetMonData(mon, MON_DATA_FORM);
     switch (switchID)
     {
     case 0:
@@ -439,9 +426,9 @@ static u8 EggHatchCreateMonSprite(u8 switchID, u8 pokeID, u16* speciesLoc)
             u16 formSpecies = GetFormSpecies(species, form);
 
             if (SpeciesHasGenderDifferenceAndIsFemale(formSpecies, pid))
-                HandleLoadSpecialPokePic(&gFemaleMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_LEFT], formSpecies, pid);
+                HandleLoadSpecialPokePic(&gFemaleMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_LEFT], formSpecies, pid, 0);
             else
-                HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_LEFT], formSpecies, pid);
+                HandleLoadSpecialPokePic(&gMonFrontPicTable[formSpecies], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_LEFT], formSpecies, pid, 0);
             LoadUniqueSpritePalette(GetMonSpritePalStruct(mon), formSpecies, pid, IsMonShiny(mon));
             *speciesLoc = formSpecies;
         }

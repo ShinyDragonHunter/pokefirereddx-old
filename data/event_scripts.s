@@ -791,7 +791,7 @@ gText_SandstormIsVicious::
 
 gText_SelectWithoutRegisteredItem::
 	.string "An item in the BAG can be\n"
-	.string "registered to SELECT for easy use.$"
+	.string "registered for easy use.$"
 
 gText_PokemonTrainerSchoolEmail::
 	.string "There's an e-mail from POKéMON TRAINER\n"
@@ -990,7 +990,12 @@ Common_EventScript_LegendaryFlewAway::
 	.include "data/scripts/gabby_and_ty.inc"
 	.include "data/text/pokemon_news.inc"
 	.include "data/scripts/field_move_scripts.inc"
-	.include "data/scripts/item_ball_scripts.inc"
+
+Common_EventScript_FindItem::
+	callnative GetObjectEventTrainerRangeFromTemplate
+	finditem VAR_RESULT
+	end
+
 	.include "data/scripts/mystery_event_club.inc"
 	.include "data/scripts/day_care.inc"
 	.include "data/scripts/flash.inc"

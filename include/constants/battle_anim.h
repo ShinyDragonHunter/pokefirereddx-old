@@ -282,8 +282,8 @@
 #define B_ANIM_FOCUS_PUNCH_SETUP        20
 #define B_ANIM_INGRAIN_HEAL             21
 #define B_ANIM_WISH_HEAL                22
-#define B_ANIM_GHOST_GET_OUT            23
-#define B_ANIM_MON_SCARED               24
+#define B_ANIM_MON_SCARED               23
+#define B_ANIM_GHOST_GET_OUT            24
 #define B_ANIM_SILPH_SCOPED             25
 #define B_ANIM_ROCK_THROW               26
 #define B_ANIM_SAFARI_REACTION          27

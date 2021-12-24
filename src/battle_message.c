@@ -453,27 +453,17 @@ static const u8 sText_FoePkmnPrefix[] = _("Foe ");
 static const u8 sText_FoePkmnPrefix2[] = _("Foe");
 static const u8 sText_AllyPkmnPrefix[] = _("Ally");
 static const u8 sText_AttackerUsedX[] = _("{B_ATK_NAME_WITH_PREFIX} used\n{B_BUFF1}!");
-static const u8 sText_HP[] = _("HP");
-static const u8 sText_Attack[] = _("ATTACK");
-#if UK
-static const u8 sText_Defense[] = _("DEFENCE");
-#else
-static const u8 sText_Defense[] = _("DEFENSE");
-#endif
-static const u8 sText_Speed[] = _("SPEED");
-static const u8 sText_SpAtk[] = _("SP. ATK");
-static const u8 sText_SpDef[] = _("SP. DEF");
 static const u8 sText_Accuracy[] = _("accuracy");
 static const u8 sText_Evasiveness[] = _("evasiveness");
 
 const u8 * const gStatNamesTable[NUM_BATTLE_STATS] =
 {
-    [STAT_HP]      = sText_HP,
-    [STAT_ATK]     = sText_Attack,
-    [STAT_DEF]     = sText_Defense,
-    [STAT_SPEED]   = sText_Speed,
-    [STAT_SPATK]   = sText_SpAtk,
-    [STAT_SPDEF]   = sText_SpDef,
+    [STAT_HP]      = gText_HP,
+    [STAT_ATK]     = gText_Attack,
+    [STAT_DEF]     = gText_Defense,
+    [STAT_SPEED]   = gText_Speed,
+    [STAT_SPATK]   = gText_SpAtk,
+    [STAT_SPDEF]   = gText_SpDef,
     [STAT_ACC]     = sText_Accuracy,
     [STAT_EVASION] = sText_Evasiveness,
 };
@@ -535,7 +525,7 @@ static const u8 sText_PkmnsItemRestoredHPALittle[] = _("{B_SCR_ACTIVE_NAME_WITH_
 static const u8 sText_ItemAllowsOnlyYMove[] = _("{B_LAST_ITEM} allows the\nuse of only {B_CURRENT_MOVE}!\p");
 static const u8 sText_PkmnHungOnWithX[] = _("{B_DEF_NAME_WITH_PREFIX} hung on\nusing its {B_LAST_ITEM}!");
 static const u8 sText_PlayedFluteCatchyTune[] = _("{B_PLAYER_NAME} played the {B_LAST_ITEM}.\pNow, that's a catchy tune!");
-static const u8 sText_PlayedThe[] = _("{B_PLAYER_NAME} played the\n{B_LAST_ITEM}.");
+static const u8 sText_PlayedThe[] = _("{B_PLAYER_NAME} played the {B_LAST_ITEM}.");
 static const u8 sText_PkmnHearingFluteAwoke[] = _("The POKéMON hearing the FLUTE\nawoke!");
 static const u8 sText_YouThrowABallNowRight[] = _("You throw a BALL now, right?\nI… I'll do my best!");
 

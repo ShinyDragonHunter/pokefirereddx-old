@@ -28,7 +28,7 @@ enum
 
 struct PaletteFadeControl
 {
-    u32 multipurpose1; // This field needs to exist or errors will occur
+    u32 multipurpose1;
     u8 delayCounter:6;
     u16 y:5; // blend coefficient
     u16 targetY:5; // target blend coefficient
@@ -54,14 +54,13 @@ extern u16 gPlttBufferFaded[];
 
 void LoadCompressedPalette(const u32 *src, u16 offset, u16 size);
 void LoadCompressedPaletteDayNight(const void *src, u16 offset, u16 size);
-void LoadPaletteInternal(const void *src, u16 offset, u16 size, bool8 isDayNight);
+void LoadPaletteInternal(const void *src, u16 offset, u16 size, bool32 isDayNight);
 void LoadPalette(const void *src, u16 offset, u16 size);
 void LoadPaletteDayNight(const void *src, u16 offset, u16 size);
 void FillPalette(u16, u16, u16);
 void TransferPlttBuffer(void);
 u8 UpdatePaletteFade(void);
-void ReadPlttIntoBuffers(void);
-bool8 BeginNormalPaletteFade(u32, s8, u8, u8, u16);
+bool32 BeginNormalPaletteFade(u32, s8, u8, u8, u16);
 void ResetPaletteFadeControl(void);
 void InvertPlttBuffer(u32);
 void TintPlttBuffer(u32, s8, s8, s8);
@@ -76,7 +75,7 @@ void TintPalette_GrayScale(u16 *palette, u16 count);
 void TintPalette_GrayScale2(u16 *palette, u16 count);
 void TintPalette_SepiaTone(u16 *palette, u16 count);
 void TintPalette_CustomTone(u16 *palette, u16 count, u16 rTone, u16 gTone, u16 bTone);
-void TintPalette_CustomToneWithCopy(const u16 *src, u16 *dest, u16 count, u16 rTone, u16 gTone, u16 bTone, bool8 excludeZeroes);
+void TintPalette_CustomToneWithCopy(const u16 *src, u16 *dest, u16 count, u16 rTone, u16 gTone, u16 bTone, bool32 excludeZeroes);
 
 
 #endif // GUARD_PALETTE_H

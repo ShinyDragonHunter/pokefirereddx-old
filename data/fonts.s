@@ -66,3 +66,7 @@ gFont5LatinGlyphs::
 	.align 2
 gFont5LatinGlyphWidths::
 	.include "graphics/fonts/font5_latin_widths.inc"
+
+	.align 2
+gFont6LatinGlyphWidths::
+	.include "graphics/fonts/font6_latin_widths.inc"

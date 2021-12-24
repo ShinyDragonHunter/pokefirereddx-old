@@ -20,7 +20,7 @@ EventScript_UseNewRepel:
 	msgbox Text_UsedNewRepel, MSGBOX_SIGN
 	removeitem VAR_REPEL_LAST_USED, 1
 	waitse
-	handleexpiredrepel
+	callnative HandleUseExpiredRepel
 	goto EventScript_RepelEnd
 
 Text_RepelWoreOff::

@@ -792,7 +792,7 @@ static const struct WindowTemplate sWindowTemplate_RegisterForTrade = {
 };
 
 static const struct ListMenuItem sRegisterForTradeListMenuItems[] = {
-    { gText_Register, 1 },
+    { gMenuText_Register, 1 },
     { sText_Info, 2 },
     { sText_Exit, 3 }
 };

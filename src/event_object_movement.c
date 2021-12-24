@@ -444,7 +444,7 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_NpcWhite,              OBJ_EVENT_PAL_TAG_NPC_WHITE},
     {gObjectEventPal_Meteorite,             OBJ_EVENT_PAL_TAG_BIRTH_ISLAND_STONE},
     {gObjectEventPal_Seagallop,             OBJ_EVENT_PAL_TAG_SEAGALLOP},
-    {gObjectEventPal_RedLeafOriginal,        OBJ_EVENT_PAL_TAG_PLAYER_ORIGINAL},
+    {gObjectEventPal_RedLeafOriginal,       OBJ_EVENT_PAL_TAG_PLAYER_ORIGINAL},
     {gObjectEventPal_EmeraldBrendan,        OBJ_EVENT_PAL_TAG_E_BRENDAN},
     {gObjectEventPal_EmeraldMay,            OBJ_EVENT_PAL_TAG_E_MAY},
     {gObjectEventPal_SSAnne,                OBJ_EVENT_PAL_TAG_SS_ANNE},

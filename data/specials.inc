@@ -17,6 +17,7 @@ gSpecials::
 	def_special CopyDayOfWeekStringToVar1
 	def_special CopyCurrentDayOfWeekStringToVar1
 	def_special ChangeForm
+	def_special BattleSetup_StartMarowakBattle
 	def_special RecordMixingPlayerSpotTriggered
 	def_special TryBattleLinkup
 	def_special TryTradeLinkup

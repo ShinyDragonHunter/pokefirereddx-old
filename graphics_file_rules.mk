@@ -261,7 +261,7 @@ $(FONTGFXDIR)/font2.fwjpnfont: $(FONTGFXDIR)/font2_japanese.png
 $(FONTGFXDIR)/font4.hwjpnfont: $(FONTGFXDIR)/font4_japanese.png
 	$(GFX) $< $@
 
-$(FONTGFXDIR)/font6.fwjpnfont: $(FONTGFXDIR)/font6_braille.png
+$(FONTGFXDIR)/font7.fwjpnfont: $(FONTGFXDIR)/font7_braille.png
 	$(GFX) $< $@
 
 $(FONTGFXDIR)/down_arrow.4bpp: %.4bpp: %.png

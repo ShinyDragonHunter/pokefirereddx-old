@@ -1,4 +1,4 @@
-const u8 gJapaneseSpeciesNames[SPECIES_COUNT][JAPANESE_NAME_LENGTH + 1] = {
+const u8 gJapaneseSpeciesNames[][JAPANESE_NAME_LENGTH + 1] = {
     [SPECIES_NONE] = _("？？？？？"),
     [SPECIES_BULBASAUR] = _("フシギダネ"),
     [SPECIES_IVYSAUR] = _("フシギソウ"),

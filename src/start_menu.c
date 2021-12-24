@@ -152,18 +152,18 @@ static const struct WindowTemplate sPyramidFloorWindowTemplate_1 = {0, 1, 1, 0xC
 
 static const struct MenuAction sStartMenuItems[] =
 {
-    {gText_MenuPokedex, {.u8_void = StartMenuPokedexCallback}},
-    {gText_MenuPokemon, {.u8_void = StartMenuPokemonCallback}},
-    {gText_MenuBag, {.u8_void = StartMenuBagCallback}},
+    {gText_MenuOptionPokedex, {.u8_void = StartMenuPokedexCallback}},
+    {gText_Pokemon, {.u8_void = StartMenuPokemonCallback}},
+    {gText_MenuOptionBag, {.u8_void = StartMenuBagCallback}},
     {gText_MenuPlayer, {.u8_void = StartMenuPlayerNameCallback}},
-    {gText_MenuSave, {.u8_void = StartMenuSaveCallback}},
-    {gText_MenuOption, {.u8_void = StartMenuOptionCallback}},
-    {gText_MenuExit, {.u8_void = StartMenuExitCallback}},
-    {gText_MenuRetire, {.u8_void = StartMenuSafariZoneRetireCallback}},
+    {gText_MenuOptionSave, {.u8_void = StartMenuSaveCallback}},
+    {gText_MainMenuOption, {.u8_void = StartMenuOptionCallback}},
+    {gText_MenuOptionExit, {.u8_void = StartMenuExitCallback}},
+    {gText_Retire, {.u8_void = StartMenuSafariZoneRetireCallback}},
     {gText_MenuPlayer, {.u8_void = StartMenuLinkModePlayerNameCallback}},
-    {gText_MenuRest, {.u8_void = StartMenuSaveCallback}},
-    {gText_MenuRetire, {.u8_void = StartMenuBattlePyramidRetireCallback}},
-    {gText_MenuBag, {.u8_void = StartMenuBattlePyramidBagCallback}}
+    {gText_Rest, {.u8_void = StartMenuSaveCallback}},
+    {gText_Retire, {.u8_void = StartMenuBattlePyramidRetireCallback}},
+    {gText_MenuOptionBag, {.u8_void = StartMenuBattlePyramidBagCallback}}
 };
 
 static const struct BgTemplate sBgTemplates_LinkBattleSave[] =
@@ -1247,13 +1247,13 @@ static void ShowSaveInfoWindow(void)
 
     // Print player name
     yOffset = 14;
-    AddTextPrinterParameterized(sSaveInfoWindowId, 4, gText_SavingPlayer, 2, yOffset, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(sSaveInfoWindowId, 4, gText_ContinueMenuPlayer, 2, yOffset, TEXT_SPEED_FF, NULL);
     BufferSaveMenuText(SAVE_MENU_NAME, gStringVar4, TEXT_COLOR_DARK_GRAY);
     PrintPlayerNameOnWindow(sSaveInfoWindowId, gStringVar4, 0x3C, yOffset);
 
     // Print badge count
     yOffset = 28;
-    AddTextPrinterParameterized(sSaveInfoWindowId, 4, gText_SavingBadges, 2, yOffset, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(sSaveInfoWindowId, 4, gText_ContinueMenuBadges, 2, yOffset, TEXT_SPEED_FF, NULL);
     BufferSaveMenuText(SAVE_MENU_BADGES, gStringVar4, TEXT_COLOR_DARK_GRAY);
     AddTextPrinterParameterized(sSaveInfoWindowId, 4, gStringVar4, 0x3C, yOffset, TEXT_SPEED_FF, NULL);
 
@@ -1261,14 +1261,14 @@ static void ShowSaveInfoWindow(void)
     if (FlagGet(FLAG_SYS_POKEDEX_GET))
     {
         // Print pokedex count
-        AddTextPrinterParameterized(sSaveInfoWindowId, 4, gText_SavingPokedex, 2, yOffset, TEXT_SPEED_FF, NULL);
+        AddTextPrinterParameterized(sSaveInfoWindowId, 4, gText_MenuOptionPokedex, 2, yOffset, TEXT_SPEED_FF, NULL);
         BufferSaveMenuText(SAVE_MENU_CAUGHT, gStringVar4, TEXT_COLOR_DARK_GRAY);
         AddTextPrinterParameterized(sSaveInfoWindowId, 4, gStringVar4, 0x3C, yOffset, TEXT_SPEED_FF, NULL);
         yOffset = 56;
     }
 
     // Print play time
-    AddTextPrinterParameterized(sSaveInfoWindowId, 4, gText_SavingTime, 2, yOffset, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(sSaveInfoWindowId, 4, gText_Time, 2, yOffset, TEXT_SPEED_FF, NULL);
     BufferSaveMenuText(SAVE_MENU_PLAY_TIME, gStringVar4, TEXT_COLOR_DARK_GRAY);
     AddTextPrinterParameterized(sSaveInfoWindowId, 4, gStringVar4, 0x3C, yOffset, TEXT_SPEED_FF, NULL);
 

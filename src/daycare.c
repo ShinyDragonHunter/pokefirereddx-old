@@ -61,7 +61,7 @@ static const struct ListMenuItem sLevelMenuItems[] =
 {
     {gText_ExpandedPlaceholder_Empty, 0},
     {gText_ExpandedPlaceholder_Empty, 1},
-    {gText_Exit, DAYCARE_LEVEL_MENU_EXIT}
+    {gText_MenuOptionExit, DAYCARE_LEVEL_MENU_EXIT}
 };
 
 static const struct ListMenuTemplate sDaycareListMenuLevelTemplate =
@@ -1113,7 +1113,7 @@ static void GetDaycareLevelMenuText(struct DayCare *daycare, u8 *dest)
     StringAppend(dest, gText_NewLine2);
     StringAppend(dest, monNames[1]);
     StringAppend(dest, gText_NewLine2);
-    StringAppend(dest, gText_Exit4);
+    StringAppend(dest, gText_MenuOptionExit);
 }
 
 static void GetDaycareLevelMenuLevelText(struct DayCare *daycare, u8 *dest)

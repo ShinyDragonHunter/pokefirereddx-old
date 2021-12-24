@@ -1,6 +1,6 @@
 // This determines how much higher above the usual position the enemy Pokémon
 // is during battle. Species that float or fly have nonzero values.
-const u8 gEnemyMonElevation[SPECIES_COUNT] =
+const u8 gEnemyMonElevation[] =
 {
     [SPECIES_BUTTERFREE] = 8,
     [SPECIES_BEEDRILL] = 8,

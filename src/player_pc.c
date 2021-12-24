@@ -220,8 +220,8 @@ const struct MenuAction gMailboxMailOptions[] =
 {
     { gText_Read,      Mailbox_DoMailRead },
     { gText_MoveToBag, Mailbox_MoveToBag },
-    { gText_Give2,     Mailbox_Give },
-    { gText_Cancel2,   Mailbox_Cancel }
+    { gText_Give,      Mailbox_Give },
+    { gText_Cancel,    Mailbox_Cancel }
 };
 
 static const struct WindowTemplate sWindowTemplates_MainMenus[] =
@@ -955,7 +955,7 @@ void ItemStorage_RefreshListMenu(void)
     }
 
     // Set up Cancel entry
-    StringCopy(&sItemStorageMenu->itemNames[i][0], gText_Cancel2);
+    StringCopy(&sItemStorageMenu->itemNames[i][0], gText_Cancel);
     sItemStorageMenu->listItems[i].name = &sItemStorageMenu->itemNames[i][0];
     sItemStorageMenu->listItems[i].id = LIST_CANCEL;
 

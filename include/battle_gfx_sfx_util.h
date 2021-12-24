@@ -14,6 +14,7 @@ bool8 IsBattleSEPlaying(u8 battlerId);
 void BattleLoadOpponentMonSpriteGfx(struct Pokemon *mon, u8 battlerId);
 void BattleLoadPlayerMonSpriteGfx(struct Pokemon *mon, u8 battlerId);
 void BattleGfxSfxDummy2(u16 species);
+void DecompressGhostFrontPic(u8 battlerId);
 void DecompressTrainerFrontPic(u16 frontPicId, u8 battlerId);
 void DecompressTrainerBackPic(u16 backPicId, u8 battlerId);
 void BattleGfxSfxDummy3(u8 gender);

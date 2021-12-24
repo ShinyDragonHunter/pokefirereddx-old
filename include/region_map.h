@@ -112,6 +112,9 @@ void TrySetPlayerIconBlink(void);
 void BlendRegionMap(u16 color, u32 coeff);
 
 extern const struct RegionMapLocation gRegionMapEntries[];
-extern const u8 *const gOtherMapNames[];
+extern const u8 *const gJohtoRegionMapNames[];
+extern const u8 *const gOrreRegionMapNames[];
+
+extern const u16 gMapSecToOrreMetLoc[][2];
 
 #endif //GUARD_REGION_MAP_H

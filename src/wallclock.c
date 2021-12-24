@@ -715,7 +715,7 @@ void CB2_StartWallClock(void)
 
     WallClockInit();
 
-    AddTextPrinterParameterized(1, 2, gText_Confirm3, 0, 1, 0, NULL);
+    AddTextPrinterParameterized(1, 2, gMenuText_Confirm, 0, 1, 0, NULL);
     PutWindowTilemap(1);
     ScheduleBgCopyTilemapToVram(2);
 }
@@ -760,7 +760,7 @@ void CB2_ViewWallClock(void)
 
     WallClockInit();
 
-    AddTextPrinterParameterized(1, 2, gText_Cancel4, 0, 1, 0, NULL);
+    AddTextPrinterParameterized(1, 2, gText_Cancel, 0, 1, 0, NULL);
     PutWindowTilemap(1);
     ScheduleBgCopyTilemapToVram(2);
 }

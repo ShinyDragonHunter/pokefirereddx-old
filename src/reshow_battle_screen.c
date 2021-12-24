@@ -18,7 +18,7 @@
 
 // this file's functions
 static void CB2_ReshowBattleScreenAfterMenu(void);
-static bool8 LoadBattlerSpriteGfx(u8 battlerId);
+static bool32 LoadBattlerSpriteGfx(u8 battlerId);
 static void CreateBattlerSprite(u8 battlerId);
 static void CreateHealthboxSprite(u8 battlerId);
 static void sub_80A95F4(void);
@@ -192,13 +192,15 @@ static void sub_80A95F4(void)
     SetGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_OBJ_1D_MAP | DISPCNT_OBJ_ON | DISPCNT_WIN0_ON | DISPCNT_OBJWIN_ON);
 }
 
-static bool8 LoadBattlerSpriteGfx(u8 battler)
+static bool32 LoadBattlerSpriteGfx(u8 battler)
 {
     if (battler < gBattlersCount)
     {
         if (GetBattlerSide(battler) != B_SIDE_PLAYER)
         {
-            if (!gBattleSpritesDataPtr->battlerData[battler].behindSubstitute)
+            if (IS_BATTLE_TYPE_GHOST_WITHOUT_SCOPE(gBattleTypeFlags))
+                DecompressGhostFrontPic(battler);
+            else if (!gBattleSpritesDataPtr->battlerData[battler].behindSubstitute)
                 BattleLoadOpponentMonSpriteGfx(&gEnemyParty[gBattlerPartyIndexes[battler]], battler);
             else
                 BattleLoadSubstituteOrMonSpriteGfx(battler, FALSE);
@@ -223,7 +225,9 @@ static void CreateBattlerSprite(u8 battler)
     {
         u8 posY;
 
-        if (gBattleSpritesDataPtr->battlerData[battler].behindSubstitute)
+        if (IS_BATTLE_TYPE_GHOST_WITHOUT_SCOPE(gBattleTypeFlags))
+            posY = GetGhostSpriteDefault_Y(battler);
+        else if (gBattleSpritesDataPtr->battlerData[battler].behindSubstitute)
             posY = GetSubstituteSpriteDefault_Y(battler);
         else
             posY = GetBattlerSpriteDefault_Y(battler);

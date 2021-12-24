@@ -1033,16 +1033,6 @@ void UpdateOamPriorityInAllHealthboxes(u8 priority, bool32 hideHPBoxes)
     }
 }
 
-void UpdateOamPriorityInAllHealthboxesNoInvisibility(u8 priority)
-{
-    UpdateOamPriorityInAllHealthboxes(priority, FALSE);
-}
-
-void UpdateOamPriorityInAllHealthboxesInvisibility(u8 priority)
-{
-    UpdateOamPriorityInAllHealthboxes(priority, TRUE);
-}
-
 void InitBattlerHealthboxCoords(u8 battler)
 {
     s16 x = 0, y = 0;
@@ -1888,6 +1878,9 @@ static void UpdateNickInHealthbox(u8 healthboxSpriteId, struct Pokemon *mon)
     if ((species == SPECIES_NIDORAN_F || species == SPECIES_NIDORAN_M) && StringCompare(nickname, gSpeciesNames[species]) == 0)
         gender = 100;
 
+    if (CheckBattleTypeGhost(mon, gSprites[healthboxSpriteId].hMain_Battler))
+        gender = 100;
+
     switch (gender)
     {
     default:
@@ -1933,6 +1926,8 @@ static void TryAddPokeballIconToHealthbox(u8 healthboxSpriteId, bool8 noStatus)
 
     battlerId = gSprites[healthboxSpriteId].hMain_Battler;
     if (GetBattlerSide(battlerId) == B_SIDE_PLAYER)
+        return;
+    if (CheckBattleTypeGhost(&gEnemyParty[gBattlerPartyIndexes[battlerId]], battlerId))
         return;
     if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(GetMonData(&gEnemyParty[gBattlerPartyIndexes[battlerId]], MON_DATA_SPECIES)), FLAG_GET_CAUGHT))
         return;
@@ -2200,7 +2195,7 @@ s32 MoveBattleBar(u8 battlerId, u8 healthboxSpriteId, u8 whichBar, u8 unused)
                     gBattleSpritesDataPtr->battleBars[battlerId].oldValue,
                     gBattleSpritesDataPtr->battleBars[battlerId].receivedValue,
                     &gBattleSpritesDataPtr->battleBars[battlerId].currValue,
-                    B_HEALTHBAR_PIXELS / 8, gBattleSpritesDataPtr->battleBars[battlerId].maxValue / 48);
+                    B_HEALTHBAR_PIXELS / 8, max(gBattleSpritesDataPtr->battleBars[battlerId].maxValue / B_HEALTHBAR_PIXELS, 1));
     }
     else // exp bar
     {

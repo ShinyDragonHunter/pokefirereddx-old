@@ -171,7 +171,7 @@ const u16 gMonShinyPalette_Ekans[] = INCBIN_U16("graphics/pokemon/ekans/shiny.gb
 const u8 gMonIcon_Ekans[] = INCBIN_U8("graphics/pokemon/ekans/icon.4bpp");
 const u8 gMonFootprint_Ekans[] = INCBIN_U8("graphics/pokemon/ekans/footprint.1bpp");
 
-const u32 gMonFrontPic_Arbok[] = INCBIN_U32("graphics/pokemon/arbok/front.4bpp.lz");
+const u32 gMonFrontPic_Arbok[] = INCBIN_U32("graphics/pokemon/arbok/hoenn/front.4bpp.lz");
 const u16 gMonPalette_Arbok[] = INCBIN_U16("graphics/pokemon/arbok/normal.gbapal");
 const u32 gMonBackPic_Arbok[] = INCBIN_U32("graphics/pokemon/arbok/back.4bpp.lz");
 const u16 gMonShinyPalette_Arbok[] = INCBIN_U16("graphics/pokemon/arbok/shiny.gbapal");
@@ -2835,6 +2835,8 @@ const u8 gMonIcon_UnownExclamationMark[] = INCBIN_U8("graphics/pokemon/unown/exc
 const u32 gMonFrontPic_UnownQuestionMark[] = INCBIN_U32("graphics/pokemon/unown/question_mark/front.4bpp.lz");
 const u32 gMonBackPic_UnownQuestionMark[] = INCBIN_U32("graphics/pokemon/unown/question_mark/back.4bpp.lz");
 const u8 gMonIcon_UnownQuestionMark[] = INCBIN_U8("graphics/pokemon/unown/question_mark/icon.4bpp");
+
+const u32 gMonFrontPic_ArbokKanto[] = INCBIN_U32("graphics/pokemon/arbok/kanto/front.4bpp.lz");
 
 const u32 gMonFrontPic_RattataAlolan[] = INCBIN_U32("graphics/pokemon/rattata/alolan/front.4bpp.lz");
 const u16 gMonPalette_RattataAlolan[] = INCBIN_U16("graphics/pokemon/rattata/alolan/normal.gbapal");

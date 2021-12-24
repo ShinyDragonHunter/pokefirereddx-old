@@ -1,4 +1,4 @@
-const u8 gGermanSpeciesNames[SPECIES_COUNT][POKEMON_NAME_LENGTH + 1] = {
+const u8 gGermanSpeciesNames[][POKEMON_NAME_LENGTH + 1] = {
     [SPECIES_NONE] = _("??????????"),
     [SPECIES_BULBASAUR] = _("BISASAM"),
     [SPECIES_IVYSAUR] = _("BISAKNOSP"),

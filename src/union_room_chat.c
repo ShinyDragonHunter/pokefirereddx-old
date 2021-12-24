@@ -727,8 +727,8 @@ static const struct MenuAction sKeyboardPageTitleTexts[UNION_ROOM_KB_PAGE_COUNT 
     [UNION_ROOM_KB_PAGE_UPPER]    = {gText_Upper, NULL},
     [UNION_ROOM_KB_PAGE_LOWER]    = {gText_Lower, NULL},
     [UNION_ROOM_KB_PAGE_EMOJI]    = {gText_Symbols, NULL},
-    [UNION_ROOM_KB_PAGE_REGISTER] = {gText_Register2, NULL},
-    [UNION_ROOM_KB_PAGE_COUNT]    = {gText_Exit2, NULL},
+    [UNION_ROOM_KB_PAGE_REGISTER] = {gMenuText_Register, NULL},
+    [UNION_ROOM_KB_PAGE_COUNT]    = {gText_MenuOptionExit, NULL},
 };
 
 static const u16 sUnionRoomChatInterfacePal[] = INCBIN_U16("graphics/union_room_chat/interface.gbapal");
@@ -1984,7 +1984,7 @@ static u8 *GetChatHostName(void)
 void InitUnionRoomChatRegisteredTexts(void)
 {
     StringCopy(gSaveBlock1Ptr->registeredTexts[0], gText_Hello);
-    StringCopy(gSaveBlock1Ptr->registeredTexts[1], gText_Pokemon2);
+    StringCopy(gSaveBlock1Ptr->registeredTexts[1], gText_Pokemon);
     StringCopy(gSaveBlock1Ptr->registeredTexts[2], gText_Trade);
     StringCopy(gSaveBlock1Ptr->registeredTexts[3], gText_Battle);
     StringCopy(gSaveBlock1Ptr->registeredTexts[4], gText_Lets);

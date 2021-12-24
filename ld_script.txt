@@ -160,6 +160,8 @@ SECTIONS {
         src/money.o(.text);
         src/record_mixing.o(.text);
         src/debug/sound_check_menu.o(.text);
+        src/debug/pokemon_debug.o(.text);
+        src/debug/battle_debug.o(.text);
         src/tv.o(.text);
         src/script_pokemon_util.o(.text);
         src/field_poison.o(.text);
@@ -500,6 +502,8 @@ SECTIONS {
         src/money.o(.rodata);
         src/record_mixing.o(.rodata);
         src/debug/sound_check_menu.o(.rodata);
+        src/debug/pokemon_debug.o(.rodata);
+        src/debug/battle_debug.o(.rodata);
         src/tv.o(.rodata);
         src/script_pokemon_util.o(.rodata);
         src/pokemon_size_record.o(.rodata)

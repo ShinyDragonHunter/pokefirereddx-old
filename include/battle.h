@@ -4,6 +4,7 @@
 // should they be included here or included individually by every file?
 #include "constants/battle.h"
 #include "constants/items.h"
+#include "debug.h"
 #include "battle_main.h"
 #include "battle_message.h"
 #include "battle_util.h"
@@ -36,6 +37,7 @@
 
 #define B_ACTION_CANCEL_PARTNER         12 // when choosing an action
 #define B_ACTION_NOTHING_FAINTED        13 // when choosing an action
+#define B_ACTION_DEBUG                  20
 #define B_ACTION_NONE                   0xFF
 
 // array entries for battle communication
@@ -357,7 +359,7 @@ struct BattleStruct
 {
     u8 turnEffectsTracker;
     u8 turnEffectsBattlerId;
-    u8 unused_0;
+    u8 debugBattler;
     u8 turnCountersTracker;
     u8 wrappedMove[MAX_BATTLERS_COUNT * 2]; // Leftover from Ruby's ewram access.
     u8 moveTarget[MAX_BATTLERS_COUNT];
@@ -438,7 +440,8 @@ struct BattleStruct
     u8 atkCancellerTracker;
     struct BattleTvMovePoints tvMovePoints;
     struct BattleTv tv;
-    u8 unused_7[0x28];
+    u8 debugHoldEffects[MAX_BATTLERS_COUNT]; // These override actual items' hold effects.
+    u8 unused_7[0x24];
     u8 AI_monToSwitchIntoId[MAX_BATTLERS_COUNT];
     s8 arenaMindPoints[2];
     s8 arenaSkillPoints[2];
@@ -446,7 +449,7 @@ struct BattleStruct
     u8 arenaLostPlayerMons; // Bits for party member, lost as in referee's decision, not by fainting.
     u8 arenaLostOpponentMons;
     u8 alreadyStatusedMoveAttempt; // As bits for battlers; For example when using Thunder Wave on an already paralyzed pokemon.
-    bool8 throwingPokeBall;	
+    bool8 throwingPokeBall;
 };
 
 #define GET_MOVE_TYPE(move, typeArg)                        \

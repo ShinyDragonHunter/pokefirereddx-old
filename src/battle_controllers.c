@@ -1366,3 +1366,9 @@ void BtlController_EmitEndLinkBattle(u8 bufferId, u8 battleOutcome)
     sBattleBuffersTransferData[5] = sBattleBuffersTransferData[4] = RecordedBattle_BufferNewBattlerData(&sBattleBuffersTransferData[6]);
     PrepareBufferDataTransfer(bufferId, sBattleBuffersTransferData, sBattleBuffersTransferData[4] + 6);
 }
+
+void BtlController_EmitDebugMenu(u8 bufferId)
+{
+    sBattleBuffersTransferData[0] = CONTROLLER_DEBUGMENU;
+    PrepareBufferDataTransfer(bufferId, sBattleBuffersTransferData, 1);
+}

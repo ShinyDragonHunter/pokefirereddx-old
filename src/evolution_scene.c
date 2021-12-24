@@ -258,9 +258,12 @@ void EvolutionScene(struct Pokemon* mon, u16 postEvoSpecies, bool8 canStopEvo, u
     personality = GetMonData(mon, MON_DATA_PERSONALITY);
     currForm = GetMonData(mon, MON_DATA_FORM);
     currFormSpecies = GetFormSpecies(currSpecies, currForm);
-    DecompressPicFromTable(&gMonFrontPicTable[currFormSpecies], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_LEFT], currFormSpecies);
+    DecompressPicFromTable(&gMonFrontPicTable[currFormSpecies],
+                            gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_LEFT],
+                            currFormSpecies);
     pokePal = GetMonSpritePalStructFromOtIdPersonality(currFormSpecies, trainerId, personality);
     LoadPalette(pokePal->data, 0x110, 0x20);
+
     UniquePalette(0x110, currFormSpecies, personality, IsMonShiny(mon));
     CpuCopy32(gPlttBufferFaded + 0x120, gPlttBufferUnfaded + 0x120, 32);
 
@@ -268,15 +271,18 @@ void EvolutionScene(struct Pokemon* mon, u16 postEvoSpecies, bool8 canStopEvo, u
     gMultiuseSpriteTemplate.affineAnims = gDummySpriteAffineAnimTable;
     sEvoStructPtr->preEvoSpriteId = ID = CreateSprite(&gMultiuseSpriteTemplate, 120, 64, 30);
 
-    gSprites[ID].callback = SpriteCallbackDummy;
+    gSprites[ID].callback = SpriteCallbackDummy_2;
     gSprites[ID].oam.paletteNum = 1;
     gSprites[ID].invisible = TRUE;
 
     // postEvo sprite
     postEvoFormSpecies = GetFormSpecies(postEvoSpecies, postEvoForm);
-    DecompressPicFromTable(&gMonFrontPicTable[postEvoFormSpecies], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_RIGHT], postEvoFormSpecies);
+    DecompressPicFromTable(&gMonFrontPicTable[postEvoFormSpecies],
+                            gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_RIGHT],
+                            postEvoFormSpecies);
     pokePal = GetMonSpritePalStructFromOtIdPersonality(postEvoFormSpecies, trainerId, personality);
     LoadPalette(pokePal->data, 0x120, 0x20);
+
     UniquePalette(0x120, postEvoFormSpecies, personality, IsMonShiny(mon));
     CpuCopy32(gPlttBufferFaded + 0x120, gPlttBufferUnfaded + 0x120, 32);
 
@@ -356,10 +362,13 @@ static void CB2_EvolutionSceneLoadGraphics(void)
     FreeAllSpritePalettes();
     gReservedSpritePaletteCount = 4;
 
-    DecompressPicFromTable(&gMonFrontPicTable[postEvoFormSpecies], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_RIGHT], postEvoFormSpecies);
+    DecompressPicFromTable(&gMonFrontPicTable[postEvoFormSpecies],
+                            gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_RIGHT],
+                            postEvoFormSpecies);
     pokePal = GetMonSpritePalStructFromOtIdPersonality(postEvoFormSpecies, trainerId, personality);
 
     LoadPalette(pokePal->data, 0x120, 0x20);
+
     UniquePalette(0x120, postEvoFormSpecies, personality, IsShinyOtIdPersonality(trainerId, personality));
     CpuCopy32(gPlttBufferFaded + 0x120, gPlttBufferUnfaded + 0x120, 32);
 
@@ -367,7 +376,7 @@ static void CB2_EvolutionSceneLoadGraphics(void)
     gMultiuseSpriteTemplate.affineAnims = gDummySpriteAffineAnimTable;
     sEvoStructPtr->postEvoSpriteId = ID = CreateSprite(&gMultiuseSpriteTemplate, 120, 64, 30);
 
-    gSprites[ID].callback = SpriteCallbackDummy;
+    gSprites[ID].callback = SpriteCallbackDummy_2;
     gSprites[ID].oam.paletteNum = 2;
 
     SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_OBJ_ON | DISPCNT_BG_ALL_ON | DISPCNT_OBJ_1D_MAP);
@@ -431,7 +440,9 @@ static void CB2_TradeEvolutionSceneLoadGraphics(void)
             u32 trainerId = GetMonData(mon, MON_DATA_OT_ID);
             u32 personality = GetMonData(mon, MON_DATA_PERSONALITY);
 
-            DecompressPicFromTable(&gMonFrontPicTable[postEvoFormSpecies], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_RIGHT], postEvoFormSpecies);
+            DecompressPicFromTable(&gMonFrontPicTable[postEvoFormSpecies],
+                                    gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_RIGHT],
+                                    postEvoFormSpecies);
             pokePal = GetMonSpritePalStructFromOtIdPersonality(postEvoFormSpecies, trainerId, personality);
             LoadPalette(pokePal->data, 0x120, 0x20);
             UniquePalette(0x120, postEvoFormSpecies, personality, IsShinyOtIdPersonality(trainerId, personality));
@@ -447,7 +458,7 @@ static void CB2_TradeEvolutionSceneLoadGraphics(void)
             gMultiuseSpriteTemplate.affineAnims = gDummySpriteAffineAnimTable;
             sEvoStructPtr->postEvoSpriteId = ID = CreateSprite(&gMultiuseSpriteTemplate, 120, 64, 30);
 
-            gSprites[ID].callback = SpriteCallbackDummy;
+            gSprites[ID].callback = SpriteCallbackDummy_2;
             gSprites[ID].oam.paletteNum = 2;
             gMain.state++;
             LinkTradeDrawWindow();
@@ -497,7 +508,9 @@ void TradeEvolutionScene(struct Pokemon* mon, u16 postEvoSpecies, u8 preEvoSprit
     sEvoStructPtr = AllocZeroed(sizeof(struct EvoInfo));
     sEvoStructPtr->preEvoSpriteId = preEvoSpriteId;
 
-    DecompressPicFromTable(&gMonFrontPicTable[postEvoFormSpecies], gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_LEFT], postEvoFormSpecies);
+    DecompressPicFromTable(&gMonFrontPicTable[postEvoFormSpecies],
+                            gMonSpritesGfxPtr->sprites.ptr[B_POSITION_OPPONENT_LEFT],
+                            postEvoFormSpecies);
 
     pokePal = GetMonSpritePalStructFromOtIdPersonality(postEvoFormSpecies, trainerId, personality);
     LoadPalette(pokePal->data, 0x120, 0x20);
@@ -508,7 +521,7 @@ void TradeEvolutionScene(struct Pokemon* mon, u16 postEvoSpecies, u8 preEvoSprit
     gMultiuseSpriteTemplate.affineAnims = gDummySpriteAffineAnimTable;
     sEvoStructPtr->postEvoSpriteId = ID = CreateSprite(&gMultiuseSpriteTemplate, 120, 64, 30);
 
-    gSprites[ID].callback = SpriteCallbackDummy;
+    gSprites[ID].callback = SpriteCallbackDummy_2;
     gSprites[ID].oam.paletteNum = 2;
     gSprites[ID].invisible = TRUE;
 

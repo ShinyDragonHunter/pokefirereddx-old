@@ -1973,7 +1973,7 @@ static void ScriptCmd_end(void)
     {
         m4aMPlayVolumeControl(&gMPlayInfo_BGM, 0xFFFF, 256);
         sub_80A8278();
-        UpdateOamPriorityInAllHealthboxesInvisibility(1);
+        UpdateOamPriorityInAllHealthboxes(1, TRUE);
         gAnimScriptActive = FALSE;
     }
 }

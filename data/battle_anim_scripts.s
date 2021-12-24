@@ -409,8 +409,8 @@ gBattleAnims_General::
 	.4byte General_FocusPunchSetUp          @ B_ANIM_FOCUS_PUNCH_SETUP
 	.4byte General_IngrainHeal              @ B_ANIM_INGRAIN_HEAL
 	.4byte General_WishHeal                 @ B_ANIM_WISH_HEAL
-	.4byte General_GhostGetOut              @ B_ANIM_GHOST_GET_OUT
 	.4byte General_MonScared                @ B_ANIM_MON_SCARED
+	.4byte General_GhostGetOut              @ B_ANIM_GHOST_GET_OUT
 	.4byte General_SilphScoped              @ B_ANIM_SILPH_SCOPED
 	.4byte General_SafariRockThrow          @ B_ANIM_ROCK_THROW
 	.4byte General_SafariReaction           @ B_ANIM_SAFARI_REACTION
@@ -10627,6 +10627,23 @@ General_WishHeal:
 	createsprite gSimplePaletteBlendSpriteTemplate, ANIM_ATTACKER, 2, 1, 3, 10, 0, RGB_BLACK
 	end
 
+General_MonScared::
+	createvisualtask AnimTask_SetAttackerTargetLeftPos, 2, 1
+	waitforvisualfinish
+	loadspritegfx ANIM_TAG_SWEAT_BEAD
+	createsprite gSimplePaletteBlendSpriteTemplate, ANIM_ATTACKER, 0, 4, 2, 0, 10, 26336
+	createvisualtask AnimTask_ShakeMon2, 2, ANIM_TARGET, 2, 0, 10, 1
+	delay 20
+	createsprite gSprayWaterDropletSpriteTemplate, ANIM_TARGET, 5, 0, 1
+	playsewithpan SE_M_SKETCH, SOUND_PAN_TARGET
+	createsprite gSprayWaterDropletSpriteTemplate, ANIM_TARGET, 5, 1, 1
+	createvisualtask AnimTask_ShakeMon2, 2, ANIM_TARGET, 4, 0, 5, 1
+	createvisualtask AnimTask_StretchTargetUp, 3
+	waitforvisualfinish
+	createsprite gSimplePaletteBlendSpriteTemplate, ANIM_ATTACKER, 0, 4, 2, 10, 0, 26336
+	waitforvisualfinish
+	end
+
 General_GhostGetOut::
 	createvisualtask AnimTask_SetAttackerTargetLeftPos, 2, 1
 	waitforvisualfinish
@@ -10650,23 +10667,6 @@ General_GhostGetOut::
 	waitforvisualfinish
 	restorebg
 	waitbgfadein
-	end
-
-General_MonScared::
-	createvisualtask AnimTask_SetAttackerTargetLeftPos, 2, 1
-	waitforvisualfinish
-	loadspritegfx ANIM_TAG_SWEAT_BEAD
-	createsprite gSimplePaletteBlendSpriteTemplate, ANIM_ATTACKER, 0, 4, 2, 0, 10, 26336
-	createvisualtask AnimTask_ShakeMon2, 2, ANIM_TARGET, 2, 0, 10, 1
-	delay 20
-	createsprite gSprayWaterDropletSpriteTemplate, ANIM_TARGET, 5, 0, 1
-	playsewithpan SE_M_SKETCH, SOUND_PAN_TARGET
-	createsprite gSprayWaterDropletSpriteTemplate, ANIM_TARGET, 5, 1, 1
-	createvisualtask AnimTask_ShakeMon2, 2, ANIM_TARGET, 4, 0, 5, 1
-	createvisualtask AnimTask_StretchTargetUp, 3
-	waitforvisualfinish
-	createsprite gSimplePaletteBlendSpriteTemplate, ANIM_ATTACKER, 0, 4, 2, 10, 0, 26336
-	waitforvisualfinish
 	end
 
 General_SilphScoped::

@@ -127,6 +127,7 @@ static void (*const sLinkPartnerBufferCommands[CONTROLLER_CMDS_COUNT])(void) =
     [CONTROLLER_LINKSTANDBYMSG]           = LinkPartnerHandleLinkStandbyMsg,
     [CONTROLLER_RESETACTIONMOVESELECTION] = LinkPartnerEndExecution,
     [CONTROLLER_ENDLINKBATTLE]            = LinkPartnerHandleEndLinkBattle,
+    [CONTROLLER_DEBUGMENU]                = LinkPartnerEndExecution,
     [CONTROLLER_TERMINATOR_NOP]           = BattleControllerDummy
 };
 
@@ -255,8 +256,6 @@ static void FreeMonSpriteAfterFaintAnim(void)
 {
     if (gSprites[gBattlerSpriteIds[gActiveBattler]].y + gSprites[gBattlerSpriteIds[gActiveBattler]].y2 > DISPLAY_HEIGHT)
     {
-        u16 species = GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPECIES);
-
         FreeOamMatrix(gSprites[gBattlerSpriteIds[gActiveBattler]].oam.matrixNum);
         DestroySprite(&gSprites[gBattlerSpriteIds[gActiveBattler]]);
         SetHealthboxSpriteInvisible(gHealthboxSpriteIds[gActiveBattler]);
@@ -420,36 +419,11 @@ static u32 CopyLinkPartnerMonData(u8 monId, u8 *dst)
     s16 data16;
     u32 data32;
     s32 size = 0;
-    u8 form;
 
     switch (gBattleBufferA[gActiveBattler][1])
     {
     case REQUEST_ALL_BATTLE:
         battleMon.species = GetMonData(&gPlayerParty[monId], MON_DATA_SPECIES);
-        if (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].versionModifier != MODIFIER_DX)
-        {
-            if (battleMon.species == SPECIES_DEOXYS)
-            {
-                if (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].versionModifier == MODIFIER_CRYSTALDUST)
-                    battleMon.form = SPEED;
-                else
-                {
-                    if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_EMERALD)
-                        battleMon.form = SPEED;
-                    else if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_FIRE_RED)
-                        battleMon.form = ATTACK;
-                    else if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_LEAF_GREEN)
-                        battleMon.form = DEFENSE;
-                    else
-                        battleMon.form = NORMAL;
-                }
-            }
-            else
-                battleMon.form = 0;
-        }
-        else
-	        battleMon.form = GetMonData(&gPlayerParty[monId], MON_DATA_FORM);
-        battleMon.species = GetFormSpecies(battleMon.species, battleMon.form);
         battleMon.item = GetMonData(&gPlayerParty[monId], MON_DATA_HELD_ITEM);
         for (size = 0; size < MAX_MON_MOVES; size++)
         {
@@ -478,6 +452,29 @@ static u32 CopyLinkPartnerMonData(u8 monId, u8 *dst)
         battleMon.isEgg = GetMonData(&gPlayerParty[monId], MON_DATA_IS_EGG);
         battleMon.abilityNum = GetMonData(&gPlayerParty[monId], MON_DATA_ABILITY_NUM);
         battleMon.otId = GetMonData(&gPlayerParty[monId], MON_DATA_OT_ID);
+        if (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].versionModifier != MODIFIER_DX)
+        {
+            if (battleMon.species == SPECIES_DEOXYS)
+            {
+                if (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].versionModifier == MODIFIER_CRYSTALDUST)
+                    battleMon.form = SPEED;
+                else
+                {
+                    if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_EMERALD)
+                        battleMon.form = SPEED;
+                    else if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_FIRE_RED)
+                        battleMon.form = ATTACK;
+                    else if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_LEAF_GREEN)
+                        battleMon.form = DEFENSE;
+                    else
+                        battleMon.form = NORMAL;
+                }
+            }
+            else
+                battleMon.form = 0;
+        }
+        else
+	        battleMon.form = GetMonData(&gPlayerParty[monId], MON_DATA_FORM);
         GetMonData(&gPlayerParty[monId], MON_DATA_NICKNAME, nickname);
         StringCopy10(battleMon.nickname, nickname);
         GetMonData(&gPlayerParty[monId], MON_DATA_OT_NAME, battleMon.otName);
@@ -487,30 +484,6 @@ static u32 CopyLinkPartnerMonData(u8 monId, u8 *dst)
         break;
     case REQUEST_SPECIES_BATTLE:
         data16 = GetMonData(&gPlayerParty[monId], MON_DATA_SPECIES);
-        if (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].versionModifier != MODIFIER_DX)
-        {
-            if (data16 == SPECIES_DEOXYS)
-            {
-                if (gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].versionModifier == MODIFIER_CRYSTALDUST)
-                    form = SPEED;
-                else
-                {
-                    if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_EMERALD)
-                        form = SPEED;
-                    else if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_FIRE_RED)
-                        form = ATTACK;
-                    else if ((gLinkPlayers[GetBattlerMultiplayerId(gActiveBattler)].version & 0xFF) == VERSION_LEAF_GREEN)
-                        form = DEFENSE;
-                    else
-                        form = NORMAL;
-                }
-            }
-            else
-                form = 0;
-        }
-        else
-            form = GetMonData(&gPlayerParty[monId], MON_DATA_FORM);
-        data16 = GetFormSpecies(data16, form);
         dst[0] = data16;
         dst[1] = data16 >> 8;
         size = 2;

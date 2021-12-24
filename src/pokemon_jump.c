@@ -2723,9 +2723,9 @@ static void CreateJumpMonSprite(struct PokemonJumpGfx *jumpGfx, struct PokemonJu
     if (buffer && unusedBuffer)
     {
         if (SpeciesHasGenderDifferenceAndIsFemale(monInfo->species, monInfo->personality))
-            HandleLoadSpecialPokePic(&gFemaleMonFrontPicTable[monInfo->species], buffer, monInfo->species, monInfo->personality);
+            HandleLoadSpecialPokePic(&gFemaleMonFrontPicTable[monInfo->species], buffer, monInfo->species, monInfo->personality, 0);
         else
-            HandleLoadSpecialPokePic(&gMonFrontPicTable[monInfo->species], buffer, monInfo->species, monInfo->personality);
+            HandleLoadSpecialPokePic(&gMonFrontPicTable[monInfo->species], buffer, monInfo->species, monInfo->personality, 0);
 
         spriteSheet.data = buffer;
         spriteSheet.tag = multiplayerId;

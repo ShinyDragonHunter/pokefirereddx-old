@@ -526,9 +526,8 @@
 	.byte \outfit
 	.endm
 
-	@ Sets "VAR_REPEL_STEP_COUNT" to the var value (VAR_REPEL_LAST_USED) of "ItemId_GetHoldEffectParam"
-	@ Used only for handling the reusage of repels.
-	.macro handleexpiredrepel
+	@ This command is a nop.
+	.macro removedecoration decoration:req
 	.byte 0x4c
 	.endm
 

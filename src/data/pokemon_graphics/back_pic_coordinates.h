@@ -722,8 +722,8 @@ const struct MonCoords gMonBackPicCoords[] =
     },
     [SPECIES_ARTICUNO] =
     {
-        .size = 0x65,
-        .y_offset = 12,
+        .size = 0x85,
+        .y_offset = 11,
     },
     [SPECIES_ZAPDOS] =
     {
@@ -772,8 +772,8 @@ const struct MonCoords gMonBackPicCoords[] =
     },
     [SPECIES_MEGANIUM] =
     {
-        .size = 0x78,
-        .y_offset = 0,
+        .size = 0x88,
+        .y_offset = 2,
     },
     [SPECIES_CYNDAQUIL] =
     {

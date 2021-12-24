@@ -4,6 +4,7 @@
 #include "battle_transition.h"
 #include "main.h"
 #include "task.h"
+#include "item.h"
 #include "safari_zone.h"
 #include "script.h"
 #include "event_data.h"
@@ -67,9 +68,11 @@ struct TrainerBattleParameter
 // this file's functions
 static void DoBattlePikeWildBattle(void);
 static void DoSafariBattle(void);
+static void DoGhostBattle(void);
 static void DoStandardWildBattle(bool32 isDouble);
 static void CB2_EndWildBattle(void);
 static void CB2_EndScriptedWildBattle(void);
+static void CB2_EndMarowakBattle(void);
 static u8 GetWildBattleTransition(void);
 static u8 GetTrainerBattleTransition(void);
 static void TryUpdateGymLeaderRematchFromWild(void);
@@ -385,6 +388,8 @@ void BattleSetup_StartWildBattle(void)
 {
     if (GetSafariZoneFlag())
         DoSafariBattle();
+    else if (!(CheckBagHasItem(ITEM_SILPH_SCOPE, 1)))
+        DoGhostBattle();
     else
         DoStandardWildBattle(FALSE);
 }
@@ -444,6 +449,21 @@ static void DoSafariBattle(void)
     gMain.savedCallback = CB2_EndSafariBattle;
     gBattleTypeFlags = BATTLE_TYPE_SAFARI;
     CreateBattleStartTask(GetWildBattleTransition(), 0);
+}
+
+static void DoGhostBattle(void)
+{
+    ScriptContext2_Enable();
+    FreezeObjectEvents();
+    sub_808BCF4();
+    gMain.savedCallback = CB2_EndWildBattle;
+    gBattleTypeFlags = BATTLE_TYPE_GHOST;
+    CreateBattleStartTask(GetWildBattleTransition(), 0);
+    SetMonData(&gEnemyParty[0], MON_DATA_NICKNAME, gText_Ghost);
+    IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
+    IncrementGameStat(GAME_STAT_WILD_BATTLES);
+    IncrementDailyWildBattles();
+    TryUpdateGymLeaderRematchFromWild();
 }
 
 static void DoBattlePikeWildBattle(void)
@@ -514,6 +534,27 @@ void BattleSetup_StartScriptedDoubleWildBattle(void)
     TryUpdateGymLeaderRematchFromWild();
 }
 
+void BattleSetup_StartMarowakBattle(void)
+{
+    ScriptContext2_Enable();
+    gMain.savedCallback = CB2_EndMarowakBattle;
+    if (CheckBagHasItem(ITEM_SILPH_SCOPE, 1))
+    {
+        gBattleTypeFlags = BATTLE_TYPE_GHOST | BATTLE_TYPE_GHOST_UNVEILED;
+        CreateMonWithGenderNatureLetter(gEnemyParty, SPECIES_MAROWAK, 30, 31, MON_FEMALE, NATURE_SERIOUS, 0, 0);
+    }
+    else
+    {
+        gBattleTypeFlags = BATTLE_TYPE_GHOST;
+    }
+    CreateBattleStartTask(GetWildBattleTransition(), 0);
+    SetMonData(&gEnemyParty[0], MON_DATA_NICKNAME, gText_Ghost);
+    IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
+    IncrementGameStat(GAME_STAT_WILD_BATTLES);
+    IncrementDailyWildBattles();
+    TryUpdateGymLeaderRematchFromWild();
+}
+
 static void CB2_EndWildBattle(void)
 {
     CpuFill16(0, (void*)(BG_PLTT), BG_PLTT_SIZE);
@@ -544,6 +585,25 @@ static void CB2_EndScriptedWildBattle(void)
         SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
 }
 
+static void CB2_EndMarowakBattle(void)
+{
+    CpuFill16(0, (void *)BG_PLTT, BG_PLTT_SIZE);
+    ResetOamRange(0, 128);
+    if (IsPlayerDefeated(gBattleOutcome))
+    {
+        SetMainCallback2(CB2_WhiteOut);
+    }
+    else
+    {
+        // If result is TRUE player didnt defeat Marowak, force player back from stairs
+        if (gBattleOutcome == B_OUTCOME_WON)
+            gSpecialVar_Result = FALSE;
+        else
+            gSpecialVar_Result = TRUE;
+        SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
+    }
+}
+
 u8 BattleSetup_GetTerrainId(void)
 {
     u16 tileBehavior;
@@ -569,8 +629,6 @@ u8 BattleSetup_GetTerrainId(void)
         if (MetatileBehavior_IsIndoorEncounter(tileBehavior))
     case MAP_TYPE_INDOOR:
             return BATTLE_TERRAIN_BUILDING;
-        if (MetatileBehavior_IsSurfableWaterOrUnderwater(tileBehavior))
-            return BATTLE_TERRAIN_POND;
         return BATTLE_TERRAIN_CAVE;
     case MAP_TYPE_UNDERWATER:
         return BATTLE_TERRAIN_UNDERWATER;

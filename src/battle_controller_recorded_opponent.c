@@ -410,7 +410,8 @@ static void SwitchIn_HandleSoundAndEnd(void)
     if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].specialAnimActive
      && !IsCryPlayingOrClearCrySongs())
     {
-        if (gSprites[gBattlerSpriteIds[gActiveBattler]].callback == SpriteCallbackDummy)
+        if (gSprites[gBattlerSpriteIds[gActiveBattler]].callback == SpriteCallbackDummy
+         || gSprites[gBattlerSpriteIds[gActiveBattler]].callback == SpriteCallbackDummy_2)
         {
             m4aMPlayVolumeControl(&gMPlayInfo_BGM, 0xFFFF, 0x100);
             RecordedOpponentBufferExecCompleted();
